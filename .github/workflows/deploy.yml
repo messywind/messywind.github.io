@@ -1,0 +1,43 @@
+name: Hugo build and deploy
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'assets/**'
+      - 'config/**'
+      - 'content/**'
+      - 'data/**'
+      - 'static/**'
+      - 'themes/**'
+  workflow_run:
+    workflows: ['Update theme']
+    types:
+      - completed
+  workflow_dispatch:
+jobs:
+  Actions-Hugo-Deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+        with:
+          submodules: true  # Fetch Hugo themes (true OR recursive)
+          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: latest
+          extended: true
+
+      - name: Build
+        run: hugo -v --gc --minify
+
+      - name: Deploy to Github Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          # See https://github.com/JamesIves/github-pages-deploy-action#configuration-
+          branch: gh-pages
+          folder: public
+          clean: true
+          single-commit: true
