@@ -540,7 +540,7 @@ disableThemeInject = false
   # whether to enable the fontawesome extended syntax
   fontawesome = true
   # license info (HTML format is supported)
-  license = '<a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>'
+  license = ''
   # whether to show link to Raw Markdown content of the post
   linkToMarkdown = true
   # FixIt 0.3.0 | NEW whether to show link to view source code of the post
@@ -673,9 +673,9 @@ disableThemeInject = false
       # bitcoin = "/images/bitcoin.png"
   # social share links in post page
   [page.share]
-    enable = true
-    Twitter = true
-    Facebook = true
+    enable = false
+    Twitter = false
+    Facebook = false
     Linkedin = false
     Whatsapp = false
     Pinterest = false
@@ -689,7 +689,7 @@ disableThemeInject = false
     Instapaper = false
     Pocket = false
     Flipboard = false
-    Weibo = true
+    Weibo = false
     Myspace = false
     Blogger = false
     Baidu = false

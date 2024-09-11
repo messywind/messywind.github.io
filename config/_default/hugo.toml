@@ -9,8 +9,8 @@ theme = [
   "FixIt",
   "shortcode-docs-bookmark"
 ]
-defaultContentLanguage = "en"
-languageCode = "en"
+defaultContentLanguage = "zh-cn"
+languageCode = "zh-cn"
 hasCJKLanguage = true
 enableRobotsTXT = true
 enableEmoji = true
