@@ -3,7 +3,7 @@
 # See: https://gohugo.io/getting-started/configuration/
 # -------------------------------------------------------------------------------------
 
-title = "Hugo FixIt Blog"
+title = "凌乱之风的博客"
 baseURL = "https://messywind.github.io/"
 theme = [
   "FixIt",

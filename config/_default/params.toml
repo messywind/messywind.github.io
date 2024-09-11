@@ -38,10 +38,10 @@ disableThemeInject = false
 
 # Author Configuration
 [author]
-  name = "Lruihao"
-  email = "1024@lruihao.cn"
-  link = "https://github.com/Lruihao"
-  avatar = ""
+  name = "凌乱之风"
+  # email = "1092718960@qq.com"
+  link = "https://github.com/messywind"
+  avatar = "images/favicon.ico"
 
 # FixIt 0.3.0 | NEW public Git repository information only then enableGitInfo is true
 [gitInfo]
@@ -57,11 +57,11 @@ disableThemeInject = false
 # App icon config
 [app]
   # optional site title override for the app when added to an iOS home screen or Android launcher
-  title = "Hugo FixIt Blog"
+  title = "凌乱之风的博客"
   # whether to omit favicon resource links
   noFavicon = false
   # modern SVG favicon to use in place of older style .png and .ico files
-  svgFavicon = ""
+  svgFavicon = "images/favicon.ico"
   # Safari mask icon color
   iconColor = "#5bbad5"
   # Windows v8-10 tile color
@@ -113,7 +113,7 @@ disableThemeInject = false
   # Header title config
   [header.title]
     # URL of the LOGO
-    logo = "/hugo-fixit-starter1/images/fixit.min.svg"
+    logo = "images/favicon.ico"
     # title name
     name = ""
     # you can add extra information before the name (HTML format is supported), such as icons
@@ -143,18 +143,18 @@ disableThemeInject = false
   # whether to show the author
   author = true
   # Site creation year
-  since = 2021
+  since = 2024
   # FixIt 0.2.12 | NEW Public network security only in China (HTML format is supported)
   gov = ""
   # ICP info only in China (HTML format is supported)
   icp = ""
   # license info (HTML format is supported)
-  license = '<a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>'
+  # license = '<a rel="license external nofollow noopener noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a>'
   # FixIt 0.3.0 | NEW whether to show Hugo and theme info
   [footer.powered]
     enable = true
-    hugoLogo = true
-    themeLogo = true
+    hugoLogo = false
+    themeLogo = false
   # FixIt 0.2.17 | CHANGED Site creation time
   [footer.siteTime]
     enable = false
@@ -224,15 +224,15 @@ disableThemeInject = false
   [home.profile]
     enable = true
     # Gravatar Email for preferred avatar in home page
-    gravatarEmail = "xx@xx.com"
+    # gravatarEmail = "1092718960@qq.com"
     # URL of avatar shown in home page
-    avatarURL = ""
+    avatarURL = "/images/android-chrome-384x384.png"
     # FixIt 0.2.17 | NEW identifier of avatar menu link
     avatarMenu = ""
     # title shown in home page (HTML format is supported)
-    title = ""
+    title = "QQ:1092718960"
     # subtitle shown in home page
-    subtitle = "This is my new Hugo FixIt site"
+    # subtitle = ""
     # whether to use typeit animation for subtitle
     typeit = true
     # whether to show social links
@@ -247,7 +247,7 @@ disableThemeInject = false
 
 # FixIt 0.2.16 | CHANGED Social config about the author
 [social]
-  GitHub = ""
+  GitHub = "https://github.com/messywind"
   Linkedin = ""
   Twitter = ""
   Instagram = ""
@@ -290,7 +290,7 @@ disableThemeInject = false
   Strava = ""
   Skype = ""
   Whatsapp = ""
-  Zhihu = ""
+  Zhihu = "ling-luan-zhi-feng"
   Douban = ""
   Angellist = ""
   Slidershare = ""
@@ -308,7 +308,7 @@ disableThemeInject = false
   Gitea = ""
   XMPP = ""
   Matrix = ""
-  Bilibili = ""
+  Bilibili = "17363257"
   ORCID = ""
   Liberapay = ""
   Ko-Fi = ""
@@ -333,7 +333,7 @@ disableThemeInject = false
   TikTok = ""
   Phone = ""
   Email = ""
-  RSS = true
+  RSS = false
   # custom social links like the following
   # [social.twitter]
   #   id = "lruihao"

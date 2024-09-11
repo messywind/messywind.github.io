@@ -10,7 +10,7 @@
   pre = ""
   # you can add extra information after the name (HTML format is supported), such as icons
   post = ""
-  name = "Archives"
+  name = "档案"
   url = "/archives/"
   # title will be shown when you hover on this menu link
   title = ""
@@ -30,7 +30,7 @@
   parent = ""
   pre = ""
   post = ""
-  name = "Categories"
+  name = "目录"
   url = "/categories/"
   title = ""
   weight = 2
@@ -41,7 +41,7 @@
   parent = ""
   pre = ""
   post = ""
-  name = "Tags"
+  name = "标签"
   url = "/tags/"
   title = ""
   weight = 3
