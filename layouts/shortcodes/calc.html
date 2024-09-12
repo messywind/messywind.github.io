@@ -1,0 +1,62 @@
+<div class="calc">
+  <input type="text" id="inputValue" placeholder="输入护甲值">
+
+  <button onclick="calculate()">计算</button>
+
+  <p id="result"/>
+</div>
+
+<script>
+  document.getElementById('inputValue').addEventListener('input', function (e) {
+    this.value = this.value.replace(/[^0-9]/g, '');
+  });
+
+  function calculate() {
+    var x = parseInt(document.getElementById('inputValue').value);
+    if (!isNaN(x) && x > 0) {
+      var y = 29.11 * Math.log(x + 170.83) - 149.86;
+      document.getElementById('result').innerHTML = "承伤百分比：" + y.toFixed(2) + "%";
+    } else {
+      document.getElementById('result').innerHTML = "请输入有效的正整数。";
+    }
+  }
+</script>
+
+<style>
+  .calc {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  button {
+    padding: 10px 20px;
+    text-align: center;
+    display: inline-block;
+    border: none;
+    border-radius: 10px;
+    background-color: #409eff;
+    color: white;
+    cursor: pointer;
+    margin: 10px 10px 10px 10px;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #0c79e6;
+  }
+
+  input {
+    height: 40px;
+    text-align: center;
+    border: 2px solid #000000;
+    border-radius: 15px;
+    transition: border-color 0.3s ease;
+    margin: 10px 10px 10px 10px;
+  }
+
+  input:focus {
+    outline: none;
+    border-color: #409eff;
+  }
+</style>
