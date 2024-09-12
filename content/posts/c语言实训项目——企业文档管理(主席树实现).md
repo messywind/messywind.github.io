@@ -8,7 +8,7 @@ categories:
 code:
   maxShownLines: 11
 ---
-
+被某数据结构老师说简单。。。。。
 ```cpp
 #include <bits/stdc++.h> //万能头 
 #include <windows.h> //调用Sleep()需要 
