@@ -1,14 +1,387 @@
 ---
 title: "ACM 退役小作文"
 date: 2022-12-06 18:26:56
+password: messywind
+message: 我的算竞 id 英文名 (全小写) (好吧在 url 里已经暴露了)
 tags:
-- 退役作文
+- 小作文
 categories:
 - 算法竞赛
 code:
   maxShownLines: 11
 ---
 
-有彩蛋
+## 省流：如果不想看流水账作文的群友可以到文章末尾，有对你们的一句话。
 
-[知乎链接](https://zhuanlan.zhihu.com/p/589565549)
+先说一下退役的原因：由于我校疫情放假政策，学生提前回家，所以南京站寄了，我决定让我们队最强的 sxh 来单挑，EC-Final 的话估计也是我校 1 队和 2 队去了，所以我提前退役了，也就是说我的算法竞赛生涯定格在了 11 月 13 日的广州站。(谁知道后面又在网瘾 哈哈哈哈)
+
+那么从头开始回顾整个算法竞赛经历吧！
+
+## 2017
+
+高一的时候对信息学竞赛很感兴趣，接触到了 OI，学了一段时间后被 dfs/bfs 劝退了没能坚持下来，水平只停留在 C++ 语法层面，非常失败。
+
+## 2020
+
+大一入学发现学校的 ACM 挺厉害的，为了弥补我高中留下的遗憾，决定想法设法地加入 ACM，于是通过学长了解到先刷 150 道基础题。
+
+
+{{< image src="/image/ty1.jpg" caption="大一晚自习在刷 150 题" >}}
+
+{{< image src="/image/ty2.png" caption="入门 150 题" >}}
+
+当时我花了 6 天时间就写完了，感觉重新拾起了一门语言，这也算是我写完的第一个题单？之后便开始了程序设计基础 Ⅱ。随后沉迷于在 OJ 刷题，以备战新生赛(也就是第一次 ACM 集训队选拔)。
+接下来说一下大一印象比较深的两场比赛：
+2020.11.6 举行了擂台赛，我、yxlxszx (sty)、徐董鑫 组了一个三人小队，当时很有新鲜感，还专门去宿舍讨论三人比赛的战术，还去卷别的队伍(现在来看我们当时是有多魔怔😄)。
+
+
+{{< image src="/image/ty5.webp" caption="现在还留着当时的擂台赛纸质题面" >}}
+
+{{< image src="/image/ty4.webp" caption="擂台赛现场" >}}
+
+{{< image src="/image/ty3.webp" caption="擂台赛终榜" >}}
+
+作为大一队伍，取得全校第 10 的成绩已经很不错了。
+
+随后是新生赛(即选拔赛)，最后成绩不是很好，不过还是顺利进入集训队了。
+
+
+{{< image src="/image/ty6.webp" caption="新生赛现场" >}}
+
+{{< image src="/image/ty7.webp" caption="新生赛终榜，rk1 DarkessCatcher (wz)" >}}
+
+**这是上大学的第一次正式的个人算法比赛，赛前超级紧张，在路上和同学讨论哪些人比较强会在前面，一路手都是抖的。**
+
+## 2021
+
+我们通过面试进入了集训队，当时面到我的时候 Spirit 学长推荐了我 Acwing 这个平台 (万恶之源！！！！强烈谴责锐宝！！)。
+
+{{< image src="/image/ty14.webp" caption="集训队面试，祺队 drywwltu (zgq)" >}}
+
+然后就开始放寒假了，进入第一次寒假集训，当时也是期待满满。寒假一边听学长讲课一边刷 Acwing 基础课。
+
+{{< image src="/image/ty8.webp" caption="寒假训练计划" >}}
+
+{{< image src="/image/ty9.webp" caption="学长讲课，18 级的学长好多都是金牌爷，非常厉害！" >}}
+
+寒假集训完就开学了，进入大一下学期，开学就举行选拔赛，这次比赛是正式进入 504 实验室的。当时选拔赛对我印象不深，只是一些天梯赛的题罢了，我以第五名的成绩进入到了 504 实验室。进入到实验室还是很有新鲜感的，认识了很多志同道合的朋友。
+
+{{< image src="/image/ty10.webp" caption="504 总结晚会（手动打码）" >}}
+
+中期就是进入了大量的训练中，我们学校教练一周会拉出 4 场 VJudge，有个人赛和组队赛。与此同时，我也在刷着 Acwing 基础课和提高课。
+
+{{< image src="/image/ty11.webp" caption="VJ 训练赛" >}}
+
+接下来比较印象深刻的就是天梯赛了，当时也是印象深刻，拿了 219 分差一分国二，少了 1kR (学校奖金：国一发 3k，国二 2k，国三 1k)，很难受，于是怒发了个知乎 。
+
+{{< image src="/image/ty12.webp" caption="天梯赛结束当晚" >}}
+
+接下来就是令我印象深刻的山东省赛了。第一次参加省级组队赛。
+
+{{< image src="/image/ty15.webp" caption="省赛小作文，可以看出当时 Latex 写的像垃圾一样。" >}}
+
+最后铜牌，与此同时和我们同级的 Pikawa 队已经银牌了，感受到了差距。
+
+{{< image src="/image/ty16.webp" caption="省赛合照" >}}
+
+下一个印象深刻的节点就是蓝桥杯 + 西安邀请赛了。
+
+{{< image src="/image/ty17.webp" caption="蓝桥杯国赛暴力混了个国二，血赚 2k" >}}
+
+6 月 5 号打完蓝桥杯之后立刻坐飞机去了西安，准备打西安邀请赛。
+
+{{< image src="/image/ty18.webp" caption="和 Pikawa 去机场的路上" >}}
+
+{{< image src="/image/ty19.webp" caption="和学长们坐飞机到西安" >}}
+
+{{< image src="/image/ty20.webp" caption="西安邀请赛" >}}
+
+由于我们实力不强，打铁了。我以为这是第一次线下赛，没想到是最后一次线下赛 （没想到之后还能有机会大四去打第二次）。
+
+{{< image src="/image/ty21.webp" caption="西安邀请赛打铁">}}
+
+回到学校之后很自闭，继续进行大量训练+做题，一直在刷 Acwing 的课。我意识到算法竞赛并不是那么简单，不仅需要一定天赋还需要很多努力，我在看别人题解时我经常会感叹，他们为什么可以想到这些解题方法，令我印象深刻的尤其是某一天想了很久的题没想出来，看了一下题解发现有位大佬用数学方法很妙的做出来了，此刻我感受到了数学给算法竞赛带来的美，我暗下决心一定要像他们一样强，所以暑假开始学习了数论、数学，找了许多莫反题锻炼推式子能力，我曾无数次的被数论式子击倒再爬起来，直到不剩一口气了去看题解，发现真的没想到。随后又开始板刷数据结构，导致我的思维能力极具下降，cf 一直上不去青名，我从 round 700 左右开始一场不拉的打 cf，每次打完都会感叹为什么还是这么菜，我真的好笨。
+
+暑假结束后，开始打网络赛选拔赛，无论是 cc 还是 ic 我们打的都不是很好，此时我们已经大二了，接下来开始了第 46 赛季的区域赛。我们被安排打济南站和威海站。
+
+2021.11.14 济南站开始，我们把签到过了之后双线开题，一个是矩阵高斯消元题一个是组合数学题，当时不知道有高斯消元取模这回事，组合数学题我们也没推出来，最终打铁。当时我还读了那个多项式题，被吓住了，现在来看就是板子。
+
+{{< image src="/image/ty22.webp" caption="济南站打铁">}}
+
+
+{{< image src="/image/ty23.webp" caption="济南站合照">}}
+
+打完后非常自闭，但是没有时间自闭了，马上迎接威海站。
+
+2021.11.21 威海站开始，我们签到题因为 cin 没关同步流 TLE 了一发，那时候长了教训。第二个签到题用 Python 过了，第三个签到题很板的字符串哈希我们做了许久才过，第四个签到题我们从来都不知道那个根号的 trick，最后才发现。而铜牌题 810975 真的有很好的区分度，当时我们三个人一起讨论没有思路，最终没做出来打铁。现在来看就是一个很经典的容斥或者多项式。
+
+{{< image src="/image/ty24.webp" caption="威海差一点罚时">}}
+
+{{< image src="/image/ty25.webp" caption="赛后水知乎">}}
+
+{{< image src="/image/ty26.webp" caption="威海站合照">}}
+
+打完之后心态很崩，但生活总要继续。这是我们第二次区域赛，深深感受到了队伍之间水平的差距。
+
+然后上半学期就这么结束了，进入到了寒假集训，寒假打 cf/Atcoder/牛客/VJ + 日常做题训练。期间还有给新大一讲课 + 出题，也比较有趣。
+
+## 2022
+
+开学之后，第一个节点就是蓝桥杯天梯赛，先说蓝桥杯，我由于挂分太多拿了省二，没错，是省二。然后天梯赛我只拿了 159 分。我心态很崩，多次否定自己不适合算法竞赛，我无心训练，之前训练的都是无效训练。然后我们接到了打昆明站的通知，于是没管那么多又开始为昆明站做准备。
+
+2022.4.17 昆明站开始，开局签到都不会，是硬猜结论过的，第二题我和 yxlxszx 构造了许久并 WA 了 2 发才过，期间杨帆一直在想 B 题，赛后发现改了几行代码就过了，最后我们看的 F 题 yxlxszx 猜的结论至多选 3 个点我们没敢写，赛后发现这个结论是正确的。最后我们 2 题收尾打铁。
+
+{{< image src="/image/ty27.webp" caption="昆明打铁">}}
+
+Pikawa 也是因为一点小小失误没能拿到牌，很可惜，我们 20 级派了最强的四个队去全部打铁。
+
+{{< image src="/image/ty28.webp" caption="昆明合照">}}
+
+到这里还不算完，我们马上又迎来了第二次山东省赛。
+
+2022.5.22 山东省赛开始，我们前期顺利完成签到后就再也没过题，我们败在了 J 题计算几何题，最主要的问题就是我没读对题，导致最后的方向都是错的。最终遗憾拿银牌。Pikawa 和 Excalibur 拿到了省赛金牌。
+
+{{< image src="/image/ty29.webp" caption="省赛终榜">}}
+
+{{< image src="/image/ty30.webp" caption="省赛合照，其实我们头像下的表情是非常沉重的。">}}
+
+知乎有一个问题叫做《你的ACM生涯有没有经历过一段很低谷的时候？》，那么我借此回答一下这个问题，就是现在。先是蓝桥杯开始把我拉入低谷，其次是天梯赛，然后昆明把我狠狠地拉入更低谷，而山东省赛把我打入谷底。那个时候我没有进行任何训练，没心情，也没脸。然后 CF 也打的不好，干脆直接掉到最低分，一烂再烂。
+
+省赛结束后开始了一年一度的校赛。不知道为啥，我那天的状态就像衣锦夜行 810975 一样，好清醒。然后夺冠了。
+
+{{< image src="/image/ty31.webp" caption="校赛终榜">}}
+
+{{< image src="/image/ty32.webp" caption="选手风采">}}
+
+结束后下一个节点就是暑假集训了。
+
+由于进入下一个赛季，我们进行了队伍调整，我的原队友 [@杨帆](https://www.zhihu.com/people/yang-fan-61-21) [@yxlxszx](https://www.zhihu.com/people/yu-mu-61-30) 换为了 [@沙与尘w](https://www.zhihu.com/people/bu-zhi-suo-cuo-yu-wei-da-de-hun-dun) [@田所浩二](https://www.zhihu.com/people/tian-suo-hao-er-44)，中间还和我校比较强的算法竞赛选手 [@Ginger](https://www.zhihu.com/people/ginger-72-96) 做了一周队友。
+
+换队之后，我们便开始了牛客+杭电多校训练。
+
+{{< image src="/image/ty33.webp" caption="多校片段">}}
+
+{{< image src="/image/ty34.webp" caption="最后打的很垃圾的排名">}}
+
+{{< image src="/image/ty35.webp" caption="牛客多校">}}
+
+打完多校之后我看完排名，发现我们队真的好菜，然后又被 zxw 教练叫去办公室说我们队难铜了。所以我看开了，无论咋样结果不重要了，下赛季 XCPC 随缘了（言外之意摆烂了！低谷？没有谷底！）。
+
+时间来到了网络选拔赛，印象深刻的是第二场 ICPC 网络赛，我们打出了校排 78 名的成绩。这个成绩中规中矩，但是提高了我们队的信心。
+
+{{< image src="/image/ty36.webp" caption="网络赛终榜">}}
+
+
+
+然后第 47 赛季我们打的是 沈阳、广州、南京。
+
+先说这赛季的队名：LGD•SG•DAI•老干爹•帅哥戴•时代弄潮儿•异灵法奇迹德顶峰•排位悍将•天梯杀戮之神•无敌上分机器•千万少女梦中情人•不可置疑的大师•帅帅帅之无敌帅•异灵术快乐术宗师戴佳伟
+
+这是来源于我非常喜欢的炉石传说主播异灵术老师的一个黑屁笑话。起这个名的原因是我想在退役之前整个活。
+
+2022.11.6 沈阳站，一开始我们被队伍数惊吓到了，都想着该准备下一站了，太卷了。过程在这个回答[如何评价2022ICPC沈阳站？](https://www.zhihu.com/question/560967346/answer/2747742434)就不复述了。
+
+我们拿到了第一块牌子，银牌，这我想都不敢想，之前一直认为上限就是铜牌了，令我激动了很久。与此同时，这一天我们学校获得了两银三铜的好成绩。
+
+{{< image src="/image/ty37.webp" caption="沈阳终榜 银尾">}}
+
+{{< image src="/image/ty38.webp" caption="沈阳合照">}}
+
+{{< image src="/image/ty39.webp" caption="银牌证书">}}
+
+还没激动一周，就迎来了广州站。
+
+2022.11.14 广州站(现在来看的话是退役之战) (现在又来看的话也不是退役之战)，我们打的很轻松，前期过了三个签到然后卡题，最后铜牌下班。
+
+{{< image src="/image/ty40.webp" caption="广州终榜">}}
+
+{{< image src="/image/ty41.webp" caption="广州合照">}}
+
+{{< image src="/image/ty42.webp" caption="完整的队牌！">}}
+
+{{< image src="/image/ty43.webp" caption="铜牌证书">}}
+
+到这里也差不多结束了，其实中间还有好多好多好多好多事情没有说，因为太多了根本说不完。
+
+## 2023
+
+退役后就沉迷创想兵团了，然后开始准备实习和考研，期间也有网瘾，比如实习的时候做了很多多校题。
+
+2023.4.2 Acwing 全国赛事件。懒得喷😅😅😅，[具体链接](https://www.zhihu.com/question/593371905/answer/2965559778)，从此对 acwing 切割。
+
+2023.5.5 天梯赛国三 (还是。。。做不到吗。。。)
+
+2023.6.16 蓝桥杯国二 (还是。。。做不到吗。。。)
+
+2023.8.25 睿抗国一 (翘班打的)
+
+## 2024
+
+没想到 2024 了还在算竞，还在算竞。。。
+
+2024.4.30 天梯赛国二 (做到了)
+
+2024.5.18 长春邀请赛金 (这个是真没想到，退役这么久了还能去打比赛，圆梦金牌感谢队友) 参赛作文：[如何评价2024CCPC长春邀请赛暨吉林省赛?](https://www.zhihu.com/question/656294779/answer/3504726877)
+
+2024.6.2 蓝桥杯国一 (做到了)
+
+2024.6.21 毕业
+
+2024.8 多校网瘾。。。。 (没救了)
+
+### 好了到这里是真结束了！
+
+## 算法竞赛生涯中留下的东西
+
+最后放一下我在算法竞赛生涯中留下的东西吧。
+
+### CF
+
+首先是著名的 CF 最低分 (现在不是了 呜呜呜呜)
+
+{{< image src="/image/ty44.webp" caption="CF 大号">}}
+
+
+{{< image src="/image/cfnow.png" caption="现在的 CF">}}
+
+
+{{< image src="/image/ty45.webp" caption="倒数第一截图留念">}}
+
+{{< image src="/image/ty46.png" caption="2020 级的 acm 队员们(原始账号)">}}
+
+{{< image src="/image/ty47.webp" caption="注意效率">}}
+
+{{< image src="/image/ty48.webp" caption="djwcb">}}
+
+{{< image src="/image/cfxh.png" caption="CF 小号">}}
+
+第一次尝试把比赛拉到 Gym，用英文写题面。
+
+[链接](https://codeforces.com/gym/103800)
+
+{{< image src="/image/ty49.webp" caption="2022 年 21 级暑假结训赛">}}
+
+### SDUTOJ
+
+{{< image src="/image/oj1.png" caption="OJ 主页">}}
+
+{{< image src="/image/oj2.png" caption="OJ 排行榜">}}
+
+我出过的所有题
+
+{{< image src="/image/oj3.png" caption="OJ 出题">}}
+
+{{< image src="/image/oj4.png" caption="OJ 出题">}}
+
+{{< image src="/image/oj5.png" caption="OJ 出题">}}
+
+### 洛谷
+
+[洛谷主页](https://www.luogu.com.cn/user/133351)
+
+{{< image src="/image/luogu.png" caption="洛谷打卡">}}
+
+{{< image src="/image/ty50.webp" caption="洛谷主页">}}
+
+{{< image src="/image/ty51.webp" caption="洛谷刷题">}}
+
+### 牛客
+
+{{< image src="/image/nk1.png" caption="牛客账号">}}
+
+{{< image src="/image/nk2.png" caption="牛客账号">}}
+
+{{< image src="/image/nk3.png" caption="djwcb">}}
+
+{{< image src="/image/nk4.png" caption="注意效率">}}
+
+{{< image src="/image/ty52.webp" caption="牛牛玩偶">}}
+
+我创建的牛客校赛：
+
+[山东理工大学第四届新生赛（同步赛）](https://ac.nowcoder.com/acm/contest/46984)
+
+[山东理工大学第十六届ACM程序设计竞赛（同步赛）](https://ac.nowcoder.com/acm/contest/81509)
+
+
+### Atcoder
+
+{{< image src="/image/atc.png" caption="Atcoder">}}
+
+### VJ
+
+{{< image src="/image/ty55.webp" caption="个人账号">}}
+
+{{< image src="/image/ty54.webp" caption="注意效率团队账号">}}
+
+{{< image src="/image/ty53.webp" caption="djwcb 团队账号">}}
+
+### AcWing
+
+虽然挺讨厌 acwing 的，但是也纪念一下吧。。
+
+{{< image src="/image/acw1.png" caption="主页">}}
+
+{{< image src="/image/acw2.png" caption="acwing 过题数">}}
+
+{{< image src="/image/acw3.png" caption="acwing 竞赛">}}
+
+{{< image src="/image/ty56.webp" caption="ac 帽">}}
+
+### 做题统计
+
+{{< image src="/image/ty57.webp" caption="刷的全是水题">}}
+
+### XCPC 衣服
+
+一些比赛衣服，留作纪念。
+
+{{< image src="/image/ty58.webp" caption="XCPC 衣服">}}
+
+
+### 群友
+
+还有一个比较重要的也是必不可少的——那就是群友，所以我给认识/仰慕的算法竞赛好友每人留了一句话。为了保护个人隐私，名字进行了打码处理。
+
+yxc 那个就算了吧。
+
+{{< image src="/image/ty59.webp" caption="群友">}}
+
+{{< image src="/image/ty60.webp" caption="群友">}}
+
+最后，感谢你看到这里！
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
