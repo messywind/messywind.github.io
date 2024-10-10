@@ -226,7 +226,7 @@ disableThemeInject = false
     # Gravatar Email for preferred avatar in home page
     # gravatarEmail = "1092718960@qq.com"
     # URL of avatar shown in home page
-    avatarURL = "/images/android-chrome-384x384.png"
+    avatarURL = "/images/1.png"
     # FixIt 0.2.17 | NEW identifier of avatar menu link
     avatarMenu = ""
     # title shown in home page (HTML format is supported)
