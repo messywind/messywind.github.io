@@ -1,0 +1,1205 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>算法竞赛 - 分类 - 凌乱之风的博客</title><link>https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/</link><description>This is my new Hugo FixIt site</description><generator>Hugo 0.136.2 &amp; FixIt v0.3.13</generator><language>zh-cn</language><lastBuildDate>Fri, 18 Oct 2024 00:54:30 +0000</lastBuildDate><atom:link href="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/index.xml" rel="self" type="application/rss+xml"/><item><title>2024CCPC长春邀请赛游记</title><link>https://messywind.github.io/posts/2024ccpc%E9%95%BF%E6%98%A5%E9%82%80%E8%AF%B7%E8%B5%9B%E6%B8%B8%E8%AE%B0/</link><pubDate>Mon, 20 May 2024 22:54:00 +0000</pubDate><guid>https://messywind.github.io/posts/2024ccpc%E9%95%BF%E6%98%A5%E9%82%80%E8%AF%B7%E8%B5%9B%E6%B8%B8%E8%AE%B0/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>我们已经大四了，还有机会拿金牌吗？&lt;/p>
+&lt;p>&lt;a href="https://www.zhihu.com/question/656294779/answer/3504726877"target="_blank" rel="external nofollow noopener noreferrer">如何评价2024CCPC长春邀请赛暨吉林省赛?&lt;/a>&lt;/p></description></item><item><title>山东理工大学第十六届ACM程序设计竞赛</title><link>https://messywind.github.io/posts/16%E5%B1%8A%E6%A0%A1%E8%B5%9B/</link><pubDate>Mon, 13 May 2024 00:00:00 +0000</pubDate><guid>https://messywind.github.io/posts/16%E5%B1%8A%E6%A0%A1%E8%B5%9B/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>大概是我们办过最好的一次比赛了。&lt;/p>
+&lt;p>&lt;a href="https://acm.sdut.edu.cn/onlinejudge3/competitions-public/30/intro"target="_blank" rel="external nofollow noopener noreferrer">校内正式赛链接&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://acm.sdut.edu.cn/onlinejudge3/contests/4156/overview"target="_blank" rel="external nofollow noopener noreferrer">重现赛链接&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://ac.nowcoder.com/acm/contest/81509"target="_blank" rel="external nofollow noopener noreferrer">牛客链接&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://rl.algoux.org/ranklist/sdutpc16"target="_blank" rel="external nofollow noopener noreferrer">榜单链接&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://space.bilibili.com/1479542015/channel/collectiondetail?sid=3074185&amp;amp;ctype=0"target="_blank" rel="external nofollow noopener noreferrer">校赛回放合集&lt;/a>&lt;/p>
+&lt;div class="details admonition tips open">
+ &lt;div class="details-summary admonition-title">&lt;i class="icon fa-fw fa-solid fa-pencil-alt" aria-hidden="true">&lt;/i>题面&lt;i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true">&lt;/i>&lt;/div>
+ &lt;div class="details-content">
+ &lt;div class="admonition-content">&lt;center>
+	&lt;embed src="https://messywind.github.io/pdf/16thproblem.pdf" width="1050" height="1000">
+&lt;/center>
+&lt;/div>
+ &lt;/div>
+&lt;/div>
+&lt;div class="details admonition tips open">
+ &lt;div class="details-summary admonition-title">&lt;i class="icon fa-fw fa-solid fa-pencil-alt" aria-hidden="true">&lt;/i>题解&lt;i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true">&lt;/i>&lt;/div>
+ &lt;div class="details-content">
+ &lt;div class="admonition-content">&lt;center>
+	&lt;embed src="https://messywind.github.io/pdf/16thsolve.pdf" width="1050" height="1000">
+&lt;/center>
+&lt;/div>
+ &lt;/div>
+&lt;/div></description></item><item><title>2024愚人节专场赛</title><link>https://messywind.github.io/posts/2024%E6%84%9A%E4%BA%BA%E8%8A%82%E4%B8%93%E5%9C%BA%E8%B5%9B/</link><pubDate>Mon, 01 Apr 2024 00:00:00 +0000</pubDate><guid>https://messywind.github.io/posts/2024%E6%84%9A%E4%BA%BA%E8%8A%82%E4%B8%93%E5%9C%BA%E8%B5%9B/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>出的比较满意的一次比赛。在大一的时候就注意到 OJ 有愚人节专场赛，发现做起来非常有意思，可惜之后学长就不办了。&lt;/p>
+&lt;p>在 2024.3 的时候突发奇想，想全程自己办一次愚人节专场赛，于是开始想 idea：&lt;/p>
+&lt;p>A 题 idea 是蔚蓝赛原神赛废案，算是小活。&lt;/p>
+&lt;p>B 题 idea 是我之前想整活一个冗杂的数学式子，于是随便写了点公式。&lt;/p>
+&lt;p>C 题 idea 也来自于蔚蓝赛原神赛，然后想到愚人节有一个 &lt;code>'&lt;/code>，提瓦特语没有对应字符，于是考察选手英文节日拼写（）&lt;/p></description></item><item><title>[蔚蓝系列赛 Azur Series - Sponsored by BLue] Round 2</title><link>https://messywind.github.io/posts/%E8%94%9A%E8%93%9Dr2/</link><pubDate>Sat, 03 Feb 2024 09:45:41 +0000</pubDate><guid>https://messywind.github.io/posts/%E8%94%9A%E8%93%9Dr2/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://acm.sdut.edu.cn/onlinejudge3/competitions-public/22/intro"target="_blank" rel="external nofollow noopener noreferrer">比赛链接&lt;/a>&lt;/p>
+&lt;div class="bilibili">
+ &lt;iframe src="//player.bilibili.com/player.html?bvid=BV1ut421p7UM&amp;page=1&amp;autoplay=false&amp;poster=true&amp;muted=false&amp;danmaku=true&amp;t=0" border="0" framespacing="0" allowfullscreen="true">&lt;/iframe>
+&lt;/div>
+&lt;center>
+	&lt;embed src="https://messywind.github.io/pdf/bluer2.pdf" width="1050" height="1000">
+&lt;/center></description></item><item><title>算法竞赛入门基本信息</title><link>https://messywind.github.io/posts/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E5%85%A5%E9%97%A8%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF/</link><pubDate>Sun, 14 Jan 2024 13:37:00 +0000</pubDate><guid>https://messywind.github.io/posts/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E5%85%A5%E9%97%A8%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>做的非常认真的一次 PPT&lt;/p>
+&lt;center>
+	&lt;embed src="https://messywind.github.io/pdf/算法竞赛入门基本信息.pdf" width="1050" height="1000">
+&lt;/center></description></item><item><title>[蔚蓝系列赛 Azur Series - Sponsored by bLue] Round 1</title><link>https://messywind.github.io/posts/%E8%94%9A%E8%93%9Dr1/</link><pubDate>Sun, 17 Dec 2023 17:14:00 +0000</pubDate><guid>https://messywind.github.io/posts/%E8%94%9A%E8%93%9Dr1/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://acm.sdut.edu.cn/onlinejudge3/competitions-public/18/intro"target="_blank" rel="external nofollow noopener noreferrer">比赛链接(div.1)&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://acm.sdut.edu.cn/onlinejudge3/competitions-public/19/intro"target="_blank" rel="external nofollow noopener noreferrer">比赛链接(div.2)&lt;/a>&lt;/p>
+&lt;center>
+	&lt;embed src="https://messywind.github.io/pdf/bluer1.pdf" width="1050" height="1000">
+&lt;/center></description></item><item><title>SDUTACM 15 周年</title><link>https://messywind.github.io/posts/sdutacm15%E5%91%A8%E5%B9%B4/</link><pubDate>Sun, 15 Oct 2023 00:00:00 +0000</pubDate><guid>https://messywind.github.io/posts/sdutacm15%E5%91%A8%E5%B9%B4/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>很有纪念意义的一次活动。&lt;/p>
+&lt;p>&lt;a href="https://space.bilibili.com/1479542015/channel/collectiondetail?sid=1782344&amp;amp;ctype=0"target="_blank" rel="external nofollow noopener noreferrer">视频合集&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://acm.sdut.edu.cn/onlinejudge3/contests/4114/overview"target="_blank" rel="external nofollow noopener noreferrer">重现赛链接&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://rl.algoux.cn/ranklist/sdutacm15thacc"target="_blank" rel="external nofollow noopener noreferrer">榜单链接&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://mp.weixin.qq.com/s/Qe6mxR_qBC1l7gA2XzVjOg"target="_blank" rel="external nofollow noopener noreferrer">速览&lt;/a>&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://messywind.github.io/image/15sdutacm.png" alt="15" srcset="https://messywind.github.io/image/15sdutacm.png?size=small, https://messywind.github.io/image/15sdutacm.png?size=medium 1.5x, https://messywind.github.io/image/15sdutacm.png?size=large 2x" data-title="15" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://messywind.github.io/image/15sdutacm1.webp" alt="15" srcset="https://messywind.github.io/image/15sdutacm1.webp?size=small, https://messywind.github.io/image/15sdutacm1.webp?size=medium 1.5x, https://messywind.github.io/image/15sdutacm1.webp?size=large 2x" data-title="15" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://messywind.github.io/image/15sdutacm2.webp" alt="15" srcset="https://messywind.github.io/image/15sdutacm2.webp?size=small, https://messywind.github.io/image/15sdutacm2.webp?size=medium 1.5x, https://messywind.github.io/image/15sdutacm2.webp?size=large 2x" data-title="15" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://messywind.github.io/image/15sdutacm3.webp" alt="15" srcset="https://messywind.github.io/image/15sdutacm3.webp?size=small, https://messywind.github.io/image/15sdutacm3.webp?size=medium 1.5x, https://messywind.github.io/image/15sdutacm3.webp?size=large 2x" data-title="15" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p></description></item><item><title>jiangly 算法模板</title><link>https://messywind.github.io/posts/jiangly%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/</link><pubDate>Fri, 01 Sep 2023 00:00:00 +0000</pubDate><guid>https://messywind.github.io/posts/jiangly%E7%AE%97%E6%B3%95%E6%A8%A1%E6%9D%BF/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.cnblogs.com/WIDA/p/17633758.html"target="_blank" rel="external nofollow noopener noreferrer">博客链接&lt;/a>&lt;/p></description></item><item><title>[2023牛客多校10 H] Differential Equation</title><link>https://messywind.github.io/posts/2023%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A110-h-differential-equation/</link><pubDate>Tue, 22 Aug 2023 16:34:01 +0000</pubDate><guid>https://messywind.github.io/posts/2023%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A110-h-differential-equation/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://ac.nowcoder.com/acm/contest/57364/H"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>定义函数 $f_k(x) = (x ^ 2 - 1)f' _{k - 1}(x)$，其中 $f_0(x) = x$，求 $f_n(x_0)$ 对 $998,244,353$ 取模。&lt;/p>
+&lt;p>$0\le n \le 2 \times 10 ^ 5, 0 \le x_0 \le 998,244,352$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>首先看到递推式含有导数，我们可以考虑序列 $f_0(x),f_1(x),f_2(x),\cdots$ 的 EGF。由于 $x$ 变量已存在，我们用二元函数 $F(x, y)$ 来刻画，即：&lt;/p>
+&lt;p>$$
+F(x,y) = \sum_{i = 0} ^ {\infty}\frac{f_i(x)}{i!} y ^ i
+$$&lt;/p>
+&lt;p>我们希望在 $F(x, y)$ 中看到 $f&amp;rsquo;_i(x)$，于是对 $F(x, y)$ 求一次 $x$ 的偏导。&lt;/p></description></item><item><title>[2023杭电多校9 K] Cargo</title><link>https://messywind.github.io/posts/2023%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A19-k-cargo/</link><pubDate>Tue, 15 Aug 2023 19:05:10 +0000</pubDate><guid>https://messywind.github.io/posts/2023%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A19-k-cargo/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://acm.hdu.edu.cn/showproblem.php?pid=7381"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>有 $n$ 个商店卖 $m$ 种商品，每个商店只无限卖一种商品，第 $i$ 个商店卖第 $a_i$ 种类型商品。&lt;/p>
+&lt;p>你将购物 $k$ 次，每次随机选择某个商店购买一件商品。购物完后，以下情况你将不满意：&lt;/p>
+&lt;ul>
+&lt;li>存在一个商品类型 $i$，你恰好购买了该类型商品 $c_i$ 个，并且这 $c_i$ 个商品恰好来自不同的商店。($c_i$ 表示卖类型 $i$ 的商品的商店个数)&lt;/li>
+&lt;/ul>
+&lt;p>求购物 $k$ 次后使你&lt;strong>满意&lt;/strong>的概率，对 $998,244,353$ 取模。(购物带标号)&lt;/p></description></item><item><title>[2023牛客多校7 F] Counting Sequences</title><link>https://messywind.github.io/posts/2023%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A17-f-counting-sequences/</link><pubDate>Tue, 08 Aug 2023 09:05:19 +0000</pubDate><guid>https://messywind.github.io/posts/2023%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A17-f-counting-sequences/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://ac.nowcoder.com/acm/contest/57361/F"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>计算满足下列条件长度为 $n$ 的序列 $(a_1,a_2,\cdots,a_n)$ 的个数。&lt;/p>
+&lt;ul>
+&lt;li>对于 $1 \le i \le n$ 满足 $0 \le a_i \le 2 ^ m$&lt;/li>
+&lt;li>$\sum\limits_{i = 1} ^ {n} \text{cnt}_1(a_i \oplus b_i) = k$&lt;/li>
+&lt;/ul>
+&lt;p>其中序列 $b$ 为 $(a_2,a_3,\cdots,a_n,a_1)$，$\text{cnt}_1(x)$ 代表 $x$ 二进制中 $1$ 的个数。&lt;/p>
+&lt;p>对 $998,244,353$ 取模。&lt;/p>
+&lt;p>$2 \le n &amp;lt; 998,244,353, 1 \le m \le 10 ^ 8,1 \le k \le 5\times 10 ^ 4$&lt;/p></description></item><item><title>[2023杭电多校5 1005] Snake</title><link>https://messywind.github.io/posts/2023%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-1005-snake/</link><pubDate>Wed, 02 Aug 2023 15:48:24 +0000</pubDate><guid>https://messywind.github.io/posts/2023%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-1005-snake/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://acm.hdu.edu.cn/showproblem.php?pid=7328"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>有 $n$ 个标号为 $1,2,\cdots,n$ 的球，放到 $m$ 个无标号盒子 (盒内顺序有标号)，且每个盒子球数不超过 $k$，求方案数对 $998,244,353$ 取模。&lt;/p>
+&lt;p>$1 \le m,k \le n \le 10 ^ 6$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>考虑每个盒子内球的生成函数 $\sum\limits_{i = 1} ^ {k}x ^ i$，那么 $m$ 个盒子的生成函数就为 $\left( \sum\limits_{i = 1} ^ {k}x ^ i\right) ^ m$，那么方案数就为第 $n$ 项系数。&lt;/p>
+&lt;p>由于球带标号，所以需要对答案全排列，也就是乘 $n!$，又由于盒子不带标号，所以要对答案除 $m!$，那么答案为&lt;/p></description></item><item><title>[2023杭电多校5 1002] GCD Magic</title><link>https://messywind.github.io/posts/2023%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-1002-gcd-magic/</link><pubDate>Tue, 01 Aug 2023 17:05:41 +0000</pubDate><guid>https://messywind.github.io/posts/2023%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-1002-gcd-magic/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://acm.hdu.edu.cn/showproblem.php?pid=7325"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>
+求
+$$
+\sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}[\gcd(2 ^ i - 1, 2 ^ j - 1)] ^ k
+$$&lt;/p>
+&lt;p>对 $998,244,353$ 取模。&lt;/p>
+&lt;p>$1 \le n \le 10 ^ 9, 0 \le k \le 10$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>易证 $\gcd(2 ^ i - 1, 2 ^ j - 1) = 2 ^ {\gcd(i, j)} - 1$，代入得&lt;/p>
+&lt;p>$$
+\sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^{\gcd(i, j)} - 1) ^ k
+$$&lt;/p>
+&lt;p>常规枚举 $d$&lt;/p>
+&lt;p>$$
+\sum_{d = 1} ^ {n} \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^d - 1) ^ k [\gcd(i,j) = d]
+$$&lt;/p>
+&lt;p>把 $d$ 拿到求和上界&lt;/p>
+&lt;p>$$
+\sum_{d = 1} ^ {n} \sum_{i = 1} ^ { \lfloor \frac{n}{d} \rfloor } \sum_{j = 1} ^ { \lfloor \frac{n}{d} \rfloor}\left(2^d - 1\right) ^ k[\gcd(i,j) = 1]
+$$&lt;/p></description></item><item><title>SDUTACM 出题参考</title><link>https://messywind.github.io/posts/sdutacm-%E5%87%BA%E9%A2%98%E5%8F%82%E8%80%83/</link><pubDate>Tue, 01 Aug 2023 00:00:00 +0000</pubDate><guid>https://messywind.github.io/posts/sdutacm-%E5%87%BA%E9%A2%98%E5%8F%82%E8%80%83/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;center>
+	&lt;embed src="https://messywind.github.io/pdf/problem.pdf" width="1050" height="1000">
+&lt;/center></description></item><item><title>山东理工大学第十五届ACM程序设计竞赛</title><link>https://messywind.github.io/posts/%E5%B1%B1%E4%B8%9C%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6%E7%AC%AC%E5%8D%81%E4%BA%94%E5%B1%8Aacm%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%AB%9E%E8%B5%9B/</link><pubDate>Sun, 28 May 2023 00:00:00 +0000</pubDate><guid>https://messywind.github.io/posts/%E5%B1%B1%E4%B8%9C%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6%E7%AC%AC%E5%8D%81%E4%BA%94%E5%B1%8Aacm%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%AB%9E%E8%B5%9B/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>办的不错的一次比赛。&lt;/p>
+&lt;p>&lt;a href="https://acm.sdut.edu.cn/onlinejudge3/contests/4098/overview"target="_blank" rel="external nofollow noopener noreferrer">重现赛链接&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://rl.algoux.cn/ranklist/sdutpc15"target="_blank" rel="external nofollow noopener noreferrer">榜单链接&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://space.bilibili.com/1479542015/channel/collectiondetail?sid=1432750&amp;amp;ctype=0"target="_blank" rel="external nofollow noopener noreferrer">视频合集&lt;/a>&lt;/p>
+&lt;div class="details admonition tips open">
+ &lt;div class="details-summary admonition-title">&lt;i class="icon fa-fw fa-solid fa-pencil-alt" aria-hidden="true">&lt;/i>题解&lt;i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true">&lt;/i>&lt;/div>
+ &lt;div class="details-content">
+ &lt;div class="admonition-content">&lt;center>
+	&lt;embed src="https://messywind.github.io/pdf/15thsolve.pdf" width="1050" height="1000">
+&lt;/center>
+&lt;/div>
+ &lt;/div>
+&lt;/div></description></item><item><title>基础数论</title><link>https://messywind.github.io/posts/%E5%9F%BA%E7%A1%80%E6%95%B0%E8%AE%BA/</link><pubDate>Wed, 01 Feb 2023 00:00:00 +0000</pubDate><guid>https://messywind.github.io/posts/%E5%9F%BA%E7%A1%80%E6%95%B0%E8%AE%BA/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>视频：
+&lt;div class="bilibili">
+ &lt;iframe src="//player.bilibili.com/player.html?bvid=BV1Vs4y1x7TR&amp;page=1&amp;autoplay=false&amp;poster=true&amp;muted=false&amp;danmaku=true&amp;t=0" border="0" framespacing="0" allowfullscreen="true">&lt;/iframe>
+&lt;/div>&lt;/p>
+&lt;div class="bilibili">
+ &lt;iframe src="//player.bilibili.com/player.html?bvid=BV1He4y1N7JG&amp;page=1&amp;autoplay=false&amp;poster=true&amp;muted=false&amp;danmaku=true&amp;t=0" border="0" framespacing="0" allowfullscreen="true">&lt;/iframe>
+&lt;/div>
+&lt;p>讲义：&lt;/p>
+&lt;center>
+	&lt;embed src="https://messywind.github.io/pdf/基础数论Day1.pdf" width="1050" height="1000">
+&lt;/center>
+&lt;center>
+	&lt;embed src="https://messywind.github.io/pdf/基础数论Day2.pdf" width="1050" height="1000">
+&lt;/center></description></item><item><title>生成函数、多项式题单</title><link>https://messywind.github.io/posts/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0%E5%A4%9A%E9%A1%B9%E5%BC%8F%E9%A2%98%E5%8D%95/</link><pubDate>Thu, 20 Oct 2022 14:39:33 +0000</pubDate><guid>https://messywind.github.io/posts/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0%E5%A4%9A%E9%A1%B9%E5%BC%8F%E9%A2%98%E5%8D%95/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;h2 id="生成函数多项式题单-大佬轻喷" class="heading-element">&lt;span>生成函数、多项式题单 (大佬轻喷😭)&lt;/span>
+ &lt;a href="#%e7%94%9f%e6%88%90%e5%87%bd%e6%95%b0%e5%a4%9a%e9%a1%b9%e5%bc%8f%e9%a2%98%e5%8d%95-%e5%a4%a7%e4%bd%ac%e8%bd%bb%e5%96%b7" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;h2 id="模板" class="heading-element">&lt;span>模板：&lt;/span>
+ &lt;a href="#%e6%a8%a1%e6%9d%bf" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;h3 id="fftntt-模板" class="heading-element">&lt;span>FFT/NTT 模板&lt;/span>
+ &lt;a href="#fftntt-%e6%a8%a1%e6%9d%bf" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h3>&lt;blockquote>
+&lt;p>用来测试多项式板子&lt;/p></description></item><item><title>[2021 CCPC 广州 A] Math Ball</title><link>https://messywind.github.io/posts/2021-ccpc-%E5%B9%BF%E5%B7%9E-a-math-ball/</link><pubDate>Sun, 16 Oct 2022 00:32:23 +0000</pubDate><guid>https://messywind.github.io/posts/2021-ccpc-%E5%B9%BF%E5%B7%9E-a-math-ball/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://codeforces.com/gym/103415/problem/A"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>给定 $n$ 个权值为 $c_1,c_2,\cdots,c_n$ 的物品，总共最多取 $W$ 个，求
+$$
+\sum_{k_1+k_2+\cdots+k_n \le W} \prod_{i = 1} ^ {n} k_i ^ {c_i}
+$$
+对 $998,244,353$ 取模，其中 $k_i$ 代表第 $i$ 个物品取的次数。&lt;/p>
+&lt;p>$1 \le n \le 10 ^ 5, \sum\limits_{i = 1} ^ {n} c_i \le 10 ^ 5, W \le 10 ^ {18}$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>首先观察题目要我们求的式子，可以看出是一个多项式卷积形式，不难写出每个物品的生成函数，设第 $i$ 个物品的生成函数为
+$$
+f_i(x) = \sum_{j = 0} ^ {\infty} j ^ {c_i}x ^ j
+$$
+那么答案就是
+$$
+\sum_{i = 0} ^ {W} [x ^ i]\prod_{j = 1} ^ {n}f_j(x)
+$$
+但 $W$ 是 $10 ^ {18}$ 的，我们肯定不能这么求，所以考虑将答案求一次前缀和，计算第 $W$ 项的系数。&lt;/p></description></item><item><title>[2021CCPC 威海G] Shinyruo and KFC</title><link>https://messywind.github.io/posts/2021ccpc-%E5%A8%81%E6%B5%B7g-shinyruo-and-kfc/</link><pubDate>Tue, 04 Oct 2022 15:21:43 +0000</pubDate><guid>https://messywind.github.io/posts/2021ccpc-%E5%A8%81%E6%B5%B7g-shinyruo-and-kfc/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://codeforces.com/gym/103428/problem/G"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>给定 $n$ 个正整数 $a_1,a_2,\cdots,a_n$，并给定正整数 $m$，对于每个 $k \in [1, m]$，计算 $\prod\limits_{i = 1} ^ {n} \dbinom{k}{a_i}$&lt;/p>
+&lt;p>对 $998,244,353$ 取模。&lt;/p>
+&lt;p>$(1 \le n, m \le 5 \times 10 ^ 4, \sum\limits_{i = 1} ^ {n}a_i \le 10 ^ 5)$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>考虑拆组合数
+$$
+\prod_{i = 1} ^ {n}\binom{k}{a_i}=\prod_{i = 1} ^ {n}\frac{k!}{a_i! \times (k - a_i)!} \
+= \frac{1}{\prod\limits_{i = 1} ^ {n}a_i!} \times \prod_{i = 1} ^ {n} k ^ {\underline {a_i}}
+$$
+所以可以把 $k ^ {\underline{a_i}}$ 看作一个下降幂多项式，那么使用分治下降幂多项式乘法可以求出 $\prod\limits_{i = 1} ^ {n} k ^ {\underline {a_i}}$，再转为普通幂多项式，再对 $(1, 2, \cdots,m)$ 使用多项式多点求值即可求出答案，时间复杂度 $O(n\log ^ 2 n)$&lt;/p></description></item><item><title>[TJOI2019] 唱、跳、rap和篮球</title><link>https://messywind.github.io/posts/tjoi2019-%E5%94%B1%E8%B7%B3rap%E5%92%8C%E7%AF%AE%E7%90%83/</link><pubDate>Thu, 22 Sep 2022 20:06:39 +0000</pubDate><guid>https://messywind.github.io/posts/tjoi2019-%E5%94%B1%E8%B7%B3rap%E5%92%8C%E7%AF%AE%E7%90%83/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/P5339"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>有 $4$ 类数量分别为 $a,b,c,d$ 的物品，求出长度为 $n$ 的所有不包含 &lt;code>abcd&lt;/code> 子串的序列的方案数，对 $998, 244 , 353$ 取模。&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>此题比较像 2022 牛客多校2 E，考虑将 &lt;code>abcd&lt;/code> 捆绑，我们可以先算出至少存在 $i$ 个 &lt;code>abcd&lt;/code> 子串的方案数，那么会有 $n - 4 \times i + i = n - 3 \times i$ 个位置，从中选出 $i$ 个位置的方案数为 $\dbinom{n - 3 \times i}{i}$，那么现在要解决的问题是从剩下 $n - 4 \times i$ 个位置随意选 $a,b,c,d$ 的方案数，我们可以写出它们的生成函数，记
+$$
+F_k(x) = \sum_{i = 0} ^ {k} \frac{x ^ i}{i!}
+$$
+那么 $a,b,c,d$ 的生成函数分别为 $F_{a - i}(x),F_{b - i}(x),F_{c - i}(x),F_{d - i}(x)$，所以方案数为 $(n - 4 \times i)! \times [x ^ {n - 4 \times i}]F_{a - i}(x) * F_{b - i}(x) * F_{c - i}(x) * F_{d - i}(x)$，我们现在求出了至少为 $i$ 的方案数，可以用二项式反演求出恰好为 $0$ 的方案数，那么答案就是
+$$
+\sum_{i = 0} ^ {\min(a,b,c,d)} (-1) ^ i \times \binom{n - 3 \times i}{i} \times (n - 4 \times i)! \times [x ^ {n - 4 \times i}]F_{a - i}(x) * F_{b - i}(x) * F_{c - i}(x) * F_{d - i}(x)
+$$&lt;/p></description></item><item><title>CF 题目选讲</title><link>https://messywind.github.io/posts/cf-%E9%A2%98%E7%9B%AE%E9%80%89%E8%AE%B2/</link><pubDate>Thu, 15 Sep 2022 11:24:00 +0000</pubDate><guid>https://messywind.github.io/posts/cf-%E9%A2%98%E7%9B%AE%E9%80%89%E8%AE%B2/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;h2 id="cf-题目选讲" class="heading-element">&lt;span>CF 题目选讲&lt;/span>
+ &lt;a href="#cf-%e9%a2%98%e7%9b%ae%e9%80%89%e8%ae%b2" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;h2 id="gym-103736-d-tree-problem" class="heading-element">&lt;span>Gym 103736 D Tree Problem&lt;/span>
+ &lt;a href="#gym-103736-d-tree-problem" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>题目链接 &lt;a href="https://codeforces.com/gym/103736/problem/D"target="_blank" rel="external nofollow noopener noreferrer">https://codeforces.com/gym/103736/problem/D&lt;/a>&lt;/p></description></item><item><title>[NOI2020统一省选 A] 组合数问题</title><link>https://messywind.github.io/posts/noi2020%E7%BB%9F%E4%B8%80%E7%9C%81%E9%80%89-a-%E7%BB%84%E5%90%88%E6%95%B0%E9%97%AE%E9%A2%98/</link><pubDate>Thu, 01 Sep 2022 16:09:04 +0000</pubDate><guid>https://messywind.github.io/posts/noi2020%E7%BB%9F%E4%B8%80%E7%9C%81%E9%80%89-a-%E7%BB%84%E5%90%88%E6%95%B0%E9%97%AE%E9%A2%98/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/P6620"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>给定四个整数 $n,x,p,m$，求
+$$
+\sum_{i=0}^{n}f(i)\times x^i\times \binom{n}{i}
+$$
+对 $p$ 取模，其中 $f(x) = a_0 + a_1x + a_2x ^ 2 + \cdots + a_mx ^ m$&lt;/p>
+&lt;p>$1 \le n,x,p \le 10 ^ 9, 0 \le a_i \le 10 ^ 9, 0 \le m \le \min(n, 10 ^ 3)$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>首先把 $f(i)$ 带入原式
+$$
+\sum_{i=0}^{n} x^i\times \binom{n}{i} \sum_{j = 0} ^ {m} a_j \times i ^ {j}
+$$
+看到 $i ^ j$，故想到展开 $i ^ j = \sum\limits_{k = 0} ^ {j} {j \brace k} i ^ {\underline k}$&lt;/p>
+&lt;p>$$
+\sum_{i=0}^{n} x^i\times \binom{n}{i} \sum_{j = 0} ^ {m} a_j \sum_{k = 0} ^ {j} {j \brace k} \times \frac{i!}{(i - k)!}
+$$&lt;/p></description></item><item><title>[2021ICPC济南 L] Strange Series</title><link>https://messywind.github.io/posts/2021icpc%E6%B5%8E%E5%8D%97-l-strange-series/</link><pubDate>Tue, 30 Aug 2022 13:26:27 +0000</pubDate><guid>https://messywind.github.io/posts/2021icpc%E6%B5%8E%E5%8D%97-l-strange-series/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>$T$ 组输入，给定一个 $n$ 次多项式 $f(x) = a_0 + a_1x + \cdots + a_nx ^ n$，定义 $S = \sum\limits_{i = 0} ^ {\infty} \dfrac{f(i)}{i!}$，可以证明 $S$ 一定是 $e$ 的倍数，即 $S = p \times e$，求 $p$ 对 $998,244,353$ 取模。&lt;/p>
+&lt;p>$1 \le T \le 100, 0 \le n \le 10 ^ 5,0 \le a_i &amp;lt; 998,244,353$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>首先将 $f(x)$ 代入 $S$ 得
+$$
+\sum_{i = 0} ^ {\infty}\frac{1}{i!} \sum_{j = 0} ^ {n}a_j \times i ^ j
+$$
+看到自然数幂想到展开 $i ^ k = \sum\limits_{j = 0} ^ {k} {k \brace j} i ^{\underline j}$，代入得
+$$
+\sum_{i = 0} ^ {\infty} \frac{1}{i!} \sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} i ^ {\underline k}
+$$
+交换求和次序，先对 $i$ 求和
+$$
+\sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} \sum_{i = 0} ^ {\infty} \frac{i ^ {\underline k}}{i!}
+$$
+把下降幂消掉
+$$
+\sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} \sum_{i = k} ^ {\infty} \frac{1}{(i-k)!}
+$$
+做变换 $(i - k) \rightarrow i$
+$$
+\sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} \sum_{i = 0} ^ {\infty} \frac{1}{i!}
+$$
+由于 $e = \sum\limits_{i = 0} ^ {\infty} \dfrac{1}{i!}$，所以原式为 $e$ 的倍数得证，那么式子变为
+$$
+\sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} \times e
+$$
+事实上 $\text{Bell} _ {n} = \sum \limits_{i = 0} ^ {n} {n \brace i}$，其中 $\text{Bell}_{n}$ 为第 $n$ 项贝尔数，代表 $n$ 个元素的集合划分为任意非空子集的方案数，所以答案就为&lt;/p></description></item><item><title>[2022CCPC华为云1005] 带权子集和</title><link>https://messywind.github.io/posts/2022ccpc%E5%8D%8E%E4%B8%BA%E4%BA%911005-%E5%B8%A6%E6%9D%83%E5%AD%90%E9%9B%86%E5%92%8C/</link><pubDate>Mon, 22 Aug 2022 14:17:18 +0000</pubDate><guid>https://messywind.github.io/posts/2022ccpc%E5%8D%8E%E4%B8%BA%E4%BA%911005-%E5%B8%A6%E6%9D%83%E5%AD%90%E9%9B%86%E5%92%8C/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://acm.hdu.edu.cn/showproblem.php?pid=7260"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>给定一个大小为 $n$ 的多重集 $A = {a_1, a_2, \cdots,a_n}$ 和两个非负整数 $k, t$，求
+$$
+\sum_{S \subseteq A,S \ne \varnothing } t ^ {|S|} \left ( \sum_{i \in S} i \right ) ^ k
+$$
+保证 $k=0$ 时没有子集的和是 $0$，对 $998 , 244 ,353$ 取模。&lt;/p>
+&lt;p>$(1 \le n \le 10 ^ 2, 0 \le k \le 10 ^4, 0 \le x,a_i &amp;lt; 988244352)$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>若直接枚举子集复杂度为 $O(n \times 2 ^ n)$，无法接受，考虑化简，右边和式的 $k$ 次方可以做一下展开，那么&lt;/p></description></item><item><title>[Educational Codeforces Round 133 F] Bags with Balls</title><link>https://messywind.github.io/posts/educational-codeforces-round-133-f-bags-with-balls/</link><pubDate>Fri, 05 Aug 2022 15:37:55 +0000</pubDate><guid>https://messywind.github.io/posts/educational-codeforces-round-133-f-bags-with-balls/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://codeforces.com/contest/1716/problem/F"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>给定三个正整数 $n,m,k$，有 $n$ 个盒子，每个盒子有 $m$ 个标号分别为 $1 \sim m$ 的球，现从每个盒子选出恰好一个球，将奇数编号的球的个数记为 $F$，求所有方案的 $F ^ k$ 之和对 $998 , 244 , 353$ 取模。&lt;/p>
+&lt;p>$(1 \le n, m \le 998244352, 1 \le k \le 2 \times 10 ^ 3)$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>首先每个盒子有 $\lceil \dfrac{m}{2} \rceil$ 个奇数球和 $\lfloor \dfrac{m}{2} \rfloor$ 个偶数球，那么所有方案数为 $m ^ n = (\lceil \dfrac{m}{2} \rceil + \lfloor \dfrac{m}{2} \rfloor) ^ n$，根据二项式定理，所以每个 $F$ 的贡献就为 $F ^ k \times \dbinom{n}{F} \times \lceil \dfrac{m}{2} \rceil ^ F \times \lfloor \dfrac{m}{2} \rfloor ^ {n - F}$ 所以总答案为
+$$
+\sum_{i = 0} ^ {n} i ^ k \times \dbinom{n}{i} \times \lceil \dfrac{m}{2} \rceil ^ i \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i}
+$$
+由于 $n \le 998244352$，没法直接求，但是看到 $i ^ k$ 想到自然数幂展开
+$$
+i ^ k = \sum_{j = 0} ^ {k} {k \brace j} \times j! \times \binom{i}{j}
+$$
+带入得
+$$
+\sum_{i = 0} ^ {n} \dbinom{n}{i} \times \lceil \dfrac{m}{2} \rceil ^ i \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i} \sum_{j = 0} ^ {k} {k \brace j} \times j! \times \binom{i}{j}
+$$
+将 $\dbinom{n}{i}$ 放到后面的求和号化简：$\dbinom{n}{i} \times j! \times \dbinom{i}{j} = \dfrac{n!}{i! \times (n - i)!} \times j! \times \dfrac{i!}{j! \times (i - j)!} = \dfrac{n!}{(n - i)! \times (i - j)!}$，那么式子变为
+$$
+\sum_{i = 0} ^ {n} \lceil \dfrac{m}{2} \rceil ^ i \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i} \sum_{j = 0} ^ {k} {k \brace j} \times \dfrac{n!}{(n - i)! \times (i - j)!}
+$$
+交换求和次序，注意 $i$ 要从 $j$ 开始，因为要保证 $i - j \ge 0$
+$$
+\sum_{j = 0} ^ {k} {k \brace j} \sum_{i = j} ^ {n} \dfrac{n!}{(n - i)! \times (i - j)!} \times \lceil \dfrac{m}{2} \rceil ^ i \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i}
+$$
+对第二个和式做变换 $i - j \rightarrow i$
+$$
+\sum_{j = 0} ^ {k} {k \brace j} \sum_{i = 0} ^ {n - j} \dfrac{n!}{(n - i - j)! \times i!} \times \lceil \dfrac{m}{2} \rceil ^ {i + j} \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i - j}
+$$
+到这里发现第二个和式比较像二项式展开了，即 $(a + b) ^ n = \sum\limits_{i = 0} ^ {n} \dbinom{n}{i} a ^ {i} b ^ {n - i}$，那么考虑往这个方向凑式子，首先要解决的是组合数，发现第二个和式上界为 $n - j$，那么我们就要凑一个 $\dbinom{n - j}{i} = \dfrac{(n - j)!}{(n - i - j) \times i!}$ 的组合数，发现恰好多了 $n \times(n - 1) \times \cdots \times (n - j + 1) = n ^ {\underline j}$，那么后面也多了 $\lceil \dfrac{m}{2} \rceil ^ {j}$，提出来之后为
+$$
+\sum_{j = 0} ^ {k} {k \brace j} \times n ^ {\underline j} \times \lceil \dfrac{m}{2} \rceil ^ {j} \sum_{i = 0} ^ {n - j} \binom{n - j}{i} \times \lceil \dfrac{m}{2} \rceil ^ {i} \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i - j}
+$$
+由二项式定理得 $\sum\limits_{i = 0} ^ {n - j} \dbinom{n - j}{i} \times \lceil \dfrac{m}{2} \rceil ^ {i} \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i - j} = (\lceil \dfrac{m}{2} \rceil + \lfloor \dfrac{m}{2} \rfloor) ^ {n - j} = m ^ {n - j}$，那么答案为
+$$
+\sum_{j = 0} ^ {k} {k \brace j} \times n ^ {\underline j} \times \lceil \dfrac{m}{2} \rceil ^ {j} \times m ^ {n - j}
+$$
+所以只需要预处理 $2 \times 10 ^ 3$ 以内的第二类斯特林数，再 $O(k)$ 维护下降幂即可。&lt;/p></description></item><item><title>数据结构题单</title><link>https://messywind.github.io/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%A2%98%E5%8D%95/</link><pubDate>Thu, 04 Aug 2022 10:17:00 +0000</pubDate><guid>https://messywind.github.io/posts/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E9%A2%98%E5%8D%95/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;h2 id="线段树" class="heading-element">&lt;span>线段树&lt;/span>
+ &lt;a href="#%e7%ba%bf%e6%ae%b5%e6%a0%91" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>区间异或 &lt;a href="https://www.luogu.com.cn/problem/CF242E"target="_blank" rel="external nofollow noopener noreferrer">https://www.luogu.com.cn/problem/CF242E&lt;/a>&lt;/p>
+&lt;p>区间取模 &lt;a href="https://www.luogu.com.cn/problem/CF438D"target="_blank" rel="external nofollow noopener noreferrer">https://www.luogu.com.cn/problem/CF438D&lt;/a>&lt;/p>
+&lt;p>区间开根 &lt;a href="https://www.luogu.com.cn/problem/SP2713"target="_blank" rel="external nofollow noopener noreferrer">https://www.luogu.com.cn/problem/SP2713&lt;/a>&lt;/p>
+&lt;p>区间约数个数 &lt;a href="https://www.luogu.com.cn/problem/CF920F"target="_blank" rel="external nofollow noopener noreferrer">https://www.luogu.com.cn/problem/CF920F&lt;/a>&lt;/p>
+&lt;p>区间反转 $0$ 变 $1$ $1$ 变 $0$ &lt;a href="https://www.luogu.com.cn/problem/P2574"target="_blank" rel="external nofollow noopener noreferrer">https://www.luogu.com.cn/problem/P2574&lt;/a>&lt;/p>
+&lt;p>区间 $\text{lowbit}$ &lt;a href="https://codeforces.com/gym/103145/problem/D"target="_blank" rel="external nofollow noopener noreferrer">https://codeforces.com/gym/103145/problem/D&lt;/a>&lt;/p>
+&lt;p>区间乘 区间欧拉函数和 $\text{ICPC}$ 网络赛第二场 $\text{L}$ 题&lt;/p></description></item><item><title>[2022 杭电多校5] Count Set</title><link>https://messywind.github.io/posts/2022-%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-count-set/</link><pubDate>Wed, 03 Aug 2022 11:21:22 +0000</pubDate><guid>https://messywind.github.io/posts/2022-%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-count-set/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://acm.hdu.edu.cn/showproblem.php?pid=7191"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>给定一个长度为 $n$ 的排列 $p$ ${1, 2, \cdots, n}$ 和一个非负整数 $k$，计算排列 $p$ 中的子集 $T$，满足集合大小为 $k$ 且 $T$ 与 $P(T)$ 没有交集，$P(T) = {y \mid y= p_x,x \in T}$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>考虑将排列 $p$ 看成图，$i$ 向 $p_i$ 连边，会形成若干个环，那么原问题等价于从图中选出 $k$ 个点且每个环中不能有相邻被选择的点的方案数。考虑构造每个环 $i$ 的生成函数
+$$
+1 + f_{S_i,1}x + f_{S_i,2} x ^ 2 + \cdots + f_{S_i,\lfloor \frac{S_i}{2} \rfloor} x ^ {\lfloor \frac{S_i}{2} \rfloor}
+$$
+其中 $S_i$ 表示环 $i$ 的大小，$f_{S_i,j}$ 表示大小为 $S_i$ 的环中选出 $j$ 个互不相邻的点的方案数，根据鸽巢原理，若 $j &amp;gt; \lfloor \dfrac{S_i}{2} \rfloor$，一定有两个点相邻，所以生成函数只需要取到 $\lfloor \dfrac{S_i}{2} \rfloor$ 项即可。那么答案就为
+$$
+[x ^ k]\prod_{i = 1} ^ {\text{cnt}} \sum_{j = 0} ^ {\lfloor \frac{S_i}{2} \rfloor} f_{S_i,j}x^j
+$$
+$\text{cnt}$ 为图中环的数量。那么现在考虑求出 $f(n, m)$，即大小为 $n$ 的环选出 $m$ 个互不相邻的点的方案数。&lt;/p></description></item><item><title>[2022 牛客多校4 C] Easy Counting Problem</title><link>https://messywind.github.io/posts/2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A14-c-easy-counting-problem/</link><pubDate>Mon, 01 Aug 2022 10:41:37 +0000</pubDate><guid>https://messywind.github.io/posts/2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A14-c-easy-counting-problem/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://ac.nowcoder.com/acm/contest/33189/C"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>给定一个正整数 $w$ 及 $w$ 个数 $c_0, c_1, \cdots,c_{w - 1}$&lt;/p>
+&lt;p>$q$ 组询问，每次询问给定一个正整数 $n$，计算有多少个长度为 $n$ 的字符串满足：&lt;/p>
+&lt;ul>
+&lt;li>每个字符只能取数字 $0 \sim w - 1$&lt;/li>
+&lt;li>数字 $i$ 至少出现 $c_i$ 次&lt;/li>
+&lt;/ul>
+&lt;p>对 $998 , 244 , 353$ 取模。&lt;/p>
+&lt;p>$2 \le w \le 10, 1 \le c_i \le 5 \times 10 ^ 4, \sum\limits_{i = 0} ^ {w - 1}c_i \le 5 \times 10 ^ 4$&lt;/p>
+&lt;p>$1 \le q \le 300, 1 \le n \le 10 ^ 7$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p></description></item><item><title>[2022 牛客多校2 E] Falfa with Substring</title><link>https://messywind.github.io/posts/2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A12-e-falfa-with-substring/</link><pubDate>Mon, 25 Jul 2022 20:38:34 +0000</pubDate><guid>https://messywind.github.io/posts/2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A12-e-falfa-with-substring/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://ac.nowcoder.com/acm/contest/33187/E"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>定义 $F_{n, k}$ 为所有长度为 $n$ 的字符串 $S$ 中恰好出现了 $k$ 次 &lt;code>bit&lt;/code> 的个数。&lt;/p>
+&lt;p>求 $F_{n, 0},F_{n, 1}, \cdots,F_{n,n}$ 对 $998,244,353$ 取模。&lt;/p>
+&lt;p>$(1 \le n \le 10 ^ 6)$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>看到求恰好出现 $k$ 次，首先想到求出大于等于 $k$ 次再进行容斥。&lt;/p>
+&lt;p>考虑钦定出现 $k$ 次 &lt;code>bit&lt;/code> 的字符串，将 $k$ 个 &lt;code>bit&lt;/code> 进行捆绑，那么有 $n - 3k + k = n - 2k$ 个位置，并且剩下 $n - 3 k$ 个字母任意取值，从 $n - 2k$ 个位置选出 $k$ 个放 &lt;code>bit&lt;/code>，方案数为 $\dbinom{n - 2k}{k} \times 26 ^ {n - 3k}$，记为 $f(k)$&lt;/p></description></item><item><title>数论提高</title><link>https://messywind.github.io/posts/%E6%95%B0%E8%AE%BA%E6%8F%90%E9%AB%98/</link><pubDate>Sun, 24 Jul 2022 15:39:05 +0000</pubDate><guid>https://messywind.github.io/posts/%E6%95%B0%E8%AE%BA%E6%8F%90%E9%AB%98/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;h2 id="前置数学符号介绍" class="heading-element">&lt;span>前置：数学符号介绍&lt;/span>
+ &lt;a href="#%e5%89%8d%e7%bd%ae%e6%95%b0%e5%ad%a6%e7%ac%a6%e5%8f%b7%e4%bb%8b%e7%bb%8d" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;ul>
+&lt;li>$\sum\limits_{i = 1} ^ {n}$：求和符号，例如 $\sum\limits_{i = 1} ^ {n}i = \dfrac{n \times (n + 1)}{2}$ 代表 $1 + 2 + 3 + 4 + \cdots + n$&lt;/li>
+&lt;li>$\prod\limits_{i = 1} ^ {n}$：连乘符号，例如 $\prod\limits_{i = 1} ^ {n} i = n!$ 代表 $1 \times 2 \times 3 \times 4 \times \cdots \times n$&lt;/li>
+&lt;li>$\lfloor \dfrac{x}{y} \rfloor$：向下取整符号，例如 $\lfloor \dfrac{5}{2} \rfloor = 2$&lt;/li>
+&lt;li>$[]$：艾弗森括号，例如 $[n = 1]$ 只有 $n = 1$ 时才取值为 $1$&lt;/li>
+&lt;li>$x \mid y$：整除符号，表示 $x$ 整除 $y$，也就是 $x$ 是 $y$ 的约数，例如 $2 \mid 4$&lt;/li>
+&lt;/ul>
+&lt;h2 id="欧拉函数" class="heading-element">&lt;span>欧拉函数&lt;/span>
+ &lt;a href="#%e6%ac%a7%e6%8b%89%e5%87%bd%e6%95%b0" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>定义：$\varphi(x)$ 为小于等于 $x$ 与 $x$ 互质的数，即
+$$
+\varphi(x) = \sum_ {i = 1} ^ {x} [\gcd(x, i) = 1]
+$$&lt;/p></description></item><item><title>[2016 CCPC 杭州J] Just a Math Problem</title><link>https://messywind.github.io/posts/2016-ccpc-%E6%9D%AD%E5%B7%9Ej-just-a-math-problem/</link><pubDate>Fri, 15 Jul 2022 09:00:04 +0000</pubDate><guid>https://messywind.github.io/posts/2016-ccpc-%E6%9D%AD%E5%B7%9Ej-just-a-math-problem/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://acm.hdu.edu.cn/showproblem.php?pid=5942"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>$T$ 组输入，每次给定一个正整数 $n$，定义 $f(k)$ 为 $k$ 的质因子个数，$g(k) = 2 ^ {f(i)}$，求
+$$
+\sum_{i = 1} ^ {n} g(i)
+$$
+$1 \le T \le 50, 1 \le n \le 10 ^ {12}$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>首先 $2 ^ {f(i)}$ 不好直接计算，考虑组合意义，发现 $2 ^ {f(i)}$ 就是从 $i$ 的所有质因子中选出若干个子集的方案数，假设 $i = p_1 ^ {\alpha_1} p_2 ^ {\alpha_2}\cdots p_k ^ {\alpha_k}$，那么我们可以枚举 $i$ 的所有约数 $d$，将约数带入莫比乌斯函数，那么就去掉了所有存在大于等于 $2$ 次的质因子，所以每个 $\alpha_i$ 只能取 $0$ 或 $1$，但如果有奇数个质因子莫比乌斯函数值为负数，所以平方一下即可，即&lt;/p></description></item><item><title>[Educational Codeforces Round 131 F] Points</title><link>https://messywind.github.io/posts/educational-codeforces-round-131-f-points/</link><pubDate>Wed, 13 Jul 2022 16:28:06 +0000</pubDate><guid>https://messywind.github.io/posts/educational-codeforces-round-131-f-points/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://codeforces.com/contest/1701/problem/F"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>给定两个正整数 $q, d$，定义三元组 $(i, j, k)$ 满足 $i &amp;lt; j &amp;lt; k, k - i \le d$，为&lt;strong>美丽三元组&lt;/strong>，现在有一个空集和 $q$ 组询问，每次给定一个正整数 $x$，若 $x$ 不在集合，那么将 $x$ 加入集合，若 $x$ 在集合中，那么将 $x$ 从集合中删除，每次询问计算集合中&lt;strong>美丽三元组&lt;/strong>的个数。&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>考虑每个数从集合加入或删除的贡献，对于一个数 $x$，从区间 $[x, x + d]$ 中选出任意两个不同的数都可以组成美丽三元组(假设 $x$ 为三元组中的最小值)，记区间中在集合的数量为 $cnt$，那么方案数为 $\dbinom{cnt}{2}$，那么考虑区间 $[x - d, x - 1]$，对区间中的每个数 $i$，考虑 $x$ 加入后的影响，设区间 $[i, i + d]$ 在集合中的个数为 $a_i$，那么美丽三元组的个数为 $\dbinom{a_i}{2}$，则 $x$ 加入后的美丽三元组数量为 $\dbinom{a_i + 1}{2}$，设整个集合为 $S$，那么在区间 $[x - d, x - 1]$ 中新增的美丽三元组数量就为 $\sum\limits_{i = x - d} ^ {x - 1} \left (\dbinom{a_i + 1}{2} - \dbinom{a_i}{2} \right ) [i \in S] = \sum\limits_{i = x - d} ^ {x - 1}a_i [i \in S]$，对于 $x$ 删除后的影响就为 $\sum\limits_{i = x - d} ^ {x - 1} \left (\dbinom{a_i}{2} - \dbinom{a_i - 1}{2} \right ) [i \in S] = \sum\limits_{i = x - d} ^ {x - 1} (a_i - 1) [i \in S]$&lt;/p></description></item><item><title>DP 题目选讲</title><link>https://messywind.github.io/posts/dp-%E9%A2%98%E7%9B%AE%E9%80%89%E8%AE%B2/</link><pubDate>Thu, 07 Jul 2022 10:52:14 +0000</pubDate><guid>https://messywind.github.io/posts/dp-%E9%A2%98%E7%9B%AE%E9%80%89%E8%AE%B2/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;h2 id="背包acwing-1454-异或和是质数的子集数" class="heading-element">&lt;span>背包：Acwing 1454 异或和是质数的子集数&lt;/span>
+ &lt;a href="#%e8%83%8c%e5%8c%85acwing-1454-%e5%bc%82%e6%88%96%e5%92%8c%e6%98%af%e8%b4%a8%e6%95%b0%e7%9a%84%e5%ad%90%e9%9b%86%e6%95%b0" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>题目链接 &lt;a href="https://www.acwing.com/problem/content/description/1456/"target="_blank" rel="external nofollow noopener noreferrer">https://www.acwing.com/problem/content/description/1456/&lt;/a>&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>考虑 $01$ 背包，$1 \sim n$ 中对于每件物品 $1 \le i \le n$ 的体积为 $i$&lt;/p>
+&lt;p>定义状态 $dp_{i, j}$ 为从前 $i$ 件物品中选，异或和为 $j$ 的方案数，那么有转移
+$$
+dp_{i,j} = dp_{i - 1,j} + dp_{i - 1,j \oplus a_i}
+$$
+由于按位异或会变小，所以状态必须开二维，但第一维可以用滚动数组优化。&lt;/p></description></item><item><title>[2022 广东省赛M] 拉格朗日插值</title><link>https://messywind.github.io/posts/2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/</link><pubDate>Fri, 01 Jul 2022 21:57:26 +0000</pubDate><guid>https://messywind.github.io/posts/2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>求在满足 $\sum\limits_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} = 1$ 的条件下，从长度为 $m$ 的数组 $b$ 中选 $k$ 个数组成 $a_1,a_2,\cdots,a_k$，$\prod\limits_{i = 1} ^{k} x_i$ 的最大值的期望，$k$ 为偶数。&lt;/p>
+&lt;p>$(1 \le k \le m \le 10 ^ 5, 0 &amp;lt; b_i &amp;lt; 10 ^ 9)$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>首先求解最大值需要用到高等数学中多元函数条件极值的拉格朗日乘数法，设
+$$
+L(x_1,x_2,\cdots,x_k, \lambda) = \prod_{i = 1} ^{k} x_i + \lambda(\sum\limits_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} - 1)
+$$
+对每个变量求偏导数，令偏导数为 $0$ 得
+$$
+\frac{\partial L}{\partial x_1} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_1} + \frac{2\lambda x_1}{a_1 ^ 2} = 0
+\\
+\frac{\partial L}{\partial x_2} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_2} + \frac{2\lambda x_2}{a_2 ^ 2} = 0
+\\
+\cdots
+\\
+\frac{\partial L}{\partial x_k} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_k} + \frac{2\lambda x_k}{a_k ^ 2} = 0
+\\
+\frac{\partial L}{\partial \lambda} = \sum_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} - 1 = 0
+$$
+那么稍微化简一下，对于 $1 \le i \le k$ 都有
+$$
+\prod_{i = 1} ^ {k}x_i = \frac{-2\lambda x_i ^ 2}{a_i ^ 2}
+$$
+通过任意两式 $1 \le i, j \le k$ 联立消掉 $\lambda$
+$$
+\frac{a_i ^ 2\prod\limits_{i = 1} ^ {k}x_i}{-2x_i ^ 2} = \frac{a_j ^ 2\prod\limits_{i = 1} ^ {k}x_i}{-2x_j ^ 2}
+$$
+化简得
+$$
+\frac{x_i}{a_i} = \frac{x_j}{a_j}
+$$
+所以当且仅当 $\dfrac{x_1}{a_1} = \dfrac{x_2}{a_2}=\cdots=\dfrac{x_k}{a_k}$ 时取得最大值，且 $\sum\limits_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} = 1$，所以对任意 $1 \le i \le k$ 都有 $\dfrac{x_i}{a_i} = \pm \sqrt{\dfrac{1}{k}}$，那么 $\prod\limits_{i = 1} ^{k} x_i = k ^ {- \frac{k}{2}}\prod\limits_{i = 1} ^ {k} a_i$，因为 $k$ 为偶数，所以一定为正，且 $\dfrac{k}{2}$ 一定是整数。&lt;/p></description></item><item><title>[AtCoder arc140 D] One to One</title><link>https://messywind.github.io/posts/atcoder-arc140-d-one-to-one/</link><pubDate>Wed, 18 May 2022 12:48:28 +0000</pubDate><guid>https://messywind.github.io/posts/atcoder-arc140-d-one-to-one/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://atcoder.jp/contests/arc140/tasks/arc140_d"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>初始有 $n$ 个点，给定一个长度为 $n$ 的数组 $a_i$，若 $a_i \ne -1$，则有无向边 $(i, a_i)$，若 $a_i = -1$，则点 $i$ 可以连向 $1 \sim n$ 任意点，求所有图的联通块个数之和&lt;/p>
+&lt;p>$1 \le n \le 2 \times 10 ^ 3, a_i \in [1, n] \cup {-1}$&lt;/p>
+&lt;p>对 $998244353$ 取模。&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>首先考虑忽略 $a_i = -1$ 的所有边，那么图中会有若干个连通块，这些连通块分为三种情况：&lt;/p></description></item><item><title>[Wannafly 28] msc的背包</title><link>https://messywind.github.io/posts/wannafly-28-msc%E7%9A%84%E8%83%8C%E5%8C%85/</link><pubDate>Wed, 27 Apr 2022 23:34:56 +0000</pubDate><guid>https://messywind.github.io/posts/wannafly-28-msc%E7%9A%84%E8%83%8C%E5%8C%85/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://ac.nowcoder.com/acm/problem/21207"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>有 $n$ 种体积为 $1$ 的物品和 $m$ 种体积为 $2$ 的物品，求选择物品的体积为 $k$ 的方案数&lt;/p>
+&lt;p>对 $998244353$ 取模&lt;/p>
+&lt;p>$(1 \le n, m \le 10 ^ 6,1 \le k \le 9 \times 10 ^ 8)$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>所有体积为 $1$ 的生成函数为
+$$
+F(x) = \left ( \sum_{i = 0} ^ {\infty} x ^ i \right ) ^ n
+$$
+所有体积为 $2$ 的生成函数为
+$$
+G(x) = \left ( \sum_{i = 0} ^ {\infty} x ^ {2i} \right ) ^ m
+$$
+那么组成的所有体积方案数为 $F(x) \times G(x)$&lt;/p></description></item><item><title>[2020 BSUIRPC] Function analysis</title><link>https://messywind.github.io/posts/2020-bsuirpc-function-analysis/</link><pubDate>Wed, 13 Apr 2022 10:54:49 +0000</pubDate><guid>https://messywind.github.io/posts/2020-bsuirpc-function-analysis/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://codeforces.com/gym/103637/problem/F"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>给定三个正整数 $n, d, k$ ，现有排列 $p = (1,2,3,\cdots,n)$ ，有 $n - d + 1$ 个询问，对于每个询问有正整数 $m (d \le m \le n)$ ，现从 $p$ 中&lt;strong>随机可重复地&lt;/strong>选取 $m$ 个数构成序列 $q$ ，求 $q$ 中第 $d$ 小数大于 $k$ 的概率，&lt;/p>
+&lt;p>对 $998244353$ 取模。&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>对于满足第 $d$ 小数大于 $k$ 的序列 $q = (a_1, a_2, \cdots,a_i,\cdots,a_m)$ ，假设最后一个小于等于 $k$ 的数为 $a_i$，那么一定有 $i \le d - 1$，所以前 $i$ 个数一定要在 $1 \sim k$ 中任取，方案记为 $F(x)$，那么后 $m - i$ 个数一定要在 $k +1 \sim n$ 中取，方案记为 $G(x)$，可以考虑写出 $F(x)$ 与 $G(x)$ 的生成函数，因为数是可排列的，所以要用 $\textbf{EGF}$&lt;/p></description></item><item><title>[2021ICPC上海 B] Strange Permutations</title><link>https://messywind.github.io/posts/2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations/</link><pubDate>Sat, 26 Mar 2022 12:58:58 +0000</pubDate><guid>https://messywind.github.io/posts/2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://codeforces.com/gym/103446/problem/B"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>给定一个长度为 $n$ 的 $1 \sim n$ 排列 $P$，找到有多少个 $1 \sim n$ 的排列 $Q$ 使得 $\forall i \in[1, n - 1], Q_{i + 1} \ne P_{Q_i}$&lt;/p>
+&lt;p>对 $998244353$ 取模&lt;/p>
+&lt;p>$(1 \le n \le 10 ^ 5, 1 \le P_i \le n)$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>如果只观察式子可能看不出什么规律，我们可以把条件转化为 $n$ 个点的图，考虑把排列 $Q$ 表示为边集 ${(Q_1, Q_2),(Q_2, Q_3),\cdots,(Q_{n-1},Q_n)}$ ，那么排列 $P$ 的意思就是图中不能存在边集 ${(1,P_1),(2,P_2),\cdots,(n,P_n)}$ ，那么就等价于在一张图中选一条哈密顿路径的方案数，所以考虑对每条不存在的边集进行容斥。考虑计算选了 $i$ 个不存在的边的方案数，发现排列 $P$ 一定会成环，所以对于每个 $k$ 元环可以选择 $0 \sim k - 1$ 个不存在的边(哈密顿路径无环所以不能包含 $k$ 个不存在的边)，那么可以用生成函数 $f(k)$ 来表示
+$$
+f(k) = 1 + \binom{k}{1}x + \binom{k}{2}x ^ 2 + \binom{k}{3}x ^ 3 + \cdots + \binom{k}{k - 1}x ^ {k - 1}
+$$
+$x$ 项的系数 $m$ 表示 $k$ 元环中选了 $m$ 条不存在的边，那么系数显然是 $\dbinom{k}{m}$&lt;/p></description></item><item><title>[2021CCPC 威海M] 810975</title><link>https://messywind.github.io/posts/2021ccpc-%E5%A8%81%E6%B5%B7m-810975/</link><pubDate>Fri, 04 Feb 2022 22:12:40 +0000</pubDate><guid>https://messywind.github.io/posts/2021ccpc-%E5%A8%81%E6%B5%B7m-810975/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://codeforces.com/gym/103428/problem/M"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;h2 id="前言" class="heading-element">&lt;span>前言&lt;/span>
+ &lt;a href="#%e5%89%8d%e8%a8%80" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;blockquote>
+&lt;p>今天看了衣锦夜行 $2021$ 年度 $\text{top10}$，看完 $810975$ 突然想起来这题还没补完代码，最近又刚学习了一点多项式，学完多项式快速幂之后终于可以补这道题了，所以决定重新写一遍对这个题发一个重制版的题解&lt;/p></description></item><item><title>DP</title><link>https://messywind.github.io/posts/dp/</link><pubDate>Sat, 15 Jan 2022 16:48:09 +0000</pubDate><guid>https://messywind.github.io/posts/dp/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;h2 id="动态规划的引入斐波那契数列" class="heading-element">&lt;span>动态规划的引入：斐波那契数列&lt;/span>
+ &lt;a href="#%e5%8a%a8%e6%80%81%e8%a7%84%e5%88%92%e7%9a%84%e5%bc%95%e5%85%a5%e6%96%90%e6%b3%a2%e9%82%a3%e5%a5%91%e6%95%b0%e5%88%97" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/U198005"target="_blank" rel="external nofollow noopener noreferrer">题目链接&lt;/a>&lt;/p>
+&lt;p>已知斐波那契数列 $f_1 = 1, f_2 = 1, f_i = f_{i - 1} + f_{i - 2}, i \ge 3$ ，给定正整数 $n$ ，求 $f_n \bmod 10 ^ 9 + 7$&lt;/p></description></item><item><title>[AtCoder abc234 F] Reordering</title><link>https://messywind.github.io/posts/atcoder-abc234-f-reordering/</link><pubDate>Sun, 09 Jan 2022 14:10:44 +0000</pubDate><guid>https://messywind.github.io/posts/atcoder-abc234-f-reordering/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://atcoder.jp/contests/abc234/tasks/abc234_f"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>给定一个长度为 $n$ 的字符串 $S$，计算有多少种&lt;strong>非空子序列&lt;/strong>的排列，对 $998244353$ 取模。&lt;/p>
+&lt;p>$1 \le n \le 5\times 10^3$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>设 $26$ 个英文字母每个字母 $u$ 的生成函数为（因为要计算排列，所以是 $\textbf{EGF}$）
+$$
+1 + \frac{1}{1!}x + \frac{1}{2!}x^2 + \cdots + \frac{1}{cnt_{u}!}x^{cnt_{u}}
+$$
+其中 $cnt_{u}$ 为字母在 $S$ 中出现次数。&lt;/p>
+&lt;p>那么最终所有方案为
+$$
+\prod_{u = 1} ^{26}(1 + \frac{1}{1!}x + \frac{1}{2!}x^2 + \cdots + \frac{1}{cnt_{u}!}x^{cnt_{u}})
+$$
+记所有方案为 $F(x)$，那么计算子序列的方案数就是把字符串长度为 $1 \sim n$ 的所有方案乘长度的阶乘加起来，即
+$$
+\sum_{i = 1}^{n}i! \times [x^i]F(x)
+$$
+因为最多只有 $26$ 个字母，所以直接每次暴力 $\text{NTT}$ 即可，当然也可以分治 $\text{NTT}$&lt;/p></description></item><item><title>[AHOI2015] 航线规划</title><link>https://messywind.github.io/posts/ahoi2015-%E8%88%AA%E7%BA%BF%E8%A7%84%E5%88%92/</link><pubDate>Fri, 10 Dec 2021 11:26:22 +0000</pubDate><guid>https://messywind.github.io/posts/ahoi2015-%E8%88%AA%E7%BA%BF%E8%A7%84%E5%88%92/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/P2542"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>给定一个 $n$ 个点 $m$ 条边的图，有不超过 $40000$ 次的操作，每次操作有三个参数 $op, u, v$&lt;/p>
+&lt;p>若 $op =0$ ，表示删除点 $u,v$ 之间的边&lt;/p>
+&lt;p>若 $op = 1$，表示询问 $u, v$ 之间有多少&lt;strong>关键边&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>关键边：&lt;/strong> $u, v$ 联通，若删除该边 $u, v$ 不连通，则为关键边&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>最朴素的想法是每次删完边之后 $\text{tarjan}$ 缩点，再维护树上两点距离，但这样显然会超时。&lt;/p></description></item><item><title>生成函数</title><link>https://messywind.github.io/posts/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/</link><pubDate>Mon, 06 Dec 2021 21:05:12 +0000</pubDate><guid>https://messywind.github.io/posts/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;h2 id="形式幂级数" class="heading-element">&lt;span>形式幂级数&lt;/span>
+ &lt;a href="#%e5%bd%a2%e5%bc%8f%e5%b9%82%e7%ba%a7%e6%95%b0" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>设数列 $a_0,a_1, a_2,\cdots,a_n,\cdots$ 那么他的形式幂级数就为&lt;/p>
+&lt;p>$$\sum_{i = 0}^{\infty}a_ix^i$$&lt;/p>
+&lt;h4 id="运算" class="heading-element">&lt;span>运算：&lt;/span>
+ &lt;a href="#%e8%bf%90%e7%ae%97" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h4>&lt;p>设 $f(x) = \sum_{i = 0}^{\infty}a_ix^i,g(x) = \sum_{i = 0}^{\infty}b_ix^i$&lt;/p></description></item><item><title>[2021 CCPC威海热身赛] Number Theory</title><link>https://messywind.github.io/posts/2021-ccpc%E5%A8%81%E6%B5%B7%E7%83%AD%E8%BA%AB%E8%B5%9B-number-theory/</link><pubDate>Sat, 20 Nov 2021 18:53:18 +0000</pubDate><guid>https://messywind.github.io/posts/2021-ccpc%E5%A8%81%E6%B5%B7%E7%83%AD%E8%BA%AB%E8%B5%9B-number-theory/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>求&lt;/p>
+&lt;p>$$\sum_{k = 1}^{n}\sum_{i \mid k} \sum_{j \mid i} \lambda(i) \lambda(j)$$&lt;/p>
+&lt;p>对 $998244353$ 取模&lt;/p>
+&lt;p>其中 $\lambda(x) = (-1)^{\sum\limits_{i}e_i},x=\prod\limits_{i}p_i^{e_i}$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>$\lambda(x)$ 为刘维尔函数，可以打表发现 $$\sum_{d \mid n}\lambda(d) =[n = a^2,a \in N^+]$$&lt;/p>
+&lt;p>也就是 $n$ 是否为完全平方数&lt;/p>
+&lt;p>把式子中的 $\lambda(i)$ 提到前面&lt;/p>
+&lt;p>$$\sum_{k = 1}^{n}\sum_{i \mid k} \lambda(i)\sum_{j \mid i} \lambda(j)$$&lt;/p>
+&lt;p>那么就变为&lt;/p>
+&lt;p>$$\sum_{k = 1}^{n}\sum_{i \mid k} \lambda(i)[i= a^2,a \in N^+]$$&lt;/p>
+&lt;p>那么完全平方数的刘维尔函数为 $1$，再设 $f(x)=[i= a^2,a \in N^+]$ 得&lt;/p>
+&lt;p>$$\sum_{i = 1}^{n}\sum_{d \mid i}f(d)$$&lt;/p>
+&lt;p>交换求和次序&lt;/p>
+&lt;p>$$\sum_{d = 1}^{n}f(d) \lfloor\frac{n}{d}\rfloor$$&lt;/p>
+&lt;p>这样直接枚举平方数即可，时间复杂度 $O(\sqrt{n})$&lt;/p>
+&lt;h2 id="代码" class="heading-element">&lt;span>代码：&lt;/span>
+ &lt;a href="#%e4%bb%a3%e7%a0%81" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;lt;bits/stdc++.h&amp;gt;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#define int long long
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>&lt;span class="k">using&lt;/span> &lt;span class="k">namespace&lt;/span> &lt;span class="n">std&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">const&lt;/span> &lt;span class="kt">int&lt;/span> &lt;span class="n">mod&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">998244353&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">res&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">signed&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">cin&lt;/span> &lt;span class="o">&amp;gt;&amp;gt;&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">res&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">n&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">i&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">cout&lt;/span> &lt;span class="o">&amp;lt;&amp;lt;&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="o">&amp;lt;&amp;lt;&lt;/span> &lt;span class="n">endl&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>[LNOI2014] LCA</title><link>https://messywind.github.io/posts/lnoi2014-lca/</link><pubDate>Mon, 01 Nov 2021 11:37:53 +0000</pubDate><guid>https://messywind.github.io/posts/lnoi2014-lca/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/P4211"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>给定一颗 $n$ 个节点并且根为 $1$ 的树和 $q$ 次询问，每次询问给定 $l,r,z$ 求&lt;/p>
+&lt;p>$$\sum_{i=l}^{r} \text{dep}(\text{lca}(i,z))$$&lt;/p>
+&lt;p>对 $201314$ 取模&lt;/p>
+&lt;p>$\text{dep}(x)$ 表示点 $x$ 的深度，$\text{lca}(u,v)$ 表示 $u,v$ 的最近公共祖先&lt;/p>
+&lt;p>$1 \le n,q \le 5×10^4$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>对式子进行一步转化，那就相当于在 $[l,r]$ 区间内的每个点，每次将该点和树根的路径上点权 $+1$，最后查询 $z$ 到树根路径的点权之和。这样做显然是超时的，所以就考虑怎么优化式子，我们发现每次询问是在 $[1,n]$ 区间的，所以就可以想到前缀和，也就是&lt;/p></description></item><item><title>[CQOI2015] 选数</title><link>https://messywind.github.io/posts/cqoi2015-%E9%80%89%E6%95%B0/</link><pubDate>Tue, 19 Oct 2021 17:24:43 +0000</pubDate><guid>https://messywind.github.io/posts/cqoi2015-%E9%80%89%E6%95%B0/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/P3172"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>求从区间 $[L,R]$ 选出 $n$ 个数使得最大公约数为 $k$ 的方案数，对 $10^9 + 7$ 取模&lt;/p>
+&lt;p>$1 \le n,k \le 10^9$
+$1 \le L \le R \le10^9$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>根据题意&lt;/p>
+&lt;p>$$\sum_{a_1=L}^{R}\sum_{a_2=L}^{R}\cdots\sum_{a_n=L}^{R}[\gcd(a_1,a_2,\cdots,a_n)=k]$$&lt;/p>
+&lt;p>把 $k$ 拿到上下界&lt;/p>
+&lt;p>$$\sum_{a_1=\lfloor \frac{L-1}{k} \rfloor +1}^{\lfloor \frac{R}{k} \rfloor}\sum_{a_2=\lfloor \frac{L - 1}{k} \rfloor + 1}^{\lfloor \frac{R}{k} \rfloor}\cdots\sum_{a_n=\lfloor \frac{L - 1}{k} \rfloor + 1}^{\lfloor \frac{R}{k} \rfloor}[\gcd(a_1,a_2,\cdots,a_n)=1]$$&lt;/p>
+&lt;p>莫比乌斯反演&lt;/p>
+&lt;p>$$\sum_{a_1=\lfloor \frac{L-1}{k} \rfloor +1}^{\lfloor \frac{R}{k} \rfloor}\sum_{a_2=\lfloor \frac{L-1}{k} \rfloor +1}^{\lfloor \frac{R}{k} \rfloor}\cdots\sum_{a_n=\lfloor \frac{L-1}{k} \rfloor +1}^{\lfloor \frac{R}{k} \rfloor}\sum_{d \mid \gcd(a_1,a_2,\cdots,a_n)} \mu(d)$$&lt;/p>
+&lt;p>交换求和次序&lt;/p>
+&lt;p>$$\sum_{d=1}^{\lfloor \frac{R}{k} \rfloor}\mu(d) (\lfloor \frac{R}{kd}\rfloor - \lfloor \frac{L - 1}{kd}\rfloor)^n$$&lt;/p>
+&lt;p>然后用杜教筛做&lt;/p>
+&lt;h2 id="代码" class="heading-element">&lt;span>代码：&lt;/span>
+ &lt;a href="#%e4%bb%a3%e7%a0%81" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;span class="lnt">47
+&lt;/span>&lt;span class="lnt">48
+&lt;/span>&lt;span class="lnt">49
+&lt;/span>&lt;span class="lnt">50
+&lt;/span>&lt;span class="lnt">51
+&lt;/span>&lt;span class="lnt">52
+&lt;/span>&lt;span class="lnt">53
+&lt;/span>&lt;span class="lnt">54
+&lt;/span>&lt;span class="lnt">55
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;lt;bits/stdc++.h&amp;gt;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#define int long long
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>&lt;span class="k">using&lt;/span> &lt;span class="k">namespace&lt;/span> &lt;span class="n">std&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">const&lt;/span> &lt;span class="kt">int&lt;/span> &lt;span class="n">N&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">2e6&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">5&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">mod&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">1e9&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">7&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">k&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">L&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">R&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">primes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">mobius&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">cnt&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">res&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">sum&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">bool&lt;/span> &lt;span class="n">st&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">unordered_map&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="kt">int&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">int&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">mp&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">qmi&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">a&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">int&lt;/span> &lt;span class="n">b&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">while&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">b&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">b&lt;/span> &lt;span class="o">&amp;amp;&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">a&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">a&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">a&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">a&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">b&lt;/span> &lt;span class="o">&amp;gt;&amp;gt;=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">res&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">void&lt;/span> &lt;span class="nf">get_mobius&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">mobius&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">st&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">])&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">primes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">cnt&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">mobius&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">j&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">primes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">j&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">t&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">primes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">st&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">t&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">i&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">primes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">mobius&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">t&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">break&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">mobius&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">t&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">mobius&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="n">sum&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">sum&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">mobius&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">Sum&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="n">N&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="n">sum&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">mp&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">])&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="n">mp&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">l&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">r&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">l&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">l&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">r&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">r&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">n&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">l&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">res&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">Sum&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">l&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">r&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">l&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">mp&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">res&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">signed&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">get_mobius&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">N&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">cin&lt;/span> &lt;span class="o">&amp;gt;&amp;gt;&lt;/span> &lt;span class="n">n&lt;/span> &lt;span class="o">&amp;gt;&amp;gt;&lt;/span> &lt;span class="n">k&lt;/span> &lt;span class="o">&amp;gt;&amp;gt;&lt;/span> &lt;span class="n">L&lt;/span> &lt;span class="o">&amp;gt;&amp;gt;&lt;/span> &lt;span class="n">R&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">L&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">L&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">k&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">R&lt;/span> &lt;span class="o">/=&lt;/span> &lt;span class="n">k&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">l&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">r&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">l&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">R&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">l&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">r&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">r&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">min&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">R&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">R&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">l&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">L&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">l&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="n">L&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">L&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">l&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">res&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">Sum&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">r&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">Sum&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">l&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">qmi&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">R&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">l&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">L&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">l&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">cout&lt;/span> &lt;span class="o">&amp;lt;&amp;lt;&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="o">&amp;lt;&amp;lt;&lt;/span> &lt;span class="n">endl&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>[洛谷 P5221] Product</title><link>https://messywind.github.io/posts/%E6%B4%9B%E8%B0%B7-p5221-product/</link><pubDate>Tue, 19 Oct 2021 10:14:16 +0000</pubDate><guid>https://messywind.github.io/posts/%E6%B4%9B%E8%B0%B7-p5221-product/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/P5221"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>求&lt;/p>
+&lt;p>$$\prod_{i=1}^{n}\prod^{n}_{j=1}\frac{\text{lcm}(i,j)}{\gcd(i,j)}$$&lt;/p>
+&lt;p>对 $104857601$ 取模&lt;/p>
+&lt;p>$1 \le n \le 10^6$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>将 $\text{lcm}(i,j)=\dfrac{i \cdot j}{\gcd(i,j)}$ 替换原式得&lt;/p>
+&lt;p>$$\prod_{i=1}^{n}\prod^{n}_{j=1}\frac{i \cdot j}{\gcd(i,j)^2}$$&lt;/p>
+&lt;p>对 $\gcd(i,j)^2$ 求逆元&lt;/p>
+&lt;p>$$\prod_{i=1}^{n}\prod^{n}_{j=1}i \cdot j \cdot \gcd(i,j)^{-2}$$&lt;/p>
+&lt;p>前后分开来看&lt;/p>
+&lt;p>$$\prod_{i=1}^{n}\prod_{j=1} ^ {n} i \cdot j\prod_{i=1}^{n}\prod^{n}_{j=1}\gcd(i,j)^{-2}$$&lt;/p>
+&lt;p>前面 $\prod\limits_{i=1}^{n}\prod\limits_{j=1} ^{n}i \cdot j=\prod\limits_{i=1}^{n}i^n\prod\limits_{j=1} ^{n}j=\prod\limits_{i=1}^{n}i^n\cdot n!=(n!)^{n}\prod\limits_{i=1}^{n}i^n=(n!)^{2n}$&lt;/p>
+&lt;p>后半部分 先看原来的值再求逆元&lt;/p>
+&lt;p>$$\prod_{i=1}^{n}\prod^{n}_{j=1}\gcd(i,j)^{2}$$&lt;/p>
+&lt;p>先把平方拿出去看里面&lt;/p>
+&lt;p>$$\prod_{i=1}^{n}\prod^{n}_{j=1}\gcd(i,j)$$&lt;/p>
+&lt;p>枚举 $\gcd(i,j)$&lt;/p>
+&lt;p>$$\prod_{d=1}^{n}d^{\sum\limits_{i=1}^{n}\sum\limits^{n}_{j=1}[\gcd(i,j)=d]}$$&lt;/p>
+&lt;p>指数部分 因为 $\sum\limits_{i=1}^{n}\sum\limits_{i=1}^{n}[\gcd(i,j)=1]=2\sum\limits_{i=1}^{n}\varphi(i)-1$ 所以&lt;/p>
+&lt;p>$$\prod_{d=1}^{n}d^{2\sum\limits_{i=1}^{\lfloor\frac{n}{d}
+\rfloor}\varphi(i)-1}$$&lt;/p>
+&lt;p>最后答案为&lt;/p>
+&lt;p>$$(n!)^{2n}\cdot (\prod_{d=1}^{n}d^{2\sum\limits_{i=1}^{\lfloor\frac{n}{d}
+\rfloor}\varphi(i)-1})^{-2}$$&lt;/p>
+&lt;h2 id="代码毒瘤出题人卡空间" class="heading-element">&lt;span>代码(毒瘤出题人卡空间)：&lt;/span>
+ &lt;a href="#%e4%bb%a3%e7%a0%81%e6%af%92%e7%98%a4%e5%87%ba%e9%a2%98%e4%ba%ba%e5%8d%a1%e7%a9%ba%e9%97%b4" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;lt;cstdio&amp;gt;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>&lt;span class="k">using&lt;/span> &lt;span class="k">namespace&lt;/span> &lt;span class="n">std&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">const&lt;/span> &lt;span class="kt">int&lt;/span> &lt;span class="n">N&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">1e6&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">5&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">mod&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">104857601&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">fact&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">euler&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">primes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">cnt&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">inv&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">bool&lt;/span> &lt;span class="n">st&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">qmi&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">a&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">int&lt;/span> &lt;span class="n">b&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">while&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">b&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">b&lt;/span> &lt;span class="o">&amp;amp;&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1ll&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">a&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">a&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1ll&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">a&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">a&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">b&lt;/span> &lt;span class="o">&amp;gt;&amp;gt;=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">res&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">void&lt;/span> &lt;span class="nf">get_eulers&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">euler&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">st&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">])&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">primes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">cnt&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">euler&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">j&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">primes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">j&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">t&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">primes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">st&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">t&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">i&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">primes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">euler&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">t&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">euler&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">primes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">break&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">euler&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">t&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">euler&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">primes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="n">euler&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">euler&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">2&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">euler&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">])&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">mod&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">signed&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">scanf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;%d&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">get_eulers&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="n">fact&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1ll&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">fact&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">qmi&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">fact&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">2&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">inv&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="mi">1ll&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">inv&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">qmi&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">euler&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">n&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;%d&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s">&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1ll&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">qmi&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1ll&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">inv&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">inv&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">mod&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>[SDOI 2014] 旅行</title><link>https://messywind.github.io/posts/sdoi-2014-%E6%97%85%E8%A1%8C/</link><pubDate>Wed, 29 Sep 2021 17:03:45 +0000</pubDate><guid>https://messywind.github.io/posts/sdoi-2014-%E6%97%85%E8%A1%8C/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/P3313"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>给定一棵 $n$ 个节点的树，每个点都有一个宗教 $c_i$ 和权值 $w_i$
+有 $m$ 次操作：
+$1.$ 将节点 $x$ 的宗教 $c_x$ 修改为 $c$
+$2.$ 将节点 $x$ 的权值 $w_x$ 修改为 $w$
+$3.$ 询问树上路径 $u$ 到 $v$ 宗教为 $c_u$ 的权值和 (保证 $c_u=c_v$ )
+$4.$ 询问树上路径 $u$ 到 $v$ 宗教为 $c_u$ 的最大权值 (保证 $c_u=c_v$ )&lt;/p>
+&lt;p>$1 \le n,m,c \le 10^5$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>这种树上问题可以想到树链剖分，那么重点是线段树如何维护，每个点可能会记录 $10^5$ 种宗教，空间显然是开不下的，但是询问只有 $10^5$，所以可以给每个宗教开一颗权值线段树，然后用动态开点的方式维护操作。我们就在权值线段树上记录每个点对应宗教的权值，也就是做映射 $c_u \rightarrow w_u$&lt;/p></description></item><item><title>[算法竞赛进阶指南] 雨天的尾巴</title><link>https://messywind.github.io/posts/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E8%BF%9B%E9%98%B6%E6%8C%87%E5%8D%97-%E9%9B%A8%E5%A4%A9%E7%9A%84%E5%B0%BE%E5%B7%B4/</link><pubDate>Tue, 28 Sep 2021 09:10:52 +0000</pubDate><guid>https://messywind.github.io/posts/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E8%BF%9B%E9%98%B6%E6%8C%87%E5%8D%97-%E9%9B%A8%E5%A4%A9%E7%9A%84%E5%B0%BE%E5%B7%B4/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/P4556"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>给定一棵 $n$ 个节点的树和 $m$ 次操作，每次操作把 $u$ 到 $v$ 路径上的节点加上一个颜色 $z$，最后询问每个点最多颜色的编号(如果相同取编号最小)&lt;/p>
+&lt;p>$1 \le n,m,z \le 10^5$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>
+此题是线段树合并模板题，这里给出树链剖分的做法。
+每次操作修改树上的路径，可以用树链剖分维护一下，注意到 $z$ 的范围是 $10^5$ ，所以我们不能在树上的每个节点上开一个桶记录颜色，所以可以用权值线段树的动态开点。不过这里有更优做法，因为树链剖分出来的序列对应树上的唯一路径，所以题目的操作就相当于：给定一个序列，每次在 $[l,r]$ 区间添加一个颜色，询问每个点最多颜色的编号。这样就可以用差分的思想，每次在 $l$ 点 $+1$，$r + 1$ 点 $-1$，我们把 $l$ 排序，扫描 $1 \sim N$ 的每个点，每次遍历这个点的询问，把对这个点的修改在权值线段树上操作，然后查询一下最大的下标。
+此题在 $\text{acwing}$ 上 $z$ 的数据范围为 $10^9$ 所以最好离散化一下。&lt;/p></description></item><item><title>[2021 CCCC天梯赛] 可怜的简单题</title><link>https://messywind.github.io/posts/2021-cccc%E5%A4%A9%E6%A2%AF%E8%B5%9B-%E5%8F%AF%E6%80%9C%E7%9A%84%E7%AE%80%E5%8D%95%E9%A2%98/</link><pubDate>Thu, 23 Sep 2021 12:37:23 +0000</pubDate><guid>https://messywind.github.io/posts/2021-cccc%E5%A4%A9%E6%A2%AF%E8%B5%9B-%E5%8F%AF%E6%80%9C%E7%9A%84%E7%AE%80%E5%8D%95%E9%A2%98/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>每次从 $[1,n]$ 中选择一个数加到一个序列末尾，当 $\gcd(a_1,\cdots,a_n)=1$ 时停止，求期望长度，对 $p$ 取模&lt;/p>
+&lt;p>$1\le n \le 10^{11},n&amp;lt; p \le 10 ^{12}$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>设 $E(x)$ 为长度为 $x$ 的期望，那么根据期望定义&lt;/p>
+&lt;p>$$E(x)=\sum_{i=1}^{\infty}P(x=i) \times i$$&lt;/p>
+&lt;p>把 $i$ 改为 $\sum\limits_{j=1} ^{i}$&lt;/p>
+&lt;p>$$E(x)=\sum_{i=1}^{\infty}P(x=i) \sum_{j=1}^{i}$$&lt;/p>
+&lt;p>交换求和次序&lt;/p>
+&lt;p>$$\sum_{i=1}^{\infty}\sum_{j = i}^{\infty}P(x=j)$$&lt;/p>
+&lt;p>等价于&lt;/p>
+&lt;p>$$\sum_{i=1}^{\infty}P(x\ge i)$$&lt;/p>
+&lt;p>化简一下&lt;/p>
+&lt;p>$$\sum_{i=1}^{\infty}P(x\ge i)=1+\sum_{i=1}^{\infty}P(x&amp;gt; i)$$&lt;/p>
+&lt;p>考虑 $P(x&amp;gt; i)$，进行容斥 $1-P(x \le i)$ 就等价于&lt;/p>
+&lt;p>$$1-P(\gcd(a_1,\cdots,a_i)=1)$$&lt;/p>
+&lt;p>枚举 $a_i$ 在 $[1,n]$ 中的取值&lt;/p>
+&lt;p>$$1-\sum_{a_1=1}^{n}\cdots\sum_{a_i=1}^{n}\frac{[\gcd(a_1,\cdots,a_i)=1]}{n^{i}}$$&lt;/p>
+&lt;p>莫比乌斯反演&lt;/p>
+&lt;p>$$1-\sum_{a_1=1}^{n}\cdots\sum_{a_i=1}^{n}\frac{\sum\limits_{d \mid\gcd(a_1,\cdots,a_i) }\mu(d)}{n^{i}}$$&lt;/p>
+&lt;p>交换求和次序&lt;/p>
+&lt;p>$$1-\frac{\sum\limits_{d=1}^{n}\mu(d)\lfloor \dfrac{n}{d} \rfloor^i}{n^i}$$&lt;/p>
+&lt;p>把 $1$ 拿到分子，和第一项抵消了&lt;/p></description></item><item><title>[NC 200008] Lady Layton with Math</title><link>https://messywind.github.io/posts/nc-200008-lady-layton-with-math/</link><pubDate>Thu, 23 Sep 2021 08:58:54 +0000</pubDate><guid>https://messywind.github.io/posts/nc-200008-lady-layton-with-math/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://ac.nowcoder.com/acm/problem/200008"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>求&lt;/p>
+&lt;p>$$\sum_{i=1}^{n}\sum_{j=1}^{n} \varphi(\gcd(i,j))$$&lt;/p>
+&lt;p>$1 \le n \le 10^9$，对 $10^9+7$ 取模&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>枚举 $\gcd(i,j)$&lt;/p>
+&lt;p>$$\sum_{d=1}^{n}\varphi(d)\sum_{i=1}^{n}\sum_{j=1}^{n}[\gcd(i,j)=d]$$&lt;/p>
+&lt;p>将 $d$ 拿到上界&lt;/p>
+&lt;p>$$\sum_{d=1}^{n}\varphi(d)\sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor}[\gcd(i,j)=1]$$&lt;/p>
+&lt;p>因为 $\sum\limits_{i=1}^{n}\sum\limits_{i=1}^{n}[\gcd(i,j)=1]=\sum\limits_{i=1}^{n}2\varphi(i)-1$，所以&lt;/p></description></item><item><title>[2018 ICPC徐州网络赛] Easy Math</title><link>https://messywind.github.io/posts/2018-icpc%E5%BE%90%E5%B7%9E%E7%BD%91%E7%BB%9C%E8%B5%9B-easy-math/</link><pubDate>Sat, 18 Sep 2021 09:14:03 +0000</pubDate><guid>https://messywind.github.io/posts/2018-icpc%E5%BE%90%E5%B7%9E%E7%BD%91%E7%BB%9C%E8%B5%9B-easy-math/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://nanti.jisuanke.com/t/A2003"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>求&lt;/p>
+&lt;p>$$\sum_{i=1}^{m} \mu(in)$$&lt;/p>
+&lt;p>$m \le 2×10^9,n\le 10^{12}$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>首先分析 $n$ 的因子中有没有平方，如果有那么答案就是 $0$&lt;/p>
+&lt;p>如果 $n$ 的因子没有平方，设某个因子为 $p$，原式就可以拆成&lt;/p>
+&lt;p>$$\sum_{i=1} ^{m}\mu(i\cdot\frac{n}{p}\cdot p)$$&lt;/p>
+&lt;p>莫比乌斯函数是积性函数，考虑把 $p$ 分出去，那么 $p$ 与 $\dfrac{n}{p}$ 一定是互质的，但 $i\cdot \dfrac{n}{p}$ 并不一定互质，那么就考虑 $i$ 与 $p$ 的关系，在 $[1,m]$ 中只有 $p$ 的倍数才与 $p$ 不互质，所以要加上这一部分。&lt;/p></description></item><item><title>[洛谷 P6055] [RC-02] GCD</title><link>https://messywind.github.io/posts/%E6%B4%9B%E8%B0%B7-p6055-rc-02-gcd/</link><pubDate>Fri, 17 Sep 2021 20:34:06 +0000</pubDate><guid>https://messywind.github.io/posts/%E6%B4%9B%E8%B0%B7-p6055-rc-02-gcd/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/P6055"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>求&lt;/p>
+&lt;p>$$\sum_{i=1}^{n}\sum_{j=1}^{n}\sum_{p=1}^{\lfloor \frac{n}{j} \rfloor} \sum_{q=1}^{\lfloor \frac{n}{j} \rfloor}[\gcd(i,j)=1][\gcd(p,q)=1]$$&lt;/p>
+&lt;p>对 $998244353$ 取模&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>常规套用莫比乌斯反演式子会很麻烦，所以这里反向把上界拿下来&lt;/p>
+&lt;p>$$\sum_{i=1}^{n}\sum_{j=1}^{n}\sum_{p=1}^{n} \sum_{q=1}^{n}[\gcd(i,j)=1][\gcd(p,q)=j]$$&lt;/p>
+&lt;p>那么就是&lt;/p>
+&lt;p>$$\sum_{i=1}^{n}\sum_{j=1}^{n}\sum_{k=1}^{n} [\gcd(i,j,k)=1]$$&lt;/p>
+&lt;p>再来莫比乌斯反演&lt;/p>
+&lt;p>$$\sum_{i=1}^{n}\sum_{j=1}^{n}\sum_{k=1}^{n} \sum_{d \mid \gcd(i,j,k)}\mu(d)$$&lt;/p>
+&lt;p>化简一下&lt;/p>
+&lt;p>$$\sum_{d=1}^{n}\mu(d) \lfloor\frac{n}{d}\rfloor^3$$&lt;/p>
+&lt;p>就可以用杜教筛了&lt;/p>
+&lt;h2 id="代码" class="heading-element">&lt;span>代码：&lt;/span>
+ &lt;a href="#%e4%bb%a3%e7%a0%81" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;lt;bits/stdc++.h&amp;gt;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#define int long long
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>&lt;span class="k">using&lt;/span> &lt;span class="k">namespace&lt;/span> &lt;span class="n">std&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">const&lt;/span> &lt;span class="kt">int&lt;/span> &lt;span class="n">N&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">2e6&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">5&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">mod&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">998244353&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">mobius&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">primes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">cnt&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">sum&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">res&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">bool&lt;/span> &lt;span class="n">st&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">N&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">unordered_map&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="kt">int&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">int&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">mp&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">void&lt;/span> &lt;span class="nf">get_mobius&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">mobius&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">st&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">])&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">primes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">cnt&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">mobius&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">j&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">primes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">j&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">t&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">primes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">st&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">t&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">i&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">primes&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">j&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">mobius&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">t&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">break&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">mobius&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">t&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="n">mobius&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="n">sum&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">sum&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">mobius&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">Sum&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="n">N&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="n">sum&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">mp&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">])&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="n">mp&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">l&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">r&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">l&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">l&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">r&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">r&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">n&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">l&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">res&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">Sum&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">l&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">r&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">l&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">mp&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">res&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">signed&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">get_mobius&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">N&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">cin&lt;/span> &lt;span class="o">&amp;gt;&amp;gt;&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">l&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">r&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">l&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">l&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">r&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">r&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">n&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">l&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">res&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">Sum&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">r&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">Sum&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">l&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">l&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">l&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">l&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="n">mod&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">cout&lt;/span> &lt;span class="o">&amp;lt;&amp;lt;&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="o">&amp;lt;&amp;lt;&lt;/span> &lt;span class="n">endl&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>[2019 ICPC西安邀请赛] Product</title><link>https://messywind.github.io/posts/2019-icpc%E8%A5%BF%E5%AE%89%E9%82%80%E8%AF%B7%E8%B5%9B-product/</link><pubDate>Fri, 17 Sep 2021 20:17:33 +0000</pubDate><guid>https://messywind.github.io/posts/2019-icpc%E8%A5%BF%E5%AE%89%E9%82%80%E8%AF%B7%E8%B5%9B-product/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://nanti.jisuanke.com/t/39269"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>求&lt;/p>
+&lt;p>$$\prod_{i=1} ^{n} \prod_{j=1}^{n}\prod_{k=1}^{n}m^{\gcd(i,j)[k \mid \gcd(i,j)]} \bmod p$$&lt;/p>
+&lt;p>$n \le10^9,m \le 2 ×10^9,p\le 2×10^9$ ，$p$是质数&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>相乘变为指数相加&lt;/p>
+&lt;p>$$m ^ {\sum\limits_{i=1}^{n}\sum\limits_{j=1}^{n}\sum\limits_{k=1}^{n}\gcd(i,j)[k \mid \gcd(i,j)]}$$&lt;/p>
+&lt;p>看一下指数部分&lt;/p>
+&lt;p>$$\sum_{i=1}^{n}\sum_{j=1}^{n}\sum_{k=1}^{n}\gcd(i,j)[k \mid \gcd(i,j)]$$&lt;/p>
+&lt;p>发现 $\sum\limits_{k=1}^{n}[k \mid \gcd(i,j)]$ 就是 $d(\gcd(i,j))$&lt;/p>
+&lt;p>$$\sum_{i=1}^{n}\sum_{j=1}^{n}\gcd(i,j)d(\gcd(i,j))$$&lt;/p>
+&lt;p>枚举 $\gcd(i,j)$&lt;/p>
+&lt;p>$$\sum_{k=1}^{n}k \cdot d(k)\sum_{i=1}^{n}\sum_{j=1}^{n}[\gcd(i,j)=k]$$&lt;/p>
+&lt;p>$k$ 拿到上界&lt;/p>
+&lt;p>$$\sum_{k=1}^{n}k \cdot d(k)\sum_{i=1}^{\lfloor \frac{n}{k} \rfloor }\sum_{j=1}^{\lfloor \frac{n}{k} \rfloor}[\gcd(i,j)=1]$$&lt;/p>
+&lt;p>因为 $\sum\limits_{i=1}^{n}\sum\limits_{i=1}^{n}[\gcd(i,j)=1]=\sum\limits_{i=1}^{n}2\varphi(i)-1$，所以&lt;/p></description></item><item><title>[洛谷 P4318] 完全平方数</title><link>https://messywind.github.io/posts/%E6%B4%9B%E8%B0%B7-p4318-%E5%AE%8C%E5%85%A8%E5%B9%B3%E6%96%B9%E6%95%B0/</link><pubDate>Wed, 15 Sep 2021 20:27:57 +0000</pubDate><guid>https://messywind.github.io/posts/%E6%B4%9B%E8%B0%B7-p4318-%E5%AE%8C%E5%85%A8%E5%B9%B3%E6%96%B9%E6%95%B0/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/P4318"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>$T$ 组询问，回答第 $K_i$ 个不是完全平方数的正整数倍的数。&lt;/p>
+&lt;p>$1\le K_i \le 10^9,T \le 50$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;h2 id="法一" class="heading-element">&lt;span>法一：&lt;/span>
+ &lt;a href="#%e6%b3%95%e4%b8%80" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>如果一个数 $n$ 不是完全平方数，那么 $n=p_1^{\alpha_1}p_2^{\alpha_2} \cdots p_k^{\alpha_k}$ 中 $0 \le \alpha_i \le 1$，所以就想到了莫比乌斯函数，那么题目要询问第 $K$ 个数是什么，可以用二分来解决，但是必须要有单调性，莫比乌斯函数前缀和可能存在负数，所以就想到把莫比乌斯函数做一个平方，这样前缀和就没有负数了，就有了单调性。&lt;/p></description></item><item><title>[2019 CCPC网络赛] huntian oy</title><link>https://messywind.github.io/posts/2019-ccpc%E7%BD%91%E7%BB%9C%E8%B5%9B-huntian-oy/</link><pubDate>Tue, 14 Sep 2021 10:50:28 +0000</pubDate><guid>https://messywind.github.io/posts/2019-ccpc%E7%BD%91%E7%BB%9C%E8%B5%9B-huntian-oy/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="http://acm.hdu.edu.cn/showproblem.php?pid=6706"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>$T$ 组输入，给定 $n,a,b$ 求&lt;/p>
+&lt;p>$$f(n,a,b)=\sum_{i=1} ^{n}\sum_{j=1}^{i} \gcd(i^a-j^a, i ^ b - j ^ b)[\gcd(i,j)=1]$$&lt;/p>
+&lt;p>对 $10^9+7$ 取模，$1 \le n,a,b \le10^9$ $a,b$ 互质&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>$\gcd$ 的性质：&lt;/p>
+&lt;p>$$\gcd(a ^ m - b ^ m, a ^ n - b ^ n)=a^{\gcd(n,m)}-b^{\gcd(n,m)}$$&lt;/p>
+&lt;p>条件：$\gcd(a,b)=1$&lt;/p>
+&lt;p>套用结论带入原式&lt;/p>
+&lt;p>$$\sum_{i=1} ^{n}\sum_{j=1}^{i}( i -j)[\gcd(i,j)=1]$$&lt;/p>
+&lt;p>也就是&lt;/p>
+&lt;p>$$\sum_{i=1} ^{n}\sum_{j=1}^{i}i[\gcd(i,j)=1]-\sum_{i=1} ^{n}\sum_{j=1}^{i}j[\gcd(i,j)=1]$$&lt;/p>
+&lt;p>前半部分$\sum\limits_{i=1} ^{n}i\sum\limits_{j=1}^{i}[\gcd(i,j)=1]$是欧拉函数的定义 $\varphi(i)$&lt;/p></description></item><item><title>[洛谷 P3768] 简单的数学题</title><link>https://messywind.github.io/posts/%E6%B4%9B%E8%B0%B7-p3768-%E7%AE%80%E5%8D%95%E7%9A%84%E6%95%B0%E5%AD%A6%E9%A2%98/</link><pubDate>Mon, 13 Sep 2021 21:21:31 +0000</pubDate><guid>https://messywind.github.io/posts/%E6%B4%9B%E8%B0%B7-p3768-%E7%AE%80%E5%8D%95%E7%9A%84%E6%95%B0%E5%AD%A6%E9%A2%98/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/P3768"target="_blank" rel="external nofollow noopener noreferrer">题目链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意：&lt;/strong>&lt;/p>
+&lt;p>求&lt;/p>
+&lt;p>$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$&lt;/p>
+&lt;p>对 $p$ 取模，$n \le10^{10}, 5 ×10^8\le p \le1.1 ×10^{9}$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$&lt;/p>
+&lt;p>枚举 $\gcd(i,j)$&lt;/p>
+&lt;p>$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(i,j)=d]$$&lt;/p>
+&lt;p>利用 $\gcd$ 的性质&lt;/p>
+&lt;p>$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(\frac{i}{d},\frac{j}{d})=1]$$&lt;/p>
+&lt;p>让式子除 $d^2$ 再乘 $d^2$&lt;/p>
+&lt;p>$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{n}\sum_{j=1}^{n} \frac{i}{d} \cdot \frac{j}{d}[\gcd(\frac{i}{d},\frac{j}{d})=1]$$&lt;/p>
+&lt;p>换一下上界&lt;/p>
+&lt;p>$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor} i j[\gcd(i,j)=1]$$&lt;/p>
+&lt;p>莫比乌斯反演&lt;/p>
+&lt;p>$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor} i j \sum_{k \mid \gcd(i,j)} \mu(k)$$&lt;/p>
+&lt;p>交换求和次序&lt;/p>
+&lt;p>$$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} \mu(k) \sum_{i=1}^{\lfloor \frac{n}{dk} \rfloor} ik\sum_{j=1}^{\lfloor \frac{n}{dk} \rfloor} jk$$&lt;/p>
+&lt;p>化简后半部分&lt;/p>
+&lt;p>$$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} k^2 \mu(k) (\sum_{i=1} ^{\lfloor \frac{n}{dk} \rfloor}i)^2$$&lt;/p></description></item><item><title>杜教筛</title><link>https://messywind.github.io/posts/%E6%9D%9C%E6%95%99%E7%AD%9B/</link><pubDate>Mon, 13 Sep 2021 10:04:21 +0000</pubDate><guid>https://messywind.github.io/posts/%E6%9D%9C%E6%95%99%E7%AD%9B/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;h2 id="杜教筛" class="heading-element">&lt;span>杜教筛&lt;/span>
+ &lt;a href="#%e6%9d%9c%e6%95%99%e7%ad%9b" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>杜教筛可以在 $O(n ^{\frac{2}{3}})$ 的复杂度内求解积性函数的前缀和&lt;/p>
+&lt;p>设数论函数 $f(x)$，求&lt;/p>
+&lt;p>$$\sum_{i=1}^{n}f(i)$$&lt;/p>
+&lt;p>令 $S(n) = \sum \limits_{i=1} ^{n} f(i)$，找一个数论函数 $g(x)$ 与 $f(x)$ 做卷积&lt;/p></description></item><item><title>[洛谷 P1829] Crash的数字表格</title><link>https://messywind.github.io/posts/%E6%B4%9B%E8%B0%B7-p1829-crash%E7%9A%84%E6%95%B0%E5%AD%97%E8%A1%A8%E6%A0%BC/</link><pubDate>Thu, 09 Sep 2021 11:48:54 +0000</pubDate><guid>https://messywind.github.io/posts/%E6%B4%9B%E8%B0%B7-p1829-crash%E7%9A%84%E6%95%B0%E5%AD%97%E8%A1%A8%E6%A0%BC/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/P1829"target="_blank" rel="external nofollow noopener noreferrer">题目链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意：&lt;/strong>&lt;/p>
+&lt;p>求&lt;/p>
+&lt;p>$$\sum_{i = 1} ^{n} \sum_{j = 1} ^{m} \text{lcm}(i, j)$$&lt;/p>
+&lt;p>对 $20101009$ 取模&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>首先 $\text{lcm}(i, j) = \dfrac{i \cdot j}{\gcd(i,j)}$ 代入：&lt;/p>
+&lt;p>$$\sum_{i = 1} ^{n} \sum_{j = 1} ^{m} \frac{i \cdot j}{\gcd(i,j)}$$&lt;/p>
+&lt;p>枚举 $\gcd(i,j)$&lt;/p>
+&lt;p>$$\sum_{d = 1} ^{\min(n,m)}\sum_{i = 1} ^{n} \sum_{j = 1} ^{m} \frac{i \cdot j}{d}[\gcd(i,j)=d] $$&lt;/p>
+&lt;p>根据 $\gcd$ 的性质：&lt;/p>
+&lt;p>$$\sum_{d = 1} ^{\min(n,m)}\sum_{i = 1} ^{n} \sum_{j = 1} ^{m} \frac{i \cdot j}{d}[\gcd(\frac{i}{d}, \frac{j}{d}) = 1] $$&lt;/p>
+&lt;p>在 $\dfrac{i \cdot j}{d}$ 中 除一个 $d$ 乘一个 $d$，来凑形式一致。&lt;/p>
+&lt;p>$$\sum_{d = 1} ^{\min(n,m)}d \sum_{i = 1} ^{n} \sum_{j = 1} ^{m} \frac{i}{d}\cdot \frac{j}{d} [\gcd(\frac{i}{d}, \frac{j}{d}) = 1] $$&lt;/p>
+&lt;p>替换 $\dfrac{i}{d},\dfrac{j}{d}$&lt;/p>
+&lt;p>$$\sum_{d = 1} ^{\min(n,m)}d \sum_{i = 1} ^{ \lfloor \frac{n}{d} \rfloor } \sum_{j = 1} ^{\lfloor \frac{m}{d} \rfloor }i\cdot j [\gcd(i, j) = 1]$$&lt;/p></description></item><item><title>[洛谷 P1891] 疯狂 LCM</title><link>https://messywind.github.io/posts/%E6%B4%9B%E8%B0%B7-p1891-%E7%96%AF%E7%8B%82-lcm/</link><pubDate>Wed, 08 Sep 2021 20:04:16 +0000</pubDate><guid>https://messywind.github.io/posts/%E6%B4%9B%E8%B0%B7-p1891-%E7%96%AF%E7%8B%82-lcm/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/P1891"target="_blank" rel="external nofollow noopener noreferrer">题目链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意：&lt;/strong>&lt;/p>
+&lt;p>求&lt;/p>
+&lt;p>$$\sum_{i=1} ^{n} \text{lcm}(i,n)$$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;h2 id="法一欧拉函数" class="heading-element">&lt;span>法一：欧拉函数&lt;/span>
+ &lt;a href="#%e6%b3%95%e4%b8%80%e6%ac%a7%e6%8b%89%e5%87%bd%e6%95%b0" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>拆一下 $\text{lcm}(i,n) = \dfrac{i \cdot n}{\gcd{(i,n)}}$ 变为：&lt;/p>
+&lt;p>$$\sum_{i=1} ^{n} \frac{i \cdot n}{\gcd{(i,n)}}$$&lt;/p>
+&lt;p>枚举 $\gcd(i,n)$：&lt;/p>
+&lt;p>$$n \sum_{d \mid n} \sum_{i=1} ^{n} \frac{i }{d}[\gcd{(i,n)} = d ]$$&lt;/p></description></item><item><title>狄利克雷卷积</title><link>https://messywind.github.io/posts/%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%8D%B7%E7%A7%AF/</link><pubDate>Mon, 06 Sep 2021 21:05:47 +0000</pubDate><guid>https://messywind.github.io/posts/%E7%8B%84%E5%88%A9%E5%85%8B%E9%9B%B7%E5%8D%B7%E7%A7%AF/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;h2 id="定义" class="heading-element">&lt;span>定义：&lt;/span>
+ &lt;a href="#%e5%ae%9a%e4%b9%89" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>对于两个数论函数 $f(x),g(x)$ 那么它们的卷积 $h(x)$ 记作 $f(x) * g(x)$，式子如下：&lt;/p>
+&lt;p>$$f(x) * g(x) = h(x) = \sum_{d \mid n} f(d)g(\frac{n}{d})$$&lt;/p>
+&lt;p>简记为 $h = f * g$&lt;/p>
+&lt;h2 id="性质" class="heading-element">&lt;span>性质：&lt;/span>
+ &lt;a href="#%e6%80%a7%e8%b4%a8" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>&lt;strong>交换律：&lt;/strong> $f * g = g * f$&lt;/p></description></item><item><title>[NOI2010] 能量采集</title><link>https://messywind.github.io/posts/noi2010-%E8%83%BD%E9%87%8F%E9%87%87%E9%9B%86/</link><pubDate>Tue, 24 Aug 2021 08:29:33 +0000</pubDate><guid>https://messywind.github.io/posts/noi2010-%E8%83%BD%E9%87%8F%E9%87%87%E9%9B%86/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/P1447"target="_blank" rel="external nofollow noopener noreferrer">题目链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意：&lt;/strong>&lt;/p>
+&lt;p>求&lt;/p>
+&lt;p>$$2\sum_{i=1}^{n}\sum_{j=1}^{m}\gcd(i,j)-nm$$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;h2 id="莫比乌斯反演" class="heading-element">&lt;span>莫比乌斯反演：&lt;/span>
+ &lt;a href="#%e8%8e%ab%e6%af%94%e4%b9%8c%e6%96%af%e5%8f%8d%e6%bc%94" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>那么只需要求&lt;/p>
+&lt;p>$$\sum_{i=1}^{n}\sum_{j=1}^{m}\gcd(i,j)$$&lt;/p>
+&lt;p>枚举每个 $\gcd(i,j)$ 的值&lt;/p>
+&lt;p>$$\sum_{d=1}^{n}d\sum_{i=1}^{n}\sum_{j=1}^{m}[\gcd(i,j)=d]$$&lt;/p>
+&lt;p>再用莫比乌斯反演，和 &lt;strong>problem b&lt;/strong> 这题是一样的&lt;/p></description></item><item><title>BSGS、exBSGS</title><link>https://messywind.github.io/posts/bsgsexbsgs/</link><pubDate>Sun, 25 Jul 2021 13:42:18 +0000</pubDate><guid>https://messywind.github.io/posts/bsgsexbsgs/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;h2 id="textbsgs-baby-step-giant-step" class="heading-element">&lt;span>$\text{BSGS (Baby Step Giant Step)}:$&lt;/span>
+ &lt;a href="#textbsgs-baby-step-giant-step" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>给定正整数 $a,b,p,a \perp p$ ，求满足&lt;/p>
+&lt;p>$$a^{x} \equiv b(\text{ mod } p)$$&lt;/p>
+&lt;p>的&lt;strong>最小非负整数&lt;/strong> $x$&lt;/p>
+&lt;p>首先由欧拉定理的推论有：&lt;/p>
+&lt;p>$$a^x\equiv a^{x\text{ mod }\varphi (p)}(\text{ mod }p)$$&lt;/p>
+&lt;p>所以 $a^x$ 在模 $p$ 意义下的最小循环节为 $\varphi(p)$ ，那么只需要考虑 $x \in [0,\varphi(p)-1]$ 即可，为了简便避免算欧拉函数，我们对欧拉函数进行放缩 $\varphi(p) \le p + 1$，那就是枚举 $x \in [0,p]$。那么我们对暴力枚举的算法做一个优化：令 $x =kt-y$ $,k=\lfloor \sqrt{p} \rfloor +1$，则原式为&lt;/p></description></item><item><title>[SDOI2015] 约数个数和</title><link>https://messywind.github.io/posts/sdoi2015-%E7%BA%A6%E6%95%B0%E4%B8%AA%E6%95%B0%E5%92%8C/</link><pubDate>Fri, 23 Jul 2021 16:07:51 +0000</pubDate><guid>https://messywind.github.io/posts/sdoi2015-%E7%BA%A6%E6%95%B0%E4%B8%AA%E6%95%B0%E5%92%8C/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/P3327"target="_blank" rel="external nofollow noopener noreferrer">题目链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意：&lt;/strong>&lt;/p>
+&lt;p>设 $d(x)$ 为 $x$ 的约数个数，求&lt;/p>
+&lt;p>$$\sum_{i=1}^{N}\sum_{j=1}^{M} d(ij)$$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>首先 $i=p_1 ^{\alpha_1}\cdots p_k^{\alpha_k},j=p_1 ^{\beta_1}\cdots p_k^{\beta_k},i×j=p_1 ^{\alpha_1+\beta_1}\cdots p_k^{\alpha_k+\beta_k}$&lt;/p>
+&lt;p>约数个数和为&lt;/p>
+&lt;p>$$d(ij)=(\alpha_1+\beta_1+1)\cdots(\alpha_k+\beta_k+1)=\alpha_1\beta_2+\cdots + 1$$&lt;/p>
+&lt;p>所以$$d(ij)=\sum_{x|i}\sum_{y|j}[\gcd(x,y)=1]$$&lt;/p>
+&lt;p>所以原式为&lt;/p>
+&lt;p>$$\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[\gcd(x,y)=1]$$&lt;/p>
+&lt;p>设 $g(n)$ 为：&lt;/p>
+&lt;p>$$g(n)=\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[n\mid\gcd(x,y)]$$&lt;/p>
+&lt;p>设 $f(n)$ 为：&lt;/p>
+&lt;p>$$\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[\gcd(x,y)=n]$$&lt;/p>
+&lt;p>则有&lt;/p>
+&lt;p>$$g(n)=\sum_{n\mid d} f(d)$$&lt;/p>
+&lt;p>那么就可以莫比乌斯反演了&lt;/p>
+&lt;p>$$f(n)=\sum_{n\mid d}\mu(\frac{d}{n})g(d)$$&lt;/p></description></item><item><title>[HAOI2011] problem b</title><link>https://messywind.github.io/posts/haoi2011-problem-b/</link><pubDate>Thu, 22 Jul 2021 17:31:51 +0000</pubDate><guid>https://messywind.github.io/posts/haoi2011-problem-b/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;strong>题意：&lt;/strong>
+求&lt;/p>
+&lt;p>$$\sum_{i=a}^{b}\sum_{j=c}^{d}[\gcd(i,j)=k]$$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>用二维前缀和的思想，把答案分为$4$个部分&lt;/p>
+&lt;p>$$令S(x,y)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=k]$$&lt;/p>
+&lt;p>则&lt;/p>
+&lt;p>$$\sum_{i=a}^{b}\sum_{j=b}^{d}[\gcd(i,j)=k]=S(b,d)-S(a-1,d)-S(b,c-1)+S(a-1,c-1)$$&lt;/p>
+&lt;p>问题转化为求 $S(x,y)$&lt;/p>
+&lt;p>构造&lt;/p>
+&lt;p>$$f(n)=\sum_{i=1}^{x}\sum_{j=1}^{y}[n|\gcd(i,j)]$$&lt;/p>
+&lt;p>$$g(n)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=n]$$&lt;/p>
+&lt;p>可以发现&lt;/p>
+&lt;p>$$f(n)=\sum_{n \mid d}g(d)$$&lt;/p>
+&lt;p>所以就可以莫比乌斯反演&lt;/p>
+&lt;p>$$g(n)=\sum_{n \mid d}\mu(\frac{d}{n})f(d)$$&lt;/p>
+&lt;p>$$\because d\mid\gcd(i,j),\therefore d\mid i,d \mid j$$&lt;/p>
+&lt;p>$$\therefore f(d)=\lfloor\frac{x}{d}\rfloor\lfloor\frac{y}{d}\rfloor$$&lt;/p>
+&lt;p>$$g(n)=\sum_{n \mid d}\mu(\frac{d}{n})\lfloor\frac{x}{d}\rfloor\lfloor\frac{y}{d}\rfloor$$&lt;/p>
+&lt;p>设&lt;/p>
+&lt;p>$$t=\frac{d}{n},d=nt$$&lt;/p>
+&lt;p>则&lt;/p>
+&lt;p>$$g(n)=\sum_{t=1}^{\min(x,y)}\mu(t)\lfloor\frac{x}{nt}\rfloor\lfloor\frac{y}{nt}\rfloor$$&lt;/p>
+&lt;p>所以只需要求 $g(k)$，可以枚举 $t$，用整除分块，加上筛莫比乌斯函数前缀和，时间复杂度 $O(N+T\sqrt n)$&lt;/p></description></item><item><title>莫比乌斯反演</title><link>https://messywind.github.io/posts/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/</link><pubDate>Thu, 22 Jul 2021 15:30:59 +0000</pubDate><guid>https://messywind.github.io/posts/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;h2 id="前置知识1整除分块" class="heading-element">&lt;span>前置知识1:整除分块&lt;/span>
+ &lt;a href="#%e5%89%8d%e7%bd%ae%e7%9f%a5%e8%af%861%e6%95%b4%e9%99%a4%e5%88%86%e5%9d%97" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;h2 id="lfloor-dfracabc-rfloor--lfloor-dfraclfloor-dfracab-rfloorc-rfloor" class="heading-element">&lt;span>$①:\lfloor \dfrac{a}{bc} \rfloor = \lfloor \dfrac{\lfloor \dfrac{a}{b} \rfloor}{c} \rfloor$&lt;/span>
+ &lt;a href="#lfloor-dfracabc-rfloor--lfloor-dfraclfloor-dfracab-rfloorc-rfloor" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>&lt;strong>证明：&lt;/strong>&lt;/p></description></item><item><title>树状数组</title><link>https://messywind.github.io/posts/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/</link><pubDate>Fri, 02 Jul 2021 13:54:21 +0000</pubDate><guid>https://messywind.github.io/posts/%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;h2 id="树状数组的基本应用" class="heading-element">&lt;span>树状数组的基本应用：&lt;/span>
+ &lt;a href="#%e6%a0%91%e7%8a%b6%e6%95%b0%e7%bb%84%e7%9a%84%e5%9f%ba%e6%9c%ac%e5%ba%94%e7%94%a8" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>$O(\log n)$单点修改、区间查询&lt;/p>
+&lt;h2 id="原理" class="heading-element">&lt;span>原理：&lt;/span>
+ &lt;a href="#%e5%8e%9f%e7%90%86" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>设区间 $[1,R]$，对区间右端点 $R$ 做二进制拆分，有：&lt;/p></description></item><item><title>数位DP(DFS做法)</title><link>https://messywind.github.io/posts/%E6%95%B0%E4%BD%8Ddpdfs%E5%81%9A%E6%B3%95/</link><pubDate>Fri, 25 Jun 2021 22:20:55 +0000</pubDate><guid>https://messywind.github.io/posts/%E6%95%B0%E4%BD%8Ddpdfs%E5%81%9A%E6%B3%95/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>由于算法提高课的数位 DP 的非搜索做法比较难想，所以总结一下数位 DP 的 DFS 写法。&lt;/p>
+&lt;p>数位 DP 问题一般给定一个区间 $[L,R]$，问区间满足的条件的数有多少个。&lt;/p>
+&lt;p>可以利用前缀和来求解答案：$\sum \limits _ {i=1}^{R} ans_i - \sum \limits_{i=1}^{L - 1} ans_i$&lt;/p>
+&lt;h2 id="模板" class="heading-element">&lt;span>模板：&lt;/span>
+ &lt;a href="#%e6%a8%a1%e6%9d%bf" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">dfs&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">pos&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">int&lt;/span> &lt;span class="n">pre&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">int&lt;/span> &lt;span class="n">lead&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">int&lt;/span> &lt;span class="n">limit&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">pos&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> 	&lt;span class="err">边界条件&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">limit&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="o">!&lt;/span>&lt;span class="n">lead&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="n">dp&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">pos&lt;/span>&lt;span class="p">][&lt;/span>&lt;span class="n">pre&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="n">dp&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">pos&lt;/span>&lt;span class="p">][&lt;/span>&lt;span class="n">pre&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">int&lt;/span> &lt;span class="n">res&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">up&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">limit&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="n">a&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">pos&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="err">无限制位&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="n">up&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="err">不合法条件&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">continue&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">res&lt;/span> &lt;span class="o">+=&lt;/span> &lt;span class="n">dfs&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">pos&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="err">未定参数&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">lead&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="o">!&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">limit&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="n">up&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">limit&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="nl">res&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">lead&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="nl">res&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="n">dp&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">pos&lt;/span>&lt;span class="p">][&lt;/span>&lt;span class="n">sum&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">res&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">int&lt;/span> &lt;span class="nf">cal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="kt">int&lt;/span> &lt;span class="n">x&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">memset&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dp&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="k">sizeof&lt;/span> &lt;span class="n">dp&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">len&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">while&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="n">a&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="o">++&lt;/span> &lt;span class="n">len&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">x&lt;/span> &lt;span class="o">%&lt;/span> &lt;span class="err">进制&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">x&lt;/span> &lt;span class="o">/=&lt;/span> &lt;span class="err">进制&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">dfs&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">len&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="err">未定参数&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">signed&lt;/span> &lt;span class="nf">main&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">cin&lt;/span> &lt;span class="o">&amp;gt;&amp;gt;&lt;/span> &lt;span class="n">l&lt;/span> &lt;span class="o">&amp;gt;&amp;gt;&lt;/span> &lt;span class="n">r&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">cout&lt;/span> &lt;span class="o">&amp;lt;&amp;lt;&lt;/span> &lt;span class="n">cal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">r&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">cal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">l&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">&amp;lt;&amp;lt;&lt;/span> &lt;span class="n">endl&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="textcal函数一般情况" class="heading-element">&lt;span>$\text{cal}$函数（一般情况）：&lt;/span>
+ &lt;a href="#textcal%e5%87%bd%e6%95%b0%e4%b8%80%e8%88%ac%e6%83%85%e5%86%b5" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>&lt;strong>注意每次初始化 DP 数组为 $-1$，长度 $len=0$&lt;/strong>&lt;/p></description></item><item><title>最大独立集、最小点覆盖、最小支配集</title><link>https://messywind.github.io/posts/%E6%9C%80%E5%A4%A7%E7%8B%AC%E7%AB%8B%E9%9B%86%E6%9C%80%E5%B0%8F%E7%82%B9%E8%A6%86%E7%9B%96%E6%9C%80%E5%B0%8F%E6%94%AF%E9%85%8D%E9%9B%86/</link><pubDate>Wed, 02 Jun 2021 20:32:34 +0000</pubDate><guid>https://messywind.github.io/posts/%E6%9C%80%E5%A4%A7%E7%8B%AC%E7%AB%8B%E9%9B%86%E6%9C%80%E5%B0%8F%E7%82%B9%E8%A6%86%E7%9B%96%E6%9C%80%E5%B0%8F%E6%94%AF%E9%85%8D%E9%9B%86/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;h2 id="最大独立集" class="heading-element">&lt;span>最大独立集&lt;/span>
+ &lt;a href="#%e6%9c%80%e5%a4%a7%e7%8b%ac%e7%ab%8b%e9%9b%86" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>&lt;code>选出最多的点,使得所有点都是不相邻的&lt;/code>&lt;/p>
+&lt;p>&lt;strong>状态表示：&lt;/strong> $dp_{i,j}$ 表示以 $i$ 为根的树，如果 $j$ 为 $0$ ，表示不选这个点，如果 $j$ 为 $1$，表示选这个点&lt;/p></description></item></channel></rss>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>图论 - 标签 - 凌乱之风的博客</title><link>https://messywind.github.io/tags/%E5%9B%BE%E8%AE%BA/</link><description>This is my new Hugo FixIt site</description><generator>Hugo 0.136.2 &amp; FixIt v0.3.13</generator><language>zh-cn</language><lastBuildDate>Wed, 11 Sep 2024 10:52:02 +0800</lastBuildDate><atom:link href="https://messywind.github.io/tags/%E5%9B%BE%E8%AE%BA/index.xml" rel="self" type="application/rss+xml"/><item><title>[AtCoder arc140 D] One to One</title><link>https://messywind.github.io/posts/atcoder-arc140-d-one-to-one/</link><pubDate>Wed, 18 May 2022 12:48:28 +0000</pubDate><guid>https://messywind.github.io/posts/atcoder-arc140-d-one-to-one/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://atcoder.jp/contests/arc140/tasks/arc140_d"target="_blank" rel="external nofollow noopener noreferrer">原题链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意&lt;/strong>&lt;/p>
+&lt;p>初始有 $n$ 个点，给定一个长度为 $n$ 的数组 $a_i$，若 $a_i \ne -1$，则有无向边 $(i, a_i)$，若 $a_i = -1$，则点 $i$ 可以连向 $1 \sim n$ 任意点，求所有图的联通块个数之和&lt;/p>
+&lt;p>$1 \le n \le 2 \times 10 ^ 3, a_i \in [1, n] \cup {-1}$&lt;/p>
+&lt;p>对 $998244353$ 取模。&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;p>首先考虑忽略 $a_i = -1$ 的所有边，那么图中会有若干个连通块，这些连通块分为三种情况：&lt;/p></description></item></channel></rss>
