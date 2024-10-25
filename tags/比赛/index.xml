@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>比赛 - 标签 - 凌乱之风的博客</title><link>https://messywind.github.io/tags/%E6%AF%94%E8%B5%9B/</link><description>This is my new Hugo FixIt site</description><generator>Hugo 0.136.5 &amp; FixIt v0.3.13</generator><language>zh-cn</language><lastBuildDate>Fri, 25 Oct 2024 00:54:49 +0000</lastBuildDate><atom:link href="https://messywind.github.io/tags/%E6%AF%94%E8%B5%9B/index.xml" rel="self" type="application/rss+xml"/><item><title>山东理工大学第十六届ACM程序设计竞赛</title><link>https://messywind.github.io/posts/16%E5%B1%8A%E6%A0%A1%E8%B5%9B/</link><pubDate>Mon, 13 May 2024 00:00:00 +0000</pubDate><guid>https://messywind.github.io/posts/16%E5%B1%8A%E6%A0%A1%E8%B5%9B/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>大概是我们办过最好的一次比赛了。&lt;/p>
+&lt;p>&lt;a href="https://acm.sdut.edu.cn/onlinejudge3/competitions-public/30/intro"target="_blank" rel="external nofollow noopener noreferrer">校内正式赛链接&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://acm.sdut.edu.cn/onlinejudge3/contests/4156/overview"target="_blank" rel="external nofollow noopener noreferrer">重现赛链接&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://ac.nowcoder.com/acm/contest/81509"target="_blank" rel="external nofollow noopener noreferrer">牛客链接&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://rl.algoux.org/ranklist/sdutpc16"target="_blank" rel="external nofollow noopener noreferrer">榜单链接&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://space.bilibili.com/1479542015/channel/collectiondetail?sid=3074185&amp;amp;ctype=0"target="_blank" rel="external nofollow noopener noreferrer">校赛回放合集&lt;/a>&lt;/p>
+&lt;div class="details admonition tips open">
+ &lt;div class="details-summary admonition-title">&lt;i class="icon fa-fw fa-solid fa-pencil-alt" aria-hidden="true">&lt;/i>题面&lt;i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true">&lt;/i>&lt;/div>
+ &lt;div class="details-content">
+ &lt;div class="admonition-content">&lt;center>
+	&lt;embed src="https://messywind.github.io/pdf/16thproblem.pdf" width="1050" height="1000">
+&lt;/center>
+&lt;/div>
+ &lt;/div>
+&lt;/div>
+&lt;div class="details admonition tips open">
+ &lt;div class="details-summary admonition-title">&lt;i class="icon fa-fw fa-solid fa-pencil-alt" aria-hidden="true">&lt;/i>题解&lt;i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true">&lt;/i>&lt;/div>
+ &lt;div class="details-content">
+ &lt;div class="admonition-content">&lt;center>
+	&lt;embed src="https://messywind.github.io/pdf/16thsolve.pdf" width="1050" height="1000">
+&lt;/center>
+&lt;/div>
+ &lt;/div>
+&lt;/div></description></item><item><title>2024愚人节专场赛</title><link>https://messywind.github.io/posts/2024%E6%84%9A%E4%BA%BA%E8%8A%82%E4%B8%93%E5%9C%BA%E8%B5%9B/</link><pubDate>Mon, 01 Apr 2024 00:00:00 +0000</pubDate><guid>https://messywind.github.io/posts/2024%E6%84%9A%E4%BA%BA%E8%8A%82%E4%B8%93%E5%9C%BA%E8%B5%9B/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>出的比较满意的一次比赛。在大一的时候就注意到 OJ 有愚人节专场赛，发现做起来非常有意思，可惜之后学长就不办了。&lt;/p>
+&lt;p>在 2024.3 的时候突发奇想，想全程自己办一次愚人节专场赛，于是开始想 idea：&lt;/p>
+&lt;p>A 题 idea 是蔚蓝赛原神赛废案，算是小活。&lt;/p>
+&lt;p>B 题 idea 是我之前想整活一个冗杂的数学式子，于是随便写了点公式。&lt;/p>
+&lt;p>C 题 idea 也来自于蔚蓝赛原神赛，然后想到愚人节有一个 &lt;code>'&lt;/code>，提瓦特语没有对应字符，于是考察选手英文节日拼写（）&lt;/p></description></item><item><title>[蔚蓝系列赛 Azur Series - Sponsored by BLue] Round 2</title><link>https://messywind.github.io/posts/%E8%94%9A%E8%93%9Dr2/</link><pubDate>Sat, 03 Feb 2024 09:45:41 +0000</pubDate><guid>https://messywind.github.io/posts/%E8%94%9A%E8%93%9Dr2/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://acm.sdut.edu.cn/onlinejudge3/competitions-public/22/intro"target="_blank" rel="external nofollow noopener noreferrer">比赛链接&lt;/a>&lt;/p>
+&lt;div class="bilibili">
+ &lt;iframe src="//player.bilibili.com/player.html?bvid=BV1ut421p7UM&amp;page=1&amp;autoplay=false&amp;poster=true&amp;muted=false&amp;danmaku=true&amp;t=0" border="0" framespacing="0" allowfullscreen="true">&lt;/iframe>
+&lt;/div>
+&lt;center>
+	&lt;embed src="https://messywind.github.io/pdf/bluer2.pdf" width="1050" height="1000">
+&lt;/center></description></item><item><title>[蔚蓝系列赛 Azur Series - Sponsored by bLue] Round 1</title><link>https://messywind.github.io/posts/%E8%94%9A%E8%93%9Dr1/</link><pubDate>Sun, 17 Dec 2023 17:14:00 +0000</pubDate><guid>https://messywind.github.io/posts/%E8%94%9A%E8%93%9Dr1/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://acm.sdut.edu.cn/onlinejudge3/competitions-public/18/intro"target="_blank" rel="external nofollow noopener noreferrer">比赛链接(div.1)&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://acm.sdut.edu.cn/onlinejudge3/competitions-public/19/intro"target="_blank" rel="external nofollow noopener noreferrer">比赛链接(div.2)&lt;/a>&lt;/p>
+&lt;center>
+	&lt;embed src="https://messywind.github.io/pdf/bluer1.pdf" width="1050" height="1000">
+&lt;/center></description></item><item><title>SDUTACM 15 周年</title><link>https://messywind.github.io/posts/sdutacm15%E5%91%A8%E5%B9%B4/</link><pubDate>Sun, 15 Oct 2023 00:00:00 +0000</pubDate><guid>https://messywind.github.io/posts/sdutacm15%E5%91%A8%E5%B9%B4/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>很有纪念意义的一次活动。&lt;/p>
+&lt;p>&lt;a href="https://space.bilibili.com/1479542015/channel/collectiondetail?sid=1782344&amp;amp;ctype=0"target="_blank" rel="external nofollow noopener noreferrer">视频合集&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://acm.sdut.edu.cn/onlinejudge3/contests/4114/overview"target="_blank" rel="external nofollow noopener noreferrer">重现赛链接&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://rl.algoux.cn/ranklist/sdutacm15thacc"target="_blank" rel="external nofollow noopener noreferrer">榜单链接&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://mp.weixin.qq.com/s/Qe6mxR_qBC1l7gA2XzVjOg"target="_blank" rel="external nofollow noopener noreferrer">速览&lt;/a>&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://messywind.github.io/image/15sdutacm.png" alt="15" srcset="https://messywind.github.io/image/15sdutacm.png?size=small, https://messywind.github.io/image/15sdutacm.png?size=medium 1.5x, https://messywind.github.io/image/15sdutacm.png?size=large 2x" data-title="15" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://messywind.github.io/image/15sdutacm1.webp" alt="15" srcset="https://messywind.github.io/image/15sdutacm1.webp?size=small, https://messywind.github.io/image/15sdutacm1.webp?size=medium 1.5x, https://messywind.github.io/image/15sdutacm1.webp?size=large 2x" data-title="15" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://messywind.github.io/image/15sdutacm2.webp" alt="15" srcset="https://messywind.github.io/image/15sdutacm2.webp?size=small, https://messywind.github.io/image/15sdutacm2.webp?size=medium 1.5x, https://messywind.github.io/image/15sdutacm2.webp?size=large 2x" data-title="15" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>&lt;img loading="lazy" src="https://messywind.github.io/image/15sdutacm3.webp" alt="15" srcset="https://messywind.github.io/image/15sdutacm3.webp?size=small, https://messywind.github.io/image/15sdutacm3.webp?size=medium 1.5x, https://messywind.github.io/image/15sdutacm3.webp?size=large 2x" data-title="15" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p></description></item><item><title>山东理工大学第十五届ACM程序设计竞赛</title><link>https://messywind.github.io/posts/%E5%B1%B1%E4%B8%9C%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6%E7%AC%AC%E5%8D%81%E4%BA%94%E5%B1%8Aacm%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%AB%9E%E8%B5%9B/</link><pubDate>Sun, 28 May 2023 00:00:00 +0000</pubDate><guid>https://messywind.github.io/posts/%E5%B1%B1%E4%B8%9C%E7%90%86%E5%B7%A5%E5%A4%A7%E5%AD%A6%E7%AC%AC%E5%8D%81%E4%BA%94%E5%B1%8Aacm%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E7%AB%9E%E8%B5%9B/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>办的不错的一次比赛。&lt;/p>
+&lt;p>&lt;a href="https://acm.sdut.edu.cn/onlinejudge3/contests/4098/overview"target="_blank" rel="external nofollow noopener noreferrer">重现赛链接&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://rl.algoux.cn/ranklist/sdutpc15"target="_blank" rel="external nofollow noopener noreferrer">榜单链接&lt;/a>&lt;/p>
+&lt;p>&lt;a href="https://space.bilibili.com/1479542015/channel/collectiondetail?sid=1432750&amp;amp;ctype=0"target="_blank" rel="external nofollow noopener noreferrer">视频合集&lt;/a>&lt;/p>
+&lt;div class="details admonition tips open">
+ &lt;div class="details-summary admonition-title">&lt;i class="icon fa-fw fa-solid fa-pencil-alt" aria-hidden="true">&lt;/i>题解&lt;i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true">&lt;/i>&lt;/div>
+ &lt;div class="details-content">
+ &lt;div class="admonition-content">&lt;center>
+	&lt;embed src="https://messywind.github.io/pdf/15thsolve.pdf" width="1050" height="1000">
+&lt;/center>
+&lt;/div>
+ &lt;/div>
+&lt;/div></description></item></channel></rss>

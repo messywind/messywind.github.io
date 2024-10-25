@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>拟合 - 标签 - 凌乱之风的博客</title><link>https://messywind.github.io/tags/%E6%8B%9F%E5%90%88/</link><description>This is my new Hugo FixIt site</description><generator>Hugo 0.136.5 &amp; FixIt v0.3.13</generator><language>zh-cn</language><lastBuildDate>Fri, 25 Oct 2024 00:54:49 +0000</lastBuildDate><atom:link href="https://messywind.github.io/tags/%E6%8B%9F%E5%90%88/index.xml" rel="self" type="application/rss+xml"/><item><title>创想兵团护甲函数拟合</title><link>https://messywind.github.io/posts/%E5%88%9B%E6%83%B3%E5%85%B5%E5%9B%A2%E6%8A%A4%E7%94%B2%E5%87%BD%E6%95%B0%E6%8B%9F%E5%90%88/</link><pubDate>Wed, 28 Aug 2024 09:35:00 +0000</pubDate><guid>https://messywind.github.io/posts/%E5%88%9B%E6%83%B3%E5%85%B5%E5%9B%A2%E6%8A%A4%E7%94%B2%E5%87%BD%E6%95%B0%E6%8B%9F%E5%90%88/</guid><category domain="https://messywind.github.io/categories/%E6%B8%B8%E6%88%8F/">游戏</category><description>&lt;div class="details admonition info open">
+ &lt;div class="details-summary admonition-title">&lt;i class="icon fa-fw fa-solid fa-circle-info" aria-hidden="true">&lt;/i>结论&lt;i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true">&lt;/i>&lt;/div>
+ &lt;div class="details-content">
+ &lt;div class="admonition-content">&lt;p>$$
+y = 29.11 \log(x + 170.83) - 149.86
+$$&lt;/p>
+&lt;div class="calc">
+ &lt;input type="text" id="inputValue" placeholder="输入护甲值">
+&lt;p>&lt;button onclick="calculate()">计算&lt;/button>&lt;/p>
+ &lt;p id="result"/>
+&lt;/div>
+&lt;script>
+ document.getElementById('inputValue').addEventListener('input', function (e) {
+ this.value = this.value.replace(/[^0-9]/g, '');
+ });
+
+ function calculate() {
+ var x = parseInt(document.getElementById('inputValue').value);
+ if (!isNaN(x) &amp;&amp; x > 0) {
+ var y = 29.11 * Math.log(x + 170.83) - 149.86;
+ document.getElementById('result').innerHTML = "承伤百分比：" + y.toFixed(2) + "%";
+ } else {
+ document.getElementById('result').innerHTML = "请输入有效的正整数。";
+ }
+ }
+&lt;/script>
+&lt;style>
+ .calc {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ }
+
+ button {
+ padding: 10px 20px;
+ text-align: center;
+ display: inline-block;
+ border: none;
+ border-radius: 10px;
+ background-color: #409eff;
+ color: white;
+ cursor: pointer;
+ margin: 10px 10px 10px 10px;
+ transition: background-color 0.3s ease;
+ }
+
+ button:hover {
+ background-color: #0c79e6;
+ }
+
+ input {
+ height: 40px;
+ text-align: center;
+ border: 2px solid #000000;
+ border-radius: 15px;
+ transition: border-color 0.3s ease;
+ margin: 10px 10px 10px 10px;
+ }
+
+ input:focus {
+ outline: none;
+ border-color: #409eff;
+ }
+&lt;/style>
+&lt;/div>
+ &lt;/div>
+&lt;/div>
+&lt;p>&lt;img loading="lazy" src="https://messywind.github.io/image/armour.png" alt="2" srcset="https://messywind.github.io/image/armour.png?size=small, https://messywind.github.io/image/armour.png?size=medium 1.5x, https://messywind.github.io/image/armour.png?size=large 2x" data-title="2" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p></description></item></channel></rss>

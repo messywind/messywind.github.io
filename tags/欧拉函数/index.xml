@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>欧拉函数 - 标签 - 凌乱之风的博客</title><link>https://messywind.github.io/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/</link><description>This is my new Hugo FixIt site</description><generator>Hugo 0.136.5 &amp; FixIt v0.3.13</generator><language>zh-cn</language><lastBuildDate>Fri, 25 Oct 2024 00:54:49 +0000</lastBuildDate><atom:link href="https://messywind.github.io/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/index.xml" rel="self" type="application/rss+xml"/><item><title>[洛谷 P1891] 疯狂 LCM</title><link>https://messywind.github.io/posts/%E6%B4%9B%E8%B0%B7-p1891-%E7%96%AF%E7%8B%82-lcm/</link><pubDate>Wed, 08 Sep 2021 20:04:16 +0000</pubDate><guid>https://messywind.github.io/posts/%E6%B4%9B%E8%B0%B7-p1891-%E7%96%AF%E7%8B%82-lcm/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/P1891"target="_blank" rel="external nofollow noopener noreferrer">题目链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意：&lt;/strong>&lt;/p>
+&lt;p>求&lt;/p>
+&lt;p>$$\sum_{i=1} ^{n} \text{lcm}(i,n)$$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;h2 id="法一欧拉函数" class="heading-element">&lt;span>法一：欧拉函数&lt;/span>
+ &lt;a href="#%e6%b3%95%e4%b8%80%e6%ac%a7%e6%8b%89%e5%87%bd%e6%95%b0" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>拆一下 $\text{lcm}(i,n) = \dfrac{i \cdot n}{\gcd{(i,n)}}$ 变为：&lt;/p>
+&lt;p>$$\sum_{i=1} ^{n} \frac{i \cdot n}{\gcd{(i,n)}}$$&lt;/p>
+&lt;p>枚举 $\gcd(i,n)$：&lt;/p>
+&lt;p>$$n \sum_{d \mid n} \sum_{i=1} ^{n} \frac{i }{d}[\gcd{(i,n)} = d ]$$&lt;/p></description></item></channel></rss>

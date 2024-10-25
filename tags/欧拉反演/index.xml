@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>欧拉反演 - 标签 - 凌乱之风的博客</title><link>https://messywind.github.io/tags/%E6%AC%A7%E6%8B%89%E5%8F%8D%E6%BC%94/</link><description>This is my new Hugo FixIt site</description><generator>Hugo 0.136.5 &amp; FixIt v0.3.13</generator><language>zh-cn</language><lastBuildDate>Fri, 25 Oct 2024 00:54:49 +0000</lastBuildDate><atom:link href="https://messywind.github.io/tags/%E6%AC%A7%E6%8B%89%E5%8F%8D%E6%BC%94/index.xml" rel="self" type="application/rss+xml"/><item><title>[NOI2010] 能量采集</title><link>https://messywind.github.io/posts/noi2010-%E8%83%BD%E9%87%8F%E9%87%87%E9%9B%86/</link><pubDate>Tue, 24 Aug 2021 08:29:33 +0000</pubDate><guid>https://messywind.github.io/posts/noi2010-%E8%83%BD%E9%87%8F%E9%87%87%E9%9B%86/</guid><category domain="https://messywind.github.io/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category><description>&lt;p>&lt;a href="https://www.luogu.com.cn/problem/P1447"target="_blank" rel="external nofollow noopener noreferrer">题目链接&lt;/a>&lt;/p>
+&lt;p>&lt;strong>题意：&lt;/strong>&lt;/p>
+&lt;p>求&lt;/p>
+&lt;p>$$2\sum_{i=1}^{n}\sum_{j=1}^{m}\gcd(i,j)-nm$$&lt;/p>
+&lt;p>&lt;strong>分析：&lt;/strong>&lt;/p>
+&lt;h2 id="莫比乌斯反演" class="heading-element">&lt;span>莫比乌斯反演：&lt;/span>
+ &lt;a href="#%e8%8e%ab%e6%af%94%e4%b9%8c%e6%96%af%e5%8f%8d%e6%bc%94" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>那么只需要求&lt;/p>
+&lt;p>$$\sum_{i=1}^{n}\sum_{j=1}^{m}\gcd(i,j)$$&lt;/p>
+&lt;p>枚举每个 $\gcd(i,j)$ 的值&lt;/p>
+&lt;p>$$\sum_{d=1}^{n}d\sum_{i=1}^{n}\sum_{j=1}^{m}[\gcd(i,j)=d]$$&lt;/p>
+&lt;p>再用莫比乌斯反演，和 &lt;strong>problem b&lt;/strong> 这题是一样的&lt;/p></description></item></channel></rss>

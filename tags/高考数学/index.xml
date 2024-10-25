@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>高考数学 - 标签 - 凌乱之风的博客</title><link>https://messywind.github.io/tags/%E9%AB%98%E8%80%83%E6%95%B0%E5%AD%A6/</link><description>This is my new Hugo FixIt site</description><generator>Hugo 0.136.5 &amp; FixIt v0.3.13</generator><language>zh-cn</language><lastBuildDate>Fri, 25 Oct 2024 00:54:49 +0000</lastBuildDate><atom:link href="https://messywind.github.io/tags/%E9%AB%98%E8%80%83%E6%95%B0%E5%AD%A6/index.xml" rel="self" type="application/rss+xml"/><item><title>记一个经典不等式放缩</title><link>https://messywind.github.io/posts/%E8%AE%B0%E4%B8%80%E4%B8%AA%E7%BB%8F%E5%85%B8%E4%B8%8D%E7%AD%89%E5%BC%8F%E6%94%BE%E7%BC%A9/</link><pubDate>Wed, 06 Apr 2022 00:07:20 +0000</pubDate><guid>https://messywind.github.io/posts/%E8%AE%B0%E4%B8%80%E4%B8%AA%E7%BB%8F%E5%85%B8%E4%B8%8D%E7%AD%89%E5%BC%8F%E6%94%BE%E7%BC%A9/</guid><category domain="https://messywind.github.io/categories/%E6%9D%82%E9%A1%B9/">杂项</category><description>&lt;p>今晚闲来无事看了看 $2022$ 年的济南一模最后一题第三问，发现真的是两年没碰高考数学手生疏了，不过还好做出来了。
+&lt;strong>题意&lt;/strong>
+证明
+$$
+\sum_{x = 2}^{n} \frac{1}{\ln x} &amp;gt; 1 - \frac{1}{n}
+$$
+&lt;strong>分析：&lt;/strong>
+$1 - \dfrac{1}{n} = \dfrac{n - 1}{n}$，左边是 $n$ 个数求和，所以考虑裂项右边&lt;/p>
+&lt;p>$$
+\frac{n - 1}{n} = \frac{1}{1 \times 2} + \frac{1}{2 \times 3} + \cdots + \frac{1}{(n - 1) \times n}
+$$&lt;/p>
+&lt;p>接下来只需证 $x ^ 2 - x - \ln x &amp;gt; 0 (x \ge 2)$&lt;/p>
+&lt;p>设 $f(x) = x ^ 2 - x - \ln x$
+则 $f&amp;rsquo;(x) = \dfrac{(2x+ 1)(x-1)}{x} &amp;gt; 0$
+由于 $f(2) = 2 - \ln2 &amp;gt; 0$
+所以 $f(x)&amp;gt; 0$&lt;/p></description></item><item><title>2021新高考全国Ⅰ卷 22题</title><link>https://messywind.github.io/posts/2021%E6%96%B0%E9%AB%98%E8%80%83%E5%85%A8%E5%9B%BD%E5%8D%B7-22%E9%A2%98/</link><pubDate>Tue, 08 Jun 2021 16:30:49 +0000</pubDate><guid>https://messywind.github.io/posts/2021%E6%96%B0%E9%AB%98%E8%80%83%E5%85%A8%E5%9B%BD%E5%8D%B7-22%E9%A2%98/</guid><category domain="https://messywind.github.io/categories/%E6%9D%82%E9%A1%B9/">杂项</category><description>&lt;h2 id="题面" class="heading-element">&lt;span>题面:&lt;/span>
+ &lt;a href="#%e9%a2%98%e9%9d%a2" class="heading-mark">
+ &lt;svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true">&lt;path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z">&lt;/path>&lt;/svg>
+ &lt;/a>
+&lt;/h2>&lt;p>$已知函数f(x)=x(1-\ln{x})$&lt;/p>
+&lt;p>$(1)讨论f(x)的单调性$&lt;/p>
+&lt;p>$(2)设a,b&amp;gt;0,a\ne b,且b\ln{a}-a\ln{b}=a-b,证明:2&amp;lt;\frac{1}{a}+\frac{1}{b}&amp;lt;e$&lt;/p></description></item><item><title>2020年普通高等学校招生全国统一考试（新高考全国Ⅰ卷）数学12题</title><link>https://messywind.github.io/posts/2020%E5%B9%B4%E9%AB%98%E8%80%83%E6%95%B0%E5%AD%A612%E9%A2%98/</link><pubDate>Wed, 15 Jul 2020 14:08:00 +0000</pubDate><guid>https://messywind.github.io/posts/2020%E5%B9%B4%E9%AB%98%E8%80%83%E6%95%B0%E5%AD%A612%E9%A2%98/</guid><category domain="https://messywind.github.io/categories/%E6%9D%82%E9%A1%B9/">杂项</category><description>&lt;p>&lt;img loading="lazy" src="https://messywind.github.io/image/12.png" alt="/image/12.png" srcset="https://messywind.github.io/image/12.png?size=small, https://messywind.github.io/image/12.png?size=medium 1.5x, https://messywind.github.io/image/12.png?size=large 2x" data-title="/image/12.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>A 选项： $n=1$ 时， $p_1=1$，$∴ H(X)=−p_1\log_2p_1=0$，正确。&lt;/p>
+&lt;p>B 选项： $n=2$ 时， $p_1+p_2=1$，$H(X)=-(p_{1}\log_{2}p_{1}+p_{2}\log_{2}p_{2})=-[p_{1}\log_{2}p_{1}+(1-p_{1})\log_{2}(1-p_{1})]$&lt;/p></description></item><item><title>2020年普通高等学校招生全国统一考试（新高考全国Ⅰ卷）数学21题</title><link>https://messywind.github.io/posts/2020%E5%B9%B4%E9%AB%98%E8%80%83%E6%95%B0%E5%AD%A621%E9%A2%98/</link><pubDate>Wed, 15 Jul 2020 11:10:00 +0000</pubDate><guid>https://messywind.github.io/posts/2020%E5%B9%B4%E9%AB%98%E8%80%83%E6%95%B0%E5%AD%A621%E9%A2%98/</guid><category domain="https://messywind.github.io/categories/%E6%9D%82%E9%A1%B9/">杂项</category><description>&lt;p>21.（12分）
+已知函数 $f(x)=ae^{x-1}-\ln x+\ln a$&lt;/p>
+&lt;p>(1) 当 $a = e$ 时，求曲线 $y=f(x)$ 在点 $(1,f(1))$ 处的切线与两个坐标轴围成的三角形的面积。&lt;/p>
+&lt;p>(2) 若 $f(x)\geq1$ ，求 $a$ 的取值范围。&lt;/p>
+&lt;p>这里重点解一下第二问。&lt;/p>
+&lt;p>同构法：$ae^{x-1}-\ln x+\ln a \geq 1 \Leftrightarrow ae^{x-1} \geq \ln\dfrac{ex}{a}$&lt;/p>
+&lt;p>观察到左边有 $x-1$ 次方，右边为 $ex$，所以两边同乘 $ex$&lt;/p>
+&lt;p>$axe^{x}\geq ex \ln\dfrac{ex}{a}$&lt;/p>
+&lt;p>此时形势已经很明了，是 $xe^x$ 形式的同构：&lt;/p>
+&lt;p>$f(x)e^{f(x)} \ge g(x)e^{g(x)} $&lt;/p>
+&lt;p>当 $a&amp;gt;0$ 时， $xe^{x}\geq \dfrac{ex}{a}\ln\dfrac{ex}{a} \Leftrightarrow xe^{x}\geq \ln\dfrac{ex}{a}e^{\ln\frac{ex}{a}}$&lt;/p></description></item><item><title>今天π节，出了一道题，高中生 大佬勿喷</title><link>https://messywind.github.io/posts/pi%E8%8A%82/</link><pubDate>Sat, 14 Mar 2020 16:39:00 +0000</pubDate><guid>https://messywind.github.io/posts/pi%E8%8A%82/</guid><category domain="https://messywind.github.io/categories/%E6%9D%82%E9%A1%B9/">杂项</category><description>&lt;p>&lt;img loading="lazy" src="https://messywind.github.io/image/pi.png" alt="2" srcset="https://messywind.github.io/image/pi.png?size=small, https://messywind.github.io/image/pi.png?size=medium 1.5x, https://messywind.github.io/image/pi.png?size=large 2x" data-title="2" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&lt;/p>
+&lt;p>分析：&lt;/p>
+&lt;p>$(1)$ $g'(x)=\dfrac{π^{x}}{x^{π}}(\lnπ-\frac{π}{x})$&lt;/p>
+&lt;p>$∴g'(1)=π(\lnπ-π)$&lt;/p>
+&lt;p>$(2)$ $f(x)=\int x \text{d} \frac{π^{x}}{\lnπ} = \dfrac{xπ^{x}}{\lnπ}-\int \dfrac{π^{x}}{\lnπ}\text{d}x = \dfrac{xπ^{x}}{\lnπ}-\dfrac{π^{x}}{\ln ^ 2π}$&lt;/p></description></item></channel></rss>
