@@ -6,30 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
     <meta name="robots" content="noodp" />
     <title>支持向量机 (SVM) - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
-<meta name="description" content="线性可分二分类模型在二维空间上，两类点被一条直线完全分开叫做线性可分。
+<meta name="description" content="线性可分二分类模型 在二维空间上，两类点被一条直线完全分开叫做线性可分。
 还是拿之前的数据集举例，$(x_1, y_1), (x_2,y_2), \cdots (x_n, y_n)$，$x_i \in \textbf{R} ^ d$，$d$ 为特征向量维度。
 "><meta name="keywords" content='SVM'>
   <meta itemprop="name" content="支持向量机 (SVM)">
-  <meta itemprop="description" content="线性可分二分类模型在二维空间上，两类点被一条直线完全分开叫做线性可分。
+  <meta itemprop="description" content="线性可分二分类模型 在二维空间上，两类点被一条直线完全分开叫做线性可分。
 还是拿之前的数据集举例，$(x_1, y_1), (x_2,y_2), \cdots (x_n, y_n)$，$x_i \in \textbf{R} ^ d$，$d$ 为特征向量维度。">
   <meta itemprop="datePublished" content="2024-11-11T16:24:00+00:00">
-  <meta itemprop="dateModified" content="2024-11-21T15:39:17+08:00">
-  <meta itemprop="wordCount" content="2352">
+  <meta itemprop="dateModified" content="2024-11-21T09:24:39+00:00">
+  <meta itemprop="wordCount" content="2353">
   <meta itemprop="keywords" content="SVM"><meta property="og:url" content="https://blog.messywind.top/posts/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="支持向量机 (SVM)">
-  <meta property="og:description" content="线性可分二分类模型在二维空间上，两类点被一条直线完全分开叫做线性可分。
+  <meta property="og:description" content="线性可分二分类模型 在二维空间上，两类点被一条直线完全分开叫做线性可分。
 还是拿之前的数据集举例，$(x_1, y_1), (x_2,y_2), \cdots (x_n, y_n)$，$x_i \in \textbf{R} ^ d$，$d$ 为特征向量维度。">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2024-11-11T16:24:00+00:00">
-    <meta property="article:modified_time" content="2024-11-21T15:39:17+08:00">
+    <meta property="article:modified_time" content="2024-11-21T09:24:39+00:00">
     <meta property="article:tag" content="SVM">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="支持向量机 (SVM)">
-  <meta name="twitter:description" content="线性可分二分类模型在二维空间上，两类点被一条直线完全分开叫做线性可分。
+  <meta name="twitter:description" content="线性可分二分类模型 在二维空间上，两类点被一条直线完全分开叫做线性可分。
 还是拿之前的数据集举例，$(x_1, y_1), (x_2,y_2), \cdots (x_n, y_n)$，$x_i \in \textbf{R} ^ d$，$d$ 为特征向量维度。">
 <meta name="application-name" content="凌乱之风的博客">
 <meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/" title="支持向量机 (SVM) - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/%E5%89%8D%E9%A6%88%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" title="前馈神经网络" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/index.md" title="支持向量机 (SVM) - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
@@ -43,8 +43,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA\/"
-    },"genre": "posts","keywords": "SVM","wordcount":  2352 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA\/","datePublished": "2024-11-11T16:24:00+00:00","dateModified": "2024-11-21T15:39:17+08:00","publisher": {
+    },"genre": "posts","keywords": "SVM","wordcount":  2353 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA\/","datePublished": "2024-11-11T16:24:00+00:00","dateModified": "2024-11-21T09:24:39+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -118,7 +118,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>支持向量机 (SVM)</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2024-11-11 16:24:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-11-11">2024-11-11</time></span>&nbsp;<span title="更新于 2024-11-21 15:39:17"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-11-21">2024-11-21</time></span>&nbsp;<span title="2352 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2024-11-11 16:24:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-11-11">2024-11-11</time></span>&nbsp;<span title="更新于 2024-11-21 09:24:39"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-11-21">2024-11-21</time></span>&nbsp;<span title="2353 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -259,7 +259,7 @@ $$</p>
 </ul>
 <p>如下图所示 ($u$ 替换为 $x$)：</p>
 <p><img loading="lazy" src="/image/ML/10.jpg" alt="1" srcset="/image/ML/10.jpg?size=small, /image/ML/10.jpg?size=medium 1.5x, /image/ML/10.jpg?size=large 2x" data-title="1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
-<p>综上所述，满足 $\alpha_i^* g(u*) = 0$，称作互补松弛</p>
+<p>综上所述，满足 $\alpha_i^* g(u*) = 0$，称作互补松弛。</p>
 <h3 id="约束问题转换为-min-max-拉格朗日函数" class="heading-element"><span>约束问题转换为 min max 拉格朗日函数</span>
   <a href="#%e7%ba%a6%e6%9d%9f%e9%97%ae%e9%a2%98%e8%bd%ac%e6%8d%a2%e4%b8%ba-min-max-%e6%8b%89%e6%a0%bc%e6%9c%97%e6%97%a5%e5%87%bd%e6%95%b0" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -384,7 +384,7 @@ $$</p>
 <p><img loading="lazy" src="/image/ML/11.jpg" alt="1" srcset="/image/ML/11.jpg?size=small, /image/ML/11.jpg?size=medium 1.5x, /image/ML/11.jpg?size=large 2x" data-title="1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
 <p>我们可以把特征映射到更高维度。这样在高维就线性可分了。</p>
 <p><img loading="lazy" src="/image/ML/12.jpg" alt="1" srcset="/image/ML/12.jpg?size=small, /image/ML/12.jpg?size=medium 1.5x, /image/ML/12.jpg?size=large 2x" data-title="1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
-<p>处理方式是将 $x_i, x_j$ 变为 $\Phi(x_i), \Phi(x_j)$，我们把核函数写作 $K(x_i, x_j)$</p>
+<p>处理方式是将 $x_i, x_j$ 变为 $\Phi(x_i), \Phi(x_j)$，我们把核函数写做 $K(x_i, x_j)$</p>
 <p>$$
 \min_\alpha \left(\frac{1}{2} \sum\limits_{i = 1} ^ m \sum\limits_{j = 1} ^ m \alpha_i \alpha_j \Phi(x_i) \Phi(x_j) y_i y_j - \sum_{i = 1} ^ {m} \alpha_i\right) \\
 \text{s.t.} \ \alpha_i \ge 0, i = 1, 2, \cdots, m \\
@@ -437,7 +437,7 @@ $$</p>
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2024-11-21 15:39:17">更新于 2024-11-21&nbsp;</span>
+        <span title="更新于 2024-11-21 09:24:39">更新于 2024-11-21&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

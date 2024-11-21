@@ -114,7 +114,7 @@ $$
 
 ![1](/image/ML/10.jpg)
 
-综上所述，满足 $\alpha_i^* g(u*) = 0$，称作互补松弛
+综上所述，满足 $\alpha_i^* g(u*) = 0$，称作互补松弛。
 
 ### 约束问题转换为 min max 拉格朗日函数
 
@@ -266,7 +266,7 @@ $$
 
 ![1](/image/ML/12.jpg)
 
-处理方式是将 $x_i, x_j$ 变为 $\Phi(x_i), \Phi(x_j)$，我们把核函数写作 $K(x_i, x_j)$
+处理方式是将 $x_i, x_j$ 变为 $\Phi(x_i), \Phi(x_j)$，我们把核函数写做 $K(x_i, x_j)$
 
 $$
 \min_\alpha \left(\frac{1}{2} \sum\limits_{i = 1} ^ m \sum\limits_{j = 1} ^ m \alpha_i \alpha_j \Phi(x_i) \Phi(x_j) y_i y_j - \sum_{i = 1} ^ {m} \alpha_i\right) \\\\
