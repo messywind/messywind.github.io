@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>EGF - 标签 - 凌乱之风的博客</title>
+    <link>https://blog.messywind.top/tags/egf/</link>
+    <description>This is my new Hugo FixIt site</description>
+    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 11 Sep 2024 09:25:15 +0800</lastBuildDate>
+    <atom:link href="https://blog.messywind.top/tags/egf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[2020 BSUIRPC] Function analysis</title>
+      <link>https://blog.messywind.top/posts/2020-bsuirpc-function-analysis/</link>
+      <pubDate>Wed, 13 Apr 2022 10:54:49 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/2020-bsuirpc-function-analysis/</guid>
+      <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
+      <description>&lt;p&gt;&lt;a href=&#34;https://codeforces.com/gym/103637/problem/F&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;给定三个正整数 $n, d, k$ ，现有排列 $p = (1,2,3,\cdots,n)$ ，有 $n - d + 1$ 个询问，对于每个询问有正整数 $m (d \le m \le n)$ ，现从 $p$ 中&lt;strong&gt;随机可重复地&lt;/strong&gt;选取 $m$ 个数构成序列 $q$ ，求 $q$ 中第 $d$ 小数大于 $k$ 的概率，&lt;/p&gt;&#xA;&lt;p&gt;对 $998244353$ 取模。&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;对于满足第 $d$ 小数大于 $k$ 的序列 $q = (a_1, a_2, \cdots,a_i,\cdots,a_m)$ ，假设最后一个小于等于 $k$ 的数为 $a_i$，那么一定有 $i \le d - 1$，所以前 $i$ 个数一定要在 $1 \sim k$ 中任取，方案记为 $F(x)$，那么后 $m - i$ 个数一定要在 $k +1 \sim n$ 中取，方案记为 $G(x)$，可以考虑写出 $F(x)$ 与 $G(x)$ 的生成函数，因为数是可排列的，所以要用 $\textbf{EGF}$&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[AtCoder abc234 F] Reordering</title>
+      <link>https://blog.messywind.top/posts/atcoder-abc234-f-reordering/</link>
+      <pubDate>Sun, 09 Jan 2022 14:10:44 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/atcoder-abc234-f-reordering/</guid>
+      <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
+      <description>&lt;p&gt;&lt;a href=&#34;https://atcoder.jp/contests/abc234/tasks/abc234_f&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;给定一个长度为 $n$ 的字符串 $S$，计算有多少种&lt;strong&gt;非空子序列&lt;/strong&gt;的排列，对 $998244353$ 取模。&lt;/p&gt;&#xA;&lt;p&gt;$1 \le n \le 5\times 10^3$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;设 $26$ 个英文字母每个字母 $u$ 的生成函数为（因为要计算排列，所以是 $\textbf{EGF}$）&#xA;$$&#xA;1 + \frac{1}{1!}x + \frac{1}{2!}x^2 + \cdots + \frac{1}{cnt_{u}!}x^{cnt_{u}}&#xA;$$&#xA;其中 $cnt_{u}$ 为字母在 $S$ 中出现次数。&lt;/p&gt;&#xA;&lt;p&gt;那么最终所有方案为&#xA;$$&#xA;\prod_{u = 1} ^{26}(1 + \frac{1}{1!}x + \frac{1}{2!}x^2 + \cdots + \frac{1}{cnt_{u}!}x^{cnt_{u}})&#xA;$$&#xA;记所有方案为 $F(x)$，那么计算子序列的方案数就是把字符串长度为 $1 \sim n$ 的所有方案乘长度的阶乘加起来，即&#xA;$$&#xA;\sum_{i = 1}^{n}i! \times [x^i]F(x)&#xA;$$&#xA;因为最多只有 $26$ 个字母，所以直接每次暴力 $\text{NTT}$ 即可，当然也可以分治 $\text{NTT}$&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

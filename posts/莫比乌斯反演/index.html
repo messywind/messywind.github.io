@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>莫比乌斯反演 - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="前置知识1:整除分块$①:\lfloor \dfrac{a}{bc} \rfloor = \lfloor \dfrac{\lfloor \dfrac{a}{b} \rfloor}{c} \rfloor$证明：
+"><meta name="keywords" content='莫比乌斯反演'>
+  <meta itemprop="name" content="莫比乌斯反演">
+  <meta itemprop="description" content="前置知识1:整除分块$①:\lfloor \dfrac{a}{bc} \rfloor = \lfloor \dfrac{\lfloor \dfrac{a}{b} \rfloor}{c} \rfloor$证明：">
+  <meta itemprop="datePublished" content="2021-07-22T15:30:59+00:00">
+  <meta itemprop="dateModified" content="2024-09-10T16:39:29+08:00">
+  <meta itemprop="wordCount" content="877">
+  <meta itemprop="keywords" content="莫比乌斯反演"><meta property="og:url" content="https://blog.messywind.top/posts/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="莫比乌斯反演">
+  <meta property="og:description" content="前置知识1:整除分块$①:\lfloor \dfrac{a}{bc} \rfloor = \lfloor \dfrac{\lfloor \dfrac{a}{b} \rfloor}{c} \rfloor$证明：">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-07-22T15:30:59+00:00">
+    <meta property="article:modified_time" content="2024-09-10T16:39:29+08:00">
+    <meta property="article:tag" content="莫比乌斯反演">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="莫比乌斯反演">
+  <meta name="twitter:description" content="前置知识1:整除分块$①:\lfloor \dfrac{a}{bc} \rfloor = \lfloor \dfrac{\lfloor \dfrac{a}{b} \rfloor}{c} \rfloor$证明：">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/" title="莫比乌斯反演 - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E8%AE%AD%E9%A1%B9%E7%9B%AE%E4%BC%81%E4%B8%9A%E6%96%87%E6%A1%A3%E7%AE%A1%E7%90%86%E4%B8%BB%E5%B8%AD%E6%A0%91%E5%AE%9E%E7%8E%B0/" title="c语言实训项目——企业文档管理(主席树实现)" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/haoi2011-problem-b/" title="[HAOI2011] problem b" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/index.md" title="莫比乌斯反演 - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "莫比乌斯反演",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94\/"
+    },"genre": "posts","keywords": "莫比乌斯反演","wordcount":  877 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94\/","datePublished": "2021-07-22T15:30:59+00:00","dateModified": "2024-09-10T16:39:29+08:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 档案</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/"><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 目录</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 档案</a></li><li class="menu-item"><a class="menu-link" href="/categories/"><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 目录</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>莫比乌斯反演</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2021-07-22 15:30:59"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-07-22">2021-07-22</time></span>&nbsp;<span title="更新于 2024-09-10 16:39:29"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-09-10">2024-09-10</time></span>&nbsp;<span title="877 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前置知识1整除分块">前置知识1:整除分块</a></li>
+    <li><a href="#lfloor-dfracabc-rfloor--lfloor-dfraclfloor-dfracab-rfloorc-rfloor">$①:\lfloor \dfrac{a}{bc} \rfloor = \lfloor \dfrac{\lfloor \dfrac{a}{b} \rfloor}{c} \rfloor$</a></li>
+    <li><a href="#i-in-1nlfloor-dfracnirfloor-le-2-sqrtn">$②:i \in [1,n],|\lfloor \dfrac{n}{i}\rfloor| \le 2 \sqrt{n}$</a></li>
+    <li><a href="#-对-lfloordfracnirfloor-求和-forall-iin1n-只需要找到最大的一个-ji-le-j-le-n使得-lfloordfracnirfloorlfloordfracnjrfloor此时-jlfloordfracnlfloordfracnjrfloorrfloor">$③:$ 对 $\lfloor\dfrac{n}{i}\rfloor$ 求和， $\forall i\in[1,n]$ 只需要找到最大的一个 $j(i \le j \le n)$，使得 $\lfloor\dfrac{n}{i}\rfloor=\lfloor\dfrac{n}{j}\rfloor$，此时 $j=\lfloor\dfrac{n}{\lfloor\dfrac{n}{j}\rfloor}\rfloor$</a></li>
+    <li><a href="#代码">代码：</a></li>
+    <li><a href="#前置知识2莫比乌斯函数">前置知识2：莫比乌斯函数</a></li>
+    <li><a href="#线性筛莫比乌斯函数">线性筛莫比乌斯函数：</a></li>
+    <li><a href="#莫比乌斯反演">莫比乌斯反演：</a></li>
+    <li><a href="#反演技巧">反演技巧</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="前置知识1整除分块" class="heading-element"><span>前置知识1:整除分块</span>
+  <a href="#%e5%89%8d%e7%bd%ae%e7%9f%a5%e8%af%861%e6%95%b4%e9%99%a4%e5%88%86%e5%9d%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h2 id="lfloor-dfracabc-rfloor--lfloor-dfraclfloor-dfracab-rfloorc-rfloor" class="heading-element"><span>$①:\lfloor \dfrac{a}{bc} \rfloor = \lfloor \dfrac{\lfloor \dfrac{a}{b} \rfloor}{c} \rfloor$</span>
+  <a href="#lfloor-dfracabc-rfloor--lfloor-dfraclfloor-dfracab-rfloorc-rfloor" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>证明：</strong></p>
+<p>$$\dfrac{a}{b}=\lfloor \dfrac{a}{b}\rfloor + r,r\in[0,1)$$</p>
+<p>$$\lfloor \dfrac{a}{bc} \rfloor = \lfloor \dfrac{a}{b} ·\dfrac{1}{c} \rfloor$$</p>
+<p>$$=\lfloor \dfrac{1}{c}·(\lfloor \dfrac{a}{b}\rfloor + r)\rfloor$$</p>
+<p>$$=\lfloor \dfrac{\lfloor \dfrac{a}{b} \rfloor}{c}+\dfrac{r}{c} \rfloor$$</p>
+<p>$$\because r&lt;c$$</p>
+<p>$$\therefore \lfloor \dfrac{\lfloor \dfrac{a}{b} \rfloor}{c}+\dfrac{r}{c} \rfloor=\lfloor \dfrac{\lfloor \dfrac{a}{b} \rfloor}{c} \rfloor$$</p>
+<h2 id="i-in-1nlfloor-dfracnirfloor-le-2-sqrtn" class="heading-element"><span>$②:i \in [1,n],|\lfloor \dfrac{n}{i}\rfloor| \le 2 \sqrt{n}$</span>
+  <a href="#i-in-1nlfloor-dfracnirfloor-le-2-sqrtn" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>证明：</strong></p>
+<p>当 $i \in[1,\lfloor \sqrt n\rfloor]$ 时，$\lfloor \dfrac{n}{i} \rfloor$有$\lfloor \sqrt n\rfloor$种取值</p>
+<p>当 $i\in(\lfloor \sqrt n\rfloor, n]$ 时，$\lfloor \dfrac{n}{i} \rfloor\le \lfloor \sqrt n\rfloor$，有$\lfloor \sqrt n\rfloor$种取值</p>
+<h2 id="-对-lfloordfracnirfloor-求和-forall-iin1n-只需要找到最大的一个-ji-le-j-le-n使得-lfloordfracnirfloorlfloordfracnjrfloor此时-jlfloordfracnlfloordfracnjrfloorrfloor" class="heading-element"><span>$③:$ 对 $\lfloor\dfrac{n}{i}\rfloor$ 求和， $\forall i\in[1,n]$ 只需要找到最大的一个 $j(i \le j \le n)$，使得 $\lfloor\dfrac{n}{i}\rfloor=\lfloor\dfrac{n}{j}\rfloor$，此时 $j=\lfloor\dfrac{n}{\lfloor\dfrac{n}{j}\rfloor}\rfloor$</span>
+  <a href="#-%e5%af%b9-lfloordfracnirfloor-%e6%b1%82%e5%92%8c-forall-iin1n-%e5%8f%aa%e9%9c%80%e8%a6%81%e6%89%be%e5%88%b0%e6%9c%80%e5%a4%a7%e7%9a%84%e4%b8%80%e4%b8%aa-ji-le-j-le-n%e4%bd%bf%e5%be%97-lfloordfracnirfloorlfloordfracnjrfloor%e6%ad%a4%e6%97%b6-jlfloordfracnlfloordfracnjrfloorrfloor" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>证明：</strong>
+先证明 $j \ge i$：
+$$\lfloor \dfrac{n}{i}\rfloor \le \dfrac{n}{i} $$</p>
+<p>$$\Leftrightarrow \lfloor\dfrac{n}{\lfloor\dfrac{n}{i}\rfloor}\rfloor \ge \lfloor\dfrac{n}{\dfrac{n}{i}}\rfloor = \lfloor i \rfloor=i$$</p>
+<p>$$\Leftrightarrow i \le \lfloor\dfrac{n}{\lfloor\dfrac{n}{i}\rfloor}\rfloor =j$$</p>
+<p>再证明最大值
+设 $k=\lfloor\dfrac{n}{i}\rfloor$，则</p>
+<p>$$k \le \dfrac{n}{j} &lt;k + 1$$</p>
+<p>$$\dfrac{1}{k + 1} &lt; \dfrac{j}{n} \le \dfrac{1}{k}$$</p>
+<p>$$\dfrac{n}{k + 1} &lt; j \le \dfrac{n}{k}$$</p>
+<p>因为 $j$ 是整数，所以最大值为 $\lfloor \dfrac{n}{k}\rfloor$</p>
+<p>所以每次将 $[i,j]$ 分为一块求解累加到答案上</p>
+<h2 id="代码" class="heading-element"><span>代码：</span>
+  <a href="#%e4%bb%a3%e7%a0%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">;</span> <span class="n">l</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">l</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">r</span> <span class="o">=</span> <span class="n">n</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="n">l</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="n">l</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="前置知识2莫比乌斯函数" class="heading-element"><span>前置知识2：莫比乌斯函数</span>
+  <a href="#%e5%89%8d%e7%bd%ae%e7%9f%a5%e8%af%862%e8%8e%ab%e6%af%94%e4%b9%8c%e6%96%af%e5%87%bd%e6%95%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>定义：</strong></p>
+<p>设 $n=p_1^{c_1}\cdots p_k^{c_k}$
+$$\mu(n)=\begin{cases}
+0,&amp;\exists i \in[1,k],c_i &gt;1 \\
+1,&amp;k \equiv 0\pmod2,\forall i \in[1,k],c_i=1\\
+-1,&amp;k\equiv1\pmod2,\forall i\in [1,k],c_i=1
+\end{cases}$$</p>
+<p><strong>性质：</strong></p>
+<p>$$\sum_{d|n}\mu(d) = \begin{cases}
+1,&amp;n=1\\
+0,&amp;n&gt;1
+\end{cases}$$</p>
+<p><strong>证明：</strong></p>
+<p>$$取n=\prod_{i=1}^{k}p_i$$</p>
+<p>$$\sum_{d|n}\mu(d)=\sum_{i=0}^{k}C_{k}^{i}·(-1)^i$$</p>
+<p>$$=(1+(-1))^k=0(二项式定理)$$</p>
+<h2 id="线性筛莫比乌斯函数" class="heading-element"><span>线性筛莫比乌斯函数：</span>
+  <a href="#%e7%ba%bf%e6%80%a7%e7%ad%9b%e8%8e%ab%e6%af%94%e4%b9%8c%e6%96%af%e5%87%bd%e6%95%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">get_mobius</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mobius</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">primes</span><span class="p">[</span><span class="n">cnt</span> <span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">mobius</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">primes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="n">primes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="n">primes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">mobius</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">mobius</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">mobius</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="莫比乌斯反演" class="heading-element"><span>莫比乌斯反演：</span>
+  <a href="#%e8%8e%ab%e6%af%94%e4%b9%8c%e6%96%af%e5%8f%8d%e6%bc%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>设 $f(n),g(n)$ 为两个数论函数</p>
+<p><strong>形式一：</strong></p>
+<p>如果</p>
+<p>$$f(n)=\sum_{d|n}g(d)$$</p>
+<p>则有</p>
+<p>$$g(n)=\sum_{d|n}\mu(d)f(\dfrac{n}{d})$$</p>
+<p><strong>证明：</strong></p>
+<p>将</p>
+<p>$$f(n)=\sum_{d|n}g(d)$$</p>
+<p>带入</p>
+<p>$$\sum_{d|n}\mu(d)f(\dfrac{n}{d})$$</p>
+<p>得</p>
+<p>$$\sum_{d|n}\mu(d)\sum_{k \mid \frac{n}{d}}g(k)$$</p>
+<p>交换求和次序：
+因为 $k \mid \dfrac{n}{d}$ ，那么 $k$ 也是 $n$ 的因子，所以枚举 $n$ 的所有因子 $d$ 等价于枚举 $k$，$k \mid \dfrac{n}{d}=d \mid \dfrac{n}{k}$</p>
+<p>所以</p>
+<p>$$\sum_{k|n}g(k)\sum_{d|\frac{n}{k}}\mu(d)$$</p>
+<p>根据 $\sum_{d \mid n}\mu(d)=[n=1]$</p>
+<p>所以 $n=k$，所以</p>
+<p>$$\sum_{k|n}g(k)\sum_{d \mid \frac{n}{k}}\mu(d)=g(n)$$</p>
+<p>证毕。</p>
+<p><strong>形式二(常用)：</strong></p>
+<p>如果</p>
+<p>$$f(n)=\sum_{n|d}g(d)$$</p>
+<p>则有</p>
+<p>$$g(n)=\sum_{n|d}\mu(\dfrac{d}{n})f(d)$$</p>
+<p><strong>证明：</strong></p>
+<p>将</p>
+<p>$$f(n)=\sum_{n|d}g(d)$$</p>
+<p>带入</p>
+<p>$$\sum_{n|d}\mu(\dfrac{d}{n})f(d)$$</p>
+<p>得</p>
+<p>$$\sum_{n|d}\mu(\dfrac{d}{n})\sum_{d|k}g(k)$$</p>
+<p>交换求和次序：</p>
+<p>$$\sum_{n|k}g(k)\sum_{\frac{d}{n}|\frac{k}{n}}\mu(\dfrac{d}{n})$$</p>
+<p>根据 $\sum_{d|n}\mu(d)=[n=1]$</p>
+<p>所以 $n=k$，所以</p>
+<p>$$\sum_{n|k}g(k)\sum_{\frac{d}{n} \mid \frac{k}{n}}\mu(\dfrac{d}{n})=g(n)$$</p>
+<p>证毕。</p>
+<h2 id="反演技巧" class="heading-element"><span>反演技巧</span>
+  <a href="#%e5%8f%8d%e6%bc%94%e6%8a%80%e5%b7%a7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>$$\sum_{i=1}^{n} f(i) \sum_{j=1}^{m}g(j)=\sum_{j=1}^{m}g(j)\sum_{i=1}^{n}f(i)$$</p>
+<p>$$\sum_{i=1}^{n} f(i) \sum_{d
+\mid i}g(d)=\sum_{d=1}^{n}g(d)\sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}f(id)$$</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-09-10 16:39:29">更新于 2024-09-10&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/" class="post-tag" title="标签 - 莫比乌斯反演">莫比乌斯反演</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/c%E8%AF%AD%E8%A8%80%E5%AE%9E%E8%AE%AD%E9%A1%B9%E7%9B%AE%E4%BC%81%E4%B8%9A%E6%96%87%E6%A1%A3%E7%AE%A1%E7%90%86%E4%B8%BB%E5%B8%AD%E6%A0%91%E5%AE%9E%E7%8E%B0/" class="post-nav-item" rel="prev" title="C语言实训项目——企业文档管理(主席树实现)"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>C语言实训项目——企业文档管理(主席树实现)</a><a href="/posts/haoi2011-problem-b/" class="post-nav-item" rel="next" title="[HAOI2011] Problem B">[HAOI2011] Problem B<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>

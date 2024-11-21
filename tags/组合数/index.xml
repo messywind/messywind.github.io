@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>组合数 - 标签 - 凌乱之风的博客</title>
+    <link>https://blog.messywind.top/tags/%E7%BB%84%E5%90%88%E6%95%B0/</link>
+    <description>This is my new Hugo FixIt site</description>
+    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 11 Sep 2024 09:26:51 +0800</lastBuildDate>
+    <atom:link href="https://blog.messywind.top/tags/%E7%BB%84%E5%90%88%E6%95%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[Wannafly 28] msc的背包</title>
+      <link>https://blog.messywind.top/posts/wannafly-28-msc%E7%9A%84%E8%83%8C%E5%8C%85/</link>
+      <pubDate>Wed, 27 Apr 2022 23:34:56 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/wannafly-28-msc%E7%9A%84%E8%83%8C%E5%8C%85/</guid>
+      <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
+      <description>&lt;p&gt;&lt;a href=&#34;https://ac.nowcoder.com/acm/problem/21207&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;有 $n$ 种体积为 $1$ 的物品和 $m$ 种体积为 $2$ 的物品，求选择物品的体积为 $k$ 的方案数&lt;/p&gt;&#xA;&lt;p&gt;对 $998244353$ 取模&lt;/p&gt;&#xA;&lt;p&gt;$(1 \le n, m \le 10 ^ 6,1 \le k \le 9 \times 10 ^ 8)$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;所有体积为 $1$ 的生成函数为&#xA;$$&#xA;F(x) = \left ( \sum_{i = 0} ^ {\infty} x ^ i \right ) ^ n&#xA;$$&#xA;所有体积为 $2$ 的生成函数为&#xA;$$&#xA;G(x) = \left ( \sum_{i = 0} ^ {\infty} x ^ {2i} \right ) ^ m&#xA;$$&#xA;那么组成的所有体积方案数为 $F(x) \times G(x)$&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

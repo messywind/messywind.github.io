@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>多项式多点求值 - 标签 - 凌乱之风的博客</title>
+    <link>https://blog.messywind.top/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F%E5%A4%9A%E7%82%B9%E6%B1%82%E5%80%BC/</link>
+    <description>This is my new Hugo FixIt site</description>
+    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 11 Sep 2024 10:21:32 +0800</lastBuildDate>
+    <atom:link href="https://blog.messywind.top/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F%E5%A4%9A%E7%82%B9%E6%B1%82%E5%80%BC/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[2021CCPC 威海G] Shinyruo and KFC</title>
+      <link>https://blog.messywind.top/posts/2021ccpc-%E5%A8%81%E6%B5%B7g-shinyruo-and-kfc/</link>
+      <pubDate>Tue, 04 Oct 2022 15:21:43 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/2021ccpc-%E5%A8%81%E6%B5%B7g-shinyruo-and-kfc/</guid>
+      <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
+      <description>&lt;p&gt;&lt;a href=&#34;https://codeforces.com/gym/103428/problem/G&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;给定 $n$ 个正整数 $a_1,a_2,\cdots,a_n$，并给定正整数 $m$，对于每个 $k \in [1, m]$，计算 $\prod\limits_{i = 1} ^ {n} \dbinom{k}{a_i}$&lt;/p&gt;&#xA;&lt;p&gt;对 $998,244,353$ 取模。&lt;/p&gt;&#xA;&lt;p&gt;$(1 \le n, m \le 5 \times 10 ^ 4, \sum\limits_{i = 1} ^ {n}a_i \le 10 ^ 5)$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;考虑拆组合数&#xA;$$&#xA;\prod_{i = 1} ^ {n}\binom{k}{a_i}=\prod_{i = 1} ^ {n}\frac{k!}{a_i! \times (k - a_i)!} \&#xA;= \frac{1}{\prod\limits_{i = 1} ^ {n}a_i!} \times \prod_{i = 1} ^ {n} k ^ {\underline {a_i}}&#xA;$$&#xA;所以可以把 $k ^ {\underline{a_i}}$ 看作一个下降幂多项式，那么使用分治下降幂多项式乘法可以求出 $\prod\limits_{i = 1} ^ {n} k ^ {\underline {a_i}}$，再转为普通幂多项式，再对 $(1, 2, \cdots,m)$ 使用多项式多点求值即可求出答案，时间复杂度 $O(n\log ^ 2 n)$&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

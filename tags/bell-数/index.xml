@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bell 数 - 标签 - 凌乱之风的博客</title>
+    <link>https://blog.messywind.top/tags/bell-%E6%95%B0/</link>
+    <description>This is my new Hugo FixIt site</description>
+    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 11 Sep 2024 10:12:28 +0800</lastBuildDate>
+    <atom:link href="https://blog.messywind.top/tags/bell-%E6%95%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[2021ICPC济南 L] Strange Series</title>
+      <link>https://blog.messywind.top/posts/2021icpc%E6%B5%8E%E5%8D%97-l-strange-series/</link>
+      <pubDate>Tue, 30 Aug 2022 13:26:27 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/2021icpc%E6%B5%8E%E5%8D%97-l-strange-series/</guid>
+      <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
+      <description>&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;$T$ 组输入，给定一个 $n$ 次多项式 $f(x) = a_0 + a_1x + \cdots + a_nx ^ n$，定义 $S = \sum\limits_{i = 0} ^ {\infty} \dfrac{f(i)}{i!}$，可以证明 $S$ 一定是 $e$ 的倍数，即 $S = p \times e$，求 $p$ 对 $998,244,353$ 取模。&lt;/p&gt;&#xA;&lt;p&gt;$1 \le T \le 100, 0 \le n \le 10 ^ 5,0 \le a_i &amp;lt; 998,244,353$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;首先将 $f(x)$ 代入 $S$ 得&#xA;$$&#xA;\sum_{i = 0} ^ {\infty}\frac{1}{i!} \sum_{j = 0} ^ {n}a_j \times i ^ j&#xA;$$&#xA;看到自然数幂想到展开 $i ^ k = \sum\limits_{j = 0} ^ {k} {k \brace j} i ^{\underline j}$，代入得&#xA;$$&#xA;\sum_{i = 0} ^ {\infty} \frac{1}{i!} \sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} i ^ {\underline k}&#xA;$$&#xA;交换求和次序，先对 $i$ 求和&#xA;$$&#xA;\sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} \sum_{i = 0} ^ {\infty} \frac{i ^ {\underline k}}{i!}&#xA;$$&#xA;把下降幂消掉&#xA;$$&#xA;\sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} \sum_{i = k} ^ {\infty} \frac{1}{(i-k)!}&#xA;$$&#xA;做变换 $(i - k) \rightarrow i$&#xA;$$&#xA;\sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} \sum_{i = 0} ^ {\infty} \frac{1}{i!}&#xA;$$&#xA;由于 $e = \sum\limits_{i = 0} ^ {\infty} \dfrac{1}{i!}$，所以原式为 $e$ 的倍数得证，那么式子变为&#xA;$$&#xA;\sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} \times e&#xA;$$&#xA;事实上 $\text{Bell} _ {n} = \sum \limits_{i = 0} ^ {n} {n \brace i}$，其中 $\text{Bell}_{n}$ 为第 $n$ 项贝尔数，代表 $n$ 个元素的集合划分为任意非空子集的方案数，所以答案就为&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>概率期望 - 标签 - 凌乱之风的博客</title>
+    <link>https://blog.messywind.top/tags/%E6%A6%82%E7%8E%87%E6%9C%9F%E6%9C%9B/</link>
+    <description>This is my new Hugo FixIt site</description>
+    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 10 Sep 2024 17:22:46 +0800</lastBuildDate>
+    <atom:link href="https://blog.messywind.top/tags/%E6%A6%82%E7%8E%87%E6%9C%9F%E6%9C%9B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[2021 CCCC天梯赛] 可怜的简单题</title>
+      <link>https://blog.messywind.top/posts/2021-cccc%E5%A4%A9%E6%A2%AF%E8%B5%9B-%E5%8F%AF%E6%80%9C%E7%9A%84%E7%AE%80%E5%8D%95%E9%A2%98/</link>
+      <pubDate>Thu, 23 Sep 2021 12:37:23 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/2021-cccc%E5%A4%A9%E6%A2%AF%E8%B5%9B-%E5%8F%AF%E6%80%9C%E7%9A%84%E7%AE%80%E5%8D%95%E9%A2%98/</guid>
+      <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
+      <description>&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;每次从 $[1,n]$ 中选择一个数加到一个序列末尾，当 $\gcd(a_1,\cdots,a_n)=1$ 时停止，求期望长度，对 $p$ 取模&lt;/p&gt;&#xA;&lt;p&gt;$1\le n \le 10^{11},n&amp;lt; p \le 10 ^{12}$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;设 $E(x)$ 为长度为 $x$ 的期望，那么根据期望定义&lt;/p&gt;&#xA;&lt;p&gt;$$E(x)=\sum_{i=1}^{\infty}P(x=i) \times i$$&lt;/p&gt;&#xA;&lt;p&gt;把 $i$ 改为 $\sum\limits_{j=1} ^{i}$&lt;/p&gt;&#xA;&lt;p&gt;$$E(x)=\sum_{i=1}^{\infty}P(x=i) \sum_{j=1}^{i}$$&lt;/p&gt;&#xA;&lt;p&gt;交换求和次序&lt;/p&gt;&#xA;&lt;p&gt;$$\sum_{i=1}^{\infty}\sum_{j = i}^{\infty}P(x=j)$$&lt;/p&gt;&#xA;&lt;p&gt;等价于&lt;/p&gt;&#xA;&lt;p&gt;$$\sum_{i=1}^{\infty}P(x\ge i)$$&lt;/p&gt;&#xA;&lt;p&gt;化简一下&lt;/p&gt;&#xA;&lt;p&gt;$$\sum_{i=1}^{\infty}P(x\ge i)=1+\sum_{i=1}^{\infty}P(x&amp;gt; i)$$&lt;/p&gt;&#xA;&lt;p&gt;考虑 $P(x&amp;gt; i)$，进行容斥 $1-P(x \le i)$ 就等价于&lt;/p&gt;&#xA;&lt;p&gt;$$1-P(\gcd(a_1,\cdots,a_i)=1)$$&lt;/p&gt;&#xA;&lt;p&gt;枚举 $a_i$ 在 $[1,n]$ 中的取值&lt;/p&gt;&#xA;&lt;p&gt;$$1-\sum_{a_1=1}^{n}\cdots\sum_{a_i=1}^{n}\frac{[\gcd(a_1,\cdots,a_i)=1]}{n^{i}}$$&lt;/p&gt;&#xA;&lt;p&gt;莫比乌斯反演&lt;/p&gt;&#xA;&lt;p&gt;$$1-\sum_{a_1=1}^{n}\cdots\sum_{a_i=1}^{n}\frac{\sum\limits_{d \mid\gcd(a_1,\cdots,a_i) }\mu(d)}{n^{i}}$$&lt;/p&gt;&#xA;&lt;p&gt;交换求和次序&lt;/p&gt;&#xA;&lt;p&gt;$$1-\frac{\sum\limits_{d=1}^{n}\mu(d)\lfloor \dfrac{n}{d} \rfloor^i}{n^i}$$&lt;/p&gt;&#xA;&lt;p&gt;把 $1$ 拿到分子，和第一项抵消了&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

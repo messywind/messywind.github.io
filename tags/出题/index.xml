@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>出题 - 标签 - 凌乱之风的博客</title>
+    <link>https://blog.messywind.top/tags/%E5%87%BA%E9%A2%98/</link>
+    <description>This is my new Hugo FixIt site</description>
+    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 12 Sep 2024 10:21:44 +0800</lastBuildDate>
+    <atom:link href="https://blog.messywind.top/tags/%E5%87%BA%E9%A2%98/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SDUTACM 出题参考</title>
+      <link>https://blog.messywind.top/posts/sdutacm-%E5%87%BA%E9%A2%98%E5%8F%82%E8%80%83/</link>
+      <pubDate>Tue, 01 Aug 2023 00:00:00 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/sdutacm-%E5%87%BA%E9%A2%98%E5%8F%82%E8%80%83/</guid>
+      <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
+      <description>&lt;center&gt;&#xD;&#xA;&#x9;&lt;embed src=&#34;https://blog.messywind.top/pdf/problem.pdf&#34; width=&#34;1050&#34; height=&#34;1000&#34;&gt;&#xD;&#xA;&lt;/center&gt;</description>
+    </item>
+  </channel>
+</rss>

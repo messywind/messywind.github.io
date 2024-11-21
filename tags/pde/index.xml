@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PDE - 标签 - 凌乱之风的博客</title>
+    <link>https://blog.messywind.top/tags/pde/</link>
+    <description>This is my new Hugo FixIt site</description>
+    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 11 Sep 2024 14:51:22 +0800</lastBuildDate>
+    <atom:link href="https://blog.messywind.top/tags/pde/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[2023牛客多校10 H] Differential Equation</title>
+      <link>https://blog.messywind.top/posts/2023%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A110-h-differential-equation/</link>
+      <pubDate>Tue, 22 Aug 2023 16:34:01 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/2023%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A110-h-differential-equation/</guid>
+      <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
+      <description>&lt;p&gt;&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/57364/H&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;定义函数 $f_k(x) = (x ^ 2 - 1)f&#39; _{k - 1}(x)$，其中 $f_0(x) = x$，求 $f_n(x_0)$ 对 $998,244,353$ 取模。&lt;/p&gt;&#xA;&lt;p&gt;$0\le n \le 2 \times 10 ^ 5, 0 \le x_0 \le 998,244,352$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;首先看到递推式含有导数，我们可以考虑序列 $f_0(x),f_1(x),f_2(x),\cdots$ 的 EGF。由于 $x$ 变量已存在，我们用二元函数 $F(x, y)$ 来刻画，即：&lt;/p&gt;&#xA;&lt;p&gt;$$&#xA;F(x,y) = \sum_{i = 0} ^ {\infty}\frac{f_i(x)}{i!} y ^ i&#xA;$$&lt;/p&gt;&#xA;&lt;p&gt;我们希望在 $F(x, y)$ 中看到 $f&amp;rsquo;_i(x)$，于是对 $F(x, y)$ 求一次 $x$ 的偏导。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

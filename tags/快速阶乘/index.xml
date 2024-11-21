@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>快速阶乘 - 标签 - 凌乱之风的博客</title>
+    <link>https://blog.messywind.top/tags/%E5%BF%AB%E9%80%9F%E9%98%B6%E4%B9%98/</link>
+    <description>This is my new Hugo FixIt site</description>
+    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 11 Sep 2024 10:30:09 +0800</lastBuildDate>
+    <atom:link href="https://blog.messywind.top/tags/%E5%BF%AB%E9%80%9F%E9%98%B6%E4%B9%98/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[2023杭电多校9 K] Cargo</title>
+      <link>https://blog.messywind.top/posts/2023%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A19-k-cargo/</link>
+      <pubDate>Tue, 15 Aug 2023 19:05:10 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/2023%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A19-k-cargo/</guid>
+      <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
+      <description>&lt;p&gt;&lt;a href=&#34;https://acm.hdu.edu.cn/showproblem.php?pid=7381&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;有 $n$ 个商店卖 $m$ 种商品，每个商店只无限卖一种商品，第 $i$ 个商店卖第 $a_i$ 种类型商品。&lt;/p&gt;&#xA;&lt;p&gt;你将购物 $k$ 次，每次随机选择某个商店购买一件商品。购物完后，以下情况你将不满意：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;存在一个商品类型 $i$，你恰好购买了该类型商品 $c_i$ 个，并且这 $c_i$ 个商品恰好来自不同的商店。($c_i$ 表示卖类型 $i$ 的商品的商店个数)&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;求购物 $k$ 次后使你&lt;strong&gt;满意&lt;/strong&gt;的概率，对 $998,244,353$ 取模。(购物带标号)&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

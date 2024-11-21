@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>动态开点 - 标签 - 凌乱之风的博客</title>
+    <link>https://blog.messywind.top/tags/%E5%8A%A8%E6%80%81%E5%BC%80%E7%82%B9/</link>
+    <description>This is my new Hugo FixIt site</description>
+    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 10 Sep 2024 17:25:33 +0800</lastBuildDate>
+    <atom:link href="https://blog.messywind.top/tags/%E5%8A%A8%E6%80%81%E5%BC%80%E7%82%B9/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[SDOI 2014] 旅行</title>
+      <link>https://blog.messywind.top/posts/sdoi-2014-%E6%97%85%E8%A1%8C/</link>
+      <pubDate>Wed, 29 Sep 2021 17:03:45 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/sdoi-2014-%E6%97%85%E8%A1%8C/</guid>
+      <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
+      <description>&lt;p&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P3313&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;给定一棵 $n$ 个节点的树，每个点都有一个宗教 $c_i$ 和权值 $w_i$&#xA;有 $m$ 次操作：&#xA;$1.$ 将节点 $x$ 的宗教 $c_x$ 修改为 $c$&#xA;$2.$ 将节点 $x$ 的权值 $w_x$ 修改为 $w$&#xA;$3.$ 询问树上路径 $u$ 到 $v$ 宗教为 $c_u$ 的权值和 (保证 $c_u=c_v$ )&#xA;$4.$ 询问树上路径 $u$ 到 $v$ 宗教为 $c_u$ 的最大权值 (保证 $c_u=c_v$ )&lt;/p&gt;&#xA;&lt;p&gt;$1 \le n,m,c \le 10^5$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;这种树上问题可以想到树链剖分，那么重点是线段树如何维护，每个点可能会记录 $10^5$ 种宗教，空间显然是开不下的，但是询问只有 $10^5$，所以可以给每个宗教开一颗权值线段树，然后用动态开点的方式维护操作。我们就在权值线段树上记录每个点对应宗教的权值，也就是做映射 $c_u \rightarrow w_u$&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
