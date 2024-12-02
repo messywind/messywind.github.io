@@ -4,23 +4,23 @@
     <title>小作文 - 标签 - 凌乱之风的博客</title>
     <link>https://blog.messywind.top/tags/%E5%B0%8F%E4%BD%9C%E6%96%87/</link>
     <description>This is my new Hugo FixIt site</description>
-    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <generator>Hugo 0.139.3 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 21 Nov 2024 09:24:39 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 02 Dec 2024 09:28:02 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/tags/%E5%B0%8F%E4%BD%9C%E6%96%87/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>2024 英雄联盟 S14 全球总决赛 观赛感悟</title>
-      <link>https://blog.messywind.top/posts/%E8%8B%B1%E9%9B%84%E8%81%94%E7%9B%9F-s14-%E6%80%BB%E5%86%B3%E8%B5%9B/</link>
+      <link>https://blog.messywind.top/posts/game%E8%8B%B1%E9%9B%84%E8%81%94%E7%9B%9F-s14-%E6%80%BB%E5%86%B3%E8%B5%9B/</link>
       <pubDate>Sat, 02 Nov 2024 22:00:00 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/%E8%8B%B1%E9%9B%84%E8%81%94%E7%9B%9F-s14-%E6%80%BB%E5%86%B3%E8%B5%9B/</guid>
+      <guid>https://blog.messywind.top/posts/game%E8%8B%B1%E9%9B%84%E8%81%94%E7%9B%9F-s14-%E6%80%BB%E5%86%B3%E8%B5%9B/</guid>
       <category domain="https://blog.messywind.top/categories/%E6%B8%B8%E6%88%8F/">游戏</category>
       <description>&lt;p&gt;虽然我英雄联盟只入坑了半年，峡谷也只有白银水平，今年也刚开始看英雄联盟比赛，但这次总决赛我能感受到 LPL 观众对于这次寄希望于全华班夺冠的厚重感。今年从春季赛看到世界赛，也看到了 BLG 的一路努力，从春季赛夺冠到 MSI 击败 T1 但惨败 GENG，夏季赛调整继续夺冠，再到世界赛瑞士轮前期越挫越勇 最后击败 G2 成功晋级八强，淘汰赛横扫 HLE，在四强承接着 WBG 意志走向决赛，目的就是在总决赛的舞台上大放异彩。&lt;/p&gt;</description>
     </item>
     <item>
       <title>2024CCPC长春邀请赛游记</title>
-      <link>https://blog.messywind.top/posts/2024ccpc%E9%95%BF%E6%98%A5%E9%82%80%E8%AF%B7%E8%B5%9B%E6%B8%B8%E8%AE%B0/</link>
+      <link>https://blog.messywind.top/posts/cp2024ccpc%E9%95%BF%E6%98%A5%E9%82%80%E8%AF%B7%E8%B5%9B%E6%B8%B8%E8%AE%B0/</link>
       <pubDate>Mon, 20 May 2024 22:54:00 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/2024ccpc%E9%95%BF%E6%98%A5%E9%82%80%E8%AF%B7%E8%B5%9B%E6%B8%B8%E8%AE%B0/</guid>
+      <guid>https://blog.messywind.top/posts/cp2024ccpc%E9%95%BF%E6%98%A5%E9%82%80%E8%AF%B7%E8%B5%9B%E6%B8%B8%E8%AE%B0/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;我们已经大四了，还有机会拿金牌吗？&lt;/p&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://www.zhihu.com/question/656294779/answer/3504726877&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;如何评价2024CCPC长春邀请赛暨吉林省赛?&lt;/a&gt;&lt;/p&gt;</description>
     </item>

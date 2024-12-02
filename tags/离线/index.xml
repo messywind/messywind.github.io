@@ -4,23 +4,23 @@
     <title>离线 - 标签 - 凌乱之风的博客</title>
     <link>https://blog.messywind.top/tags/%E7%A6%BB%E7%BA%BF/</link>
     <description>This is my new Hugo FixIt site</description>
-    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <generator>Hugo 0.139.3 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 21 Nov 2024 09:24:39 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 02 Dec 2024 09:28:02 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/tags/%E7%A6%BB%E7%BA%BF/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[AHOI2015] 航线规划</title>
-      <link>https://blog.messywind.top/posts/ahoi2015-%E8%88%AA%E7%BA%BF%E8%A7%84%E5%88%92/</link>
+      <link>https://blog.messywind.top/posts/cpahoi2015-%E8%88%AA%E7%BA%BF%E8%A7%84%E5%88%92/</link>
       <pubDate>Fri, 10 Dec 2021 11:26:22 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/ahoi2015-%E8%88%AA%E7%BA%BF%E8%A7%84%E5%88%92/</guid>
+      <guid>https://blog.messywind.top/posts/cpahoi2015-%E8%88%AA%E7%BA%BF%E8%A7%84%E5%88%92/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P2542&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;给定一个 $n$ 个点 $m$ 条边的图，有不超过 $40000$ 次的操作，每次操作有三个参数 $op, u, v$&lt;/p&gt;&#xA;&lt;p&gt;若 $op =0$ ，表示删除点 $u,v$ 之间的边&lt;/p&gt;&#xA;&lt;p&gt;若 $op = 1$，表示询问 $u, v$ 之间有多少&lt;strong&gt;关键边&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;关键边：&lt;/strong&gt; $u, v$ 联通，若删除该边 $u, v$ 不连通，则为关键边&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;最朴素的想法是每次删完边之后 $\text{tarjan}$ 缩点，再维护树上两点距离，但这样显然会超时。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[LNOI2014] LCA</title>
-      <link>https://blog.messywind.top/posts/lnoi2014-lca/</link>
+      <link>https://blog.messywind.top/posts/cplnoi2014-lca/</link>
       <pubDate>Mon, 01 Nov 2021 11:37:53 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/lnoi2014-lca/</guid>
+      <guid>https://blog.messywind.top/posts/cplnoi2014-lca/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P4211&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;给定一颗 $n$ 个节点并且根为 $1$ 的树和 $q$ 次询问，每次询问给定 $l,r,z$ 求&lt;/p&gt;&#xA;&lt;p&gt;$$\sum_{i=l}^{r} \text{dep}(\text{lca}(i,z))$$&lt;/p&gt;&#xA;&lt;p&gt;对 $201314$ 取模&lt;/p&gt;&#xA;&lt;p&gt;$\text{dep}(x)$ 表示点 $x$ 的深度，$\text{lca}(u,v)$ 表示 $u,v$ 的最近公共祖先&lt;/p&gt;&#xA;&lt;p&gt;$1 \le n,q \le 5×10^4$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;对式子进行一步转化，那就相当于在 $[l,r]$ 区间内的每个点，每次将该点和树根的路径上点权 $+1$，最后查询 $z$ 到树根路径的点权之和。这样做显然是超时的，所以就考虑怎么优化式子，我们发现每次询问是在 $[1,n]$ 区间的，所以就可以想到前缀和，也就是&lt;/p&gt;</description>
     </item>

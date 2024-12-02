@@ -4,15 +4,15 @@
     <title>多元函数极值 - 标签 - 凌乱之风的博客</title>
     <link>https://blog.messywind.top/tags/%E5%A4%9A%E5%85%83%E5%87%BD%E6%95%B0%E6%9E%81%E5%80%BC/</link>
     <description>This is my new Hugo FixIt site</description>
-    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <generator>Hugo 0.139.3 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 21 Nov 2024 09:24:39 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 02 Dec 2024 09:28:02 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/tags/%E5%A4%9A%E5%85%83%E5%87%BD%E6%95%B0%E6%9E%81%E5%80%BC/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[2022 广东省赛M] 拉格朗日插值</title>
-      <link>https://blog.messywind.top/posts/2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/</link>
+      <link>https://blog.messywind.top/posts/cp2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/</link>
       <pubDate>Fri, 01 Jul 2022 21:57:26 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/</guid>
+      <guid>https://blog.messywind.top/posts/cp2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;求在满足 $\sum\limits_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} = 1$ 的条件下，从长度为 $m$ 的数组 $b$ 中选 $k$ 个数组成 $a_1,a_2,\cdots,a_k$，$\prod\limits_{i = 1} ^{k} x_i$ 的最大值的期望，$k$ 为偶数。&lt;/p&gt;&#xA;&lt;p&gt;$(1 \le k \le m \le 10 ^ 5, 0  &amp;lt; b_i &amp;lt; 10 ^ 9)$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;首先求解最大值需要用到高等数学中多元函数条件极值的拉格朗日乘数法，设&#xA;$$&#xA;L(x_1,x_2,\cdots,x_k, \lambda) = \prod_{i = 1} ^{k} x_i +  \lambda(\sum\limits_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} - 1)&#xA;$$&#xA;对每个变量求偏导数，令偏导数为 $0$ 得&#xA;$$&#xA;\frac{\partial L}{\partial x_1} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_1} + \frac{2\lambda x_1}{a_1 ^ 2} = 0&#xA;\\&#xA;\frac{\partial L}{\partial x_2} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_2} + \frac{2\lambda x_2}{a_2 ^ 2} = 0&#xA;\\&#xA;\cdots&#xA;\\&#xA;\frac{\partial L}{\partial x_k} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_k} + \frac{2\lambda x_k}{a_k ^ 2} = 0&#xA;\\&#xA;\frac{\partial L}{\partial \lambda} =  \sum_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} - 1 = 0&#xA;$$&#xA;那么稍微化简一下，对于 $1 \le i \le k$ 都有&#xA;$$&#xA;\prod_{i = 1} ^ {k}x_i = \frac{-2\lambda x_i ^ 2}{a_i ^ 2}&#xA;$$&#xA;通过任意两式 $1 \le i, j \le k$ 联立消掉 $\lambda$&#xA;$$&#xA;\frac{a_i ^ 2\prod\limits_{i = 1} ^ {k}x_i}{-2x_i ^ 2} = \frac{a_j ^ 2\prod\limits_{i = 1} ^ {k}x_i}{-2x_j ^ 2}&#xA;$$&#xA;化简得&#xA;$$&#xA;\frac{x_i}{a_i} = \frac{x_j}{a_j}&#xA;$$&#xA;所以当且仅当 $\dfrac{x_1}{a_1} = \dfrac{x_2}{a_2}=\cdots=\dfrac{x_k}{a_k}$ 时取得最大值，且 $\sum\limits_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} = 1$，所以对任意 $1 \le i \le k$ 都有 $\dfrac{x_i}{a_i} = \pm \sqrt{\dfrac{1}{k}}$，那么 $\prod\limits_{i = 1} ^{k} x_i = k ^ {- \frac{k}{2}}\prod\limits_{i = 1} ^ {k} a_i$，因为 $k$ 为偶数，所以一定为正，且 $\dfrac{k}{2}$ 一定是整数。&lt;/p&gt;</description>
     </item>

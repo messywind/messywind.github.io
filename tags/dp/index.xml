@@ -4,23 +4,23 @@
     <title>DP - 标签 - 凌乱之风的博客</title>
     <link>https://blog.messywind.top/tags/dp/</link>
     <description>This is my new Hugo FixIt site</description>
-    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <generator>Hugo 0.139.3 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 21 Nov 2024 09:24:39 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 02 Dec 2024 09:28:02 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/tags/dp/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>DP 题目选讲</title>
-      <link>https://blog.messywind.top/posts/dp-%E9%A2%98%E7%9B%AE%E9%80%89%E8%AE%B2/</link>
+      <link>https://blog.messywind.top/posts/cpdp-%E9%A2%98%E7%9B%AE%E9%80%89%E8%AE%B2/</link>
       <pubDate>Thu, 07 Jul 2022 10:52:14 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/dp-%E9%A2%98%E7%9B%AE%E9%80%89%E8%AE%B2/</guid>
+      <guid>https://blog.messywind.top/posts/cpdp-%E9%A2%98%E7%9B%AE%E9%80%89%E8%AE%B2/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;h2 id=&#34;背包acwing-1454-异或和是质数的子集数&#34; class=&#34;heading-element&#34;&gt;&lt;span&gt;背包：Acwing 1454 异或和是质数的子集数&lt;/span&gt;&#xA;  &lt;a href=&#34;#%e8%83%8c%e5%8c%85acwing-1454-%e5%bc%82%e6%88%96%e5%92%8c%e6%98%af%e8%b4%a8%e6%95%b0%e7%9a%84%e5%ad%90%e9%9b%86%e6%95%b0&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;p&gt;题目链接 &lt;a href=&#34;https://www.acwing.com/problem/content/description/1456/&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;https://www.acwing.com/problem/content/description/1456/&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;考虑 $01$ 背包，$1 \sim n$ 中对于每件物品 $1 \le i \le n$ 的体积为 $i$&lt;/p&gt;&#xA;&lt;p&gt;定义状态 $dp_{i, j}$ 为从前 $i$ 件物品中选，异或和为 $j$ 的方案数，那么有转移&#xA;$$&#xA;dp_{i,j} = dp_{i - 1,j} + dp_{i - 1,j \oplus a_i}&#xA;$$&#xA;由于按位异或会变小，所以状态必须开二维，但第一维可以用滚动数组优化。&lt;/p&gt;</description>
     </item>
     <item>
       <title>DP</title>
-      <link>https://blog.messywind.top/posts/dp/</link>
+      <link>https://blog.messywind.top/posts/cpdp/</link>
       <pubDate>Sat, 15 Jan 2022 16:48:09 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/dp/</guid>
+      <guid>https://blog.messywind.top/posts/cpdp/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;h2 id=&#34;动态规划的引入斐波那契数列&#34; class=&#34;heading-element&#34;&gt;&lt;span&gt;动态规划的引入：斐波那契数列&lt;/span&gt;&#xA;  &lt;a href=&#34;#%e5%8a%a8%e6%80%81%e8%a7%84%e5%88%92%e7%9a%84%e5%bc%95%e5%85%a5%e6%96%90%e6%b3%a2%e9%82%a3%e5%a5%91%e6%95%b0%e5%88%97&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;p&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/U198005&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;题目链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;已知斐波那契数列 $f_1 = 1, f_2 = 1, f_i = f_{i - 1} + f_{i - 2}, i \ge 3$  ，给定正整数 $n$ ，求 $f_n \bmod 10 ^ 9 + 7$&lt;/p&gt;</description>
     </item>

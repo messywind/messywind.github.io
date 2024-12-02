@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>[SDOI2015] 约数个数和 - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="题目链接
+题意：
+设 $d(x)$ 为 $x$ 的约数个数，求
+$$\sum_{i=1}^{N}\sum_{j=1}^{M} d(ij)$$
+分析：
+首先 $i=p_1 ^{\alpha_1}\cdots p_k^{\alpha_k},j=p_1 ^{\beta_1}\cdots p_k^{\beta_k},i×j=p_1 ^{\alpha_1&#43;\beta_1}\cdots p_k^{\alpha_k&#43;\beta_k}$
+约数个数和为
+$$d(ij)=(\alpha_1&#43;\beta_1&#43;1)\cdots(\alpha_k&#43;\beta_k&#43;1)=\alpha_1\beta_2&#43;\cdots &#43; 1$$
+所以$$d(ij)=\sum_{x|i}\sum_{y|j}[\gcd(x,y)=1]$$
+所以原式为
+$$\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[\gcd(x,y)=1]$$
+设 $g(n)$ 为：
+$$g(n)=\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[n\mid\gcd(x,y)]$$
+设 $f(n)$ 为：
+$$\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[\gcd(x,y)=n]$$
+则有
+$$g(n)=\sum_{n\mid d} f(d)$$
+那么就可以莫比乌斯反演了
+$$f(n)=\sum_{n\mid d}\mu(\frac{d}{n})g(d)$$
+"><meta name="keywords" content='莫比乌斯反演'>
+  <meta itemprop="name" content="[SDOI2015] 约数个数和">
+  <meta itemprop="description" content="题目链接
+题意：
+设 $d(x)$ 为 $x$ 的约数个数，求
+$$\sum_{i=1}^{N}\sum_{j=1}^{M} d(ij)$$
+分析：
+首先 $i=p_1 ^{\alpha_1}\cdots p_k^{\alpha_k},j=p_1 ^{\beta_1}\cdots p_k^{\beta_k},i×j=p_1 ^{\alpha_1&#43;\beta_1}\cdots p_k^{\alpha_k&#43;\beta_k}$
+约数个数和为
+$$d(ij)=(\alpha_1&#43;\beta_1&#43;1)\cdots(\alpha_k&#43;\beta_k&#43;1)=\alpha_1\beta_2&#43;\cdots &#43; 1$$
+所以$$d(ij)=\sum_{x|i}\sum_{y|j}[\gcd(x,y)=1]$$
+所以原式为
+$$\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[\gcd(x,y)=1]$$
+设 $g(n)$ 为：
+$$g(n)=\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[n\mid\gcd(x,y)]$$
+设 $f(n)$ 为：
+$$\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[\gcd(x,y)=n]$$
+则有
+$$g(n)=\sum_{n\mid d} f(d)$$
+那么就可以莫比乌斯反演了
+$$f(n)=\sum_{n\mid d}\mu(\frac{d}{n})g(d)$$">
+  <meta itemprop="datePublished" content="2021-07-23T16:07:51+00:00">
+  <meta itemprop="dateModified" content="2024-12-02T09:28:02+00:00">
+  <meta itemprop="wordCount" content="654">
+  <meta itemprop="keywords" content="莫比乌斯反演"><meta property="og:url" content="https://blog.messywind.top/posts/cpsdoi2015-%E7%BA%A6%E6%95%B0%E4%B8%AA%E6%95%B0%E5%92%8C/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="[SDOI2015] 约数个数和">
+  <meta property="og:description" content="题目链接
+题意：
+设 $d(x)$ 为 $x$ 的约数个数，求
+$$\sum_{i=1}^{N}\sum_{j=1}^{M} d(ij)$$
+分析：
+首先 $i=p_1 ^{\alpha_1}\cdots p_k^{\alpha_k},j=p_1 ^{\beta_1}\cdots p_k^{\beta_k},i×j=p_1 ^{\alpha_1&#43;\beta_1}\cdots p_k^{\alpha_k&#43;\beta_k}$
+约数个数和为
+$$d(ij)=(\alpha_1&#43;\beta_1&#43;1)\cdots(\alpha_k&#43;\beta_k&#43;1)=\alpha_1\beta_2&#43;\cdots &#43; 1$$
+所以$$d(ij)=\sum_{x|i}\sum_{y|j}[\gcd(x,y)=1]$$
+所以原式为
+$$\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[\gcd(x,y)=1]$$
+设 $g(n)$ 为：
+$$g(n)=\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[n\mid\gcd(x,y)]$$
+设 $f(n)$ 为：
+$$\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[\gcd(x,y)=n]$$
+则有
+$$g(n)=\sum_{n\mid d} f(d)$$
+那么就可以莫比乌斯反演了
+$$f(n)=\sum_{n\mid d}\mu(\frac{d}{n})g(d)$$">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-07-23T16:07:51+00:00">
+    <meta property="article:modified_time" content="2024-12-02T09:28:02+00:00">
+    <meta property="article:tag" content="莫比乌斯反演">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="[SDOI2015] 约数个数和">
+  <meta name="twitter:description" content="题目链接
+题意：
+设 $d(x)$ 为 $x$ 的约数个数，求
+$$\sum_{i=1}^{N}\sum_{j=1}^{M} d(ij)$$
+分析：
+首先 $i=p_1 ^{\alpha_1}\cdots p_k^{\alpha_k},j=p_1 ^{\beta_1}\cdots p_k^{\beta_k},i×j=p_1 ^{\alpha_1&#43;\beta_1}\cdots p_k^{\alpha_k&#43;\beta_k}$
+约数个数和为
+$$d(ij)=(\alpha_1&#43;\beta_1&#43;1)\cdots(\alpha_k&#43;\beta_k&#43;1)=\alpha_1\beta_2&#43;\cdots &#43; 1$$
+所以$$d(ij)=\sum_{x|i}\sum_{y|j}[\gcd(x,y)=1]$$
+所以原式为
+$$\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[\gcd(x,y)=1]$$
+设 $g(n)$ 为：
+$$g(n)=\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[n\mid\gcd(x,y)]$$
+设 $f(n)$ 为：
+$$\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[\gcd(x,y)=n]$$
+则有
+$$g(n)=\sum_{n\mid d} f(d)$$
+那么就可以莫比乌斯反演了
+$$f(n)=\sum_{n\mid d}\mu(\frac{d}{n})g(d)$$">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/cpsdoi2015-%E7%BA%A6%E6%95%B0%E4%B8%AA%E6%95%B0%E5%92%8C/" title="[SDOI2015] 约数个数和 - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/cphaoi2011-problem-b/" title="[HAOI2011] problem b" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/cpbsgsexbsgs/" title="BSGS、exBSGS" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/cpsdoi2015-%E7%BA%A6%E6%95%B0%E4%B8%AA%E6%95%B0%E5%92%8C/index.md" title="[SDOI2015] 约数个数和 - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "[SDOI2015] 约数个数和",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/cpsdoi2015-%E7%BA%A6%E6%95%B0%E4%B8%AA%E6%95%B0%E5%92%8C\/"
+    },"genre": "posts","keywords": "莫比乌斯反演","wordcount":  654 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/cpsdoi2015-%E7%BA%A6%E6%95%B0%E4%B8%AA%E6%95%B0%E5%92%8C\/","datePublished": "2021-07-23T16:07:51+00:00","dateModified": "2024-12-02T09:28:02+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 档案</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/"><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 目录</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 档案</a></li><li class="menu-item"><a class="menu-link" href="/categories/"><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 目录</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[SDOI2015] 约数个数和</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2021-07-23 16:07:51"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-07-23">2021-07-23</time></span>&nbsp;<span title="更新于 2024-12-02 09:28:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-12-02">2024-12-02</time></span>&nbsp;<span title="654 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#代码">代码：</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p><a href="https://www.luogu.com.cn/problem/P3327"target="_blank" rel="external nofollow noopener noreferrer">题目链接</a></p>
+<p><strong>题意：</strong></p>
+<p>设 $d(x)$ 为 $x$ 的约数个数，求</p>
+<p>$$\sum_{i=1}^{N}\sum_{j=1}^{M} d(ij)$$</p>
+<p><strong>分析：</strong></p>
+<p>首先 $i=p_1 ^{\alpha_1}\cdots p_k^{\alpha_k},j=p_1 ^{\beta_1}\cdots p_k^{\beta_k},i×j=p_1 ^{\alpha_1+\beta_1}\cdots p_k^{\alpha_k+\beta_k}$</p>
+<p>约数个数和为</p>
+<p>$$d(ij)=(\alpha_1+\beta_1+1)\cdots(\alpha_k+\beta_k+1)=\alpha_1\beta_2+\cdots + 1$$</p>
+<p>所以$$d(ij)=\sum_{x|i}\sum_{y|j}[\gcd(x,y)=1]$$</p>
+<p>所以原式为</p>
+<p>$$\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[\gcd(x,y)=1]$$</p>
+<p>设 $g(n)$ 为：</p>
+<p>$$g(n)=\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[n\mid\gcd(x,y)]$$</p>
+<p>设 $f(n)$ 为：</p>
+<p>$$\sum_{i=1}^{N}\sum_{j=1}^{M}\sum_{x|i}\sum_{y|j}[\gcd(x,y)=n]$$</p>
+<p>则有</p>
+<p>$$g(n)=\sum_{n\mid d} f(d)$$</p>
+<p>那么就可以莫比乌斯反演了</p>
+<p>$$f(n)=\sum_{n\mid d}\mu(\frac{d}{n})g(d)$$</p>
+<p>交换 $g(n)$ 的求和次序</p>
+<p>由于 $x,y$ 分别是 $i,j$ 的约数，所以可以先枚举 $x,y$</p>
+<p>那么后面的 $[n \mid \gcd(x,y)]$ 与 $i,j$ 无关不需要考虑，所以只需要计算 $i$ 中有多少 $x$ 的倍数， $j$ 中有多少 $y$ 的倍数，所以是 $\lfloor \frac{N}{x} \rfloor \lfloor \frac{M}{y} \rfloor$</p>
+<p>所以式子就变为了</p>
+<p>$$\sum_{x=1}^{N}\sum_{y=1}^{M}\lfloor \frac{N}{x} \rfloor \lfloor \frac{M}{y} \rfloor[n \mid \gcd(x,y)]$$</p>
+<p>$[n \mid \gcd(x,y)]$ 只需要关心 $n$ 的倍数即可，那么就是</p>
+<p>$$x&rsquo;=\frac{x}{n},y&rsquo;=\frac{y}{n}$$</p>
+<p>替换得</p>
+<p>$$\sum_{x&rsquo;=1}^{\frac{N}{n}}\sum_{y&rsquo;=1}^{\frac{M}{n}} \lfloor\frac{N}{nx&rsquo;} \rfloor \lfloor\frac{M}{ny&rsquo;} \rfloor$$</p>
+<p>设</p>
+<p>$$N&rsquo;=\frac{N}{n},M&rsquo;=\frac{M}{n}$$</p>
+<p>则</p>
+<p>$$\sum_{x&rsquo;=1}^{N&rsquo;}\sum_{y&rsquo;=1}^{M&rsquo;} \lfloor\frac{N&rsquo;}{x&rsquo;} \rfloor \lfloor\frac{M&rsquo;}{y&rsquo;} \rfloor$$</p>
+<p>假设有二重积分</p>
+<p>$$\iint_{D}f(x,y)\text{d}x\text{d}y$$</p>
+<p>当区域 $D$ 为矩形区域时，可以转为二次积分</p>
+<p>$$\int_{D_1}f(x,y)\text{d}x\int_{D_2}f(x,y)\text{d}y$$</p>
+<p>那么原式可以变为</p>
+<p>$$\sum_{x&rsquo;=1}^{N&rsquo;}\lfloor\frac{N&rsquo;}{x&rsquo;} \rfloor \sum_{y&rsquo;=1}^{M&rsquo;}\lfloor\frac{M&rsquo;}{y&rsquo;} \rfloor$$</p>
+<p>设</p>
+<p>$$h(x)=\sum_{i=1}^{x}\lfloor\frac{x}{i} \rfloor$$</p>
+<p>那么</p>
+<p>$$f(n)=\sum_{n\mid d}\mu(\frac{d}{n})g(d)$$</p>
+<p>答案为</p>
+<p>$$f(1)=\sum_{d=1}^{N}\mu(d)g(d)$$</p>
+<p>带入 $g(d)$</p>
+<p>$$\sum_{i=1}^{\min(N,M)}\mu(i)h(\lfloor \frac{N}{i} \rfloor)h(\lfloor \frac{M}{i} \rfloor)$$</p>
+<p>可以用整除分块计算，$h(x)$ 也同样可以用整除分块预处理。</p>
+<h2 id="代码" class="heading-element"><span>代码：</span>
+  <a href="#%e4%bb%a3%e7%a0%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp">
+</span></span></span><span class="line"><span class="cl"><span class="cp">#define int long long
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="mf">5e4</span> <span class="o">+</span> <span class="mi">5</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">T</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">primes</span><span class="p">[</span><span class="n">N</span><span class="p">],</span> <span class="n">mobius</span><span class="p">[</span><span class="n">N</span><span class="p">],</span> <span class="n">cnt</span><span class="p">,</span> <span class="n">sum</span><span class="p">[</span><span class="n">N</span><span class="p">],</span> <span class="n">h</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">st</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">get_mobius</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mobius</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">primes</span><span class="p">[</span><span class="n">cnt</span> <span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">mobius</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">primes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="n">primes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">i</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="n">primes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="n">mobius</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="n">mobius</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">mobius</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span> <span class="n">sum</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">sum</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">mobius</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">get_h</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">;</span> <span class="n">l</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="p">;</span> <span class="n">l</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">r</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">/</span> <span class="p">(</span><span class="n">i</span> <span class="o">/</span> <span class="n">l</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">            <span class="n">h</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">r</span> <span class="o">-</span> <span class="n">l</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">i</span> <span class="o">/</span> <span class="n">l</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">get_mobius</span><span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">get_h</span><span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%lld&#34;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">T</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">T</span> <span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%lld%lld&#34;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">m</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">r</span><span class="p">;</span> <span class="n">l</span> <span class="o">&lt;=</span> <span class="n">k</span><span class="p">;</span> <span class="n">l</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">r</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">min</span><span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="p">(</span><span class="n">n</span> <span class="o">/</span> <span class="n">l</span><span class="p">),</span> <span class="n">m</span> <span class="o">/</span> <span class="p">(</span><span class="n">m</span> <span class="o">/</span> <span class="n">l</span><span class="p">)));</span>
+</span></span><span class="line"><span class="cl">            <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="n">sum</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">-</span> <span class="n">sum</span><span class="p">[</span><span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="n">n</span> <span class="o">/</span> <span class="n">l</span><span class="p">]</span> <span class="o">*</span> <span class="n">h</span><span class="p">[</span><span class="n">m</span> <span class="o">/</span> <span class="n">l</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%lld</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="n">res</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2024-12-02 09:28:02">更新于 2024-12-02&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/cpsdoi2015-%E7%BA%A6%E6%95%B0%E4%B8%AA%E6%95%B0%E5%92%8C/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/" class="post-tag" title="标签 - 莫比乌斯反演">莫比乌斯反演</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/cphaoi2011-problem-b/" class="post-nav-item" rel="prev" title="[HAOI2011] Problem B"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>[HAOI2011] Problem B</a><a href="/posts/cpbsgsexbsgs/" class="post-nav-item" rel="next" title="BSGS、exBSGS">BSGS、exBSGS<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>

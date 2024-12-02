@@ -4,55 +4,55 @@
     <title>NTT - 标签 - 凌乱之风的博客</title>
     <link>https://blog.messywind.top/tags/ntt/</link>
     <description>This is my new Hugo FixIt site</description>
-    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <generator>Hugo 0.139.3 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 21 Nov 2024 09:24:39 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 02 Dec 2024 09:28:02 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/tags/ntt/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[TJOI2019] 唱、跳、rap和篮球</title>
-      <link>https://blog.messywind.top/posts/tjoi2019-%E5%94%B1%E8%B7%B3rap%E5%92%8C%E7%AF%AE%E7%90%83/</link>
+      <link>https://blog.messywind.top/posts/cptjoi2019-%E5%94%B1%E8%B7%B3rap%E5%92%8C%E7%AF%AE%E7%90%83/</link>
       <pubDate>Thu, 22 Sep 2022 20:06:39 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/tjoi2019-%E5%94%B1%E8%B7%B3rap%E5%92%8C%E7%AF%AE%E7%90%83/</guid>
+      <guid>https://blog.messywind.top/posts/cptjoi2019-%E5%94%B1%E8%B7%B3rap%E5%92%8C%E7%AF%AE%E7%90%83/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P5339&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;有 $4$ 类数量分别为 $a,b,c,d$ 的物品，求出长度为 $n$ 的所有不包含 &lt;code&gt;abcd&lt;/code&gt; 子串的序列的方案数，对 $998, 244 , 353$ 取模。&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;此题比较像 2022 牛客多校2 E，考虑将 &lt;code&gt;abcd&lt;/code&gt; 捆绑，我们可以先算出至少存在 $i$ 个 &lt;code&gt;abcd&lt;/code&gt; 子串的方案数，那么会有 $n - 4 \times i + i = n - 3  \times i$ 个位置，从中选出 $i$ 个位置的方案数为 $\dbinom{n - 3 \times i}{i}$，那么现在要解决的问题是从剩下 $n - 4 \times i$ 个位置随意选 $a,b,c,d$ 的方案数，我们可以写出它们的生成函数，记&#xA;$$&#xA;F_k(x) = \sum_{i = 0} ^ {k} \frac{x ^ i}{i!}&#xA;$$&#xA;那么 $a,b,c,d$ 的生成函数分别为 $F_{a - i}(x),F_{b - i}(x),F_{c - i}(x),F_{d - i}(x)$，所以方案数为 $(n - 4 \times i)! \times [x ^ {n - 4 \times i}]F_{a - i}(x) * F_{b - i}(x) * F_{c - i}(x) * F_{d - i}(x)$，我们现在求出了至少为 $i$ 的方案数，可以用二项式反演求出恰好为 $0$ 的方案数，那么答案就是&#xA;$$&#xA;\sum_{i = 0} ^ {\min(a,b,c,d)} (-1) ^ i \times \binom{n - 3 \times i}{i} \times (n - 4 \times i)! \times [x ^ {n - 4 \times i}]F_{a - i}(x) * F_{b - i}(x) * F_{c - i}(x) * F_{d - i}(x)&#xA;$$&lt;/p&gt;</description>
     </item>
     <item>
       <title>[2022CCPC华为云1005] 带权子集和</title>
-      <link>https://blog.messywind.top/posts/2022ccpc%E5%8D%8E%E4%B8%BA%E4%BA%911005-%E5%B8%A6%E6%9D%83%E5%AD%90%E9%9B%86%E5%92%8C/</link>
+      <link>https://blog.messywind.top/posts/cp2022ccpc%E5%8D%8E%E4%B8%BA%E4%BA%911005-%E5%B8%A6%E6%9D%83%E5%AD%90%E9%9B%86%E5%92%8C/</link>
       <pubDate>Mon, 22 Aug 2022 14:17:18 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/2022ccpc%E5%8D%8E%E4%B8%BA%E4%BA%911005-%E5%B8%A6%E6%9D%83%E5%AD%90%E9%9B%86%E5%92%8C/</guid>
+      <guid>https://blog.messywind.top/posts/cp2022ccpc%E5%8D%8E%E4%B8%BA%E4%BA%911005-%E5%B8%A6%E6%9D%83%E5%AD%90%E9%9B%86%E5%92%8C/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://acm.hdu.edu.cn/showproblem.php?pid=7260&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;给定一个大小为 $n$ 的多重集 $A = {a_1, a_2, \cdots,a_n}$ 和两个非负整数 $k, t$，求&#xA;$$&#xA;\sum_{S \subseteq A,S \ne \varnothing } t ^ {|S|} \left ( \sum_{i \in S} i \right ) ^ k&#xA;$$&#xA;保证 $k=0$ 时没有子集的和是 $0$，对 $998 , 244 ,353$ 取模。&lt;/p&gt;&#xA;&lt;p&gt;$(1 \le n \le 10 ^ 2, 0 \le k \le 10 ^4, 0 \le x,a_i &amp;lt; 988244352)$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;若直接枚举子集复杂度为 $O(n \times 2 ^ n)$，无法接受，考虑化简，右边和式的 $k$ 次方可以做一下展开，那么&lt;/p&gt;</description>
     </item>
     <item>
       <title>[2022 牛客多校4 C] Easy Counting Problem</title>
-      <link>https://blog.messywind.top/posts/2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A14-c-easy-counting-problem/</link>
+      <link>https://blog.messywind.top/posts/cp2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A14-c-easy-counting-problem/</link>
       <pubDate>Mon, 01 Aug 2022 10:41:37 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A14-c-easy-counting-problem/</guid>
+      <guid>https://blog.messywind.top/posts/cp2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A14-c-easy-counting-problem/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/33189/C&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;给定一个正整数 $w$ 及 $w$ 个数 $c_0, c_1, \cdots,c_{w - 1}$&lt;/p&gt;&#xA;&lt;p&gt;$q$ 组询问，每次询问给定一个正整数 $n$，计算有多少个长度为 $n$ 的字符串满足：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;每个字符只能取数字 $0 \sim w - 1$&lt;/li&gt;&#xA;&lt;li&gt;数字 $i$ 至少出现 $c_i$ 次&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;对 $998 , 244 , 353$ 取模。&lt;/p&gt;&#xA;&lt;p&gt;$2 \le w \le 10, 1 \le c_i \le 5 \times 10 ^ 4, \sum\limits_{i = 0} ^ {w - 1}c_i \le 5 \times 10 ^ 4$&lt;/p&gt;&#xA;&lt;p&gt;$1 \le q \le 300, 1 \le n \le 10 ^ 7$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
     <item>
       <title>[2022 牛客多校2 E] Falfa with Substring</title>
-      <link>https://blog.messywind.top/posts/2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A12-e-falfa-with-substring/</link>
+      <link>https://blog.messywind.top/posts/cp2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A12-e-falfa-with-substring/</link>
       <pubDate>Mon, 25 Jul 2022 20:38:34 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A12-e-falfa-with-substring/</guid>
+      <guid>https://blog.messywind.top/posts/cp2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A12-e-falfa-with-substring/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://ac.nowcoder.com/acm/contest/33187/E&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;定义 $F_{n, k}$ 为所有长度为 $n$ 的字符串 $S$ 中恰好出现了 $k$ 次 &lt;code&gt;bit&lt;/code&gt; 的个数。&lt;/p&gt;&#xA;&lt;p&gt;求 $F_{n, 0},F_{n, 1}, \cdots,F_{n,n}$ 对 $998,244,353$ 取模。&lt;/p&gt;&#xA;&lt;p&gt;$(1 \le n \le 10 ^ 6)$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;看到求恰好出现 $k$ 次，首先想到求出大于等于 $k$ 次再进行容斥。&lt;/p&gt;&#xA;&lt;p&gt;考虑钦定出现 $k$ 次 &lt;code&gt;bit&lt;/code&gt; 的字符串，将 $k$ 个 &lt;code&gt;bit&lt;/code&gt; 进行捆绑，那么有 $n - 3k + k = n - 2k$ 个位置，并且剩下 $n - 3 k$ 个字母任意取值，从 $n - 2k$ 个位置选出 $k$ 个放 &lt;code&gt;bit&lt;/code&gt;，方案数为 $\dbinom{n - 2k}{k} \times 26 ^ {n - 3k}$，记为 $f(k)$&lt;/p&gt;</description>
     </item>
     <item>
       <title>[2020 BSUIRPC] Function analysis</title>
-      <link>https://blog.messywind.top/posts/2020-bsuirpc-function-analysis/</link>
+      <link>https://blog.messywind.top/posts/cp2020-bsuirpc-function-analysis/</link>
       <pubDate>Wed, 13 Apr 2022 10:54:49 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/2020-bsuirpc-function-analysis/</guid>
+      <guid>https://blog.messywind.top/posts/cp2020-bsuirpc-function-analysis/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://codeforces.com/gym/103637/problem/F&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;给定三个正整数 $n, d, k$ ，现有排列 $p = (1,2,3,\cdots,n)$ ，有 $n - d + 1$ 个询问，对于每个询问有正整数 $m (d \le m \le n)$ ，现从 $p$ 中&lt;strong&gt;随机可重复地&lt;/strong&gt;选取 $m$ 个数构成序列 $q$ ，求 $q$ 中第 $d$ 小数大于 $k$ 的概率，&lt;/p&gt;&#xA;&lt;p&gt;对 $998244353$ 取模。&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;对于满足第 $d$ 小数大于 $k$ 的序列 $q = (a_1, a_2, \cdots,a_i,\cdots,a_m)$ ，假设最后一个小于等于 $k$ 的数为 $a_i$，那么一定有 $i \le d - 1$，所以前 $i$ 个数一定要在 $1 \sim k$ 中任取，方案记为 $F(x)$，那么后 $m - i$ 个数一定要在 $k +1 \sim n$ 中取，方案记为 $G(x)$，可以考虑写出 $F(x)$ 与 $G(x)$ 的生成函数，因为数是可排列的，所以要用 $\textbf{EGF}$&lt;/p&gt;</description>
     </item>
     <item>
       <title>[AtCoder abc234 F] Reordering</title>
-      <link>https://blog.messywind.top/posts/atcoder-abc234-f-reordering/</link>
+      <link>https://blog.messywind.top/posts/cpatcoder-abc234-f-reordering/</link>
       <pubDate>Sun, 09 Jan 2022 14:10:44 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/atcoder-abc234-f-reordering/</guid>
+      <guid>https://blog.messywind.top/posts/cpatcoder-abc234-f-reordering/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://atcoder.jp/contests/abc234/tasks/abc234_f&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;给定一个长度为 $n$ 的字符串 $S$，计算有多少种&lt;strong&gt;非空子序列&lt;/strong&gt;的排列，对 $998244353$ 取模。&lt;/p&gt;&#xA;&lt;p&gt;$1 \le n \le 5\times 10^3$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;设 $26$ 个英文字母每个字母 $u$ 的生成函数为（因为要计算排列，所以是 $\textbf{EGF}$）&#xA;$$&#xA;1 + \frac{1}{1!}x + \frac{1}{2!}x^2 + \cdots + \frac{1}{cnt_{u}!}x^{cnt_{u}}&#xA;$$&#xA;其中 $cnt_{u}$ 为字母在 $S$ 中出现次数。&lt;/p&gt;&#xA;&lt;p&gt;那么最终所有方案为&#xA;$$&#xA;\prod_{u = 1} ^{26}(1 + \frac{1}{1!}x + \frac{1}{2!}x^2 + \cdots + \frac{1}{cnt_{u}!}x^{cnt_{u}})&#xA;$$&#xA;记所有方案为 $F(x)$，那么计算子序列的方案数就是把字符串长度为 $1 \sim n$ 的所有方案乘长度的阶乘加起来，即&#xA;$$&#xA;\sum_{i = 1}^{n}i! \times [x^i]F(x)&#xA;$$&#xA;因为最多只有 $26$ 个字母，所以直接每次暴力 $\text{NTT}$ 即可，当然也可以分治 $\text{NTT}$&lt;/p&gt;</description>
     </item>

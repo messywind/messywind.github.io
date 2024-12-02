@@ -4,15 +4,15 @@
     <title>欧拉函数 - 标签 - 凌乱之风的博客</title>
     <link>https://blog.messywind.top/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/</link>
     <description>This is my new Hugo FixIt site</description>
-    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <generator>Hugo 0.139.3 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 21 Nov 2024 09:24:39 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 02 Dec 2024 09:28:02 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/tags/%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[洛谷 P1891] 疯狂 LCM</title>
-      <link>https://blog.messywind.top/posts/%E6%B4%9B%E8%B0%B7-p1891-%E7%96%AF%E7%8B%82-lcm/</link>
+      <link>https://blog.messywind.top/posts/cp%E6%B4%9B%E8%B0%B7-p1891-%E7%96%AF%E7%8B%82-lcm/</link>
       <pubDate>Wed, 08 Sep 2021 20:04:16 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/%E6%B4%9B%E8%B0%B7-p1891-%E7%96%AF%E7%8B%82-lcm/</guid>
+      <guid>https://blog.messywind.top/posts/cp%E6%B4%9B%E8%B0%B7-p1891-%E7%96%AF%E7%8B%82-lcm/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P1891&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;题目链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;求&lt;/p&gt;&#xA;&lt;p&gt;$$\sum_{i=1} ^{n} \text{lcm}(i,n)$$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;法一欧拉函数&#34; class=&#34;heading-element&#34;&gt;&lt;span&gt;法一：欧拉函数&lt;/span&gt;&#xA;  &lt;a href=&#34;#%e6%b3%95%e4%b8%80%e6%ac%a7%e6%8b%89%e5%87%bd%e6%95%b0&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;p&gt;拆一下 $\text{lcm}(i,n) = \dfrac{i \cdot n}{\gcd{(i,n)}}$ 变为：&lt;/p&gt;&#xA;&lt;p&gt;$$\sum_{i=1} ^{n} \frac{i \cdot n}{\gcd{(i,n)}}$$&lt;/p&gt;&#xA;&lt;p&gt;枚举 $\gcd(i,n)$：&lt;/p&gt;&#xA;&lt;p&gt;$$n \sum_{d \mid n} \sum_{i=1} ^{n} \frac{i }{d}[\gcd{(i,n)} = d  ]$$&lt;/p&gt;</description>
     </item>

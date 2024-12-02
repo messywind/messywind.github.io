@@ -4,23 +4,23 @@
     <title>线段树 - 标签 - 凌乱之风的博客</title>
     <link>https://blog.messywind.top/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/</link>
     <description>This is my new Hugo FixIt site</description>
-    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <generator>Hugo 0.139.3 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 21 Nov 2024 09:24:39 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 02 Dec 2024 09:28:02 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[Educational Codeforces Round 131 F] Points</title>
-      <link>https://blog.messywind.top/posts/educational-codeforces-round-131-f-points/</link>
+      <link>https://blog.messywind.top/posts/cpeducational-codeforces-round-131-f-points/</link>
       <pubDate>Wed, 13 Jul 2022 16:28:06 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/educational-codeforces-round-131-f-points/</guid>
+      <guid>https://blog.messywind.top/posts/cpeducational-codeforces-round-131-f-points/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://codeforces.com/contest/1701/problem/F&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;给定两个正整数 $q, d$，定义三元组 $(i, j, k)$ 满足 $i &amp;lt; j &amp;lt; k, k - i \le d$，为&lt;strong&gt;美丽三元组&lt;/strong&gt;，现在有一个空集和 $q$ 组询问，每次给定一个正整数 $x$，若 $x$ 不在集合，那么将 $x$ 加入集合，若 $x$ 在集合中，那么将 $x$ 从集合中删除，每次询问计算集合中&lt;strong&gt;美丽三元组&lt;/strong&gt;的个数。&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;考虑每个数从集合加入或删除的贡献，对于一个数 $x$，从区间 $[x, x + d]$ 中选出任意两个不同的数都可以组成美丽三元组(假设 $x$ 为三元组中的最小值)，记区间中在集合的数量为 $cnt$，那么方案数为 $\dbinom{cnt}{2}$，那么考虑区间 $[x - d, x - 1]$，对区间中的每个数 $i$，考虑 $x$ 加入后的影响，设区间 $[i, i + d]$ 在集合中的个数为 $a_i$，那么美丽三元组的个数为 $\dbinom{a_i}{2}$，则 $x$ 加入后的美丽三元组数量为 $\dbinom{a_i + 1}{2}$，设整个集合为 $S$，那么在区间 $[x - d, x - 1]$ 中新增的美丽三元组数量就为 $\sum\limits_{i = x - d} ^ {x - 1} \left (\dbinom{a_i + 1}{2} - \dbinom{a_i}{2} \right ) [i \in S] = \sum\limits_{i = x - d} ^ {x - 1}a_i [i \in S]$，对于 $x$ 删除后的影响就为 $\sum\limits_{i = x - d} ^ {x - 1} \left (\dbinom{a_i}{2} - \dbinom{a_i - 1}{2} \right ) [i \in S] = \sum\limits_{i = x - d} ^ {x - 1} (a_i - 1) [i \in S]$&lt;/p&gt;</description>
     </item>
     <item>
       <title>[算法竞赛进阶指南] 雨天的尾巴</title>
-      <link>https://blog.messywind.top/posts/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E8%BF%9B%E9%98%B6%E6%8C%87%E5%8D%97-%E9%9B%A8%E5%A4%A9%E7%9A%84%E5%B0%BE%E5%B7%B4/</link>
+      <link>https://blog.messywind.top/posts/cp%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E8%BF%9B%E9%98%B6%E6%8C%87%E5%8D%97-%E9%9B%A8%E5%A4%A9%E7%9A%84%E5%B0%BE%E5%B7%B4/</link>
       <pubDate>Tue, 28 Sep 2021 09:10:52 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E8%BF%9B%E9%98%B6%E6%8C%87%E5%8D%97-%E9%9B%A8%E5%A4%A9%E7%9A%84%E5%B0%BE%E5%B7%B4/</guid>
+      <guid>https://blog.messywind.top/posts/cp%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E8%BF%9B%E9%98%B6%E6%8C%87%E5%8D%97-%E9%9B%A8%E5%A4%A9%E7%9A%84%E5%B0%BE%E5%B7%B4/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P4556&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;给定一棵 $n$ 个节点的树和 $m$ 次操作，每次操作把 $u$ 到 $v$ 路径上的节点加上一个颜色 $z$，最后询问每个点最多颜色的编号(如果相同取编号最小)&lt;/p&gt;&#xA;&lt;p&gt;$1 \le n,m,z \le 10^5$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&#xA;此题是线段树合并模板题，这里给出树链剖分的做法。&#xA;每次操作修改树上的路径，可以用树链剖分维护一下，注意到 $z$ 的范围是 $10^5$ ，所以我们不能在树上的每个节点上开一个桶记录颜色，所以可以用权值线段树的动态开点。不过这里有更优做法，因为树链剖分出来的序列对应树上的唯一路径，所以题目的操作就相当于：给定一个序列，每次在 $[l,r]$ 区间添加一个颜色，询问每个点最多颜色的编号。这样就可以用差分的思想，每次在 $l$ 点 $+1$，$r + 1$ 点 $-1$，我们把 $l$ 排序，扫描 $1 \sim N$ 的每个点，每次遍历这个点的询问，把对这个点的修改在权值线段树上操作，然后查询一下最大的下标。&#xA;此题在 $\text{acwing}$ 上 $z$ 的数据范围为 $10^9$ 所以最好离散化一下。&lt;/p&gt;</description>
     </item>

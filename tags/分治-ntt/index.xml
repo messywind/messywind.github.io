@@ -4,39 +4,39 @@
     <title>分治 NTT - 标签 - 凌乱之风的博客</title>
     <link>https://blog.messywind.top/tags/%E5%88%86%E6%B2%BB-ntt/</link>
     <description>This is my new Hugo FixIt site</description>
-    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <generator>Hugo 0.139.3 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 21 Nov 2024 09:24:39 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 02 Dec 2024 09:28:02 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/tags/%E5%88%86%E6%B2%BB-ntt/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[2022 杭电多校5] Count Set</title>
-      <link>https://blog.messywind.top/posts/2022-%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-count-set/</link>
+      <link>https://blog.messywind.top/posts/cp2022-%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-count-set/</link>
       <pubDate>Wed, 03 Aug 2022 11:21:22 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/2022-%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-count-set/</guid>
+      <guid>https://blog.messywind.top/posts/cp2022-%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-count-set/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://acm.hdu.edu.cn/showproblem.php?pid=7191&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;给定一个长度为 $n$ 的排列 $p$ ${1, 2, \cdots, n}$ 和一个非负整数 $k$，计算排列 $p$ 中的子集 $T$，满足集合大小为 $k$ 且 $T$ 与 $P(T)$ 没有交集，$P(T) = {y \mid y= p_x,x \in T}$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;考虑将排列 $p$ 看成图，$i$ 向 $p_i$ 连边，会形成若干个环，那么原问题等价于从图中选出 $k$ 个点且每个环中不能有相邻被选择的点的方案数。考虑构造每个环 $i$ 的生成函数&#xA;$$&#xA;1 + f_{S_i,1}x + f_{S_i,2} x ^ 2 + \cdots + f_{S_i,\lfloor \frac{S_i}{2} \rfloor} x ^ {\lfloor \frac{S_i}{2} \rfloor}&#xA;$$&#xA;其中 $S_i$ 表示环 $i$ 的大小，$f_{S_i,j}$ 表示大小为 $S_i$ 的环中选出 $j$ 个互不相邻的点的方案数，根据鸽巢原理，若 $j &amp;gt; \lfloor \dfrac{S_i}{2} \rfloor$，一定有两个点相邻，所以生成函数只需要取到 $\lfloor \dfrac{S_i}{2} \rfloor$ 项即可。那么答案就为&#xA;$$&#xA;[x ^ k]\prod_{i = 1} ^ {\text{cnt}} \sum_{j = 0} ^ {\lfloor \frac{S_i}{2} \rfloor} f_{S_i,j}x^j&#xA;$$&#xA;$\text{cnt}$ 为图中环的数量。那么现在考虑求出 $f(n, m)$，即大小为 $n$ 的环选出 $m$ 个互不相邻的点的方案数。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[2022 广东省赛M] 拉格朗日插值</title>
-      <link>https://blog.messywind.top/posts/2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/</link>
+      <link>https://blog.messywind.top/posts/cp2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/</link>
       <pubDate>Fri, 01 Jul 2022 21:57:26 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/</guid>
+      <guid>https://blog.messywind.top/posts/cp2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;求在满足 $\sum\limits_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} = 1$ 的条件下，从长度为 $m$ 的数组 $b$ 中选 $k$ 个数组成 $a_1,a_2,\cdots,a_k$，$\prod\limits_{i = 1} ^{k} x_i$ 的最大值的期望，$k$ 为偶数。&lt;/p&gt;&#xA;&lt;p&gt;$(1 \le k \le m \le 10 ^ 5, 0  &amp;lt; b_i &amp;lt; 10 ^ 9)$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;首先求解最大值需要用到高等数学中多元函数条件极值的拉格朗日乘数法，设&#xA;$$&#xA;L(x_1,x_2,\cdots,x_k, \lambda) = \prod_{i = 1} ^{k} x_i +  \lambda(\sum\limits_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} - 1)&#xA;$$&#xA;对每个变量求偏导数，令偏导数为 $0$ 得&#xA;$$&#xA;\frac{\partial L}{\partial x_1} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_1} + \frac{2\lambda x_1}{a_1 ^ 2} = 0&#xA;\\&#xA;\frac{\partial L}{\partial x_2} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_2} + \frac{2\lambda x_2}{a_2 ^ 2} = 0&#xA;\\&#xA;\cdots&#xA;\\&#xA;\frac{\partial L}{\partial x_k} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_k} + \frac{2\lambda x_k}{a_k ^ 2} = 0&#xA;\\&#xA;\frac{\partial L}{\partial \lambda} =  \sum_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} - 1 = 0&#xA;$$&#xA;那么稍微化简一下，对于 $1 \le i \le k$ 都有&#xA;$$&#xA;\prod_{i = 1} ^ {k}x_i = \frac{-2\lambda x_i ^ 2}{a_i ^ 2}&#xA;$$&#xA;通过任意两式 $1 \le i, j \le k$ 联立消掉 $\lambda$&#xA;$$&#xA;\frac{a_i ^ 2\prod\limits_{i = 1} ^ {k}x_i}{-2x_i ^ 2} = \frac{a_j ^ 2\prod\limits_{i = 1} ^ {k}x_i}{-2x_j ^ 2}&#xA;$$&#xA;化简得&#xA;$$&#xA;\frac{x_i}{a_i} = \frac{x_j}{a_j}&#xA;$$&#xA;所以当且仅当 $\dfrac{x_1}{a_1} = \dfrac{x_2}{a_2}=\cdots=\dfrac{x_k}{a_k}$ 时取得最大值，且 $\sum\limits_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} = 1$，所以对任意 $1 \le i \le k$ 都有 $\dfrac{x_i}{a_i} = \pm \sqrt{\dfrac{1}{k}}$，那么 $\prod\limits_{i = 1} ^{k} x_i = k ^ {- \frac{k}{2}}\prod\limits_{i = 1} ^ {k} a_i$，因为 $k$ 为偶数，所以一定为正，且 $\dfrac{k}{2}$ 一定是整数。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[AtCoder arc140 D] One to One</title>
-      <link>https://blog.messywind.top/posts/atcoder-arc140-d-one-to-one/</link>
+      <link>https://blog.messywind.top/posts/cpatcoder-arc140-d-one-to-one/</link>
       <pubDate>Wed, 18 May 2022 12:48:28 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/atcoder-arc140-d-one-to-one/</guid>
+      <guid>https://blog.messywind.top/posts/cpatcoder-arc140-d-one-to-one/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://atcoder.jp/contests/arc140/tasks/arc140_d&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;初始有 $n$ 个点，给定一个长度为 $n$ 的数组 $a_i$，若 $a_i \ne -1$，则有无向边 $(i, a_i)$，若 $a_i = -1$，则点 $i$ 可以连向 $1 \sim n$ 任意点，求所有图的联通块个数之和&lt;/p&gt;&#xA;&lt;p&gt;$1 \le n \le 2 \times 10 ^ 3, a_i \in [1, n] \cup {-1}$&lt;/p&gt;&#xA;&lt;p&gt;对 $998244353$ 取模。&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;首先考虑忽略 $a_i = -1$ 的所有边，那么图中会有若干个连通块，这些连通块分为三种情况：&lt;/p&gt;</description>
     </item>
     <item>
       <title>[2021ICPC上海 B] Strange Permutations</title>
-      <link>https://blog.messywind.top/posts/2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations/</link>
+      <link>https://blog.messywind.top/posts/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations/</link>
       <pubDate>Sat, 26 Mar 2022 12:58:58 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations/</guid>
+      <guid>https://blog.messywind.top/posts/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://codeforces.com/gym/103446/problem/B&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;给定一个长度为 $n$ 的 $1 \sim n$ 排列 $P$，找到有多少个 $1 \sim n$ 的排列 $Q$ 使得 $\forall i \in[1, n - 1], Q_{i + 1} \ne P_{Q_i}$&lt;/p&gt;&#xA;&lt;p&gt;对 $998244353$ 取模&lt;/p&gt;&#xA;&lt;p&gt;$(1 \le n \le 10 ^ 5, 1 \le P_i \le n)$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;如果只观察式子可能看不出什么规律，我们可以把条件转化为 $n$ 个点的图，考虑把排列 $Q$ 表示为边集 ${(Q_1, Q_2),(Q_2, Q_3),\cdots,(Q_{n-1},Q_n)}$ ，那么排列 $P$ 的意思就是图中不能存在边集 ${(1,P_1),(2,P_2),\cdots,(n,P_n)}$ ，那么就等价于在一张图中选一条哈密顿路径的方案数，所以考虑对每条不存在的边集进行容斥。考虑计算选了 $i$ 个不存在的边的方案数，发现排列 $P$ 一定会成环，所以对于每个 $k$ 元环可以选择 $0 \sim k - 1$ 个不存在的边(哈密顿路径无环所以不能包含 $k$ 个不存在的边)，那么可以用生成函数 $f(k)$ 来表示&#xA;$$&#xA;f(k) = 1 + \binom{k}{1}x + \binom{k}{2}x ^ 2 + \binom{k}{3}x ^ 3 + \cdots + \binom{k}{k - 1}x ^ {k - 1}&#xA;$$&#xA;$x$ 项的系数 $m$ 表示 $k$ 元环中选了 $m$ 条不存在的边，那么系数显然是 $\dbinom{k}{m}$&lt;/p&gt;</description>
     </item>

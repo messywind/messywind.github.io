@@ -4,39 +4,39 @@
     <title>组合计数 - 标签 - 凌乱之风的博客</title>
     <link>https://blog.messywind.top/tags/%E7%BB%84%E5%90%88%E8%AE%A1%E6%95%B0/</link>
     <description>This is my new Hugo FixIt site</description>
-    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <generator>Hugo 0.139.3 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 21 Nov 2024 09:24:39 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 02 Dec 2024 09:28:02 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/tags/%E7%BB%84%E5%90%88%E8%AE%A1%E6%95%B0/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[Educational Codeforces Round 133 F] Bags with Balls</title>
-      <link>https://blog.messywind.top/posts/educational-codeforces-round-133-f-bags-with-balls/</link>
+      <link>https://blog.messywind.top/posts/cpeducational-codeforces-round-133-f-bags-with-balls/</link>
       <pubDate>Fri, 05 Aug 2022 15:37:55 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/educational-codeforces-round-133-f-bags-with-balls/</guid>
+      <guid>https://blog.messywind.top/posts/cpeducational-codeforces-round-133-f-bags-with-balls/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://codeforces.com/contest/1716/problem/F&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;给定三个正整数 $n,m,k$，有 $n$ 个盒子，每个盒子有 $m$ 个标号分别为 $1 \sim m$ 的球，现从每个盒子选出恰好一个球，将奇数编号的球的个数记为 $F$，求所有方案的 $F ^ k$ 之和对 $998 , 244 , 353$ 取模。&lt;/p&gt;&#xA;&lt;p&gt;$(1 \le n, m \le 998244352, 1 \le k \le 2 \times 10 ^ 3)$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;首先每个盒子有 $\lceil \dfrac{m}{2} \rceil$ 个奇数球和 $\lfloor \dfrac{m}{2} \rfloor$ 个偶数球，那么所有方案数为 $m ^ n = (\lceil \dfrac{m}{2} \rceil + \lfloor \dfrac{m}{2} \rfloor) ^ n$，根据二项式定理，所以每个 $F$ 的贡献就为 $F ^ k \times \dbinom{n}{F} \times \lceil \dfrac{m}{2} \rceil ^ F \times \lfloor \dfrac{m}{2} \rfloor ^ {n - F}$ 所以总答案为&#xA;$$&#xA;\sum_{i = 0} ^ {n} i ^ k \times \dbinom{n}{i} \times \lceil \dfrac{m}{2} \rceil ^ i \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i}&#xA;$$&#xA;由于 $n \le 998244352$，没法直接求，但是看到 $i ^ k$ 想到自然数幂展开&#xA;$$&#xA;i ^ k = \sum_{j = 0} ^ {k} {k \brace j} \times j! \times \binom{i}{j}&#xA;$$&#xA;带入得&#xA;$$&#xA;\sum_{i = 0} ^ {n} \dbinom{n}{i} \times \lceil \dfrac{m}{2} \rceil ^ i \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i} \sum_{j = 0} ^ {k} {k \brace j} \times j! \times \binom{i}{j}&#xA;$$&#xA;将 $\dbinom{n}{i}$ 放到后面的求和号化简：$\dbinom{n}{i} \times j! \times \dbinom{i}{j} = \dfrac{n!}{i! \times (n - i)!} \times j! \times \dfrac{i!}{j! \times (i - j)!} = \dfrac{n!}{(n - i)! \times (i - j)!}$，那么式子变为&#xA;$$&#xA;\sum_{i = 0} ^ {n} \lceil \dfrac{m}{2} \rceil ^ i \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i} \sum_{j = 0} ^ {k} {k \brace j} \times \dfrac{n!}{(n - i)! \times (i - j)!}&#xA;$$&#xA;交换求和次序，注意 $i$ 要从 $j$ 开始，因为要保证 $i - j \ge 0$&#xA;$$&#xA;\sum_{j = 0} ^ {k} {k \brace j} \sum_{i = j} ^ {n} \dfrac{n!}{(n - i)! \times (i - j)!} \times \lceil \dfrac{m}{2} \rceil ^ i \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i}&#xA;$$&#xA;对第二个和式做变换 $i - j \rightarrow i$&#xA;$$&#xA;\sum_{j = 0} ^ {k} {k \brace j} \sum_{i = 0} ^ {n - j} \dfrac{n!}{(n - i - j)! \times i!} \times \lceil \dfrac{m}{2} \rceil ^ {i + j} \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i - j}&#xA;$$&#xA;到这里发现第二个和式比较像二项式展开了，即 $(a + b) ^ n = \sum\limits_{i = 0} ^ {n} \dbinom{n}{i} a ^ {i} b ^ {n - i}$，那么考虑往这个方向凑式子，首先要解决的是组合数，发现第二个和式上界为 $n - j$，那么我们就要凑一个 $\dbinom{n - j}{i} = \dfrac{(n - j)!}{(n - i - j) \times i!}$ 的组合数，发现恰好多了 $n \times(n - 1) \times \cdots \times (n - j + 1) = n ^ {\underline j}$，那么后面也多了 $\lceil \dfrac{m}{2} \rceil ^ {j}$，提出来之后为&#xA;$$&#xA;\sum_{j = 0} ^ {k} {k \brace j} \times n ^ {\underline j} \times \lceil \dfrac{m}{2} \rceil ^ {j} \sum_{i = 0} ^ {n - j} \binom{n - j}{i} \times \lceil \dfrac{m}{2} \rceil ^ {i} \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i - j}&#xA;$$&#xA;由二项式定理得 $\sum\limits_{i = 0} ^ {n - j} \dbinom{n - j}{i} \times \lceil \dfrac{m}{2} \rceil ^ {i} \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i - j} = (\lceil \dfrac{m}{2} \rceil + \lfloor \dfrac{m}{2} \rfloor) ^ {n - j} = m ^ {n - j}$，那么答案为&#xA;$$&#xA;\sum_{j = 0} ^ {k} {k \brace j} \times n ^ {\underline j} \times \lceil \dfrac{m}{2} \rceil ^ {j} \times m ^ {n - j}&#xA;$$&#xA;所以只需要预处理 $2 \times 10 ^ 3$ 以内的第二类斯特林数，再 $O(k)$ 维护下降幂即可。&lt;/p&gt;</description>
     </item>
     <item>
       <title>[Educational Codeforces Round 131 F] Points</title>
-      <link>https://blog.messywind.top/posts/educational-codeforces-round-131-f-points/</link>
+      <link>https://blog.messywind.top/posts/cpeducational-codeforces-round-131-f-points/</link>
       <pubDate>Wed, 13 Jul 2022 16:28:06 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/educational-codeforces-round-131-f-points/</guid>
+      <guid>https://blog.messywind.top/posts/cpeducational-codeforces-round-131-f-points/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://codeforces.com/contest/1701/problem/F&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;给定两个正整数 $q, d$，定义三元组 $(i, j, k)$ 满足 $i &amp;lt; j &amp;lt; k, k - i \le d$，为&lt;strong&gt;美丽三元组&lt;/strong&gt;，现在有一个空集和 $q$ 组询问，每次给定一个正整数 $x$，若 $x$ 不在集合，那么将 $x$ 加入集合，若 $x$ 在集合中，那么将 $x$ 从集合中删除，每次询问计算集合中&lt;strong&gt;美丽三元组&lt;/strong&gt;的个数。&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;考虑每个数从集合加入或删除的贡献，对于一个数 $x$，从区间 $[x, x + d]$ 中选出任意两个不同的数都可以组成美丽三元组(假设 $x$ 为三元组中的最小值)，记区间中在集合的数量为 $cnt$，那么方案数为 $\dbinom{cnt}{2}$，那么考虑区间 $[x - d, x - 1]$，对区间中的每个数 $i$，考虑 $x$ 加入后的影响，设区间 $[i, i + d]$ 在集合中的个数为 $a_i$，那么美丽三元组的个数为 $\dbinom{a_i}{2}$，则 $x$ 加入后的美丽三元组数量为 $\dbinom{a_i + 1}{2}$，设整个集合为 $S$，那么在区间 $[x - d, x - 1]$ 中新增的美丽三元组数量就为 $\sum\limits_{i = x - d} ^ {x - 1} \left (\dbinom{a_i + 1}{2} - \dbinom{a_i}{2} \right ) [i \in S] = \sum\limits_{i = x - d} ^ {x - 1}a_i [i \in S]$，对于 $x$ 删除后的影响就为 $\sum\limits_{i = x - d} ^ {x - 1} \left (\dbinom{a_i}{2} - \dbinom{a_i - 1}{2} \right ) [i \in S] = \sum\limits_{i = x - d} ^ {x - 1} (a_i - 1) [i \in S]$&lt;/p&gt;</description>
     </item>
     <item>
       <title>[AtCoder arc140 D] One to One</title>
-      <link>https://blog.messywind.top/posts/atcoder-arc140-d-one-to-one/</link>
+      <link>https://blog.messywind.top/posts/cpatcoder-arc140-d-one-to-one/</link>
       <pubDate>Wed, 18 May 2022 12:48:28 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/atcoder-arc140-d-one-to-one/</guid>
+      <guid>https://blog.messywind.top/posts/cpatcoder-arc140-d-one-to-one/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://atcoder.jp/contests/arc140/tasks/arc140_d&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;初始有 $n$ 个点，给定一个长度为 $n$ 的数组 $a_i$，若 $a_i \ne -1$，则有无向边 $(i, a_i)$，若 $a_i = -1$，则点 $i$ 可以连向 $1 \sim n$ 任意点，求所有图的联通块个数之和&lt;/p&gt;&#xA;&lt;p&gt;$1 \le n \le 2 \times 10 ^ 3, a_i \in [1, n] \cup {-1}$&lt;/p&gt;&#xA;&lt;p&gt;对 $998244353$ 取模。&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;首先考虑忽略 $a_i = -1$ 的所有边，那么图中会有若干个连通块，这些连通块分为三种情况：&lt;/p&gt;</description>
     </item>
     <item>
       <title>[2021CCPC 威海M] 810975</title>
-      <link>https://blog.messywind.top/posts/2021ccpc-%E5%A8%81%E6%B5%B7m-810975/</link>
+      <link>https://blog.messywind.top/posts/cp2021ccpc-%E5%A8%81%E6%B5%B7m-810975/</link>
       <pubDate>Fri, 04 Feb 2022 22:12:40 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/2021ccpc-%E5%A8%81%E6%B5%B7m-810975/</guid>
+      <guid>https://blog.messywind.top/posts/cp2021ccpc-%E5%A8%81%E6%B5%B7m-810975/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://codeforces.com/gym/103428/problem/M&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;原题链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;前言&#34; class=&#34;heading-element&#34;&gt;&lt;span&gt;前言&lt;/span&gt;&#xA;  &lt;a href=&#34;#%e5%89%8d%e8%a8%80&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;blockquote&gt;&#xA;&lt;p&gt;今天看了衣锦夜行 $2021$ 年度 $\text{top10}$，看完 $810975$ 突然想起来这题还没补完代码，最近又刚学习了一点多项式，学完多项式快速幂之后终于可以补这道题了，所以决定重新写一遍对这个题发一个重制版的题解&lt;/p&gt;</description>
     </item>

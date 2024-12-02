@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
   <head>
-	<meta name="generator" content="Hugo 0.139.0">
+	<meta name="generator" content="Hugo 0.139.3">
     
       <meta name="theme" content='FixIt v0.3.15'>
     
@@ -12,8 +12,8 @@
 <meta name="description" content="This is my new Hugo FixIt site"><meta name="keywords" content='Hugo, FixIt'>
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="This is my new Hugo FixIt site">
-  <meta itemprop="datePublished" content="2024-11-11T16:24:00+00:00">
-  <meta itemprop="dateModified" content="2024-11-21T09:24:39+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="datePublished" content="2024-11-28T16:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-12-02T09:28:02+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="This is my new Hugo FixIt site">
@@ -101,7 +101,18 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/%E5%88%9B%E6%83%B3%E5%85%B5%E5%9B%A2%E4%B8%80%E6%9E%AA%E4%BC%A4%E5%AE%B3%E8%AE%A1%E7%AE%97/">创想兵团一枪伤害计算</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/ml%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">线性回归</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2024-10-28 15:23:00'>发布于 <time datetime="2024-10-28">2024-10-28</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="content"><h3 id="单变量线性回归" class="heading-element"><span>单变量线性回归</span>
+  <a href="#%e5%8d%95%e5%8f%98%e9%87%8f%e7%ba%bf%e6%80%a7%e5%9b%9e%e5%bd%92" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="模型表示" class="heading-element"><span>模型表示</span>
+  <a href="#%e6%a8%a1%e5%9e%8b%e8%a1%a8%e7%a4%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>以最经典的问题为例，假设现在我们要预测房价数据，且目前房价只跟一个因素有关。</p></div><div class="post-footer">
+    <a href="/posts/ml%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92/' class="post-tag">线性回归</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/game%E5%88%9B%E6%83%B3%E5%85%B5%E5%9B%A2%E4%B8%80%E6%9E%AA%E4%BC%A4%E5%AE%B3%E8%AE%A1%E7%AE%97/">创想兵团一枪伤害计算</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2024-10-20 14:40:00'>发布于 <time datetime="2024-10-20">2024-10-20</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%B8%B8%E6%88%8F/" class="post-category" title="分类 - 游戏"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 游戏</a></span></div><div class="content"><!doctype html>
 <html lang="en">
   <head>
@@ -457,8 +468,8 @@ const iL=function(e,t){if(e&&e.addEventListener){const n=function(o){const l=sL(
 </span></span><span class="line"><span class="cl"><span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span></span></span></code></pre></td></tr></table>
 </div>
 </div></div><div class="post-footer">
-    <a href="/posts/%E5%88%9B%E6%83%B3%E5%85%B5%E5%9B%A2%E4%B8%80%E6%9E%AA%E4%BC%A4%E5%AE%B3%E8%AE%A1%E7%AE%97/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E8%AE%A1%E7%AE%97/' class="post-tag">计算</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/%E5%88%9B%E6%83%B3%E5%85%B5%E5%9B%A2%E6%8A%A4%E7%94%B2%E5%87%BD%E6%95%B0%E6%8B%9F%E5%90%88/">创想兵团护甲函数拟合</a>
+    <a href="/posts/game%E5%88%9B%E6%83%B3%E5%85%B5%E5%9B%A2%E4%B8%80%E6%9E%AA%E4%BC%A4%E5%AE%B3%E8%AE%A1%E7%AE%97/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E8%AE%A1%E7%AE%97/' class="post-tag">计算</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/game%E5%88%9B%E6%83%B3%E5%85%B5%E5%9B%A2%E6%8A%A4%E7%94%B2%E5%87%BD%E6%95%B0%E6%8B%9F%E5%90%88/">创想兵团护甲函数拟合</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2024-08-28 09:35:00'>发布于 <time datetime="2024-08-28">2024-08-28</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%B8%B8%E6%88%8F/" class="post-category" title="分类 - 游戏"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 游戏</a></span></div><div class="content"><div class="details admonition info open">
   <div class="details-summary admonition-title"><i class="icon fa-fw fa-solid fa-circle-info" aria-hidden="true"></i>结论<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></div>
   <div class="details-content">
@@ -527,12 +538,12 @@ $$</p>
   </div>
 </div>
 <p><img loading="lazy" src="/image/armour.png" alt="2" srcset="/image/armour.png?size=small, /image/armour.png?size=medium 1.5x, /image/armour.png?size=large 2x" data-title="2" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p></div><div class="post-footer">
-    <a href="/posts/%E5%88%9B%E6%83%B3%E5%85%B5%E5%9B%A2%E6%8A%A4%E7%94%B2%E5%87%BD%E6%95%B0%E6%8B%9F%E5%90%88/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%8B%9F%E5%90%88/' class="post-tag">拟合</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/2024ccpc%E9%95%BF%E6%98%A5%E9%82%80%E8%AF%B7%E8%B5%9B%E6%B8%B8%E8%AE%B0/">2024CCPC长春邀请赛游记</a>
+    <a href="/posts/game%E5%88%9B%E6%83%B3%E5%85%B5%E5%9B%A2%E6%8A%A4%E7%94%B2%E5%87%BD%E6%95%B0%E6%8B%9F%E5%90%88/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%8B%9F%E5%90%88/' class="post-tag">拟合</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2024ccpc%E9%95%BF%E6%98%A5%E9%82%80%E8%AF%B7%E8%B5%9B%E6%B8%B8%E8%AE%B0/">2024CCPC长春邀请赛游记</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2024-05-20 22:54:00'>发布于 <time datetime="2024-05-20">2024-05-20</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p>我们已经大四了，还有机会拿金牌吗？</p>
 <p><a href="https://www.zhihu.com/question/656294779/answer/3504726877"target="_blank" rel="external nofollow noopener noreferrer">如何评价2024CCPC长春邀请赛暨吉林省赛?</a></p></div><div class="post-footer">
-    <a href="/posts/2024ccpc%E9%95%BF%E6%98%A5%E9%82%80%E8%AF%B7%E8%B5%9B%E6%B8%B8%E8%AE%B0/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E5%B0%8F%E4%BD%9C%E6%96%87/' class="post-tag">小作文</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/16%E5%B1%8A%E6%A0%A1%E8%B5%9B/">山东理工大学第十六届ACM程序设计竞赛</a>
+    <a href="/posts/cp2024ccpc%E9%95%BF%E6%98%A5%E9%82%80%E8%AF%B7%E8%B5%9B%E6%B8%B8%E8%AE%B0/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E5%B0%8F%E4%BD%9C%E6%96%87/' class="post-tag">小作文</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp16%E5%B1%8A%E6%A0%A1%E8%B5%9B/">山东理工大学第十六届ACM程序设计竞赛</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2024-05-13 00:00:00'>发布于 <time datetime="2024-05-13">2024-05-13</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p>大概是我们办过最好的一次比赛了。</p>
 <p><a href="https://acm.sdut.edu.cn/onlinejudge3/competitions-public/30/intro"target="_blank" rel="external nofollow noopener noreferrer">校内正式赛链接</a></p>
 <p><a href="https://acm.sdut.edu.cn/onlinejudge3/contests/4156/overview"target="_blank" rel="external nofollow noopener noreferrer">重现赛链接</a></p>
@@ -557,342 +568,14 @@ $$</p>
 </div>
   </div>
 </div></div><div class="post-footer">
-    <a href="/posts/16%E5%B1%8A%E6%A0%A1%E8%B5%9B/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%AF%94%E8%B5%9B/' class="post-tag">比赛</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/2024%E6%84%9A%E4%BA%BA%E8%8A%82%E4%B8%93%E5%9C%BA%E8%B5%9B/">2024愚人节专场赛</a>
+    <a href="/posts/cp16%E5%B1%8A%E6%A0%A1%E8%B5%9B/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%AF%94%E8%B5%9B/' class="post-tag">比赛</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2024%E6%84%9A%E4%BA%BA%E8%8A%82%E4%B8%93%E5%9C%BA%E8%B5%9B/">2024愚人节专场赛</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2024-04-01 00:00:00'>发布于 <time datetime="2024-04-01">2024-04-01</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p>出的比较满意的一次比赛。在大一的时候就注意到 OJ 有愚人节专场赛，发现做起来非常有意思，可惜之后学长就不办了。</p>
 <p>在 2024.3 的时候突发奇想，想全程自己办一次愚人节专场赛，于是开始想 idea：</p>
 <p>A 题 idea 是蔚蓝赛原神赛废案，算是小活。</p>
 <p>B 题 idea 是我之前想整活一个冗杂的数学式子，于是随便写了点公式。</p>
 <p>C 题 idea 也来自于蔚蓝赛原神赛，然后想到愚人节有一个 <code>'</code>，提瓦特语没有对应字符，于是考察选手英文节日拼写（）</p></div><div class="post-footer">
-    <a href="/posts/2024%E6%84%9A%E4%BA%BA%E8%8A%82%E4%B8%93%E5%9C%BA%E8%B5%9B/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%AF%94%E8%B5%9B/' class="post-tag">比赛</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/%E6%98%A5%E6%8B%9B%E8%BF%9B%E5%BA%A6/">春招进度</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2024-03-04 14:09:00'>发布于 <time datetime="2024-03-04">2024-03-04</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9D%82%E9%A1%B9/" class="post-category" title="分类 - 杂项"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 杂项</a></span></div><div class="content"><table>
-  <thead>
-      <tr>
-          <th>名称</th>
-          <th>链接</th>
-          <th>状态</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td>小米</td>
-          <td><a href="https://xiaomi.jobs.f.mioffice.cn/campus/position/application?spread=J7NS6YR"target="_blank" rel="external nofollow noopener noreferrer">https://xiaomi.jobs.f.mioffice.cn/campus/position/application?spread=J7NS6YR</a></td>
-          <td>已笔试</td>
-      </tr>
-      <tr>
-          <td>米哈游</td>
-          <td><a href="https://jobs.mihoyo.com/#/campus/position/4812"target="_blank" rel="external nofollow noopener noreferrer">https://jobs.mihoyo.com/#/campus/position/4812</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>恒生电子</td>
-          <td><a href="https://campus.hundsun.com/personal/deliveryRecord"target="_blank" rel="external nofollow noopener noreferrer">https://campus.hundsun.com/personal/deliveryRecord</a></td>
-          <td>已笔试</td>
-      </tr>
-      <tr>
-          <td>OPPO</td>
-          <td><a href="https://careers.oppo.com/university/oppo/center/history"target="_blank" rel="external nofollow noopener noreferrer">https://careers.oppo.com/university/oppo/center/history</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>美团</td>
-          <td><a href="https://zhaopin.meituan.com/web/personalCenter/deliveryRecord"target="_blank" rel="external nofollow noopener noreferrer">https://zhaopin.meituan.com/web/personalCenter/deliveryRecord</a></td>
-          <td>挂面试</td>
-      </tr>
-      <tr>
-          <td>阿里淘天</td>
-          <td><a href="https://talent.taotian.com/personal/campus-application?lang=zh"target="_blank" rel="external nofollow noopener noreferrer">https://talent.taotian.com/personal/campus-application?lang=zh</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>京东</td>
-          <td><a href="https://campus.jd.com/api/wx/position/index?type=present#/myDeliver?type=present"target="_blank" rel="external nofollow noopener noreferrer">https://campus.jd.com/api/wx/position/index?type=present#/myDeliver?type=present</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>百度</td>
-          <td><a href="https://talent.baidu.com/jobs/center"target="_blank" rel="external nofollow noopener noreferrer">https://talent.baidu.com/jobs/center</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>贝壳找房</td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>4399</td>
-          <td><a href="https://hr.4399om.com/?r=userCenter/index"target="_blank" rel="external nofollow noopener noreferrer">https://hr.4399om.com/?r=userCenter/index</a></td>
-          <td>挂笔试</td>
-      </tr>
-      <tr>
-          <td>58同城</td>
-          <td><a href="https://campus.58.com/personal/deliveryRecord"target="_blank" rel="external nofollow noopener noreferrer">https://campus.58.com/personal/deliveryRecord</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>minimax</td>
-          <td><a href="https://vrfi1sk8a0.jobs.feishu.cn/referral/campus/position/application?token=MzsxNzA2NTgwODQzNzAwOzcxMjU1NjczNjgwNjgxNjk3Mjk7MA"target="_blank" rel="external nofollow noopener noreferrer">https://vrfi1sk8a0.jobs.feishu.cn/referral/campus/position/application?token=MzsxNzA2NTgwODQzNzAwOzcxMjU1NjczNjgwNjgxNjk3Mjk7MA</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>搜狐</td>
-          <td><a href="https://app.mokahr.com/campus_apply/sohu/5682#/candidateHome/applications"target="_blank" rel="external nofollow noopener noreferrer">https://app.mokahr.com/campus_apply/sohu/5682#/candidateHome/applications</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>游卡</td>
-          <td><a href="https://app.mokahr.com/campus-recruitment/yokagames/41940#/candidateHome/applications"target="_blank" rel="external nofollow noopener noreferrer">https://app.mokahr.com/campus-recruitment/yokagames/41940#/candidateHome/applications</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>吉比特</td>
-          <td><a href="https://hr.g-bits.com/web/index.html#/center-web/recruit-query"target="_blank" rel="external nofollow noopener noreferrer">https://hr.g-bits.com/web/index.html#/center-web/recruit-query</a></td>
-          <td>挂笔试</td>
-      </tr>
-      <tr>
-          <td>360</td>
-          <td><a href="https://360campus.zhiye.com/personal/deliveryRecord"target="_blank" rel="external nofollow noopener noreferrer">https://360campus.zhiye.com/personal/deliveryRecord</a></td>
-          <td>已笔试</td>
-      </tr>
-      <tr>
-          <td>商汤</td>
-          <td><a href="https://hr.sensetime.com/SU60fa3bdabef57c1023fc1cbc/pb/account.html#/myDeliver"target="_blank" rel="external nofollow noopener noreferrer">https://hr.sensetime.com/SU60fa3bdabef57c1023fc1cbc/pb/account.html#/myDeliver</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>蔚来</td>
-          <td></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>得物</td>
-          <td><a href="https://poizon.jobs.feishu.cn/referral/campus/position/application?token=MzsxNzEwMTI0OTkwMjc5OzczNDM5MTE3NDQxNTczNjgzMjM7MA"target="_blank" rel="external nofollow noopener noreferrer">https://poizon.jobs.feishu.cn/referral/campus/position/application?token=MzsxNzEwMTI0OTkwMjc5OzczNDM5MTE3NDQxNTczNjgzMjM7MA</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>莉莉丝</td>
-          <td><a href="https://lilithgames.jobs.feishu.cn/referral/campus/position/application?token=NTsxNzA5NzI4MjAwMjIyOzcyMzU4MTg1MjI1MDc5NTM2NzY7NzM0MzIyNTg2Mzc5MjY5MTQ5NQ"target="_blank" rel="external nofollow noopener noreferrer">https://lilithgames.jobs.feishu.cn/referral/campus/position/application?token=NTsxNzA5NzI4MjAwMjIyOzcyMzU4MTg1MjI1MDc5NTM2NzY7NzM0MzIyNTg2Mzc5MjY5MTQ5NQ</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>高德</td>
-          <td><a href="https://talent.amap.com/personal/campus-application?lang=zh"target="_blank" rel="external nofollow noopener noreferrer">https://talent.amap.com/personal/campus-application?lang=zh</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>灵犀互娱</td>
-          <td><a href="https://talent.lingxigames.com/personal/campus-application?lang=zh"target="_blank" rel="external nofollow noopener noreferrer">https://talent.lingxigames.com/personal/campus-application?lang=zh</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>科大讯飞</td>
-          <td><a href="https://campus.iflytek.com/official-pc/delivery"target="_blank" rel="external nofollow noopener noreferrer">https://campus.iflytek.com/official-pc/delivery</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>帆软</td>
-          <td></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>三星</td>
-          <td><a href="https://dearsamsung.zhiye.com/personal/deliveryRecord"target="_blank" rel="external nofollow noopener noreferrer">https://dearsamsung.zhiye.com/personal/deliveryRecord</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>蚂蚁集团</td>
-          <td><a href="https://talent.antgroup.com/personal/campus-application"target="_blank" rel="external nofollow noopener noreferrer">https://talent.antgroup.com/personal/campus-application</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>金山</td>
-          <td><a href="https://app.mokahr.com/campus-recruitment/wps/41436#/candidateHome/applications"target="_blank" rel="external nofollow noopener noreferrer">https://app.mokahr.com/campus-recruitment/wps/41436#/candidateHome/applications</a></td>
-          <td>已笔试</td>
-      </tr>
-      <tr>
-          <td>高途</td>
-          <td><a href="https://app.mokahr.com/campus-recruitment/bjhl/102145#/candidateHome/applications"target="_blank" rel="external nofollow noopener noreferrer">https://app.mokahr.com/campus-recruitment/bjhl/102145#/candidateHome/applications</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>虾皮</td>
-          <td></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>网易雷火</td>
-          <td><a href="https://campus.163.com/app/personal/apply"target="_blank" rel="external nofollow noopener noreferrer">https://campus.163.com/app/personal/apply</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>浩鲸科技</td>
-          <td></td>
-          <td>已笔试</td>
-      </tr>
-      <tr>
-          <td>柠檬微趣</td>
-          <td></td>
-          <td>已笔试</td>
-      </tr>
-      <tr>
-          <td>快手</td>
-          <td><a href="https://campus.kuaishou.cn/#/campus/my-apply"target="_blank" rel="external nofollow noopener noreferrer">https://campus.kuaishou.cn/#/campus/my-apply</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>金证科技</td>
-          <td><a href="https://szkingdom1.zhiye.com/personal/deliveryRecord"target="_blank" rel="external nofollow noopener noreferrer">https://szkingdom1.zhiye.com/personal/deliveryRecord</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>小红书</td>
-          <td><a href="https://job.xiaohongshu.com/record/campus"target="_blank" rel="external nofollow noopener noreferrer">https://job.xiaohongshu.com/record/campus</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>金山云</td>
-          <td><a href="https://campus.ksyun.com/campus_apply/kingsoft/39364/#/candidateHome/applications"target="_blank" rel="external nofollow noopener noreferrer">https://campus.ksyun.com/campus_apply/kingsoft/39364/#/candidateHome/applications</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>阿里大文娱</td>
-          <td><a href="https://jobs.alibaba-dme.com/personal/campus-application?lang=zh"target="_blank" rel="external nofollow noopener noreferrer">https://jobs.alibaba-dme.com/personal/campus-application?lang=zh</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>微派网络</td>
-          <td><a href="https://wepie.jobs.feishu.cn/referral/campus/position/application?token=MzsxNzEwMTI4OTE1NDc0OzcyOTA3NTkxMTg0MjAwMTcxNTY7MA"target="_blank" rel="external nofollow noopener noreferrer">https://wepie.jobs.feishu.cn/referral/campus/position/application?token=MzsxNzEwMTI4OTE1NDc0OzcyOTA3NTkxMTg0MjAwMTcxNTY7MA</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>北森云计算</td>
-          <td><a href="https://beisen.zhiye.com/personal/deliveryRecord"target="_blank" rel="external nofollow noopener noreferrer">https://beisen.zhiye.com/personal/deliveryRecord</a></td>
-          <td>挂测评</td>
-      </tr>
-      <tr>
-          <td>宁德时代</td>
-          <td><a href="https://talent.catl.com/campus-recruitment/catlhr/115953#/candidateHome/applications"target="_blank" rel="external nofollow noopener noreferrer">https://talent.catl.com/campus-recruitment/catlhr/115953#/candidateHome/applications</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>MetaApp</td>
-          <td><a href="https://meta.jobs.feishu.cn/index/position/application"target="_blank" rel="external nofollow noopener noreferrer">https://meta.jobs.feishu.cn/index/position/application</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>字节跳动</td>
-          <td><a href="https://jobs.bytedance.com/campus/position/application"target="_blank" rel="external nofollow noopener noreferrer">https://jobs.bytedance.com/campus/position/application</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>联想</td>
-          <td><a href="https://talent.lenovo.com.cn/account/apply"target="_blank" rel="external nofollow noopener noreferrer">https://talent.lenovo.com.cn/account/apply</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>海康威视</td>
-          <td><a href="https://campushr.hikvision.com/myDelivery"target="_blank" rel="external nofollow noopener noreferrer">https://campushr.hikvision.com/myDelivery</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>迅雷</td>
-          <td><a href="https://career.xunlei.com/apply/xunlei/26599/#/candidateHome/applications"target="_blank" rel="external nofollow noopener noreferrer">https://career.xunlei.com/apply/xunlei/26599/#/candidateHome/applications</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>滴滴</td>
-          <td><a href="https://app.mokahr.com/campus-recruitment/didiglobal/96064?sourceToken=888e40714f4c681a93aa90f794f392cb#/candidateHome/applications"target="_blank" rel="external nofollow noopener noreferrer">https://app.mokahr.com/campus-recruitment/didiglobal/96064?sourceToken=888e40714f4c681a93aa90f794f392cb#/candidateHome/applications</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>CVTE</td>
-          <td><a href="https://careers.cvte.com/zone/resume/applications"target="_blank" rel="external nofollow noopener noreferrer">https://careers.cvte.com/zone/resume/applications</a></td>
-          <td>挂笔试</td>
-      </tr>
-      <tr>
-          <td>好未来</td>
-          <td><a href="https://xiaozhao.100tal.com/personal/deliveryRecord"target="_blank" rel="external nofollow noopener noreferrer">https://xiaozhao.100tal.com/personal/deliveryRecord</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>神州信息</td>
-          <td><a href="https://dcits.zhiye.com/personal/deliveryRecord"target="_blank" rel="external nofollow noopener noreferrer">https://dcits.zhiye.com/personal/deliveryRecord</a></td>
-          <td>已笔试</td>
-      </tr>
-      <tr>
-          <td>喜马拉雅</td>
-          <td><a href="https://app.mokahr.com/campus-recruitment/himalaya/92431#/candidateHome/applications"target="_blank" rel="external nofollow noopener noreferrer">https://app.mokahr.com/campus-recruitment/himalaya/92431#/candidateHome/applications</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>经纬恒润</td>
-          <td><a href="https://wecruit.hotjob.cn/SU62a93e760dcad45229a827cc/pb/account.html#/myDeliver"target="_blank" rel="external nofollow noopener noreferrer">https://wecruit.hotjob.cn/SU62a93e760dcad45229a827cc/pb/account.html#/myDeliver</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>拓竹科技</td>
-          <td><a href="https://bambulab.jobs.feishu.cn/campus/position/application"target="_blank" rel="external nofollow noopener noreferrer">https://bambulab.jobs.feishu.cn/campus/position/application</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>人大金仓</td>
-          <td><a href="https://app.mokahr.com/campus-recruitment/kingbase/47259#/candidateHome/applications"target="_blank" rel="external nofollow noopener noreferrer">https://app.mokahr.com/campus-recruitment/kingbase/47259#/candidateHome/applications</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>先临三维</td>
-          <td><a href="https://shining3d.zhiye.com/personal/deliveryRecord"target="_blank" rel="external nofollow noopener noreferrer">https://shining3d.zhiye.com/personal/deliveryRecord</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>大华</td>
-          <td><a href="https://dahua.zhiye.com/personal/deliveryRecord"target="_blank" rel="external nofollow noopener noreferrer">https://dahua.zhiye.com/personal/deliveryRecord</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>山大地纬</td>
-          <td><a href="https://dwoa.dareway.com.cn:29005/sail/campusdeliveryProcess.jsp"target="_blank" rel="external nofollow noopener noreferrer">https://dwoa.dareway.com.cn:29005/sail/campusdeliveryProcess.jsp</a></td>
-          <td>offer</td>
-      </tr>
-      <tr>
-          <td>数字政通</td>
-          <td><a href="https://egova.zhiye.com/personal/deliveryRecord"target="_blank" rel="external nofollow noopener noreferrer">https://egova.zhiye.com/personal/deliveryRecord</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td>猿辅导</td>
-          <td><a href="https://hr.yuanfudao.com/campus-recruitment/fenbi/47742/#/candidateHome/applications"target="_blank" rel="external nofollow noopener noreferrer">https://hr.yuanfudao.com/campus-recruitment/fenbi/47742/#/candidateHome/applications</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>腾讯</td>
-          <td><a href="https://join.qq.com/progress.html"target="_blank" rel="external nofollow noopener noreferrer">https://join.qq.com/progress.html</a></td>
-          <td>已测评</td>
-      </tr>
-      <tr>
-          <td>数字马力</td>
-          <td><a href="https://app.mokahr.com/campus-recruitment/digital-engine/92713#/candidateHome/applications"target="_blank" rel="external nofollow noopener noreferrer">https://app.mokahr.com/campus-recruitment/digital-engine/92713#/candidateHome/applications</a></td>
-          <td>挂笔试</td>
-      </tr>
-      <tr>
-          <td>众安</td>
-          <td><a href="https://app.mokahr.com/campus_apply/zhongan/71908?recommendCode=DSvVtWT9#/candidateHome/applications"target="_blank" rel="external nofollow noopener noreferrer">https://app.mokahr.com/campus_apply/zhongan/71908?recommendCode=DSvVtWT9#/candidateHome/applications</a></td>
-          <td>挂简历</td>
-      </tr>
-      <tr>
-          <td>博乐科技</td>
-          <td><a href="https://app.mokahr.com/campus-recruitment/bolegames/37643?sourceToken=30bcc43e5b67961b7117ab03d500927f#/candidateHome/applications"target="_blank" rel="external nofollow noopener noreferrer">https://app.mokahr.com/campus-recruitment/bolegames/37643?sourceToken=30bcc43e5b67961b7117ab03d500927f#/candidateHome/applications</a></td>
-          <td></td>
-      </tr>
-      <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-      </tr>
-  </tbody>
-</table></div><div class="post-footer">
-    <a href="/posts/%E6%98%A5%E6%8B%9B%E8%BF%9B%E5%BA%A6/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%98%A5%E6%8B%9B/' class="post-tag">春招</a><a href='/tags/%E7%A7%81%E5%AF%86/' class="post-tag">私密</a></div></div>
+    <a href="/posts/cp2024%E6%84%9A%E4%BA%BA%E8%8A%82%E4%B8%93%E5%9C%BA%E8%B5%9B/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%AF%94%E8%B5%9B/' class="post-tag">比赛</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>
@@ -916,7 +599,7 @@ $$</p>
             <a href="/page/16/">16</a>
           </span>
         </li></ul></div></main><footer class="footer">
-    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
         </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
             <span itemprop="copyrightYear">2024</span><span class="author" itemprop="copyrightHolder">
               <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div></div>

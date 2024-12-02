@@ -4,15 +4,15 @@
     <title>欧拉反演 - 标签 - 凌乱之风的博客</title>
     <link>https://blog.messywind.top/tags/%E6%AC%A7%E6%8B%89%E5%8F%8D%E6%BC%94/</link>
     <description>This is my new Hugo FixIt site</description>
-    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <generator>Hugo 0.139.3 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 21 Nov 2024 09:24:39 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 02 Dec 2024 09:28:02 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/tags/%E6%AC%A7%E6%8B%89%E5%8F%8D%E6%BC%94/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>[NOI2010] 能量采集</title>
-      <link>https://blog.messywind.top/posts/noi2010-%E8%83%BD%E9%87%8F%E9%87%87%E9%9B%86/</link>
+      <link>https://blog.messywind.top/posts/cpnoi2010-%E8%83%BD%E9%87%8F%E9%87%87%E9%9B%86/</link>
       <pubDate>Tue, 24 Aug 2021 08:29:33 +0000</pubDate>
-      <guid>https://blog.messywind.top/posts/noi2010-%E8%83%BD%E9%87%8F%E9%87%87%E9%9B%86/</guid>
+      <guid>https://blog.messywind.top/posts/cpnoi2010-%E8%83%BD%E9%87%8F%E9%87%87%E9%9B%86/</guid>
       <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
       <description>&lt;p&gt;&lt;a href=&#34;https://www.luogu.com.cn/problem/P1447&#34;target=&#34;_blank&#34; rel=&#34;external nofollow noopener noreferrer&#34;&gt;题目链接&lt;/a&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;题意：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;p&gt;求&lt;/p&gt;&#xA;&lt;p&gt;$$2\sum_{i=1}^{n}\sum_{j=1}^{m}\gcd(i,j)-nm$$&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;分析：&lt;/strong&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;莫比乌斯反演&#34; class=&#34;heading-element&#34;&gt;&lt;span&gt;莫比乌斯反演：&lt;/span&gt;&#xA;  &lt;a href=&#34;#%e8%8e%ab%e6%af%94%e4%b9%8c%e6%96%af%e5%8f%8d%e6%bc%94&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;p&gt;那么只需要求&lt;/p&gt;&#xA;&lt;p&gt;$$\sum_{i=1}^{n}\sum_{j=1}^{m}\gcd(i,j)$$&lt;/p&gt;&#xA;&lt;p&gt;枚举每个 $\gcd(i,j)$ 的值&lt;/p&gt;&#xA;&lt;p&gt;$$\sum_{d=1}^{n}d\sum_{i=1}^{n}\sum_{j=1}^{m}[\gcd(i,j)=d]$$&lt;/p&gt;&#xA;&lt;p&gt;再用莫比乌斯反演，和 &lt;strong&gt;problem b&lt;/strong&gt; 这题是一样的&lt;/p&gt;</description>
     </item>
