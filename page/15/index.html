@@ -12,8 +12,8 @@
 <meta name="description" content="This is my new Hugo FixIt site"><meta name="keywords" content='Hugo, FixIt'>
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="This is my new Hugo FixIt site">
-  <meta itemprop="datePublished" content="2024-11-28T16:00:00+00:00">
-  <meta itemprop="dateModified" content="2024-12-02T09:28:02+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="datePublished" content="2024-12-03T13:47:00+00:00">
+  <meta itemprop="dateModified" content="2024-12-04T08:00:22+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="This is my new Hugo FixIt site">
@@ -101,7 +101,44 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/miscc%E8%AF%AD%E8%A8%80%E5%AE%9E%E8%AE%AD%E9%A1%B9%E7%9B%AE%E4%BC%81%E4%B8%9A%E6%96%87%E6%A1%A3%E7%AE%A1%E7%90%86%E4%B8%BB%E5%B8%AD%E6%A0%91%E5%AE%9E%E7%8E%B0/">C语言实训项目——企业文档管理(主席树实现)</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cphaoi2011-problem-b/">[HAOI2011] Problem B</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-07-22 17:31:51'>发布于 <time datetime="2021-07-22">2021-07-22</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><strong>题意：</strong>
+求</p>
+<p>$$\sum_{i=a}^{b}\sum_{j=c}^{d}[\gcd(i,j)=k]$$</p>
+<p><strong>分析：</strong></p>
+<p>用二维前缀和的思想，把答案分为$4$个部分</p>
+<p>$$令S(x,y)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=k]$$</p>
+<p>则</p>
+<p>$$\sum_{i=a}^{b}\sum_{j=b}^{d}[\gcd(i,j)=k]=S(b,d)-S(a-1,d)-S(b,c-1)+S(a-1,c-1)$$</p>
+<p>问题转化为求 $S(x,y)$</p>
+<p>构造</p>
+<p>$$f(n)=\sum_{i=1}^{x}\sum_{j=1}^{y}[n|\gcd(i,j)]$$</p>
+<p>$$g(n)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=n]$$</p>
+<p>可以发现</p>
+<p>$$f(n)=\sum_{n \mid d}g(d)$$</p>
+<p>所以就可以莫比乌斯反演</p>
+<p>$$g(n)=\sum_{n \mid d}\mu(\frac{d}{n})f(d)$$</p>
+<p>$$\because d\mid\gcd(i,j),\therefore d\mid i,d \mid j$$</p>
+<p>$$\therefore f(d)=\lfloor\frac{x}{d}\rfloor\lfloor\frac{y}{d}\rfloor$$</p>
+<p>$$g(n)=\sum_{n \mid d}\mu(\frac{d}{n})\lfloor\frac{x}{d}\rfloor\lfloor\frac{y}{d}\rfloor$$</p>
+<p>设</p>
+<p>$$t=\frac{d}{n},d=nt$$</p>
+<p>则</p>
+<p>$$g(n)=\sum_{t=1}^{\min(x,y)}\mu(t)\lfloor\frac{x}{nt}\rfloor\lfloor\frac{y}{nt}\rfloor$$</p>
+<p>所以只需要求 $g(k)$，可以枚举 $t$，用整除分块，加上筛莫比乌斯函数前缀和，时间复杂度 $O(N+T\sqrt n)$</p></div><div class="post-footer">
+    <a href="/posts/cphaoi2011-problem-b/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/' class="post-tag">莫比乌斯反演</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/">莫比乌斯反演</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-07-22 15:30:59'>发布于 <time datetime="2021-07-22">2021-07-22</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><h3 id="前置知识1整除分块" class="heading-element"><span>前置知识1:整除分块</span>
+  <a href="#%e5%89%8d%e7%bd%ae%e7%9f%a5%e8%af%861%e6%95%b4%e9%99%a4%e5%88%86%e5%9d%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h3 id="lfloor-dfracabc-rfloor--lfloor-dfraclfloor-dfracab-rfloorc-rfloor" class="heading-element"><span>$①:\lfloor \dfrac{a}{bc} \rfloor = \lfloor \dfrac{\lfloor \dfrac{a}{b} \rfloor}{c} \rfloor$</span>
+  <a href="#lfloor-dfracabc-rfloor--lfloor-dfraclfloor-dfracab-rfloorc-rfloor" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>证明：</strong></p></div><div class="post-footer">
+    <a href="/posts/cp%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/' class="post-tag">莫比乌斯反演</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/miscc%E8%AF%AD%E8%A8%80%E5%AE%9E%E8%AE%AD%E9%A1%B9%E7%9B%AE%E4%BC%81%E4%B8%9A%E6%96%87%E6%A1%A3%E7%AE%A1%E7%90%86%E4%B8%BB%E5%B8%AD%E6%A0%91%E5%AE%9E%E7%8E%B0/">C语言实训项目——企业文档管理(主席树实现)</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-07-06 08:35:31'>发布于 <time datetime="2021-07-06">2021-07-06</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9D%82%E9%A1%B9/" class="post-category" title="分类 - 杂项"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 杂项</a></span></div><div class="content"><p>被某数据结构老师说简单。。。。。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -680,23 +717,6 @@
   </a>
 </h3><p><strong>分析：</strong> 构造。题目中给出了两点差的函数式，想到构造变动上下限积分，题眼$\int^{2}_{0}f(x)dx=1$，提示构造$F(x)$并解出任意常数$C$</p></div><div class="post-footer">
     <a href="/posts/misc%E9%AB%98%E6%95%B0%E7%AB%9E%E8%B5%9B%E7%AC%94%E8%AE%B0/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6/' class="post-tag">高等数学</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/misc2021%E6%96%B0%E9%AB%98%E8%80%83%E5%85%A8%E5%9B%BD%E5%8D%B7-22%E9%A2%98/">2021新高考全国Ⅰ卷 22题</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-06-08 16:30:49'>发布于 <time datetime="2021-06-08">2021-06-08</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9D%82%E9%A1%B9/" class="post-category" title="分类 - 杂项"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 杂项</a></span></div><div class="content"><h3 id="题面" class="heading-element"><span>题面:</span>
-  <a href="#%e9%a2%98%e9%9d%a2" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h3><p>$已知函数f(x)=x(1-\ln{x})$</p>
-<p>$(1)讨论f(x)的单调性$</p>
-<p>$(2)设a,b&gt;0,a\ne b,且b\ln{a}-a\ln{b}=a-b,证明:2&lt;\frac{1}{a}+\frac{1}{b}&lt;e$</p></div><div class="post-footer">
-    <a href="/posts/misc2021%E6%96%B0%E9%AB%98%E8%80%83%E5%85%A8%E5%9B%BD%E5%8D%B7-22%E9%A2%98/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E9%AB%98%E8%80%83%E6%95%B0%E5%AD%A6/' class="post-tag">高考数学</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp%E6%9C%80%E5%A4%A7%E7%8B%AC%E7%AB%8B%E9%9B%86%E6%9C%80%E5%B0%8F%E7%82%B9%E8%A6%86%E7%9B%96%E6%9C%80%E5%B0%8F%E6%94%AF%E9%85%8D%E9%9B%86/">最大独立集、最小点覆盖、最小支配集</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-06-02 20:32:34'>发布于 <time datetime="2021-06-02">2021-06-02</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><h3 id="最大独立集" class="heading-element"><span>最大独立集</span>
-  <a href="#%e6%9c%80%e5%a4%a7%e7%8b%ac%e7%ab%8b%e9%9b%86" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h3><p><code>选出最多的点,使得所有点都是不相邻的</code></p>
-<p><strong>状态表示：</strong> $dp_{i,j}$ 表示以 $i$ 为根的树，如果 $j$ 为 $0$ ，表示不选这个点，如果 $j$ 为 $1$，表示选这个点</p></div><div class="post-footer">
-    <a href="/posts/cp%E6%9C%80%E5%A4%A7%E7%8B%AC%E7%AB%8B%E9%9B%86%E6%9C%80%E5%B0%8F%E7%82%B9%E8%A6%86%E7%9B%96%E6%9C%80%E5%B0%8F%E6%94%AF%E9%85%8D%E9%9B%86/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%A0%91%E5%BD%A2-dp/' class="post-tag">树形 DP</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>
