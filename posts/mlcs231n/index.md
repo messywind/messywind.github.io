@@ -635,6 +635,519 @@ $\color{blue}{\textit Your Answer:}$ 4
 
 $\color{blue}{\textit Your Explanation:}$ 1 显然不对，2、3 直接看结果，4 确实是因为距离是要遍历数据集。
 
+### Q2: Training a Support Vector Machine
+
+还是那个数据集，这次先减去一个图像像素的平均值。然后因为是 SVM，所以 `np.ones` 加上一个 $1$ 的偏置。
+
+![1](/image/ML/CS231n/wb.jpeg)
+
+```Python
+# Preprocessing: subtract the mean image
+# first: compute the image mean based on the training data
+mean_image = np.mean(X_train, axis=0)
+print(mean_image[:10]) # print a few of the elements
+plt.figure(figsize=(4,4))
+plt.imshow(mean_image.reshape((32,32,3)).astype(&#39;uint8&#39;)) # visualize the mean image
+plt.show()
+
+# second: subtract the mean image from train and test data
+X_train -= mean_image
+X_val -= mean_image
+X_test -= mean_image
+X_dev -= mean_image
+
+# third: append the bias dimension of ones (i.e. bias trick) so that our SVM
+# only has to worry about optimizing a single weight matrix W.
+X_train = np.hstack([X_train, np.ones((X_train.shape[0], 1))])
+X_val = np.hstack([X_val, np.ones((X_val.shape[0], 1))])
+X_test = np.hstack([X_test, np.ones((X_test.shape[0], 1))])
+X_dev = np.hstack([X_dev, np.ones((X_dev.shape[0], 1))])
+
+print(X_train.shape, X_val.shape, X_test.shape, X_dev.shape)
+```
+#### TODO: svm_loss_naive
+
+计算损失的时候，用 `X[i].dot(W)` 表示该条数据在 $10$ 个分类下的表现得分 (W 是 3073 * 10 的矩阵)，`correct_class_score = scores[y[i]]` 表示从得分向量中提取出第 $i$ 个样本的正确类别的得分。根据官网讲义(https://cs231n.github.io/linear-classify/)，定义损失为 $L_i = \sum\limits_{j \ne y_i}\max(0, s_j - s_{y_i} &#43; \Delta)$
+为什么这么定义呢？根据讲义
+&gt; The Multiclass Support Vector Machine &#34;wants&#34; the score of the correct class to be higher than all other scores by at least a margin of delta. If any class has a score inside the red region (or higher), then there will be accumulated loss. Otherwise the loss will be zero. Our objective will be to find the weights that will simultaneously satisfy this constraint for all examples in the training data and give a total loss that is as low as possible.
+
+多类别支持向量机 &#34;希望 &#34;正确类别的得分至少比所有其他类别的得分高出 delta 值。 如果任何一个类别的得分在红色区域内（或更高），那么就会有累计损失。 否则，损失为零。 我们的目标是为训练数据中的所有示例找到同时满足这一约束条件的权重，并尽可能降低总损失。
+
+![1](/image/ML/CS231n/margin.jpg)
+
+除此之外，还要加上一个正则化损失，一般是 L2：
+
+$$
+R(W) = \sum_{k}\sum_{l}W_{k, l} ^ 2
+$$
+
+然后乘以一个参数(函数传入的 reg)，最后和平均累计损失相加得到最终损失：
+
+$$
+L = \frac{1}{N}\sum_i L_i &#43; \lambda R(W)
+$$
+
+那么梯度就是对损失函数对 W 求导，第一部分可以在算损失的时候计算出来。
+
+```Python
+def svm_loss_naive(W, X, y, reg):
+    &#34;&#34;&#34;
+    Structured SVM loss function, naive implementation (with loops).
+
+    Inputs have dimension D, there are C classes, and we operate on minibatches
+    of N examples.
+
+    Inputs:
+    - W: A numpy array of shape (D, C) containing weights.
+    - X: A numpy array of shape (N, D) containing a minibatch of data.
+    - y: A numpy array of shape (N,) containing training labels; y[i] = c means
+      that X[i] has label c, where 0 &lt;= c &lt; C.
+    - reg: (float) regularization strength
+
+    Returns a tuple of:
+    - loss as single float
+    - gradient with respect to weights W; an array of same shape as W
+    &#34;&#34;&#34;
+    dW = np.zeros(W.shape)  # initialize the gradient as zero
+
+    # compute the loss and the gradient
+    num_classes = W.shape[1]
+    num_train = X.shape[0]
+    loss = 0.0
+    for i in range(num_train):
+        scores = X[i].dot(W)
+        correct_class_score = scores[y[i]]
+        for j in range(num_classes):
+            if j == y[i]:
+                continue
+            margin = scores[j] - correct_class_score &#43; 1  # note delta = 1
+            if margin &gt; 0:
+                loss &#43;= margin
+                dW[:, j] &#43;= X[i]
+                dW[:, y[i]] -= X[i]
+
+    # Right now the loss is a sum over all training examples, but we want it
+    # to be an average instead so we divide by num_train.
+    loss /= num_train
+
+    # Add regularization to the loss.
+    loss &#43;= reg * np.sum(W * W)
+
+    #############################################################################
+    # TODO:                                                                     #
+    # Compute the gradient of the loss function and store it dW.                #
+    # Rather that first computing the loss and then computing the derivative,   #
+    # it may be simpler to compute the derivative at the same time that the     #
+    # loss is being computed. As a result you may need to modify some of the    #
+    # code above to compute the gradient.                                       #
+    #############################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    dW /= num_train
+    dW &#43;= 2 * reg * W
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    return loss, dW
+```
+
+检验一下梯度是否对
+
+```Python
+# Once you&#39;ve implemented the gradient, recompute it with the code below
+# and gradient check it with the function we provided for you
+
+# Compute the loss and its gradient at W.
+loss, grad = svm_loss_naive(W, X_dev, y_dev, 0.0)
+
+# Numerically compute the gradient along several randomly chosen dimensions, and
+# compare them with your analytically computed gradient. The numbers should match
+# almost exactly along all dimensions.
+from cs231n.gradient_check import grad_check_sparse
+f = lambda w: svm_loss_naive(w, X_dev, y_dev, 0.0)[0]
+grad_numerical = grad_check_sparse(f, W, grad)
+
+# do the gradient check once again with regularization turned on
+# you didn&#39;t forget the regularization gradient did you?
+loss, grad = svm_loss_naive(W, X_dev, y_dev, 5e1)
+f = lambda w: svm_loss_naive(w, X_dev, y_dev, 5e1)[0]
+grad_numerical = grad_check_sparse(f, W, grad)
+```
+
+```{title=&#34;Output&#34;}
+numerical: 10.450954 analytic: 10.450954, relative error: 2.255776e-11
+numerical: 7.036361 analytic: 7.125610, relative error: 6.301992e-03
+numerical: -33.423497 analytic: -33.423497, relative error: 9.550081e-12
+numerical: 22.845277 analytic: 22.830022, relative error: 3.340013e-04
+numerical: 11.480153 analytic: 11.564991, relative error: 3.681392e-03
+numerical: -26.401444 analytic: -26.401444, relative error: 1.537030e-11
+numerical: 8.954193 analytic: 8.954193, relative error: 2.288146e-11
+numerical: -3.249659 analytic: -3.249659, relative error: 7.932744e-12
+numerical: 9.067911 analytic: 9.075238, relative error: 4.038672e-04
+numerical: -12.493792 analytic: -12.493792, relative error: 1.033714e-11
+numerical: -14.040295 analytic: -14.040295, relative error: 2.451599e-11
+numerical: -17.850408 analytic: -17.850408, relative error: 4.971397e-12
+numerical: 4.775439 analytic: 4.811624, relative error: 3.774404e-03
+numerical: 1.002399 analytic: 1.002399, relative error: 1.362218e-10
+numerical: -19.384504 analytic: -19.382918, relative error: 4.091049e-05
+numerical: 23.624824 analytic: 23.624824, relative error: 1.588455e-11
+numerical: -26.578911 analytic: -26.578911, relative error: 3.778756e-12
+numerical: -9.700067 analytic: -9.700067, relative error: 3.511119e-12
+numerical: 2.004068 analytic: 2.004068, relative error: 1.303094e-11
+numerical: -12.635156 analytic: -12.635156, relative error: 1.036973e-11
+```
+可以看到相对误差都比较小。
+
+#### Inline Question 1
+
+It is possible that once in a while a dimension in the gradcheck will not match exactly. What could such a discrepancy be caused by? Is it a reason for concern? What is a simple example in one dimension where a gradient check could fail? How would change the margin affect of the frequency of this happening? *Hint: the SVM loss function is not strictly speaking differentiable*
+
+$\color{blue}{\textit Your Answer:}$ *fill this in.*  
+
+
+
+
+有时候，梯度检查中的某个维度可能不会完全匹配。这种差异可能是由什么引起的？这是否是一个值得担心的问题？在一维中，梯度检查可能失败的一个简单例子是什么？改变边距会如何影响这种情况发生的频率？*提示：SVM损失函数严格来说并不是可微的*
+
+$\color{blue}{\textit Your Answer:}$ 在梯度检查中，某个维度不完全匹配的差异可能是由于数值计算的精度限制或损失函数的不可微性引起的。SVM损失函数在某些点上是不可微的，例如在边界条件下（即损失函数的“铰链”部分），这可能导致梯度检查不精确。
+
+这种差异通常不是一个严重的问题，因为数值梯度计算本身就有一定的误差。一个简单的例子是在一维中，考虑一个绝对值函数 $( f(x) = |x| )$，在 $( x = 0 )$ 处，梯度是不可定义的，这可能导致梯度检查失败。
+
+改变边距（margin）可能会影响这种情况发生的频率。较大的边距可能会减少不可微点的数量，从而减少梯度检查失败的可能性。然而，边距的改变也会影响模型的性能，因此需要在准确性和稳定性之间进行权衡。
+
+
+#### TODO: svm_loss_vectorized
+损失计算：
+
+`scores = X.dot(W)`，得到一个 $N \times 10$ 的每个样本每个分类评分数组。
+
+`correct_class_scores = scores[np.arange(num_train), y].reshape(-1, 1)` 将每个样本的正确分类评分拿出来，并转成 $N \times 1$ 的列向量方便广播。
+
+`margins = np.maximum(0, scores - correct_class_scores &#43; 1)` `margins[np.arange(num_train), y] = 0` 将每个分数减去正确分数，然后把正确分数的那一列变成 $0$
+
+梯度计算：
+
+`binary = margins &gt; 0` `binary = binary.astype(float)` 得到一个每个元素是否大于 $0$ 的矩阵并转浮点数。
+
+`row_sum = np.sum(binary, axis=1)` ，每一行有多少元素大于 $0$
+
+`binary[np.arange(num_train), y] = -row_sum`，将每个正确位置的地方置为负的 `row_sum`，因为大于零的都会产生负贡献。
+
+`dW = X.T.dot(binary)`，相当于给每个特征都做 naive 版本的这个操作：`dW[:, j] &#43;= X[i]` `dW[:, y[i]] -= X[i]`
+
+```Python
+def svm_loss_vectorized(W, X, y, reg):
+    &#34;&#34;&#34;
+    Structured SVM loss function, vectorized implementation.
+
+    Inputs and outputs are the same as svm_loss_naive.
+    &#34;&#34;&#34;
+    loss = 0.0
+    dW = np.zeros(W.shape)  # initialize the gradient as zero
+
+    #############################################################################
+    # TODO:                                                                     #
+    # Implement a vectorized version of the structured SVM loss, storing the    #
+    # result in loss.                                                           #
+    #############################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    num_train = X.shape[0]
+    scores = X.dot(W)
+    correct_class_scores = scores[np.arange(num_train), y].reshape(-1, 1)
+    margins = np.maximum(0, scores - correct_class_scores &#43; 1)
+    margins[np.arange(num_train), y] = 0
+    loss = np.sum(margins) / num_train
+    loss &#43;= reg * np.sum(W * W)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    #############################################################################
+    # TODO:                                                                     #
+    # Implement a vectorized version of the gradient for the structured SVM     #
+    # loss, storing the result in dW.                                           #
+    #                                                                           #
+    # Hint: Instead of computing the gradient from scratch, it may be easier    #
+    # to reuse some of the intermediate values that you used to compute the     #
+    # loss.                                                                     #
+    #############################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    binary = margins &gt; 0
+    binary = binary.astype(float)
+    row_sum = np.sum(binary, axis=1)
+    binary[np.arange(num_train), y] = -row_sum
+    dW = X.T.dot(binary) / num_train
+    dW &#43;= 2 * reg * W
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    return loss, dW
+```
+
+对比一下
+
+```Python
+# Next implement the function svm_loss_vectorized; for now only compute the loss;
+# we will implement the gradient in a moment.
+tic = time.time()
+loss_naive, grad_naive = svm_loss_naive(W, X_dev, y_dev, 0.000005)
+toc = time.time()
+print(&#39;Naive loss: %e computed in %fs&#39; % (loss_naive, toc - tic))
+
+from cs231n.classifiers.linear_svm import svm_loss_vectorized
+tic = time.time()
+loss_vectorized, _ = svm_loss_vectorized(W, X_dev, y_dev, 0.000005)
+toc = time.time()
+print(&#39;Vectorized loss: %e computed in %fs&#39; % (loss_vectorized, toc - tic))
+
+# The losses should match but your vectorized implementation should be much faster.
+print(&#39;difference: %f&#39; % (loss_naive - loss_vectorized))
+```
+
+```{title=&#34;Output&#34;}
+Naive loss: 9.399452e&#43;00 computed in 0.112582s
+Vectorized loss: 9.399452e&#43;00 computed in 0.008816s
+difference: -0.000000
+```
+
+```Python
+# Complete the implementation of svm_loss_vectorized, and compute the gradient
+# of the loss function in a vectorized way.
+
+# The naive implementation and the vectorized implementation should match, but
+# the vectorized version should still be much faster.
+tic = time.time()
+_, grad_naive = svm_loss_naive(W, X_dev, y_dev, 0.000005)
+toc = time.time()
+print(&#39;Naive loss and gradient: computed in %fs&#39; % (toc - tic))
+
+tic = time.time()
+_, grad_vectorized = svm_loss_vectorized(W, X_dev, y_dev, 0.000005)
+toc = time.time()
+print(&#39;Vectorized loss and gradient: computed in %fs&#39; % (toc - tic))
+
+# The loss is a single number, so it is easy to compare the values computed
+# by the two implementations. The gradient on the other hand is a matrix, so
+# we use the Frobenius norm to compare them.
+difference = np.linalg.norm(grad_naive - grad_vectorized, ord=&#39;fro&#39;)
+print(&#39;difference: %f&#39; % difference)
+```
+
+```{title=&#34;Output&#34;}
+Naive loss and gradient: computed in 0.105182s
+Vectorized loss and gradient: computed in 0.002997s
+difference: 0.000000
+```
+
+#### TODO: LinearClassifier
+
+每次随机抽 `batch_size` 个样本计算梯度，迭代更新 W
+
+```Python
+#########################################################################
+# TODO:                                                                 #
+# Sample batch_size elements from the training data and their           #
+# corresponding labels to use in this round of gradient descent.        #
+# Store the data in X_batch and their corresponding labels in           #
+# y_batch; after sampling X_batch should have shape (batch_size, dim)   #
+# and y_batch should have shape (batch_size,)                           #
+#                                                                       #
+# Hint: Use np.random.choice to generate indices. Sampling with         #
+# replacement is faster than sampling without replacement.              #
+#########################################################################
+# *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+indices = np.random.choice(num_train, batch_size, replace=True)
+X_batch = X[indices]
+y_batch = y[indices]
+
+# *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+# evaluate loss and gradient
+loss, grad = self.loss(X_batch, y_batch, reg)
+loss_history.append(loss)
+
+# perform parameter update
+#########################################################################
+# TODO:                                                                 #
+# Update the weights using the gradient and the learning rate.          #
+#########################################################################
+# *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+self.W -= learning_rate * grad
+
+# *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+```
+
+#### TODO: predict
+
+直接用数据乘一下已经训练好了的 W 矩阵，argmax 取出最高分数的类。
+
+```Python
+    def predict(self, X):
+        &#34;&#34;&#34;
+        Use the trained weights of this linear classifier to predict labels for
+        data points.
+
+        Inputs:
+        - X: A numpy array of shape (N, D) containing training data; there are N
+          training samples each of dimension D.
+
+        Returns:
+        - y_pred: Predicted labels for the data in X. y_pred is a 1-dimensional
+          array of length N, and each element is an integer giving the predicted
+          class.
+        &#34;&#34;&#34;
+        y_pred = np.zeros(X.shape[0])
+        ###########################################################################
+        # TODO:                                                                   #
+        # Implement this method. Store the predicted labels in y_pred.            #
+        ###########################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        scores = X.dot(self.W)
+        y_pred = np.argmax(scores, axis=1)
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        return y_pred
+```
+
+```{title=&#34;Output&#34;}
+iteration 0 / 1500: loss 791.498502
+iteration 100 / 1500: loss 289.450806
+iteration 200 / 1500: loss 107.822187
+iteration 300 / 1500: loss 42.558331
+iteration 400 / 1500: loss 18.847986
+iteration 500 / 1500: loss 10.427407
+iteration 600 / 1500: loss 6.668877
+iteration 700 / 1500: loss 5.704408
+iteration 800 / 1500: loss 5.485960
+iteration 900 / 1500: loss 5.553929
+iteration 1000 / 1500: loss 6.068083
+iteration 1100 / 1500: loss 5.816354
+iteration 1200 / 1500: loss 5.403992
+iteration 1300 / 1500: loss 5.660007
+iteration 1400 / 1500: loss 5.307236
+That took 7.161625s
+```
+
+![1](/image/ML/CS231n/3.png)
+
+#### TODO: 使用不同学习率和正则化参数
+
+```Python
+# Use the validation set to tune hyperparameters (regularization strength and
+# learning rate). You should experiment with different ranges for the learning
+# rates and regularization strengths; if you are careful you should be able to
+# get a classification accuracy of about 0.39 (&gt; 0.385) on the validation set.
+
+# Note: you may see runtime/overflow warnings during hyper-parameter search. 
+# This may be caused by extreme values, and is not a bug.
+
+# results is dictionary mapping tuples of the form
+# (learning_rate, regularization_strength) to tuples of the form
+# (training_accuracy, validation_accuracy). The accuracy is simply the fraction
+# of data points that are correctly classified.
+results = {}
+best_val = -1   # The highest validation accuracy that we have seen so far.
+best_svm = None # The LinearSVM object that achieved the highest validation rate.
+
+################################################################################
+# TODO:                                                                        #
+# Write code that chooses the best hyperparameters by tuning on the validation #
+# set. For each combination of hyperparameters, train a linear SVM on the      #
+# training set, compute its accuracy on the training and validation sets, and  #
+# store these numbers in the results dictionary. In addition, store the best   #
+# validation accuracy in best_val and the LinearSVM object that achieves this  #
+# accuracy in best_svm.                                                        #
+#                                                                              #
+# Hint: You should use a small value for num_iters as you develop your         #
+# validation code so that the SVMs don&#39;t take much time to train; once you are #
+# confident that your validation code works, you should rerun the validation   #
+# code with a larger value for num_iters.                                      #
+################################################################################
+
+# Provided as a reference. You may or may not want to change these hyperparameters
+learning_rates = [1e-7, 5e-5]
+regularization_strengths = [2.5e4, 5e4]
+
+# *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+for lr in learning_rates:
+    for reg in regularization_strengths:
+        svm = LinearSVM()
+    
+        svm.train(X_train, y_train, learning_rate=lr, reg=reg, num_iters=1500, verbose=False)
+        
+        # 计算训练集上的准确率
+        y_train_pred = svm.predict(X_train)
+        train_accuracy = np.mean(y_train == y_train_pred)
+        
+        # 计算验证集上的准确率
+        y_val_pred = svm.predict(X_val)
+        val_accuracy = np.mean(y_val == y_val_pred)
+        
+        # 将结果存储在字典中
+        results[(lr, reg)] = (train_accuracy, val_accuracy)
+        
+        # 如果当前验证准确率是最高的，则更新 best_val 和 best_svm
+        if val_accuracy &gt; best_val:
+            best_val = val_accuracy
+            best_svm = svm
+
+# *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    
+# Print out results.
+for lr, reg in sorted(results):
+    train_accuracy, val_accuracy = results[(lr, reg)]
+    print(&#39;lr %e reg %e train accuracy: %f val accuracy: %f&#39; % (
+                lr, reg, train_accuracy, val_accuracy))
+    
+print(&#39;best validation accuracy achieved during cross-validation: %f&#39; % best_val)
+```
+
+```{title=&#34;Output&#34;}
+lr 1.000000e-07 reg 2.500000e&#43;04 train accuracy: 0.369000 val accuracy: 0.379000
+lr 1.000000e-07 reg 5.000000e&#43;04 train accuracy: 0.349898 val accuracy: 0.364000
+lr 5.000000e-05 reg 2.500000e&#43;04 train accuracy: 0.075143 val accuracy: 0.094000
+lr 5.000000e-05 reg 5.000000e&#43;04 train accuracy: 0.100265 val accuracy: 0.087000
+best validation accuracy achieved during cross-validation: 0.379000
+```
+可视化权重：
+
+![1](/image/ML/CS231n/4.png)
+
+#### Inline question 2
+
+Describe what your visualized SVM weights look like, and offer a brief explanation for why they look the way they do.
+
+$\color{blue}{\textit Your Answer:}$ *fill this in*
+
+当然，这里是翻译：
+
+**内联问题 2**
+
+描述你可视化的 SVM 权重是什么样的，并简要解释它们为什么会是这样的。
+
+$\color{blue}{\textit Your Answer:}$ 
+
+1. **权重图像的外观**：
+   - 每个类别的权重图像可能看起来像该类别的典型代表。例如，飞机类别的权重图像可能会显示出机翼的形状，汽车类别可能会显示出车轮的形状。
+   - 这些图像通常是模糊的，因为 SVM 是线性分类器，它试图通过线性组合输入特征来区分类别。
+
+2. **为什么权重看起来是这样的**：
+   - SVM 权重反映了模型在训练过程中学到的特征，这些特征有助于区分不同的类别。
+   - 权重的正值区域表示该区域的像素对该类别的正贡献，而负值区域表示对该类别的负贡献。
+   - 由于 SVM 是线性模型，它只能捕捉到线性可分的特征，因此权重图像可能无法捕捉到复杂的非线性特征。
+
+3. **权重的可解释性**：
+   - 通过观察这些权重图像，可以直观地理解模型在做出分类决策时关注的图像区域。
+   - 这有助于调试和改进模型，例如通过数据增强或特征提取来提高模型的性能。
+
+
+
+
 ## 参考
 https://github.com/Divsigma/2020-cs213n/tree/master/cs231n
 
