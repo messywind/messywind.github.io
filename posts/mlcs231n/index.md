@@ -1146,7 +1146,371 @@ $\color{blue}{\textit Your Answer:}$
    - 这有助于调试和改进模型，例如通过数据增强或特征提取来提高模型的性能。
 
 
+### Q3: Implement a Softmax classifier
 
+![1](/image/ML/CS231n/softmax.webp)
+
+#### SoftMax 损失函数
+
+SoftMax 是把得分转换成了概率。公式如下：
+
+$$
+S(y_i) = \dfrac{e ^ {y_i}}{\sum\limits_{j} e ^ {y_j}}
+$$
+
+损失函数就是根据交叉熵套了个 $-\log(x)$：
+
+$$
+L_i = -\log\left(\dfrac{e ^ {y_i}}{\sum\limits_{j} e ^ {y_j}}\right)
+$$
+
+#### SoftMax 梯度推导
+
+首先样本 $i$ 的得分为：
+
+$$
+s_i = x_i \cdot W
+$$
+
+$s_{i, j}$ 表示样本 $i$ 在类别 $j$ 上的得分。
+
+$$
+p_i = \text{softmax}(s_i) = \dfrac{e ^ {s_i}}{\sum\limits_{k} e ^ {s_{i, k}}}
+$$
+
+$p_{i, j}$ 表示样本 $i$ 被预测为类别 $j$ 的概率。
+
+假设一共有 $C$ 类，$p_i$ 是长这样子的：
+
+$$
+p_i = \left[ \frac{e^{s_{i, 1}}}{\sum\limits_{k=1}^{C} e^{s_{i, k}}}, \frac{e^{s_{i, 2}}}{\sum\limits_{k=1}^{C} e^{s_{i, k}}}, \cdots, \frac{e^{s_{i, C}}}{\sum\limits_{k=1}^{C} e^{s_{i, k}}} \right]
+$$
+
+那么它的损失函数为：
+
+$$
+L_i = -\log(p_i) = -\log\left(\dfrac{e ^ {s_i}}{\sum\limits_{k} e ^ {s_{i, k}}}\right)
+$$
+
+(以下公式为了形式美观将 $s_{i, j}$ 令成 $s_j$，$p_{i, j}$ 令成 $p_j$，意思是都是样本 $i$ 的)
+
+损失函数对 $W$ 求导，并使用链式法则：
+
+$$
+\dfrac{\partial L_i}{\partial W} = \dfrac{\partial L_i}{\partial s_j} \times \dfrac{\partial s_j}{\partial W}
+$$
+
+显然有 $\dfrac{\partial s_j}{\partial W} = x_i$，重点讨论 $\dfrac{\partial L_i}{\partial s_j}$：
+
+{{&lt; admonition type=&#34;tip&#34; title=&#34;$\frac{\partial L_i}{\partial s_j}$&#34;&gt;}}
+
+对于每个类别 $j$：
+
+- 如果 $j$ 为正确类别 ($y_i = j$)：
+
+$$
+\frac{\partial L_i}{\partial s_j} = \frac{\partial (-\log(p_j))}{\partial s_j} = -\frac{1}{p_j} \times \frac{\partial p_j}{\partial s_j}
+$$
+
+接下来 $\dfrac{\partial p_j}{\partial s_j}$ 是：
+
+$$
+\frac{\partial p_j}{\partial s_j} = \frac{\partial}{\partial s_j} \left( \frac{e^{s_j}}{\sum\limits_{k} e^{s_{j, k}}} \right)
+$$
+
+求导：
+
+$$
+\frac{\partial}{\partial s_j} \left( \frac{e^{s_j}}{\sum\limits_{k} e^{s_{j, k}}} \right) = \frac{e^{s_j} \sum\limits_{k} e^{s_{j, k}} - e^{s_j} \cdot e^{s_j}}{\left(\sum\limits_{k} e^{s_{j, k}}\right)^2} = \frac{e^{s_j} \left(\sum\limits_{k} e^{s_{j, k}} - e^{s_j}\right)}{\left(\sum\limits_{k} e^{s_{j, k}}\right)^2} = \dfrac{e ^ {s_j}}{\sum\limits_{k} e^{s_{j, k}}} \times \left(1 - \dfrac{e ^ {s_j}}{\sum\limits_{k} e^{s_{j, k}}}\right) = p_j (1 - p_j)
+$$
+
+于是 $\dfrac{\partial L_i}{\partial s_j} = -\dfrac{1}{p_j} \times p_j(1 - p_j) = (p_j - 1)$
+
+则 $\dfrac{\partial L_i}{\partial W} = (p_j - 1) x_i$
+
+- 如果 $j$ 为不正确类别 ($y_i \ne j$)：
+
+$$
+\frac{\partial L_i}{\partial s_{y_j}} = \frac{\partial (-\log(p_{y_i}))}{\partial s_{y_j}} = -\frac{1}{p_{y_i}} \times \frac{\partial p_{y_i}}{\partial s_{y_j}}
+$$
+
+接下来 $\dfrac{\partial p_{y_j}}{\partial s_{y_j}}$ 是：
+
+$$
+\dfrac{\partial p_{y_j}}{\partial s_{y_j}} = \frac{\partial}{\partial s_{y_j}} \left( \frac{e^{s_j}}{\sum\limits_{k} e^{s_{j, k}}} \right)
+$$
+
+求导：
+
+$$
+\frac{\partial}{\partial s_{y_j}} \left( \frac{e^{s_j}}{\sum\limits_{k} e^{s_{j, k}}} \right) = -\frac{e^{s_j} e ^ {s_{y_j}}}{\left(\sum\limits_{k} e^{s_{j, k}}\right) ^ 2} = -p_j p_{y_j}
+$$
+
+于是 $\dfrac{\partial L_i}{\partial s_{y_j}} = -\dfrac{1}{p_{y_i}} \times \dfrac{\partial p_{y_i}}{\partial s_{y_j}} = p_j$
+
+则 $\dfrac{\partial L_i}{\partial W} = p_j x_i$
+
+{{&lt; /admonition &gt;}}
+
+#### TODO: softmax_loss_naive
+
+```Python
+def softmax_loss_naive(W, X, y, reg):
+    &#34;&#34;&#34;
+    Softmax loss function, naive implementation (with loops)
+
+    Inputs have dimension D, there are C classes, and we operate on minibatches
+    of N examples.
+
+    Inputs:
+    - W: A numpy array of shape (D, C) containing weights.
+    - X: A numpy array of shape (N, D) containing a minibatch of data.
+    - y: A numpy array of shape (N,) containing training labels; y[i] = c means
+      that X[i] has label c, where 0 &lt;= c &lt; C.
+    - reg: (float) regularization strength
+
+    Returns a tuple of:
+    - loss as single float
+    - gradient with respect to weights W; an array of same shape as W
+    &#34;&#34;&#34;
+    # Initialize the loss and gradient to zero.
+    loss = 0.0
+    dW = np.zeros_like(W)
+
+    #############################################################################
+    # TODO: Compute the softmax loss and its gradient using explicit loops.     #
+    # Store the loss in loss and the gradient in dW. If you are not careful     #
+    # here, it is easy to run into numeric instability. Don&#39;t forget the        #
+    # regularization!                                                           #
+    #############################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    # 获取样本数量和类别数量
+    num_train = X.shape[0]
+    num_classes = W.shape[1]
+    
+    # 遍历每个样本
+    for i in range(num_train):
+        # 计算得分
+        scores = X[i].dot(W)
+        
+        # 数值稳定性处理
+        scores -= np.max(scores)
+        
+        # 计算softmax概率
+        exp_scores = np.exp(scores)
+        probs = exp_scores / np.sum(exp_scores)
+        
+        # 计算损失
+        loss &#43;= -np.log(probs[y[i]])
+        
+        # 计算梯度
+        for j in range(num_classes):
+            if j == y[i]:
+                dW[:, j] &#43;= (probs[j] - 1) * X[i]
+            else:
+                dW[:, j] &#43;= probs[j] * X[i]
+    
+    # 平均损失
+    loss /= num_train
+    # 加上正则化损失
+    loss &#43;= 0.5 * reg * np.sum(W * W)
+    
+    # 平均梯度
+    dW /= num_train
+    # 加上正则化梯度
+    dW &#43;= reg * W
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    return loss, dW
+```
+#### Inline Question 1
+
+Why do we expect our loss to be close to -log(0.1)? Explain briefly.**
+
+$\color{blue}{\textit Your Answer:}$ *Fill this in* 
+
+
+**内嵌问题 1**
+
+为什么我们期望损失接近于 $-\log(0.1)$？请简要解释。
+
+$\color{blue}{\textit Your Answer:}$ 
+
+在 Softmax 分类器中，损失函数的计算是基于预测概率的对数损失。假设我们有 10 个类别，并且权重矩阵是随机初始化的，那么每个类别的预测概率大约是均匀分布的，即每个类别的概率约为 $0.1$
+
+因此，损失函数的期望值为 $-\log(0.1)$，因为这是对数损失在预测概率为 $0.1$ 时的值。
+
+#### TODO: softmax_loss_vectorized
+
+```Python
+def softmax_loss_vectorized(W, X, y, reg):
+    &#34;&#34;&#34;
+    Softmax loss function, vectorized version.
+
+    Inputs and outputs are the same as softmax_loss_naive.
+    &#34;&#34;&#34;
+    # Initialize the loss and gradient to zero.
+    loss = 0.0
+    dW = np.zeros_like(W)
+
+    #############################################################################
+    # TODO: Compute the softmax loss and its gradient using no explicit loops.  #
+    # Store the loss in loss and the gradient in dW. If you are not careful     #
+    # here, it is easy to run into numeric instability. Don&#39;t forget the        #
+    # regularization!                                                           #
+    #############################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    # 获取样本数量
+    num_train = X.shape[0]
+
+    # 计算得分矩阵
+    scores = X.dot(W)
+    
+    # 数值稳定性处理
+    scores -= np.max(scores, axis=1, keepdims=True)
+    
+    # 计算softmax概率
+    exp_scores = np.exp(scores)
+    probs = exp_scores / np.sum(exp_scores, axis=1, keepdims=True)
+    
+    # 计算损失
+    correct_log_probs = -np.log(probs[np.arange(num_train), y])
+    loss = np.sum(correct_log_probs) / num_train
+    loss &#43;= 0.5 * reg * np.sum(W * W)
+    
+    # 计算梯度
+    dscores = probs
+    dscores[np.arange(num_train), y] -= 1
+    dW = X.T.dot(dscores) / num_train
+    dW &#43;= reg * W
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    return loss, dW
+```
+
+对比：
+
+```Python
+# Now that we have a naive implementation of the softmax loss function and its gradient,
+# implement a vectorized version in softmax_loss_vectorized.
+# The two versions should compute the same results, but the vectorized version should be
+# much faster.
+tic = time.time()
+loss_naive, grad_naive = softmax_loss_naive(W, X_dev, y_dev, 0.000005)
+toc = time.time()
+print(&#39;naive loss: %e computed in %fs&#39; % (loss_naive, toc - tic))
+
+from cs231n.classifiers.softmax import softmax_loss_vectorized
+tic = time.time()
+loss_vectorized, grad_vectorized = softmax_loss_vectorized(W, X_dev, y_dev, 0.000005)
+toc = time.time()
+print(&#39;vectorized loss: %e computed in %fs&#39; % (loss_vectorized, toc - tic))
+
+# As we did for the SVM, we use the Frobenius norm to compare the two versions
+# of the gradient.
+grad_difference = np.linalg.norm(grad_naive - grad_vectorized, ord=&#39;fro&#39;)
+print(&#39;Loss difference: %f&#39; % np.abs(loss_naive - loss_vectorized))
+print(&#39;Gradient difference: %f&#39; % grad_difference)
+```
+
+```{title=&#34;Output&#34;}
+naive loss: 2.304545e&#43;00 computed in 0.112797s
+vectorized loss: 2.304545e&#43;00 computed in 0.007444s
+Loss difference: 0.000000
+Gradient difference: 0.000000
+```
+
+#### TODO: 交叉验证
+
+```Python
+# Use the validation set to tune hyperparameters (regularization strength and
+# learning rate). You should experiment with different ranges for the learning
+# rates and regularization strengths; if you are careful you should be able to
+# get a classification accuracy of over 0.35 on the validation set.
+
+from cs231n.classifiers import Softmax
+results = {}
+best_val = -1
+best_softmax = None
+
+################################################################################
+# TODO:                                                                        #
+# Use the validation set to set the learning rate and regularization strength. #
+# This should be identical to the validation that you did for the SVM; save    #
+# the best trained softmax classifer in best_softmax.                          #
+################################################################################
+
+# Provided as a reference. You may or may not want to change these hyperparameters
+learning_rates = [1e-7, 5e-7]
+regularization_strengths = [2.5e4, 5e4]
+
+# *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+for lr in learning_rates:
+    for reg in regularization_strengths:
+        softmax = Softmax()
+        
+        softmax.train(X_train, y_train, learning_rate=lr, reg=reg, num_iters=1500, verbose=False)
+        
+        y_train_pred = softmax.predict(X_train)
+        y_val_pred = softmax.predict(X_val)
+        
+        train_accuracy = np.mean(y_train == y_train_pred)
+        val_accuracy = np.mean(y_val == y_val_pred)
+        
+        results[(lr, reg)] = (train_accuracy, val_accuracy)
+        
+        if val_accuracy &gt; best_val:
+            best_val = val_accuracy
+            best_softmax = softmax
+
+# *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    
+# Print out results.
+for lr, reg in sorted(results):
+    train_accuracy, val_accuracy = results[(lr, reg)]
+    print(&#39;lr %e reg %e train accuracy: %f val accuracy: %f&#39; % (
+                lr, reg, train_accuracy, val_accuracy))
+    
+print(&#39;best validation accuracy achieved during cross-validation: %f&#39; % best_val)
+```
+
+```{title=&#34;Output&#34;}
+lr 1.000000e-07 reg 2.500000e&#43;04 train accuracy: 0.345571 val accuracy: 0.366000
+lr 1.000000e-07 reg 5.000000e&#43;04 train accuracy: 0.327163 val accuracy: 0.345000
+lr 5.000000e-07 reg 2.500000e&#43;04 train accuracy: 0.340449 val accuracy: 0.352000
+lr 5.000000e-07 reg 5.000000e&#43;04 train accuracy: 0.329878 val accuracy: 0.330000
+best validation accuracy achieved during cross-validation: 0.366000
+```
+
+#### Inline Question 2 - *True or False*
+
+Suppose the overall training loss is defined as the sum of the per-datapoint loss over all training examples. It is possible to add a new datapoint to a training set that would leave the SVM loss unchanged, but this is not the case with the Softmax classifier loss.
+
+$\color{blue}{\textit Your Answer:}$
+
+
+$\color{blue}{\textit Your Explanation:}$
+
+**内嵌问题 2** - *对或错*
+
+假设整体训练损失定义为所有训练样本的每个数据点损失之和。可以添加一个新的数据点到训练集中，使得 SVM 损失保持不变，但对于 Softmax 分类器损失来说，这种情况不会发生。
+
+$\color{blue}{\textit Your Answer:}$ True
+
+$\color{blue}{\textit Your Explanation:}$
+
+
+在 SVM 中，损失函数是基于边界的。对于一个新的数据点，如果它位于正确的边界一侧并且离边界足够远，那么它对损失的贡献为零，因此不会改变整体损失。
+
+然而，在 Softmax 分类器中，损失函数是基于概率分布的对数损失。每个数据点都会对损失产生影响，因为即使是一个新的数据点也会改变概率分布，从而影响损失。因此，添加一个新的数据点总是会改变 Softmax 分类器的损失。
+
+可视化权重：
+
+![1](/image/ML/CS231n/5.png)
 
 ## 参考
 https://github.com/Divsigma/2020-cs213n/tree/master/cs231n

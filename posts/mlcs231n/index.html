@@ -15,8 +15,8 @@
 课程网址
 本地环境部署 由于 2024 版的没有给 jupyter 的压缩包，所以先下载 2024 colab 版本，然后在 colab 上把数据拉下来然后下载到本地，放到 /datasets 下，之后删除掉一开始的 google.colab 驱动相关。">
   <meta itemprop="datePublished" content="2024-12-03T13:47:00+00:00">
-  <meta itemprop="dateModified" content="2024-12-05T19:47:27+08:00">
-  <meta itemprop="wordCount" content="8529">
+  <meta itemprop="dateModified" content="2024-12-09T16:14:10+08:00">
+  <meta itemprop="wordCount" content="10766">
   <meta itemprop="keywords" content="KNN,神经网络,SVM"><meta property="og:url" content="https://blog.messywind.top/posts/mlcs231n/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="CS231n">
@@ -27,7 +27,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2024-12-03T13:47:00+00:00">
-    <meta property="article:modified_time" content="2024-12-05T19:47:27+08:00">
+    <meta property="article:modified_time" content="2024-12-09T16:14:10+08:00">
     <meta property="article:tag" content="KNN">
     <meta property="article:tag" content="神经网络">
     <meta property="article:tag" content="SVM">
@@ -49,8 +49,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/mlcs231n\/"
-    },"genre": "posts","keywords": "KNN, 神经网络, SVM","wordcount":  8529 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/mlcs231n\/","datePublished": "2024-12-03T13:47:00+00:00","dateModified": "2024-12-05T19:47:27+08:00","publisher": {
+    },"genre": "posts","keywords": "KNN, 神经网络, SVM","wordcount":  10766 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlcs231n\/","datePublished": "2024-12-03T13:47:00+00:00","dateModified": "2024-12-09T16:14:10+08:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -124,7 +124,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>CS231n</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2024-12-03 13:47:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-12-03">2024-12-03</time></span>&nbsp;<span title="更新于 2024-12-05 19:47:27"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-12-05">2024-12-05</time></span>&nbsp;<span title="8529 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 8600 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 18 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2024-12-03 13:47:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-12-03">2024-12-03</time></span>&nbsp;<span title="更新于 2024-12-09 16:14:10"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-12-09">2024-12-09</time></span>&nbsp;<span title="10766 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 10800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 22 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -155,6 +155,17 @@
             <li><a href="#todo-predict">TODO: predict</a></li>
             <li><a href="#todo-使用不同学习率和正则化参数">TODO: 使用不同学习率和正则化参数</a></li>
             <li><a href="#inline-question-2-1">Inline question 2</a></li>
+          </ul>
+        </li>
+        <li><a href="#q3-implement-a-softmax-classifier">Q3: Implement a Softmax classifier</a>
+          <ul>
+            <li><a href="#softmax-损失函数">SoftMax 损失函数</a></li>
+            <li><a href="#softmax-梯度推导">SoftMax 梯度推导</a></li>
+            <li><a href="#todo-softmax_loss_naive">TODO: softmax_loss_naive</a></li>
+            <li><a href="#inline-question-1-2">Inline Question 1</a></li>
+            <li><a href="#todo-softmax_loss_vectorized">TODO: softmax_loss_vectorized</a></li>
+            <li><a href="#todo-交叉验证">TODO: 交叉验证</a></li>
+            <li><a href="#inline-question-2---true-or-false">Inline Question 2 - <em>True or False</em></a></li>
           </ul>
         </li>
       </ul>
@@ -2087,6 +2098,542 @@ $$</p>
 </ul>
 </li>
 </ol>
+<h3 id="q3-implement-a-softmax-classifier" class="heading-element"><span>Q3: Implement a Softmax classifier</span>
+  <a href="#q3-implement-a-softmax-classifier" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><img loading="lazy" src="/image/ML/CS231n/softmax.webp" alt="1" srcset="/image/ML/CS231n/softmax.webp?size=small, /image/ML/CS231n/softmax.webp?size=medium 1.5x, /image/ML/CS231n/softmax.webp?size=large 2x" data-title="1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h4 id="softmax-损失函数" class="heading-element"><span>SoftMax 损失函数</span>
+  <a href="#softmax-%e6%8d%9f%e5%a4%b1%e5%87%bd%e6%95%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>SoftMax 是把得分转换成了概率。公式如下：</p>
+<p>$$
+S(y_i) = \dfrac{e ^ {y_i}}{\sum\limits_{j} e ^ {y_j}}
+$$</p>
+<p>损失函数就是根据交叉熵套了个 $-\log(x)$：</p>
+<p>$$
+L_i = -\log\left(\dfrac{e ^ {y_i}}{\sum\limits_{j} e ^ {y_j}}\right)
+$$</p>
+<h4 id="softmax-梯度推导" class="heading-element"><span>SoftMax 梯度推导</span>
+  <a href="#softmax-%e6%a2%af%e5%ba%a6%e6%8e%a8%e5%af%bc" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>首先样本 $i$ 的得分为：</p>
+<p>$$
+s_i = x_i \cdot W
+$$</p>
+<p>$s_{i, j}$ 表示样本 $i$ 在类别 $j$ 上的得分。</p>
+<p>$$
+p_i = \text{softmax}(s_i) = \dfrac{e ^ {s_i}}{\sum\limits_{k} e ^ {s_{i, k}}}
+$$</p>
+<p>$p_{i, j}$ 表示样本 $i$ 被预测为类别 $j$ 的概率。</p>
+<p>假设一共有 $C$ 类，$p_i$ 是长这样子的：</p>
+<p>$$
+p_i = \left[ \frac{e^{s_{i, 1}}}{\sum\limits_{k=1}^{C} e^{s_{i, k}}}, \frac{e^{s_{i, 2}}}{\sum\limits_{k=1}^{C} e^{s_{i, k}}}, \cdots, \frac{e^{s_{i, C}}}{\sum\limits_{k=1}^{C} e^{s_{i, k}}} \right]
+$$</p>
+<p>那么它的损失函数为：</p>
+<p>$$
+L_i = -\log(p_i) = -\log\left(\dfrac{e ^ {s_i}}{\sum\limits_{k} e ^ {s_{i, k}}}\right)
+$$</p>
+<p>(以下公式为了形式美观将 $s_{i, j}$ 令成 $s_j$，$p_{i, j}$ 令成 $p_j$，意思是都是样本 $i$ 的)</p>
+<p>损失函数对 $W$ 求导，并使用链式法则：</p>
+<p>$$
+\dfrac{\partial L_i}{\partial W} = \dfrac{\partial L_i}{\partial s_j} \times \dfrac{\partial s_j}{\partial W}
+$$</p>
+<p>显然有 $\dfrac{\partial s_j}{\partial W} = x_i$，重点讨论 $\dfrac{\partial L_i}{\partial s_j}$：</p>
+<div class="details admonition tip open">
+  <div class="details-summary admonition-title"><i class="icon fa-fw fa-regular fa-lightbulb" aria-hidden="true"></i>$\frac{\partial L_i}{\partial s_j}$<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></div>
+  <div class="details-content">
+    <div class="admonition-content"><p>对于每个类别 $j$：</p>
+<ul>
+<li>如果 $j$ 为正确类别 ($y_i = j$)：</li>
+</ul>
+<p>$$
+\frac{\partial L_i}{\partial s_j} = \frac{\partial (-\log(p_j))}{\partial s_j} = -\frac{1}{p_j} \times \frac{\partial p_j}{\partial s_j}
+$$</p>
+<p>接下来 $\dfrac{\partial p_j}{\partial s_j}$ 是：</p>
+<p>$$
+\frac{\partial p_j}{\partial s_j} = \frac{\partial}{\partial s_j} \left( \frac{e^{s_j}}{\sum\limits_{k} e^{s_{j, k}}} \right)
+$$</p>
+<p>求导：</p>
+<p>$$
+\frac{\partial}{\partial s_j} \left( \frac{e^{s_j}}{\sum\limits_{k} e^{s_{j, k}}} \right) = \frac{e^{s_j} \sum\limits_{k} e^{s_{j, k}} - e^{s_j} \cdot e^{s_j}}{\left(\sum\limits_{k} e^{s_{j, k}}\right)^2} = \frac{e^{s_j} \left(\sum\limits_{k} e^{s_{j, k}} - e^{s_j}\right)}{\left(\sum\limits_{k} e^{s_{j, k}}\right)^2} = \dfrac{e ^ {s_j}}{\sum\limits_{k} e^{s_{j, k}}} \times \left(1 - \dfrac{e ^ {s_j}}{\sum\limits_{k} e^{s_{j, k}}}\right) = p_j (1 - p_j)
+$$</p>
+<p>于是 $\dfrac{\partial L_i}{\partial s_j} = -\dfrac{1}{p_j} \times p_j(1 - p_j) = (p_j - 1)$</p>
+<p>则 $\dfrac{\partial L_i}{\partial W} = (p_j - 1) x_i$</p>
+<ul>
+<li>如果 $j$ 为不正确类别 ($y_i \ne j$)：</li>
+</ul>
+<p>$$
+\frac{\partial L_i}{\partial s_{y_j}} = \frac{\partial (-\log(p_{y_i}))}{\partial s_{y_j}} = -\frac{1}{p_{y_i}} \times \frac{\partial p_{y_i}}{\partial s_{y_j}}
+$$</p>
+<p>接下来 $\dfrac{\partial p_{y_j}}{\partial s_{y_j}}$ 是：</p>
+<p>$$
+\dfrac{\partial p_{y_j}}{\partial s_{y_j}} = \frac{\partial}{\partial s_{y_j}} \left( \frac{e^{s_j}}{\sum\limits_{k} e^{s_{j, k}}} \right)
+$$</p>
+<p>求导：</p>
+<p>$$
+\frac{\partial}{\partial s_{y_j}} \left( \frac{e^{s_j}}{\sum\limits_{k} e^{s_{j, k}}} \right) = -\frac{e^{s_j} e ^ {s_{y_j}}}{\left(\sum\limits_{k} e^{s_{j, k}}\right) ^ 2} = -p_j p_{y_j}
+$$</p>
+<p>于是 $\dfrac{\partial L_i}{\partial s_{y_j}} = -\dfrac{1}{p_{y_i}} \times \dfrac{\partial p_{y_i}}{\partial s_{y_j}} = p_j$</p>
+<p>则 $\dfrac{\partial L_i}{\partial W} = p_j x_i$</p>
+</div>
+  </div>
+</div>
+<h4 id="todo-softmax_loss_naive" class="heading-element"><span>TODO: softmax_loss_naive</span>
+  <a href="#todo-softmax_loss_naive" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">softmax_loss_naive</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">reg</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Softmax loss function, naive implementation (with loops)
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Inputs have dimension D, there are C classes, and we operate on minibatches
+</span></span></span><span class="line"><span class="cl"><span class="s2">    of N examples.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Inputs:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - W: A numpy array of shape (D, C) containing weights.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - X: A numpy array of shape (N, D) containing a minibatch of data.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - y: A numpy array of shape (N,) containing training labels; y[i] = c means
+</span></span></span><span class="line"><span class="cl"><span class="s2">      that X[i] has label c, where 0 &lt;= c &lt; C.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - reg: (float) regularization strength
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns a tuple of:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - loss as single float
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - gradient with respect to weights W; an array of same shape as W
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Initialize the loss and gradient to zero.</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dW</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">#############################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># TODO: Compute the softmax loss and its gradient using explicit loops.     #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Store the loss in loss and the gradient in dW. If you are not careful     #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># here, it is easy to run into numeric instability. Don&#39;t forget the        #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># regularization!                                                           #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#############################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 获取样本数量和类别数量</span>
+</span></span><span class="line"><span class="cl">    <span class="n">num_train</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">num_classes</span> <span class="o">=</span> <span class="n">W</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 遍历每个样本</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_train</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 计算得分</span>
+</span></span><span class="line"><span class="cl">        <span class="n">scores</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 数值稳定性处理</span>
+</span></span><span class="line"><span class="cl">        <span class="n">scores</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 计算softmax概率</span>
+</span></span><span class="line"><span class="cl">        <span class="n">exp_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">probs</span> <span class="o">=</span> <span class="n">exp_scores</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">exp_scores</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 计算损失</span>
+</span></span><span class="line"><span class="cl">        <span class="n">loss</span> <span class="o">+=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 计算梯度</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_classes</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">dW</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="n">dW</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">probs</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 平均损失</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loss</span> <span class="o">/=</span> <span class="n">num_train</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 加上正则化损失</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loss</span> <span class="o">+=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">reg</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">W</span> <span class="o">*</span> <span class="n">W</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 平均梯度</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dW</span> <span class="o">/=</span> <span class="n">num_train</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 加上正则化梯度</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dW</span> <span class="o">+=</span> <span class="n">reg</span> <span class="o">*</span> <span class="n">W</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">dW</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="inline-question-1-2" class="heading-element"><span>Inline Question 1</span>
+  <a href="#inline-question-1-2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>Why do we expect our loss to be close to -log(0.1)? Explain briefly.**</p>
+<p>$\color{blue}{\textit Your Answer:}$ <em>Fill this in</em></p>
+<p><strong>内嵌问题 1</strong></p>
+<p>为什么我们期望损失接近于 $-\log(0.1)$？请简要解释。</p>
+<p>$\color{blue}{\textit Your Answer:}$</p>
+<p>在 Softmax 分类器中，损失函数的计算是基于预测概率的对数损失。假设我们有 10 个类别，并且权重矩阵是随机初始化的，那么每个类别的预测概率大约是均匀分布的，即每个类别的概率约为 $0.1$</p>
+<p>因此，损失函数的期望值为 $-\log(0.1)$，因为这是对数损失在预测概率为 $0.1$ 时的值。</p>
+<h4 id="todo-softmax_loss_vectorized" class="heading-element"><span>TODO: softmax_loss_vectorized</span>
+  <a href="#todo-softmax_loss_vectorized" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">softmax_loss_vectorized</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">reg</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Softmax loss function, vectorized version.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Inputs and outputs are the same as softmax_loss_naive.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Initialize the loss and gradient to zero.</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dW</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">#############################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># TODO: Compute the softmax loss and its gradient using no explicit loops.  #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Store the loss in loss and the gradient in dW. If you are not careful     #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># here, it is easy to run into numeric instability. Don&#39;t forget the        #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># regularization!                                                           #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#############################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 获取样本数量</span>
+</span></span><span class="line"><span class="cl">    <span class="n">num_train</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 计算得分矩阵</span>
+</span></span><span class="line"><span class="cl">    <span class="n">scores</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">W</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 数值稳定性处理</span>
+</span></span><span class="line"><span class="cl">    <span class="n">scores</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 计算softmax概率</span>
+</span></span><span class="line"><span class="cl">    <span class="n">exp_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">probs</span> <span class="o">=</span> <span class="n">exp_scores</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">exp_scores</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 计算损失</span>
+</span></span><span class="line"><span class="cl">    <span class="n">correct_log_probs</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_train</span><span class="p">),</span> <span class="n">y</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">correct_log_probs</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_train</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loss</span> <span class="o">+=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">reg</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">W</span> <span class="o">*</span> <span class="n">W</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 计算梯度</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dscores</span> <span class="o">=</span> <span class="n">probs</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dscores</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_train</span><span class="p">),</span> <span class="n">y</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dW</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dscores</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_train</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dW</span> <span class="o">+=</span> <span class="n">reg</span> <span class="o">*</span> <span class="n">W</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">dW</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>对比：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="c1"># Now that we have a naive implementation of the softmax loss function and its gradient,</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># implement a vectorized version in softmax_loss_vectorized.</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># The two versions should compute the same results, but the vectorized version should be</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># much faster.</span>
+</span></span><span class="line"><span class="cl"><span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">loss_naive</span><span class="p">,</span> <span class="n">grad_naive</span> <span class="o">=</span> <span class="n">softmax_loss_naive</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">X_dev</span><span class="p">,</span> <span class="n">y_dev</span><span class="p">,</span> <span class="mf">0.000005</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;naive loss: </span><span class="si">%e</span><span class="s1"> computed in </span><span class="si">%f</span><span class="s1">s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">loss_naive</span><span class="p">,</span> <span class="n">toc</span> <span class="o">-</span> <span class="n">tic</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">cs231n.classifiers.softmax</span> <span class="kn">import</span> <span class="n">softmax_loss_vectorized</span>
+</span></span><span class="line"><span class="cl"><span class="n">tic</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">loss_vectorized</span><span class="p">,</span> <span class="n">grad_vectorized</span> <span class="o">=</span> <span class="n">softmax_loss_vectorized</span><span class="p">(</span><span class="n">W</span><span class="p">,</span> <span class="n">X_dev</span><span class="p">,</span> <span class="n">y_dev</span><span class="p">,</span> <span class="mf">0.000005</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">toc</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;vectorized loss: </span><span class="si">%e</span><span class="s1"> computed in </span><span class="si">%f</span><span class="s1">s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">loss_vectorized</span><span class="p">,</span> <span class="n">toc</span> <span class="o">-</span> <span class="n">tic</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># As we did for the SVM, we use the Frobenius norm to compare the two versions</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># of the gradient.</span>
+</span></span><span class="line"><span class="cl"><span class="n">grad_difference</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">grad_naive</span> <span class="o">-</span> <span class="n">grad_vectorized</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="s1">&#39;fro&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Loss difference: </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">loss_naive</span> <span class="o">-</span> <span class="n">loss_vectorized</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Gradient difference: </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">grad_difference</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" title="Output"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">naive loss: 2.304545e+00 computed in 0.112797s
+</span></span><span class="line"><span class="cl">vectorized loss: 2.304545e+00 computed in 0.007444s
+</span></span><span class="line"><span class="cl">Loss difference: 0.000000
+</span></span><span class="line"><span class="cl">Gradient difference: 0.000000</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="todo-交叉验证" class="heading-element"><span>TODO: 交叉验证</span>
+  <a href="#todo-%e4%ba%a4%e5%8f%89%e9%aa%8c%e8%af%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="c1"># Use the validation set to tune hyperparameters (regularization strength and</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># learning rate). You should experiment with different ranges for the learning</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># rates and regularization strengths; if you are careful you should be able to</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># get a classification accuracy of over 0.35 on the validation set.</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">cs231n.classifiers</span> <span class="kn">import</span> <span class="n">Softmax</span>
+</span></span><span class="line"><span class="cl"><span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="n">best_val</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="n">best_softmax</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># TODO:                                                                        #</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Use the validation set to set the learning rate and regularization strength. #</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># This should be identical to the validation that you did for the SVM; save    #</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># the best trained softmax classifer in best_softmax.                          #</span>
+</span></span><span class="line"><span class="cl"><span class="c1">################################################################################</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Provided as a reference. You may or may not want to change these hyperparameters</span>
+</span></span><span class="line"><span class="cl"><span class="n">learning_rates</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-7</span><span class="p">,</span> <span class="mf">5e-7</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">regularization_strengths</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.5e4</span><span class="p">,</span> <span class="mf">5e4</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">lr</span> <span class="ow">in</span> <span class="n">learning_rates</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">reg</span> <span class="ow">in</span> <span class="n">regularization_strengths</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">softmax</span> <span class="o">=</span> <span class="n">Softmax</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">softmax</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="n">lr</span><span class="p">,</span> <span class="n">reg</span><span class="o">=</span><span class="n">reg</span><span class="p">,</span> <span class="n">num_iters</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">y_train_pred</span> <span class="o">=</span> <span class="n">softmax</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_train</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">y_val_pred</span> <span class="o">=</span> <span class="n">softmax</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_val</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">train_accuracy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_train</span> <span class="o">==</span> <span class="n">y_train_pred</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">val_accuracy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y_val</span> <span class="o">==</span> <span class="n">y_val_pred</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">results</span><span class="p">[(</span><span class="n">lr</span><span class="p">,</span> <span class="n">reg</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_accuracy</span><span class="p">,</span> <span class="n">val_accuracy</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">val_accuracy</span> <span class="o">&gt;</span> <span class="n">best_val</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">best_val</span> <span class="o">=</span> <span class="n">val_accuracy</span>
+</span></span><span class="line"><span class="cl">            <span class="n">best_softmax</span> <span class="o">=</span> <span class="n">softmax</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="c1"># Print out results.</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">lr</span><span class="p">,</span> <span class="n">reg</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">train_accuracy</span><span class="p">,</span> <span class="n">val_accuracy</span> <span class="o">=</span> <span class="n">results</span><span class="p">[(</span><span class="n">lr</span><span class="p">,</span> <span class="n">reg</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;lr </span><span class="si">%e</span><span class="s1"> reg </span><span class="si">%e</span><span class="s1"> train accuracy: </span><span class="si">%f</span><span class="s1"> val accuracy: </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="n">lr</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="n">train_accuracy</span><span class="p">,</span> <span class="n">val_accuracy</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;best validation accuracy achieved during cross-validation: </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">best_val</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" title="Output"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">lr 1.000000e-07 reg 2.500000e+04 train accuracy: 0.345571 val accuracy: 0.366000
+</span></span><span class="line"><span class="cl">lr 1.000000e-07 reg 5.000000e+04 train accuracy: 0.327163 val accuracy: 0.345000
+</span></span><span class="line"><span class="cl">lr 5.000000e-07 reg 2.500000e+04 train accuracy: 0.340449 val accuracy: 0.352000
+</span></span><span class="line"><span class="cl">lr 5.000000e-07 reg 5.000000e+04 train accuracy: 0.329878 val accuracy: 0.330000
+</span></span><span class="line"><span class="cl">best validation accuracy achieved during cross-validation: 0.366000</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="inline-question-2---true-or-false" class="heading-element"><span>Inline Question 2 - <em>True or False</em></span>
+  <a href="#inline-question-2---true-or-false" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>Suppose the overall training loss is defined as the sum of the per-datapoint loss over all training examples. It is possible to add a new datapoint to a training set that would leave the SVM loss unchanged, but this is not the case with the Softmax classifier loss.</p>
+<p>$\color{blue}{\textit Your Answer:}$</p>
+<p>$\color{blue}{\textit Your Explanation:}$</p>
+<p><strong>内嵌问题 2</strong> - <em>对或错</em></p>
+<p>假设整体训练损失定义为所有训练样本的每个数据点损失之和。可以添加一个新的数据点到训练集中，使得 SVM 损失保持不变，但对于 Softmax 分类器损失来说，这种情况不会发生。</p>
+<p>$\color{blue}{\textit Your Answer:}$ True</p>
+<p>$\color{blue}{\textit Your Explanation:}$</p>
+<p>在 SVM 中，损失函数是基于边界的。对于一个新的数据点，如果它位于正确的边界一侧并且离边界足够远，那么它对损失的贡献为零，因此不会改变整体损失。</p>
+<p>然而，在 Softmax 分类器中，损失函数是基于概率分布的对数损失。每个数据点都会对损失产生影响，因为即使是一个新的数据点也会改变概率分布，从而影响损失。因此，添加一个新的数据点总是会改变 Softmax 分类器的损失。</p>
+<p>可视化权重：</p>
+<p><img loading="lazy" src="/image/ML/CS231n/5.png" alt="1" srcset="/image/ML/CS231n/5.png?size=small, /image/ML/CS231n/5.png?size=medium 1.5x, /image/ML/CS231n/5.png?size=large 2x" data-title="1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
 <h2 id="参考" class="heading-element"><span>参考</span>
   <a href="#%e5%8f%82%e8%80%83" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -2096,7 +2643,7 @@ $$</p>
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2024-12-05 19:47:27">更新于 2024-12-05&nbsp;</span>
+        <span title="更新于 2024-12-09 16:14:10">更新于 2024-12-09&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/mlcs231n/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">
