@@ -1512,8 +1512,832 @@ $\color{blue}{\textit Your Explanation:}$
 
 ![1](/image/ML/CS231n/5.png)
 
+### Q4: Two-Layer Neural Network
+
+首先检验一下前向传播，数据生成一个两组大小为 $4 \times 5 \times 6$ 的数据，也就是说输入层是 $120$ 个节点，然后直接连接输出层，设输出层有 $3$ 个节点。
+所以说 $w$ 就是 $120 \times 3$ 的，$b$ 就是 $3$ 的。
+
+```Python
+# Test the affine_forward function
+
+num_inputs = 2
+input_shape = (4, 5, 6)
+output_dim = 3
+
+input_size = num_inputs * np.prod(input_shape)
+weight_size = output_dim * np.prod(input_shape)
+
+x = np.linspace(-0.1, 0.5, num=input_size).reshape(num_inputs, *input_shape)
+w = np.linspace(-0.2, 0.3, num=weight_size).reshape(np.prod(input_shape), output_dim)
+b = np.linspace(-0.3, 0.1, num=output_dim)
+
+out, _ = affine_forward(x, w, b)
+correct_out = np.array([[ 1.49834967,  1.70660132,  1.91485297],
+                        [ 3.25553199,  3.5141327,   3.77273342]])
+
+# Compare your output with ours. The error should be around e-9 or less.
+print(&#39;Testing affine_forward function:&#39;)
+print(&#39;difference: &#39;, rel_error(out, correct_out))
+```
+
+#### TODO: affine_forward
+
+把 $x$ 压成 $120$ 的第二维。
+
+```Python
+def affine_forward(x, w, b):
+    &#34;&#34;&#34;
+    Computes the forward pass for an affine (fully-connected) layer.
+
+    The input x has shape (N, d_1, ..., d_k) and contains a minibatch of N
+    examples, where each example x[i] has shape (d_1, ..., d_k). We will
+    reshape each input into a vector of dimension D = d_1 * ... * d_k, and
+    then transform it to an output vector of dimension M.
+
+    Inputs:
+    - x: A numpy array containing input data, of shape (N, d_1, ..., d_k)
+    - w: A numpy array of weights, of shape (D, M)
+    - b: A numpy array of biases, of shape (M,)
+
+    Returns a tuple of:
+    - out: output, of shape (N, M)
+    - cache: (x, w, b)
+    &#34;&#34;&#34;
+    out = None
+    ###########################################################################
+    # TODO: Implement the affine forward pass. Store the result in out. You   #
+    # will need to reshape the input into rows.                               #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    out = x.reshape(x.shape[0], -1).dot(w) &#43; b
+    cache = (x, w, b)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+    cache = (x, w, b)
+    return out, cache
+```
+
+接下来检验反向传播。
+
+#### TODO: affine_backward
+
+我们知道这是批量梯度下降，也就是说输入数据 $x$ 被我们处理成了 $n \times k$ 维的，每一行代表一个数据，列就是特征。那么输出层定义为 $n \times m$ 维的，$n$ 是数据批量个数，$m$ 是输出层节点个数，但是 $w$ 和 $b$ 分别是 $k \times m$ 与 $1 \times m$ 维的，也就是说这 $n$ 个数据共用 $w$ 和 $b$，然后每个数据对应一组输出。
+
+那么在反向传播时，我们需要计算 $x, w, b$ 的偏导，首先他给了一个 `dout` 数组，这代表输出层的导数，他也是一个 $n \times m$ 的。
+
+单看 $\text{out}_{i, j}$：
+
+$$
+\text{out}\_{i, j} = \sum_k x_{i, k} w_{k, j} &#43; b_j
+$$
+
+$\text{out}\_{i, j}$ 对 $w_{k, j}$ 求偏导：
+
+$$
+\dfrac{\partial \text{out}\_{i, j}}{\partial w_{k, j}} = x_{i, k}
+$$
+
+$\text{out}\_{i, j}$ 对 $x_{i, k}$ 求偏导：
+
+$$
+\dfrac{\partial \text{out}\_{i, j}}{\partial x_{i, k}} = w_{k, j}
+$$
+
+$\text{out}\_{i, j}$ 对 $b_j$ 求偏导：
+
+$$
+\dfrac{\partial \text{out}\_{i, j}}{\partial b_j} = 1
+$$
+
+那么损失函数 $L$ 对 $w_{k, j}$ 求偏导，根据链式法则有：
+
+$$
+\dfrac{\partial L}{\partial w_{k, j}} = \sum_i \dfrac{\partial L}{\partial \text{out}\_{i, j}} \dfrac{\partial \text{out}\_{i, j}}{\partial w_{k, j}}
+$$
+
+其中 $\dfrac{\partial L}{\partial \text{out}\_{i, j}}$ 这个东西就是 `dout[i, j]` (上游传来的导数)，而 $\dfrac{\partial \text{out}\_{i, j}}{\partial w_{k, j}} = x_{i, k}$，所以
+
+$$
+\dfrac{\partial L}{\partial w_{k, j}} = \sum_i \text{dout}\_{i, j}x_{i, k}
+$$
+
+再来看损失函数 $L_i$ 对 $x_{i, k}$ 求偏导，根据链式法则有：
+
+$$
+\dfrac{\partial L}{\partial x_{i, k}} = \sum_j \dfrac{\partial L}{\partial \text{out}\_{i, j}} \dfrac{\partial \text{out}\_{i, j}}{\partial x_{i, k}}
+$$
+
+继续带入 $\dfrac{\partial L}{\partial \text{out}\_{i, j}} = \text{dout}\_{i, j}$，$\dfrac{\partial \text{out}\_{i, j}}{\partial x_{i, k}} = w_{k, j}$：
+
+$$
+\dfrac{\partial L}{\partial x_{i, k}} = \sum_j \text{dout}\_{i, j}w_{k, j}
+$$
+
+继续看损失函数 $L_i$ 对 $b_{j}$ 求偏导，根据链式法则有：
+
+$$
+\dfrac{\partial L}{\partial b_{j}} = \sum_i \dfrac{\partial L}{\partial \text{out}\_{i, j}} \dfrac{\partial \text{out}\_{i, j}}{\partial b_{j}}
+$$
+
+还是继续带入 $\dfrac{\partial L}{\partial \text{out}\_{i, j}} = \text{dout}\_{i, j}$，$\dfrac{\partial \text{out}\_{i, j}}{\partial b_j} = 1$，那么：
+
+$$
+\dfrac{\partial L}{\partial b_{j}} = \sum_i \text{dout}\_{i, j}
+$$
+
+代码直接三行结束。
+
+```Python
+def affine_backward(dout, cache):
+    &#34;&#34;&#34;
+    Computes the backward pass for an affine layer.
+
+    Inputs:
+    - dout: Upstream derivative, of shape (N, M)
+    - cache: Tuple of:
+      - x: Input data, of shape (N, d_1, ... d_k)
+      - w: Weights, of shape (D, M)
+      - b: Biases, of shape (M,)
+
+    Returns a tuple of:
+    - dx: Gradient with respect to x, of shape (N, d1, ..., d_k)
+    - dw: Gradient with respect to w, of shape (D, M)
+    - db: Gradient with respect to b, of shape (M,)
+    &#34;&#34;&#34;
+    x, w, b = cache
+    dx, dw, db = None, None, None
+    ###########################################################################
+    # TODO: Implement the affine backward pass.                               #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    
+    x_shape = x.shape
+    x_reshaped = x.reshape(x_shape[0], -1)
+
+    dx = dout.dot(w.T).reshape(x_shape)
+    dw = x_reshaped.T.dot(dout)
+    db = np.sum(dout, axis=0)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+    return dx, dw, db
+```
+验证：
+
+```Python
+# Test the affine_backward function
+np.random.seed(231)
+x = np.random.randn(10, 2, 3)
+w = np.random.randn(6, 5)
+b = np.random.randn(5)
+dout = np.random.randn(10, 5)
+
+dx_num = eval_numerical_gradient_array(lambda x: affine_forward(x, w, b)[0], x, dout)
+dw_num = eval_numerical_gradient_array(lambda w: affine_forward(x, w, b)[0], w, dout)
+db_num = eval_numerical_gradient_array(lambda b: affine_forward(x, w, b)[0], b, dout)
+
+_, cache = affine_forward(x, w, b)
+dx, dw, db = affine_backward(dout, cache)
+
+# The error should be around e-10 or less
+print(&#39;Testing affine_backward function:&#39;)
+print(&#39;dx error: &#39;, rel_error(dx_num, dx))
+print(&#39;dw error: &#39;, rel_error(dw_num, dw))
+print(&#39;db error: &#39;, rel_error(db_num, db))
+```
+
+```{title=&#34;Output&#34;}
+Testing affine_backward function:
+dx error:  1.0908199508708189e-10
+dw error:  2.1752635504596857e-10
+db error:  7.736978834487815e-12
+```
+
+#### TODO: relu_forward
+
+这个就是直接套公式
+$$
+\text{ReLU}(x) = \max(0, x)
+$$
+
+```Python
+def relu_forward(x):
+    &#34;&#34;&#34;
+    Computes the forward pass for a layer of rectified linear units (ReLUs).
+
+    Input:
+    - x: Inputs, of any shape
+
+    Returns a tuple of:
+    - out: Output, of the same shape as x
+    - cache: x
+    &#34;&#34;&#34;
+    out = None
+    ###########################################################################
+    # TODO: Implement the ReLU forward pass.                                  #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    out = np.maximum(0,x)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+    cache = x
+    return out, cache
+```
+
+#### TODO: relu_backward
+
+梯度也是显然的，如果 $x &gt; 0$，导数为 $1$，否则为 $0$
+
+```Python
+def relu_backward(dout, cache):
+    &#34;&#34;&#34;
+    Computes the backward pass for a layer of rectified linear units (ReLUs).
+
+    Input:
+    - dout: Upstream derivatives, of any shape
+    - cache: Input x, of same shape as dout
+
+    Returns:
+    - dx: Gradient with respect to x
+    &#34;&#34;&#34;
+    dx, x = None, cache
+    ###########################################################################
+    # TODO: Implement the ReLU backward pass.                                 #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    dx = dout * np.where(x &gt; 0, 1, 0)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+    return dx
+```
+
+#### Inline Question 1
+
+We&#39;ve only asked you to implement ReLU, but there are a number of different activation functions that one could use in neural networks, each with its pros and cons. In particular, an issue commonly seen with activation functions is getting zero (or close to zero) gradient flow during backpropagation. Which of the following activation functions have this problem? If you consider these functions in the one dimensional case, what types of input would lead to this behaviour?
+1. Sigmoid
+2. ReLU
+3. Leaky ReLU
+
+Answer:
+
+**内联问题 1:**
+
+我们只要求你实现 ReLU，但在神经网络中可以使用许多不同的激活函数，每种都有其优缺点。特别是，激活函数中常见的一个问题是在反向传播过程中获得零（或接近零）的梯度流。以下哪些激活函数存在这个问题？如果你在一维情况下考虑这些函数，什么类型的输入会导致这种行为？
+
+1. Sigmoid
+2. ReLU
+3. Leaky ReLU
+
+**答案:**
+
+在反向传播过程中获得零梯度流的问题通常被称为“梯度消失”问题。以下是对每个激活函数的分析：
+
+1. **Sigmoid**: Sigmoid 函数在输入值非常大或非常小时会趋向于 0 或 1，这导致其导数接近于零。因此，Sigmoid 函数在输入值非常大或非常小时会出现梯度消失问题。
+
+2. **ReLU**: ReLU 函数在输入值小于或等于零时，其导数为零。因此，当输入值为负数时，ReLU 会出现梯度消失问题。
+
+3. **Leaky ReLU**: Leaky ReLU 是 ReLU 的一种变体，它在输入值小于零时，导数为一个很小的常数（而不是零）。因此，Leaky ReLU 减少了梯度消失问题，因为即使在输入值为负数时，梯度也不会完全消失。
+
+因此，Sigmoid 和 ReLU 都可能出现梯度消失问题，而 Leaky ReLU 通过在负输入时保持一个小的梯度来缓解这个问题。
+
+
+1. Sigmoid: 输入值非常大或非常小时。
+2. ReLU: 输入值小于或等于零时。
+
+检验 ReLU：
+
+```Python
+from cs231n.layer_utils import affine_relu_forward, affine_relu_backward
+np.random.seed(231)
+x = np.random.randn(2, 3, 4)
+w = np.random.randn(12, 10)
+b = np.random.randn(10)
+dout = np.random.randn(2, 10)
+
+out, cache = affine_relu_forward(x, w, b)
+dx, dw, db = affine_relu_backward(dout, cache)
+
+dx_num = eval_numerical_gradient_array(lambda x: affine_relu_forward(x, w, b)[0], x, dout)
+dw_num = eval_numerical_gradient_array(lambda w: affine_relu_forward(x, w, b)[0], w, dout)
+db_num = eval_numerical_gradient_array(lambda b: affine_relu_forward(x, w, b)[0], b, dout)
+
+# Relative error should be around e-10 or less
+print(&#39;Testing affine_relu_forward and affine_relu_backward:&#39;)
+print(&#39;dx error: &#39;, rel_error(dx_num, dx))
+print(&#39;dw error: &#39;, rel_error(dw_num, dw))
+print(&#39;db error: &#39;, rel_error(db_num, db))
+```
+
+```{title=&#34;Output&#34;}
+Testing affine_relu_forward and affine_relu_backward:
+dx error:  6.395535042049294e-11
+dw error:  8.162015570444288e-11
+db error:  7.826724021458994e-12
+```
+
+#### TODO: svm_loss
+
+和之前写过的差不多。
+
+```Python
+def svm_loss(x, y):
+    &#34;&#34;&#34;
+    Computes the loss and gradient using for multiclass SVM classification.
+
+    Inputs:
+    - x: Input data, of shape (N, C) where x[i, j] is the score for the jth
+      class for the ith input.
+    - y: Vector of labels, of shape (N,) where y[i] is the label for x[i] and
+      0 &lt;= y[i] &lt; C
+
+    Returns a tuple of:
+    - loss: Scalar giving the loss
+    - dx: Gradient of the loss with respect to x
+    &#34;&#34;&#34;
+    loss, dx = None, None
+
+    ###########################################################################
+    # TODO: Copy over your solution from A1.
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    num_train = x.shape[0]
+    correct_class_scores = x[np.arange(num_train), y].reshape((x.shape[0],1))
+    
+    margins = np.maximum(0, x - correct_class_scores &#43; 1)
+    margins[np.arange(num_train), y] = 0
+    
+    loss = np.sum(margins) / num_train
+    
+    # 计算梯度
+    binary = margins
+    binary[margins &gt; 0] = 1
+    row_sum = np.sum(binary, axis=1)
+    binary[np.arange(num_train), y] = -row_sum
+    dx = binary / num_train
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+    return loss, dx
+```
+#### TODO: softmax_loss
+
+同样和之前写过的差不多。
+
+```Python
+def softmax_loss(x, y):
+    &#34;&#34;&#34;
+    Computes the loss and gradient for softmax classification.
+
+    Inputs:
+    - x: Input data, of shape (N, C) where x[i, j] is the score for the jth
+      class for the ith input.
+    - y: Vector of labels, of shape (N,) where y[i] is the label for x[i] and
+      0 &lt;= y[i] &lt; C
+
+    Returns a tuple of:
+    - loss: Scalar giving the loss
+    - dx: Gradient of the loss with respect to x
+    &#34;&#34;&#34;
+    loss, dx = None, None
+
+    ###########################################################################
+    # TODO: Copy over your solution from A1.
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    # 获取样本数量
+    num_train = x.shape[0]
+    
+    # 计算softmax
+    shifted_logits = x - np.max(x, axis=1, keepdims=True)  # 数值稳定性
+    Z = np.sum(np.exp(shifted_logits), axis=1, keepdims=True)
+    log_probs = shifted_logits - np.log(Z)
+    probs = np.exp(log_probs)
+    
+    # 计算损失
+    loss = -np.sum(log_probs[np.arange(num_train), y]) / num_train
+    
+    # 计算梯度
+    dx = probs.copy()
+    dx[np.arange(num_train), y] -= 1
+    dx /= num_train
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+    return loss, dx
+```
+
+误差检验：
+
+```Python
+np.random.seed(231)
+num_classes, num_inputs = 10, 50
+x = 0.001 * np.random.randn(num_inputs, num_classes)
+y = np.random.randint(num_classes, size=num_inputs)
+
+dx_num = eval_numerical_gradient(lambda x: svm_loss(x, y)[0], x, verbose=False)
+loss, dx = svm_loss(x, y)
+
+# Test svm_loss function. Loss should be around 9 and dx error should be around the order of e-9
+print(&#39;Testing svm_loss:&#39;)
+print(&#39;loss: &#39;, loss)
+print(&#39;dx error: &#39;, rel_error(dx_num, dx))
+
+dx_num = eval_numerical_gradient(lambda x: softmax_loss(x, y)[0], x, verbose=False)
+loss, dx = softmax_loss(x, y)
+
+# Test softmax_loss function. Loss should be close to 2.3 and dx error should be around e-8
+print(&#39;\nTesting softmax_loss:&#39;)
+print(&#39;loss: &#39;, loss)
+print(&#39;dx error: &#39;, rel_error(dx_num, dx))
+```
+```{title=&#34;Output&#34;}
+Testing svm_loss:
+loss:  8.999602749096233
+dx error:  1.4021566006651672e-09
+
+Testing softmax_loss:
+loss:  2.302545844500738
+dx error:  9.384673161989355e-09
+```
+
+#### TODO: TwoLayerNet.__init__
+
+要我们训练一个 `affine - relu - affine - softmax` 的两层神经网络。`np.random.normal` 随机初始化一个高斯分布的概率密度随机数。
+
+```Python
+def __init__(
+        self,
+        input_dim=3 * 32 * 32,
+        hidden_dim=100,
+        num_classes=10,
+        weight_scale=1e-3,
+        reg=0.0,
+    ):
+        &#34;&#34;&#34;
+        Initialize a new network.
+
+        Inputs:
+        - input_dim: An integer giving the size of the input
+        - hidden_dim: An integer giving the size of the hidden layer
+        - num_classes: An integer giving the number of classes to classify
+        - weight_scale: Scalar giving the standard deviation for random
+          initialization of the weights.
+        - reg: Scalar giving L2 regularization strength.
+        &#34;&#34;&#34;
+        self.params = {}
+        self.reg = reg
+
+        ############################################################################
+        # TODO: Initialize the weights and biases of the two-layer net. Weights    #
+        # should be initialized from a Gaussian centered at 0.0 with               #
+        # standard deviation equal to weight_scale, and biases should be           #
+        # initialized to zero. All weights and biases should be stored in the      #
+        # dictionary self.params, with first layer weights                         #
+        # and biases using the keys &#39;W1&#39; and &#39;b1&#39; and second layer                 #
+        # weights and biases using the keys &#39;W2&#39; and &#39;b2&#39;.                         #
+        ############################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        self.params[&#39;W1&#39;] = np.random.normal(0, weight_scale, (input_dim,hidden_dim))
+        self.params[&#39;W2&#39;] = np.random.normal(0, weight_scale, (hidden_dim,num_classes))
+        self.params[&#39;b1&#39;] = np.zeros(hidden_dim)
+        self.params[&#39;b2&#39;] = np.zeros(num_classes)
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ############################################################################
+        #                             END OF YOUR CODE                             #
+        ############################################################################
+```
+
+#### TODO: TwoLayerNet.loss
+
+```Python
+def loss(self, X, y=None):
+        &#34;&#34;&#34;
+        Compute loss and gradient for a minibatch of data.
+
+        Inputs:
+        - X: Array of input data of shape (N, d_1, ..., d_k)
+        - y: Array of labels, of shape (N,). y[i] gives the label for X[i].
+
+        Returns:
+        If y is None, then run a test-time forward pass of the model and return:
+        - scores: Array of shape (N, C) giving classification scores, where
+          scores[i, c] is the classification score for X[i] and class c.
+
+        If y is not None, then run a training-time forward and backward pass and
+        return a tuple of:
+        - loss: Scalar value giving the loss
+        - grads: Dictionary with the same keys as self.params, mapping parameter
+          names to gradients of the loss with respect to those parameters.
+        &#34;&#34;&#34;
+        scores = None
+
+        W1 = self.params[&#39;W1&#39;]
+        b1 = self.params[&#39;b1&#39;]
+        W2 = self.params[&#39;W2&#39;]
+        b2 = self.params[&#39;b2&#39;]
+
+        ############################################################################
+        # TODO: Implement the forward pass for the two-layer net, computing the    #
+        # class scores for X and storing them in the scores variable.              #
+        ############################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        h1, cache1 = affine_relu_forward(X, W1, b1)
+        scores, cache2 = affine_forward(h1, W2, b2)
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ############################################################################
+        #                             END OF YOUR CODE                             #
+        ############################################################################
+
+        # If y is None then we are in test mode so just return scores
+        if y is None:
+            return scores
+
+        loss, grads = 0, {}
+        ############################################################################
+        # TODO: Implement the backward pass for the two-layer net. Store the loss  #
+        # in the loss variable and gradients in the grads dictionary. Compute data #
+        # loss using softmax, and make sure that grads[k] holds the gradients for  #
+        # self.params[k]. Don&#39;t forget to add L2 regularization!                   #
+        #                                                                          #
+        # NOTE: To ensure that your implementation matches ours and you pass the   #
+        # automated tests, make sure that your L2 regularization includes a factor #
+        # of 0.5 to simplify the expression for the gradient.                      #
+        ############################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        # 计算损失和梯度
+        loss, dscores = softmax_loss(scores, y)
+        
+        # 添加L2正则化
+        loss &#43;= 0.5 * self.reg * (np.sum(W1 * W1) &#43; np.sum(W2 * W2))
+        
+        # 反向传播
+        # 第二层的反向传播
+        dh1, dW2, db2 = affine_backward(dscores, cache2)
+        # 第一层的反向传播
+        dx, dW1, db1 = affine_relu_backward(dh1, cache1)
+        
+        # 添加正则化梯度
+        dW2 &#43;= self.reg * W2
+        dW1 &#43;= self.reg * W1
+        
+        grads = {
+          &#39;W1&#39;: dW1,
+          &#39;b1&#39;: db1,
+          &#39;W2&#39;: dW2,
+          &#39;b2&#39;: db2
+        }
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ############################################################################
+        #                             END OF YOUR CODE                             #
+        ############################################################################
+
+        return loss, grads
+```
+检验梯度：
+
+```Python
+np.random.seed(231)
+N, D, H, C = 3, 5, 50, 7
+X = np.random.randn(N, D)
+y = np.random.randint(C, size=N)
+
+std = 1e-3
+model = TwoLayerNet(input_dim=D, hidden_dim=H, num_classes=C, weight_scale=std)
+
+print(&#39;Testing initialization ... &#39;)
+W1_std = abs(model.params[&#39;W1&#39;].std() - std)
+b1 = model.params[&#39;b1&#39;]
+W2_std = abs(model.params[&#39;W2&#39;].std() - std)
+b2 = model.params[&#39;b2&#39;]
+assert W1_std &lt; std / 10, &#39;First layer weights do not seem right&#39;
+assert np.all(b1 == 0), &#39;First layer biases do not seem right&#39;
+assert W2_std &lt; std / 10, &#39;Second layer weights do not seem right&#39;
+assert np.all(b2 == 0), &#39;Second layer biases do not seem right&#39;
+
+print(&#39;Testing test-time forward pass ... &#39;)
+model.params[&#39;W1&#39;] = np.linspace(-0.7, 0.3, num=D*H).reshape(D, H)
+model.params[&#39;b1&#39;] = np.linspace(-0.1, 0.9, num=H)
+model.params[&#39;W2&#39;] = np.linspace(-0.3, 0.4, num=H*C).reshape(H, C)
+model.params[&#39;b2&#39;] = np.linspace(-0.9, 0.1, num=C)
+X = np.linspace(-5.5, 4.5, num=N*D).reshape(D, N).T
+scores = model.loss(X)
+correct_scores = np.asarray(
+  [[11.53165108,  12.2917344,   13.05181771,  13.81190102,  14.57198434, 15.33206765,  16.09215096],
+   [12.05769098,  12.74614105,  13.43459113,  14.1230412,   14.81149128, 15.49994135,  16.18839143],
+   [12.58373087,  13.20054771,  13.81736455,  14.43418138,  15.05099822, 15.66781506,  16.2846319 ]])
+scores_diff = np.abs(scores - correct_scores).sum()
+assert scores_diff &lt; 1e-6, &#39;Problem with test-time forward pass&#39;
+
+print(&#39;Testing training loss (no regularization)&#39;)
+y = np.asarray([0, 5, 1])
+loss, grads = model.loss(X, y)
+correct_loss = 3.4702243556
+assert abs(loss - correct_loss) &lt; 1e-10, &#39;Problem with training-time loss&#39;
+
+model.reg = 1.0
+loss, grads = model.loss(X, y)
+correct_loss = 26.5948426952
+assert abs(loss - correct_loss) &lt; 1e-10, &#39;Problem with regularization loss&#39;
+
+# Errors should be around e-7 or less
+for reg in [0.0, 0.7]:
+  print(&#39;Running numeric gradient check with reg = &#39;, reg)
+  model.reg = reg
+  loss, grads = model.loss(X, y)
+
+  for name in sorted(grads):
+    f = lambda _: model.loss(X, y)[0]
+    grad_num = eval_numerical_gradient(f, model.params[name], verbose=False)
+    print(&#39;%s relative error: %.2e&#39; % (name, rel_error(grad_num, grads[name])))
+```
+
+```{title=&#34;Output&#34;}
+Testing initialization ... 
+Testing test-time forward pass ... 
+Testing training loss (no regularization)
+Running numeric gradient check with reg =  0.0
+W1 relative error: 1.53e-08
+W2 relative error: 3.37e-10
+b1 relative error: 8.01e-09
+b2 relative error: 4.33e-10
+Running numeric gradient check with reg =  0.7
+W1 relative error: 2.53e-07
+W2 relative error: 2.85e-08
+b1 relative error: 1.35e-08
+b2 relative error: 1.97e-09
+```
+
+#### TODO: Solver
+
+构造 solver 训练。
+
+```Python
+input_size = 32 * 32 * 3
+hidden_size = 50
+num_classes = 10
+model = TwoLayerNet(input_size, hidden_size, num_classes)
+solver = None
+
+##############################################################################
+# TODO: Use a Solver instance to train a TwoLayerNet that achieves about 36% #
+# accuracy on the validation set.                                            #
+##############################################################################
+# *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+solver = Solver(model, data, optim_config={&#39;learning_rate&#39;: 1e-3})
+solver.train()
+
+# *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+##############################################################################
+#                             END OF YOUR CODE                               #
+##############################################################################
+```
+
+#### TODO: hyperparameters
+
+```Python
+best_model = None
+
+
+#################################################################################
+# TODO: Tune hyperparameters using the validation set. Store your best trained  #
+# model in best_model.                                                          #
+#                                                                               #
+# To help debug your network, it may help to use visualizations similar to the  #
+# ones we used above; these visualizations will have significant qualitative    #
+# differences from the ones we saw above for the poorly tuned network.          #
+#                                                                               #
+# Tweaking hyperparameters by hand can be fun, but you might find it useful to  #
+# write code to sweep through possible combinations of hyperparameters          #
+# automatically like we did on thexs previous exercises.                          #
+#################################################################################
+# *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+learning_rates = [1e-4, 1e-3, 1e-2, 3e-2]
+regularization_strengths = [1e-4, 1e-3, 1e-2, 1e-1, 0.5, 1.0]
+
+results = {}
+best_val = -1
+best_model = None
+
+for lr in learning_rates:
+    for reg in regularization_strengths:
+        model = TwoLayerNet(input_size, hidden_size, num_classes, reg=reg)
+        solver = Solver(model, data, optim_config={&#39;learning_rate&#39;: lr})
+        solver.train()
+        
+        train_accuracy = solver.train_acc_history[-1]
+        val_accuracy = solver.val_acc_history[-1]
+        
+        results[(lr, reg)] = (train_accuracy, val_accuracy)
+        
+        if val_accuracy &gt; best_val:
+            best_val = val_accuracy
+            best_model = model
+            
+for lr, reg in sorted(results):
+    train_accuracy, val_accuracy = results[(lr, reg)]
+    print(&#39;lr %e reg %e train accuracy: %f val accuracy: %f&#39; % (
+                lr, reg, train_accuracy, val_accuracy))
+
+# *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+################################################################################
+#                              END OF YOUR CODE                                #
+################################################################################
+```
+跑了 11 分钟。
+
+测试模型准确率：
+
+```Python
+y_val_pred = np.argmax(best_model.loss(data[&#39;X_val&#39;]), axis=1)
+print(&#39;Validation set accuracy: &#39;, (y_val_pred == data[&#39;y_val&#39;]).mean())
+
+y_test_pred = np.argmax(best_model.loss(data[&#39;X_test&#39;]), axis=1)
+print(&#39;Test set accuracy: &#39;, (y_test_pred == data[&#39;y_test&#39;]).mean())
+```
+
+超过了 48%
+
+```{title=&#34;Output&#34;}
+Validation set accuracy:  0.509
+Test set accuracy:  0.488
+```
+
+#### Inline Question 2
+
+Now that you have trained a Neural Network classifier, you may find that your testing accuracy is much lower than the training accuracy. In what ways can we decrease this gap? Select all that apply.
+
+1. Train on a larger dataset.
+2. Add more hidden units.
+3. Increase the regularization strength.
+4. None of the above.
+
+$\color{blue}{\textit Your Answer:}$
+
+$\color{blue}{\textit Your Explanation:}$
+
+**内联问题 2:**
+
+现在你已经训练了一个神经网络分类器，你可能发现测试准确率远低于训练准确率。我们可以通过哪些方法来减小这个差距？选择所有适用的选项。
+
+1. 在更大的数据集上训练
+2. 增加隐藏单元数量
+3. 增加正则化强度
+4. 以上都不是
+
+$\color{blue}{\textit Your Answer:}$ 1, 3
+
+$\color{blue}{\textit Your Explanation:}$
+
+1. **在更大的数据集上训练**: 
+   - 更大的训练数据集可以帮助模型学习更通用的特征
+   - 减少过拟合的风险，因为模型需要适应更多样的数据
+
+2. **增加隐藏单元数量**: 
+   - 增加模型复杂度实际上会加大过拟合的风险
+   - 可能会使训练和测试准确率的差距更大
+
+3. **增加正则化强度**:
+   - 正则化是专门用来减少过拟合的技术
+   - 通过限制权重的大小，迫使模型学习更简单的特征表示
+   - 有助于提高模型的泛化能力
+
+
+
 ## 参考
+
 https://github.com/Divsigma/2020-cs213n/tree/master/cs231n
+
+https://github.com/Na-moe/CS231n-2024/tree/main
+
+https://github.com/Chia202/CS231n/tree/main
 
 ---
 

@@ -15,8 +15,8 @@
 课程网址
 本地环境部署 由于 2024 版的没有给 jupyter 的压缩包，所以先下载 2024 colab 版本，然后在 colab 上把数据拉下来然后下载到本地，放到 /datasets 下，之后删除掉一开始的 google.colab 驱动相关。">
   <meta itemprop="datePublished" content="2024-12-03T13:47:00+00:00">
-  <meta itemprop="dateModified" content="2024-12-09T16:14:10+08:00">
-  <meta itemprop="wordCount" content="10766">
+  <meta itemprop="dateModified" content="2024-12-11T11:31:24+08:00">
+  <meta itemprop="wordCount" content="15671">
   <meta itemprop="keywords" content="KNN,神经网络,SVM"><meta property="og:url" content="https://blog.messywind.top/posts/mlcs231n/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="CS231n">
@@ -27,7 +27,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2024-12-03T13:47:00+00:00">
-    <meta property="article:modified_time" content="2024-12-09T16:14:10+08:00">
+    <meta property="article:modified_time" content="2024-12-11T11:31:24+08:00">
     <meta property="article:tag" content="KNN">
     <meta property="article:tag" content="神经网络">
     <meta property="article:tag" content="SVM">
@@ -49,8 +49,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/mlcs231n\/"
-    },"genre": "posts","keywords": "KNN, 神经网络, SVM","wordcount":  10766 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/mlcs231n\/","datePublished": "2024-12-03T13:47:00+00:00","dateModified": "2024-12-09T16:14:10+08:00","publisher": {
+    },"genre": "posts","keywords": "KNN, 神经网络, SVM","wordcount":  15671 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlcs231n\/","datePublished": "2024-12-03T13:47:00+00:00","dateModified": "2024-12-11T11:31:24+08:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -124,7 +124,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>CS231n</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2024-12-03 13:47:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-12-03">2024-12-03</time></span>&nbsp;<span title="更新于 2024-12-09 16:14:10"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-12-09">2024-12-09</time></span>&nbsp;<span title="10766 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 10800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 22 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2024-12-03 13:47:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-12-03">2024-12-03</time></span>&nbsp;<span title="更新于 2024-12-11 11:31:24"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2024-12-11">2024-12-11</time></span>&nbsp;<span title="15671 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 15700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 32 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -166,6 +166,22 @@
             <li><a href="#todo-softmax_loss_vectorized">TODO: softmax_loss_vectorized</a></li>
             <li><a href="#todo-交叉验证">TODO: 交叉验证</a></li>
             <li><a href="#inline-question-2---true-or-false">Inline Question 2 - <em>True or False</em></a></li>
+          </ul>
+        </li>
+        <li><a href="#q4-two-layer-neural-network">Q4: Two-Layer Neural Network</a>
+          <ul>
+            <li><a href="#todo-affine_forward">TODO: affine_forward</a></li>
+            <li><a href="#todo-affine_backward">TODO: affine_backward</a></li>
+            <li><a href="#todo-relu_forward">TODO: relu_forward</a></li>
+            <li><a href="#todo-relu_backward">TODO: relu_backward</a></li>
+            <li><a href="#inline-question-1-3">Inline Question 1</a></li>
+            <li><a href="#todo-svm_loss">TODO: svm_loss</a></li>
+            <li><a href="#todo-softmax_loss">TODO: softmax_loss</a></li>
+            <li><a href="#todo-twolayernet__init__">TODO: TwoLayerNet.<strong>init</strong></a></li>
+            <li><a href="#todo-twolayernetloss">TODO: TwoLayerNet.loss</a></li>
+            <li><a href="#todo-solver">TODO: Solver</a></li>
+            <li><a href="#todo-hyperparameters">TODO: hyperparameters</a></li>
+            <li><a href="#inline-question-2-2">Inline Question 2</a></li>
           </ul>
         </li>
       </ul>
@@ -2634,16 +2650,1439 @@ $$</p>
 <p>然而，在 Softmax 分类器中，损失函数是基于概率分布的对数损失。每个数据点都会对损失产生影响，因为即使是一个新的数据点也会改变概率分布，从而影响损失。因此，添加一个新的数据点总是会改变 Softmax 分类器的损失。</p>
 <p>可视化权重：</p>
 <p><img loading="lazy" src="/image/ML/CS231n/5.png" alt="1" srcset="/image/ML/CS231n/5.png?size=small, /image/ML/CS231n/5.png?size=medium 1.5x, /image/ML/CS231n/5.png?size=large 2x" data-title="1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h3 id="q4-two-layer-neural-network" class="heading-element"><span>Q4: Two-Layer Neural Network</span>
+  <a href="#q4-two-layer-neural-network" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>首先检验一下前向传播，数据生成一个两组大小为 $4 \times 5 \times 6$ 的数据，也就是说输入层是 $120$ 个节点，然后直接连接输出层，设输出层有 $3$ 个节点。
+所以说 $w$ 就是 $120 \times 3$ 的，$b$ 就是 $3$ 的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="c1"># Test the affine_forward function</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">num_inputs</span> <span class="o">=</span> <span class="mi">2</span>
+</span></span><span class="line"><span class="cl"><span class="n">input_shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">output_dim</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">input_size</span> <span class="o">=</span> <span class="n">num_inputs</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">weight_size</span> <span class="o">=</span> <span class="n">output_dim</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">input_size</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">num_inputs</span><span class="p">,</span> <span class="o">*</span><span class="n">input_shape</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">weight_size</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">input_shape</span><span class="p">),</span> <span class="n">output_dim</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">output_dim</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">out</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">affine_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">correct_out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">1.49834967</span><span class="p">,</span>  <span class="mf">1.70660132</span><span class="p">,</span>  <span class="mf">1.91485297</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">[</span> <span class="mf">3.25553199</span><span class="p">,</span>  <span class="mf">3.5141327</span><span class="p">,</span>   <span class="mf">3.77273342</span><span class="p">]])</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Compare your output with ours. The error should be around e-9 or less.</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Testing affine_forward function:&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;difference: &#39;</span><span class="p">,</span> <span class="n">rel_error</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">correct_out</span><span class="p">))</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="todo-affine_forward" class="heading-element"><span>TODO: affine_forward</span>
+  <a href="#todo-affine_forward" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>把 $x$ 压成 $120$ 的第二维。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">affine_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Computes the forward pass for an affine (fully-connected) layer.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    The input x has shape (N, d_1, ..., d_k) and contains a minibatch of N
+</span></span></span><span class="line"><span class="cl"><span class="s2">    examples, where each example x[i] has shape (d_1, ..., d_k). We will
+</span></span></span><span class="line"><span class="cl"><span class="s2">    reshape each input into a vector of dimension D = d_1 * ... * d_k, and
+</span></span></span><span class="line"><span class="cl"><span class="s2">    then transform it to an output vector of dimension M.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Inputs:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - x: A numpy array containing input data, of shape (N, d_1, ..., d_k)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - w: A numpy array of weights, of shape (D, M)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - b: A numpy array of biases, of shape (M,)
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns a tuple of:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - out: output, of shape (N, M)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - cache: (x, w, b)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># TODO: Implement the affine forward pass. Store the result in out. You   #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># will need to reshape the input into rows.                               #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">out</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cache</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                             END OF YOUR CODE                            #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cache</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">out</span><span class="p">,</span> <span class="n">cache</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>接下来检验反向传播。</p>
+<h4 id="todo-affine_backward" class="heading-element"><span>TODO: affine_backward</span>
+  <a href="#todo-affine_backward" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>我们知道这是批量梯度下降，也就是说输入数据 $x$ 被我们处理成了 $n \times k$ 维的，每一行代表一个数据，列就是特征。那么输出层定义为 $n \times m$ 维的，$n$ 是数据批量个数，$m$ 是输出层节点个数，但是 $w$ 和 $b$ 分别是 $k \times m$ 与 $1 \times m$ 维的，也就是说这 $n$ 个数据共用 $w$ 和 $b$，然后每个数据对应一组输出。</p>
+<p>那么在反向传播时，我们需要计算 $x, w, b$ 的偏导，首先他给了一个 <code>dout</code> 数组，这代表输出层的导数，他也是一个 $n \times m$ 的。</p>
+<p>单看 $\text{out}_{i, j}$：</p>
+<p>$$
+\text{out}_{i, j} = \sum_k x_{i, k} w_{k, j} + b_j
+$$</p>
+<p>$\text{out}_{i, j}$ 对 $w_{k, j}$ 求偏导：</p>
+<p>$$
+\dfrac{\partial \text{out}_{i, j}}{\partial w_{k, j}} = x_{i, k}
+$$</p>
+<p>$\text{out}_{i, j}$ 对 $x_{i, k}$ 求偏导：</p>
+<p>$$
+\dfrac{\partial \text{out}_{i, j}}{\partial x_{i, k}} = w_{k, j}
+$$</p>
+<p>$\text{out}_{i, j}$ 对 $b_j$ 求偏导：</p>
+<p>$$
+\dfrac{\partial \text{out}_{i, j}}{\partial b_j} = 1
+$$</p>
+<p>那么损失函数 $L$ 对 $w_{k, j}$ 求偏导，根据链式法则有：</p>
+<p>$$
+\dfrac{\partial L}{\partial w_{k, j}} = \sum_i \dfrac{\partial L}{\partial \text{out}_{i, j}} \dfrac{\partial \text{out}_{i, j}}{\partial w_{k, j}}
+$$</p>
+<p>其中 $\dfrac{\partial L}{\partial \text{out}_{i, j}}$ 这个东西就是 <code>dout[i, j]</code> (上游传来的导数)，而 $\dfrac{\partial \text{out}_{i, j}}{\partial w_{k, j}} = x_{i, k}$，所以</p>
+<p>$$
+\dfrac{\partial L}{\partial w_{k, j}} = \sum_i \text{dout}_{i, j}x_{i, k}
+$$</p>
+<p>再来看损失函数 $L_i$ 对 $x_{i, k}$ 求偏导，根据链式法则有：</p>
+<p>$$
+\dfrac{\partial L}{\partial x_{i, k}} = \sum_j \dfrac{\partial L}{\partial \text{out}_{i, j}} \dfrac{\partial \text{out}_{i, j}}{\partial x_{i, k}}
+$$</p>
+<p>继续带入 $\dfrac{\partial L}{\partial \text{out}_{i, j}} = \text{dout}_{i, j}$，$\dfrac{\partial \text{out}_{i, j}}{\partial x_{i, k}} = w_{k, j}$：</p>
+<p>$$
+\dfrac{\partial L}{\partial x_{i, k}} = \sum_j \text{dout}_{i, j}w_{k, j}
+$$</p>
+<p>继续看损失函数 $L_i$ 对 $b_{j}$ 求偏导，根据链式法则有：</p>
+<p>$$
+\dfrac{\partial L}{\partial b_{j}} = \sum_i \dfrac{\partial L}{\partial \text{out}_{i, j}} \dfrac{\partial \text{out}_{i, j}}{\partial b_{j}}
+$$</p>
+<p>还是继续带入 $\dfrac{\partial L}{\partial \text{out}_{i, j}} = \text{dout}_{i, j}$，$\dfrac{\partial \text{out}_{i, j}}{\partial b_j} = 1$，那么：</p>
+<p>$$
+\dfrac{\partial L}{\partial b_{j}} = \sum_i \text{dout}_{i, j}
+$$</p>
+<p>代码直接三行结束。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">affine_backward</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">cache</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Computes the backward pass for an affine layer.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Inputs:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dout: Upstream derivative, of shape (N, M)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - cache: Tuple of:
+</span></span></span><span class="line"><span class="cl"><span class="s2">      - x: Input data, of shape (N, d_1, ... d_k)
+</span></span></span><span class="line"><span class="cl"><span class="s2">      - w: Weights, of shape (D, M)
+</span></span></span><span class="line"><span class="cl"><span class="s2">      - b: Biases, of shape (M,)
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns a tuple of:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dx: Gradient with respect to x, of shape (N, d1, ..., d_k)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dw: Gradient with respect to w, of shape (D, M)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - db: Gradient with respect to b, of shape (M,)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">cache</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span><span class="p">,</span> <span class="n">dw</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># TODO: Implement the affine backward pass.                               #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">x_shape</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x_reshaped</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span> <span class="o">=</span> <span class="n">dout</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x_shape</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dw</span> <span class="o">=</span> <span class="n">x_reshaped</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">dout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">db</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                             END OF YOUR CODE                            #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dw</span><span class="p">,</span> <span class="n">db</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>验证：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="c1"># Test the affine_backward function</span>
+</span></span><span class="line"><span class="cl"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">231</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dout</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">dx_num</span> <span class="o">=</span> <span class="n">eval_numerical_gradient_array</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">affine_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">dout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dw_num</span> <span class="o">=</span> <span class="n">eval_numerical_gradient_array</span><span class="p">(</span><span class="k">lambda</span> <span class="n">w</span><span class="p">:</span> <span class="n">affine_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="p">,</span> <span class="n">dout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">db_num</span> <span class="o">=</span> <span class="n">eval_numerical_gradient_array</span><span class="p">(</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="n">affine_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b</span><span class="p">,</span> <span class="n">dout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">_</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">affine_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dx</span><span class="p">,</span> <span class="n">dw</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">affine_backward</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">cache</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># The error should be around e-10 or less</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Testing affine_backward function:&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dx error: &#39;</span><span class="p">,</span> <span class="n">rel_error</span><span class="p">(</span><span class="n">dx_num</span><span class="p">,</span> <span class="n">dx</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dw error: &#39;</span><span class="p">,</span> <span class="n">rel_error</span><span class="p">(</span><span class="n">dw_num</span><span class="p">,</span> <span class="n">dw</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;db error: &#39;</span><span class="p">,</span> <span class="n">rel_error</span><span class="p">(</span><span class="n">db_num</span><span class="p">,</span> <span class="n">db</span><span class="p">))</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" title="Output"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Testing affine_backward function:
+</span></span><span class="line"><span class="cl">dx error:  1.0908199508708189e-10
+</span></span><span class="line"><span class="cl">dw error:  2.1752635504596857e-10
+</span></span><span class="line"><span class="cl">db error:  7.736978834487815e-12</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="todo-relu_forward" class="heading-element"><span>TODO: relu_forward</span>
+  <a href="#todo-relu_forward" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>这个就是直接套公式
+$$
+\text{ReLU}(x) = \max(0, x)
+$$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">relu_forward</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Computes the forward pass for a layer of rectified linear units (ReLUs).
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Input:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - x: Inputs, of any shape
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns a tuple of:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - out: Output, of the same shape as x
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - cache: x
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># TODO: Implement the ReLU forward pass.                                  #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                             END OF YOUR CODE                            #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cache</span> <span class="o">=</span> <span class="n">x</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">out</span><span class="p">,</span> <span class="n">cache</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="todo-relu_backward" class="heading-element"><span>TODO: relu_backward</span>
+  <a href="#todo-relu_backward" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>梯度也是显然的，如果 $x &gt; 0$，导数为 $1$，否则为 $0$</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">relu_backward</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">cache</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Computes the backward pass for a layer of rectified linear units (ReLUs).
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Input:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dout: Upstream derivatives, of any shape
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - cache: Input x, of same shape as dout
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dx: Gradient with respect to x
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">cache</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># TODO: Implement the ReLU backward pass.                                 #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span> <span class="o">=</span> <span class="n">dout</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                             END OF YOUR CODE                            #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">dx</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="inline-question-1-3" class="heading-element"><span>Inline Question 1</span>
+  <a href="#inline-question-1-3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>We&rsquo;ve only asked you to implement ReLU, but there are a number of different activation functions that one could use in neural networks, each with its pros and cons. In particular, an issue commonly seen with activation functions is getting zero (or close to zero) gradient flow during backpropagation. Which of the following activation functions have this problem? If you consider these functions in the one dimensional case, what types of input would lead to this behaviour?</p>
+<ol>
+<li>Sigmoid</li>
+<li>ReLU</li>
+<li>Leaky ReLU</li>
+</ol>
+<p>Answer:</p>
+<p><strong>内联问题 1:</strong></p>
+<p>我们只要求你实现 ReLU，但在神经网络中可以使用许多不同的激活函数，每种都有其优缺点。特别是，激活函数中常见的一个问题是在反向传播过程中获得零（或接近零）的梯度流。以下哪些激活函数存在这个问题？如果你在一维情况下考虑这些函数，什么类型的输入会导致这种行为？</p>
+<ol>
+<li>Sigmoid</li>
+<li>ReLU</li>
+<li>Leaky ReLU</li>
+</ol>
+<p><strong>答案:</strong></p>
+<p>在反向传播过程中获得零梯度流的问题通常被称为“梯度消失”问题。以下是对每个激活函数的分析：</p>
+<ol>
+<li>
+<p><strong>Sigmoid</strong>: Sigmoid 函数在输入值非常大或非常小时会趋向于 0 或 1，这导致其导数接近于零。因此，Sigmoid 函数在输入值非常大或非常小时会出现梯度消失问题。</p>
+</li>
+<li>
+<p><strong>ReLU</strong>: ReLU 函数在输入值小于或等于零时，其导数为零。因此，当输入值为负数时，ReLU 会出现梯度消失问题。</p>
+</li>
+<li>
+<p><strong>Leaky ReLU</strong>: Leaky ReLU 是 ReLU 的一种变体，它在输入值小于零时，导数为一个很小的常数（而不是零）。因此，Leaky ReLU 减少了梯度消失问题，因为即使在输入值为负数时，梯度也不会完全消失。</p>
+</li>
+</ol>
+<p>因此，Sigmoid 和 ReLU 都可能出现梯度消失问题，而 Leaky ReLU 通过在负输入时保持一个小的梯度来缓解这个问题。</p>
+<ol>
+<li>Sigmoid: 输入值非常大或非常小时。</li>
+<li>ReLU: 输入值小于或等于零时。</li>
+</ol>
+<p>检验 ReLU：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">cs231n.layer_utils</span> <span class="kn">import</span> <span class="n">affine_relu_forward</span><span class="p">,</span> <span class="n">affine_relu_backward</span>
+</span></span><span class="line"><span class="cl"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">231</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dout</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">out</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">affine_relu_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dx</span><span class="p">,</span> <span class="n">dw</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="n">affine_relu_backward</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">cache</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">dx_num</span> <span class="o">=</span> <span class="n">eval_numerical_gradient_array</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">affine_relu_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">dout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dw_num</span> <span class="o">=</span> <span class="n">eval_numerical_gradient_array</span><span class="p">(</span><span class="k">lambda</span> <span class="n">w</span><span class="p">:</span> <span class="n">affine_relu_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">w</span><span class="p">,</span> <span class="n">dout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">db_num</span> <span class="o">=</span> <span class="n">eval_numerical_gradient_array</span><span class="p">(</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="n">affine_relu_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">b</span><span class="p">,</span> <span class="n">dout</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Relative error should be around e-10 or less</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Testing affine_relu_forward and affine_relu_backward:&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dx error: &#39;</span><span class="p">,</span> <span class="n">rel_error</span><span class="p">(</span><span class="n">dx_num</span><span class="p">,</span> <span class="n">dx</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dw error: &#39;</span><span class="p">,</span> <span class="n">rel_error</span><span class="p">(</span><span class="n">dw_num</span><span class="p">,</span> <span class="n">dw</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;db error: &#39;</span><span class="p">,</span> <span class="n">rel_error</span><span class="p">(</span><span class="n">db_num</span><span class="p">,</span> <span class="n">db</span><span class="p">))</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" title="Output"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Testing affine_relu_forward and affine_relu_backward:
+</span></span><span class="line"><span class="cl">dx error:  6.395535042049294e-11
+</span></span><span class="line"><span class="cl">dw error:  8.162015570444288e-11
+</span></span><span class="line"><span class="cl">db error:  7.826724021458994e-12</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="todo-svm_loss" class="heading-element"><span>TODO: svm_loss</span>
+  <a href="#todo-svm_loss" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>和之前写过的差不多。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">svm_loss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Computes the loss and gradient using for multiclass SVM classification.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Inputs:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - x: Input data, of shape (N, C) where x[i, j] is the score for the jth
+</span></span></span><span class="line"><span class="cl"><span class="s2">      class for the ith input.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - y: Vector of labels, of shape (N,) where y[i] is the label for x[i] and
+</span></span></span><span class="line"><span class="cl"><span class="s2">      0 &lt;= y[i] &lt; C
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns a tuple of:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - loss: Scalar giving the loss
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dx: Gradient of the loss with respect to x
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loss</span><span class="p">,</span> <span class="n">dx</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># TODO: Copy over your solution from A1.</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">num_train</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">correct_class_scores</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_train</span><span class="p">),</span> <span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">margins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="n">correct_class_scores</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">margins</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_train</span><span class="p">),</span> <span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">margins</span><span class="p">)</span> <span class="o">/</span> <span class="n">num_train</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 计算梯度</span>
+</span></span><span class="line"><span class="cl">    <span class="n">binary</span> <span class="o">=</span> <span class="n">margins</span>
+</span></span><span class="line"><span class="cl">    <span class="n">binary</span><span class="p">[</span><span class="n">margins</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">row_sum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">binary</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">binary</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_train</span><span class="p">),</span> <span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">row_sum</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span> <span class="o">=</span> <span class="n">binary</span> <span class="o">/</span> <span class="n">num_train</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                             END OF YOUR CODE                            #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">dx</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="todo-softmax_loss" class="heading-element"><span>TODO: softmax_loss</span>
+  <a href="#todo-softmax_loss" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>同样和之前写过的差不多。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">softmax_loss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Computes the loss and gradient for softmax classification.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Inputs:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - x: Input data, of shape (N, C) where x[i, j] is the score for the jth
+</span></span></span><span class="line"><span class="cl"><span class="s2">      class for the ith input.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - y: Vector of labels, of shape (N,) where y[i] is the label for x[i] and
+</span></span></span><span class="line"><span class="cl"><span class="s2">      0 &lt;= y[i] &lt; C
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns a tuple of:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - loss: Scalar giving the loss
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dx: Gradient of the loss with respect to x
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loss</span><span class="p">,</span> <span class="n">dx</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># TODO: Copy over your solution from A1.</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 获取样本数量</span>
+</span></span><span class="line"><span class="cl">    <span class="n">num_train</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 计算softmax</span>
+</span></span><span class="line"><span class="cl">    <span class="n">shifted_logits</span> <span class="o">=</span> <span class="n">x</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># 数值稳定性</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">shifted_logits</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">log_probs</span> <span class="o">=</span> <span class="n">shifted_logits</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">probs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_probs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 计算损失</span>
+</span></span><span class="line"><span class="cl">    <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">log_probs</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_train</span><span class="p">),</span> <span class="n">y</span><span class="p">])</span> <span class="o">/</span> <span class="n">num_train</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1"># 计算梯度</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span> <span class="o">=</span> <span class="n">probs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">num_train</span><span class="p">),</span> <span class="n">y</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span> <span class="o">/=</span> <span class="n">num_train</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                             END OF YOUR CODE                            #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">dx</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>误差检验：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">231</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">num_classes</span><span class="p">,</span> <span class="n">num_inputs</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">50</span>
+</span></span><span class="line"><span class="cl"><span class="n">x</span> <span class="o">=</span> <span class="mf">0.001</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">num_inputs</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">num_classes</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">num_inputs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">dx_num</span> <span class="o">=</span> <span class="n">eval_numerical_gradient</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">svm_loss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">loss</span><span class="p">,</span> <span class="n">dx</span> <span class="o">=</span> <span class="n">svm_loss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Test svm_loss function. Loss should be around 9 and dx error should be around the order of e-9</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Testing svm_loss:&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;loss: &#39;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dx error: &#39;</span><span class="p">,</span> <span class="n">rel_error</span><span class="p">(</span><span class="n">dx_num</span><span class="p">,</span> <span class="n">dx</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">dx_num</span> <span class="o">=</span> <span class="n">eval_numerical_gradient</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">softmax_loss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">loss</span><span class="p">,</span> <span class="n">dx</span> <span class="o">=</span> <span class="n">softmax_loss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Test softmax_loss function. Loss should be close to 2.3 and dx error should be around e-8</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Testing softmax_loss:&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;loss: &#39;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;dx error: &#39;</span><span class="p">,</span> <span class="n">rel_error</span><span class="p">(</span><span class="n">dx_num</span><span class="p">,</span> <span class="n">dx</span><span class="p">))</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" title="Output"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Testing svm_loss:
+</span></span><span class="line"><span class="cl">loss:  8.999602749096233
+</span></span><span class="line"><span class="cl">dx error:  1.4021566006651672e-09
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Testing softmax_loss:
+</span></span><span class="line"><span class="cl">loss:  2.302545844500738
+</span></span><span class="line"><span class="cl">dx error:  9.384673161989355e-09</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="todo-twolayernet__init__" class="heading-element"><span>TODO: TwoLayerNet.<strong>init</strong></span>
+  <a href="#todo-twolayernet__init__" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>要我们训练一个 <code>affine - relu - affine - softmax</code> 的两层神经网络。<code>np.random.normal</code> 随机初始化一个高斯分布的概率密度随机数。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">input_dim</span><span class="o">=</span><span class="mi">3</span> <span class="o">*</span> <span class="mi">32</span> <span class="o">*</span> <span class="mi">32</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hidden_dim</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">weight_scale</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">reg</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Initialize a new network.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Inputs:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - input_dim: An integer giving the size of the input
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - hidden_dim: An integer giving the size of the hidden layer
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - num_classes: An integer giving the number of classes to classify
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - weight_scale: Scalar giving the standard deviation for random
+</span></span></span><span class="line"><span class="cl"><span class="s2">          initialization of the weights.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - reg: Scalar giving L2 regularization strength.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">reg</span> <span class="o">=</span> <span class="n">reg</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># TODO: Initialize the weights and biases of the two-layer net. Weights    #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># should be initialized from a Gaussian centered at 0.0 with               #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># standard deviation equal to weight_scale, and biases should be           #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># initialized to zero. All weights and biases should be stored in the      #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># dictionary self.params, with first layer weights                         #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># and biases using the keys &#39;W1&#39; and &#39;b1&#39; and second layer                 #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># weights and biases using the keys &#39;W2&#39; and &#39;b2&#39;.                         #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;W1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">weight_scale</span><span class="p">,</span> <span class="p">(</span><span class="n">input_dim</span><span class="p">,</span><span class="n">hidden_dim</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;W2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">weight_scale</span><span class="p">,</span> <span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span><span class="n">num_classes</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;b1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;b2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_classes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#                             END OF YOUR CODE                             #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="todo-twolayernetloss" class="heading-element"><span>TODO: TwoLayerNet.loss</span>
+  <a href="#todo-twolayernetloss" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Compute loss and gradient for a minibatch of data.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Inputs:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - X: Array of input data of shape (N, d_1, ..., d_k)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - y: Array of labels, of shape (N,). y[i] gives the label for X[i].
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Returns:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        If y is None, then run a test-time forward pass of the model and return:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - scores: Array of shape (N, C) giving classification scores, where
+</span></span></span><span class="line"><span class="cl"><span class="s2">          scores[i, c] is the classification score for X[i] and class c.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">        If y is not None, then run a training-time forward and backward pass and
+</span></span></span><span class="line"><span class="cl"><span class="s2">        return a tuple of:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - loss: Scalar value giving the loss
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - grads: Dictionary with the same keys as self.params, mapping parameter
+</span></span></span><span class="line"><span class="cl"><span class="s2">          names to gradients of the loss with respect to those parameters.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">scores</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">W1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;W1&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;b1&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">W2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;W2&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">b2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;b2&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># TODO: Implement the forward pass for the two-layer net, computing the    #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># class scores for X and storing them in the scores variable.              #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">h1</span><span class="p">,</span> <span class="n">cache1</span> <span class="o">=</span> <span class="n">affine_relu_forward</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">W1</span><span class="p">,</span> <span class="n">b1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">scores</span><span class="p">,</span> <span class="n">cache2</span> <span class="o">=</span> <span class="n">affine_forward</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">W2</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#                             END OF YOUR CODE                             #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># If y is None then we are in test mode so just return scores</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">scores</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">loss</span><span class="p">,</span> <span class="n">grads</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># TODO: Implement the backward pass for the two-layer net. Store the loss  #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># in the loss variable and gradients in the grads dictionary. Compute data #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># loss using softmax, and make sure that grads[k] holds the gradients for  #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># self.params[k]. Don&#39;t forget to add L2 regularization!                   #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#                                                                          #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># NOTE: To ensure that your implementation matches ours and you pass the   #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># automated tests, make sure that your L2 regularization includes a factor #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># of 0.5 to simplify the expression for the gradient.                      #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 计算损失和梯度</span>
+</span></span><span class="line"><span class="cl">        <span class="n">loss</span><span class="p">,</span> <span class="n">dscores</span> <span class="o">=</span> <span class="n">softmax_loss</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 添加L2正则化</span>
+</span></span><span class="line"><span class="cl">        <span class="n">loss</span> <span class="o">+=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">reg</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">W1</span> <span class="o">*</span> <span class="n">W1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">W2</span> <span class="o">*</span> <span class="n">W2</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 反向传播</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 第二层的反向传播</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dh1</span><span class="p">,</span> <span class="n">dW2</span><span class="p">,</span> <span class="n">db2</span> <span class="o">=</span> <span class="n">affine_backward</span><span class="p">(</span><span class="n">dscores</span><span class="p">,</span> <span class="n">cache2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 第一层的反向传播</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dx</span><span class="p">,</span> <span class="n">dW1</span><span class="p">,</span> <span class="n">db1</span> <span class="o">=</span> <span class="n">affine_relu_backward</span><span class="p">(</span><span class="n">dh1</span><span class="p">,</span> <span class="n">cache1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="c1"># 添加正则化梯度</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dW2</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reg</span> <span class="o">*</span> <span class="n">W2</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dW1</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reg</span> <span class="o">*</span> <span class="n">W1</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">grads</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          <span class="s1">&#39;W1&#39;</span><span class="p">:</span> <span class="n">dW1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="s1">&#39;b1&#39;</span><span class="p">:</span> <span class="n">db1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="s1">&#39;W2&#39;</span><span class="p">:</span> <span class="n">dW2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">          <span class="s1">&#39;b2&#39;</span><span class="p">:</span> <span class="n">db2</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#                             END OF YOUR CODE                             #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">grads</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>检验梯度：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">231</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">N</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">C</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">7</span>
+</span></span><span class="line"><span class="cl"><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">D</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">std</span> <span class="o">=</span> <span class="mf">1e-3</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">TwoLayerNet</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">D</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="o">=</span><span class="n">H</span><span class="p">,</span> <span class="n">num_classes</span><span class="o">=</span><span class="n">C</span><span class="p">,</span> <span class="n">weight_scale</span><span class="o">=</span><span class="n">std</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Testing initialization ... &#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">W1_std</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;W1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">-</span> <span class="n">std</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">b1</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;b1&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">W2_std</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;W2&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="o">-</span> <span class="n">std</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">b2</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;b2&#39;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">assert</span> <span class="n">W1_std</span> <span class="o">&lt;</span> <span class="n">std</span> <span class="o">/</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;First layer weights do not seem right&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">b1</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;First layer biases do not seem right&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="k">assert</span> <span class="n">W2_std</span> <span class="o">&lt;</span> <span class="n">std</span> <span class="o">/</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;Second layer weights do not seem right&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">b2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">),</span> <span class="s1">&#39;Second layer biases do not seem right&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Testing test-time forward pass ... &#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;W1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">D</span><span class="o">*</span><span class="n">H</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;b1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">H</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;W2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">H</span><span class="o">*</span><span class="n">C</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s1">&#39;b2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">C</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mf">5.5</span><span class="p">,</span> <span class="mf">4.5</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="n">N</span><span class="o">*</span><span class="n">D</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+</span></span><span class="line"><span class="cl"><span class="n">scores</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">correct_scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">  <span class="p">[[</span><span class="mf">11.53165108</span><span class="p">,</span>  <span class="mf">12.2917344</span><span class="p">,</span>   <span class="mf">13.05181771</span><span class="p">,</span>  <span class="mf">13.81190102</span><span class="p">,</span>  <span class="mf">14.57198434</span><span class="p">,</span> <span class="mf">15.33206765</span><span class="p">,</span>  <span class="mf">16.09215096</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">   <span class="p">[</span><span class="mf">12.05769098</span><span class="p">,</span>  <span class="mf">12.74614105</span><span class="p">,</span>  <span class="mf">13.43459113</span><span class="p">,</span>  <span class="mf">14.1230412</span><span class="p">,</span>   <span class="mf">14.81149128</span><span class="p">,</span> <span class="mf">15.49994135</span><span class="p">,</span>  <span class="mf">16.18839143</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">   <span class="p">[</span><span class="mf">12.58373087</span><span class="p">,</span>  <span class="mf">13.20054771</span><span class="p">,</span>  <span class="mf">13.81736455</span><span class="p">,</span>  <span class="mf">14.43418138</span><span class="p">,</span>  <span class="mf">15.05099822</span><span class="p">,</span> <span class="mf">15.66781506</span><span class="p">,</span>  <span class="mf">16.2846319</span> <span class="p">]])</span>
+</span></span><span class="line"><span class="cl"><span class="n">scores_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">scores</span> <span class="o">-</span> <span class="n">correct_scores</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="k">assert</span> <span class="n">scores_diff</span> <span class="o">&lt;</span> <span class="mf">1e-6</span><span class="p">,</span> <span class="s1">&#39;Problem with test-time forward pass&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Testing training loss (no regularization)&#39;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl"><span class="n">loss</span><span class="p">,</span> <span class="n">grads</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">correct_loss</span> <span class="o">=</span> <span class="mf">3.4702243556</span>
+</span></span><span class="line"><span class="cl"><span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">loss</span> <span class="o">-</span> <span class="n">correct_loss</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="s1">&#39;Problem with training-time loss&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">reg</span> <span class="o">=</span> <span class="mf">1.0</span>
+</span></span><span class="line"><span class="cl"><span class="n">loss</span><span class="p">,</span> <span class="n">grads</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">correct_loss</span> <span class="o">=</span> <span class="mf">26.5948426952</span>
+</span></span><span class="line"><span class="cl"><span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">loss</span> <span class="o">-</span> <span class="n">correct_loss</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">,</span> <span class="s1">&#39;Problem with regularization loss&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Errors should be around e-7 or less</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">reg</span> <span class="ow">in</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">]:</span>
+</span></span><span class="line"><span class="cl">  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Running numeric gradient check with reg = &#39;</span><span class="p">,</span> <span class="n">reg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">  <span class="n">model</span><span class="o">.</span><span class="n">reg</span> <span class="o">=</span> <span class="n">reg</span>
+</span></span><span class="line"><span class="cl">  <span class="n">loss</span><span class="p">,</span> <span class="n">grads</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">grads</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">f</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">_</span><span class="p">:</span> <span class="n">model</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">grad_num</span> <span class="o">=</span> <span class="n">eval_numerical_gradient</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">name</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> relative error: </span><span class="si">%.2e</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">rel_error</span><span class="p">(</span><span class="n">grad_num</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="n">name</span><span class="p">])))</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight" title="Output"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Testing initialization ... 
+</span></span><span class="line"><span class="cl">Testing test-time forward pass ... 
+</span></span><span class="line"><span class="cl">Testing training loss (no regularization)
+</span></span><span class="line"><span class="cl">Running numeric gradient check with reg =  0.0
+</span></span><span class="line"><span class="cl">W1 relative error: 1.53e-08
+</span></span><span class="line"><span class="cl">W2 relative error: 3.37e-10
+</span></span><span class="line"><span class="cl">b1 relative error: 8.01e-09
+</span></span><span class="line"><span class="cl">b2 relative error: 4.33e-10
+</span></span><span class="line"><span class="cl">Running numeric gradient check with reg =  0.7
+</span></span><span class="line"><span class="cl">W1 relative error: 2.53e-07
+</span></span><span class="line"><span class="cl">W2 relative error: 2.85e-08
+</span></span><span class="line"><span class="cl">b1 relative error: 1.35e-08
+</span></span><span class="line"><span class="cl">b2 relative error: 1.97e-09</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="todo-solver" class="heading-element"><span>TODO: Solver</span>
+  <a href="#todo-solver" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>构造 solver 训练。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="n">input_size</span> <span class="o">=</span> <span class="mi">32</span> <span class="o">*</span> <span class="mi">32</span> <span class="o">*</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl"><span class="n">hidden_size</span> <span class="o">=</span> <span class="mi">50</span>
+</span></span><span class="line"><span class="cl"><span class="n">num_classes</span> <span class="o">=</span> <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">TwoLayerNet</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">solver</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">##############################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># TODO: Use a Solver instance to train a TwoLayerNet that achieves about 36% #</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># accuracy on the validation set.                                            #</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##############################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">solver</span> <span class="o">=</span> <span class="n">Solver</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">optim_config</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl"><span class="n">solver</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##############################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#                             END OF YOUR CODE                               #</span>
+</span></span><span class="line"><span class="cl"><span class="c1">##############################################################################</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="todo-hyperparameters" class="heading-element"><span>TODO: hyperparameters</span>
+  <a href="#todo-hyperparameters" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="n">best_model</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">#################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># TODO: Tune hyperparameters using the validation set. Store your best trained  #</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># model in best_model.                                                          #</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#                                                                               #</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># To help debug your network, it may help to use visualizations similar to the  #</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ones we used above; these visualizations will have significant qualitative    #</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># differences from the ones we saw above for the poorly tuned network.          #</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#                                                                               #</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Tweaking hyperparameters by hand can be fun, but you might find it useful to  #</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># write code to sweep through possible combinations of hyperparameters          #</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># automatically like we did on thexs previous exercises.                          #</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">learning_rates</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-4</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mf">3e-2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">regularization_strengths</span> <span class="o">=</span> <span class="p">[</span><span class="mf">1e-4</span><span class="p">,</span> <span class="mf">1e-3</span><span class="p">,</span> <span class="mf">1e-2</span><span class="p">,</span> <span class="mf">1e-1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl"><span class="n">best_val</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl"><span class="n">best_model</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">lr</span> <span class="ow">in</span> <span class="n">learning_rates</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">reg</span> <span class="ow">in</span> <span class="n">regularization_strengths</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">model</span> <span class="o">=</span> <span class="n">TwoLayerNet</span><span class="p">(</span><span class="n">input_size</span><span class="p">,</span> <span class="n">hidden_size</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">,</span> <span class="n">reg</span><span class="o">=</span><span class="n">reg</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">solver</span> <span class="o">=</span> <span class="n">Solver</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">optim_config</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">:</span> <span class="n">lr</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl">        <span class="n">solver</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">train_accuracy</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">train_acc_history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">val_accuracy</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">val_acc_history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="n">results</span><span class="p">[(</span><span class="n">lr</span><span class="p">,</span> <span class="n">reg</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span><span class="n">train_accuracy</span><span class="p">,</span> <span class="n">val_accuracy</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">val_accuracy</span> <span class="o">&gt;</span> <span class="n">best_val</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">best_val</span> <span class="o">=</span> <span class="n">val_accuracy</span>
+</span></span><span class="line"><span class="cl">            <span class="n">best_model</span> <span class="o">=</span> <span class="n">model</span>
+</span></span><span class="line"><span class="cl">            
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">lr</span><span class="p">,</span> <span class="n">reg</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">train_accuracy</span><span class="p">,</span> <span class="n">val_accuracy</span> <span class="o">=</span> <span class="n">results</span><span class="p">[(</span><span class="n">lr</span><span class="p">,</span> <span class="n">reg</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;lr </span><span class="si">%e</span><span class="s1"> reg </span><span class="si">%e</span><span class="s1"> train accuracy: </span><span class="si">%f</span><span class="s1"> val accuracy: </span><span class="si">%f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">                <span class="n">lr</span><span class="p">,</span> <span class="n">reg</span><span class="p">,</span> <span class="n">train_accuracy</span><span class="p">,</span> <span class="n">val_accuracy</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl"><span class="c1">################################################################################</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#                              END OF YOUR CODE                                #</span>
+</span></span><span class="line"><span class="cl"><span class="c1">################################################################################</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>跑了 11 分钟。</p>
+<p>测试模型准确率：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="n">y_val_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">best_model</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;X_val&#39;</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Validation set accuracy: &#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">y_val_pred</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;y_val&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">y_test_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">best_model</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;X_test&#39;</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test set accuracy: &#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">y_test_pred</span> <span class="o">==</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;y_test&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>超过了 48%</p>
+<div class="highlight" title="Output"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Validation set accuracy:  0.509
+</span></span><span class="line"><span class="cl">Test set accuracy:  0.488</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="inline-question-2-2" class="heading-element"><span>Inline Question 2</span>
+  <a href="#inline-question-2-2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>Now that you have trained a Neural Network classifier, you may find that your testing accuracy is much lower than the training accuracy. In what ways can we decrease this gap? Select all that apply.</p>
+<ol>
+<li>Train on a larger dataset.</li>
+<li>Add more hidden units.</li>
+<li>Increase the regularization strength.</li>
+<li>None of the above.</li>
+</ol>
+<p>$\color{blue}{\textit Your Answer:}$</p>
+<p>$\color{blue}{\textit Your Explanation:}$</p>
+<p><strong>内联问题 2:</strong></p>
+<p>现在你已经训练了一个神经网络分类器，你可能发现测试准确率远低于训练准确率。我们可以通过哪些方法来减小这个差距？选择所有适用的选项。</p>
+<ol>
+<li>在更大的数据集上训练</li>
+<li>增加隐藏单元数量</li>
+<li>增加正则化强度</li>
+<li>以上都不是</li>
+</ol>
+<p>$\color{blue}{\textit Your Answer:}$ 1, 3</p>
+<p>$\color{blue}{\textit Your Explanation:}$</p>
+<ol>
+<li>
+<p><strong>在更大的数据集上训练</strong>:</p>
+<ul>
+<li>更大的训练数据集可以帮助模型学习更通用的特征</li>
+<li>减少过拟合的风险，因为模型需要适应更多样的数据</li>
+</ul>
+</li>
+<li>
+<p><strong>增加隐藏单元数量</strong>:</p>
+<ul>
+<li>增加模型复杂度实际上会加大过拟合的风险</li>
+<li>可能会使训练和测试准确率的差距更大</li>
+</ul>
+</li>
+<li>
+<p><strong>增加正则化强度</strong>:</p>
+<ul>
+<li>正则化是专门用来减少过拟合的技术</li>
+<li>通过限制权重的大小，迫使模型学习更简单的特征表示</li>
+<li>有助于提高模型的泛化能力</li>
+</ul>
+</li>
+</ol>
 <h2 id="参考" class="heading-element"><span>参考</span>
   <a href="#%e5%8f%82%e8%80%83" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h2><p><a href="https://github.com/Divsigma/2020-cs213n/tree/master/cs231n"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/Divsigma/2020-cs213n/tree/master/cs231n</a></p>
+<p><a href="https://github.com/Na-moe/CS231n-2024/tree/main"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/Na-moe/CS231n-2024/tree/main</a></p>
+<p><a href="https://github.com/Chia202/CS231n/tree/main"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/Chia202/CS231n/tree/main</a></p>
 </div><div class="post-footer" id="post-footer">
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2024-12-09 16:14:10">更新于 2024-12-09&nbsp;</span>
+        <span title="更新于 2024-12-11 11:31:24">更新于 2024-12-11&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/mlcs231n/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">
@@ -2662,7 +4101,7 @@ $$</p>
 
   <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
       <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
-    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.3">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.4">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
         </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
             <span itemprop="copyrightYear">2024</span><span class="author" itemprop="copyrightHolder">
               <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div></div>
