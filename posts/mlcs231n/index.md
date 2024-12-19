@@ -2329,7 +2329,196 @@ $\color{blue}{\textit Your Explanation:}$
    - 通过限制权重的大小，迫使模型学习更简单的特征表示
    - 有助于提高模型的泛化能力
 
+### Q5: Higher Level Representations: Image Features
 
+使用 HOG 和 color histogram 特征提取一下图像的信息，简单来说就是将图片的特征表现得更明显。
+
+```Python
+from cs231n.features import *
+
+num_color_bins = 10 # Number of bins in the color histogram
+feature_fns = [hog_feature, lambda img: color_histogram_hsv(img, nbin=num_color_bins)]
+X_train_feats = extract_features(X_train, feature_fns, verbose=True)
+X_val_feats = extract_features(X_val, feature_fns)
+X_test_feats = extract_features(X_test, feature_fns)
+
+# Preprocessing: Subtract the mean feature
+mean_feat = np.mean(X_train_feats, axis=0, keepdims=True)
+X_train_feats -= mean_feat
+X_val_feats -= mean_feat
+X_test_feats -= mean_feat
+
+# Preprocessing: Divide by standard deviation. This ensures that each feature
+# has roughly the same scale.
+std_feat = np.std(X_train_feats, axis=0, keepdims=True)
+X_train_feats /= std_feat
+X_val_feats /= std_feat
+X_test_feats /= std_feat
+
+# Preprocessing: Add a bias dimension
+X_train_feats = np.hstack([X_train_feats, np.ones((X_train_feats.shape[0], 1))])
+X_val_feats = np.hstack([X_val_feats, np.ones((X_val_feats.shape[0], 1))])
+X_test_feats = np.hstack([X_test_feats, np.ones((X_test_feats.shape[0], 1))])
+```
+
+#### TODO: Train SVM on features
+
+用新数据训练，代码和之前差不多
+
+```Python
+# Use the validation set to tune the learning rate and regularization strength
+
+from cs231n.classifiers.linear_classifier import LinearSVM
+
+learning_rates = [1e-9, 1e-8, 1e-7]
+regularization_strengths = [5e4, 5e5, 5e6]
+
+results = {}
+best_val = -1
+best_svm = None
+
+################################################################################
+# TODO:                                                                        #
+# Use the validation set to set the learning rate and regularization strength. #
+# This should be identical to the validation that you did for the SVM; save    #
+# the best trained classifer in best_svm. You might also want to play          #
+# with different numbers of bins in the color histogram. If you are careful    #
+# you should be able to get accuracy of near 0.44 on the validation set.       #
+################################################################################
+# *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+for lr in learning_rates:
+    for reg in regularization_strengths:
+        svm = LinearSVM()
+        svm.train(X_train_feats, y_train, learning_rate=lr, reg=reg,
+                 num_iters=2000, verbose=False)
+        
+        y_train_pred = svm.predict(X_train_feats)
+        train_accuracy = np.mean(y_train == y_train_pred)
+        y_val_pred = svm.predict(X_val_feats)
+        val_accuracy = np.mean(y_val == y_val_pred)
+        
+        results[(lr, reg)] = (train_accuracy, val_accuracy)
+        
+        if val_accuracy &gt; best_val:
+            best_val = val_accuracy
+            best_svm = svm
+
+# *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+# Print out results.
+for lr, reg in sorted(results):
+    train_accuracy, val_accuracy = results[(lr, reg)]
+    print(&#39;lr %e reg %e train accuracy: %f val accuracy: %f&#39; % (
+                lr, reg, train_accuracy, val_accuracy))
+    
+print(&#39;best validation accuracy achieved: %f&#39; % best_val)
+```
+
+```{title=&#34;Output&#34;}
+lr 1.000000e-09 reg 5.000000e&#43;04 train accuracy: 0.099714 val accuracy: 0.093000
+lr 1.000000e-09 reg 5.000000e&#43;05 train accuracy: 0.093898 val accuracy: 0.078000
+lr 1.000000e-09 reg 5.000000e&#43;06 train accuracy: 0.414571 val accuracy: 0.413000
+lr 1.000000e-08 reg 5.000000e&#43;04 train accuracy: 0.092082 val accuracy: 0.077000
+lr 1.000000e-08 reg 5.000000e&#43;05 train accuracy: 0.413224 val accuracy: 0.422000
+lr 1.000000e-08 reg 5.000000e&#43;06 train accuracy: 0.409714 val accuracy: 0.393000
+lr 1.000000e-07 reg 5.000000e&#43;04 train accuracy: 0.417327 val accuracy: 0.421000
+lr 1.000000e-07 reg 5.000000e&#43;05 train accuracy: 0.407857 val accuracy: 0.396000
+lr 1.000000e-07 reg 5.000000e&#43;06 train accuracy: 0.321898 val accuracy: 0.309000
+best validation accuracy achieved: 0.422000
+```
+
+```Python
+# Evaluate your trained SVM on the test set: you should be able to get at least 0.40
+y_test_pred = best_svm.predict(X_test_feats)
+test_accuracy = np.mean(y_test == y_test_pred)
+print(test_accuracy)
+```
+
+`0.424`
+
+#### Inline question 1:
+
+Describe the misclassification results that you see. Do they make sense?
+
+
+$\color{blue}{\textit Your Answer:}$ 可以理解，因为有些太相似了。
+
+
+#### TODO: Neural Network on image features
+
+代码和之前差不多。
+
+```Python
+from cs231n.classifiers.fc_net import TwoLayerNet
+from cs231n.solver import Solver
+
+input_dim = X_train_feats.shape[1]
+hidden_dim = 500
+num_classes = 10
+
+data = {
+    &#39;X_train&#39;: X_train_feats, 
+    &#39;y_train&#39;: y_train, 
+    &#39;X_val&#39;: X_val_feats, 
+    &#39;y_val&#39;: y_val, 
+    &#39;X_test&#39;: X_test_feats, 
+    &#39;y_test&#39;: y_test, 
+}
+
+net = TwoLayerNet(input_dim, hidden_dim, num_classes)
+best_net = None
+
+################################################################################
+# TODO: Train a two-layer neural network on image features. You may want to    #
+# cross-validate various parameters as in previous sections. Store your best   #
+# model in the best_net variable.                                              #
+################################################################################
+# *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+learning_rates = np.linspace(1e-2, 2.75e-2, 4)
+regularization_strengths = np.geomspace(1e-6, 1e-4, 3)
+
+results = {}
+best_val = -1
+
+import itertools
+
+for lr, reg in itertools.product(learning_rates, regularization_strengths):
+    model = TwoLayerNet(input_dim, hidden_dim, num_classes,reg = reg)
+    solver = Solver(model, data, optim_config={&#39;learning_rate&#39;: lr}, num_epochs=15, verbose=False)
+    solver.train()
+
+    results[(lr, reg)] = solver.best_val_acc
+
+    if results[(lr, reg)] &gt; best_val:
+        best_val = results[(lr, reg)]
+        best_net = model
+
+# Print out results.
+for lr, reg in sorted(results):
+    val_accuracy = results[(lr, reg)]
+    print(&#39;lr %e reg %e val accuracy: %f&#39; % (lr, reg, val_accuracy))
+    
+print(&#39;best validation accuracy achieved during cross-validation: %f&#39; % best_val)
+# *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+```
+
+```{title=&#34;Output&#34;}
+lr 1.000000e-02 reg 1.000000e-06 val accuracy: 0.517000
+lr 1.000000e-02 reg 1.000000e-05 val accuracy: 0.516000
+lr 1.000000e-02 reg 1.000000e-04 val accuracy: 0.516000
+lr 1.583333e-02 reg 1.000000e-06 val accuracy: 0.534000
+lr 1.583333e-02 reg 1.000000e-05 val accuracy: 0.528000
+lr 1.583333e-02 reg 1.000000e-04 val accuracy: 0.532000
+lr 2.166667e-02 reg 1.000000e-06 val accuracy: 0.555000
+lr 2.166667e-02 reg 1.000000e-05 val accuracy: 0.557000
+lr 2.166667e-02 reg 1.000000e-04 val accuracy: 0.543000
+lr 2.750000e-02 reg 1.000000e-06 val accuracy: 0.570000
+lr 2.750000e-02 reg 1.000000e-05 val accuracy: 0.566000
+lr 2.750000e-02 reg 1.000000e-04 val accuracy: 0.557000
+best validation accuracy achieved during cross-validation: 0.570000
+```
 
 ## 参考
 
@@ -2338,6 +2527,8 @@ https://github.com/Divsigma/2020-cs213n/tree/master/cs231n
 https://github.com/Na-moe/CS231n-2024/tree/main
 
 https://github.com/Chia202/CS231n/tree/main
+
+https://blog.csdn.net/leezed525/category_12388436.html
 
 ---
 
