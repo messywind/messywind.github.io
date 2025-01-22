@@ -21,7 +21,7 @@ $1 \le n,m,c \le 10^5$
 分析：
 这种树上问题可以想到树链剖分，那么重点是线段树如何维护，每个点可能会记录 $10^5$ 种宗教，空间显然是开不下的，但是询问只有 $10^5$，所以可以给每个宗教开一颗权值线段树，然后用动态开点的方式维护操作。我们就在权值线段树上记录每个点对应宗教的权值，也就是做映射 $c_u \rightarrow w_u$">
   <meta itemprop="datePublished" content="2021-09-29T17:03:45+00:00">
-  <meta itemprop="dateModified" content="2025-01-15T05:50:09+00:00">
+  <meta itemprop="dateModified" content="2025-01-22T02:55:32+00:00">
   <meta itemprop="wordCount" content="1190">
   <meta itemprop="keywords" content="树链剖分,权值线段树,动态开点"><meta property="og:url" content="https://blog.messywind.top/posts/cpsdoi-2014-%E6%97%85%E8%A1%8C/">
   <meta property="og:site_name" content="凌乱之风的博客">
@@ -36,7 +36,7 @@ $1 \le n,m,c \le 10^5$
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2021-09-29T17:03:45+00:00">
-    <meta property="article:modified_time" content="2025-01-15T05:50:09+00:00">
+    <meta property="article:modified_time" content="2025-01-22T02:55:32+00:00">
     <meta property="article:tag" content="树链剖分">
     <meta property="article:tag" content="权值线段树">
     <meta property="article:tag" content="动态开点">
@@ -62,7 +62,7 @@ $1 \le n,m,c \le 10^5$
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/cpsdoi-2014-%E6%97%85%E8%A1%8C\/"
     },"genre": "posts","keywords": "树链剖分, 权值线段树, 动态开点","wordcount":  1190 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/cpsdoi-2014-%E6%97%85%E8%A1%8C\/","datePublished": "2021-09-29T17:03:45+00:00","dateModified": "2025-01-15T05:50:09+00:00","publisher": {
+    "url": "https:\/\/blog.messywind.top\/posts\/cpsdoi-2014-%E6%97%85%E8%A1%8C\/","datePublished": "2021-09-29T17:03:45+00:00","dateModified": "2025-01-22T02:55:32+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -136,7 +136,7 @@ $1 \le n,m,c \le 10^5$
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[SDOI 2014] 旅行</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2021-09-29 17:03:45"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-09-29">2021-09-29</time></span>&nbsp;<span title="更新于 2025-01-15 05:50:09"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-01-15">2025-01-15</time></span>&nbsp;<span title="1190 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2021-09-29 17:03:45"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-09-29">2021-09-29</time></span>&nbsp;<span title="更新于 2025-01-22 02:55:32"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-01-22">2025-01-22</time></span>&nbsp;<span title="1190 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -422,7 +422,7 @@ $4.$ 询问树上路径 $u$ 到 $v$ 宗教为 $c_u$ 的最大权值 (保证 $c_u
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2025-01-15 05:50:09">更新于 2025-01-15&nbsp;</span>
+        <span title="更新于 2025-01-22 02:55:32">更新于 2025-01-22&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/cpsdoi-2014-%E6%97%85%E8%A1%8C/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">
@@ -441,7 +441,7 @@ $4.$ 询问树上路径 $u$ 到 $v$ 宗教为 $c_u$ 的最大权值 (保证 $c_u
 
   <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
       <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
-    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.140.2">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.141.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
         </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
             <span itemprop="copyrightYear">2024 - 2025</span><span class="author" itemprop="copyrightHolder">
               <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div></div>

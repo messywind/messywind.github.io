@@ -4,9 +4,9 @@
     <title>树形 DP - 标签 - 凌乱之风的博客</title>
     <link>https://blog.messywind.top/tags/%E6%A0%91%E5%BD%A2-dp/</link>
     <description>This is my new Hugo FixIt site</description>
-    <generator>Hugo 0.140.2 &amp; FixIt v0.3.15</generator>
+    <generator>Hugo 0.141.0 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 15 Jan 2025 05:50:09 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 22 Jan 2025 02:55:32 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/tags/%E6%A0%91%E5%BD%A2-dp/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>最大独立集、最小点覆盖、最小支配集</title>
