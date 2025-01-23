@@ -1327,7 +1327,7 @@ def softmax_loss_naive(W, X, y, reg):
 ```
 #### Inline Question 1
 
-Why do we expect our loss to be close to -log(0.1)? Explain briefly.**
+Why do we expect our loss to be close to -log(0.1)? Explain briefly.
 
 $\color{blue}{\textit Your Answer:}$ *Fill this in* 
 
@@ -2519,6 +2519,690 @@ lr 2.750000e-02 reg 1.000000e-05 val accuracy: 0.566000
 lr 2.750000e-02 reg 1.000000e-04 val accuracy: 0.557000
 best validation accuracy achieved during cross-validation: 0.570000
 ```
+
+## Assignment 2
+
+### Q1: Multi-Layer Fully Connected Neural Networks
+
+#### TODO: fc_net
+
+##### \_\_init__
+
+先解释一下 \_\_init__ 的参数。
+
+参数翻译：
+- `hidden_dims`: 一个整数列表，指定每个隐藏层的大小（神经元数量）
+- `input_dim`: 一个整数，指定输入层的维度大小（默认值为3x32x32，适用于32x32的RGB图像）
+- `num_classes`: 一个整数，指定需要分类的类别数量（默认为10类）
+- `dropout_keep_ratio`: 丢弃强度，一个0到1之间的标量，表示dropout保留神经元的比例。如果等于1则表示不使用dropout
+- `normalization`: 指定网络使用的归一化类型，可选值包括：
+    - batchnorm: 批量归一化
+    - layernorm: 层归一化
+    - None: 不使用归一化（默认值）
+- `reg`: 一个标量，表示L2正则化的强度
+- `weight_scale`: 一个标量，表示权重初始化时使用的正态分布标准差
+- `dtype`: numpy数据类型对象。所有计算都将使用此数据类型：
+- float32: 运算更快但精度较低
+- float64: 适用于数值梯度检查，精度更高
+- `seed`: 随机种子。如果不为None，则传递给dropout层使其具有确定性，便于进行梯度检查
+
+然后开始初始化参数，
+
+```python
+        # 获取所有层的维度
+        dims = [input_dim] &#43; hidden_dims &#43; [num_classes]
+
+        # 初始化每一层的参数
+        for i in range(self.num_layers):
+            # 初始化权重矩阵,使用正态分布
+            self.params[&#39;W&#39; &#43; str(i &#43; 1)] = weight_scale * np.random.randn(dims[i], dims[i &#43; 1])
+            # 初始化偏置向量为0
+            self.params[&#39;b&#39; &#43; str(i &#43; 1)] = np.zeros(dims[i &#43; 1])
+            
+            # 如果使用批归一化且不是最后一层，最后一层不需要正则化参数
+            if self.normalization and i &lt; self.num_layers - 1:
+                # gamma初始化为1
+                self.params[&#39;gamma&#39; &#43; str(i &#43; 1)] = np.ones(dims[i &#43; 1])
+                # beta初始化为0 
+                self.params[&#39;beta&#39; &#43; str(i &#43; 1)] = np.zeros(dims[i &#43; 1])
+```
+
+注意最后一层不需要正则化参数，因为模型里最后一层是 softmax，本身就会归一化到 $0 \sim 1$
+
+##### loss
+
+把 assignment1 的 layers.py 先抄过来，然后写一下前向传播和反向传播。
+
+```python
+def loss(self, X, y=None):
+    &#34;&#34;&#34;Compute loss and gradient for the fully connected net.
+    
+    Inputs:
+    - X: Array of input data of shape (N, d_1, ..., d_k)
+    - y: Array of labels, of shape (N,). y[i] gives the label for X[i].
+
+    Returns:
+    If y is None, then run a test-time forward pass of the model and return:
+    - scores: Array of shape (N, C) giving classification scores, where
+        scores[i, c] is the classification score for X[i] and class c.
+
+    If y is not None, then run a training-time forward and backward pass and
+    return a tuple of:
+    - loss: Scalar value giving the loss
+    - grads: Dictionary with the same keys as self.params, mapping parameter
+        names to gradients of the loss with respect to those parameters.
+    &#34;&#34;&#34;
+    X = X.astype(self.dtype)
+    mode = &#34;test&#34; if y is None else &#34;train&#34;
+
+    # Set train/test mode for batchnorm params and dropout param since they
+    # behave differently during training and testing.
+    if self.use_dropout:
+        self.dropout_param[&#34;mode&#34;] = mode
+    if self.normalization == &#34;batchnorm&#34;:
+        for bn_param in self.bn_params:
+            bn_param[&#34;mode&#34;] = mode
+    scores = None
+    ############################################################################
+    # TODO: Implement the forward pass for the fully connected net, computing  #
+    # the class scores for X and storing them in the scores variable.          #
+    #                                                                          #
+    # When using dropout, you&#39;ll need to pass self.dropout_param to each       #
+    # dropout forward pass.                                                    #
+    #                                                                          #
+    # When using batch normalization, you&#39;ll need to pass self.bn_params[0] to #
+    # the forward pass for the first batch normalization layer, pass           #
+    # self.bn_params[1] to the forward pass for the second batch normalization #
+    # layer, etc.                                                              #
+    ############################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    
+    # 用一个变量保存上一层的输出
+    layer_input = X
+    caches = {}
+    # 对前面 L - 1 层进行操作，因为最后一层的操作和前面的不一样
+    for i in range(1, self.num_layers):
+        W = self.params[&#39;W&#39; &#43; str(i)]
+        b = self.params[&#39;b&#39; &#43; str(i)]
+
+        # 计算affine层的输出
+        affine_out, affine_cache = affine_forward(layer_input, W, b)
+        # 计算relu层的输出
+        relu_out, relu_cache = relu_forward(affine_out)
+
+        # 保存cache
+        caches[&#39;affine_cache&#39; &#43; str(i)] = affine_cache
+        caches[&#39;relu_cache&#39; &#43; str(i)] = relu_cache
+
+        # 更新layer_input
+        layer_input = relu_out
+
+    # 最后一层的操作
+    W = self.params[&#39;W&#39; &#43; str(self.num_layers)]
+    b = self.params[&#39;b&#39; &#43; str(self.num_layers)]
+
+    scores, affine_cache = affine_forward(layer_input, W, b)
+    caches[&#39;affine_cache&#39; &#43; str(self.num_layers)] = affine_cache
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ############################################################################
+    #                             END OF YOUR CODE                             #
+    ############################################################################
+
+    # If test mode return early.
+    if mode == &#34;test&#34;:
+        return scores
+
+    loss, grads = 0.0, {}
+    ############################################################################
+    # TODO: Implement the backward pass for the fully connected net. Store the #
+    # loss in the loss variable and gradients in the grads dictionary. Compute #
+    # data loss using softmax, and make sure that grads[k] holds the gradients #
+    # for self.params[k]. Don&#39;t forget to add L2 regularization!               #
+    #                                                                          #
+    # When using batch/layer normalization, you don&#39;t need to regularize the   #
+    # scale and shift parameters.                                              #
+    #                                                                          #
+    # NOTE: To ensure that your implementation matches ours and you pass the   #
+    # automated tests, make sure that your L2 regularization includes a factor #
+    # of 0.5 to simplify the expression for the gradient.                      #
+    ############################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    # 计算loss
+    loss, dscores = softmax_loss(scores, y)
+
+    # 先计算最后一层的梯度
+    W = self.params[&#39;W&#39; &#43; str(self.num_layers)]
+    affine_cache = caches[&#39;affine_cache&#39; &#43; str(self.num_layers)]
+    d_relu_out, dW, db = affine_backward(dscores, affine_cache)
+    grads[&#39;W&#39; &#43; str(self.num_layers)] = dW &#43; self.reg * W
+    grads[&#39;b&#39; &#43; str(self.num_layers)] = db
+
+    # 计算前面的梯度
+    for i in range(self.num_layers - 1, 0, -1):
+        W = self.params[&#39;W&#39; &#43; str(i)]
+        affine_cache = caches[&#39;affine_cache&#39; &#43; str(i)]
+        relu_cache = caches[&#39;relu_cache&#39; &#43; str(i)]
+
+        # 先计算relu层的梯度
+        d_affine_out = relu_backward(d_relu_out, relu_cache)
+        # 再计算affine层的梯度
+        d_relu_out, dW, db = affine_backward(d_affine_out, affine_cache)
+
+        # 保存梯度
+        grads[&#39;W&#39; &#43; str(i)] = dW &#43; self.reg * W
+        grads[&#39;b&#39; &#43; str(i)] = db
+        
+    # 加上正则化项
+    for i in range(1, self.num_layers &#43; 1):
+        W = self.params[&#39;W&#39; &#43; str(i)]
+        loss &#43;= 0.5 * self.reg * np.sum(W * W)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ############################################################################
+    #                             END OF YOUR CODE                             #
+    ############################################################################
+
+    return loss, grads
+
+```
+
+初始化误差检查：
+
+```
+Running check with reg =  0
+Initial loss:  2.3004790897684924
+W1 relative error: 1.4839895075340334e-07
+W2 relative error: 2.212047929031316e-05
+W3 relative error: 3.5272528081494203e-07
+b1 relative error: 5.376386325179258e-09
+b2 relative error: 2.085654276112763e-09
+b3 relative error: 5.7957243458479405e-11
+Running check with reg =  3.14
+Initial loss:  7.052114776533016
+W1 relative error: 3.904542008453064e-09
+W2 relative error: 6.86942277940646e-08
+W3 relative error: 2.131129859578198e-08
+b1 relative error: 1.475242847895799e-08
+b2 relative error: 1.7223751746766738e-09
+b3 relative error: 1.5702714832602802e-10
+```
+
+#### TODO: Use a three-layer Net to overfit 50 training examples by tweaking just the learning rate and initialization scale.
+
+使用一个三层神经网络，仅通过调整学习率和初始化规模，对 50 个训练样本进行过拟合。
+
+```python
+# TODO: Use a three-layer Net to overfit 50 training examples by 
+# tweaking just the learning rate and initialization scale.
+
+num_train = 50
+small_data = {
+  &#34;X_train&#34;: data[&#34;X_train&#34;][:num_train],
+  &#34;y_train&#34;: data[&#34;y_train&#34;][:num_train],
+  &#34;X_val&#34;: data[&#34;X_val&#34;],
+  &#34;y_val&#34;: data[&#34;y_val&#34;],
+}
+
+# weight_scale = 1e-2   # Experiment with this!
+# learning_rate = 1e-4  # Experiment with this!
+weight_scale = 5e-2
+learning_rate = 3e-3
+model = FullyConnectedNet(
+    [100, 100],
+    weight_scale=weight_scale,
+    dtype=np.float64
+)
+solver = Solver(
+    model,
+    small_data,
+    print_every=10,
+    num_epochs=20,
+    batch_size=25,
+    update_rule=&#34;sgd&#34;,
+    optim_config={&#34;learning_rate&#34;: learning_rate},
+)
+solver.train()
+
+plt.plot(solver.loss_history)
+plt.title(&#34;Training loss history&#34;)
+plt.xlabel(&#34;Iteration&#34;)
+plt.ylabel(&#34;Training loss&#34;)
+plt.grid(linestyle=&#39;--&#39;, linewidth=0.5)
+plt.show()
+```
+
+```
+(Iteration 1 / 40) loss: 28.158169
+(Epoch 0 / 20) train acc: 0.280000; val_acc: 0.113000
+(Epoch 1 / 20) train acc: 0.220000; val_acc: 0.124000
+(Epoch 2 / 20) train acc: 0.320000; val_acc: 0.103000
+(Epoch 3 / 20) train acc: 0.620000; val_acc: 0.143000
+(Epoch 4 / 20) train acc: 0.740000; val_acc: 0.136000
+(Epoch 5 / 20) train acc: 0.800000; val_acc: 0.133000
+(Iteration 11 / 40) loss: 0.497961
+(Epoch 6 / 20) train acc: 0.960000; val_acc: 0.129000
+(Epoch 7 / 20) train acc: 0.940000; val_acc: 0.130000
+(Epoch 8 / 20) train acc: 0.920000; val_acc: 0.106000
+(Epoch 9 / 20) train acc: 0.980000; val_acc: 0.117000
+(Epoch 10 / 20) train acc: 0.980000; val_acc: 0.120000
+(Iteration 21 / 40) loss: 0.045432
+(Epoch 11 / 20) train acc: 1.000000; val_acc: 0.120000
+(Epoch 12 / 20) train acc: 1.000000; val_acc: 0.119000
+(Epoch 13 / 20) train acc: 1.000000; val_acc: 0.120000
+(Epoch 14 / 20) train acc: 1.000000; val_acc: 0.120000
+(Epoch 15 / 20) train acc: 1.000000; val_acc: 0.119000
+(Iteration 31 / 40) loss: 0.015703
+(Epoch 16 / 20) train acc: 1.000000; val_acc: 0.119000
+(Epoch 17 / 20) train acc: 1.000000; val_acc: 0.120000
+(Epoch 18 / 20) train acc: 1.000000; val_acc: 0.120000
+(Epoch 19 / 20) train acc: 1.000000; val_acc: 0.120000
+(Epoch 20 / 20) train acc: 1.000000; val_acc: 0.120000
+```
+
+![](/image/ML/CS231n/6.png)
+
+#### TODO: Use a five-layer Net to overfit 50 training examples by tweaking just the learning rate and initialization scale.
+
+使用一个五层神经网络，仅通过调整学习率和初始化规模，对 50 个训练样本进行过拟合。
+
+```python
+# TODO: Use a five-layer Net to overfit 50 training examples by 
+# tweaking just the learning rate and initialization scale.
+
+num_train = 50
+small_data = {
+  &#39;X_train&#39;: data[&#39;X_train&#39;][:num_train],
+  &#39;y_train&#39;: data[&#39;y_train&#39;][:num_train],
+  &#39;X_val&#39;: data[&#39;X_val&#39;],
+  &#39;y_val&#39;: data[&#39;y_val&#39;],
+}
+
+# learning_rate = 2e-3  # Experiment with this!
+# weight_scale = 1e-5   # Experiment with this!
+learning_rate = 1e-3
+weight_scale = 1e-1
+model = FullyConnectedNet(
+    [100, 100, 100, 100],
+    weight_scale=weight_scale,
+    dtype=np.float64
+)
+solver = Solver(
+    model,
+    small_data,
+    print_every=10,
+    num_epochs=20,
+    batch_size=25,
+    update_rule=&#39;sgd&#39;,
+    optim_config={&#39;learning_rate&#39;: learning_rate},
+)
+solver.train()
+
+plt.plot(solver.loss_history)
+plt.title(&#39;Training loss history&#39;)
+plt.xlabel(&#39;Iteration&#39;)
+plt.ylabel(&#39;Training loss&#39;)
+plt.grid(linestyle=&#39;--&#39;, linewidth=0.5)
+plt.show()
+```
+```
+(Iteration 1 / 40) loss: 146.090563
+(Epoch 0 / 20) train acc: 0.140000; val_acc: 0.109000
+(Epoch 1 / 20) train acc: 0.140000; val_acc: 0.107000
+(Epoch 2 / 20) train acc: 0.320000; val_acc: 0.121000
+(Epoch 3 / 20) train acc: 0.680000; val_acc: 0.109000
+(Epoch 4 / 20) train acc: 0.920000; val_acc: 0.130000
+(Epoch 5 / 20) train acc: 0.940000; val_acc: 0.138000
+(Iteration 11 / 40) loss: 0.118771
+(Epoch 6 / 20) train acc: 0.980000; val_acc: 0.129000
+(Epoch 7 / 20) train acc: 0.980000; val_acc: 0.135000
+(Epoch 8 / 20) train acc: 1.000000; val_acc: 0.130000
+(Epoch 9 / 20) train acc: 1.000000; val_acc: 0.130000
+(Epoch 10 / 20) train acc: 1.000000; val_acc: 0.130000
+(Iteration 21 / 40) loss: 0.000431
+(Epoch 11 / 20) train acc: 1.000000; val_acc: 0.131000
+(Epoch 12 / 20) train acc: 1.000000; val_acc: 0.131000
+(Epoch 13 / 20) train acc: 1.000000; val_acc: 0.131000
+(Epoch 14 / 20) train acc: 1.000000; val_acc: 0.131000
+(Epoch 15 / 20) train acc: 1.000000; val_acc: 0.131000
+(Iteration 31 / 40) loss: 0.000366
+(Epoch 16 / 20) train acc: 1.000000; val_acc: 0.131000
+(Epoch 17 / 20) train acc: 1.000000; val_acc: 0.131000
+(Epoch 18 / 20) train acc: 1.000000; val_acc: 0.131000
+(Epoch 19 / 20) train acc: 1.000000; val_acc: 0.131000
+(Epoch 20 / 20) train acc: 1.000000; val_acc: 0.131000
+```
+![](/image/ML/CS231n/7.png)
+
+#### Inline Question 1
+
+Did you notice anything about the comparative difficulty of training the three-layer network vs. training the five-layer network? In particular, based on your experience, which network seemed more sensitive to the initialization scale? Why do you think that is the case?
+
+Answer:
+[FILL THIS IN]
+
+你注意到训练三层网络与训练五层网络在难度上的比较了吗？具体来说，根据你的经验，哪个网络对初始化规模更敏感？你认为为什么会这样？
+
+答案：五层的更难。原因如下：
+
+1. 梯度消失/爆炸问题: 由于五层网络更深,信号需要传播更多层,使得梯度在反向传播时更容易出现消失或爆炸。如果初始化尺度不合适,这个问题会更加严重。
+
+2. 参数规模: 五层网络的参数数量更多,需要一个更合适的初始化尺度来保持各层激活值在合理范围内。初始化尺度过大或过小都会导致训练困难。
+
+3. 优化难度: 更深的网络意味着更复杂的损失曲面,对初始点的选择(由初始化决定)更加敏感。不恰当的初始化可能使网络陷入不良的局部最优。
+
+
+到目前为止,我们一直使用的是普通的随机梯度下降(SGD)作为更新规则。更复杂的更新规则可以使深度网络的训练变得更容易。我们将实现几个最常用的更新规则,并将它们与普通的 SGD 进行比较。
+具体可以看[官方讲义](https://cs231n.github.io/neural-networks-3/#sgd)
+
+#### TODO: sgd_momentum
+
+根据讲义公式
+
+```python
+v = mu * v - learning_rate * dx # integrate velocity
+x &#43;= v # integrate position
+```
+
+```python
+def sgd_momentum(w, dw, config=None):
+    &#34;&#34;&#34;
+    Performs stochastic gradient descent with momentum.
+
+    config format:
+    - learning_rate: Scalar learning rate.
+    - momentum: Scalar between 0 and 1 giving the momentum value.
+      Setting momentum = 0 reduces to sgd.
+    - velocity: A numpy array of the same shape as w and dw used to store a
+      moving average of the gradients.
+    &#34;&#34;&#34;
+    if config is None:
+        config = {}
+    config.setdefault(&#34;learning_rate&#34;, 1e-2)
+    config.setdefault(&#34;momentum&#34;, 0.9)
+    v = config.get(&#34;velocity&#34;, np.zeros_like(w))
+
+    next_w = None
+    ###########################################################################
+    # TODO: Implement the momentum update formula. Store the updated value in #
+    # the next_w variable. You should also use and update the velocity v.     #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    v = config[&#34;momentum&#34;] * v - config[&#34;learning_rate&#34;] * dw
+    next_w = w &#43; v
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+    config[&#34;velocity&#34;] = v
+
+    return next_w, config
+```
+
+误差
+
+```
+next_w error:  8.882347033505819e-09
+velocity error:  4.269287743278663e-09
+```
+对比
+
+![](/image/ML/CS231n/8.png)
+
+#### TODO: RMSProp
+
+根据讲义公式
+
+```python
+cache = decay_rate * cache &#43; (1 - decay_rate) * dx**2
+x &#43;= - learning_rate * dx / (np.sqrt(cache) &#43; eps)
+```
+
+```python
+def rmsprop(w, dw, config=None):
+    &#34;&#34;&#34;
+    Uses the RMSProp update rule, which uses a moving average of squared
+    gradient values to set adaptive per-parameter learning rates.
+
+    config format:
+    - learning_rate: Scalar learning rate.
+    - decay_rate: Scalar between 0 and 1 giving the decay rate for the squared
+      gradient cache.
+    - epsilon: Small scalar used for smoothing to avoid dividing by zero.
+    - cache: Moving average of second moments of gradients.
+    &#34;&#34;&#34;
+    if config is None:
+        config = {}
+    config.setdefault(&#34;learning_rate&#34;, 1e-2)
+    config.setdefault(&#34;decay_rate&#34;, 0.99)
+    config.setdefault(&#34;epsilon&#34;, 1e-8)
+    config.setdefault(&#34;cache&#34;, np.zeros_like(w))
+
+    next_w = None
+    ###########################################################################
+    # TODO: Implement the RMSprop update formula, storing the next value of w #
+    # in the next_w variable. Don&#39;t forget to update cache value stored in    #
+    # config[&#39;cache&#39;].                                                        #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    cache = config[&#34;cache&#34;]
+    cache = config[&#34;decay_rate&#34;] * cache &#43; (1 - config[&#34;decay_rate&#34;]) * dw ** 2
+    next_w = w - config[&#34;learning_rate&#34;] * dw / (np.sqrt(cache) &#43; config[&#34;epsilon&#34;])
+    config[&#34;cache&#34;] = cache
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+
+    return next_w, config
+```
+
+误差
+
+```
+next_w error:  9.524687511038133e-08
+cache error:  2.6477955807156126e-09
+```
+
+#### TODO: Adam
+
+根据讲义公式
+```python
+# t is your iteration counter going from 1 to infinity
+m = beta1*m &#43; (1-beta1)*dx
+mt = m / (1-beta1**t)
+v = beta2*v &#43; (1-beta2)*(dx**2)
+vt = v / (1-beta2**t)
+x &#43;= - learning_rate * mt / (np.sqrt(vt) &#43; eps)
+```
+
+```python
+def adam(w, dw, config=None):
+    &#34;&#34;&#34;
+    Uses the Adam update rule, which incorporates moving averages of both the
+    gradient and its square and a bias correction term.
+
+    config format:
+    - learning_rate: Scalar learning rate.
+    - beta1: Decay rate for moving average of first moment of gradient.
+    - beta2: Decay rate for moving average of second moment of gradient.
+    - epsilon: Small scalar used for smoothing to avoid dividing by zero.
+    - m: Moving average of gradient.
+    - v: Moving average of squared gradient.
+    - t: Iteration number.
+    &#34;&#34;&#34;
+    if config is None:
+        config = {}
+    config.setdefault(&#34;learning_rate&#34;, 1e-3)
+    config.setdefault(&#34;beta1&#34;, 0.9)
+    config.setdefault(&#34;beta2&#34;, 0.999)
+    config.setdefault(&#34;epsilon&#34;, 1e-8)
+    config.setdefault(&#34;m&#34;, np.zeros_like(w))
+    config.setdefault(&#34;v&#34;, np.zeros_like(w))
+    config.setdefault(&#34;t&#34;, 0)
+
+    next_w = None
+    ###########################################################################
+    # TODO: Implement the Adam update formula, storing the next value of w in #
+    # the next_w variable. Don&#39;t forget to update the m, v, and t variables   #
+    # stored in config.                                                       #
+    #                                                                         #
+    # NOTE: In order to match the reference output, please modify t _before_  #
+    # using it in any calculations.                                           #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    t = config[&#34;t&#34;] &#43; 1
+    m = config[&#34;beta1&#34;] * config[&#34;m&#34;] &#43; (1 - config[&#34;beta1&#34;]) * dw
+    mt = m / (1 - config[&#34;beta1&#34;] ** t)
+    v = config[&#34;beta2&#34;] * config[&#34;v&#34;] &#43; (1 - config[&#34;beta2&#34;]) * dw ** 2
+    vt = v / (1 - config[&#34;beta2&#34;] ** t)
+    next_w = w - config[&#34;learning_rate&#34;] * mt / (np.sqrt(vt) &#43; config[&#34;epsilon&#34;])
+
+    config[&#34;t&#34;] = t
+    config[&#34;m&#34;] = m
+    config[&#34;v&#34;] = v
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+
+    return next_w, config
+```
+误差
+
+```
+next_w error:  1.1395691798535431e-07
+v error:  4.208314038113071e-09
+m error:  4.214963193114416e-09
+```
+
+整体对比：
+
+![](/image/ML/CS231n/9.png)
+
+#### Inline Question 2
+
+AdaGrad, like Adam, is a per-parameter optimization method that uses the following update rule:
+
+```
+cache &#43;= dw**2
+w &#43;= - learning_rate * dw / (np.sqrt(cache) &#43; eps)
+```
+
+John notices that when he was training a network with AdaGrad that the updates became very small, and that his network was learning slowly. Using your knowledge of the AdaGrad update rule, why do you think the updates would become very small? Would Adam have the same issue?
+
+
+Answer: 
+[FILL THIS IN]
+
+AdaGrad和Adam一样,是一种基于每个参数的优化方法,它使用以下更新规则:
+
+```
+cache &#43;= dw**2
+w &#43;= - learning_rate * dw / (np.sqrt(cache) &#43; eps)
+```
+
+John注意到当他使用AdaGrad训练网络时,更新变得非常小,他的网络学习速度变慢。根据你对AdaGrad更新规则的理解,你认为为什么更新会变得很小?Adam会有同样的问题吗?
+
+Answer: 
+
+AdaGrad的更新会变得很小的原因是:
+
+1. cache是单调递增的 - 因为它不断累加平方梯度(dw**2),这些都是非负值
+2. 随着训练的进行,cache会越来越大
+3. 由于更新规则中cache在分母位置(w &#43;= -lr * dw / sqrt(cache)),cache的增大会导致更新步长不断减小
+4. 最终会导致参数更新几乎停滞,模型难以继续学习
+
+Adam不会有这个问题,因为:
+
+1. Adam使用动量和RMSprop的思想,对梯度的一阶矩和二阶矩都采用指数移动平均
+2. 这意味着旧的梯度信息会逐渐&#34;衰减&#34;,而不是像AdaGrad那样永久累积
+3. 因此Adam能够保持相对稳定的更新步长,避免了学习完全停滞的问题
+
+这就是为什么Adam通常比AdaGrad表现更好,特别是在训练深度神经网络时。
+
+#### TODO: Train a Good Model!
+
+建一个四层每层 $100$ 的神经网络。
+
+```python
+best_model = None
+
+################################################################################
+# TODO: Train the best FullyConnectedNet that you can on CIFAR-10. You might   #
+# find batch/layer normalization and dropout useful. Store your best model in  #
+# the best_model variable.                                                     #
+################################################################################
+# *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+model = FullyConnectedNet(
+    [100, 100, 100],
+    weight_scale=5e-2
+)
+solver = Solver(
+    model,
+    data,
+    num_epochs=10,
+    batch_size=100,
+    update_rule=&#34;adam&#34;,
+    optim_config={&#34;learning_rate&#34;: 1e-3},
+    verbose=True
+)
+solver.train()
+
+best_model = model
+
+# *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+################################################################################
+#                              END OF YOUR CODE                                #
+################################################################################
+```
+输出
+```
+(Iteration 1 / 4900) loss: 12.396409
+(Epoch 0 / 10) train acc: 0.112000; val_acc: 0.093000
+(Iteration 11 / 4900) loss: 3.950364
+(Iteration 21 / 4900) loss: 2.959177
+(Iteration 31 / 4900) loss: 2.403476
+(Iteration 41 / 4900) loss: 2.503231
+(Iteration 51 / 4900) loss: 2.397866
+(Iteration 61 / 4900) loss: 2.213649
+(Iteration 71 / 4900) loss: 2.026688
+(Iteration 81 / 4900) loss: 1.767392
+(Iteration 91 / 4900) loss: 2.077030
+(Iteration 101 / 4900) loss: 2.052979
+(Iteration 111 / 4900) loss: 1.921003
+(Iteration 121 / 4900) loss: 1.927804
+(Iteration 131 / 4900) loss: 1.933639
+(Iteration 141 / 4900) loss: 1.899896
+(Iteration 151 / 4900) loss: 1.943097
+(Iteration 161 / 4900) loss: 1.765048
+(Iteration 171 / 4900) loss: 1.771318
+(Iteration 181 / 4900) loss: 1.850234
+(Iteration 191 / 4900) loss: 1.610974
+(Iteration 201 / 4900) loss: 1.875304
+(Iteration 211 / 4900) loss: 1.746618
+(Iteration 221 / 4900) loss: 1.655409
+(Iteration 231 / 4900) loss: 1.810486
+...
+(Iteration 4871 / 4900) loss: 1.150006
+(Iteration 4881 / 4900) loss: 1.142224
+(Iteration 4891 / 4900) loss: 1.431774
+(Epoch 10 / 10) train acc: 0.545000; val_acc: 0.495000
+```
+准确率，验证集 50% 达标了。
+
+```
+Validation set accuracy:  0.502
+Test set accuracy:  0.483
+```
+
 
 ## 参考
 
