@@ -3202,7 +3202,499 @@ best_model = model
 Validation set accuracy:  0.502
 Test set accuracy:  0.483
 ```
+### Q2: Batch Normalization
 
+[参考论文](https://arxiv.org/pdf/1502.03167)
+
+核心公式：
+
+![](/image/ML/CS231n/bn1.png)
+
+![](/image/ML/CS231n/bn2.png)
+
+#### TODO: batchnorm_forward
+
+```python
+def batchnorm_forward(x, gamma, beta, bn_param):
+    &#34;&#34;&#34;
+    Forward pass for batch normalization.
+
+    During training the sample mean and (uncorrected) sample variance are
+    computed from minibatch statistics and used to normalize the incoming data.
+    During training we also keep an exponentially decaying running mean of the
+    mean and variance of each feature, and these averages are used to normalize
+    data at test-time.
+
+    At each timestep we update the running averages for mean and variance using
+    an exponential decay based on the momentum parameter:
+
+    running_mean = momentum * running_mean &#43; (1 - momentum) * sample_mean
+    running_var = momentum * running_var &#43; (1 - momentum) * sample_var
+
+    Note that the batch normalization paper suggests a different test-time
+    behavior: they compute sample mean and variance for each feature using a
+    large number of training images rather than using a running average. For
+    this implementation we have chosen to use running averages instead since
+    they do not require an additional estimation step; the torch7
+    implementation of batch normalization also uses running averages.
+
+    Input:
+    - x: Data of shape (N, D)
+    - gamma: Scale parameter of shape (D,)
+    - beta: Shift paremeter of shape (D,)
+    - bn_param: Dictionary with the following keys:
+      - mode: &#39;train&#39; or &#39;test&#39;; required
+      - eps: Constant for numeric stability
+      - momentum: Constant for running mean / variance.
+      - running_mean: Array of shape (D,) giving running mean of features
+      - running_var Array of shape (D,) giving running variance of features
+
+    Returns a tuple of:
+    - out: of shape (N, D)
+    - cache: A tuple of values needed in the backward pass
+    &#34;&#34;&#34;
+    mode = bn_param[&#34;mode&#34;]
+    eps = bn_param.get(&#34;eps&#34;, 1e-5)
+    momentum = bn_param.get(&#34;momentum&#34;, 0.9)
+
+    N, D = x.shape
+    running_mean = bn_param.get(&#34;running_mean&#34;, np.zeros(D, dtype=x.dtype))
+    running_var = bn_param.get(&#34;running_var&#34;, np.zeros(D, dtype=x.dtype))
+
+    out, cache = None, None
+    if mode == &#34;train&#34;:
+        #######################################################################
+        # TODO: Implement the training-time forward pass for batch norm.      #
+        # Use minibatch statistics to compute the mean and variance, use      #
+        # these statistics to normalize the incoming data, and scale and      #
+        # shift the normalized data using gamma and beta.                     #
+        #                                                                     #
+        # You should store the output in the variable out. Any intermediates  #
+        # that you need for the backward pass should be stored in the cache   #
+        # variable.                                                           #
+        #                                                                     #
+        # You should also use your computed sample mean and variance together #
+        # with the momentum variable to update the running mean and running   #
+        # variance, storing your result in the running_mean and running_var   #
+        # variables.                                                          #
+        #                                                                     #
+        # Note that though you should be keeping track of the running         #
+        # variance, you should normalize the data based on the standard       #
+        # deviation (square root of variance) instead!                        #
+        # Referencing the original paper (https://arxiv.org/abs/1502.03167)   #
+        # might prove to be helpful.                                          #
+        #######################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        mean, var = np.mean(x, axis=0), np.var(x, axis=0)
+        x_norm = (x - mean) / np.sqrt(var &#43; eps)
+        out = gamma * x_norm &#43; beta
+
+        running_mean = momentum * running_mean &#43; (1 - momentum) * mean
+        running_var = momentum * running_var &#43; (1 - momentum) * var
+
+        cache = (x, x_norm, mean, var, gamma, beta, eps)
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        #######################################################################
+        #                           END OF YOUR CODE                          #
+        #######################################################################
+    elif mode == &#34;test&#34;:
+        #######################################################################
+        # TODO: Implement the test-time forward pass for batch normalization. #
+        # Use the running mean and variance to normalize the incoming data,   #
+        # then scale and shift the normalized data using gamma and beta.      #
+        # Store the result in the out variable.                               #
+        #######################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        x_norm = (x - running_mean) / np.sqrt(running_var &#43; eps)  # 归一化
+        out = gamma * x_norm &#43; beta  # 计算输出
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        #######################################################################
+        #                          END OF YOUR CODE                           #
+        #######################################################################
+    else:
+        raise ValueError(&#39;Invalid forward batchnorm mode &#34;%s&#34;&#39; % mode)
+
+    # Store the updated running means back into bn_param
+    bn_param[&#34;running_mean&#34;] = running_mean
+    bn_param[&#34;running_var&#34;] = running_var
+
+    return out, cache
+```
+
+验证：
+
+```
+Before batch normalization:
+  means: [ -2.3814598  -13.18038246   1.91780462]
+  stds:  [27.18502186 34.21455511 37.68611762]
+
+After batch normalization (gamma=1, beta=0)
+  means: [ 1.33226763e-17 -3.94129174e-17  3.29597460e-17]
+  stds:  [0.99999999 1.         1.        ]
+
+After batch normalization (gamma= [1. 2. 3.] , beta= [11. 12. 13.] )
+  means: [11. 12. 13.]
+  stds:  [0.99999999 1.99999999 2.99999999]
+```
+
+```
+After batch normalization (test-time):
+  means: [-0.03927354 -0.04349152 -0.10452688]
+  stds:  [1.01531428 1.01238373 0.97819988]
+```
+
+#### TODO: batchnorm_backward
+
+计算图太麻烦了，直接用链式求导。
+
+```python
+def batchnorm_backward(dout, cache):
+    &#34;&#34;&#34;
+    Backward pass for batch normalization.
+
+    For this implementation, you should write out a computation graph for
+    batch normalization on paper and propagate gradients backward through
+    intermediate nodes.
+
+    Inputs:
+    - dout: Upstream derivatives, of shape (N, D)
+    - cache: Variable of intermediates from batchnorm_forward.
+
+    Returns a tuple of:
+    - dx: Gradient with respect to inputs x, of shape (N, D)
+    - dgamma: Gradient with respect to scale parameter gamma, of shape (D,)
+    - dbeta: Gradient with respect to shift parameter beta, of shape (D,)
+    &#34;&#34;&#34;
+    dx, dgamma, dbeta = None, None, None
+    ###########################################################################
+    # TODO: Implement the backward pass for batch normalization. Store the    #
+    # results in the dx, dgamma, and dbeta variables.                         #
+    # Referencing the original paper (https://arxiv.org/abs/1502.03167)       #
+    # might prove to be helpful.                                              #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    x, x_norm, mean, var, gamma, beta, eps = cache
+
+    N, D = x.shape
+    dx_norm = dout * gamma
+    dvar = np.sum(dx_norm * (x - mean) * -0.5 * (var &#43; eps) ** -1.5, axis=0)
+    dmean = np.sum(dx_norm * -1 / np.sqrt(var &#43; eps), axis=0) &#43; dvar * np.mean(-2 * (x - mean), axis=0)
+    dx = dx_norm / np.sqrt(var &#43; eps) &#43; dvar * 2 * (x - mean) / N &#43; dmean / N
+
+    dgamma = np.sum(dout * x_norm, axis=0)
+    dbeta = np.sum(dout, axis=0)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+
+    return dx, dgamma, dbeta
+```
+
+```
+dx error:  1.7029261167605239e-09
+dgamma error:  7.420414216247087e-13
+dbeta error:  2.8795057655839487e-12
+```
+
+#### TODO: layer_utils
+
+在每个 ReLU 激活函数前添加批量归一化层。
+
+```python
+# *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+def affine_bn_relu_forward(x, w, b, gamma, beta, bn_param):
+    affine_out,affine_cache = affine_forward(x, w, b)
+    bn_out,bn_cache = batchnorm_forward(affine_out, gamma, beta, bn_param)
+    relu_out,relu_cache = relu_forward(bn_out)
+    cache = (affine_cache, bn_cache, relu_cache)
+    return relu_out, cache
+
+def affine_bn_relu_backward(dout, cache):
+    affine_cache, bn_cache, relu_cache = cache
+    drelu_out = relu_backward(dout, relu_cache)
+    dbn_out, dgamma, dbeta = batchnorm_backward(drelu_out, bn_cache)
+    dx, dw, db = affine_backward(dbn_out, affine_cache)
+    return dx, dw, db, dgamma, dbeta
+
+# *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+```
+验证：
+
+```
+Running check with reg =  0
+Initial loss:  2.2611955101340957
+W1 relative error: 1.10e-04
+W2 relative error: 2.85e-06
+W3 relative error: 3.92e-10
+b1 relative error: 2.22e-03
+b2 relative error: 2.22e-08
+b3 relative error: 4.78e-11
+beta1 relative error: 7.33e-09
+beta2 relative error: 1.07e-09
+gamma1 relative error: 7.47e-09
+gamma2 relative error: 2.41e-09
+
+Running check with reg =  3.14
+Initial loss:  6.996533220108303
+W1 relative error: 1.98e-06
+W2 relative error: 2.28e-06
+W3 relative error: 1.11e-08
+b1 relative error: 2.78e-09
+b2 relative error: 2.22e-08
+b3 relative error: 2.23e-10
+beta1 relative error: 6.32e-09
+beta2 relative error: 5.69e-09
+gamma1 relative error: 5.94e-09
+gamma2 relative error: 4.14e-09
+```
+
+![](/image/ML/CS231n/10.png)
+
+![](/image/ML/CS231n/11.png)
+
+![](/image/ML/CS231n/12.png)
+
+#### Inline Question 1:
+Describe the results of this experiment. How does the weight initialization scale affect models with/without batch normalization differently, and why?
+
+根据图表结果，我可以帮你分析批量归一化(Batch Normalization)对权重初始化尺度的影响:
+
+从实验结果可以观察到以下几点:
+
+1. **无批量归一化的网络**:
+- 对权重初始化尺度非常敏感
+- 当初始化尺度过大或过小时,性能都会显著下降
+- 只在一个很窄的权重初始化范围内表现良好
+
+2. **有批量归一化的网络**:
+- 对权重初始化尺度的依赖性明显降低
+- 在很宽的权重初始化范围内都能保持稳定的性能
+- 即使在较大的初始化尺度下也能达到较好的训练和验证准确率
+
+3. **原因分析**:
+- 批量归一化通过标准化每一层的输出,使得网络层之间的数据分布保持稳定
+- 这种标准化效果减弱了初始权重带来的影响,因为无论初始权重如何,经过批量归一化后的输出都会被调整到类似的分布
+- 这使得网络训练更加稳定,不容易受到权重初始化的影响
+
+这个实验很好地展示了批量归一化的一个重要优势:它能够降低网络对权重初始化的敏感度,使得训练更加稳定和鲁棒。
+
+
+#### Inline Question 2:
+Describe the results of this experiment. What does this imply about the relationship between batch normalization and batch size? Why is this relationship observed?
+
+描述本次实验的结果。这对批量归一化和批量大小之间的关系有何启示？为何会观察到这种关系？
+
+从实验结果图中我们可以观察到以下几点:
+
+1. 当使用较小的批量大小(batch_size=5,10)时,批量归一化的性能明显下降,训练和验证准确率都较低且波动较大。
+
+2. 当使用较大的批量大小(batch_size=50)时,批量归一化表现最好,训练更稳定,准确率更高。
+
+这说明批量归一化的效果与批量大小有很强的相关性,原因是:
+
+1. 批量归一化依赖于每个mini-batch内的统计量(均值和方差)来进行归一化。当批量太小时:
+   - 计算的统计量波动较大,不能很好地代表整体数据分布
+   - 这种不稳定的归一化会影响网络训练
+
+2. 较大的批量大小可以:
+   - 提供更稳定可靠的统计估计
+   - 使归一化效果更接近整体数据分布
+   - 减少训练过程中的噪声
+
+3. 这也解释了为什么在实际应用中,批量归一化通常需要相对较大的batch size(如32或64)才能发挥最佳效果。
+
+这个实验结果强调了在使用批量归一化时需要合理选择批量大小,以在计算效率和归一化效果之间取得平衡。
+
+#### layer normalization
+
+[参考论文](https://arxiv.org/pdf/1607.06450)
+
+层归一化，简单来说，就是不受 batch_size 的影响。
+
+#### TODO: layernorm_forward
+
+```python
+def layernorm_forward(x, gamma, beta, ln_param):
+    &#34;&#34;&#34;
+    Forward pass for layer normalization.
+
+    During both training and test-time, the incoming data is normalized per data-point,
+    before being scaled by gamma and beta parameters identical to that of batch normalization.
+
+    Note that in contrast to batch normalization, the behavior during train and test-time for
+    layer normalization are identical, and we do not need to keep track of running averages
+    of any sort.
+
+    Input:
+    - x: Data of shape (N, D)
+    - gamma: Scale parameter of shape (D,)
+    - beta: Shift paremeter of shape (D,)
+    - ln_param: Dictionary with the following keys:
+        - eps: Constant for numeric stability
+
+    Returns a tuple of:
+    - out: of shape (N, D)
+    - cache: A tuple of values needed in the backward pass
+    &#34;&#34;&#34;
+    out, cache = None, None
+    eps = ln_param.get(&#34;eps&#34;, 1e-5)
+    ###########################################################################
+    # TODO: Implement the training-time forward pass for layer norm.          #
+    # Normalize the incoming data, and scale and  shift the normalized data   #
+    #  using gamma and beta.                                                  #
+    # HINT: this can be done by slightly modifying your training-time         #
+    # implementation of  batch normalization, and inserting a line or two of  #
+    # well-placed code. In particular, can you think of any matrix            #
+    # transformations you could perform, that would enable you to copy over   #
+    # the batch norm code and leave it almost unchanged?                      #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    # 沿特征维度计算均值和方差（axis=1）
+    mean = np.mean(x, axis=1, keepdims=True)
+    var = np.var(x, axis=1, keepdims=True)
+    
+    # 归一化处理
+    x_norm = (x - mean) / np.sqrt(var &#43; eps)
+    
+    # 缩放和平移
+    out = gamma * x_norm &#43; beta
+    
+    # 缓存反向传播需要的中间变量
+    cache = (x, x_norm, mean, var, gamma, beta, eps)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+    return out, cache
+```
+验证：
+
+```
+Before layer normalization:
+  means: [-59.06673243 -47.60782686 -43.31137368 -26.40991744]
+  stds:  [10.07429373 28.39478981 35.28360729  4.01831507]
+
+After layer normalization (gamma=1, beta=0)
+  means: [ 4.81096644e-16  0.00000000e&#43;00  0.00000000e&#43;00 -2.96059473e-16]
+  stds:  [0.99999995 0.99999999 1.         0.99999969]
+
+After layer normalization (gamma= [3. 3. 3.] , beta= [5. 5. 5.] )
+  means: [5. 5. 5. 5.]
+  stds:  [2.99999985 2.99999998 2.99999999 2.99999907]
+```
+
+#### TODO: layernorm_backward
+
+```python
+def layernorm_backward(dout, cache):
+    &#34;&#34;&#34;
+    Backward pass for layer normalization.
+
+    For this implementation, you can heavily rely on the work you&#39;ve done already
+    for batch normalization.
+
+    Inputs:
+    - dout: Upstream derivatives, of shape (N, D)
+    - cache: Variable of intermediates from layernorm_forward.
+
+    Returns a tuple of:
+    - dx: Gradient with respect to inputs x, of shape (N, D)
+    - dgamma: Gradient with respect to scale parameter gamma, of shape (D,)
+    - dbeta: Gradient with respect to shift parameter beta, of shape (D,)
+    &#34;&#34;&#34;
+    dx, dgamma, dbeta = None, None, None
+    ###########################################################################
+    # TODO: Implement the backward pass for layer norm.                       #
+    #                                                                         #
+    # HINT: this can be done by slightly modifying your training-time         #
+    # implementation of batch normalization. The hints to the forward pass    #
+    # still apply!                                                            #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    x, x_norm, mean, var, gamma, beta, eps = cache
+    N, D = x.shape
+
+    # 计算dgamma和dbeta
+    dgamma = np.sum(dout * x_norm, axis=0)
+    dbeta = np.sum(dout, axis=0)
+
+    # 计算dx_norm
+    dx_norm = dout * gamma
+    
+    # 计算方差梯度
+    dvar = np.sum(dx_norm * (x - mean) * (-0.5) * (var &#43; eps)**-1.5, axis=1, keepdims=True)
+    
+    # 计算均值梯度
+    dmean = np.sum(dx_norm * (-1) / np.sqrt(var &#43; eps), axis=1, keepdims=True) &#43; \
+            dvar * np.mean(-2 * (x - mean), axis=1, keepdims=True)
+    
+    # 计算最终输入梯度
+    dx = (dx_norm / np.sqrt(var &#43; eps)) &#43; (dvar * 2 * (x - mean) / D) &#43; (dmean / D)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+    return dx, dgamma, dbeta
+```
+验证：
+
+```
+dx error:  1.433615657860454e-09
+dgamma error:  4.519489546032799e-12
+dbeta error:  2.276445013433725e-12
+```
+
+对比：
+
+![](/image/ML/CS231n/13.png)
+
+#### Inline Question 3:
+Which of these data preprocessing steps is analogous to batch normalization, and which is analogous to layer normalization?
+
+1. Scaling each image in the dataset, so that the RGB channels for each row of pixels within an image sums up to 1.
+2. Scaling each image in the dataset, so that the RGB channels for all pixels within an image sums up to 1.  
+3. Subtracting the mean image of the dataset from each image in the dataset.
+4. Setting all RGB values to either 0 or 1 depending on a given threshold.
+
+这些数据预处理步骤中，哪一步与批量归一化类似，哪一步与层归一化类似？
+
+1. 对数据集中的每张图像进行缩放，确保图像中每行像素的RGB通道之和为1。
+2. 对数据集中的每幅图像进行缩放，使图像中所有像素的RGB通道之和为1。
+3. 从数据集中的每幅图像中减去数据集的平均图像。
+4. 根据给定的阈值，将所有RGB值设置为0或1。
+
+3对应批量归一化，2对应层归一化。批量归一化通过减去均值进行中心化（如选项3），而层归一化在样本内所有特征上归一化（如选项2对整个图像做缩放）。
+
+#### Inline Question 4:
+When is layer normalization likely to not work well, and why?
+
+1. Using it in a very deep network
+2. Having a very small dimension of features
+3. Having a high regularization term
+
+层归一化在什么时候可能效果不佳，原因是什么？
+1. 在非常深的网络中使用它
+2. 特征维度非常小
+3. 正则化项取值很高
+
+
+是 2.当特征维度非常小时，层归一化可能效果不佳。因为层归一化需要在单个样本的所有特征维度上计算统计量（均值和方差），当特征维度很小时：
+- 统计量的估计会变得不稳定
+- 归一化操作可能过度缩放特征，导致信息丢失
+- 特别是当特征维度为1时，归一化后所有特征值会变为0，完全破坏原始数据
+相比之下，在特征维度较大的情况下，统计量的估计更可靠，归一化效果更好。其他选项与层归一化的有效性没有直接关联。
 
 ## 参考
 
