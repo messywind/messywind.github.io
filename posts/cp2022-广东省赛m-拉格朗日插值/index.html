@@ -19,7 +19,7 @@ $(1 \le k \le m \le 10 ^ 5, 0 &lt; b_i &lt; 10 ^ 9)$
 分析：
 首先求解最大值需要用到高等数学中多元函数条件极值的拉格朗日乘数法，设 $$ L(x_1,x_2,\cdots,x_k, \lambda) = \prod_{i = 1} ^{k} x_i &#43; \lambda(\sum\limits_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} - 1) $$ 对每个变量求偏导数，令偏导数为 $0$ 得 $$ \frac{\partial L}{\partial x_1} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_1} &#43; \frac{2\lambda x_1}{a_1 ^ 2} = 0 \\ \frac{\partial L}{\partial x_2} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_2} &#43; \frac{2\lambda x_2}{a_2 ^ 2} = 0 \\ \cdots \\ \frac{\partial L}{\partial x_k} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_k} &#43; \frac{2\lambda x_k}{a_k ^ 2} = 0 \\ \frac{\partial L}{\partial \lambda} = \sum_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} - 1 = 0 $$ 那么稍微化简一下，对于 $1 \le i \le k$ 都有 $$ \prod_{i = 1} ^ {k}x_i = \frac{-2\lambda x_i ^ 2}{a_i ^ 2} $$ 通过任意两式 $1 \le i, j \le k$ 联立消掉 $\lambda$ $$ \frac{a_i ^ 2\prod\limits_{i = 1} ^ {k}x_i}{-2x_i ^ 2} = \frac{a_j ^ 2\prod\limits_{i = 1} ^ {k}x_i}{-2x_j ^ 2} $$ 化简得 $$ \frac{x_i}{a_i} = \frac{x_j}{a_j} $$ 所以当且仅当 $\dfrac{x_1}{a_1} = \dfrac{x_2}{a_2}=\cdots=\dfrac{x_k}{a_k}$ 时取得最大值，且 $\sum\limits_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} = 1$，所以对任意 $1 \le i \le k$ 都有 $\dfrac{x_i}{a_i} = \pm \sqrt{\dfrac{1}{k}}$，那么 $\prod\limits_{i = 1} ^{k} x_i = k ^ {- \frac{k}{2}}\prod\limits_{i = 1} ^ {k} a_i$，因为 $k$ 为偶数，所以一定为正，且 $\dfrac{k}{2}$ 一定是整数。">
   <meta itemprop="datePublished" content="2022-07-01T21:57:26+00:00">
-  <meta itemprop="dateModified" content="2025-02-05T06:34:09+00:00">
+  <meta itemprop="dateModified" content="2025-02-05T07:03:02+00:00">
   <meta itemprop="wordCount" content="2164">
   <meta itemprop="keywords" content="多元函数极值,分治 NTT"><meta property="og:url" content="https://blog.messywind.top/posts/cp2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/">
   <meta property="og:site_name" content="凌乱之风的博客">
@@ -33,7 +33,7 @@ $(1 \le k \le m \le 10 ^ 5, 0 &lt; b_i &lt; 10 ^ 9)$
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2022-07-01T21:57:26+00:00">
-    <meta property="article:modified_time" content="2025-02-05T06:34:09+00:00">
+    <meta property="article:modified_time" content="2025-02-05T07:03:02+00:00">
     <meta property="article:tag" content="多元函数极值">
     <meta property="article:tag" content="分治 NTT">
 
@@ -57,7 +57,7 @@ $(1 \le k \le m \le 10 ^ 5, 0 &lt; b_i &lt; 10 ^ 9)$
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/cp2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC\/"
     },"genre": "posts","keywords": "多元函数极值, 分治 NTT","wordcount":  2164 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/cp2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC\/","datePublished": "2022-07-01T21:57:26+00:00","dateModified": "2025-02-05T06:34:09+00:00","publisher": {
+    "url": "https:\/\/blog.messywind.top\/posts\/cp2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC\/","datePublished": "2022-07-01T21:57:26+00:00","dateModified": "2025-02-05T07:03:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -131,7 +131,7 @@ $(1 \le k \le m \le 10 ^ 5, 0 &lt; b_i &lt; 10 ^ 9)$
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[2022 广东省赛M] 拉格朗日插值</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-07-01 21:57:26"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-07-01">2022-07-01</time></span>&nbsp;<span title="更新于 2025-02-05 06:34:09"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-02-05">2025-02-05</time></span>&nbsp;<span title="2164 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-07-01 21:57:26"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-07-01">2022-07-01</time></span>&nbsp;<span title="更新于 2025-02-05 07:03:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-02-05">2025-02-05</time></span>&nbsp;<span title="2164 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -835,7 +835,7 @@ $F(x)$ 可用分治 $\text{NTT}$ 计算，总时间复杂度 $O(n\log ^ 2n)$</p>
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2025-02-05 06:34:09">更新于 2025-02-05&nbsp;</span>
+        <span title="更新于 2025-02-05 07:03:02">更新于 2025-02-05&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/cp2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

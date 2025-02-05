@@ -126,13 +126,13 @@ plt.show()
  - What in the data is the cause behind the distinctly bright rows?
  - What causes the columns?
  
- $\color{blue}{\textit Your Answer:}$ *fill this in.*
+ ${\textit Your Answer:}$ *fill this in.*
 
 注意距离矩阵中的结构化模式，其中一些行或列明显更亮。（注意在默认的颜色方案中，黑色表示低距离，而白色表示高距离。）
 - 数据中是什么原因导致了这些明显更亮的行？
 - 是什么导致了这些明显的列？
 
-$\color{blue}{\textit Your Answer:}$ 行是测试数据，列是训练数据。白色的行是该测试数据远离训练数据，白色的列是该训练数据远离测试数据。
+${\textit Your Answer:}$ 行是测试数据，列是训练数据。白色的行是该测试数据远离训练数据，白色的列是该训练数据远离测试数据。
 
 #### TODO: predict_labels
 
@@ -235,10 +235,10 @@ Which of the following preprocessing steps will not change the performance of a 
 4. Subtracting the pixel-wise mean $\mu_{ij}$ and dividing by the pixel-wise standard deviation $\sigma_{ij}$.
 5. Rotating the coordinate axes of the data, which means rotating all the images by the same angle. Empty regions in the image caused by rotation are padded with a same pixel value and no interpolation is performed.
 
-$\color{blue}{\textit Your Answer:}$
+${\textit Your Answer:}$
 
 
-$\color{blue}{\textit Your Explanation:}$
+${\textit Your Explanation:}$
 
 
 
@@ -261,10 +261,10 @@ $$\mu_{ij}=\frac{1}{n}\sum_{k=1}^np_{ij}^{(k)}.$$
 4. 减去每个像素的均值 $\mu_{ij}$ 并除以每个像素的标准差 $\sigma_{ij}$。
 5. 旋转数据的坐标轴，这意味着将所有图像旋转相同的角度。旋转导致的图像空白区域用相同的像素值填充，不进行插值。
 
-$\color{blue}{\textit Your Answer:}$ 除了 4 都不影响。
+${\textit Your Answer:}$ 除了 4 都不影响。
 
 
-$\color{blue}{\textit Your Explanation:}$
+${\textit Your Explanation:}$
 
 #### TODO: 一个循环求 L2 距离：
 
@@ -616,10 +616,10 @@ Which of the following statements about $k$-Nearest Neighbor ($k$-NN) are true i
 4. The time needed to classify a test example with the k-NN classifier grows with the size of the training set.
 5. None of the above.
 
-$\color{blue}{\textit Your Answer:}$
+${\textit Your Answer:}$
 
 
-$\color{blue}{\textit Your Explanation:}$
+${\textit Your Explanation:}$
 
 **内嵌问题 3**
 
@@ -630,10 +630,10 @@ $\color{blue}{\textit Your Explanation:}$
 4. 使用 $k$-NN 分类器对测试样本进行分类所需的时间随着训练集的大小而增加。
 5. 以上都不正确。
 
-$\color{blue}{\textit Your Answer:}$ 4
+${\textit Your Answer:}$ 4
 
 
-$\color{blue}{\textit Your Explanation:}$ 1 显然不对，2、3 直接看结果，4 确实是因为距离是要遍历数据集。
+${\textit Your Explanation:}$ 1 显然不对，2、3 直接看结果，4 确实是因为距离是要遍历数据集。
 
 ### Q2: Training a Support Vector Machine
 
@@ -802,14 +802,14 @@ numerical: -12.635156 analytic: -12.635156, relative error: 1.036973e-11
 
 It is possible that once in a while a dimension in the gradcheck will not match exactly. What could such a discrepancy be caused by? Is it a reason for concern? What is a simple example in one dimension where a gradient check could fail? How would change the margin affect of the frequency of this happening? *Hint: the SVM loss function is not strictly speaking differentiable*
 
-$\color{blue}{\textit Your Answer:}$ *fill this in.*  
+${\textit Your Answer:}$ *fill this in.*  
 
 
 
 
 有时候，梯度检查中的某个维度可能不会完全匹配。这种差异可能是由什么引起的？这是否是一个值得担心的问题？在一维中，梯度检查可能失败的一个简单例子是什么？改变边距会如何影响这种情况发生的频率？*提示：SVM损失函数严格来说并不是可微的*
 
-$\color{blue}{\textit Your Answer:}$ 在梯度检查中，某个维度不完全匹配的差异可能是由于数值计算的精度限制或损失函数的不可微性引起的。SVM损失函数在某些点上是不可微的，例如在边界条件下（即损失函数的“铰链”部分），这可能导致梯度检查不精确。
+${\textit Your Answer:}$ 在梯度检查中，某个维度不完全匹配的差异可能是由于数值计算的精度限制或损失函数的不可微性引起的。SVM损失函数在某些点上是不可微的，例如在边界条件下（即损失函数的“铰链”部分），这可能导致梯度检查不精确。
 
 这种差异通常不是一个严重的问题，因为数值梯度计算本身就有一定的误差。一个简单的例子是在一维中，考虑一个绝对值函数 $( f(x) = |x| )$，在 $( x = 0 )$ 处，梯度是不可定义的，这可能导致梯度检查失败。
 
@@ -1122,7 +1122,7 @@ best validation accuracy achieved during cross-validation: 0.379000
 
 Describe what your visualized SVM weights look like, and offer a brief explanation for why they look the way they do.
 
-$\color{blue}{\textit Your Answer:}$ *fill this in*
+${\textit Your Answer:}$ *fill this in*
 
 当然，这里是翻译：
 
@@ -1130,7 +1130,7 @@ $\color{blue}{\textit Your Answer:}$ *fill this in*
 
 描述你可视化的 SVM 权重是什么样的，并简要解释它们为什么会是这样的。
 
-$\color{blue}{\textit Your Answer:}$ 
+${\textit Your Answer:}$ 
 
 1. **权重图像的外观**：
    - 每个类别的权重图像可能看起来像该类别的典型代表。例如，飞机类别的权重图像可能会显示出机翼的形状，汽车类别可能会显示出车轮的形状。
@@ -1329,14 +1329,14 @@ def softmax_loss_naive(W, X, y, reg):
 
 Why do we expect our loss to be close to -log(0.1)? Explain briefly.
 
-$\color{blue}{\textit Your Answer:}$ *Fill this in* 
+${\textit Your Answer:}$ *Fill this in* 
 
 
 **内嵌问题 1**
 
 为什么我们期望损失接近于 $-\log(0.1)$？请简要解释。
 
-$\color{blue}{\textit Your Answer:}$ 
+${\textit Your Answer:}$ 
 
 在 Softmax 分类器中，损失函数的计算是基于预测概率的对数损失。假设我们有 10 个类别，并且权重矩阵是随机初始化的，那么每个类别的预测概率大约是均匀分布的，即每个类别的概率约为 $0.1$
 
@@ -1490,18 +1490,18 @@ best validation accuracy achieved during cross-validation: 0.366000
 
 Suppose the overall training loss is defined as the sum of the per-datapoint loss over all training examples. It is possible to add a new datapoint to a training set that would leave the SVM loss unchanged, but this is not the case with the Softmax classifier loss.
 
-$\color{blue}{\textit Your Answer:}$
+${\textit Your Answer:}$
 
 
-$\color{blue}{\textit Your Explanation:}$
+${\textit Your Explanation:}$
 
 **内嵌问题 2** - *对或错*
 
 假设整体训练损失定义为所有训练样本的每个数据点损失之和。可以添加一个新的数据点到训练集中，使得 SVM 损失保持不变，但对于 Softmax 分类器损失来说，这种情况不会发生。
 
-$\color{blue}{\textit Your Answer:}$ True
+${\textit Your Answer:}$ True
 
-$\color{blue}{\textit Your Explanation:}$
+${\textit Your Explanation:}$
 
 
 在 SVM 中，损失函数是基于边界的。对于一个新的数据点，如果它位于正确的边界一侧并且离边界足够远，那么它对损失的贡献为零，因此不会改变整体损失。
@@ -2299,9 +2299,9 @@ Now that you have trained a Neural Network classifier, you may find that your te
 3. Increase the regularization strength.
 4. None of the above.
 
-$\color{blue}{\textit Your Answer:}$
+${\textit Your Answer:}$
 
-$\color{blue}{\textit Your Explanation:}$
+${\textit Your Explanation:}$
 
 **内联问题 2:**
 
@@ -2312,9 +2312,9 @@ $\color{blue}{\textit Your Explanation:}$
 3. 增加正则化强度
 4. 以上都不是
 
-$\color{blue}{\textit Your Answer:}$ 1, 3
+${\textit Your Answer:}$ 1, 3
 
-$\color{blue}{\textit Your Explanation:}$
+${\textit Your Explanation:}$
 
 1. **在更大的数据集上训练**: 
    - 更大的训练数据集可以帮助模型学习更通用的特征
@@ -2442,7 +2442,7 @@ print(test_accuracy)
 Describe the misclassification results that you see. Do they make sense?
 
 
-$\color{blue}{\textit Your Answer:}$ 可以理解，因为有些太相似了。
+${\textit Your Answer:}$ 可以理解，因为有些太相似了。
 
 
 #### TODO: Neural Network on image features

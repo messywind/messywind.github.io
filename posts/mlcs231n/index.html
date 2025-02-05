@@ -15,7 +15,7 @@
 课程网址
 本地环境部署 由于 2024 版的没有给 jupyter 的压缩包，所以先下载 2024 colab 版本，然后在 colab 上把数据拉下来然后下载到本地，放到 /datasets 下，之后删除掉一开始的 google.colab 驱动相关。">
   <meta itemprop="datePublished" content="2024-12-03T13:47:00+00:00">
-  <meta itemprop="dateModified" content="2025-02-05T06:34:09+00:00">
+  <meta itemprop="dateModified" content="2025-02-05T07:03:02+00:00">
   <meta itemprop="wordCount" content="25075">
   <meta itemprop="keywords" content="KNN,神经网络,SVM"><meta property="og:url" content="https://blog.messywind.top/posts/mlcs231n/">
   <meta property="og:site_name" content="凌乱之风的博客">
@@ -27,7 +27,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2024-12-03T13:47:00+00:00">
-    <meta property="article:modified_time" content="2025-02-05T06:34:09+00:00">
+    <meta property="article:modified_time" content="2025-02-05T07:03:02+00:00">
     <meta property="article:tag" content="KNN">
     <meta property="article:tag" content="神经网络">
     <meta property="article:tag" content="SVM">
@@ -50,7 +50,7 @@
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/mlcs231n\/"
     },"genre": "posts","keywords": "KNN, 神经网络, SVM","wordcount":  25075 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/mlcs231n\/","datePublished": "2024-12-03T13:47:00+00:00","dateModified": "2025-02-05T06:34:09+00:00","publisher": {
+    "url": "https:\/\/blog.messywind.top\/posts\/mlcs231n\/","datePublished": "2024-12-03T13:47:00+00:00","dateModified": "2025-02-05T07:03:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -124,7 +124,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>CS231n</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2024-12-03 13:47:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-12-03">2024-12-03</time></span>&nbsp;<span title="更新于 2025-02-05 06:34:09"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-02-05">2025-02-05</time></span>&nbsp;<span title="25075 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 25100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 51 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2024-12-03 13:47:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-12-03">2024-12-03</time></span>&nbsp;<span title="更新于 2025-02-05 07:03:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-02-05">2025-02-05</time></span>&nbsp;<span title="25075 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 25100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 51 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -437,13 +437,13 @@
 <li>What in the data is the cause behind the distinctly bright rows?</li>
 <li>What causes the columns?</li>
 </ul>
-<p>$\color{blue}{\textit Your Answer:}$ <em>fill this in.</em></p>
+<p>${\textit Your Answer:}$ <em>fill this in.</em></p>
 <p>注意距离矩阵中的结构化模式，其中一些行或列明显更亮。（注意在默认的颜色方案中，黑色表示低距离，而白色表示高距离。）</p>
 <ul>
 <li>数据中是什么原因导致了这些明显更亮的行？</li>
 <li>是什么导致了这些明显的列？</li>
 </ul>
-<p>$\color{blue}{\textit Your Answer:}$ 行是测试数据，列是训练数据。白色的行是该测试数据远离训练数据，白色的列是该训练数据远离测试数据。</p>
+<p>${\textit Your Answer:}$ 行是测试数据，列是训练数据。白色的行是该测试数据远离训练数据，白色的列是该训练数据远离测试数据。</p>
 <h4 id="todo-predict_labels" class="heading-element"><span>TODO: predict_labels</span>
   <a href="#todo-predict_labels" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -606,8 +606,8 @@ The general standard deviation $\sigma$ and pixel-wise standard deviation $\sigm
 <li>Subtracting the pixel-wise mean $\mu_{ij}$ and dividing by the pixel-wise standard deviation $\sigma_{ij}$.</li>
 <li>Rotating the coordinate axes of the data, which means rotating all the images by the same angle. Empty regions in the image caused by rotation are padded with a same pixel value and no interpolation is performed.</li>
 </ol>
-<p>$\color{blue}{\textit Your Answer:}$</p>
-<p>$\color{blue}{\textit Your Explanation:}$</p>
+<p>${\textit Your Answer:}$</p>
+<p>${\textit Your Explanation:}$</p>
 <p>我们也可以使用其他距离度量方法，比如 L1 距离。
 对于某个图像 $I_k$ 中位置 $(i,j)$ 的像素值 $p_{ij}^{(k)}$，</p>
 <p>所有图像中所有像素的均值 $\mu$ 为：
@@ -623,8 +623,8 @@ $$\mu_{ij}=\frac{1}{n}\sum_{k=1}^np_{ij}^{(k)}.$$</p>
 <li>减去每个像素的均值 $\mu_{ij}$ 并除以每个像素的标准差 $\sigma_{ij}$。</li>
 <li>旋转数据的坐标轴，这意味着将所有图像旋转相同的角度。旋转导致的图像空白区域用相同的像素值填充，不进行插值。</li>
 </ol>
-<p>$\color{blue}{\textit Your Answer:}$ 除了 4 都不影响。</p>
-<p>$\color{blue}{\textit Your Explanation:}$</p>
+<p>${\textit Your Answer:}$ 除了 4 都不影响。</p>
+<p>${\textit Your Explanation:}$</p>
 <h4 id="todo-一个循环求-l2-距离" class="heading-element"><span>TODO: 一个循环求 L2 距离：</span>
   <a href="#todo-%e4%b8%80%e4%b8%aa%e5%be%aa%e7%8e%af%e6%b1%82-l2-%e8%b7%9d%e7%a6%bb" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -1261,8 +1261,8 @@ $$\mu_{ij}=\frac{1}{n}\sum_{k=1}^np_{ij}^{(k)}.$$</p>
 <li>The time needed to classify a test example with the k-NN classifier grows with the size of the training set.</li>
 <li>None of the above.</li>
 </ol>
-<p>$\color{blue}{\textit Your Answer:}$</p>
-<p>$\color{blue}{\textit Your Explanation:}$</p>
+<p>${\textit Your Answer:}$</p>
+<p>${\textit Your Explanation:}$</p>
 <p><strong>内嵌问题 3</strong></p>
 <p>关于 $k$-最近邻（$k$-NN）在分类设置中的以下哪些陈述是正确的，并且适用于所有 $k$？选择所有适用的选项。</p>
 <ol>
@@ -1272,8 +1272,8 @@ $$\mu_{ij}=\frac{1}{n}\sum_{k=1}^np_{ij}^{(k)}.$$</p>
 <li>使用 $k$-NN 分类器对测试样本进行分类所需的时间随着训练集的大小而增加。</li>
 <li>以上都不正确。</li>
 </ol>
-<p>$\color{blue}{\textit Your Answer:}$ 4</p>
-<p>$\color{blue}{\textit Your Explanation:}$ 1 显然不对，2、3 直接看结果，4 确实是因为距离是要遍历数据集。</p>
+<p>${\textit Your Answer:}$ 4</p>
+<p>${\textit Your Explanation:}$ 1 显然不对，2、3 直接看结果，4 确实是因为距离是要遍历数据集。</p>
 <h3 id="q2-training-a-support-vector-machine" class="heading-element"><span>Q2: Training a Support Vector Machine</span>
   <a href="#q2-training-a-support-vector-machine" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -1564,9 +1564,9 @@ $$</p>
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h4><p>It is possible that once in a while a dimension in the gradcheck will not match exactly. What could such a discrepancy be caused by? Is it a reason for concern? What is a simple example in one dimension where a gradient check could fail? How would change the margin affect of the frequency of this happening? <em>Hint: the SVM loss function is not strictly speaking differentiable</em></p>
-<p>$\color{blue}{\textit Your Answer:}$ <em>fill this in.</em></p>
+<p>${\textit Your Answer:}$ <em>fill this in.</em></p>
 <p>有时候，梯度检查中的某个维度可能不会完全匹配。这种差异可能是由什么引起的？这是否是一个值得担心的问题？在一维中，梯度检查可能失败的一个简单例子是什么？改变边距会如何影响这种情况发生的频率？<em>提示：SVM损失函数严格来说并不是可微的</em></p>
-<p>$\color{blue}{\textit Your Answer:}$ 在梯度检查中，某个维度不完全匹配的差异可能是由于数值计算的精度限制或损失函数的不可微性引起的。SVM损失函数在某些点上是不可微的，例如在边界条件下（即损失函数的“铰链”部分），这可能导致梯度检查不精确。</p>
+<p>${\textit Your Answer:}$ 在梯度检查中，某个维度不完全匹配的差异可能是由于数值计算的精度限制或损失函数的不可微性引起的。SVM损失函数在某些点上是不可微的，例如在边界条件下（即损失函数的“铰链”部分），这可能导致梯度检查不精确。</p>
 <p>这种差异通常不是一个严重的问题，因为数值梯度计算本身就有一定的误差。一个简单的例子是在一维中，考虑一个绝对值函数 $( f(x) = |x| )$，在 $( x = 0 )$ 处，梯度是不可定义的，这可能导致梯度检查失败。</p>
 <p>改变边距（margin）可能会影响这种情况发生的频率。较大的边距可能会减少不可微点的数量，从而减少梯度检查失败的可能性。然而，边距的改变也会影响模型的性能，因此需要在准确性和稳定性之间进行权衡。</p>
 <h4 id="todo-svm_loss_vectorized" class="heading-element"><span>TODO: svm_loss_vectorized</span>
@@ -2127,11 +2127,11 @@ $$</p>
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h4><p>Describe what your visualized SVM weights look like, and offer a brief explanation for why they look the way they do.</p>
-<p>$\color{blue}{\textit Your Answer:}$ <em>fill this in</em></p>
+<p>${\textit Your Answer:}$ <em>fill this in</em></p>
 <p>当然，这里是翻译：</p>
 <p><strong>内联问题 2</strong></p>
 <p>描述你可视化的 SVM 权重是什么样的，并简要解释它们为什么会是这样的。</p>
-<p>$\color{blue}{\textit Your Answer:}$</p>
+<p>${\textit Your Answer:}$</p>
 <ol>
 <li>
 <p><strong>权重图像的外观</strong>：</p>
@@ -2391,10 +2391,10 @@ $$</p>
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h4><p>Why do we expect our loss to be close to -log(0.1)? Explain briefly.</p>
-<p>$\color{blue}{\textit Your Answer:}$ <em>Fill this in</em></p>
+<p>${\textit Your Answer:}$ <em>Fill this in</em></p>
 <p><strong>内嵌问题 1</strong></p>
 <p>为什么我们期望损失接近于 $-\log(0.1)$？请简要解释。</p>
-<p>$\color{blue}{\textit Your Answer:}$</p>
+<p>${\textit Your Answer:}$</p>
 <p>在 Softmax 分类器中，损失函数的计算是基于预测概率的对数损失。假设我们有 10 个类别，并且权重矩阵是随机初始化的，那么每个类别的预测概率大约是均匀分布的，即每个类别的概率约为 $0.1$</p>
 <p>因此，损失函数的期望值为 $-\log(0.1)$，因为这是对数损失在预测概率为 $0.1$ 时的值。</p>
 <h4 id="todo-softmax_loss_vectorized" class="heading-element"><span>TODO: softmax_loss_vectorized</span>
@@ -2682,12 +2682,12 @@ $$</p>
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h4><p>Suppose the overall training loss is defined as the sum of the per-datapoint loss over all training examples. It is possible to add a new datapoint to a training set that would leave the SVM loss unchanged, but this is not the case with the Softmax classifier loss.</p>
-<p>$\color{blue}{\textit Your Answer:}$</p>
-<p>$\color{blue}{\textit Your Explanation:}$</p>
+<p>${\textit Your Answer:}$</p>
+<p>${\textit Your Explanation:}$</p>
 <p><strong>内嵌问题 2</strong> - <em>对或错</em></p>
 <p>假设整体训练损失定义为所有训练样本的每个数据点损失之和。可以添加一个新的数据点到训练集中，使得 SVM 损失保持不变，但对于 Softmax 分类器损失来说，这种情况不会发生。</p>
-<p>$\color{blue}{\textit Your Answer:}$ True</p>
-<p>$\color{blue}{\textit Your Explanation:}$</p>
+<p>${\textit Your Answer:}$ True</p>
+<p>${\textit Your Explanation:}$</p>
 <p>在 SVM 中，损失函数是基于边界的。对于一个新的数据点，如果它位于正确的边界一侧并且离边界足够远，那么它对损失的贡献为零，因此不会改变整体损失。</p>
 <p>然而，在 Softmax 分类器中，损失函数是基于概率分布的对数损失。每个数据点都会对损失产生影响，因为即使是一个新的数据点也会改变概率分布，从而影响损失。因此，添加一个新的数据点总是会改变 Softmax 分类器的损失。</p>
 <p>可视化权重：</p>
@@ -4077,8 +4077,8 @@ $$</p>
 <li>Increase the regularization strength.</li>
 <li>None of the above.</li>
 </ol>
-<p>$\color{blue}{\textit Your Answer:}$</p>
-<p>$\color{blue}{\textit Your Explanation:}$</p>
+<p>${\textit Your Answer:}$</p>
+<p>${\textit Your Explanation:}$</p>
 <p><strong>内联问题 2:</strong></p>
 <p>现在你已经训练了一个神经网络分类器，你可能发现测试准确率远低于训练准确率。我们可以通过哪些方法来减小这个差距？选择所有适用的选项。</p>
 <ol>
@@ -4087,8 +4087,8 @@ $$</p>
 <li>增加正则化强度</li>
 <li>以上都不是</li>
 </ol>
-<p>$\color{blue}{\textit Your Answer:}$ 1, 3</p>
-<p>$\color{blue}{\textit Your Explanation:}$</p>
+<p>${\textit Your Answer:}$ 1, 3</p>
+<p>${\textit Your Explanation:}$</p>
 <ol>
 <li>
 <p><strong>在更大的数据集上训练</strong>:</p>
@@ -4321,7 +4321,7 @@ $$</p>
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h4><p>Describe the misclassification results that you see. Do they make sense?</p>
-<p>$\color{blue}{\textit Your Answer:}$ 可以理解，因为有些太相似了。</p>
+<p>${\textit Your Answer:}$ 可以理解，因为有些太相似了。</p>
 <h4 id="todo-neural-network-on-image-features" class="heading-element"><span>TODO: Neural Network on image features</span>
   <a href="#todo-neural-network-on-image-features" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -6572,7 +6572,7 @@ $$</p>
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2025-02-05 06:34:09">更新于 2025-02-05&nbsp;</span>
+        <span title="更新于 2025-02-05 07:03:02">更新于 2025-02-05&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/mlcs231n/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">
