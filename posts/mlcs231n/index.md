@@ -3696,6 +3696,233 @@ When is layer normalization likely to not work well, and why?
 - 特别是当特征维度为1时，归一化后所有特征值会变为0，完全破坏原始数据
 相比之下，在特征维度较大的情况下，统计量的估计更可靠，归一化效果更好。其他选项与层归一化的有效性没有直接关联。
 
+### Q3: Dropout
+
+[参考论文](https://arxiv.org/pdf/1207.0580)
+
+简单来说就是前向传播的时候会随机把一些神经元的值变为 0，可以缓解过拟合。
+
+![](/image/ML/CS231n/dropout.jpeg)
+
+#### TODO: dropout_forward
+
+参考官网讲义：https://cs231n.github.io/neural-networks-2/#reg
+
+生成一个 0/1 概率向量，其中概率为 $p$，如果概率小于 $p$ 则**不会**被置为 $0$，为了最后输出期望统一要乘上 $\dfrac{1}{p}$ 放缩。
+
+```python
+def dropout_forward(x, dropout_param):
+    &#34;&#34;&#34;
+    Performs the forward pass for (inverted) dropout.
+
+    Inputs:
+    - x: Input data, of any shape
+    - dropout_param: A dictionary with the following keys:
+      - p: Dropout parameter. We keep each neuron output with probability p.
+      - mode: &#39;test&#39; or &#39;train&#39;. If the mode is train, then perform dropout;
+        if the mode is test, then just return the input.
+      - seed: Seed for the random number generator. Passing seed makes this
+        function deterministic, which is needed for gradient checking but not
+        in real networks.
+
+    Outputs:
+    - out: Array of the same shape as x.
+    - cache: tuple (dropout_param, mask). In training mode, mask is the dropout
+      mask that was used to multiply the input; in test mode, mask is None.
+
+    NOTE: Please implement **inverted** dropout, not the vanilla version of dropout.
+    See http://cs231n.github.io/neural-networks-2/#reg for more details.
+
+    NOTE 2: Keep in mind that p is the probability of **keep** a neuron
+    output; this might be contrary to some sources, where it is referred to
+    as the probability of dropping a neuron output.
+    &#34;&#34;&#34;
+    p, mode = dropout_param[&#34;p&#34;], dropout_param[&#34;mode&#34;]
+    if &#34;seed&#34; in dropout_param:
+        np.random.seed(dropout_param[&#34;seed&#34;])
+
+    mask = None
+    out = None
+
+    if mode == &#34;train&#34;:
+        #######################################################################
+        # TODO: Implement training phase forward pass for inverted dropout.   #
+        # Store the dropout mask in the mask variable.                        #
+        #######################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        mask = (np.random.rand(*x.shape) &lt; p) / p
+        out = x * mask
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        #######################################################################
+        #                           END OF YOUR CODE                          #
+        #######################################################################
+    elif mode == &#34;test&#34;:
+        #######################################################################
+        # TODO: Implement the test phase forward pass for inverted dropout.   #
+        #######################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        out = x
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        #######################################################################
+        #                            END OF YOUR CODE                         #
+        #######################################################################
+
+    cache = (dropout_param, mask)
+    out = out.astype(x.dtype, copy=False)
+
+    return out, cache
+```
+
+```
+Running tests with p =  0.25
+Mean of input:  10.000207878477502
+Mean of train-time output:  10.014059116977283
+Mean of test-time output:  10.000207878477502
+Fraction of train-time output set to zero:  0.749784
+Fraction of test-time output set to zero:  0.0
+
+Running tests with p =  0.4
+Mean of input:  10.000207878477502
+Mean of train-time output:  9.977917658761159
+Mean of test-time output:  10.000207878477502
+Fraction of train-time output set to zero:  0.600796
+Fraction of test-time output set to zero:  0.0
+
+Running tests with p =  0.7
+Mean of input:  10.000207878477502
+Mean of train-time output:  9.987811912159426
+Mean of test-time output:  10.000207878477502
+Fraction of train-time output set to zero:  0.30074
+Fraction of test-time output set to zero:  0.0
+```
+
+#### TODO: dropout_backward
+
+```python
+def dropout_backward(dout, cache):
+    &#34;&#34;&#34;
+    Perform the backward pass for (inverted) dropout.
+
+    Inputs:
+    - dout: Upstream derivatives, of any shape
+    - cache: (dropout_param, mask) from dropout_forward.
+    &#34;&#34;&#34;
+    dropout_param, mask = cache
+    mode = dropout_param[&#34;mode&#34;]
+
+    dx = None
+    if mode == &#34;train&#34;:
+        #######################################################################
+        # TODO: Implement training phase backward pass for inverted dropout   #
+        #######################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        dx = dout * mask
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        #######################################################################
+        #                          END OF YOUR CODE                           #
+        #######################################################################
+    elif mode == &#34;test&#34;:
+        dx = dout
+    return dx
+```
+
+```
+dx relative error:  5.44560814873387e-11
+```
+
+#### Inline Question 1:
+What happens if we do not divide the values being passed through inverse dropout by `p` in the dropout layer? Why does that happen?
+
+如果我们在 dropout 层中没有将通过反向 dropout 的值除以 $p$，会发生什么？为什么会发生这种情况？
+
+Answer:
+如果在 dropout 层中没有通过 $p$ 来除以传递的值，那么在训练和测试阶段的输出分布将不一致。在训练阶段，dropout 会随机将一些神经元的输出设置为零，并通过 $p$ 来缩放剩余的输出，以保持激活的期望值不变。然而，如果不进行这种缩放，训练阶段的输出将会比测试阶段的输出小 $p$ 倍。这会导致模型在训练和测试阶段表现不一致，从而影响模型的泛化能力。
+
+#### TODO: 给 fc_net 加上 dropout
+
+```python
+np.random.seed(231)
+N, D, H1, H2, C = 2, 15, 20, 30, 10
+X = np.random.randn(N, D)
+y = np.random.randint(C, size=(N,))
+
+for dropout_keep_ratio in [1, 0.75, 0.5]:
+    print(&#39;Running check with dropout = &#39;, dropout_keep_ratio)
+    model = FullyConnectedNet(
+        [H1, H2],
+        input_dim=D,
+        num_classes=C,
+        weight_scale=5e-2,
+        dtype=np.float64,
+        dropout_keep_ratio=dropout_keep_ratio,
+        seed=123
+    )
+
+    loss, grads = model.loss(X, y)
+    print(&#39;Initial loss: &#39;, loss)
+
+    # Relative errors should be around e-6 or less.
+    # Note that it&#39;s fine if for dropout_keep_ratio=1 you have W2 error be on the order of e-5.
+    for name in sorted(grads):
+        f = lambda _: model.loss(X, y)[0]
+        grad_num = eval_numerical_gradient(f, model.params[name], verbose=False, h=1e-5)
+        print(&#39;%s relative error: %.2e&#39; % (name, rel_error(grad_num, grads[name])))
+    print()
+```
+
+```
+Running check with dropout =  1
+Initial loss:  2.3004790897684924
+W1 relative error: 1.48e-07
+W2 relative error: 2.21e-05
+W3 relative error: 3.53e-07
+b1 relative error: 5.38e-09
+b2 relative error: 2.09e-09
+b3 relative error: 5.80e-11
+
+Running check with dropout =  0.75
+Initial loss:  2.302371489704412
+W1 relative error: 1.90e-07
+W2 relative error: 4.76e-06
+W3 relative error: 2.60e-08
+b1 relative error: 4.73e-09
+b2 relative error: 1.82e-09
+b3 relative error: 1.70e-10
+
+Running check with dropout =  0.5
+Initial loss:  2.3042759220785896
+W1 relative error: 3.11e-07
+W2 relative error: 1.84e-08
+W3 relative error: 5.35e-08
+b1 relative error: 5.37e-09
+b2 relative error: 2.99e-09
+b3 relative error: 1.13e-10
+```
+
+训练对比：
+
+![](/image/ML/CS231n/14.png)
+
+#### Inline Question 2:
+Compare the validation and training accuracies with and without dropout -- what do your results suggest about dropout as a regularizer?
+
+比较使用和不使用 dropout 的验证和训练准确率——你的结果对 dropout 作为正则化器有什么建议？
+
+Answer:
+
+实验结果显示，使用dropout（keep_ratio=0.25）时：
+1. 训练准确率略低于不使用dropout的情况，说明dropout通过随机失活神经元降低了模型对训练数据的过拟合能力
+2. 验证准确率显著高于不使用dropout的情况，且与训练准确率的差距更小，表明模型泛化能力更好
+3. 验证曲线更平滑稳定，说明dropout起到了正则化作用，有效抑制了过拟合现象
+
+这说明dropout通过阻止神经元间的协同适应（co-adaptation），迫使网络学习更鲁棒的特征，从而提升模型在未见数据上的表现。
+
 ## 参考
 
 https://github.com/Divsigma/2020-cs213n/tree/master/cs231n
