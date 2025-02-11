@@ -15,8 +15,8 @@
 课程网址
 本地环境部署 由于 2024 版的没有给 jupyter 的压缩包，所以先下载 2024 colab 版本，然后在 colab 上把数据拉下来然后下载到本地，放到 /datasets 下，之后删除掉一开始的 google.colab 驱动相关。">
   <meta itemprop="datePublished" content="2024-12-03T13:47:00+00:00">
-  <meta itemprop="dateModified" content="2025-02-06T06:51:15+00:00">
-  <meta itemprop="wordCount" content="26669">
+  <meta itemprop="dateModified" content="2025-02-11T07:31:59+00:00">
+  <meta itemprop="wordCount" content="31551">
   <meta itemprop="keywords" content="KNN,神经网络,SVM"><meta property="og:url" content="https://blog.messywind.top/posts/mlcs231n/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="CS231n">
@@ -27,7 +27,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2024-12-03T13:47:00+00:00">
-    <meta property="article:modified_time" content="2025-02-06T06:51:15+00:00">
+    <meta property="article:modified_time" content="2025-02-11T07:31:59+00:00">
     <meta property="article:tag" content="KNN">
     <meta property="article:tag" content="神经网络">
     <meta property="article:tag" content="SVM">
@@ -49,8 +49,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/mlcs231n\/"
-    },"genre": "posts","keywords": "KNN, 神经网络, SVM","wordcount":  26669 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/mlcs231n\/","datePublished": "2024-12-03T13:47:00+00:00","dateModified": "2025-02-06T06:51:15+00:00","publisher": {
+    },"genre": "posts","keywords": "KNN, 神经网络, SVM","wordcount":  31551 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlcs231n\/","datePublished": "2024-12-03T13:47:00+00:00","dateModified": "2025-02-11T07:31:59+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -124,7 +124,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>CS231n</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2024-12-03 13:47:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-12-03">2024-12-03</time></span>&nbsp;<span title="更新于 2025-02-06 06:51:15"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-02-06">2025-02-06</time></span>&nbsp;<span title="26669 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 26700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 54 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2024-12-03 13:47:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-12-03">2024-12-03</time></span>&nbsp;<span title="更新于 2025-02-11 07:31:59"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-02-11">2025-02-11</time></span>&nbsp;<span title="31551 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 31600 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 63 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -234,6 +234,20 @@
             <li><a href="#inline-question-1-7">Inline Question 1:</a></li>
             <li><a href="#todo-给-fc_net-加上-dropout">TODO: 给 fc_net 加上 dropout</a></li>
             <li><a href="#inline-question-2-5">Inline Question 2:</a></li>
+          </ul>
+        </li>
+        <li><a href="#q4-convolutional-neural-networks">Q4: Convolutional Neural Networks</a>
+          <ul>
+            <li><a href="#todo-conv_forward_naive">TODO: conv_forward_naive</a></li>
+            <li><a href="#todo-conv_backward_naive">TODO: conv_backward_naive</a></li>
+            <li><a href="#todo-max_pool_forward_naive">TODO: max_pool_forward_naive</a></li>
+            <li><a href="#tood-max_pool_backward_naive">TOOD: max_pool_backward_naive</a></li>
+            <li><a href="#fast-layers">Fast Layers</a></li>
+            <li><a href="#todo-three-layer-convolutional-network">TODO: Three-Layer Convolutional Network</a></li>
+            <li><a href="#todo-spatial_batchnorm_forward">TODO: spatial_batchnorm_forward</a></li>
+            <li><a href="#todo-spatial_batchnorm_backward">TODO: spatial_batchnorm_backward</a></li>
+            <li><a href="#todo-spatial_groupnorm_forward">TODO: spatial_groupnorm_forward</a></li>
+            <li><a href="#todo-spatial_groupnorm_backward">TODO: spatial_groupnorm_backward</a></li>
           </ul>
         </li>
       </ul>
@@ -6974,7 +6988,1483 @@ $$</p>
 <li>验证曲线更平滑稳定，说明dropout起到了正则化作用，有效抑制了过拟合现象</li>
 </ol>
 <p>这说明dropout通过阻止神经元间的协同适应（co-adaptation），迫使网络学习更鲁棒的特征，从而提升模型在未见数据上的表现。</p>
-<h2 id="参考" class="heading-element"><span>参考</span>
+<h3 id="q4-convolutional-neural-networks" class="heading-element"><span>Q4: Convolutional Neural Networks</span>
+  <a href="#q4-convolutional-neural-networks" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="todo-conv_forward_naive" class="heading-element"><span>TODO: conv_forward_naive</span>
+  <a href="#todo-conv_forward_naive" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">conv_forward_naive</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">conv_param</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    A naive implementation of the forward pass for a convolutional layer.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    The input consists of N data points, each with C channels, height H and
+</span></span></span><span class="line"><span class="cl"><span class="s2">    width W. We convolve each input with F different filters, where each filter
+</span></span></span><span class="line"><span class="cl"><span class="s2">    spans all C channels and has height HH and width WW.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Input:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - x: Input data of shape (N, C, H, W)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - w: Filter weights of shape (F, C, HH, WW)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - b: Biases, of shape (F,)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - conv_param: A dictionary with the following keys:
+</span></span></span><span class="line"><span class="cl"><span class="s2">      - &#39;stride&#39;: The number of pixels between adjacent receptive fields in the
+</span></span></span><span class="line"><span class="cl"><span class="s2">        horizontal and vertical directions.
+</span></span></span><span class="line"><span class="cl"><span class="s2">      - &#39;pad&#39;: The number of pixels that will be used to zero-pad the input.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    During padding, &#39;pad&#39; zeros should be placed symmetrically (i.e equally on both sides)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    along the height and width axes of the input. Be careful not to modfiy the original
+</span></span></span><span class="line"><span class="cl"><span class="s2">    input x directly.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns a tuple of:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - out: Output data, of shape (N, F, H&#39;, W&#39;) where H&#39; and W&#39; are given by
+</span></span></span><span class="line"><span class="cl"><span class="s2">      H&#39; = 1 + (H + 2 * pad - HH) / stride
+</span></span></span><span class="line"><span class="cl"><span class="s2">      W&#39; = 1 + (W + 2 * pad - WW) / stride
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - cache: (x, w, b, conv_param)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># TODO: Implement the convolutional forward pass.                         #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Hint: you can use the function np.pad for padding.                      #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 先获取一些需要用到的数据</span>
+</span></span><span class="line"><span class="cl">    <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H_input</span><span class="p">,</span> <span class="n">W_input</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># N个样本，C个通道，H_input高，W_input宽</span>
+</span></span><span class="line"><span class="cl">    <span class="n">F</span><span class="p">,</span> <span class="n">C_w_</span><span class="p">,</span> <span class="n">HH</span><span class="p">,</span> <span class="n">WW</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># F个卷积核, C_w_个通道，HH高，WW宽</span>
+</span></span><span class="line"><span class="cl">    <span class="n">stride</span> <span class="o">=</span> <span class="n">conv_param</span><span class="p">[</span><span class="s2">&#34;stride&#34;</span><span class="p">]</span>  <span class="c1"># 步长</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pad</span> <span class="o">=</span> <span class="n">conv_param</span><span class="p">[</span><span class="s2">&#34;pad&#34;</span><span class="p">]</span>  <span class="c1"># 填充数量</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 计算卷积后的高和宽</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out_H</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">H_input</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pad</span> <span class="o">-</span> <span class="n">HH</span><span class="p">)</span> <span class="o">/</span> <span class="n">stride</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out_W</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">W_input</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pad</span> <span class="o">-</span> <span class="n">WW</span><span class="p">)</span> <span class="o">/</span> <span class="n">stride</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 给x的上下左右填充上pad个0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x_pad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="n">pad</span><span class="p">,</span> <span class="n">pad</span><span class="p">),</span> <span class="p">(</span><span class="n">pad</span><span class="p">,</span> <span class="n">pad</span><span class="p">)),</span> <span class="s2">&#34;constant&#34;</span><span class="p">,</span> <span class="n">constant_values</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 将卷积核w转换成F * (C * HH * WW)的矩阵 (便于使用矩阵乘法)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">w_row</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">F</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># 生成空白输出便于后续循环填充</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="n">F</span><span class="p">,</span> <span class="n">out_H</span><span class="p">,</span> <span class="n">out_W</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 开始卷积</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>  <span class="c1"># 遍历样本</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">F</span><span class="p">):</span>  <span class="c1"># 遍历卷积核</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">out_H</span><span class="p">):</span>  <span class="c1"># 遍历高</span>
+</span></span><span class="line"><span class="cl">                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">out_W</span><span class="p">):</span>  <span class="c1"># 遍历宽</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 获取当前卷积窗口</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">window</span> <span class="o">=</span> <span class="n">x_pad</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="p">:,</span> <span class="n">i</span> <span class="o">*</span> <span class="n">stride</span><span class="p">:</span><span class="n">i</span> <span class="o">*</span> <span class="n">stride</span> <span class="o">+</span> <span class="n">HH</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="n">stride</span><span class="p">:</span><span class="n">j</span> <span class="o">*</span> <span class="n">stride</span> <span class="o">+</span> <span class="n">WW</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 将卷积窗口拉成一行</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">window_row</span> <span class="o">=</span> <span class="n">window</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 计算当前卷积窗口和卷积核的卷积结果</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">out</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">window_row</span> <span class="o">*</span> <span class="n">w_row</span><span class="p">[</span><span class="n">f</span><span class="p">,</span> <span class="p">:])</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">f</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">      
+</span></span><span class="line"><span class="cl">	  <span class="c1"># 将pad后的x存入cache (省的反向传播的时候在计算一次)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">x_pad</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                             END OF YOUR CODE                            #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cache</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">conv_param</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">out</span><span class="p">,</span> <span class="n">cache</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Testing conv_forward_naive
+</span></span><span class="line"><span class="cl">difference:  2.2121476417505994e-08</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="/image/ML/CS231n/15.png" alt="/image/ML/CS231n/15.png" srcset="/image/ML/CS231n/15.png?size=small, /image/ML/CS231n/15.png?size=medium 1.5x, /image/ML/CS231n/15.png?size=large 2x" data-title="/image/ML/CS231n/15.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h4 id="todo-conv_backward_naive" class="heading-element"><span>TODO: conv_backward_naive</span>
+  <a href="#todo-conv_backward_naive" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">conv_backward_naive</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">cache</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    A naive implementation of the backward pass for a convolutional layer.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Inputs:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dout: Upstream derivatives.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - cache: A tuple of (x, w, b, conv_param) as in conv_forward_naive
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns a tuple of:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dx: Gradient with respect to x
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dw: Gradient with respect to w
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - db: Gradient with respect to b
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span><span class="p">,</span> <span class="n">dw</span><span class="p">,</span> <span class="n">db</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># TODO: Implement the convolutional backward pass.                        #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 获取一些需要用到的数据</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">conv_param</span> <span class="o">=</span> <span class="n">cache</span>
+</span></span><span class="line"><span class="cl">    <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H_input</span><span class="p">,</span> <span class="n">W_input</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># N个样本，C个通道，H_input高，W_input宽</span>
+</span></span><span class="line"><span class="cl">    <span class="n">F</span><span class="p">,</span> <span class="n">C_w_</span><span class="p">,</span> <span class="n">HH</span><span class="p">,</span> <span class="n">WW</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># F个卷积核, C_w_个通道，HH高，WW宽</span>
+</span></span><span class="line"><span class="cl">    <span class="n">stride</span> <span class="o">=</span> <span class="n">conv_param</span><span class="p">[</span><span class="s2">&#34;stride&#34;</span><span class="p">]</span>  <span class="c1"># 步长</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pad</span> <span class="o">=</span> <span class="n">conv_param</span><span class="p">[</span><span class="s2">&#34;pad&#34;</span><span class="p">]</span>  <span class="c1"># 填充数量</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 计算卷积后的高和宽</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out_H</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">H_input</span> <span class="o">-</span> <span class="n">HH</span><span class="p">)</span> <span class="o">/</span> <span class="n">stride</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out_W</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">W_input</span> <span class="o">-</span> <span class="n">WW</span><span class="p">)</span> <span class="o">/</span> <span class="n">stride</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 给dx,dw,db分配空间</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">db</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">F</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">out_H</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">out_W</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 获取当前卷积窗口</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">window</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="p">:,</span> <span class="n">i</span> <span class="o">*</span> <span class="n">stride</span><span class="p">:</span><span class="n">i</span> <span class="o">*</span> <span class="n">stride</span> <span class="o">+</span> <span class="n">HH</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="n">stride</span><span class="p">:</span><span class="n">j</span> <span class="o">*</span> <span class="n">stride</span> <span class="o">+</span> <span class="n">WW</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 计算db</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">db</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dout</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 计算dw</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">dw</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">+=</span> <span class="n">window</span> <span class="o">*</span> <span class="n">dout</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 计算dx</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">dx</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="p">:,</span> <span class="n">i</span> <span class="o">*</span> <span class="n">stride</span><span class="p">:</span><span class="n">i</span> <span class="o">*</span> <span class="n">stride</span> <span class="o">+</span> <span class="n">HH</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="n">stride</span><span class="p">:</span><span class="n">j</span> <span class="o">*</span> <span class="n">stride</span> <span class="o">+</span> <span class="n">WW</span><span class="p">]</span> <span class="o">+=</span> <span class="n">w</span><span class="p">[</span><span class="n">f</span><span class="p">]</span> <span class="o">*</span> <span class="n">dout</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 去掉dx的pad</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span> <span class="o">=</span> <span class="n">dx</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">pad</span><span class="p">:</span><span class="n">H_input</span> <span class="o">-</span> <span class="n">pad</span><span class="p">,</span> <span class="n">pad</span><span class="p">:</span><span class="n">W_input</span> <span class="o">-</span> <span class="n">pad</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                             END OF YOUR CODE                            #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dw</span><span class="p">,</span> <span class="n">db</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Testing conv_backward_naive function
+</span></span><span class="line"><span class="cl">dx error:  1.159803161159293e-08
+</span></span><span class="line"><span class="cl">dw error:  2.2471264748452487e-10
+</span></span><span class="line"><span class="cl">db error:  3.37264006649648e-11</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="todo-max_pool_forward_naive" class="heading-element"><span>TODO: max_pool_forward_naive</span>
+  <a href="#todo-max_pool_forward_naive" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">max_pool_forward_naive</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pool_param</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    A naive implementation of the forward pass for a max-pooling layer.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Inputs:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - x: Input data, of shape (N, C, H, W)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - pool_param: dictionary with the following keys:
+</span></span></span><span class="line"><span class="cl"><span class="s2">      - &#39;pool_height&#39;: The height of each pooling region
+</span></span></span><span class="line"><span class="cl"><span class="s2">      - &#39;pool_width&#39;: The width of each pooling region
+</span></span></span><span class="line"><span class="cl"><span class="s2">      - &#39;stride&#39;: The distance between adjacent pooling regions
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    No padding is necessary here, eg you can assume:
+</span></span></span><span class="line"><span class="cl"><span class="s2">      - (H - pool_height) </span><span class="si">% s</span><span class="s2">tride == 0
+</span></span></span><span class="line"><span class="cl"><span class="s2">      - (W - pool_width) </span><span class="si">% s</span><span class="s2">tride == 0
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns a tuple of:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - out: Output data, of shape (N, C, H&#39;, W&#39;) where H&#39; and W&#39; are given by
+</span></span></span><span class="line"><span class="cl"><span class="s2">      H&#39; = 1 + (H - pool_height) / stride
+</span></span></span><span class="line"><span class="cl"><span class="s2">      W&#39; = 1 + (W - pool_width) / stride
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - cache: (x, pool_param)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># TODO: Implement the max-pooling forward pass                            #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 获取一些需要用到的数据</span>
+</span></span><span class="line"><span class="cl">    <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># N个样本，C个通道，H高，W宽</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pool_height</span> <span class="o">=</span> <span class="n">pool_param</span><span class="p">[</span><span class="s2">&#34;pool_height&#34;</span><span class="p">]</span>  <span class="c1"># 池化核高</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pool_width</span> <span class="o">=</span> <span class="n">pool_param</span><span class="p">[</span><span class="s2">&#34;pool_width&#34;</span><span class="p">]</span>  <span class="c1"># 池化核宽</span>
+</span></span><span class="line"><span class="cl">    <span class="n">stride</span> <span class="o">=</span> <span class="n">pool_param</span><span class="p">[</span><span class="s2">&#34;stride&#34;</span><span class="p">]</span>  <span class="c1"># 步长</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 计算池化后的高和宽</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out_H</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">H</span> <span class="o">-</span> <span class="n">pool_height</span><span class="p">)</span> <span class="o">/</span> <span class="n">stride</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out_W</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="n">pool_width</span><span class="p">)</span> <span class="o">/</span> <span class="n">stride</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 给out分配空间</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">out_H</span><span class="p">,</span> <span class="n">out_W</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">C</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">out_H</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">out_W</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 获取当前池化窗口</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">window</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">i</span> <span class="o">*</span> <span class="n">stride</span><span class="p">:</span><span class="n">i</span> <span class="o">*</span> <span class="n">stride</span> <span class="o">+</span> <span class="n">pool_height</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="n">stride</span><span class="p">:</span><span class="n">j</span> <span class="o">*</span> <span class="n">stride</span> <span class="o">+</span> <span class="n">pool_width</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 计算当前池化窗口的最大值</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">out</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                             END OF YOUR CODE                            #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cache</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pool_param</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">out</span><span class="p">,</span> <span class="n">cache</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Testing max_pool_forward_naive function:
+</span></span><span class="line"><span class="cl">difference:  4.1666665157267834e-08</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="tood-max_pool_backward_naive" class="heading-element"><span>TOOD: max_pool_backward_naive</span>
+  <a href="#tood-max_pool_backward_naive" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">max_pool_backward_naive</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">cache</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    A naive implementation of the backward pass for a max-pooling layer.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Inputs:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dout: Upstream derivatives
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - cache: A tuple of (x, pool_param) as in the forward pass.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dx: Gradient with respect to x
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># TODO: Implement the max-pooling backward pass                           #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 获取一些需要用到的数据</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span><span class="p">,</span> <span class="n">pool_param</span> <span class="o">=</span> <span class="n">cache</span>
+</span></span><span class="line"><span class="cl">    <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># N个样本，C个通道，H高，W宽</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pool_height</span> <span class="o">=</span> <span class="n">pool_param</span><span class="p">[</span><span class="s2">&#34;pool_height&#34;</span><span class="p">]</span>  <span class="c1"># 池化核高</span>
+</span></span><span class="line"><span class="cl">    <span class="n">pool_width</span> <span class="o">=</span> <span class="n">pool_param</span><span class="p">[</span><span class="s2">&#34;pool_width&#34;</span><span class="p">]</span>  <span class="c1"># 池化核宽</span>
+</span></span><span class="line"><span class="cl">    <span class="n">stride</span> <span class="o">=</span> <span class="n">pool_param</span><span class="p">[</span><span class="s2">&#34;stride&#34;</span><span class="p">]</span>  <span class="c1"># 步长</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 计算池化后的高和宽</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out_H</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">H</span> <span class="o">-</span> <span class="n">pool_height</span><span class="p">)</span> <span class="o">/</span> <span class="n">stride</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out_W</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">W</span> <span class="o">-</span> <span class="n">pool_width</span><span class="p">)</span> <span class="o">/</span> <span class="n">stride</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 给dx分配空间</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">C</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">out_H</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">out_W</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 获取当前池化窗口</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">window</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">i</span> <span class="o">*</span> <span class="n">stride</span><span class="p">:</span><span class="n">i</span> <span class="o">*</span> <span class="n">stride</span> <span class="o">+</span> <span class="n">pool_height</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="n">stride</span><span class="p">:</span><span class="n">j</span> <span class="o">*</span> <span class="n">stride</span> <span class="o">+</span> <span class="n">pool_width</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 计算当前池化窗口的最大值</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">max_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># 计算dx</span>
+</span></span><span class="line"><span class="cl">                    <span class="n">dx</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">i</span> <span class="o">*</span> <span class="n">stride</span> <span class="o">+</span> <span class="n">max_index</span> <span class="o">//</span> <span class="n">pool_width</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="n">stride</span> <span class="o">+</span> <span class="n">max_index</span> <span class="o">%</span> <span class="n">pool_width</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dout</span><span class="p">[</span><span class="n">n</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                             END OF YOUR CODE                            #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">dx</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Testing max_pool_backward_naive function:
+</span></span><span class="line"><span class="cl">dx error:  3.27562514223145e-12</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="fast-layers" class="heading-element"><span>Fast Layers</span>
+  <a href="#fast-layers" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><code>im2col_cython.pyx</code> 最上方加一行代码： <code>#cython: language_level=2</code></p>
+<p>再改一下启动脚本，运行。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># Remember to restart the runtime after executing this cell!</span>
+</span></span><span class="line"><span class="cl"><span class="o">%</span><span class="n">cd</span> <span class="o">./</span><span class="n">cs231n</span>
+</span></span><span class="line"><span class="cl"><span class="err">!</span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build_ext</span> <span class="o">--</span><span class="n">inplace</span>
+</span></span><span class="line"><span class="cl"><span class="o">%</span><span class="n">cd</span> <span class="o">../</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>中途报了 <code>nameerror: name 'col2im_6d_cython' is not defined</code> 的错误，重启一下笔记本就好了。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Testing conv_forward_fast:
+</span></span><span class="line"><span class="cl">Naive: 4.879596s
+</span></span><span class="line"><span class="cl">Fast: 0.010973s
+</span></span><span class="line"><span class="cl">Speedup: 444.682390x
+</span></span><span class="line"><span class="cl">Difference:  1.970563140655889e-11
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Testing conv_backward_fast:
+</span></span><span class="line"><span class="cl">Naive: 6.945447s
+</span></span><span class="line"><span class="cl">Fast: 0.002007s
+</span></span><span class="line"><span class="cl">Speedup: 3459.776366x
+</span></span><span class="line"><span class="cl">dx difference:  9.43434568725122e-12
+</span></span><span class="line"><span class="cl">dw difference:  4.420587653909754e-13
+</span></span><span class="line"><span class="cl">db difference:  3.481354613192702e-14
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Testing pool_forward_fast:
+</span></span><span class="line"><span class="cl">Naive: 0.302344s
+</span></span><span class="line"><span class="cl">fast: 0.004001s
+</span></span><span class="line"><span class="cl">speedup: 75.559852x
+</span></span><span class="line"><span class="cl">difference:  0.0
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Testing pool_backward_fast:
+</span></span><span class="line"><span class="cl">Naive: 0.315859s
+</span></span><span class="line"><span class="cl">fast: 0.010774s
+</span></span><span class="line"><span class="cl">speedup: 29.317090x
+</span></span><span class="line"><span class="cl">dx difference:  0.0</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Testing conv_relu_pool
+</span></span><span class="line"><span class="cl">dx error:  4.397502834267091e-09
+</span></span><span class="line"><span class="cl">dw error:  3.651699397290073e-09
+</span></span><span class="line"><span class="cl">db error:  7.054812624223923e-10
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Testing conv_relu:
+</span></span><span class="line"><span class="cl">dx error:  8.03522627181292e-09
+</span></span><span class="line"><span class="cl">dw error:  2.0902405745264502e-10
+</span></span><span class="line"><span class="cl">db error:  3.287958402642519e-10</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="todo-three-layer-convolutional-network" class="heading-element"><span>TODO: Three-Layer Convolutional Network</span>
+  <a href="#todo-three-layer-convolutional-network" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ThreeLayerConvNet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    A three-layer convolutional network with the following architecture:
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    conv - relu - 2x2 max pool - affine - relu - affine - softmax
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    The network operates on minibatches of data that have shape (N, C, H, W)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    consisting of N images, each with height H and width W and with C input
+</span></span></span><span class="line"><span class="cl"><span class="s2">    channels.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">input_dim</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="n">num_filters</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">filter_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">hidden_dim</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">num_classes</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">weight_scale</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">reg</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Initialize a new network.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Inputs:
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - input_dim: Tuple (C, H, W) giving size of input data
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - num_filters: Number of filters to use in the convolutional layer
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - filter_size: Width/height of filters to use in the convolutional layer
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - hidden_dim: Number of units to use in the fully-connected hidden layer
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - num_classes: Number of scores to produce from the final affine layer.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - weight_scale: Scalar giving standard deviation for random initialization
+</span></span></span><span class="line"><span class="cl"><span class="s2">          of weights.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - reg: Scalar giving L2 regularization strength
+</span></span></span><span class="line"><span class="cl"><span class="s2">        - dtype: numpy datatype to use for computation.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">reg</span> <span class="o">=</span> <span class="n">reg</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># TODO: Initialize weights and biases for the three-layer convolutional    #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># network. Weights should be initialized from a Gaussian centered at 0.0   #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># with standard deviation equal to weight_scale; biases should be          #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># initialized to zero. All weights and biases should be stored in the      #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#  dictionary self.params. Store weights and biases for the convolutional  #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># layer using the keys &#39;W1&#39; and &#39;b1&#39;; use keys &#39;W2&#39; and &#39;b2&#39; for the       #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># weights and biases of the hidden affine layer, and keys &#39;W3&#39; and &#39;b3&#39;    #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># for the weights and biases of the output affine layer.                   #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#                                                                          #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># IMPORTANT: For this assignment, you can assume that the padding          #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># and stride of the first convolutional layer are chosen so that           #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># **the width and height of the input are preserved**. Take a look at      #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># the start of the loss() function to see how that happens.                #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># conv - relu - 2x2 max pool - affine - relu - affine - softmax</span>
+</span></span><span class="line"><span class="cl">        <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">input_dim</span>  <span class="c1"># 获取输入数据的通道数，高度，宽度</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 卷积层</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&#34;W1&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">weight_scale</span><span class="p">,</span> <span class="p">(</span><span class="n">num_filters</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">filter_size</span><span class="p">,</span> <span class="n">filter_size</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&#34;b1&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_filters</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 全连接层</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&#34;W2&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">weight_scale</span><span class="p">,</span> <span class="p">(</span><span class="n">num_filters</span> <span class="o">*</span> <span class="n">H</span> <span class="o">*</span> <span class="n">W</span> <span class="o">//</span> <span class="mi">4</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&#34;b2&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 全连接层</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&#34;W3&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">weight_scale</span><span class="p">,</span> <span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&#34;b3&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_classes</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#                             END OF YOUR CODE                             #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Evaluate loss and gradient for the three-layer convolutional network.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">        Input / output: Same API as TwoLayerNet in fc_net.py.
+</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">W1</span><span class="p">,</span> <span class="n">b1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&#34;W1&#34;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&#34;b1&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">W2</span><span class="p">,</span> <span class="n">b2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&#34;W2&#34;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&#34;b2&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">W3</span><span class="p">,</span> <span class="n">b3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&#34;W3&#34;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">&#34;b3&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># pass conv_param to the forward pass for the convolutional layer</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Padding and stride chosen to preserve the input spatial size</span>
+</span></span><span class="line"><span class="cl">        <span class="n">filter_size</span> <span class="o">=</span> <span class="n">W1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">conv_param</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;stride&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;pad&#34;</span><span class="p">:</span> <span class="p">(</span><span class="n">filter_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># pass pool_param to the forward pass for the max-pooling layer</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pool_param</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;pool_height&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;pool_width&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;stride&#34;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">scores</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># TODO: Implement the forward pass for the three-layer convolutional net,  #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># computing the class scores for X and storing them in the scores          #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># variable.                                                                #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#                                                                          #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Remember you can use the functions defined in cs231n/fast_layers.py and  #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># cs231n/layer_utils.py in your implementation (already imported).         #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># conv - relu - 2x2 max pool - affine - relu - affine - softmax</span>
+</span></span><span class="line"><span class="cl">        <span class="n">out1</span><span class="p">,</span> <span class="n">cache1</span> <span class="o">=</span> <span class="n">conv_relu_pool_forward</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">W1</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">conv_param</span><span class="p">,</span> <span class="n">pool_param</span><span class="p">)</span>  <span class="c1"># 卷积层</span>
+</span></span><span class="line"><span class="cl">        <span class="n">out2</span><span class="p">,</span> <span class="n">cache2</span> <span class="o">=</span> <span class="n">affine_relu_forward</span><span class="p">(</span><span class="n">out1</span><span class="p">,</span> <span class="n">W2</span><span class="p">,</span> <span class="n">b2</span><span class="p">)</span>  <span class="c1"># 全连接层</span>
+</span></span><span class="line"><span class="cl">        <span class="n">scores</span><span class="p">,</span> <span class="n">cache3</span> <span class="o">=</span> <span class="n">affine_forward</span><span class="p">(</span><span class="n">out2</span><span class="p">,</span> <span class="n">W3</span><span class="p">,</span> <span class="n">b3</span><span class="p">)</span>  <span class="c1"># 全连接层</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#                             END OF YOUR CODE                             #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">scores</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">loss</span><span class="p">,</span> <span class="n">grads</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># TODO: Implement the backward pass for the three-layer convolutional net, #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># storing the loss and gradients in the loss and grads variables. Compute  #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># data loss using softmax, and make sure that grads[k] holds the gradients #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># for self.params[k]. Don&#39;t forget to add L2 regularization!               #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#                                                                          #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># NOTE: To ensure that your implementation matches ours and you pass the   #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># automated tests, make sure that your L2 regularization includes a factor #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># of 0.5 to simplify the expression for the gradient.                      #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 计算损失</span>
+</span></span><span class="line"><span class="cl">        <span class="n">loss</span><span class="p">,</span> <span class="n">dout</span> <span class="o">=</span> <span class="n">softmax_loss</span><span class="p">(</span><span class="n">scores</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">loss</span> <span class="o">+=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">reg</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">W1</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">W2</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">W3</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>  <span class="c1"># L2正则化</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 计算梯度</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dout</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="s2">&#34;W3&#34;</span><span class="p">],</span> <span class="n">grads</span><span class="p">[</span><span class="s2">&#34;b3&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">affine_backward</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">cache3</span><span class="p">)</span>  <span class="c1"># 全连接层</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dout</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="s2">&#34;W2&#34;</span><span class="p">],</span> <span class="n">grads</span><span class="p">[</span><span class="s2">&#34;b2&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">affine_relu_backward</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">cache2</span><span class="p">)</span>  <span class="c1"># 全连接层</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dout</span><span class="p">,</span> <span class="n">grads</span><span class="p">[</span><span class="s2">&#34;W1&#34;</span><span class="p">],</span> <span class="n">grads</span><span class="p">[</span><span class="s2">&#34;b1&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">conv_relu_pool_backward</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">cache1</span><span class="p">)</span>  <span class="c1"># 卷积层</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 加上正则化项的梯度</span>
+</span></span><span class="line"><span class="cl">        <span class="n">grads</span><span class="p">[</span><span class="s2">&#34;W3&#34;</span><span class="p">]</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reg</span> <span class="o">*</span> <span class="n">W3</span>
+</span></span><span class="line"><span class="cl">        <span class="n">grads</span><span class="p">[</span><span class="s2">&#34;W2&#34;</span><span class="p">]</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reg</span> <span class="o">*</span> <span class="n">W2</span>
+</span></span><span class="line"><span class="cl">        <span class="n">grads</span><span class="p">[</span><span class="s2">&#34;W1&#34;</span><span class="p">]</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reg</span> <span class="o">*</span> <span class="n">W1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#                             END OF YOUR CODE                             #</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">############################################################################</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">grads</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Sanity Check Loss</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Initial loss (no regularization):  2.302586071243987
+</span></span><span class="line"><span class="cl">Initial loss (with regularization):  2.508255638232932</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Gradient Check</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">W1 max relative error: 1.380104e-04
+</span></span><span class="line"><span class="cl">W2 max relative error: 1.822723e-02
+</span></span><span class="line"><span class="cl">W3 max relative error: 3.064049e-04
+</span></span><span class="line"><span class="cl">b1 max relative error: 3.477652e-05
+</span></span><span class="line"><span class="cl">b2 max relative error: 2.516375e-03
+</span></span><span class="line"><span class="cl">b3 max relative error: 7.945660e-10</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Overfit Small Data</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Small data training accuracy: 0.82
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Small data validation accuracy: 0.252</span></span></code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" src="/image/ML/CS231n/16.png" alt="/image/ML/CS231n/16.png" srcset="/image/ML/CS231n/16.png?size=small, /image/ML/CS231n/16.png?size=medium 1.5x, /image/ML/CS231n/16.png?size=large 2x" data-title="/image/ML/CS231n/16.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>Train the Network</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Full data training accuracy: 0.4761836734693878
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Full data validation accuracy: 0.499</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Visualize Filters</p>
+<p><img loading="lazy" src="/image/ML/CS231n/17.png" alt="/image/ML/CS231n/17.png" srcset="/image/ML/CS231n/17.png?size=small, /image/ML/CS231n/17.png?size=medium 1.5x, /image/ML/CS231n/17.png?size=large 2x" data-title="/image/ML/CS231n/17.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h4 id="todo-spatial_batchnorm_forward" class="heading-element"><span>TODO: spatial_batchnorm_forward</span>
+  <a href="#todo-spatial_batchnorm_forward" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">spatial_batchnorm_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">bn_param</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Computes the forward pass for spatial batch normalization.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Inputs:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - x: Input data of shape (N, C, H, W)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - gamma: Scale parameter, of shape (C,)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - beta: Shift parameter, of shape (C,)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - bn_param: Dictionary with the following keys:
+</span></span></span><span class="line"><span class="cl"><span class="s2">      - mode: &#39;train&#39; or &#39;test&#39;; required
+</span></span></span><span class="line"><span class="cl"><span class="s2">      - eps: Constant for numeric stability
+</span></span></span><span class="line"><span class="cl"><span class="s2">      - momentum: Constant for running mean / variance. momentum=0 means that
+</span></span></span><span class="line"><span class="cl"><span class="s2">        old information is discarded completely at every time step, while
+</span></span></span><span class="line"><span class="cl"><span class="s2">        momentum=1 means that new information is never incorporated. The
+</span></span></span><span class="line"><span class="cl"><span class="s2">        default of momentum=0.9 should work well in most situations.
+</span></span></span><span class="line"><span class="cl"><span class="s2">      - running_mean: Array of shape (D,) giving running mean of features
+</span></span></span><span class="line"><span class="cl"><span class="s2">      - running_var Array of shape (D,) giving running variance of features
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns a tuple of:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - out: Output data, of shape (N, C, H, W)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - cache: Values needed for the backward pass
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># TODO: Implement the forward pass for spatial batch normalization.       #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                                                                         #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># HINT: You can implement spatial batch normalization by calling the      #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># vanilla version of batch normalization you implemented above.           #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Your implementation should be very short; ours is less than five lines. #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># N个样本，C个通道，H高，W宽</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>  <span class="c1"># 将C通道放到最后，然后reshape成二维数组</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="n">batchnorm_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">bn_param</span><span class="p">)</span>  <span class="c1"># 调用batchnorm_forward</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">C</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># 将C通道放到第二维，然后reshape成四维数组</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                             END OF YOUR CODE                            #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">out</span><span class="p">,</span> <span class="n">cache</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Before spatial batch normalization:
+</span></span><span class="line"><span class="cl">  shape:  (2, 3, 4, 5)
+</span></span><span class="line"><span class="cl">  means:  [9.33463814 8.90909116 9.11056338]
+</span></span><span class="line"><span class="cl">  stds:  [3.61447857 3.19347686 3.5168142 ]
+</span></span><span class="line"><span class="cl">After spatial batch normalization:
+</span></span><span class="line"><span class="cl">  shape:  (2, 3, 4, 5)
+</span></span><span class="line"><span class="cl">  means:  [ 6.18949336e-16  5.99520433e-16 -1.22124533e-16]
+</span></span><span class="line"><span class="cl">  stds:  [0.99999962 0.99999951 0.9999996 ]
+</span></span><span class="line"><span class="cl">After spatial batch normalization (nontrivial gamma, beta):
+</span></span><span class="line"><span class="cl">  shape:  (2, 3, 4, 5)
+</span></span><span class="line"><span class="cl">  means:  [6. 7. 8.]
+</span></span><span class="line"><span class="cl">  stds:  [2.99999885 3.99999804 4.99999798]</span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">After spatial batch normalization (test-time):
+</span></span><span class="line"><span class="cl">  means:  [-0.08034406  0.07562881  0.05716371  0.04378383]
+</span></span><span class="line"><span class="cl">  stds:  [0.96718744 1.0299714  1.02887624 1.00585577]</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="todo-spatial_batchnorm_backward" class="heading-element"><span>TODO: spatial_batchnorm_backward</span>
+  <a href="#todo-spatial_batchnorm_backward" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">spatial_batchnorm_backward</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">cache</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Computes the backward pass for spatial batch normalization.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Inputs:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dout: Upstream derivatives, of shape (N, C, H, W)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - cache: Values from the forward pass
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns a tuple of:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dx: Gradient with respect to inputs, of shape (N, C, H, W)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dgamma: Gradient with respect to scale parameter, of shape (C,)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dbeta: Gradient with respect to shift parameter, of shape (C,)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span><span class="p">,</span> <span class="n">dgamma</span><span class="p">,</span> <span class="n">dbeta</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># TODO: Implement the backward pass for spatial batch normalization.      #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                                                                         #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># HINT: You can implement spatial batch normalization by calling the      #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># vanilla version of batch normalization you implemented above.           #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># Your implementation should be very short; ours is less than five lines. #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">dout</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># N个样本，C个通道，H高，W宽</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dout</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">C</span><span class="p">)</span>  <span class="c1"># 将C通道放到最后，然后reshape成二维数组</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span><span class="p">,</span> <span class="n">dgamma</span><span class="p">,</span> <span class="n">dbeta</span> <span class="o">=</span> <span class="n">batchnorm_backward</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">cache</span><span class="p">)</span>  <span class="c1"># 调用batchnorm_backward</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">moveaxis</span><span class="p">(</span><span class="n">dx</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">C</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># 将C通道放到第二维，然后reshape成四维数组</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                             END OF YOUR CODE                            #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dgamma</span><span class="p">,</span> <span class="n">dbeta</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">dx error:  2.786648197756335e-07
+</span></span><span class="line"><span class="cl">dgamma error:  7.0974817113608705e-12
+</span></span><span class="line"><span class="cl">dbeta error:  3.275608725278405e-12</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="todo-spatial_groupnorm_forward" class="heading-element"><span>TODO: spatial_groupnorm_forward</span>
+  <a href="#todo-spatial_groupnorm_forward" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">spatial_groupnorm_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">gn_param</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Computes the forward pass for spatial group normalization.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    In contrast to layer normalization, group normalization splits each entry
+</span></span></span><span class="line"><span class="cl"><span class="s2">    in the data into G contiguous pieces, which it then normalizes independently.
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Per feature shifting and scaling are then applied to the data, in a manner identical to that of batch normalization and layer normalization.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Inputs:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - x: Input data of shape (N, C, H, W)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - gamma: Scale parameter, of shape (1, C, 1, 1)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - beta: Shift parameter, of shape (1, C, 1, 1)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - G: Integer mumber of groups to split into, should be a divisor of C
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - gn_param: Dictionary with the following keys:
+</span></span></span><span class="line"><span class="cl"><span class="s2">      - eps: Constant for numeric stability
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns a tuple of:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - out: Output data, of shape (N, C, H, W)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - cache: Values needed for the backward pass
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span><span class="p">,</span> <span class="n">cache</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">    <span class="n">eps</span> <span class="o">=</span> <span class="n">gn_param</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;eps&#34;</span><span class="p">,</span> <span class="mf">1e-5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># TODO: Implement the forward pass for spatial group normalization.       #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># This will be extremely similar to the layer norm implementation.        #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># In particular, think about how you could transform the matrix so that   #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># the bulk of the code is similar to both train-time batch normalization  #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># and layer normalization!                                                #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># N个样本，C个通道，H高，W宽</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 将C通道分成G组，每组有C//G个通道</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">C</span> <span class="o">//</span> <span class="n">G</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>  <span class="c1"># reshape成五维数组</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># 求均值</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x_var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># 求方差</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x_norm</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x_var</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span>  <span class="c1"># 归一化</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">x_norm</span> <span class="o">=</span> <span class="n">x_norm</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>  <span class="c1"># reshape成四维数组</span>
+</span></span><span class="line"><span class="cl">    <span class="n">out</span> <span class="o">=</span> <span class="n">gamma</span> <span class="o">*</span> <span class="n">x_norm</span> <span class="o">+</span> <span class="n">beta</span>  <span class="c1"># 伸缩平移</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">cache</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x_norm</span><span class="p">,</span> <span class="n">x_mean</span><span class="p">,</span> <span class="n">x_var</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>  <span class="c1"># 缓存变量</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                             END OF YOUR CODE                            #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">out</span><span class="p">,</span> <span class="n">cache</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Before spatial group normalization:
+</span></span><span class="line"><span class="cl">  shape:  (2, 6, 4, 5)
+</span></span><span class="line"><span class="cl">  means:  [9.72505327 8.51114185 8.9147544  9.43448077]
+</span></span><span class="line"><span class="cl">  stds:  [3.67070958 3.09892597 4.27043622 3.97521327]
+</span></span><span class="line"><span class="cl">After spatial group normalization:
+</span></span><span class="line"><span class="cl">  shape:  (2, 6, 4, 5)
+</span></span><span class="line"><span class="cl">  means:  [-2.14643118e-16  5.25505565e-16  2.65528340e-16 -3.38618023e-16]
+</span></span><span class="line"><span class="cl">  stds:  [0.99999963 0.99999948 0.99999973 0.99999968]</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="todo-spatial_groupnorm_backward" class="heading-element"><span>TODO: spatial_groupnorm_backward</span>
+  <a href="#todo-spatial_groupnorm_backward" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">spatial_groupnorm_backward</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">cache</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Computes the backward pass for spatial group normalization.
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Inputs:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dout: Upstream derivatives, of shape (N, C, H, W)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - cache: Values from the forward pass
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Returns a tuple of:
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dx: Gradient with respect to inputs, of shape (N, C, H, W)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dgamma: Gradient with respect to scale parameter, of shape (1, C, 1, 1)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    - dbeta: Gradient with respect to shift parameter, of shape (1, C, 1, 1)
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span><span class="p">,</span> <span class="n">dgamma</span><span class="p">,</span> <span class="n">dbeta</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># TODO: Implement the backward pass for spatial group normalization.      #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># This will be extremely similar to the layer norm implementation.        #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">x</span><span class="p">,</span> <span class="n">x_norm</span><span class="p">,</span> <span class="n">x_mean</span><span class="p">,</span> <span class="n">x_var</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">eps</span> <span class="o">=</span> <span class="n">cache</span>  <span class="c1"># 从缓存中取出变量</span>
+</span></span><span class="line"><span class="cl">    <span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span> <span class="o">=</span> <span class="n">dout</span><span class="o">.</span><span class="n">shape</span>  <span class="c1"># N个样本，C个通道，H高，W宽</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 计算dgamma和dbeta</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dgamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dout</span> <span class="o">*</span> <span class="n">x_norm</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># 求dgamma</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dbeta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dout</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># 求dbeta</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 准备数据</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">C</span> <span class="o">//</span> <span class="n">G</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>  <span class="c1"># reshape成五维数组</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">m</span> <span class="o">=</span> <span class="n">C</span> <span class="o">//</span> <span class="n">G</span> <span class="o">*</span> <span class="n">H</span> <span class="o">*</span> <span class="n">W</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx_norm</span> <span class="o">=</span> <span class="p">(</span><span class="n">dout</span> <span class="o">*</span> <span class="n">gamma</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">G</span><span class="p">,</span> <span class="n">C</span> <span class="o">//</span> <span class="n">G</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx_var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dx_norm</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_mean</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">power</span><span class="p">((</span><span class="n">x_var</span> <span class="o">+</span> <span class="n">eps</span><span class="p">),</span> <span class="o">-</span><span class="mf">1.5</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dx_norm</span> <span class="o">*</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x_var</span> <span class="o">+</span> <span class="n">eps</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="n">dx_var</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_mean</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">                                                                                                             <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">/</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span> <span class="o">=</span> <span class="n">dx_norm</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">x_var</span> <span class="o">+</span> <span class="n">eps</span><span class="p">)</span> <span class="o">+</span> <span class="n">dx_var</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_mean</span><span class="p">)</span> <span class="o">/</span> <span class="n">m</span> <span class="o">+</span> <span class="n">dx_mean</span> <span class="o">/</span> <span class="n">m</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dx</span> <span class="o">=</span> <span class="n">dx</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">C</span><span class="p">,</span> <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">#                             END OF YOUR CODE                            #</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">###########################################################################</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dgamma</span><span class="p">,</span> <span class="n">dbeta</span></span></span></code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">dx error:  7.413109648400194e-08
+</span></span><span class="line"><span class="cl">dgamma error:  9.468195772749234e-12
+</span></span><span class="line"><span class="cl">dbeta error:  3.354494437653335e-12</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="参考" class="heading-element"><span>参考</span>
   <a href="#%e5%8f%82%e8%80%83" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -6986,7 +8476,7 @@ $$</p>
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2025-02-06 06:51:15">更新于 2025-02-06&nbsp;</span>
+        <span title="更新于 2025-02-11 07:31:59">更新于 2025-02-11&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/mlcs231n/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

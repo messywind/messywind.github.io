@@ -3923,6 +3923,773 @@ Answer:
 
 这说明dropout通过阻止神经元间的协同适应（co-adaptation），迫使网络学习更鲁棒的特征，从而提升模型在未见数据上的表现。
 
+### Q4: Convolutional Neural Networks
+
+#### TODO: conv_forward_naive
+
+```python
+def conv_forward_naive(x, w, b, conv_param):
+    &#34;&#34;&#34;
+    A naive implementation of the forward pass for a convolutional layer.
+
+    The input consists of N data points, each with C channels, height H and
+    width W. We convolve each input with F different filters, where each filter
+    spans all C channels and has height HH and width WW.
+
+    Input:
+    - x: Input data of shape (N, C, H, W)
+    - w: Filter weights of shape (F, C, HH, WW)
+    - b: Biases, of shape (F,)
+    - conv_param: A dictionary with the following keys:
+      - &#39;stride&#39;: The number of pixels between adjacent receptive fields in the
+        horizontal and vertical directions.
+      - &#39;pad&#39;: The number of pixels that will be used to zero-pad the input.
+
+
+    During padding, &#39;pad&#39; zeros should be placed symmetrically (i.e equally on both sides)
+    along the height and width axes of the input. Be careful not to modfiy the original
+    input x directly.
+
+    Returns a tuple of:
+    - out: Output data, of shape (N, F, H&#39;, W&#39;) where H&#39; and W&#39; are given by
+      H&#39; = 1 &#43; (H &#43; 2 * pad - HH) / stride
+      W&#39; = 1 &#43; (W &#43; 2 * pad - WW) / stride
+    - cache: (x, w, b, conv_param)
+    &#34;&#34;&#34;
+    out = None
+    ###########################################################################
+    # TODO: Implement the convolutional forward pass.                         #
+    # Hint: you can use the function np.pad for padding.                      #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    # 先获取一些需要用到的数据
+    N, C, H_input, W_input = x.shape  # N个样本，C个通道，H_input高，W_input宽
+    F, C_w_, HH, WW = w.shape  # F个卷积核, C_w_个通道，HH高，WW宽
+    stride = conv_param[&#34;stride&#34;]  # 步长
+    pad = conv_param[&#34;pad&#34;]  # 填充数量
+
+    # 计算卷积后的高和宽
+    out_H = int(1 &#43; (H_input &#43; 2 * pad - HH) / stride)
+    out_W = int(1 &#43; (W_input &#43; 2 * pad - WW) / stride)
+
+    # 给x的上下左右填充上pad个0
+    x_pad = np.pad(x, ((0, 0), (0, 0), (pad, pad), (pad, pad)), &#34;constant&#34;, constant_values=0)
+    # 将卷积核w转换成F * (C * HH * WW)的矩阵 (便于使用矩阵乘法)
+    w_row = w.reshape(F, -1)
+    # 生成空白输出便于后续循环填充
+    out = np.zeros((N, F, out_H, out_W))
+
+    # 开始卷积
+    for n in range(N):  # 遍历样本
+        for f in range(F):  # 遍历卷积核
+            for i in range(out_H):  # 遍历高
+                for j in range(out_W):  # 遍历宽
+                    # 获取当前卷积窗口
+                    window = x_pad[n, :, i * stride:i * stride &#43; HH, j * stride:j * stride &#43; WW]
+                    # 将卷积窗口拉成一行
+                    window_row = window.reshape(1, -1)
+                    # 计算当前卷积窗口和卷积核的卷积结果
+                    out[n, f, i, j] = np.sum(window_row * w_row[f, :]) &#43; b[f]
+      
+	  # 将pad后的x存入cache (省的反向传播的时候在计算一次)
+    x = x_pad
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+    cache = (x, w, b, conv_param)
+    return out, cache
+```
+
+```
+Testing conv_forward_naive
+difference:  2.2121476417505994e-08
+```
+
+![](/image/ML/CS231n/15.png)
+
+#### TODO: conv_backward_naive
+
+```python
+def conv_backward_naive(dout, cache):
+    &#34;&#34;&#34;
+    A naive implementation of the backward pass for a convolutional layer.
+
+    Inputs:
+    - dout: Upstream derivatives.
+    - cache: A tuple of (x, w, b, conv_param) as in conv_forward_naive
+
+    Returns a tuple of:
+    - dx: Gradient with respect to x
+    - dw: Gradient with respect to w
+    - db: Gradient with respect to b
+    &#34;&#34;&#34;
+    dx, dw, db = None, None, None
+    ###########################################################################
+    # TODO: Implement the convolutional backward pass.                        #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    # 获取一些需要用到的数据
+    x, w, b, conv_param = cache
+    N, C, H_input, W_input = x.shape  # N个样本，C个通道，H_input高，W_input宽
+    F, C_w_, HH, WW = w.shape  # F个卷积核, C_w_个通道，HH高，WW宽
+    stride = conv_param[&#34;stride&#34;]  # 步长
+    pad = conv_param[&#34;pad&#34;]  # 填充数量
+
+    # 计算卷积后的高和宽
+    out_H = int(1 &#43; (H_input - HH) / stride)
+    out_W = int(1 &#43; (W_input - WW) / stride)
+
+    # 给dx,dw,db分配空间
+    dx = np.zeros_like(x)
+    dw = np.zeros_like(w)
+    db = np.zeros_like(b)
+
+    for n in range(N):
+        for f in range(F):
+            for i in range(out_H):
+                for j in range(out_W):
+                    # 获取当前卷积窗口
+                    window = x[n, :, i * stride:i * stride &#43; HH, j * stride:j * stride &#43; WW]
+                    # 计算db
+                    db[f] &#43;= dout[n, f, i, j]
+                    # 计算dw
+                    dw[f] &#43;= window * dout[n, f, i, j]
+                    # 计算dx
+                    dx[n, :, i * stride:i * stride &#43; HH, j * stride:j * stride &#43; WW] &#43;= w[f] * dout[n, f, i, j]
+
+    # 去掉dx的pad
+    dx = dx[:, :, pad:H_input - pad, pad:W_input - pad]
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+    return dx, dw, db
+```
+
+```
+Testing conv_backward_naive function
+dx error:  1.159803161159293e-08
+dw error:  2.2471264748452487e-10
+db error:  3.37264006649648e-11
+```
+
+#### TODO: max_pool_forward_naive
+
+```python
+def max_pool_forward_naive(x, pool_param):
+    &#34;&#34;&#34;
+    A naive implementation of the forward pass for a max-pooling layer.
+
+    Inputs:
+    - x: Input data, of shape (N, C, H, W)
+    - pool_param: dictionary with the following keys:
+      - &#39;pool_height&#39;: The height of each pooling region
+      - &#39;pool_width&#39;: The width of each pooling region
+      - &#39;stride&#39;: The distance between adjacent pooling regions
+
+    No padding is necessary here, eg you can assume:
+      - (H - pool_height) % stride == 0
+      - (W - pool_width) % stride == 0
+
+    Returns a tuple of:
+    - out: Output data, of shape (N, C, H&#39;, W&#39;) where H&#39; and W&#39; are given by
+      H&#39; = 1 &#43; (H - pool_height) / stride
+      W&#39; = 1 &#43; (W - pool_width) / stride
+    - cache: (x, pool_param)
+    &#34;&#34;&#34;
+    out = None
+    ###########################################################################
+    # TODO: Implement the max-pooling forward pass                            #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    # 获取一些需要用到的数据
+    N, C, H, W = x.shape  # N个样本，C个通道，H高，W宽
+    pool_height = pool_param[&#34;pool_height&#34;]  # 池化核高
+    pool_width = pool_param[&#34;pool_width&#34;]  # 池化核宽
+    stride = pool_param[&#34;stride&#34;]  # 步长
+
+    # 计算池化后的高和宽
+    out_H = int(1 &#43; (H - pool_height) / stride)
+    out_W = int(1 &#43; (W - pool_width) / stride)
+
+    # 给out分配空间
+    out = np.zeros((N, C, out_H, out_W))
+
+    for n in range(N):
+        for c in range(C):
+            for i in range(out_H):
+                for j in range(out_W):
+                    # 获取当前池化窗口
+                    window = x[n, c, i * stride:i * stride &#43; pool_height, j * stride:j * stride &#43; pool_width]
+                    # 计算当前池化窗口的最大值
+                    out[n, c, i, j] = np.max(window)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+    cache = (x, pool_param)
+    return out, cache
+```
+
+```
+Testing max_pool_forward_naive function:
+difference:  4.1666665157267834e-08
+```
+
+#### TOOD: max_pool_backward_naive
+
+```python
+def max_pool_backward_naive(dout, cache):
+    &#34;&#34;&#34;
+    A naive implementation of the backward pass for a max-pooling layer.
+
+    Inputs:
+    - dout: Upstream derivatives
+    - cache: A tuple of (x, pool_param) as in the forward pass.
+
+    Returns:
+    - dx: Gradient with respect to x
+    &#34;&#34;&#34;
+    dx = None
+    ###########################################################################
+    # TODO: Implement the max-pooling backward pass                           #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    # 获取一些需要用到的数据
+    x, pool_param = cache
+    N, C, H, W = x.shape  # N个样本，C个通道，H高，W宽
+    pool_height = pool_param[&#34;pool_height&#34;]  # 池化核高
+    pool_width = pool_param[&#34;pool_width&#34;]  # 池化核宽
+    stride = pool_param[&#34;stride&#34;]  # 步长
+
+    # 计算池化后的高和宽
+    out_H = int(1 &#43; (H - pool_height) / stride)
+    out_W = int(1 &#43; (W - pool_width) / stride)
+
+    # 给dx分配空间
+    dx = np.zeros_like(x)
+
+    for n in range(N):
+        for c in range(C):
+            for i in range(out_H):
+                for j in range(out_W):
+                    # 获取当前池化窗口
+                    window = x[n, c, i * stride:i * stride &#43; pool_height, j * stride:j * stride &#43; pool_width]
+                    # 计算当前池化窗口的最大值
+                    max_index = np.argmax(window)
+                    # 计算dx
+                    dx[n, c, i * stride &#43; max_index // pool_width, j * stride &#43; max_index % pool_width] &#43;= dout[n, c, i, j]
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+    return dx
+```
+
+```
+Testing max_pool_backward_naive function:
+dx error:  3.27562514223145e-12
+```
+
+#### Fast Layers
+
+`im2col_cython.pyx` 最上方加一行代码： `#cython: language_level=2`
+
+再改一下启动脚本，运行。
+
+```python
+# Remember to restart the runtime after executing this cell!
+%cd ./cs231n
+!python setup.py build_ext --inplace
+%cd ../
+```
+
+中途报了 `nameerror: name &#39;col2im_6d_cython&#39; is not defined` 的错误，重启一下笔记本就好了。
+
+```
+Testing conv_forward_fast:
+Naive: 4.879596s
+Fast: 0.010973s
+Speedup: 444.682390x
+Difference:  1.970563140655889e-11
+
+Testing conv_backward_fast:
+Naive: 6.945447s
+Fast: 0.002007s
+Speedup: 3459.776366x
+dx difference:  9.43434568725122e-12
+dw difference:  4.420587653909754e-13
+db difference:  3.481354613192702e-14
+
+Testing pool_forward_fast:
+Naive: 0.302344s
+fast: 0.004001s
+speedup: 75.559852x
+difference:  0.0
+
+Testing pool_backward_fast:
+Naive: 0.315859s
+fast: 0.010774s
+speedup: 29.317090x
+dx difference:  0.0
+```
+
+```
+Testing conv_relu_pool
+dx error:  4.397502834267091e-09
+dw error:  3.651699397290073e-09
+db error:  7.054812624223923e-10
+
+Testing conv_relu:
+dx error:  8.03522627181292e-09
+dw error:  2.0902405745264502e-10
+db error:  3.287958402642519e-10
+```
+
+#### TODO: Three-Layer Convolutional Network
+
+```python
+class ThreeLayerConvNet(object):
+    &#34;&#34;&#34;
+    A three-layer convolutional network with the following architecture:
+
+    conv - relu - 2x2 max pool - affine - relu - affine - softmax
+
+    The network operates on minibatches of data that have shape (N, C, H, W)
+    consisting of N images, each with height H and width W and with C input
+    channels.
+    &#34;&#34;&#34;
+
+    def __init__(
+        self,
+        input_dim=(3, 32, 32),
+        num_filters=32,
+        filter_size=7,
+        hidden_dim=100,
+        num_classes=10,
+        weight_scale=1e-3,
+        reg=0.0,
+        dtype=np.float32,
+    ):
+        &#34;&#34;&#34;
+        Initialize a new network.
+
+        Inputs:
+        - input_dim: Tuple (C, H, W) giving size of input data
+        - num_filters: Number of filters to use in the convolutional layer
+        - filter_size: Width/height of filters to use in the convolutional layer
+        - hidden_dim: Number of units to use in the fully-connected hidden layer
+        - num_classes: Number of scores to produce from the final affine layer.
+        - weight_scale: Scalar giving standard deviation for random initialization
+          of weights.
+        - reg: Scalar giving L2 regularization strength
+        - dtype: numpy datatype to use for computation.
+        &#34;&#34;&#34;
+        self.params = {}
+        self.reg = reg
+        self.dtype = dtype
+
+        ############################################################################
+        # TODO: Initialize weights and biases for the three-layer convolutional    #
+        # network. Weights should be initialized from a Gaussian centered at 0.0   #
+        # with standard deviation equal to weight_scale; biases should be          #
+        # initialized to zero. All weights and biases should be stored in the      #
+        #  dictionary self.params. Store weights and biases for the convolutional  #
+        # layer using the keys &#39;W1&#39; and &#39;b1&#39;; use keys &#39;W2&#39; and &#39;b2&#39; for the       #
+        # weights and biases of the hidden affine layer, and keys &#39;W3&#39; and &#39;b3&#39;    #
+        # for the weights and biases of the output affine layer.                   #
+        #                                                                          #
+        # IMPORTANT: For this assignment, you can assume that the padding          #
+        # and stride of the first convolutional layer are chosen so that           #
+        # **the width and height of the input are preserved**. Take a look at      #
+        # the start of the loss() function to see how that happens.                #
+        ############################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        # conv - relu - 2x2 max pool - affine - relu - affine - softmax
+        C, H, W = input_dim  # 获取输入数据的通道数，高度，宽度
+
+        # 卷积层
+        self.params[&#34;W1&#34;] = np.random.normal(0, weight_scale, (num_filters, C, filter_size, filter_size))
+        self.params[&#34;b1&#34;] = np.zeros(num_filters)
+
+        # 全连接层
+        self.params[&#34;W2&#34;] = np.random.normal(0, weight_scale, (num_filters * H * W // 4, hidden_dim))
+        self.params[&#34;b2&#34;] = np.zeros(hidden_dim)
+
+        # 全连接层
+        self.params[&#34;W3&#34;] = np.random.normal(0, weight_scale, (hidden_dim, num_classes))
+        self.params[&#34;b3&#34;] = np.zeros(num_classes)
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ############################################################################
+        #                             END OF YOUR CODE                             #
+        ############################################################################
+
+        for k, v in self.params.items():
+            self.params[k] = v.astype(dtype)
+
+    def loss(self, X, y=None):
+        &#34;&#34;&#34;
+        Evaluate loss and gradient for the three-layer convolutional network.
+
+        Input / output: Same API as TwoLayerNet in fc_net.py.
+        &#34;&#34;&#34;
+        W1, b1 = self.params[&#34;W1&#34;], self.params[&#34;b1&#34;]
+        W2, b2 = self.params[&#34;W2&#34;], self.params[&#34;b2&#34;]
+        W3, b3 = self.params[&#34;W3&#34;], self.params[&#34;b3&#34;]
+
+        # pass conv_param to the forward pass for the convolutional layer
+        # Padding and stride chosen to preserve the input spatial size
+        filter_size = W1.shape[2]
+        conv_param = {&#34;stride&#34;: 1, &#34;pad&#34;: (filter_size - 1) // 2}
+
+        # pass pool_param to the forward pass for the max-pooling layer
+        pool_param = {&#34;pool_height&#34;: 2, &#34;pool_width&#34;: 2, &#34;stride&#34;: 2}
+
+        scores = None
+        ############################################################################
+        # TODO: Implement the forward pass for the three-layer convolutional net,  #
+        # computing the class scores for X and storing them in the scores          #
+        # variable.                                                                #
+        #                                                                          #
+        # Remember you can use the functions defined in cs231n/fast_layers.py and  #
+        # cs231n/layer_utils.py in your implementation (already imported).         #
+        ############################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        # conv - relu - 2x2 max pool - affine - relu - affine - softmax
+        out1, cache1 = conv_relu_pool_forward(X, W1, b1, conv_param, pool_param)  # 卷积层
+        out2, cache2 = affine_relu_forward(out1, W2, b2)  # 全连接层
+        scores, cache3 = affine_forward(out2, W3, b3)  # 全连接层
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ############################################################################
+        #                             END OF YOUR CODE                             #
+        ############################################################################
+
+        if y is None:
+            return scores
+
+        loss, grads = 0, {}
+        ############################################################################
+        # TODO: Implement the backward pass for the three-layer convolutional net, #
+        # storing the loss and gradients in the loss and grads variables. Compute  #
+        # data loss using softmax, and make sure that grads[k] holds the gradients #
+        # for self.params[k]. Don&#39;t forget to add L2 regularization!               #
+        #                                                                          #
+        # NOTE: To ensure that your implementation matches ours and you pass the   #
+        # automated tests, make sure that your L2 regularization includes a factor #
+        # of 0.5 to simplify the expression for the gradient.                      #
+        ############################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        # 计算损失
+        loss, dout = softmax_loss(scores, y)
+        loss &#43;= 0.5 * self.reg * (np.sum(W1 ** 2) &#43; np.sum(W2 ** 2) &#43; np.sum(W3 ** 2))  # L2正则化
+
+        # 计算梯度
+        dout, grads[&#34;W3&#34;], grads[&#34;b3&#34;] = affine_backward(dout, cache3)  # 全连接层
+        dout, grads[&#34;W2&#34;], grads[&#34;b2&#34;] = affine_relu_backward(dout, cache2)  # 全连接层
+        dout, grads[&#34;W1&#34;], grads[&#34;b1&#34;] = conv_relu_pool_backward(dout, cache1)  # 卷积层
+
+        # 加上正则化项的梯度
+        grads[&#34;W3&#34;] &#43;= self.reg * W3
+        grads[&#34;W2&#34;] &#43;= self.reg * W2
+        grads[&#34;W1&#34;] &#43;= self.reg * W1
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ############################################################################
+        #                             END OF YOUR CODE                             #
+        ############################################################################
+
+        return loss, grads
+```
+
+Sanity Check Loss
+
+```
+Initial loss (no regularization):  2.302586071243987
+Initial loss (with regularization):  2.508255638232932
+```
+
+Gradient Check
+
+```
+W1 max relative error: 1.380104e-04
+W2 max relative error: 1.822723e-02
+W3 max relative error: 3.064049e-04
+b1 max relative error: 3.477652e-05
+b2 max relative error: 2.516375e-03
+b3 max relative error: 7.945660e-10
+```
+
+Overfit Small Data
+
+```
+Small data training accuracy: 0.82
+
+Small data validation accuracy: 0.252
+```
+
+![](/image/ML/CS231n/16.png)
+
+Train the Network
+
+```
+Full data training accuracy: 0.4761836734693878
+
+Full data validation accuracy: 0.499
+```
+
+Visualize Filters
+
+![](/image/ML/CS231n/17.png)
+
+#### TODO: spatial_batchnorm_forward
+
+```python
+def spatial_batchnorm_forward(x, gamma, beta, bn_param):
+    &#34;&#34;&#34;
+    Computes the forward pass for spatial batch normalization.
+
+    Inputs:
+    - x: Input data of shape (N, C, H, W)
+    - gamma: Scale parameter, of shape (C,)
+    - beta: Shift parameter, of shape (C,)
+    - bn_param: Dictionary with the following keys:
+      - mode: &#39;train&#39; or &#39;test&#39;; required
+      - eps: Constant for numeric stability
+      - momentum: Constant for running mean / variance. momentum=0 means that
+        old information is discarded completely at every time step, while
+        momentum=1 means that new information is never incorporated. The
+        default of momentum=0.9 should work well in most situations.
+      - running_mean: Array of shape (D,) giving running mean of features
+      - running_var Array of shape (D,) giving running variance of features
+
+    Returns a tuple of:
+    - out: Output data, of shape (N, C, H, W)
+    - cache: Values needed for the backward pass
+    &#34;&#34;&#34;
+    out, cache = None, None
+
+    ###########################################################################
+    # TODO: Implement the forward pass for spatial batch normalization.       #
+    #                                                                         #
+    # HINT: You can implement spatial batch normalization by calling the      #
+    # vanilla version of batch normalization you implemented above.           #
+    # Your implementation should be very short; ours is less than five lines. #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    N, C, H, W = x.shape  # N个样本，C个通道，H高，W宽
+    x = np.moveaxis(x, 1, -1).reshape(-1, C)  # 将C通道放到最后，然后reshape成二维数组
+    out, cache = batchnorm_forward(x, gamma, beta, bn_param)  # 调用batchnorm_forward
+    out = np.moveaxis(out.reshape(N, H, W, C), -1, 1)  # 将C通道放到第二维，然后reshape成四维数组
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+
+    return out, cache
+```
+
+```
+Before spatial batch normalization:
+  shape:  (2, 3, 4, 5)
+  means:  [9.33463814 8.90909116 9.11056338]
+  stds:  [3.61447857 3.19347686 3.5168142 ]
+After spatial batch normalization:
+  shape:  (2, 3, 4, 5)
+  means:  [ 6.18949336e-16  5.99520433e-16 -1.22124533e-16]
+  stds:  [0.99999962 0.99999951 0.9999996 ]
+After spatial batch normalization (nontrivial gamma, beta):
+  shape:  (2, 3, 4, 5)
+  means:  [6. 7. 8.]
+  stds:  [2.99999885 3.99999804 4.99999798]
+```
+
+```
+After spatial batch normalization (test-time):
+  means:  [-0.08034406  0.07562881  0.05716371  0.04378383]
+  stds:  [0.96718744 1.0299714  1.02887624 1.00585577]
+```
+
+#### TODO: spatial_batchnorm_backward
+
+```python
+def spatial_batchnorm_backward(dout, cache):
+    &#34;&#34;&#34;
+    Computes the backward pass for spatial batch normalization.
+
+    Inputs:
+    - dout: Upstream derivatives, of shape (N, C, H, W)
+    - cache: Values from the forward pass
+
+    Returns a tuple of:
+    - dx: Gradient with respect to inputs, of shape (N, C, H, W)
+    - dgamma: Gradient with respect to scale parameter, of shape (C,)
+    - dbeta: Gradient with respect to shift parameter, of shape (C,)
+    &#34;&#34;&#34;
+    dx, dgamma, dbeta = None, None, None
+
+    ###########################################################################
+    # TODO: Implement the backward pass for spatial batch normalization.      #
+    #                                                                         #
+    # HINT: You can implement spatial batch normalization by calling the      #
+    # vanilla version of batch normalization you implemented above.           #
+    # Your implementation should be very short; ours is less than five lines. #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    N, C, H, W = dout.shape  # N个样本，C个通道，H高，W宽
+    dout = np.moveaxis(dout, 1, -1).reshape(-1, C)  # 将C通道放到最后，然后reshape成二维数组
+    dx, dgamma, dbeta = batchnorm_backward(dout, cache)  # 调用batchnorm_backward
+    dx = np.moveaxis(dx.reshape(N, H, W, C), -1, 1)  # 将C通道放到第二维，然后reshape成四维数组
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+
+    return dx, dgamma, dbeta
+```
+
+```
+dx error:  2.786648197756335e-07
+dgamma error:  7.0974817113608705e-12
+dbeta error:  3.275608725278405e-12
+```
+
+#### TODO: spatial_groupnorm_forward
+
+```python
+def spatial_groupnorm_forward(x, gamma, beta, G, gn_param):
+    &#34;&#34;&#34;
+    Computes the forward pass for spatial group normalization.
+    In contrast to layer normalization, group normalization splits each entry
+    in the data into G contiguous pieces, which it then normalizes independently.
+    Per feature shifting and scaling are then applied to the data, in a manner identical to that of batch normalization and layer normalization.
+
+    Inputs:
+    - x: Input data of shape (N, C, H, W)
+    - gamma: Scale parameter, of shape (1, C, 1, 1)
+    - beta: Shift parameter, of shape (1, C, 1, 1)
+    - G: Integer mumber of groups to split into, should be a divisor of C
+    - gn_param: Dictionary with the following keys:
+      - eps: Constant for numeric stability
+
+    Returns a tuple of:
+    - out: Output data, of shape (N, C, H, W)
+    - cache: Values needed for the backward pass
+    &#34;&#34;&#34;
+    out, cache = None, None
+    eps = gn_param.get(&#34;eps&#34;, 1e-5)
+    ###########################################################################
+    # TODO: Implement the forward pass for spatial group normalization.       #
+    # This will be extremely similar to the layer norm implementation.        #
+    # In particular, think about how you could transform the matrix so that   #
+    # the bulk of the code is similar to both train-time batch normalization  #
+    # and layer normalization!                                                #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    N, C, H, W = x.shape  # N个样本，C个通道，H高，W宽
+
+    # 将C通道分成G组，每组有C//G个通道
+    x = x.reshape(N, G, C // G, H, W)  # reshape成五维数组
+    x_mean = np.mean(x, axis=(2, 3, 4), keepdims=True)  # 求均值
+    x_var = np.var(x, axis=(2, 3, 4), keepdims=True)  # 求方差
+    x_norm = (x - x_mean) / np.sqrt(x_var &#43; eps)  # 归一化
+
+    x_norm = x_norm.reshape(N, C, H, W)  # reshape成四维数组
+    out = gamma * x_norm &#43; beta  # 伸缩平移
+
+    cache = (x, x_norm, x_mean, x_var, gamma, beta, G, eps)  # 缓存变量
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+    return out, cache
+```
+
+```
+Before spatial group normalization:
+  shape:  (2, 6, 4, 5)
+  means:  [9.72505327 8.51114185 8.9147544  9.43448077]
+  stds:  [3.67070958 3.09892597 4.27043622 3.97521327]
+After spatial group normalization:
+  shape:  (2, 6, 4, 5)
+  means:  [-2.14643118e-16  5.25505565e-16  2.65528340e-16 -3.38618023e-16]
+  stds:  [0.99999963 0.99999948 0.99999973 0.99999968]
+```
+
+#### TODO: spatial_groupnorm_backward
+
+```python
+def spatial_groupnorm_backward(dout, cache):
+    &#34;&#34;&#34;
+    Computes the backward pass for spatial group normalization.
+
+    Inputs:
+    - dout: Upstream derivatives, of shape (N, C, H, W)
+    - cache: Values from the forward pass
+
+    Returns a tuple of:
+    - dx: Gradient with respect to inputs, of shape (N, C, H, W)
+    - dgamma: Gradient with respect to scale parameter, of shape (1, C, 1, 1)
+    - dbeta: Gradient with respect to shift parameter, of shape (1, C, 1, 1)
+    &#34;&#34;&#34;
+    dx, dgamma, dbeta = None, None, None
+
+    ###########################################################################
+    # TODO: Implement the backward pass for spatial group normalization.      #
+    # This will be extremely similar to the layer norm implementation.        #
+    ###########################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    x, x_norm, x_mean, x_var, gamma, beta, G, eps = cache  # 从缓存中取出变量
+    N, C, H, W = dout.shape  # N个样本，C个通道，H高，W宽
+
+    # 计算dgamma和dbeta
+    dgamma = np.sum(dout * x_norm, axis=(0, 2, 3), keepdims=True)  # 求dgamma
+    dbeta = np.sum(dout, axis=(0, 2, 3), keepdims=True)  # 求dbeta
+
+    # 准备数据
+    x = x.reshape(N, G, C // G, H, W)  # reshape成五维数组
+
+    m = C // G * H * W
+    dx_norm = (dout * gamma).reshape(N, G, C // G, H, W)
+    dx_var = np.sum(dx_norm * (x - x_mean) * (-0.5) * np.power((x_var &#43; eps), -1.5), axis=(2, 3, 4), keepdims=True)
+    dx_mean = np.sum(dx_norm * (-1) / np.sqrt(x_var &#43; eps), axis=(2, 3, 4), keepdims=True) &#43; dx_var * np.sum(-2 * (x - x_mean), axis=(2, 3, 4),
+                                                                                                             keepdims=True) / m
+    dx = dx_norm / np.sqrt(x_var &#43; eps) &#43; dx_var * 2 * (x - x_mean) / m &#43; dx_mean / m
+    dx = dx.reshape(N, C, H, W)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ###########################################################################
+    #                             END OF YOUR CODE                            #
+    ###########################################################################
+    return dx, dgamma, dbeta
+```
+
+```
+dx error:  7.413109648400194e-08
+dgamma error:  9.468195772749234e-12
+dbeta error:  3.354494437653335e-12
+```
+
 ## 参考
 
 https://github.com/Divsigma/2020-cs213n/tree/master/cs231n
