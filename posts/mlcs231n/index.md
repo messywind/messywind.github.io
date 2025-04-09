@@ -3706,7 +3706,7 @@ When is layer normalization likely to not work well, and why?
 
 #### TODO: dropout_forward
 
-参考官网讲义：https://cs231n.github.io/neural-networks-2/#reg
+参考官网讲义：[官网讲义](https://cs231n.github.io/neural-networks-2/#reg)
 
 生成一个 0/1 概率向量，其中概率为 $p$，如果概率小于 $p$ 则**不会**被置为 $0$，为了最后输出期望统一要乘上 $\dfrac{1}{p}$ 放缩。
 
@@ -4455,6 +4455,8 @@ Visualize Filters
 
 ![](/image/ML/CS231n/17.png)
 
+spatial batchnorm 和 spatial groupnorm 不太会，抄个代码鸽一下。
+
 #### TODO: spatial_batchnorm_forward
 
 ```python
@@ -4689,6 +4691,536 @@ dx error:  7.413109648400194e-08
 dgamma error:  9.468195772749234e-12
 dbeta error:  3.354494437653335e-12
 ```
+
+### Q5: PyTorch on CIFAR-10
+
+使用 PyTorch 来实现一些神经网络。
+
+#### Barebones PyTorch: Two-Layer Network
+
+实现一个两层 ReLU 的全连接神经网络，主要是对 PyTorch 的基本语法熟悉一下。
+
+```python
+import torch.nn.functional as F  # useful stateless functions
+
+def two_layer_fc(x, params):
+    &#34;&#34;&#34;
+    A fully-connected neural networks; the architecture is:
+    NN is fully connected -&gt; ReLU -&gt; fully connected layer.
+    Note that this function only defines the forward pass; 
+    PyTorch will take care of the backward pass for us.
+    
+    The input to the network will be a minibatch of data, of shape
+    (N, d1, ..., dM) where d1 * ... * dM = D. The hidden layer will have H units,
+    and the output layer will produce scores for C classes.
+    
+    Inputs:
+    - x: A PyTorch Tensor of shape (N, d1, ..., dM) giving a minibatch of
+      input data.
+    - params: A list [w1, w2] of PyTorch Tensors giving weights for the network;
+      w1 has shape (D, H) and w2 has shape (H, C).
+    
+    Returns:
+    - scores: A PyTorch Tensor of shape (N, C) giving classification scores for
+      the input data x.
+    &#34;&#34;&#34;
+    # first we flatten the image
+    x = flatten(x)  # shape: [batch_size, C x H x W]
+    
+    w1, w2 = params
+    
+    # Forward pass: compute predicted y using operations on Tensors. Since w1 and
+    # w2 have requires_grad=True, operations involving these Tensors will cause
+    # PyTorch to build a computational graph, allowing automatic computation of
+    # gradients. Since we are no longer implementing the backward pass by hand we
+    # don&#39;t need to keep references to intermediate values.
+    # you can also use `.clamp(min=0)`, equivalent to F.relu()
+    x = F.relu(x.mm(w1))
+    x = x.mm(w2)
+    return x
+    
+
+def two_layer_fc_test():
+    hidden_layer_size = 42
+    x = torch.zeros((64, 50), dtype=dtype)  # minibatch size 64, feature dimension 50
+    w1 = torch.zeros((50, hidden_layer_size), dtype=dtype)
+    w2 = torch.zeros((hidden_layer_size, 10), dtype=dtype)
+    scores = two_layer_fc(x, [w1, w2])
+    print(scores.size())  # you should see [64, 10]
+
+two_layer_fc_test()
+```
+`torch.nn.functional` 是定义了一个无状态函数，他提供了一系列的常用函数。
+
+`torch.zeros` 是 PyTorch 中的一个函数，用于创建一个全为零的张量。
+
+`flatten` 是将输入的图像数据扁平化为一维向量，以便于后续的全连接层处理。
+
+`mm()` 矩阵乘法。
+
+#### TODO: Barebones PyTorch: Three-Layer ConvNet
+
+完成函数 three_layer_convnet 的实现，该函数将执行三层卷积网络的前向传播。网络应具有以下架构：
+1. 一个卷积层（带偏置），具有 `channel_1` 个滤波器，每个滤波器的形状为 `KW1 x KH1`，并且有零填充为2。
+2. ReLU 非线性激活。
+3. 一个卷积层（带偏置），具有 `channel_2` 个滤波器，每个滤波器的形状为 `KW2 x KH2`，并且有零填充为1。
+4. ReLU 非线性激活。
+5. 一个全连接层（带偏置），生成 C 类的分数。
+
+```python
+def three_layer_convnet(x, params):
+    &#34;&#34;&#34;
+    Performs the forward pass of a three-layer convolutional network with the
+    architecture defined above.
+
+    Inputs:
+    - x: A PyTorch Tensor of shape (N, 3, H, W) giving a minibatch of images
+    - params: A list of PyTorch Tensors giving the weights and biases for the
+      network; should contain the following:
+      - conv_w1: PyTorch Tensor of shape (channel_1, 3, KH1, KW1) giving weights
+        for the first convolutional layer
+      - conv_b1: PyTorch Tensor of shape (channel_1,) giving biases for the first
+        convolutional layer
+      - conv_w2: PyTorch Tensor of shape (channel_2, channel_1, KH2, KW2) giving
+        weights for the second convolutional layer
+      - conv_b2: PyTorch Tensor of shape (channel_2,) giving biases for the second
+        convolutional layer
+      - fc_w: PyTorch Tensor giving weights for the fully-connected layer. Can you
+        figure out what the shape should be?
+      - fc_b: PyTorch Tensor giving biases for the fully-connected layer. Can you
+        figure out what the shape should be?
+    
+    Returns:
+    - scores: PyTorch Tensor of shape (N, C) giving classification scores for x
+    &#34;&#34;&#34;
+    conv_w1, conv_b1, conv_w2, conv_b2, fc_w, fc_b = params
+    scores = None
+    ################################################################################
+    # TODO: Implement the forward pass for the three-layer ConvNet.                #
+    ################################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    # 第一层卷积
+    x = F.conv2d(x, conv_w1, conv_b1, padding=2)  # 使用零填充
+    x = F.relu(x)  # ReLU 激活
+
+    # 第二层卷积
+    x = F.conv2d(x, conv_w2, conv_b2, padding=1)  # 使用零填充
+    x = F.relu(x)  # ReLU 激活
+
+    # 展平
+    x = flatten(x)
+
+    # 全连接层
+    scores = x.mm(fc_w) &#43; fc_b  # 计算分数
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ################################################################################
+    #                                 END OF YOUR CODE                             #
+    ################################################################################
+    return scores
+```
+
+#### Barebones PyTorch: Initialization
+
+`random_weight(shape)` 使用 Kaiming 正规化方法初始化权重张量。
+
+`zero_weight(shape)` 初始化一个全为零的权重张量。对于实例化偏置参数非常有用。
+
+```python
+def random_weight(shape):
+    &#34;&#34;&#34;
+    Create random Tensors for weights; setting requires_grad=True means that we
+    want to compute gradients for these Tensors during the backward pass.
+    We use Kaiming normalization: sqrt(2 / fan_in)
+    &#34;&#34;&#34;
+    if len(shape) == 2:  # FC weight
+        fan_in = shape[0]
+    else:
+        fan_in = np.prod(shape[1:]) # conv weight [out_channel, in_channel, kH, kW]
+    # randn is standard normal distribution generator. 
+    w = torch.randn(shape, device=device, dtype=dtype) * np.sqrt(2. / fan_in)
+    w.requires_grad = True
+    return w
+
+def zero_weight(shape):
+    return torch.zeros(shape, device=device, dtype=dtype, requires_grad=True)
+
+# create a weight of shape [3 x 5]
+# you should see the type `torch.cuda.FloatTensor` if you use GPU. 
+# Otherwise it should be `torch.FloatTensor`
+random_weight((3, 5))
+```
+
+#### TODO: BareBones PyTorch: Training a ConvNet
+
+### BareBones PyTorch: 训练卷积神经网络
+
+训练一个三层卷积网络。网络应具有以下架构：
+
+1. 卷积层（带偏置），使用32个5x5的滤波器，零填充为2
+2. ReLU激活
+3. 卷积层（带偏置），使用16个3x3的滤波器，零填充为1
+4. ReLU激活
+5. 全连接层（带偏置），用于计算10个类别的分数
+
+您应该使用上面定义的`random_weight`函数来初始化权重矩阵，并使用`zero_weight`函数来初始化偏置向量。
+
+您不需要调整任何超参数，但如果一切正常，您应该在一个epoch后达到超过42%的准确率。
+
+```python
+learning_rate = 3e-3
+
+channel_1 = 32
+channel_2 = 16
+
+conv_w1 = None
+conv_b1 = None
+conv_w2 = None
+conv_b2 = None
+fc_w = None
+fc_b = None
+
+################################################################################
+# TODO: Initialize the parameters of a three-layer ConvNet.                    #
+################################################################################
+# *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+conv_w1 = random_weight((channel_1, 3, 5, 5))
+conv_b1 = zero_weight(channel_1)
+conv_w2 = random_weight((channel_2, channel_1, 3, 3))
+conv_b2 = zero_weight(channel_2)
+fc_w = random_weight((channel_2 * 32 * 32, 10))
+fc_b = zero_weight(10)
+
+# *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+################################################################################
+#                                 END OF YOUR CODE                             #
+################################################################################
+
+params = [conv_w1, conv_b1, conv_w2, conv_b2, fc_w, fc_b]
+train_part2(three_layer_convnet, params, learning_rate)
+```
+
+```{title=&#34;Output&#34;}
+Iteration 0, loss = 3.8646
+Checking accuracy on the val set
+Got 107 / 1000 correct (10.70%)
+
+Iteration 100, loss = 1.8770
+Checking accuracy on the val set
+Got 317 / 1000 correct (31.70%)
+
+Iteration 200, loss = 1.8188
+Checking accuracy on the val set
+Got 375 / 1000 correct (37.50%)
+
+Iteration 300, loss = 1.6608
+Checking accuracy on the val set
+Got 397 / 1000 correct (39.70%)
+
+Iteration 400, loss = 1.7184
+Checking accuracy on the val set
+Got 437 / 1000 correct (43.70%)
+
+Iteration 500, loss = 1.6697
+Checking accuracy on the val set
+Got 450 / 1000 correct (45.00%)
+
+Iteration 600, loss = 1.6106
+...
+Iteration 700, loss = 1.4275
+Checking accuracy on the val set
+Got 438 / 1000 correct (43.80%)
+```
+#### TODO: Module API: Three-Layer ConvNet
+
+### 模块 API：三层卷积网络
+
+实现一个三层卷积网络，后面跟一个全连接层。网络架构应该与第二部分相同：
+
+1. 使用 `channel_1` 个 5x5 的卷积层，零填充为 2
+2. ReLU 激活
+3. 使用 `channel_2` 个 3x3 的卷积层，零填充为 1
+4. ReLU 激活
+5. 全连接层，输出 `num_classes` 个类别
+
+你应该使用 Kaiming 正态初始化方法来初始化模型的权重矩阵。
+
+**提示**: [PyTorch 文档](http://pytorch.org/docs/stable/nn.html#conv2d)
+
+在你实现三层卷积网络后，`test_ThreeLayerConvNet` 函数将运行你的实现；它应该打印输出分数的形状为 `(64, 10)`。
+
+```python
+class ThreeLayerConvNet(nn.Module):
+    def __init__(self, in_channel, channel_1, channel_2, num_classes):
+        super().__init__()
+        ########################################################################
+        # TODO: Set up the layers you need for a three-layer ConvNet with the  #
+        # architecture defined above.                                          #
+        ########################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        # 定义卷积层和全连接层
+        self.conv1 = nn.Conv2d(in_channel, channel_1, kernel_size=5, padding=2)  # 第一层卷积
+        self.conv2 = nn.Conv2d(channel_1, channel_2, kernel_size=3, padding=1)  # 第二层卷积
+        self.fc3 = nn.Linear(channel_2 * 32 * 32, num_classes)  # 全连接层
+        
+        # Kaiming 正态初始化
+        nn.init.kaiming_normal_(self.conv1.weight)
+        nn.init.kaiming_normal_(self.conv2.weight)
+        nn.init.kaiming_normal_(self.fc3.weight)
+
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ########################################################################
+        #                          END OF YOUR CODE                            #       
+        ########################################################################
+
+    def forward(self, x):
+        scores = None
+        ########################################################################
+        # TODO: Implement the forward function for a 3-layer ConvNet. you      #
+        # should use the layers you defined in __init__ and specify the        #
+        # connectivity of those layers in forward()                            #
+        ########################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        # 定义前向传播
+        x = F.relu(self.conv1(x))  # 第一层卷积 &#43; ReLU
+        x = F.relu(self.conv2(x))  # 第二层卷积 &#43; ReLU
+        x = flatten(x)  # 展平
+        scores = self.fc3(x)  # 全连接层
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ########################################################################
+        #                             END OF YOUR CODE                         #
+        ########################################################################
+        return scores
+
+
+def test_ThreeLayerConvNet():
+    x = torch.zeros((64, 3, 32, 32), dtype=dtype)  # minibatch size 64, image size [3, 32, 32]
+    model = ThreeLayerConvNet(in_channel=3, channel_1=12, channel_2=8, num_classes=10)
+    scores = model(x)
+    print(scores.size())  # you should see [64, 10]
+test_ThreeLayerConvNet()
+```
+
+#### TODO: Module API: Train a Three-Layer ConvNet
+
+```python
+learning_rate = 3e-3
+channel_1 = 32
+channel_2 = 16
+
+model = None
+optimizer = None
+################################################################################
+# TODO: Instantiate your ThreeLayerConvNet model and a corresponding optimizer #
+################################################################################
+# *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+# 实例化三层卷积神经网络模型
+model = ThreeLayerConvNet(in_channel=3, channel_1=channel_1, channel_2=channel_2, num_classes=10)
+
+# 定义优化器
+optimizer = optim.SGD(model.parameters(), lr=learning_rate)
+
+# *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+################################################################################
+#                                 END OF YOUR CODE                             #
+################################################################################
+
+train_part34(model, optimizer)
+```
+
+```{title=&#34;Output&#34;}
+Iteration 0, loss = 2.8420
+Checking accuracy on validation set
+Got 120 / 1000 correct (12.00)
+
+Iteration 100, loss = 1.8090
+Checking accuracy on validation set
+Got 336 / 1000 correct (33.60)
+
+Iteration 200, loss = 1.8638
+Checking accuracy on validation set
+Got 385 / 1000 correct (38.50)
+
+Iteration 300, loss = 1.5297
+Checking accuracy on validation set
+Got 402 / 1000 correct (40.20)
+
+Iteration 400, loss = 1.5403
+Checking accuracy on validation set
+Got 430 / 1000 correct (43.00)
+
+Iteration 500, loss = 1.5430
+Checking accuracy on validation set
+Got 450 / 1000 correct (45.00)
+
+Iteration 600, loss = 1.5708
+...
+Iteration 700, loss = 1.6809
+Checking accuracy on validation set
+Got 466 / 1000 correct (46.60)
+```
+
+#### TODO: Sequential API: Three-Layer ConvNet
+
+### 顺序API：三层卷积神经网络
+
+使用 `nn.Sequential` 来定义和训练一个三层卷积神经网络，其架构与我们在第三部分中使用的相同：
+
+1. 卷积层（带偏置）使用32个5x5的滤波器，零填充为2
+2. ReLU
+3. 卷积层（带偏置）使用16个3x3的滤波器，零填充为1
+4. ReLU
+5. 全连接层（带偏置）计算10个类别的分数
+
+您可以使用默认的PyTorch权重初始化。
+
+您应该使用带有Nesterov动量0.9的随机梯度下降来优化您的模型。
+
+同样，您不需要调整任何超参数，但您应该在训练一个周期后看到准确率超过55%。
+
+```python
+channel_1 = 32
+channel_2 = 16
+learning_rate = 1e-2
+
+model = None
+optimizer = None
+
+################################################################################
+# TODO: Rewrite the 3-layer ConvNet with bias from Part III with the           #
+# Sequential API.                                                              #
+################################################################################
+# *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+model = nn.Sequential(
+    nn.Conv2d(3, channel_1, kernel_size=5, padding=2),  # 第一层卷积
+    nn.ReLU(),                                           # ReLU 激活
+    nn.Conv2d(channel_1, channel_2, kernel_size=3, padding=1),  # 第二层卷积
+    nn.ReLU(),                                           # ReLU 激活
+    Flatten(),                                          # 展平
+    nn.Linear(channel_2 * 32 * 32, 10)                 # 全连接层
+)
+
+optimizer = optim.SGD(model.parameters(), lr=learning_rate, momentum=0.9, nesterov=True)
+
+
+# *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+################################################################################
+#                                 END OF YOUR CODE                             #
+################################################################################
+
+train_part34(model, optimizer)
+```
+
+```{title=&#34;Output&#34;}
+Iteration 0, loss = 2.2989
+Checking accuracy on validation set
+Got 116 / 1000 correct (11.60)
+
+Iteration 100, loss = 1.6947
+Checking accuracy on validation set
+Got 457 / 1000 correct (45.70)
+
+Iteration 200, loss = 1.7063
+Checking accuracy on validation set
+Got 476 / 1000 correct (47.60)
+
+Iteration 300, loss = 1.1563
+Checking accuracy on validation set
+Got 495 / 1000 correct (49.50)
+
+Iteration 400, loss = 1.3090
+Checking accuracy on validation set
+Got 553 / 1000 correct (55.30)
+
+Iteration 500, loss = 1.0429
+Checking accuracy on validation set
+Got 539 / 1000 correct (53.90)
+
+Iteration 600, loss = 1.4302
+...
+Iteration 700, loss = 1.3101
+Checking accuracy on validation set
+Got 579 / 1000 correct (57.90)
+```
+
+#### TODO: Part V. CIFAR-10 open-ended challenge
+
+在这一部分中，您可以尝试在 CIFAR-10 上实验任何卷积神经网络架构。
+
+现在轮到您实验架构、超参数、损失函数和优化器，以训练一个在 CIFAR-10 **验证集**上达到 **至少 70%** 准确率的模型，训练时间不超过 10 个周期。您可以使用上面的 check_accuracy 和 train 函数。您可以使用 `nn.Module` 或 `nn.Sequential` API。
+
+使用 ResNet 模型。
+
+```python
+import torchvision
+################################################################################
+# TODO:                                                                        #         
+# Experiment with any architectures, optimizers, and hyperparameters.          #
+# Achieve AT LEAST 70% accuracy on the *validation set* within 10 epochs.      #
+#                                                                              #
+# Note that you can use the check_accuracy function to evaluate on either      #
+# the test set or the validation set, by passing either loader_test or         #
+# loader_val as the second argument to check_accuracy. You should not touch    #
+# the test set until you have finished your architecture and  hyperparameter   #
+# tuning, and only run the test set once at the end to report a final value.   #
+################################################################################
+model = None
+optimizer = None
+
+# *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+################################################################################
+# TODO:                                                                        #         
+# Experiment with any architectures, optimizers, and hyperparameters.          #
+# Achieve AT LEAST 70% accuracy on the *validation set* within 10 epochs.      #
+#                                                                              #
+# Note that you can use the check_accuracy function to evaluate on either      #
+# the test set or the validation set, by passing either loader_test or         #
+# loader_val as the second argument to check_accuracy. You should not touch    #
+# the test set until you have finished your architecture and  hyperparameter   #
+# tuning, and only run the test set once at the end to report a final value.   #
+################################################################################
+model = None
+optimizer = None
+
+# 使用ResNet-18架构
+model = torchvision.models.resnet18(pretrained=False)
+# 修改第一层卷积（原ImageNet输入为3通道224x224，CIFAR-10为3通道32x32）
+model.conv1 = nn.Conv2d(3, 64, kernel_size=3, stride=1, padding=1, bias=False)
+# 移除原最大池化层（因图像尺寸较小）
+model.maxpool = nn.Identity()
+# 修改全连接层输出为10类
+model.fc = nn.Linear(512, 10)
+
+# 使用Adam优化器，加入学习率调度
+optimizer = optim.Adam(model.parameters(), lr=3e-4, weight_decay=1e-4)
+scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.1)
+
+
+# *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+################################################################################
+#                                 END OF YOUR CODE                             #
+################################################################################
+
+# You should get at least 70% accuracy.
+# You may modify the number of epochs to any number below 15.
+train_part34(model, optimizer, epochs=10)
+```
+
+```{title=&#34;Output&#34;}
+Iteration 300, loss = 0.0958
+Checking accuracy on validation set
+Got 803 / 1000 correct (80.30)
+```
+
 
 ## 参考
 
