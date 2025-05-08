@@ -4854,7 +4854,7 @@ random_weight((3, 5))
 
 #### TODO: BareBones PyTorch: Training a ConvNet
 
-### BareBones PyTorch: 训练卷积神经网络
+##### BareBones PyTorch: 训练卷积神经网络
 
 训练一个三层卷积网络。网络应具有以下架构：
 
@@ -4935,7 +4935,7 @@ Got 438 / 1000 correct (43.80%)
 ```
 #### TODO: Module API: Three-Layer ConvNet
 
-### 模块 API：三层卷积网络
+##### 模块 API：三层卷积网络
 
 实现一个三层卷积网络，后面跟一个全连接层。网络架构应该与第二部分相同：
 
@@ -5069,7 +5069,7 @@ Got 466 / 1000 correct (46.60)
 
 #### TODO: Sequential API: Three-Layer ConvNet
 
-### 顺序API：三层卷积神经网络
+##### 顺序API：三层卷积神经网络
 
 使用 `nn.Sequential` 来定义和训练一个三层卷积神经网络，其架构与我们在第三部分中使用的相同：
 
@@ -5220,6 +5220,611 @@ Iteration 300, loss = 0.0958
 Checking accuracy on validation set
 Got 803 / 1000 correct (80.30)
 ```
+## Assignment 3
+
+### Q1: Image Captioning with Vanilla RNNs
+
+RNN 结构模型图如下：
+
+![](/image/ML/CS231n/rnn1.webp)
+
+特点就是可以保留历史信息，其中 $x$ 可以代表一个单词向量，$x_t$ 是第 $t$ 个单词向量 (也叫做 $t$ 时刻)，图中的 $W, U, V$ 是每个时刻共用的参数。
+模型公式：
+
+$$
+o_t = g(V \cdot s_t) \\\\
+s_t = f(U \cdot x_t &#43; W \cdot s_{t - 1})
+$$
+
+在 CS231n 中，基本模型如下：
+
+![](/image/ML/CS231n/rnn2.png)
+
+先从单步模型看起：
+
+#### TODO: rnn_step_forward
+
+单步的前向传播直接套用公式，这里激活函数一般是 $\tanh$ 
+
+$$
+\text{next}_h = \tanh(\text{prev}_h \cdot W_h &#43; x \cdot W_x &#43; b)
+$$
+
+```python
+def rnn_step_forward(x, prev_h, Wx, Wh, b):
+    &#34;&#34;&#34;Run the forward pass for a single timestep of a vanilla RNN using a tanh activation function.
+
+    The input data has dimension D, the hidden state has dimension H,
+    and the minibatch is of size N.
+
+    Inputs:
+    - x: Input data for this timestep, of shape (N, D)
+    - prev_h: Hidden state from previous timestep, of shape (N, H)
+    - Wx: Weight matrix for input-to-hidden connections, of shape (D, H)
+    - Wh: Weight matrix for hidden-to-hidden connections, of shape (H, H)
+    - b: Biases of shape (H,)
+
+    Returns a tuple of:
+    - next_h: Next hidden state, of shape (N, H)
+    - cache: Tuple of values needed for the backward pass.
+    &#34;&#34;&#34;
+    next_h, cache = None, None
+    ##############################################################################
+    # TODO: Implement a single forward step for the vanilla RNN. Store the next  #
+    # hidden state and any values you need for the backward pass in the next_h   #
+    # and cache variables respectively.                                          #
+    ##############################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    next_h = np.tanh(np.dot(prev_h, Wh) &#43; np.dot(x, Wx) &#43; b)
+    cache = (x, prev_h, Wx, Wh, b, next_h)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ##############################################################################
+    #                               END OF YOUR CODE                             #
+    ##############################################################################
+    return next_h, cache
+```
+
+#### TODO: rnn_step_backward
+
+反向传播我们先来看一下 $\mathrm{d}x$
+
+根据公式 $\text{next}_h = \tanh(\text{prev}_h \cdot W_h &#43; x \cdot W_x &#43; b)$
+
+我们先设 $z = \text{prev}_h \cdot W_h &#43; x \cdot W_x &#43; b$
+
+也就是 $\text{next}_h = \tanh(z)$
+
+那么 $x$ 的梯度就是
+$$
+\frac{\partial L}{\partial x} = \frac{\partial L}{ \partial z} \cdot \frac{\partial z}{ \partial x} = \frac{\partial L}{ \partial z} \cdot W_x ^ {\top}
+$$
+
+那来看一下 $\dfrac{\partial L}{\partial z}$ 这是什么：
+
+$$
+\frac{\partial L}{\partial z} = \frac{\partial L}{\partial \text{next}_h} \cdot \frac{\partial \text{next}_h}{\partial z} = \mathrm{d} \text{next}_h \cdot \frac{\partial \text{next}_h}{\partial z}
+$$
+
+那么 $\dfrac{\partial \text{next}_h}{\partial z}$ 就是对 $\tanh(z)$ 求导，导数为 $1 - \tanh^2(z)$
+
+所以 $\dfrac{\partial L}{\partial z} = \mathrm{d} \text{next}_h (1 - \tanh^2(z))$，把这个记为 $\mathrm{d}\tanh$
+
+所以 $\mathrm{d}x = \mathrm{d}\tanh \cdot W_x ^ {\top}$
+
+其他参数都是同理的。
+
+```python
+def rnn_step_backward(dnext_h, cache):
+    &#34;&#34;&#34;Backward pass for a single timestep of a vanilla RNN.
+
+    Inputs:
+    - dnext_h: Gradient of loss with respect to next hidden state, of shape (N, H)
+    - cache: Cache object from the forward pass
+
+    Returns a tuple of:
+    - dx: Gradients of input data, of shape (N, D)
+    - dprev_h: Gradients of previous hidden state, of shape (N, H)
+    - dWx: Gradients of input-to-hidden weights, of shape (D, H)
+    - dWh: Gradients of hidden-to-hidden weights, of shape (H, H)
+    - db: Gradients of bias vector, of shape (H,)
+    &#34;&#34;&#34;
+    dx, dprev_h, dWx, dWh, db = None, None, None, None, None
+    ##############################################################################
+    # TODO: Implement the backward pass for a single step of a vanilla RNN.      #
+    #                                                                            #
+    # HINT: For the tanh function, you can compute the local derivative in terms #
+    # of the output value from tanh.                                             #
+    ##############################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    x, prev_h, Wx, Wh, b, next_h = cache
+    dtanh = dnext_h * (1 - next_h**2)
+    dx = np.dot(dtanh, Wx.T)
+    dprev_h = np.dot(dtanh, Wh.T)
+    dWx = np.dot(x.T, dtanh)
+    dWh = np.dot(prev_h.T, dtanh)
+    db = np.sum(dtanh, 0)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ##############################################################################
+    #                               END OF YOUR CODE                             #
+    ##############################################################################
+    return dx, dprev_h, dWx, dWh, db
+```
+
+#### TODO: rnn_forward
+
+整体的前向传播只需要把 $\text{prev}_h$ 代入就可以了，注意保留过程。
+
+```python
+def rnn_forward(x, h0, Wx, Wh, b):
+    &#34;&#34;&#34;Run a vanilla RNN forward on an entire sequence of data.
+    
+    We assume an input sequence composed of T vectors, each of dimension D. The RNN uses a hidden
+    size of H, and we work over a minibatch containing N sequences. After running the RNN forward,
+    we return the hidden states for all timesteps.
+
+    Inputs:
+    - x: Input data for the entire timeseries, of shape (N, T, D)
+    - h0: Initial hidden state, of shape (N, H)
+    - Wx: Weight matrix for input-to-hidden connections, of shape (D, H)
+    - Wh: Weight matrix for hidden-to-hidden connections, of shape (H, H)
+    - b: Biases of shape (H,)
+
+    Returns a tuple of:
+    - h: Hidden states for the entire timeseries, of shape (N, T, H)
+    - cache: Values needed in the backward pass
+    &#34;&#34;&#34;
+    h, cache = None, None
+    ##############################################################################
+    # TODO: Implement forward pass for a vanilla RNN running on a sequence of    #
+    # input data. You should use the rnn_step_forward function that you defined  #
+    # above. You can use a for loop to help compute the forward pass.            #
+    ##############################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    N, T, D = x.shape
+    H = h0.shape[1]
+    h = np.zeros((N, T, H))
+    cache = []
+    prev_h = h0
+    
+    for t in range(T):
+        prev_h, cache_t = rnn_step_forward(x[:, t, :], prev_h, Wx, Wh, b)
+        h[:, t, :] = prev_h
+        cache.append(cache_t)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ##############################################################################
+    #                               END OF YOUR CODE                             #
+    ##############################################################################
+    return h, cache
+```
+
+#### TODO: rnn_backward
+
+整体反向传播需要注意的第一个是逆序的，还要注意梯度传播有两个方向：一个是当前传播下来的梯度，另一个是由下一个时间节点传播下来的梯度，加起来就好。
+
+```python
+def rnn_backward(dh, cache):
+    &#34;&#34;&#34;Compute the backward pass for a vanilla RNN over an entire sequence of data.
+
+    Inputs:
+    - dh: Upstream gradients of all hidden states, of shape (N, T, H)
+    
+    NOTE: &#39;dh&#39; contains the upstream gradients produced by the 
+    individual loss functions at each timestep, *not* the gradients
+    being passed between timesteps (which you&#39;ll have to compute yourself
+    by calling rnn_step_backward in a loop).
+
+    Returns a tuple of:
+    - dx: Gradient of inputs, of shape (N, T, D)
+    - dh0: Gradient of initial hidden state, of shape (N, H)
+    - dWx: Gradient of input-to-hidden weights, of shape (D, H)
+    - dWh: Gradient of hidden-to-hidden weights, of shape (H, H)
+    - db: Gradient of biases, of shape (H,)
+    &#34;&#34;&#34;
+    dx, dh0, dWx, dWh, db = None, None, None, None, None
+    ##############################################################################
+    # TODO: Implement the backward pass for a vanilla RNN running an entire      #
+    # sequence of data. You should use the rnn_step_backward function that you   #
+    # defined above. You can use a for loop to help compute the backward pass.   #
+    ##############################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    N, T, H = dh.shape
+    D = cache[0][0].shape[1]
+    dx = np.zeros((N, T, D))
+    dh0 = np.zeros((N, H))
+    dWx = np.zeros((D, H))
+    dWh = np.zeros((H, H))
+    db = np.zeros(H)
+    dprev_h = np.zeros((N, H))
+
+    for t in reversed(range(T)):
+        dx_t, dprev_h, dWx_t, dWh_t, db_t = rnn_step_backward(dh[:, t, :] &#43; dprev_h, cache[t])
+        dx[:, t, :] = dx_t
+        dWx &#43;= dWx_t
+        dWh &#43;= dWh_t
+        db &#43;= db_t
+
+    dh0 = dprev_h
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ##############################################################################
+    #                               END OF YOUR CODE                             #
+    ##############################################################################
+    return dx, dh0, dWx, dWh, db
+```
+
+#### TODO: word_embedding_forward
+
+word embedding 就是词嵌入，简单来说就是把单词表示成向量的形式，假设用最简单的独热编码 (one-hot)，这个在之前 softmax 里提到过，就是每个不同种类的单词构成的单位矩阵。
+
+在这里，单词矩阵 $W$ 是一个 $V \times D$ 的矩阵，其中 $V$ 代表单词个数，$D$ 代表维度。$X$ 是一个 $N \times T$ 的矩阵，$N$ 代表 batch，$T$ 代表这句话有 $T$ 个词，$T$ 序列中的每个值是 $W$ 中的索引。
+
+所以前向传播直接 W[x] 自动索引就行。
+
+```python
+def word_embedding_forward(x, W):
+    &#34;&#34;&#34;Forward pass for word embeddings.
+    
+    We operate on minibatches of size N where
+    each sequence has length T. We assume a vocabulary of V words, assigning each
+    word to a vector of dimension D.
+
+    Inputs:
+    - x: Integer array of shape (N, T) giving indices of words. Each element idx
+      of x muxt be in the range 0 &lt;= idx &lt; V.
+    - W: Weight matrix of shape (V, D) giving word vectors for all words.
+
+    Returns a tuple of:
+    - out: Array of shape (N, T, D) giving word vectors for all input words.
+    - cache: Values needed for the backward pass
+    &#34;&#34;&#34;
+    out, cache = None, None
+    ##############################################################################
+    # TODO: Implement the forward pass for word embeddings.                      #
+    #                                                                            #
+    # HINT: This can be done in one line using NumPy&#39;s array indexing.           #
+    ##############################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    out = W[x]
+    cache = (x, W)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ##############################################################################
+    #                               END OF YOUR CODE                             #
+    ##############################################################################
+    return out, cache
+```
+
+#### TODO: word_embedding_backward
+
+首先注意提示，先学习 np.add.at()
+
+```python
+import numpy as np
+
+# 创建一个数组
+a = np.array([1, 2, 3, 4])
+
+# 在指定索引处增加值
+np.add.at(a, [0, 1, 2, 2], 1)
+
+# 输出结果
+print(a) # 结果为 [2, 3, 5, 4]
+```
+
+这个就是给数组一个列表，在指定索引处增加值。
+
+dout 是大小 $N \times T \times D$ 的上游梯度，在 dW 矩阵上根据 $x$ 矩阵作为下标加上 dout 的值，因为 out 只依赖于 $W$ 在特定位置（即 $x$ 的元素所表示的 $W$ 的下标）的值， out 对 $W$ 求导之后系数是 $1$，所以只要在特定位置加上 dout 的值就行。
+
+
+```python
+def word_embedding_backward(dout, cache):
+    &#34;&#34;&#34;Backward pass for word embeddings.
+    
+    We cannot back-propagate into the words
+    since they are integers, so we only return gradient for the word embedding
+    matrix.
+
+    HINT: Look up the function np.add.at
+
+    Inputs:
+    - dout: Upstream gradients of shape (N, T, D)
+    - cache: Values from the forward pass
+
+    Returns:
+    - dW: Gradient of word embedding matrix, of shape (V, D)
+    &#34;&#34;&#34;
+    dW = None
+    ##############################################################################
+    # TODO: Implement the backward pass for word embeddings.                     #
+    #                                                                            #
+    # Note that words can appear more than once in a sequence.                   #
+    # HINT: Look up the function np.add.at                                       #
+    ##############################################################################
+    # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+    x, W = cache
+    dW = np.zeros_like(W)
+    np.add.at(dW, x, dout)
+
+    # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+    ##############################################################################
+    #                               END OF YOUR CODE                             #
+    ##############################################################################
+    return dW
+```
+
+#### TODO: CaptioningRNN.loss CaptioningRNN.sample 
+
+
+
+```python
+import numpy as np
+
+from ..rnn_layers import *
+
+
+class CaptioningRNN:
+    &#34;&#34;&#34;
+    A CaptioningRNN produces captions from image features using a recurrent
+    neural network.
+
+    The RNN receives input vectors of size D, has a vocab size of V, works on
+    sequences of length T, has an RNN hidden dimension of H, uses word vectors
+    of dimension W, and operates on minibatches of size N.
+
+    Note that we don&#39;t use any regularization for the CaptioningRNN.
+    &#34;&#34;&#34;
+
+    def __init__(
+        self,
+        word_to_idx,
+        input_dim=512,
+        wordvec_dim=128,
+        hidden_dim=128,
+        cell_type=&#34;rnn&#34;,
+        dtype=np.float32,
+    ):
+        &#34;&#34;&#34;
+        Construct a new CaptioningRNN instance.
+
+        Inputs:
+        - word_to_idx: A dictionary giving the vocabulary. It contains V entries,
+          and maps each string to a unique integer in the range [0, V).
+        - input_dim: Dimension D of input image feature vectors.
+        - wordvec_dim: Dimension W of word vectors.
+        - hidden_dim: Dimension H for the hidden state of the RNN.
+        - cell_type: What type of RNN to use; either &#39;rnn&#39; or &#39;lstm&#39;.
+        - dtype: numpy datatype to use; use float32 for training and float64 for
+          numeric gradient checking.
+        &#34;&#34;&#34;
+        if cell_type not in {&#34;rnn&#34;, &#34;lstm&#34;}:
+            raise ValueError(&#39;Invalid cell_type &#34;%s&#34;&#39; % cell_type)
+
+        self.cell_type = cell_type
+        self.dtype = dtype
+        self.word_to_idx = word_to_idx
+        self.idx_to_word = {i: w for w, i in word_to_idx.items()}
+        self.params = {}
+
+        vocab_size = len(word_to_idx)
+
+        self._null = word_to_idx[&#34;&lt;NULL&gt;&#34;]
+        self._start = word_to_idx.get(&#34;&lt;START&gt;&#34;, None)
+        self._end = word_to_idx.get(&#34;&lt;END&gt;&#34;, None)
+
+        # Initialize word vectors
+        self.params[&#34;W_embed&#34;] = np.random.randn(vocab_size, wordvec_dim)
+        self.params[&#34;W_embed&#34;] /= 100
+
+        # Initialize CNN -&gt; hidden state projection parameters
+        self.params[&#34;W_proj&#34;] = np.random.randn(input_dim, hidden_dim)
+        self.params[&#34;W_proj&#34;] /= np.sqrt(input_dim)
+        self.params[&#34;b_proj&#34;] = np.zeros(hidden_dim)
+
+        # Initialize parameters for the RNN
+        dim_mul = {&#34;lstm&#34;: 4, &#34;rnn&#34;: 1}[cell_type]
+        self.params[&#34;Wx&#34;] = np.random.randn(wordvec_dim, dim_mul * hidden_dim)
+        self.params[&#34;Wx&#34;] /= np.sqrt(wordvec_dim)
+        self.params[&#34;Wh&#34;] = np.random.randn(hidden_dim, dim_mul * hidden_dim)
+        self.params[&#34;Wh&#34;] /= np.sqrt(hidden_dim)
+        self.params[&#34;b&#34;] = np.zeros(dim_mul * hidden_dim)
+
+        # Initialize output to vocab weights
+        self.params[&#34;W_vocab&#34;] = np.random.randn(hidden_dim, vocab_size)
+        self.params[&#34;W_vocab&#34;] /= np.sqrt(hidden_dim)
+        self.params[&#34;b_vocab&#34;] = np.zeros(vocab_size)
+
+        # Cast parameters to correct dtype
+        for k, v in self.params.items():
+            self.params[k] = v.astype(self.dtype)
+
+    def loss(self, features, captions):
+        &#34;&#34;&#34;
+        Compute training-time loss for the RNN. We input image features and
+        ground-truth captions for those images, and use an RNN (or LSTM) to compute
+        loss and gradients on all parameters.
+
+        Inputs:
+        - features: Input image features, of shape (N, D)
+        - captions: Ground-truth captions; an integer array of shape (N, T &#43; 1) where
+          each element is in the range 0 &lt;= y[i, t] &lt; V
+
+        Returns a tuple of:
+        - loss: Scalar loss
+        - grads: Dictionary of gradients parallel to self.params
+        &#34;&#34;&#34;
+        # Cut captions into two pieces: captions_in has everything but the last word
+        # and will be input to the RNN; captions_out has everything but the first
+        # word and this is what we will expect the RNN to generate. These are offset
+        # by one relative to each other because the RNN should produce word (t&#43;1)
+        # after receiving word t. The first element of captions_in will be the START
+        # token, and the first element of captions_out will be the first word.
+        captions_in = captions[:, :-1]
+        captions_out = captions[:, 1:]
+
+        # You&#39;ll need this
+        mask = captions_out != self._null
+
+        # Weight and bias for the affine transform from image features to initial
+        # hidden state
+        W_proj, b_proj = self.params[&#34;W_proj&#34;], self.params[&#34;b_proj&#34;]
+
+        # Word embedding matrix
+        W_embed = self.params[&#34;W_embed&#34;]
+
+        # Input-to-hidden, hidden-to-hidden, and biases for the RNN
+        Wx, Wh, b = self.params[&#34;Wx&#34;], self.params[&#34;Wh&#34;], self.params[&#34;b&#34;]
+
+        # Weight and bias for the hidden-to-vocab transformation.
+        W_vocab, b_vocab = self.params[&#34;W_vocab&#34;], self.params[&#34;b_vocab&#34;]
+
+        loss, grads = 0.0, {}
+        ############################################################################
+        # TODO: Implement the forward and backward passes for the CaptioningRNN.   #
+        # In the forward pass you will need to do the following:                   #
+        # (1) Use an affine transformation to compute the initial hidden state     #
+        #     from the image features. This should produce an array of shape (N, H)#
+        # (2) Use a word embedding layer to transform the words in captions_in     #
+        #     from indices to vectors, giving an array of shape (N, T, W).         #
+        # (3) Use either a vanilla RNN or LSTM (depending on self.cell_type) to    #
+        #     process the sequence of input word vectors and produce hidden state  #
+        #     vectors for all timesteps, producing an array of shape (N, T, H).    #
+        # (4) Use a (temporal) affine transformation to compute scores over the    #
+        #     vocabulary at every timestep using the hidden states, giving an      #
+        #     array of shape (N, T, V).                                            #
+        # (5) Use (temporal) softmax to compute loss using captions_out, ignoring  #
+        #     the points where the output word is &lt;NULL&gt; using the mask above.     #
+        #                                                                          #
+        #                                                                          #
+        # Do not worry about regularizing the weights or their gradients!          #
+        #                                                                          #
+        # In the backward pass you will need to compute the gradient of the loss   #
+        # with respect to all model parameters. Use the loss and grads variables   #
+        # defined above to store loss and gradients; grads[k] should give the      #
+        # gradients for self.params[k].                                            #
+        #                                                                          #
+        # Note also that you are allowed to make use of functions from layers.py   #
+        # in your implementation, if needed.                                       #
+        ############################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        h0, cache_affine = affine_forward(features, W_proj, b_proj)
+        word_vectors, cache_embed = word_embedding_forward(captions_in, W_embed)
+        if self.cell_type == &#34;rnn&#34;:
+            h, cache_rnn = rnn_forward(word_vectors, h0, Wx, Wh, b)
+        elif self.cell_type == &#34;lstm&#34;:
+            h, cache_lstm = lstm_forward(word_vectors, h0, Wx, Wh, b)
+        else:
+            raise ValueError(&#34;Invalid cell_type&#34;)
+        scores, cache_temporal_affine = temporal_affine_forward(h, W_vocab, b_vocab)
+
+        loss, dscores = temporal_softmax_loss(scores, captions_out, mask)
+
+        dh, grads[&#34;W_vocab&#34;], grads[&#34;b_vocab&#34;] = temporal_affine_backward(dscores, cache_temporal_affine)
+        if self.cell_type == &#34;rnn&#34;:
+            dword_vectors, dh0, grads[&#34;Wx&#34;], grads[&#34;Wh&#34;], grads[&#34;b&#34;] = rnn_backward(dh, cache_rnn)
+        elif self.cell_type == &#34;lstm&#34;:
+            dword_vectors, dh0, grads[&#34;Wx&#34;], grads[&#34;Wh&#34;], grads[&#34;b&#34;] = lstm_backward(dh, cache_lstm)
+        else:
+            raise ValueError(&#34;Invalid cell_type&#34;)
+        grads[&#34;W_embed&#34;] = word_embedding_backward(dword_vectors, cache_embed)
+        _, grads[&#34;W_proj&#34;], grads[&#34;b_proj&#34;] = affine_backward(dh0, cache_affine)
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ############################################################################
+        #                             END OF YOUR CODE                             #
+        ############################################################################
+
+        return loss, grads
+
+    def sample(self, features, max_length=30):
+        &#34;&#34;&#34;
+        Run a test-time forward pass for the model, sampling captions for input
+        feature vectors.
+
+        At each timestep, we embed the current word, pass it and the previous hidden
+        state to the RNN to get the next hidden state, use the hidden state to get
+        scores for all vocab words, and choose the word with the highest score as
+        the next word. The initial hidden state is computed by applying an affine
+        transform to the input image features, and the initial word is the &lt;START&gt;
+        token.
+
+        For LSTMs you will also have to keep track of the cell state; in that case
+        the initial cell state should be zero.
+
+        Inputs:
+        - features: Array of input image features of shape (N, D).
+        - max_length: Maximum length T of generated captions.
+
+        Returns:
+        - captions: Array of shape (N, max_length) giving sampled captions,
+          where each element is an integer in the range [0, V). The first element
+          of captions should be the first sampled word, not the &lt;START&gt; token.
+        &#34;&#34;&#34;
+        N = features.shape[0]
+        captions = self._null * np.ones((N, max_length), dtype=np.int32)
+
+        # Unpack parameters
+        W_proj, b_proj = self.params[&#34;W_proj&#34;], self.params[&#34;b_proj&#34;]
+        W_embed = self.params[&#34;W_embed&#34;]
+        Wx, Wh, b = self.params[&#34;Wx&#34;], self.params[&#34;Wh&#34;], self.params[&#34;b&#34;]
+        W_vocab, b_vocab = self.params[&#34;W_vocab&#34;], self.params[&#34;b_vocab&#34;]
+
+        ###########################################################################
+        # TODO: Implement test-time sampling for the model. You will need to      #
+        # initialize the hidden state of the RNN by applying the learned affine   #
+        # transform to the input image features. The first word that you feed to  #
+        # the RNN should be the &lt;START&gt; token; its value is stored in the         #
+        # variable self._start. At each timestep you will need to do to:          #
+        # (1) Embed the previous word using the learned word embeddings           #
+        # (2) Make an RNN step using the previous hidden state and the embedded   #
+        #     current word to get the next hidden state.                          #
+        # (3) Apply the learned affine transformation to the next hidden state to #
+        #     get scores for all words in the vocabulary                          #
+        # (4) Select the word with the highest score as the next word, writing it #
+        #     (the word index) to the appropriate slot in the captions variable   #
+        #                                                                         #
+        # For simplicity, you do not need to stop generating after an &lt;END&gt; token #
+        # is sampled, but you can if you want to.                                 #
+        #                                                                         #
+        # HINT: You will not be able to use the rnn_forward or lstm_forward       #
+        # functions; you&#39;ll need to call rnn_step_forward or lstm_step_forward in #
+        # a loop.                                                                 #
+        #                                                                         #
+        # NOTE: we are still working over minibatches in this function. Also if   #
+        # you are using an LSTM, initialize the first cell state to zeros.        #
+        ###########################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        h, _ = affine_forward(features, W_proj, b_proj)
+        c = np.zeros_like(h) if self.cell_type == &#34;lstm&#34; else None
+        captions[:, 0] = self._start
+        for t in range(1, max_length):
+            word_vectors, _ = word_embedding_forward(captions[:, t-1], W_embed)
+            if self.cell_type == &#34;rnn&#34;:
+                h, _ = rnn_step_forward(word_vectors, h, Wx, Wh, b)
+            elif self.cell_type == &#34;lstm&#34;:
+                h, c, _ = lstm_step_forward(word_vectors, h, c, Wx, Wh, b)
+            else:
+                raise ValueError(&#34;Invalid cell_type&#34;)
+            scores, _ = affine_forward(h, W_vocab, b_vocab)
+            captions[:, t] = np.argmax(scores, axis=1)
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ############################################################################
+        #                             END OF YOUR CODE                             #
+        ############################################################################
+        return captions
+```
+
 
 
 ## 参考
