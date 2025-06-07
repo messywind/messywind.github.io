@@ -5825,6 +5825,169 @@ class CaptioningRNN:
         return captions
 ```
 
+### Q2: Image Captioning with Transformers
+
+#### TODO: MultiHeadAttention
+
+输入格式：
+
+$N$ 表示 batch size，$S$ 表示源序列长度，$T$ 表示目标序列长度，$E$ 表示 embedding 维度。
+
+- query：作为查询（query）使用的输入数据，形状为 (N, S, E)
+- key：作为键（key）使用的输入数据，形状为 (N, T, E)
+- value：作为值（value）使用的输入数据，形状为 (N, T, E)
+- attn_mask：形状为 $(S, T)$ 的数组，其中 $mask_{i, j} = 0$ 表示源序列中的第 $i$ 个 token 不应影响目标序列中的第 $j$ 个 token
+
+返回：
+
+- output：形状为 $(N, S, E) 的张量，根据用 key 和 query 计算得到的注意力权重，对 value 中的数据加权组合后的结果。
+
+```python
+class MultiHeadAttention(nn.Module):
+    &#34;&#34;&#34;
+    A model layer which implements a simplified version of masked attention, as
+    introduced by &#34;Attention Is All You Need&#34; (https://arxiv.org/abs/1706.03762).
+
+    Usage:
+      attn = MultiHeadAttention(embed_dim, num_heads=2)
+
+      # self-attention
+      data = torch.randn(batch_size, sequence_length, embed_dim)
+      self_attn_output = attn(query=data, key=data, value=data)
+
+      # attention using two inputs
+      other_data = torch.randn(batch_size, sequence_length, embed_dim)
+      attn_output = attn(query=data, key=other_data, value=other_data)
+    &#34;&#34;&#34;
+
+    def __init__(self, embed_dim, num_heads, dropout=0.1):
+        &#34;&#34;&#34;
+        Construct a new MultiHeadAttention layer.
+
+        Inputs:
+         - embed_dim: Dimension of the token embedding
+         - num_heads: Number of attention heads
+         - dropout: Dropout probability
+        &#34;&#34;&#34;
+        super().__init__()
+        assert embed_dim % num_heads == 0
+
+        # We will initialize these layers for you, since swapping the ordering
+        # would affect the random number generation (and therefore your exact
+        # outputs relative to the autograder). Note that the layers use a bias
+        # term, but this isn&#39;t strictly necessary (and varies by
+        # implementation).
+        self.key = nn.Linear(embed_dim, embed_dim)
+        self.query = nn.Linear(embed_dim, embed_dim)
+        self.value = nn.Linear(embed_dim, embed_dim)
+        self.proj = nn.Linear(embed_dim, embed_dim)
+        
+        self.attn_drop = nn.Dropout(dropout)
+
+        self.n_head = num_heads
+        self.emd_dim = embed_dim
+        self.head_dim = self.emd_dim // self.n_head
+
+    def forward(self, query, key, value, attn_mask=None):
+        &#34;&#34;&#34;
+        Calculate the masked attention output for the provided data, computing
+        all attention heads in parallel.
+
+        In the shape definitions below, N is the batch size, S is the source
+        sequence length, T is the target sequence length, and E is the embedding
+        dimension.
+
+        Inputs:
+        - query: Input data to be used as the query, of shape (N, S, E)
+        - key: Input data to be used as the key, of shape (N, T, E)
+        - value: Input data to be used as the value, of shape (N, T, E)
+        - attn_mask: Array of shape (S, T) where mask[i,j] == 0 indicates token
+          i in the source should not influence token j in the target.
+
+        Returns:
+        - output: Tensor of shape (N, S, E) giving the weighted combination of
+          data in value according to the attention weights calculated using key
+          and query.
+        &#34;&#34;&#34;
+        N, S, E = query.shape
+        N, T, E = value.shape
+        # Create a placeholder, to be overwritten by your code below.
+        output = torch.empty((N, S, E))
+        ############################################################################
+        # TODO: Implement multiheaded attention using the equations given in       #
+        # Transformer_Captioning.ipynb.                                            #
+        # A few hints:                                                             #
+        #  1) You&#39;ll want to split your shape from (N, T, E) into (N, T, H, E/H),  #
+        #     where H is the number of heads.                                      #
+        #  2) The function torch.matmul allows you to do a batched matrix multiply.#
+        #     For example, you can do (N, H, T, E/H) by (N, H, E/H, T) to yield a  #
+        #     shape (N, H, T, T). For more examples, see                           #
+        #     https://pytorch.org/docs/stable/generated/torch.matmul.html          #
+        #  3) For applying attn_mask, think how the scores should be modified to   #
+        #     prevent a value from influencing output. Specifically, the PyTorch   #
+        #     function masked_fill may come in handy.                              #
+        ############################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        # 1. 线性变换，得到 Q, K, V
+        # 形状：(N, S, E) / (N, T, E) -&gt; (N, S, E) / (N, T, E)
+        Q = self.query(query)   # (N, S, E)
+        K = self.key(key)       # (N, T, E)
+        V = self.value(value)   # (N, T, E)
+
+        # 2. 拆分多头 (N, S, E) -&gt; (N, n_head, S, head_dim)
+        def split_heads(x):
+            N, L, E = x.shape
+            return x.view(N, L, self.n_head, self.head_dim).transpose(1, 2)
+            # (N, L, n_head, head_dim) -&gt; (N, n_head, L, head_dim)
+
+        Q = split_heads(Q)  # (N, n_head, S, head_dim)
+        K = split_heads(K)  # (N, n_head, T, head_dim)
+        V = split_heads(V)  # (N, n_head, T, head_dim)
+
+        # 3. 计算注意力分数 (Q @ K^T / sqrt(d_k))
+        # Q: (N, n_head, S, head_dim)
+        # K: (N, n_head, T, head_dim)
+        # K.transpose(-2, -1): (N, n_head, head_dim, T)
+        attn_scores = torch.matmul(Q, K.transpose(-2, -1)) / (self.head_dim ** 0.5)  # (N, n_head, S, T)
+
+        # 4. 应用掩码（mask），防止某些位置被关注 
+        if attn_mask is not None:
+            # attn_mask: (S, T) -&gt; (1, 1, S, T) 方便广播
+            attn_scores = attn_scores.masked_fill(attn_mask.unsqueeze(0).unsqueeze(0) == 0, float(&#39;-inf&#39;))
+
+        # 5. softmax 得到注意力权重
+        attn_weights = torch.softmax(attn_scores, dim=-1)  # (N, n_head, S, T)
+
+        # 6. dropout
+        attn_weights = self.attn_drop(attn_weights)
+
+        # 7. 加权求和得到每个头的输出
+        # attn_weights: (N, n_head, S, T)
+        # V: (N, n_head, T, head_dim)
+        attn_output = torch.matmul(attn_weights, V)  # (N, n_head, S, head_dim)
+
+        # 8. 合并多头 (N, n_head, S, head_dim) -&gt; (N, S, n_head, head_dim) -&gt; (N, S, E)
+        attn_output = attn_output.transpose(1, 2).contiguous().view(N, S, E)
+
+        # 9. 输出投影
+        output = self.proj(attn_output)  # (N, S, E)
+        
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ############################################################################
+        #                             END OF YOUR CODE                             #
+        ############################################################################
+        return output
+```
+
+```
+self_attn_output error:  0.0003772742211599121
+masked_self_attn_output error:  0.0001526367643724865
+attn_output error:  0.00035224630317522767
+```
+#### TODO: PositionalEncoding
+
+
 
 
 ## 参考
