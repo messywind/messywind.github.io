@@ -5836,11 +5836,11 @@ $N$ 表示 batch size，$S$ 表示源序列长度，$T$ 表示目标序列长度
 - query：作为查询（query）使用的输入数据，形状为 (N, S, E)
 - key：作为键（key）使用的输入数据，形状为 (N, T, E)
 - value：作为值（value）使用的输入数据，形状为 (N, T, E)
-- attn_mask：形状为 $(S, T)$ 的数组，其中 $mask_{i, j} = 0$ 表示源序列中的第 $i$ 个 token 不应影响目标序列中的第 $j$ 个 token
+- attn_mask：形状为 $(S, T)$ 的数组，其中 $\text{mask}_{i, j} = 0$ 表示源序列中的第 $i$ 个 token 不应影响目标序列中的第 $j$ 个 token
 
 返回：
 
-- output：形状为 $(N, S, E) 的张量，根据用 key 和 query 计算得到的注意力权重，对 value 中的数据加权组合后的结果。
+- output：形状为 $(N, S, E)$ 的张量，根据用 key 和 query 计算得到的注意力权重，对 value 中的数据加权组合后的结果。
 
 ```python
 class MultiHeadAttention(nn.Module):
@@ -5987,8 +5987,259 @@ attn_output error:  0.00035224630317522767
 ```
 #### TODO: PositionalEncoding
 
+```python
+class PositionalEncoding(nn.Module):
+    &#34;&#34;&#34;
+    Encodes information about the positions of the tokens in the sequence. In
+    this case, the layer has no learnable parameters, since it is a simple
+    function of sines and cosines.
+    &#34;&#34;&#34;
+    def __init__(self, embed_dim, dropout=0.1, max_len=5000):
+        &#34;&#34;&#34;
+        Construct the PositionalEncoding layer.
 
+        Inputs:
+         - embed_dim: the size of the embed dimension
+         - dropout: the dropout value
+         - max_len: the maximum possible length of the incoming sequence
+        &#34;&#34;&#34;
+        super().__init__()
+        self.dropout = nn.Dropout(p=dropout)
+        assert embed_dim % 2 == 0
+        # Create an array with a &#34;batch dimension&#34; of 1 (which will broadcast
+        # across all examples in the batch).
+        pe = torch.zeros(1, max_len, embed_dim)
+        ############################################################################
+        # TODO: Construct the positional encoding array as described in            #
+        # Transformer_Captioning.ipynb.  The goal is for each row to alternate     #
+        # sine and cosine, and have exponents of 0, 0, 2, 2, 4, 4, etc. up to      #
+        # embed_dim. Of course this exact specification is somewhat arbitrary, but #
+        # this is what the autograder is expecting. For reference, our solution is #
+        # less than 5 lines of code.                                               #
+        ############################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
 
+        # 构造位置编码
+        position = torch.arange(0, max_len, dtype=torch.float32).unsqueeze(1)  # (max_len, 1)
+        div_term = torch.exp(torch.arange(0, embed_dim, 2, dtype=torch.float32) * (-math.log(10000.0) / embed_dim))  # (embed_dim/2,)
+        pe[0, :, 0::2] = torch.sin(position * div_term)  # 偶数列
+        pe[0, :, 1::2] = torch.cos(position * div_term)  # 奇数列
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ############################################################################
+        #                             END OF YOUR CODE                             #
+        ############################################################################
+
+        # Make sure the positional encodings will be saved with the model
+        # parameters (mostly for completeness).
+        self.register_buffer(&#39;pe&#39;, pe)
+
+    def forward(self, x):
+        &#34;&#34;&#34;
+        Element-wise add positional embeddings to the input sequence.
+
+        Inputs:
+         - x: the sequence fed to the positional encoder model, of shape
+              (N, S, D), where N is the batch size, S is the sequence length and
+              D is embed dim
+        Returns:
+         - output: the input sequence &#43; positional encodings, of shape (N, S, D)
+        &#34;&#34;&#34;
+        N, S, D = x.shape
+        # Create a placeholder, to be overwritten by your code below.
+        output = torch.empty((N, S, D))
+        ############################################################################
+        # TODO: Index into your array of positional encodings, and add the         #
+        # appropriate ones to the input sequence. Don&#39;t forget to apply dropout    #
+        # afterward. This should only take a few lines of code.                    #
+        ############################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        # 加上位置编码并dropout
+        output = x &#43; self.pe[:, :S, :]
+        output = self.dropout(output)
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ############################################################################
+        #                             END OF YOUR CODE                             #
+        ############################################################################
+        return output
+```
+
+#### TODO: CaptioningTransformer
+
+```python
+class CaptioningTransformer(nn.Module):
+    &#34;&#34;&#34;
+    A CaptioningTransformer produces captions from image features using a
+    Transformer decoder.
+
+    The Transformer receives input vectors of size D, has a vocab size of V,
+    works on sequences of length T, uses word vectors of dimension W, and
+    operates on minibatches of size N.
+    &#34;&#34;&#34;
+    def __init__(self, word_to_idx, input_dim, wordvec_dim, num_heads=4,
+                 num_layers=2, max_length=50):
+        &#34;&#34;&#34;
+        Construct a new CaptioningTransformer instance.
+
+        Inputs:
+        - word_to_idx: A dictionary giving the vocabulary. It contains V entries.
+          and maps each string to a unique integer in the range [0, V).
+        - input_dim: Dimension D of input image feature vectors.
+        - wordvec_dim: Dimension W of word vectors.
+        - num_heads: Number of attention heads.
+        - num_layers: Number of transformer layers.
+        - max_length: Max possible sequence length.
+        &#34;&#34;&#34;
+        super().__init__()
+
+        vocab_size = len(word_to_idx)
+        self.vocab_size = vocab_size
+        self._null = word_to_idx[&#34;&lt;NULL&gt;&#34;]
+        self._start = word_to_idx.get(&#34;&lt;START&gt;&#34;, None)
+        self._end = word_to_idx.get(&#34;&lt;END&gt;&#34;, None)
+
+        self.visual_projection = nn.Linear(input_dim, wordvec_dim)
+        self.embedding = nn.Embedding(vocab_size, wordvec_dim, padding_idx=self._null)
+        self.positional_encoding = PositionalEncoding(wordvec_dim, max_len=max_length)
+
+        decoder_layer = TransformerDecoderLayer(input_dim=wordvec_dim, num_heads=num_heads)
+        self.transformer = TransformerDecoder(decoder_layer, num_layers=num_layers)
+        self.apply(self._init_weights)
+
+        self.output = nn.Linear(wordvec_dim, vocab_size)
+
+    def _init_weights(self, module):
+        &#34;&#34;&#34;
+        Initialize the weights of the network.
+        &#34;&#34;&#34;
+        if isinstance(module, (nn.Linear, nn.Embedding)):
+            module.weight.data.normal_(mean=0.0, std=0.02)
+            if isinstance(module, nn.Linear) and module.bias is not None:
+                module.bias.data.zero_()
+        elif isinstance(module, nn.LayerNorm):
+            module.bias.data.zero_()
+            module.weight.data.fill_(1.0)
+
+    def forward(self, features, captions):
+        &#34;&#34;&#34;
+        Given image features and caption tokens, return a distribution over the
+        possible tokens for each timestep. Note that since the entire sequence
+        of captions is provided all at once, we mask out future timesteps.
+
+        Inputs:
+         - features: image features, of shape (N, D)
+         - captions: ground truth captions, of shape (N, T)
+
+        Returns:
+         - scores: score for each token at each timestep, of shape (N, T, V)
+        &#34;&#34;&#34;
+        N, T = captions.shape
+        # Create a placeholder, to be overwritten by your code below.
+        scores = torch.empty((N, T, self.vocab_size))
+        ############################################################################
+        # TODO: Implement the forward function for CaptionTransformer.             #
+        # A few hints:                                                             #
+        #  1) You first have to embed your caption and add positional              #
+        #     encoding. You then have to project the image features into the same  #
+        #     dimensions.                                                          #
+        #  2) You have to prepare a mask (tgt_mask) for masking out the future     #
+        #     timesteps in captions. torch.tril() function might help in preparing #
+        #     this mask.                                                           #
+        #  3) Finally, apply the decoder features on the text &amp; image embeddings   #
+        #     along with the tgt_mask. Project the output to scores per token      #
+        ############################################################################
+        # *****START OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+
+        # 1. 对 captions 做词嵌入并加上位置编码
+        # (N, T) -&gt; (N, T, W)
+        caption_embed = self.embedding(captions)
+        caption_embed = self.positional_encoding(caption_embed)
+
+        # 2. 将图像特征投影到词向量空间
+        # (N, D) -&gt; (N, W)
+        img_embed = self.visual_projection(features)
+        # (N, W) -&gt; (N, 1, W)
+        img_embed = img_embed.unsqueeze(1)
+
+        # 3. 拼接图像特征和文本嵌入，作为 decoder 的输入
+        # 图像特征作为序列第一个 token，后接 captions 的前 T-1 个 token
+        decoder_input = torch.cat([img_embed, caption_embed[:, :-1, :]], dim=1)  # (N, T, W)
+
+        # 4. 构造下三角 mask，防止看到未来的信息
+        # mask 形状为 (T, T)
+        T = captions.shape[1]
+        tgt_mask = torch.tril(torch.ones((T, T), device=captions.device)).bool()
+
+        # 5. 通过 transformer decoder 得到输出特征
+        # memory 是图像特征 (N, 1, W)
+        decoder_output = self.transformer(decoder_input, memory=img_embed, tgt_mask=tgt_mask)  # (N, T, W)
+
+        # 6. 投影到词表空间，得到每个时间步每个词的分数
+        scores = self.output(decoder_output)  # (N, T, V)
+
+        # *****END OF YOUR CODE (DO NOT DELETE/MODIFY THIS LINE)*****
+        ############################################################################
+        #                             END OF YOUR CODE                             #
+        ############################################################################
+
+        return scores
+
+    def sample(self, features, max_length=30):
+        &#34;&#34;&#34;
+        Given image features, use greedy decoding to predict the image caption.
+
+        Inputs:
+         - features: image features, of shape (N, D)
+         - max_length: maximum possible caption length
+
+        Returns:
+         - captions: captions for each example, of shape (N, max_length)
+        &#34;&#34;&#34;
+        with torch.no_grad():
+            features = torch.Tensor(features)
+            N = features.shape[0]
+
+            # Create an empty captions tensor (where all tokens are NULL).
+            captions = self._null * np.ones((N, max_length), dtype=np.int32)
+
+            # Create a partial caption, with only the start token.
+            partial_caption = self._start * np.ones(N, dtype=np.int32)
+            partial_caption = torch.LongTensor(partial_caption)
+            # [N] -&gt; [N, 1]
+            partial_caption = partial_caption.unsqueeze(1)
+
+            for t in range(max_length):
+
+                # Predict the next token (ignoring all other time steps).
+                output_logits = self.forward(features, partial_caption)
+                output_logits = output_logits[:, -1, :]
+
+                # Choose the most likely word ID from the vocabulary.
+                # [N, V] -&gt; [N]
+                word = torch.argmax(output_logits, axis=1)
+
+                # Update our overall caption and our current partial caption.
+                captions[:, t] = word.numpy()
+                word = word.unsqueeze(1)
+                partial_caption = torch.cat([partial_caption, word], dim=1)
+
+            return captions
+```
+
+训练结果：
+
+![](/image/ML/CS231n/trans.png)
+
+```
+Final loss:  0.041785274
+```
+![](/image/ML/CS231n/transoutput1.png)
+
+![](/image/ML/CS231n/transoutput2.png)
+
+![](/image/ML/CS231n/transoutput3.png)
 
 ## 参考
 
