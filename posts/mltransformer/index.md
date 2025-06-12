@@ -19,7 +19,9 @@
 
 输入是由一句话包含若干个单词组成，我们会将单词进行 embedding，也就是转成向量的形式，更方便处理。
 
-每一个单词的向量表示会有很多维度，论文里的维度为 $d_m = 512$，若某个词向量维度小于 $d_m$，则用 Padding Mask 填充，也就是剩余维度使用 `&lt;pad&gt;` 标记填充。
+每一个单词的向量表示会有很多维度，论文里的维度为 $d_m = 512$
+
+若某个序列长度小于最长的序列长度，则用 Padding Mask 填充，也就是使用 `&lt;pad&gt;` 标记填充，便于序列对齐。
 
 在训练时，输入包含原句子和翻译后的句子，分别输入到 Inputs 和 Outputs，其中 Outputs 需要右移一位，在句子开始加一个标志 `&lt;begin&gt;`，用来后续方便处理掩码。
 
@@ -103,7 +105,7 @@ $$
 
 ![](/image/ML/encoder.png)
 
-这一部分是 Encoder 的结构，可以看到是由 Multi-Head Attention, Add &amp; Norm, Feed Forward, Add &amp; Norm 组成的。，其中 $N \times$ 的意思是有 $N$ 个重复的 Encoder 块堆叠起来。
+这一部分是 Encoder 的结构，可以看到是由 Multi-Head Attention, Add &amp; Norm, Feed Forward, Add &amp; Norm 组成的。其中 $N \times$ 的意思是有 $N$ 个重复的 Encoder 块堆叠起来。
 
 ### FeedForward
 
@@ -179,11 +181,11 @@ $$
 
 进行 $\sqrt{d_k}$ 的缩放是为了防止点积结果在维度 $d_k$ 较大时过大，这会导致 softmax 函数处于饱和区，使得梯度变得非常小，难以通过反向传播有效地训练。缩放有助于维持点积的稳定性，确保梯度在一个合适的范围内。
 
-### 2. Transformer的前馈网络（FFN）在模型中承担什么角色？
+### 2. Transformer 的前馈网络 (FFN) 在模型中承担什么角色？
 
 FFN为模型提供了非线性处理能力，它在每个位置上独立地作用于其输入，有助于增加模型的复杂度和表达能力。
 
-### 3. 为何Transformer 模型中采用 Layer Normalization 而非 Batch Normalization？
+### 3. 为何 Transformer 模型中采用 Layer Normalization 而非 Batch Normalization？
 
 Layer Normalization 对每个样本独立进行归一化，适用于序列化数据和变长输入，而 Batch Normalization 在批处理时对特征进行归一化，不适用于序列长度变化的情况。 
 
@@ -191,11 +193,11 @@ Layer Normalization 对每个样本独立进行归一化，适用于序列化数
 
 残差连接通过直接将输入加到子层的输出上，使得深层网络中的信号能够直接传递到较浅层，有助于缓解梯度消失问题。
 
-### 5. 在Transformer 模型中，为什么要使用 Dropout？
+### 5. 在 Transformer 模型中，为什么要使用 Dropout？
 
 Dropout 是一种正则化技术，通过随机丢弃一部分网络连接，可以有效减少模型的过拟合，增强模型的泛化能力。
 
-### 6. 如何理解Transformer中的自回归属性？
+### 6. 如何理解 Transformer 中的自回归属性？
 
 在 Transformer 的解码器中，自回归属性指模型在生成每个输出时，只能依赖于先前生成的输出，确保在生成序列时的顺序性和一致性。
 
