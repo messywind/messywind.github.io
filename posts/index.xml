@@ -6,8 +6,16 @@
     <description>This is my new Hugo FixIt site</description>
     <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 10 Jun 2025 03:37:42 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 12 Jun 2025 03:53:41 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Transformer</title>
+      <link>https://blog.messywind.top/posts/mltransformer/</link>
+      <pubDate>Tue, 10 Jun 2025 13:49:00 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/mltransformer/</guid>
+      <category domain="https://blog.messywind.top/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</category>
+      <description>Attention Is All You Need</description>
+    </item>
     <item>
       <title>FurryCTF 2024 (寒假赛) WP</title>
       <link>https://blog.messywind.top/posts/misc-furryctf/</link>

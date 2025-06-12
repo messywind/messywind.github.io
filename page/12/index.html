@@ -12,8 +12,8 @@
 <meta name="description" content="This is my new Hugo FixIt site"><meta name="keywords" content='Hugo, FixIt'>
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="This is my new Hugo FixIt site">
-  <meta itemprop="datePublished" content="2025-01-15T14:00:00+00:00">
-  <meta itemprop="dateModified" content="2025-06-10T03:37:42+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="datePublished" content="2025-06-10T13:49:00+00:00">
+  <meta itemprop="dateModified" content="2025-06-12T03:53:41+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="This is my new Hugo FixIt site">
@@ -101,7 +101,18 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpcqoi2015-%E9%80%89%E6%95%B0/">[CQOI2015] 选数</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cplnoi2014-lca/">[LNOI2014] LCA</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-11-01 11:37:53'>发布于 <time datetime="2021-11-01">2021-11-01</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://www.luogu.com.cn/problem/P4211"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
+<p><strong>题意</strong></p>
+<p>给定一颗 $n$ 个节点并且根为 $1$ 的树和 $q$ 次询问，每次询问给定 $l,r,z$ 求</p>
+<p>$$\sum_{i=l}^{r} \text{dep}(\text{lca}(i,z))$$</p>
+<p>对 $201314$ 取模</p>
+<p>$\text{dep}(x)$ 表示点 $x$ 的深度，$\text{lca}(u,v)$ 表示 $u,v$ 的最近公共祖先</p>
+<p>$1 \le n,q \le 5×10^4$</p>
+<p><strong>分析：</strong></p>
+<p>对式子进行一步转化，那就相当于在 $[l,r]$ 区间内的每个点，每次将该点和树根的路径上点权 $+1$，最后查询 $z$ 到树根路径的点权之和。这样做显然是超时的，所以就考虑怎么优化式子，我们发现每次询问是在 $[1,n]$ 区间的，所以就可以想到前缀和，也就是</p></div><div class="post-footer">
+    <a href="/posts/cplnoi2014-lca/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%A6%BB%E7%BA%BF/' class="post-tag">离线</a><a href='/tags/%E5%B7%AE%E5%88%86/' class="post-tag">差分</a><a href='/tags/%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/' class="post-tag">树链剖分</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpcqoi2015-%E9%80%89%E6%95%B0/">[CQOI2015] 选数</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-10-19 17:24:43'>发布于 <time datetime="2021-10-19">2021-10-19</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://www.luogu.com.cn/problem/P3172"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
 <p><strong>题意</strong></p>
 <p>求从区间 $[L,R]$ 选出 $n$ 个数使得最大公约数为 $k$ 的方案数，对 $10^9 + 7$ 取模</p>
@@ -410,19 +421,6 @@ $4.$ 询问树上路径 $u$ 到 $v$ 宗教为 $c_u$ 的最大权值 (保证 $c_u
 <p>$$1-\frac{\sum\limits_{d=1}^{n}\mu(d)\lfloor \dfrac{n}{d} \rfloor^i}{n^i}$$</p>
 <p>把 $1$ 拿到分子，和第一项抵消了</p></div><div class="post-footer">
     <a href="/posts/cp2021-cccc%E5%A4%A9%E6%A2%AF%E8%B5%9B-%E5%8F%AF%E6%80%9C%E7%9A%84%E7%AE%80%E5%8D%95%E9%A2%98/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/' class="post-tag">莫比乌斯反演</a><a href='/tags/%E6%9D%9C%E6%95%99%E7%AD%9B/' class="post-tag">杜教筛</a><a href='/tags/%E6%A6%82%E7%8E%87%E6%9C%9F%E6%9C%9B/' class="post-tag">概率期望</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpnc-200008-lady-layton-with-math/">[NC 200008] Lady Layton With Math</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-09-23 08:58:54'>发布于 <time datetime="2021-09-23">2021-09-23</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://ac.nowcoder.com/acm/problem/200008"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
-<p><strong>题意</strong></p>
-<p>求</p>
-<p>$$\sum_{i=1}^{n}\sum_{j=1}^{n} \varphi(\gcd(i,j))$$</p>
-<p>$1 \le n \le 10^9$，对 $10^9+7$ 取模</p>
-<p><strong>分析：</strong></p>
-<p>枚举 $\gcd(i,j)$</p>
-<p>$$\sum_{d=1}^{n}\varphi(d)\sum_{i=1}^{n}\sum_{j=1}^{n}[\gcd(i,j)=d]$$</p>
-<p>将 $d$ 拿到上界</p>
-<p>$$\sum_{d=1}^{n}\varphi(d)\sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor}[\gcd(i,j)=1]$$</p>
-<p>因为 $\sum\limits_{i=1}^{n}\sum\limits_{i=1}^{n}[\gcd(i,j)=1]=\sum\limits_{i=1}^{n}2\varphi(i)-1$，所以</p></div><div class="post-footer">
-    <a href="/posts/cpnc-200008-lady-layton-with-math/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%9D%9C%E6%95%99%E7%AD%9B/' class="post-tag">杜教筛</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>
@@ -453,7 +451,7 @@ $4.$ 询问树上路径 $u$ 到 $v$ 宗教为 $c_u$ 的最大权值 (保证 $c_u
           <span class="page-link" aria-hidden="true">&hellip;</span>
         </li><li class="page-item">
           <span class="page-link">
-            <a href="/page/16/">16</a>
+            <a href="/page/17/">17</a>
           </span>
         </li></ul></div></main><footer class="footer">
     <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
