@@ -13,7 +13,7 @@
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="This is my new Hugo FixIt site">
   <meta itemprop="datePublished" content="2025-06-10T13:49:00+00:00">
-  <meta itemprop="dateModified" content="2025-06-12T05:52:45+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="dateModified" content="2025-06-27T09:05:25+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="This is my new Hugo FixIt site">
@@ -101,7 +101,20 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2021ccpc-%E5%A8%81%E6%B5%B7m-810975/">[2021CCPC 威海M] 810975</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations/">[2021ICPC上海 B] Strange Permutations</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-03-26 12:58:58'>发布于 <time datetime="2022-03-26">2022-03-26</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://codeforces.com/gym/103446/problem/B"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
+<p><strong>题意</strong></p>
+<p>给定一个长度为 $n$ 的 $1 \sim n$ 排列 $P$，找到有多少个 $1 \sim n$ 的排列 $Q$ 使得 $\forall i \in[1, n - 1], Q_{i + 1} \ne P_{Q_i}$</p>
+<p>对 $998244353$ 取模</p>
+<p>$(1 \le n \le 10 ^ 5, 1 \le P_i \le n)$</p>
+<p><strong>分析：</strong></p>
+<p>如果只观察式子可能看不出什么规律，我们可以把条件转化为 $n$ 个点的图，考虑把排列 $Q$ 表示为边集 ${(Q_1, Q_2),(Q_2, Q_3),\cdots,(Q_{n-1},Q_n)}$ ，那么排列 $P$ 的意思就是图中不能存在边集 ${(1,P_1),(2,P_2),\cdots,(n,P_n)}$ ，那么就等价于在一张图中选一条哈密顿路径的方案数，所以考虑对每条不存在的边集进行容斥。考虑计算选了 $i$ 个不存在的边的方案数，发现排列 $P$ 一定会成环，所以对于每个 $k$ 元环可以选择 $0 \sim k - 1$ 个不存在的边(哈密顿路径无环所以不能包含 $k$ 个不存在的边)，那么可以用生成函数 $f(k)$ 来表示
+$$
+f(k) = 1 + \binom{k}{1}x + \binom{k}{2}x ^ 2 + \binom{k}{3}x ^ 3 + \cdots + \binom{k}{k - 1}x ^ {k - 1}
+$$
+$x$ 项的系数 $m$ 表示 $k$ 元环中选了 $m$ 条不存在的边，那么系数显然是 $\dbinom{k}{m}$</p></div><div class="post-footer">
+    <a href="/posts/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/' class="post-tag">容斥原理</a><a href='/tags/%E5%88%86%E6%B2%BB-ntt/' class="post-tag">分治 NTT</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2021ccpc-%E5%A8%81%E6%B5%B7m-810975/">[2021CCPC 威海M] 810975</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-02-04 22:12:40'>发布于 <time datetime="2022-02-04">2022-02-04</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://codeforces.com/gym/103428/problem/M"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
 <h3 id="前言" class="heading-element"><span>前言</span>
   <a href="#%e5%89%8d%e8%a8%80" class="heading-mark">
@@ -162,59 +175,6 @@ $$
   </a>
 </h5><p>设 $f(x) = \sum_{i = 0}^{\infty}a_ix^i,g(x) = \sum_{i = 0}^{\infty}b_ix^i$</p></div><div class="post-footer">
     <a href="/posts/cp%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/' class="post-tag">生成函数</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2021-ccpc%E5%A8%81%E6%B5%B7%E7%83%AD%E8%BA%AB%E8%B5%9B-number-theory/">[2021 CCPC威海热身赛] Number Theory</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-11-20 18:53:18'>发布于 <time datetime="2021-11-20">2021-11-20</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><strong>题意</strong></p>
-<p>求</p>
-<p>$$\sum_{k = 1}^{n}\sum_{i \mid k} \sum_{j \mid i} \lambda(i) \lambda(j)$$</p>
-<p>对 $998244353$ 取模</p>
-<p>其中 $\lambda(x) = (-1)^{\sum\limits_{i}e_i},x=\prod\limits_{i}p_i^{e_i}$</p>
-<p><strong>分析：</strong></p>
-<p>$\lambda(x)$ 为刘维尔函数，可以打表发现 $$\sum_{d \mid n}\lambda(d) =[n = a^2,a \in N^+]$$</p>
-<p>也就是 $n$ 是否为完全平方数</p>
-<p>把式子中的 $\lambda(i)$ 提到前面</p>
-<p>$$\sum_{k = 1}^{n}\sum_{i \mid k} \lambda(i)\sum_{j \mid i}  \lambda(j)$$</p>
-<p>那么就变为</p>
-<p>$$\sum_{k = 1}^{n}\sum_{i \mid k} \lambda(i)[i= a^2,a \in N^+]$$</p>
-<p>那么完全平方数的刘维尔函数为 $1$，再设 $f(x)=[i= a^2,a \in N^+]$ 得</p>
-<p>$$\sum_{i = 1}^{n}\sum_{d \mid i}f(d)$$</p>
-<p>交换求和次序</p>
-<p>$$\sum_{d = 1}^{n}f(d) \lfloor\frac{n}{d}\rfloor$$</p>
-<p>这样直接枚举平方数即可，时间复杂度 $O(\sqrt{n})$</p>
-<h3 id="代码" class="heading-element"><span>代码：</span>
-  <a href="#%e4%bb%a3%e7%a0%81" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h3><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;bits/stdc++.h&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp">#define int long long
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">int</span> <span class="n">mod</span> <span class="o">=</span> <span class="mi">998244353</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">res</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">n</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">*</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="n">res</span> <span class="o">+</span> <span class="n">n</span> <span class="o">/</span> <span class="p">(</span><span class="n">i</span> <span class="o">*</span> <span class="n">i</span><span class="p">))</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">res</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
-</div>
-</div></div><div class="post-footer">
-    <a href="/posts/cp2021-ccpc%E5%A8%81%E6%B5%B7%E7%83%AD%E8%BA%AB%E8%B5%9B-number-theory/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%89%93%E8%A1%A8/' class="post-tag">打表</a><a href='/tags/%E6%8E%A8%E5%BC%8F%E5%AD%90/' class="post-tag">推式子</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>
