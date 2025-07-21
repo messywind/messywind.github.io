@@ -13,7 +13,7 @@
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="This is my new Hugo FixIt site">
   <meta itemprop="datePublished" content="2025-06-10T13:49:00+00:00">
-  <meta itemprop="dateModified" content="2025-06-27T09:05:25+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="dateModified" content="2025-07-21T09:29:31+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="This is my new Hugo FixIt site">
@@ -101,7 +101,20 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2021-ccpc%E5%A8%81%E6%B5%B7%E7%83%AD%E8%BA%AB%E8%B5%9B-number-theory/">[2021 CCPC威海热身赛] Number Theory</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/">生成函数</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-12-06 21:05:12'>发布于 <time datetime="2021-12-06">2021-12-06</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><h3 id="形式幂级数" class="heading-element"><span>形式幂级数</span>
+  <a href="#%e5%bd%a2%e5%bc%8f%e5%b9%82%e7%ba%a7%e6%95%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>设数列 $a_0,a_1, a_2,\cdots,a_n,\cdots$ 那么他的形式幂级数就为</p>
+<p>$$\sum_{i = 0}^{\infty}a_ix^i$$</p>
+<h5 id="运算" class="heading-element"><span>运算：</span>
+  <a href="#%e8%bf%90%e7%ae%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h5><p>设 $f(x) = \sum_{i = 0}^{\infty}a_ix^i,g(x) = \sum_{i = 0}^{\infty}b_ix^i$</p></div><div class="post-footer">
+    <a href="/posts/cp%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/' class="post-tag">生成函数</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2021-ccpc%E5%A8%81%E6%B5%B7%E7%83%AD%E8%BA%AB%E8%B5%9B-number-theory/">[2021 CCPC威海热身赛] Number Theory</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-11-20 18:53:18'>发布于 <time datetime="2021-11-20">2021-11-20</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><strong>题意</strong></p>
 <p>求</p>
 <p>$$\sum_{k = 1}^{n}\sum_{i \mid k} \sum_{j \mid i} \lambda(i) \lambda(j)$$</p>
@@ -439,16 +452,6 @@ $4.$ 询问树上路径 $u$ 到 $v$ 宗教为 $c_u$ 的最大权值 (保证 $c_u
 <p><strong>分析：</strong></p>
 <p>这种树上问题可以想到树链剖分，那么重点是线段树如何维护，每个点可能会记录 $10^5$ 种宗教，空间显然是开不下的，但是询问只有 $10^5$，所以可以给每个宗教开一颗权值线段树，然后用动态开点的方式维护操作。我们就在权值线段树上记录每个点对应宗教的权值，也就是做映射 $c_u \rightarrow w_u$</p></div><div class="post-footer">
     <a href="/posts/cpsdoi-2014-%E6%97%85%E8%A1%8C/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/' class="post-tag">树链剖分</a><a href='/tags/%E6%9D%83%E5%80%BC%E7%BA%BF%E6%AE%B5%E6%A0%91/' class="post-tag">权值线段树</a><a href='/tags/%E5%8A%A8%E6%80%81%E5%BC%80%E7%82%B9/' class="post-tag">动态开点</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E8%BF%9B%E9%98%B6%E6%8C%87%E5%8D%97-%E9%9B%A8%E5%A4%A9%E7%9A%84%E5%B0%BE%E5%B7%B4/">[算法竞赛进阶指南] 雨天的尾巴</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-09-28 09:10:52'>发布于 <time datetime="2021-09-28">2021-09-28</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://www.luogu.com.cn/problem/P4556"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
-<p><strong>题意</strong></p>
-<p>给定一棵 $n$ 个节点的树和 $m$ 次操作，每次操作把 $u$ 到 $v$ 路径上的节点加上一个颜色 $z$，最后询问每个点最多颜色的编号(如果相同取编号最小)</p>
-<p>$1 \le n,m,z \le 10^5$</p>
-<p><strong>分析：</strong>
-此题是线段树合并模板题，这里给出树链剖分的做法。
-每次操作修改树上的路径，可以用树链剖分维护一下，注意到 $z$ 的范围是 $10^5$ ，所以我们不能在树上的每个节点上开一个桶记录颜色，所以可以用权值线段树的动态开点。不过这里有更优做法，因为树链剖分出来的序列对应树上的唯一路径，所以题目的操作就相当于：给定一个序列，每次在 $[l,r]$ 区间添加一个颜色，询问每个点最多颜色的编号。这样就可以用差分的思想，每次在 $l$ 点 $+1$，$r + 1$ 点 $-1$，我们把 $l$ 排序，扫描 $1 \sim N$ 的每个点，每次遍历这个点的询问，把对这个点的修改在权值线段树上操作，然后查询一下最大的下标。
-此题在 $\text{acwing}$ 上 $z$ 的数据范围为 $10^9$ 所以最好离散化一下。</p></div><div class="post-footer">
-    <a href="/posts/cp%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B%E8%BF%9B%E9%98%B6%E6%8C%87%E5%8D%97-%E9%9B%A8%E5%A4%A9%E7%9A%84%E5%B0%BE%E5%B7%B4/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91%E5%90%88%E5%B9%B6/' class="post-tag">线段树合并</a><a href='/tags/%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/' class="post-tag">树链剖分</a><a href='/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/' class="post-tag">线段树</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>
