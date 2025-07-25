@@ -14,13 +14,13 @@
 
 ![15](/image/cp/SDUTACM15th-TimeLine-re.jpg)
 
-![15](/image/15sdutacm.png)
+![15](/image/cp/15sdutacm.png)
 
-![15](/image/15sdutacm1.webp)
+![15](/image/cp/15sdutacm1.webp)
 
-![15](/image/15sdutacm2.webp)
+![15](/image/cp/15sdutacm2.webp)
 
-![15](/image/15sdutacm3.webp)
+![15](/image/cp/15sdutacm3.webp)
 
 ---
 

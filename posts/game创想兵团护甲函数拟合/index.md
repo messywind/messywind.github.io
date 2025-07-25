@@ -10,7 +10,7 @@ $$
 
 {{&lt; /admonition &gt;}}
 
-![2](/image/armour.png)
+![2](/image/misc/armour.png)
 
 {{&lt; admonition info &#34;数据集&#34; false &gt;}}
 
