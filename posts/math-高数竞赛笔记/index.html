@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>高数竞赛笔记 - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="$1.已知函数f(x)连续且f(x&#43;2)-f(x)=\cos x,\int_{0}^{2}f(x)dx=1,求\int^{1}_{-1}f(x)dx$ 分析： 构造。题目中给出了两点差的函数式，想到构造变动上下限积分，题眼$\int^{2}_{0}f(x)dx=1$，提示构造$F(x)$并解出任意常数$C$
+"><meta name="keywords" content='高等数学'>
+  <meta itemprop="name" content="高数竞赛笔记">
+  <meta itemprop="description" content="$1.已知函数f(x)连续且f(x&#43;2)-f(x)=\cos x,\int_{0}^{2}f(x)dx=1,求\int^{1}_{-1}f(x)dx$ 分析： 构造。题目中给出了两点差的函数式，想到构造变动上下限积分，题眼$\int^{2}_{0}f(x)dx=1$，提示构造$F(x)$并解出任意常数$C$">
+  <meta itemprop="datePublished" content="2021-06-16T16:25:44+00:00">
+  <meta itemprop="dateModified" content="2025-07-25T01:50:22+00:00">
+  <meta itemprop="wordCount" content="1666">
+  <meta itemprop="keywords" content="高等数学"><meta property="og:url" content="https://blog.messywind.top/posts/math-%E9%AB%98%E6%95%B0%E7%AB%9E%E8%B5%9B%E7%AC%94%E8%AE%B0/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="高数竞赛笔记">
+  <meta property="og:description" content="$1.已知函数f(x)连续且f(x&#43;2)-f(x)=\cos x,\int_{0}^{2}f(x)dx=1,求\int^{1}_{-1}f(x)dx$ 分析： 构造。题目中给出了两点差的函数式，想到构造变动上下限积分，题眼$\int^{2}_{0}f(x)dx=1$，提示构造$F(x)$并解出任意常数$C$">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-06-16T16:25:44+00:00">
+    <meta property="article:modified_time" content="2025-07-25T01:50:22+00:00">
+    <meta property="article:tag" content="高等数学">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="高数竞赛笔记">
+  <meta name="twitter:description" content="$1.已知函数f(x)连续且f(x&#43;2)-f(x)=\cos x,\int_{0}^{2}f(x)dx=1,求\int^{1}_{-1}f(x)dx$ 分析： 构造。题目中给出了两点差的函数式，想到构造变动上下限积分，题眼$\int^{2}_{0}f(x)dx=1$，提示构造$F(x)$并解出任意常数$C$">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/math-%E9%AB%98%E6%95%B0%E7%AB%9E%E8%B5%9B%E7%AC%94%E8%AE%B0/" title="高数竞赛笔记 - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/math-2021%E6%96%B0%E9%AB%98%E8%80%83%E5%85%A8%E5%9B%BD%E5%8D%B7-22%E9%A2%98/" title="2021新高考全国Ⅰ卷 22题" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/cp%E6%95%B0%E4%BD%8Ddpdfs%E5%81%9A%E6%B3%95/" title="数位DP(DFS做法)" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/math-%E9%AB%98%E6%95%B0%E7%AB%9E%E8%B5%9B%E7%AC%94%E8%AE%B0/index.md" title="高数竞赛笔记 - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "高数竞赛笔记",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/math-%E9%AB%98%E6%95%B0%E7%AB%9E%E8%B5%9B%E7%AC%94%E8%AE%B0\/"
+    },"genre": "posts","keywords": "高等数学","wordcount":  1666 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/math-%E9%AB%98%E6%95%B0%E7%AB%9E%E8%B5%9B%E7%AC%94%E8%AE%B0\/","datePublished": "2021-06-16T16:25:44+00:00","dateModified": "2025-07-25T01:50:22+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E5%AE%89/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网安</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E5%AE%89/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网安</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>高数竞赛笔记</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%95%B0%E5%AD%A6/" class="post-category" title="分类 - 数学"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 数学</a></span></div><div class="post-meta-line"><span title="发布于 2021-06-16 16:25:44"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-06-16">2021-06-16</time></span>&nbsp;<span title="更新于 2025-07-25 01:50:22"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-07-25">2025-07-25</time></span>&nbsp;<span title="1666 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1已知函数fx连续且fx2-fxcos-xint_02fxdx1求int1_-1fxdx">$1.已知函数f(x)连续且f(x+2)-f(x)=\cos x,\int_{0}^{2}f(x)dx=1,求\int^{1}_{-1}f(x)dx$</a></li>
+    <li><a href="#2计算iint_lfracx-1textdy-ytextdxx-12y2l是从-20到20的上半椭圆fracx24y21">$2.计算I=\int_{L}\frac{(x-1)\text{d}y-y\text{d}x}{(x-1)^2+y^2},L是从(-2,0)到(2,0)的上半椭圆\frac{x^2}{4}+y^2=1$</a></li>
+    <li><a href="#3设fx在01上二阶可导f00f11int1_0fxtextdx1">$3.设f(x)在[0,1]上二阶可导,f(0)=0,f(1)=1,\int^{1}_{0}f(x)\text{d}x=1$</a></li>
+    <li><a href="#1证明-exists-xi-in01使得fxi0">$(1)证明 \exists \xi \in(0,1),使得f&rsquo;(\xi)=0$</a></li>
+    <li><a href="#2证明exists-eta-in-01使得feta-2">$(2)证明：\exists \eta \in (0,1),使得f&rsquo;'(\eta)&lt;-2$</a></li>
+    <li><a href="#4设正值函数fx在ab上连续int_abfxtextdxa证明int_abfxefxtextdxint_abfrac1fxtextdx-ge-b-ab-aa">$4.设正值函数f(x)在[a,b]上连续,\int_{a}^{b}f(x)\text{d}x=A,证明:\int_{a}^{b}f(x)e^{f(x)}\text{d}x\int_{a}^{b}\frac{1}{f(x)}\text{d}x \ge (b-a)(b-a+A)$</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="1已知函数fx连续且fx2-fxcos-xint_02fxdx1求int1_-1fxdx" class="heading-element"><span>$1.已知函数f(x)连续且f(x+2)-f(x)=\cos x,\int_{0}^{2}f(x)dx=1,求\int^{1}_{-1}f(x)dx$</span>
+  <a href="#1%e5%b7%b2%e7%9f%a5%e5%87%bd%e6%95%b0fx%e8%bf%9e%e7%bb%ad%e4%b8%94fx2-fxcos-xint_02fxdx1%e6%b1%82int1_-1fxdx" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>分析：</strong> 构造。题目中给出了两点差的函数式，想到构造变动上下限积分，题眼$\int^{2}_{0}f(x)dx=1$，提示构造$F(x)$并解出任意常数$C$</p>
+<p>$$令F(x)=\int^{x+2}_{x}f(t)dt,则F&rsquo;(x)=f(x+2)-f(x)=\cos x$$</p>
+<p>$$\therefore F(x)=\sin x+C$$</p>
+<p>$$\because \int^{2}_{0}f(x)dx=1,\therefore F(0)=1$$</p>
+<p>$$带入 F(x)=\sin x+C,得C=1$$</p>
+<p>$$\therefore F(x)=\sin x+1$$</p>
+<p>$$则\int^{1}_{-1}f(x)dx=F(-1)=1-\sin 1$$</p>
+<h2 id="2计算iint_lfracx-1textdy-ytextdxx-12y2l是从-20到20的上半椭圆fracx24y21" class="heading-element"><span>$2.计算I=\int_{L}\frac{(x-1)\text{d}y-y\text{d}x}{(x-1)^2+y^2},L是从(-2,0)到(2,0)的上半椭圆\frac{x^2}{4}+y^2=1$</span>
+  <a href="#2%e8%ae%a1%e7%ae%97iint_lfracx-1textdy-ytextdxx-12y2l%e6%98%af%e4%bb%8e-20%e5%88%b020%e7%9a%84%e4%b8%8a%e5%8d%8a%e6%a4%ad%e5%9c%86fracx24y21" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>分析：</strong> 格林公式+第二类曲线积分的路径无关性。</p>
+<p>看到这种形式应该想到路径无关，同时分母是个圆的方程，要注意考虑分母为$0$的情况，经典套路用一个很小的圆计算无意义的点，再次用格林公式。</p>
+<p>$$I=\int_{L}\frac{-y\text{d}x+(x-1)\text{d}y}{(x-1)^2+y^2}$$</p>
+<p>$$P=\frac{-y}{(x-1)^2+y^2},Q=\frac{x-1}{(x-1)^2+y^2}$$</p>
+<p>$$则\frac{\partial P}{\partial y}=\frac{\partial Q}{\partial x}=\frac{y^2-(x-1)^2}{((x-1)^2+y^2)^2}$$</p>
+<p>$$\because L为单连通区域\therefore I与路径无关$$</p>
+<p>$$\because (x-1)^2+y^2\ne 0,\therefore 不包含(1,0)$$</p>
+<p>$$\therefore 取L_{\varepsilon}=(x-1)^2+y^2=\varepsilon ^2(\varepsilon &gt;0且足够小),y\ge 0$$</p>
+<p>$$\int_{L_\varepsilon}\frac{(x-1)\text{d}y-y\text{d}x}{(x-1)^2+y^2}=-\frac{1}{\varepsilon^2}\iint_{L_\varepsilon}\text{d}x\text{d}y=-\pi$$</p>
+<p>$$\therefore I=0+\int_{L_\varepsilon}=-\pi$$</p>
+<h2 id="3设fx在01上二阶可导f00f11int1_0fxtextdx1" class="heading-element"><span>$3.设f(x)在[0,1]上二阶可导,f(0)=0,f(1)=1,\int^{1}_{0}f(x)\text{d}x=1$</span>
+  <a href="#3%e8%ae%befx%e5%9c%a801%e4%b8%8a%e4%ba%8c%e9%98%b6%e5%8f%af%e5%af%bcf00f11int1_0fxtextdx1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h2 id="1证明-exists-xi-in01使得fxi0" class="heading-element"><span>$(1)证明 \exists \xi \in(0,1),使得f&rsquo;(\xi)=0$</span>
+  <a href="#1%e8%af%81%e6%98%8e-exists-xi-in01%e4%bd%bf%e5%be%97fxi0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h2 id="2证明exists-eta-in-01使得feta-2" class="heading-element"><span>$(2)证明：\exists \eta \in (0,1),使得f&rsquo;'(\eta)&lt;-2$</span>
+  <a href="#2%e8%af%81%e6%98%8eexists-eta-in-01%e4%bd%bf%e5%be%97feta-2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>$(1)$ <strong>分析：</strong> 看见导数先想到罗尔定理，两个点一个用1，一个就要去题干找点，发现积分式$\int_{0}^{1}f(x)\text{d}x=1$，发现恰好符合积分中值定理$\frac{\int^{1}_{0}f(x)\text{d}x}{1-0}=f(\xi)$，于是找到第二个点$\xi_1$。
+再用这两个点找到$\xi$</p>
+<p><img loading="lazy" src="https://cdn.acwing.com/media/article/image/2021/06/16/63738_0393588bce-QQ%e5%9b%be%e7%89%8720210616161403.png" alt="QQ图片20210616161403.png" srcset="https://cdn.acwing.com/media/article/image/2021/06/16/63738_0393588bce-QQ%e5%9b%be%e7%89%8720210616161403.png?size=small, https://cdn.acwing.com/media/article/image/2021/06/16/63738_0393588bce-QQ%e5%9b%be%e7%89%8720210616161403.png?size=medium 1.5x, https://cdn.acwing.com/media/article/image/2021/06/16/63738_0393588bce-QQ%e5%9b%be%e7%89%8720210616161403.png?size=large 2x" data-title="QQ图片20210616161403.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>$$\because \int^{1}_{0}f(x)\text{d}x=1$$</p>
+<p>$$\therefore 由积分中值定理得:\exists \xi_1\in(0,1),使得f(\xi_1)=1$$</p>
+<p>$$\because f(\xi_1)=1,f(1)=1$$</p>
+<p>$$\therefore 由罗尔中值定理得:\exists \xi\in(\xi_1,1),使得f&rsquo;(\xi)=0$$</p>
+<p>$(2)$ <strong>分析：</strong> 构造+反证。看到$f&rsquo;'(\eta)&lt;-2$应该想到构造函数，二阶导$&gt;0$可以判断函数的凹凸性，再根据题目的已知条件有积分，所以利用凹函数的积分性质来证明不等式。</p>
+<p>$$令g(x)=f(x)+x^2$$</p>
+<p>$$假设f&rsquo;'(x)\ge-2,即f&rsquo;'(x)+2\ge0$$</p>
+<p>$$\because g&rsquo;'(x)=f&rsquo;'(x)+2$$</p>
+<p>$$\therefore g&rsquo;'(x)\ge0$$</p>
+<p>$$\therefore g&rsquo;'(x)为凹函数$$</p>
+<p>$$则有:\int_{0}^{1}g(x) \text{d}x \le \int_{0}^{1}2x\text{d}x=1$$</p>
+<p>$$\int_{0}^{1}g(x) \text{d}x=\int_{0}^{1}(f(x)+x^2) \text{d}x=\frac{4}{3} &gt; 1,矛盾$$</p>
+<p>$$\therefore \exists \eta \in (0,1),使得g&rsquo;'(x)&lt;0$$</p>
+<p>$$即:\exists \eta \in (0,1),使得f&rsquo;'(\eta)&lt;-2$$</p>
+<h2 id="4设正值函数fx在ab上连续int_abfxtextdxa证明int_abfxefxtextdxint_abfrac1fxtextdx-ge-b-ab-aa" class="heading-element"><span>$4.设正值函数f(x)在[a,b]上连续,\int_{a}^{b}f(x)\text{d}x=A,证明:\int_{a}^{b}f(x)e^{f(x)}\text{d}x\int_{a}^{b}\frac{1}{f(x)}\text{d}x \ge (b-a)(b-a+A)$</span>
+  <a href="#4%e8%ae%be%e6%ad%a3%e5%80%bc%e5%87%bd%e6%95%b0fx%e5%9c%a8ab%e4%b8%8a%e8%bf%9e%e7%bb%adint_abfxtextdxa%e8%af%81%e6%98%8eint_abfxefxtextdxint_abfrac1fxtextdx-ge-b-ab-aa" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>法一：化为二重积分</strong></p>
+<p><strong>分析：</strong> 题目给了两个积分，想到把另一个积分变元为$y$，转为二重积分，而区间$[a,b]$变为矩形区域，可以利用其性质变为二重积分。根据对称性，二重积分可以互换变量，构造$\frac{1}{2}$，再用重要不等式$e^x\ge x+1$进行放缩，最后证出答案。</p>
+<p>$$I=\int_{a}^{b}f(x)e^{f(x)}\text{d}x\int_{a}^{b}\frac{1}{f(x)}\text{d}x=\int_{a}^{b}f(x)e^{f(x)}\text{d}x\int_{a}^{b}\frac{1}{f(y)}\text{d}y$$</p>
+<p>$$\because D: [a,b] ×[a,b]为矩形区域$$</p>
+<p>$$\therefore I=\iint\limits_{D}^{}\frac{f(x)}{f(y)}e^{f(x)}\text{d}x\text{d}y =\iint\limits_{D}^{}\frac{f(y)}{f(x)}e^{f(y)}\text{d}x\text{d}y$$</p>
+<p>$$\therefore I=\frac{1}{2}\iint\limits_{D}^{}\frac{f(x)}{f(y)}e^{f(x)}\text{d}x\text{d}y +\iint\limits_{D}^{}\frac{f(y)}{f(x)}e^{f(y)}\text{d}x\text{d}y$$</p>
+<p>$$I=\frac{1}{2}\iint\limits_{D}\frac{f^2(x)e^{f(x)}+f^2(y)e^{f(y)}}{f(x)f(y)}\text{d}x\text{d}y \ge \iint\limits_{D}\sqrt{e^{f(x)+f(y)}}\text{d}x\text{d}y$$</p>
+<p>$$I=\iint\limits_{D}e^{\frac{f(x)+f(y)}{2}}\text{d}x\text{d}y \ge \iint\limits_{D}(1+\frac{f(x)+f(y)}{2})\text{d}x\text{d}y$$</p>
+<p>$$I\ge \iint\limits_{D}\text{d}x\text{d}y+\iint\limits_{D} f(x) \text{d}x\text{d}y=(b-a)^2+\int_{a}^{b}f(x)\text{d}x\int_{a}^{b}\text{d}y$$</p>
+<p>$$I\ge(b-a)^2+(b-a)A=(b-a)(b-aA)$$</p>
+<p><strong>法二：柯西不等式</strong></p>
+<p><strong>分析：</strong> 看到两个积分可以凑柯西不等式，再放缩证出答案。</p>
+<p>$$\because  I= \int_{a}^{b}f^2(x)\text{d}x\int_{a}^{b}g^2(x)\text{d}x \ge (\int_{a}^{b}f(x)g(x)\text{d}x)^2$$</p>
+<p>$$\therefore \int_{a}^{b}f(x)e^{f(x)}\text{d}x\int_{a}^{b}\frac{1}{f(x)}\text{d}x \ge (\int_{a}^{b}\sqrt{e^{f(x)}}\text{d}x)^2$$</p>
+<p>$$(\int_{a}^{b}\sqrt{e^{f(x)}}\text{d}x)^2 = (\int_{a}^{b} e^{\frac{f(x)}{2}} \text{d}x)^2 \ge [\int_{a}^{b}(1+\frac{f(x)}{2})\text{d}x]^2$$</p>
+<p>$$\int_{a}^{b}(1+\frac{f(x)}{2})\text{d}x=b-a+\frac{A}{2}$$</p>
+<p>$$\therefore I\ge (b-a+\frac{A}{2})^2$$</p>
+<p>$$先证: \forall x,(\frac{x}{2}+k)^2 \ge k(k+x),k为常数$$</p>
+<p>$$\Leftrightarrow \frac{x^2}{4}+k^2+kx\ge k^2+ kx$$</p>
+<p>$$\Leftrightarrow  x^2\ge0恒成立$$</p>
+<p>$$\therefore I \ge (b-a)(b-a+A)$$</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2025-07-25 01:50:22">更新于 2025-07-25&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/math-%E9%AB%98%E6%95%B0%E7%AB%9E%E8%B5%9B%E7%AC%94%E8%AE%B0/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E9%AB%98%E7%AD%89%E6%95%B0%E5%AD%A6/" class="post-tag" title="标签 - 高等数学">高等数学</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/math-2021%E6%96%B0%E9%AB%98%E8%80%83%E5%85%A8%E5%9B%BD%E5%8D%B7-22%E9%A2%98/" class="post-nav-item" rel="prev" title="2021新高考全国Ⅰ卷 22题"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>2021新高考全国Ⅰ卷 22题</a><a href="/posts/cp%E6%95%B0%E4%BD%8Ddpdfs%E5%81%9A%E6%B3%95/" class="post-nav-item" rel="next" title="数位DP(DFS做法)">数位DP(DFS做法)<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>

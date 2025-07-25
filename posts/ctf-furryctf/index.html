@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>FurryCTF 2024 (寒假赛) WP - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="比赛链接
+前言 业余选手，这次比赛算是做的最爽的一次 CTF 比赛了，感谢 furryCTF，一开始在俊杰群里看到福瑞控居然能搞出个 CTF 比赛，比较好奇想去试试，早在大一的时候就想好好学习一下 CTF，但被钩八 ACM 占用了时间，现在工作了有摸鱼时间可以好好研究一下了！从一开始啥都不会只会做签到题和 osint 题到慢慢学习逐步会做后面的题，虽然可能大佬都是秒切的，但我确实学到了很多东西和技巧，以下是按照过题顺序的题解：
+"><meta name="keywords" content='CTF'>
+  <meta itemprop="name" content="FurryCTF 2024 (寒假赛) WP">
+  <meta itemprop="description" content="比赛链接
+前言 业余选手，这次比赛算是做的最爽的一次 CTF 比赛了，感谢 furryCTF，一开始在俊杰群里看到福瑞控居然能搞出个 CTF 比赛，比较好奇想去试试，早在大一的时候就想好好学习一下 CTF，但被钩八 ACM 占用了时间，现在工作了有摸鱼时间可以好好研究一下了！从一开始啥都不会只会做签到题和 osint 题到慢慢学习逐步会做后面的题，虽然可能大佬都是秒切的，但我确实学到了很多东西和技巧，以下是按照过题顺序的题解：">
+  <meta itemprop="datePublished" content="2025-01-15T14:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-07-25T01:50:22+00:00">
+  <meta itemprop="wordCount" content="2945">
+  <meta itemprop="keywords" content="CTF"><meta property="og:url" content="https://blog.messywind.top/posts/ctf-furryctf/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="FurryCTF 2024 (寒假赛) WP">
+  <meta property="og:description" content="比赛链接
+前言 业余选手，这次比赛算是做的最爽的一次 CTF 比赛了，感谢 furryCTF，一开始在俊杰群里看到福瑞控居然能搞出个 CTF 比赛，比较好奇想去试试，早在大一的时候就想好好学习一下 CTF，但被钩八 ACM 占用了时间，现在工作了有摸鱼时间可以好好研究一下了！从一开始啥都不会只会做签到题和 osint 题到慢慢学习逐步会做后面的题，虽然可能大佬都是秒切的，但我确实学到了很多东西和技巧，以下是按照过题顺序的题解：">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-01-15T14:00:00+00:00">
+    <meta property="article:modified_time" content="2025-07-25T01:50:22+00:00">
+    <meta property="article:tag" content="CTF">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="FurryCTF 2024 (寒假赛) WP">
+  <meta name="twitter:description" content="比赛链接
+前言 业余选手，这次比赛算是做的最爽的一次 CTF 比赛了，感谢 furryCTF，一开始在俊杰群里看到福瑞控居然能搞出个 CTF 比赛，比较好奇想去试试，早在大一的时候就想好好学习一下 CTF，但被钩八 ACM 占用了时间，现在工作了有摸鱼时间可以好好研究一下了！从一开始啥都不会只会做签到题和 osint 题到慢慢学习逐步会做后面的题，虽然可能大佬都是秒切的，但我确实学到了很多东西和技巧，以下是按照过题顺序的题解：">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/ctf-furryctf/" title="FurryCTF 2024 (寒假赛) WP - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/misc2024-%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" title="2024 年度总结" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/misc2025.5.24-%E8%AE%B0/" title="2025.05.24 记" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/ctf-furryctf/index.md" title="FurryCTF 2024 (寒假赛) WP - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "FurryCTF 2024 (寒假赛) WP",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/ctf-furryctf\/"
+    },"genre": "posts","keywords": "CTF","wordcount":  2945 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/ctf-furryctf\/","datePublished": "2025-01-15T14:00:00+00:00","dateModified": "2025-07-25T01:50:22+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E5%AE%89/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网安</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E5%AE%89/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网安</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>FurryCTF 2024 (寒假赛) WP</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%BD%91%E5%AE%89/" class="post-category" title="分类 - 网安"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 网安</a></span></div><div class="post-meta-line"><span title="发布于 2025-01-15 14:00:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2025-01-15">2025-01-15</time></span>&nbsp;<span title="更新于 2025-07-25 01:50:22"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-07-25">2025-07-25</time></span>&nbsp;<span title="2945 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 3000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#前言">前言</a></li>
+    <li><a href="#a-beginner签到题">A [beginner]签到题</a></li>
+    <li><a href="#b-misc猫猫的故事">B [misc]猫猫的故事</a></li>
+    <li><a href="#d-misc丢失的文档">D [misc]丢失的文档</a></li>
+    <li><a href="#o-osint人文风景">o [osint]人文风景</a></li>
+    <li><a href="#p-osint循迹">p [osint]循迹</a></li>
+    <li><a href="#w-osint归去">w [osint]归去</a></li>
+    <li><a href="#u-osint旅行照片">u [osint]旅行照片</a></li>
+    <li><a href="#k-miscwindows-10">K [misc]Windows 1.0</a></li>
+    <li><a href="#l-hardwarecharge">l [hardware]Charge</a></li>
+    <li><a href="#q-misc求而不得">Q [misc]求而不得</a></li>
+    <li><a href="#m-misc此时无声胜有声">M [misc]此时无声胜有声</a></li>
+    <li><a href="#e-misc黑暗">E [misc]黑暗</a></li>
+    <li><a href="#l-misc春风得意">L [misc]春风得意</a></li>
+    <li><a href="#r-misc图片的秘密">R [misc]图片的秘密</a></li>
+    <li><a href="#_-mobile登录">_ [mobile]登录</a></li>
+    <li><a href="#-mobile认证系统">` [mobile]认证系统</a></li>
+    <li><a href="#c-misc安装包">C [misc]安装包</a></li>
+    <li><a href="#d-rev烦人的黑框框">d [rev]烦人的黑框框</a></li>
+    <li><a href="#f-crypto亡羊补牢">f [crypto]亡羊补牢</a></li>
+    <li><a href="#h-misc乱码">H [misc]乱码</a></li>
+    <li><a href="#z-web剑走偏锋">Z [web]剑走偏锋</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#f-misc校园浏览器">F [misc]校园浏览器</a></li>
+    <li><a href="#t-misc网盘">T [misc]网盘</a></li>
+    <li><a href="#u-webflag下载">U [web]flag下载</a></li>
+    <li><a href="#v-web列表">V [web]列表</a></li>
+    <li><a href="#w-web雪花飘飘">W [web]雪花飘飘</a></li>
+    <li><a href="#x-web史莱姆的世界">X [web]史莱姆的世界</a></li>
+    <li><a href="#p-misc-湍流细木">P [misc] 湍流细木</a></li>
+    <li><a href="#b-revlogin">b [rev]Login</a></li>
+    <li><a href="#c-revmemz">c [rev]MEMZ</a></li>
+    <li><a href="#g-cryptoscratch">g [crypto]Scratch</a></li>
+    <li><a href="#j-crypto粗心的猫猫">j [crypto]粗心的猫猫</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><p><a href="https://hydro.ac/contest/6728fe9aa325b9e5ba5f9489"target="_blank" rel="external nofollow noopener noreferrer">比赛链接</a></p>
+<h2 id="前言" class="heading-element"><span>前言</span>
+  <a href="#%e5%89%8d%e8%a8%80" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>业余选手，这次比赛算是做的最爽的一次 CTF 比赛了，感谢 furryCTF，一开始在俊杰群里看到福瑞控居然能搞出个 CTF 比赛，比较好奇想去试试，早在大一的时候就想好好学习一下 CTF，但被钩八 ACM 占用了时间，现在工作了有摸鱼时间可以好好研究一下了！从一开始啥都不会只会做签到题和 osint 题到慢慢学习逐步会做后面的题，虽然可能大佬都是秒切的，但我确实学到了很多东西和技巧，以下是按照过题顺序的题解：</p>
+<h2 id="a-beginner签到题" class="heading-element"><span>A [beginner]签到题</span>
+  <a href="#a-beginner%e7%ad%be%e5%88%b0%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>网易云识曲，造梦西游 3</p>
+<h2 id="b-misc猫猫的故事" class="heading-element"><span>B [misc]猫猫的故事</span>
+  <a href="#b-misc%e7%8c%ab%e7%8c%ab%e7%9a%84%e6%95%85%e4%ba%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>F12 发现零宽字符，解密工具：<a href="https://tool.bfw.wiki/tool/1695021695027599.html"target="_blank" rel="external nofollow noopener noreferrer">在线零宽字符unicode文字隐写工具-BFW工具箱</a></p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc04.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc04.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc04.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc04.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc04.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc04.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="d-misc丢失的文档" class="heading-element"><span>D [misc]丢失的文档</span>
+  <a href="#d-misc%e4%b8%a2%e5%a4%b1%e7%9a%84%e6%96%87%e6%a1%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>改成 <code>.zip</code> 然后解压，记事本打开 WordDocument 找到 flag</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc05.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc05.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc05.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc05.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc05.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc05.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="o-osint人文风景" class="heading-element"><span>o [osint]人文风景</span>
+  <a href="#o-osint%e4%ba%ba%e6%96%87%e9%a3%8e%e6%99%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>看了图片填了马家老式油茶，错误。但是注意审题是<strong>对面</strong>！所以高德搜位置然后看对面饭店，老刘传统蒸菜馆。</p>
+<h2 id="p-osint循迹" class="heading-element"><span>p [osint]循迹</span>
+  <a href="#p-osint%e5%be%aa%e8%bf%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>我也不知道怎么过的.jpg，观察到有一头牛，百度识图他叫墨小牛，然后他是即墨古城的吉祥物，然后搜一下即墨古城附近火锅店就出来了。</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc06.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc06.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc06.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc06.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc06.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc06.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="w-osint归去" class="heading-element"><span>w [osint]归去</span>
+  <a href="#w-osint%e5%bd%92%e5%8e%bb" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>一看群主 QQ 资料是阜阳的，所以锁定阜阳西站。</p>
+<p><a href="https://qq.ip138.com/train/anhui/fuyangxi.htm"target="_blank" rel="external nofollow noopener noreferrer">阜阳西</a></p>
+<p>观察到高铁时间是从早到晚的，所以去官网找到这俩站：</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc07.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc07.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc07.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc07.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc07.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc07.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>然后查找到：</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc08.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc08.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc08.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc08.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc08.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc08.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>答案是上海站。</p>
+<h2 id="u-osint旅行照片" class="heading-element"><span>u [osint]旅行照片</span>
+  <a href="#u-osint%e6%97%85%e8%a1%8c%e7%85%a7%e7%89%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>百度识图，日月双塔。</p>
+<h2 id="k-miscwindows-10" class="heading-element"><span>K [misc]Windows 1.0</span>
+  <a href="#k-miscwindows-10" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>直接用 <a href="https://hexed.it/"target="_blank" rel="external nofollow noopener noreferrer">010editor</a> 打开一下搜索 furryCTF</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc09.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc09.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc09.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc09.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc09.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc09.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="l-hardwarecharge" class="heading-element"><span>l [hardware]Charge</span>
+  <a href="#l-hardwarecharge" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>直接用 AI 识图，加 AI 提问，<code>furryCTF{20000_50_PPJL65C}</code></p>
+<h2 id="q-misc求而不得" class="heading-element"><span>Q [misc]求而不得</span>
+  <a href="#q-misc%e6%b1%82%e8%80%8c%e4%b8%8d%e5%be%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>打开压缩包发现有密码，然后文件头 <code>90</code> 改 <code>00</code> 发现不行，不是伪加密。</p>
+<p>发现 <code>1.txt 2.txt 3.txt 4.txt 5.txt</code> 原始大小很小，考虑 CRC32 碰撞。</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0a.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0a.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0a.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0a.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0a.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0a.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>用几个工具，字节为 2 和 3 的很容易破解。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">+--------------遍历指定压缩包的CRC值----------------+
+</span></span><span class="line"><span class="cl">[OK] 1.txt: 0xd6794fcc
+</span></span><span class="line"><span class="cl">[OK] 2.txt: 0xa4923bd1
+</span></span><span class="line"><span class="cl">[OK] 3.txt: 0x5150ce86
+</span></span><span class="line"><span class="cl">[OK] 4.txt: 0x269fce5d
+</span></span><span class="line"><span class="cl">[OK] 5.txt: 0x327e383
+</span></span><span class="line"><span class="cl">[OK] flag.txt: 0x77093881
+</span></span><span class="line"><span class="cl">+-------------对输出的CRC值进行碰撞-----------------+
+</span></span><span class="line"><span class="cl">[Success] 0xd6794fcc: 1qa
+</span></span><span class="line"><span class="cl">[Success] 0xa4923bd1: 4?u
+</span></span><span class="line"><span class="cl">[Success] 0x327e383: !w</span></span></code></pre></td></tr></table>
+</div>
+</div><p>得到以下三个文件的内容：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">1.txt: 1qa
+</span></span><span class="line"><span class="cl">2.txt: 4?u
+</span></span><span class="line"><span class="cl">5.txt: !w</span></span></code></pre></td></tr></table>
+</div>
+</div><p>考虑 6 字节的，有工具：https://github.com/theonlypwner/crc32</p>
+<p>所有可能如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">!;F#5.
+</span></span><span class="line"><span class="cl">!j$BY2
+</span></span><span class="line"><span class="cl">$#UO.@
+</span></span><span class="line"><span class="cl">$nxrCH
+</span></span><span class="line"><span class="cl">%n9CXQ
+</span></span><span class="line"><span class="cl">)Al1&lt;V
+</span></span><span class="line"><span class="cl">)]#m=B
+</span></span><span class="line"><span class="cl">+a&amp;sd_
+</span></span><span class="line"><span class="cl">+}i/eK
+</span></span><span class="line"><span class="cl">,x!MNt
+</span></span><span class="line"><span class="cl">-5MA8e
+</span></span><span class="line"><span class="cl">-Eq0=5
+</span></span><span class="line"><span class="cl">-Y&gt;l&lt;!
+</span></span><span class="line"><span class="cl">/e;re&lt;
+</span></span><span class="line"><span class="cl">/yt.d(
+</span></span><span class="line"><span class="cl">07}LZt
+</span></span><span class="line"><span class="cl">0GA=_$
+</span></span><span class="line"><span class="cl">1+s!@y
+</span></span><span class="line"><span class="cl">17&lt;}Am
+</span></span><span class="line"><span class="cl">1[OPE)
+</span></span><span class="line"><span class="cl">2*&amp;Bj%
+</span></span><span class="line"><span class="cl">2FUona
+</span></span><span class="line"><span class="cl">3*gsq&lt;
+</span></span><span class="line"><span class="cl">36(/p(
+</span></span><span class="line"><span class="cl">5_RQDJ
+</span></span><span class="line"><span class="cl">6.;CkF
+</span></span><span class="line"><span class="cl">7.zrp_
+</span></span><span class="line"><span class="cl">725.qK
+</span></span><span class="line"><span class="cl">8!$sWH
+</span></span><span class="line"><span class="cl">9!eBLQ
+</span></span><span class="line"><span class="cl">;PMaxD
+</span></span><span class="line"><span class="cl">&lt;%9rV+
+</span></span><span class="line"><span class="cl">&lt;9v.W?
+</span></span><span class="line"><span class="cl">&lt;IJ_Ro
+</span></span><span class="line"><span class="cl">=%xCM2
+</span></span><span class="line"><span class="cl">=UD2Hb
+</span></span><span class="line"><span class="cl">?8#M}c
+</span></span><span class="line"><span class="cl">@*RYc8
+</span></span><span class="line"><span class="cl">@Zn(fh
+</span></span><span class="line"><span class="cl">BG5&amp;V9
+</span></span><span class="line"><span class="cl">B[zzW-
+</span></span><span class="line"><span class="cl">Bfk6?u
+</span></span><span class="line"><span class="cl">Bz$j&gt;a
+</span></span><span class="line"><span class="cl">C7HfHp
+</span></span><span class="line"><span class="cl">C[;KL4
+</span></span><span class="line"><span class="cl">Cze[%x
+</span></span><span class="line"><span class="cl">D.OXb[
+</span></span><span class="line"><span class="cl">E2A5xV
+</span></span><span class="line"><span class="cl">FC(&#39;WZ
+</span></span><span class="line"><span class="cl">F_g{VN
+</span></span><span class="line"><span class="cl">G_&amp;JMW
+</span></span><span class="line"><span class="cl">HPxKj@
+</span></span><span class="line"><span class="cl">ILv&amp;pM
+</span></span><span class="line"><span class="cl">IP9zqY
+</span></span><span class="line"><span class="cl">J!Ph^U
+</span></span><span class="line"><span class="cl">Jl}U3]
+</span></span><span class="line"><span class="cl">Kl&lt;d(D
+</span></span><span class="line"><span class="cl">Kps8)P
+</span></span><span class="line"><span class="cl">L$Y;ns
+</span></span><span class="line"><span class="cl">LTeJk#
+</span></span><span class="line"><span class="cl">MHk&#39;q.
+</span></span><span class="line"><span class="cl">MT${p:
+</span></span><span class="line"><span class="cl">N%Mi_6
+</span></span><span class="line"><span class="cl">NI&gt;D[r
+</span></span><span class="line"><span class="cl">Oh!e)&#39;
+</span></span><span class="line"><span class="cl">Otn9(3
+</span></span><span class="line"><span class="cl">PwJf{g
+</span></span><span class="line"><span class="cl">R&#39;&lt;U&amp;&gt;
+</span></span><span class="line"><span class="cl">S&#39;}d=&#39;
+</span></span><span class="line"><span class="cl">S;28&lt;3
+</span></span><span class="line"><span class="cl">SjPYP/
+</span></span><span class="line"><span class="cl">V#!T&#39;]
+</span></span><span class="line"><span class="cl">VrC5KA
+</span></span><span class="line"><span class="cl">W?/9=P
+</span></span><span class="line"><span class="cl">WnMXQL
+</span></span><span class="line"><span class="cl">YaRhmB
+</span></span><span class="line"><span class="cl">[]Wv4_
+</span></span><span class="line"><span class="cl">]eOil!
+</span></span><span class="line"><span class="cl">^)77+u
+</span></span><span class="line"><span class="cl">^5xk*a
+</span></span><span class="line"><span class="cl">^xUVGi
+</span></span><span class="line"><span class="cl">_59Z1x
+</span></span><span class="line"><span class="cl">_YJw5&lt;
+</span></span><span class="line"><span class="cl">_d[;]d
+</span></span><span class="line"><span class="cl">atB0/8
+</span></span><span class="line"><span class="cl">b$u2ix
+</span></span><span class="line"><span class="cl">b8:nhl
+</span></span><span class="line"><span class="cl">bTICl(
+</span></span><span class="line"><span class="cl">c8{_su
+</span></span><span class="line"><span class="cl">cHG.v%
+</span></span><span class="line"><span class="cl">d=3=XJ
+</span></span><span class="line"><span class="cl">e!=PBG
+</span></span><span class="line"><span class="cl">ep_1.[
+</span></span><span class="line"><span class="cl">fPTBmK
+</span></span><span class="line"><span class="cl">gLZ/wF
+</span></span><span class="line"><span class="cl">h_KrQE
+</span></span><span class="line"><span class="cl">j.cQeP
+</span></span><span class="line"><span class="cl">l7%^Tb
+</span></span><span class="line"><span class="cl">l[VsP&amp;
+</span></span><span class="line"><span class="cl">m++3No
+</span></span><span class="line"><span class="cl">m7doO{
+</span></span><span class="line"><span class="cl">nZB!ac
+</span></span><span class="line"><span class="cl">oFLL{n
+</span></span><span class="line"><span class="cl">p5Tb-j
+</span></span><span class="line"><span class="cl">pY&#39;O).
+</span></span><span class="line"><span class="cl">pxy_@b
+</span></span><span class="line"><span class="cl">qdw2Zo
+</span></span><span class="line"><span class="cl">qx8n[{
+</span></span><span class="line"><span class="cl">sy,&lt;j&gt;
+</span></span><span class="line"><span class="cl">t]:N(M
+</span></span><span class="line"><span class="cl">uA4#2@
+</span></span><span class="line"><span class="cl">va?PqP
+</span></span><span class="line"><span class="cl">w}1=k]
+</span></span><span class="line"><span class="cl">xro&lt;LJ
+</span></span><span class="line"><span class="cl">y#Ll;O
+</span></span><span class="line"><span class="cl">ynaQVG
+</span></span><span class="line"><span class="cl">}&#39;Qm:,</span></span></code></pre></td></tr></table>
+</div>
+</div><p>5 字节的，直接暴力跑 (跑了几十分钟)：</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0b.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0b.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0b.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0b.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0b.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0b.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>最后都拼成字典用 archpr 暴力破解。</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0c.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0c.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0c.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0c.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0c.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0c.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>得到密码，解压即可。</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0d.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0d.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0d.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0d.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0d.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0d.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="m-misc此时无声胜有声" class="heading-element"><span>M [misc]此时无声胜有声</span>
+  <a href="#m-misc%e6%ad%a4%e6%97%b6%e6%97%a0%e5%a3%b0%e8%83%9c%e6%9c%89%e5%a3%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>直接用 Audacity 打开。</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0f.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0f.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0f.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0f.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0f.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc0f.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>看图发现是 <code>furryCTF{B1ack_Pi2no}</code></p>
+<h2 id="e-misc黑暗" class="heading-element"><span>E [misc]黑暗</span>
+  <a href="#e-misc%e9%bb%91%e6%9a%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>一开始没什么头绪，但是必须要考虑数字顺序 (受求而不得启发)。</p>
+<p><code>010editor</code> 发现 8 张图片的文件尾不一样，依次是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">ZnVy
+</span></span><span class="line"><span class="cl">cnlD
+</span></span><span class="line"><span class="cl">VEZ7
+</span></span><span class="line"><span class="cl">SGVs
+</span></span><span class="line"><span class="cl">bG9f
+</span></span><span class="line"><span class="cl">SUVO
+</span></span><span class="line"><span class="cl">RF9B
+</span></span><span class="line"><span class="cl">d0F9</span></span></code></pre></td></tr></table>
+</div>
+</div><p>拼起来是 <code>ZnVycnlDVEZ7SGVsbG9fSUVORF9Bd0F9</code>，Base64 解码。</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc10.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc10.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc10.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc10.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc10.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc10.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="l-misc春风得意" class="heading-element"><span>L [misc]春风得意</span>
+  <a href="#l-misc%e6%98%a5%e9%a3%8e%e5%be%97%e6%84%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>题面提示<strong>趴在电脑上</strong>，所以考虑键盘加密。发现前面按 8 个字符分组是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">egtrcvge
+</span></span><span class="line"><span class="cl">6i87hji6
+</span></span><span class="line"><span class="cl">3t54dft3
+</span></span><span class="line"><span class="cl">3t54dft3
+</span></span><span class="line"><span class="cl">5u76ghu5
+</span></span><span class="line"><span class="cl">VSFSFFXD
+</span></span><span class="line"><span class="cl">4Y65FGY4
+</span></span><span class="line"><span class="cl">EGTRCVGE
+</span></span><span class="line"><span class="cl">0]=-;&#39;]0</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对应 <code>furryCTF{</code></p>
+<p>按照密文脑补明文 (疯狂看电脑键盘)。</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc11.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc11.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc11.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc11.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc11.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc11.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>得到答案 <code>furryCTF{keyboard_with_random_cout}</code></p>
+<h2 id="r-misc图片的秘密" class="heading-element"><span>R [misc]图片的秘密</span>
+  <a href="#r-misc%e5%9b%be%e7%89%87%e7%9a%84%e7%a7%98%e5%af%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>标题提示图片，考虑使用 SSTV，音频变成图片。</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc13.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc13.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc13.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc13.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc13.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc13.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>枚举凯撒加密，字母往前移 10 位 <code>furryCTF{WELAOME_TO_FURRYCTF!}</code></p>
+<h2 id="_-mobile登录" class="heading-element"><span>_ [mobile]登录</span>
+  <a href="#_-mobile%e7%99%bb%e5%bd%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>解包搜 furryCTF</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc14.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc14.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc14.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc14.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc14.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc14.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="-mobile认证系统" class="heading-element"><span>` [mobile]认证系统</span>
+  <a href="#-mobile%e8%ae%a4%e8%af%81%e7%b3%bb%e7%bb%9f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>继续解包搜 furryCTF</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc15.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc15.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc15.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc15.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc15.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc15.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="c-misc安装包" class="heading-element"><span>C [misc]安装包</span>
+  <a href="#c-misc%e5%ae%89%e8%a3%85%e5%8c%85" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>解压安装包发现 flag</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc16.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc16.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc16.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc16.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc16.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc16.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc17.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc17.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc17.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc17.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc17.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc17.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>凯撒解不出来，考虑维吉尼亚密码，密钥是 <code>furryCTF</code></p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc18.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc18.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc18.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc18.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc18.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc18.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="d-rev烦人的黑框框" class="heading-element"><span>d [rev]烦人的黑框框</span>
+  <a href="#d-rev%e7%83%a6%e4%ba%ba%e7%9a%84%e9%bb%91%e6%a1%86%e6%a1%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>发现程序图标是 Python 编写，使用 <code>pyinstxtractor.py</code> 反编译。</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc19.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc19.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc19.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc19.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc19.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc19.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>反编译 <code>trojan.pyc</code></p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1a.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1a.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1a.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1a.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1a.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1a.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>Base32 解密。</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1b.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1b.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1b.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1b.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1b.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1b.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="f-crypto亡羊补牢" class="heading-element"><span>f [crypto]亡羊补牢</span>
+  <a href="#f-crypto%e4%ba%a1%e7%be%8a%e8%a1%a5%e7%89%a2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>枚举一下栅栏，发现 9 不对劲。</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1c.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1c.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1c.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1c.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1c.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1c.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>然后发现每五个字符进行分组，前两组按照</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">swap(s[1], s[2])
+</span></span><span class="line"><span class="cl">swap(s[0], s[2])
+</span></span><span class="line"><span class="cl">swap(s[2], s[3])</span></span></code></pre></td></tr></table>
+</div>
+</div><p>的交换规则可以得到 <code>furryCTF{A</code>，于是模拟一下得到答案。</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1d.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1d.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1d.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1d.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1d.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1d.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="h-misc乱码" class="heading-element"><span>H [misc]乱码</span>
+  <a href="#h-misc%e4%b9%b1%e7%a0%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>开始想统计一下字符集，没想到字符集有意外收获 (出现 <code>furryCTF</code> 和 <code>{}</code> 等)，然后词频统计一下。</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1e.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1e.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1e.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1e.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1e.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1e.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>尝试按词频排序。</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1f.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1f.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1f.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1f.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1f.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc1f.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>补一个 r 然后得到答案：<code>furryCTF{How_Man1-times}</code></p>
+<h2 id="z-web剑走偏锋" class="heading-element"><span>Z [web]剑走偏锋</span>
+  <a href="#z-web%e5%89%91%e8%b5%b0%e5%81%8f%e9%94%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>发现 <code>furry</code> 和 <code>CTF</code> 参数可以有 <code>./</code>，又发现 <code>CTF</code> 参数可以有问号，于是模糊匹配。</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc20.png" alt="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc20.png" srcset="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc20.png?size=small, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc20.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc20.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/adc29f004b3328858ded8dc20.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>正确 flag 为：<code>furryCTF{Hundred_Secrets_An6_4_Mere_Care1essness}</code></p>
+<h2 id="补题" class="heading-element"><span>补题</span>
+  <a href="#%e8%a1%a5%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h2 id="f-misc校园浏览器" class="heading-element"><span>F [misc]校园浏览器</span>
+  <a href="#f-misc%e6%a0%a1%e5%9b%ad%e6%b5%8f%e8%a7%88%e5%99%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>不是，啊？这为什么不是 osint 题！！</p>
+<p>点一下 V5 就可以了，一开始以为是等级。。</p>
+<p><img loading="lazy" src="/image/CTF/furryCTF/F.png" alt="1" srcset="/image/CTF/furryCTF/F.png?size=small, /image/CTF/furryCTF/F.png?size=medium 1.5x, /image/CTF/furryCTF/F.png?size=large 2x" data-title="1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="t-misc网盘" class="heading-element"><span>T [misc]网盘</span>
+  <a href="#t-misc%e7%bd%91%e7%9b%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>把这图片保存下来直接上传到网盘就可以得到 flag 图片了。还能这样属实没想到，原理是 MD5 碰撞。</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218902.png" alt="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218902.png" srcset="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218902.png?size=small, https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218902.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218902.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218902.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="u-webflag下载" class="heading-element"><span>U [web]flag下载</span>
+  <a href="#u-webflag%e4%b8%8b%e8%bd%bd" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>没道理的，纯没道理的。</p>
+<p><a href="https://hydro.ac/p/34977/file/flag.txt?tid=6728fe9aa325b9e5ba5f9489"target="_blank" rel="external nofollow noopener noreferrer">https://hydro.ac/p/34977/file/flag.txt?tid=6728fe9aa325b9e5ba5f9489</a></p>
+<p>打开文件发现是</p>
+<p><code>furryCTF%7BD%23n't_Y%25u_Kn%40w_The_HTML_Re*p0nce%7D</code></p>
+<p>URL 解码：</p>
+<p><code>furryCTF{D#n't_Y%u_Kn@w_The_HTML_Re*p0nce}</code></p>
+<h2 id="v-web列表" class="heading-element"><span>V [web]列表</span>
+  <a href="#v-web%e5%88%97%e8%a1%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>使用堆快照：</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218903.png" alt="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218903.png" srcset="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218903.png?size=small, https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218903.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218903.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218903.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>去查找该 Scratch 项目的 JSON 文件，所以搜索 <code>{&quot;targets&quot;:[{&quot;isStage&quot;:true</code></p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218904.png" alt="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218904.png" srcset="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218904.png?size=small, https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218904.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218904.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218904.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>并看到一个奇怪的内容，鼠标附上去最后能看到一串密码。(不是哥们这谁能找到啊！)</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218905.png" alt="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218905.png" srcset="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218905.png?size=small, https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218905.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218905.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218905.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">F$_&lt;i}Zp:&amp;yd&amp;AXeCQ&#39;#]Zap5Gf&amp;ojDyCN&amp;KN$*N$4j&gt;*DdpE^jc/=2h5IgRY8\</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Base92 解码：</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218906.png" alt="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218906.png" srcset="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218906.png?size=small, https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218906.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218906.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218906.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="w-web雪花飘飘" class="heading-element"><span>W [web]雪花飘飘</span>
+  <a href="#w-web%e9%9b%aa%e8%8a%b1%e9%a3%98%e9%a3%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>一开始是靶机搭的 web，但后来挂了换成 GitHub，这让我得知了跟请求没有啥关系，重点看可疑的 JS 文件。</p>
+<p>注意到 <code>snowflakes.min.js</code> 文件里有一串可疑密码 (注意力惊人)</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218907.png" alt="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218907.png" srcset="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218907.png?size=small, https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218907.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218907.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218907.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p><code>50955130862247346033128821496195502070347087340218689554242763562407659428661122869571965</code></p>
+<p>先转个 16 进制：</p>
+<p><code>66757272794354467b466c79316e675f536e6f775f49735f53305f4265617574696675317d</code></p>
+<p>再转个 Hex 得到 flag：</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218908.png" alt="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218908.png" srcset="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218908.png?size=small, https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218908.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218908.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218908.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="x-web史莱姆的世界" class="heading-element"><span>X [web]史莱姆的世界</span>
+  <a href="#x-web%e5%8f%b2%e8%8e%b1%e5%a7%86%e7%9a%84%e4%b8%96%e7%95%8c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>随便找找，高玩榜里有镜像的 flag：</p>
+<p><img loading="lazy" src="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218909.png" alt="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218909.png" srcset="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218909.png?size=small, https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218909.png?size=medium 1.5x, https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218909.png?size=large 2x" data-title="https://md.sdutacm.cn/uploads/fa4d072fc8db7db8ee2218909.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>答案为：<code>furryCTF{The_Wyrms1ayer_0f_Ender_Drag0n}</code></p>
+<h2 id="p-misc-湍流细木" class="heading-element"><span>P [misc] 湍流细木</span>
+  <a href="#p-misc-%e6%b9%8d%e6%b5%81%e7%bb%86%e6%9c%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>用 Wireshark 打开流量包，搜索字符串 <code>flag</code> 找到网址。</p>
+<p><img loading="lazy" src="/image/CTF/furryCTF/P.png" alt="1" srcset="/image/CTF/furryCTF/P.png?size=small, /image/CTF/furryCTF/P.png?size=medium 1.5x, /image/CTF/furryCTF/P.png?size=large 2x" data-title="1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>然后用 winHex 打开图片，发现末尾有可疑的 PHP</p>
+<p><img loading="lazy" src="/image/CTF/furryCTF/P2.png" alt="1" srcset="/image/CTF/furryCTF/P2.png?size=small, /image/CTF/furryCTF/P2.png?size=medium 1.5x, /image/CTF/furryCTF/P2.png?size=large 2x" data-title="1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>显示乱码，尝试字符集转成 UTF-8，发现是如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-PHP" data-lang="PHP"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">eval</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">(</span><span class="s1">&#39;⠋⠥⠗⠗⠽⠉⠞⠋{⠎⠑⠑⠸⠽⠕⠥⠸⠁⠛⠁⠂⠝}&#39;</span><span class="p">))</span><span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这是盲文，用一下<a href="https://www.lddgo.net/common/braille"target="_blank" rel="external nofollow noopener noreferrer">转换器</a>得到 flag</p>
+<p><img loading="lazy" src="/image/CTF/furryCTF/P3.png" alt="1" srcset="/image/CTF/furryCTF/P3.png?size=small, /image/CTF/furryCTF/P3.png?size=medium 1.5x, /image/CTF/furryCTF/P3.png?size=large 2x" data-title="1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="b-revlogin" class="heading-element"><span>b [rev]Login</span>
+  <a href="#b-revlogin" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>这个题差一点点就过了。牢记数字转 hex！</p>
+<p>IDA 打开一下，然后看 strings 的视图找到可疑字符串<code>50955130862247346033129849911215869256974228669048534734398765262912025541901441526490493</code></p>
+<p><img loading="lazy" src="/image/CTF/furryCTF/b.png" alt="1" srcset="/image/CTF/furryCTF/b.png?size=small, /image/CTF/furryCTF/b.png?size=medium 1.5x, /image/CTF/furryCTF/b.png?size=large 2x" data-title="1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>和雪花飘飘一样，转 16 进制再转 hex 得到 flag</p>
+<p><code>furryCTF{P0inter_Is_Out_Of_The_Ran9e}</code></p>
+<h2 id="c-revmemz" class="heading-element"><span>c [rev]MEMZ</span>
+  <a href="#c-revmemz" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>用 ARCHPR 暴力破解出密码 <code>furry</code></p>
+<p><img loading="lazy" src="/image/CTF/furryCTF/c.png" alt="1" srcset="/image/CTF/furryCTF/c.png?size=small, /image/CTF/furryCTF/c.png?size=medium 1.5x, /image/CTF/furryCTF/c.png?size=large 2x" data-title="1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>然后还是用 IDA 打开里面的文件做和 b 题相同的操作。得到数字 <code>181028990419375709681764670364570214516897360554680698682721225149223938429</code></p>
+<p>然后继续做相同操作得到 flag：<code>furryCTF{MEMZ_W1th_furryCTF_:)}</code></p>
+<h2 id="g-cryptoscratch" class="heading-element"><span>g [crypto]Scratch</span>
+  <a href="#g-cryptoscratch" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>直接把 <code>project.json</code> 后缀改成 <code>sb3</code>，然后用 <a href="https://scratch.focalhot.com/"target="_blank" rel="external nofollow noopener noreferrer">scratch 在线网站</a> 打开</p>
+<p><img loading="lazy" src="/image/CTF/furryCTF/g.png" alt="1" srcset="/image/CTF/furryCTF/g.png?size=small, /image/CTF/furryCTF/g.png?size=medium 1.5x, /image/CTF/furryCTF/g.png?size=large 2x" data-title="1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">102 117 114 114 121 67 84 70 123 76 105 102 101 95 49 115 95 83 105 110 103 49 110 103 125</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这显然是 ASCII 码，转成字符串。</p>
+<p><img loading="lazy" src="/image/CTF/furryCTF/g2.png" alt="1" srcset="/image/CTF/furryCTF/g2.png?size=small, /image/CTF/furryCTF/g2.png?size=medium 1.5x, /image/CTF/furryCTF/g2.png?size=large 2x" data-title="1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<h2 id="j-crypto粗心的猫猫" class="heading-element"><span>j [crypto]粗心的猫猫</span>
+  <a href="#j-crypto%e7%b2%97%e5%bf%83%e7%9a%84%e7%8c%ab%e7%8c%ab" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>拿到压缩包先检验并去除伪加密 <code>09</code> 改 <code>00</code></p>
+<p><img loading="lazy" src="/image/CTF/furryCTF/j.png" alt="1" srcset="/image/CTF/furryCTF/j.png?size=small, /image/CTF/furryCTF/j.png?size=medium 1.5x, /image/CTF/furryCTF/j.png?size=large 2x" data-title="1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
+<p>拿到 <code>RSA.py</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">gmpy2</span>  
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">random</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">generate_large_prime_by_digits</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>  
+</span></span><span class="line"><span class="cl">    <span class="n">random_num_str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">choices</span><span class="p">(</span><span class="s1">&#39;0123456789&#39;</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">n</span><span class="p">))</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">random_num</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">mpz</span><span class="p">(</span><span class="n">random_num_str</span><span class="p">)</span>  
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">random_num</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)):</span>  
+</span></span><span class="line"><span class="cl">        <span class="n">random_num</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">mpz</span><span class="p">(</span><span class="s1">&#39;1&#39;</span> <span class="o">+</span> <span class="n">random_num_str</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="n">large_prime</span> <span class="o">=</span> <span class="n">gmpy2</span><span class="o">.</span><span class="n">next_prime</span><span class="p">(</span><span class="n">random_num</span><span class="p">)</span> 
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">large_prime</span>  
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="n">p</span> <span class="o">=</span> <span class="n">generate_large_prime_by_digits</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">q</span> <span class="o">=</span> <span class="n">generate_large_prime_by_digits</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>  
+</span></span><span class="line"><span class="cl">    <span class="n">e</span><span class="o">=</span><span class="mi">65537</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n</span><span class="o">=</span><span class="n">p</span><span class="o">*</span><span class="n">q</span>
+</span></span><span class="line"><span class="cl">    <span class="n">code</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&#34;flag is:&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="n">enc</span><span class="o">=</span><span class="nb">pow</span><span class="p">(</span><span class="n">code</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;enc=&#34;</span><span class="p">,</span><span class="n">enc</span><span class="p">,</span><span class="s2">&#34;n=&#34;</span><span class="p">,</span><span class="n">n</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>发现 <code>e=65537</code>，写脚本</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">math</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">Crypto.Util.number</span> <span class="kn">import</span> <span class="n">long_to_bytes</span>
+</span></span><span class="line"><span class="cl"><span class="n">enc1</span><span class="o">=</span><span class="mi">14177645175039229116346030403132099232252291153135307407968472015386303969683440897768815154592798117707771834485750461958443494947077758686797445730457810973274288497317238758699116770492362164018314656983870227104328935858969940914375276048149445994058151332456001392503777508200612633803312738586770586755013253205953269657307673778973476227494712144720441189698203045625466899244934392249740966985280244968876913636228035050537977472852346681757901914549624771278966903150572142886596754698966732044532202038232827298624740542580907036703357527815925181548750101170784981364664580512451534103637029856932407134866372713573545050892181185667064803687344711738898892838348108679006582429550280239878299713862061257101727544519979298670679547873030689357800544769896490678581665642152338087552510986570351080648866785919010250813510930181871917743091330970945292451475777264717478411897482788457237513337893000855934977851366995648686944439625119226736305985408249926817752951238053324680244459535284276788239830947558347535661273319272484426815624119065243814479879857227145702378384759185314521936222526848877809462669205720864948586639549366689439976188939046094706634697938828506448713318664719793526508677047964791882055229097094781355551992321052050659928504783119721120774623169080609520865738446131354441282017108450334959907176316850807504353060288090773899541830156545907659887546868659349496971137510457219070328808047883992985109715387908536371129932819658627586772048725108230180498906483055208587614479396813916197684987133676920294287905763418186855940039145683340370669962759840202308485657591957590273832469518324770544333477076900023293723036842238146047083500015962610279943202343016823333927538123149146284856126566138456780044758422390128056433588123572267326282082937925150760280856896266334230763089077110273446705797808420211653823402873724031368031219469218762817642063689845991466836385443863409322164086224047368995544586280661464612101614921197417828356003039287413996830974696626978384439317161695922653499755056482841</span>
+</span></span><span class="line"><span class="cl"><span class="n">enc2</span><span class="o">=</span><span class="mi">26162251544508466890070191964679264288893353926870503027691254953312191556684251947807814586453041496816639733574613892245624244877843107947565796313457194963208325796988223044064892814325707024528827030802948274915478204788104449836384686169322580027191798180813431580898555764632641647535612676747296288827765675463660172227412267723222383647473303734628967551408240956232319918348693947645297236054226598130464959335532033084165269324316618922280855397975109539489134940481155989084475003067357816329908760537157968407340656370839454988169783339032914275049500945325863792304594192826077002581591970845442698320276520419060791254359476911742803322114856712234986731006246531848508603696928662196916457150211360394583828549091160767463715973692927058093825435783662276508035138292279290836204799336817390106695508727040786902030579902450072228423771991876309125719590469504537797549763675722876102534890858928956413005808234744878814694573033993105703716967990518156285028069943141319206388659621307840924798127839801406493648643969417944385364820308194009820320607560867988969373379715905674016175563460397330367394266967180469900959079819267038485265902970730830624026199961979246057896679772574903852842889891339318967604727744853627746605687461156426328974562253263509520341682380858757642882393794738791627549114887152936918742029795248214734720412133874924161613147630008938562295453329166343854648914039709258181774591561592677697577779302334437159622097962960078001821164078717826789612269587427654061328830525941861695072108356879842329323000277127133293343882353731332824506730600558797223843963673416340608614100563546419159210788513861816586307484855129068272203174596011113558940866771836595482385622769261974335282220140700873797519645754413108291608283298091121292292350675626531772757165287991317977172272361081824102837366284640980279170762837757567358802727304255814836085096049770668496063200469123152330875795029909452148123356549846332589784598374541693710421863415012665601709545241807318867304931303818238833853837035948870</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="n">n1</span><span class="o">=</span><span class="mi">30745491530122879400518486621602256054973057923900771168403110634188294124502432709632933430848789900189078343115945431450686349232084275364545861020708681216881765525862734737908688203275285993930005100510107762395515899052231962031985138469061344365852348996998192184111067123795516065284740659886774408179778123783502601795937052777831259636639329157238353999494552818705440542942097816920896093282675889964220588000376215746417695291594831174247405017434081552600325687175438136881470593856760751448481410808740665850992158083323113336282042374334884980480012143987125446134759591946586879081505269606936484303557743065043322812558823065284284100585531871479533653224139777841581956754285996495821935399529917803157433205142554813117950202537530052956685332986560982348661792856411686196249377915055649807035410028458790920513246934620036890989396467883982357861109253912583608475681275998581700326411899137861827702848394086593752739353883604262237089901712663993724409410222066118467304132035358619878798982201562642721942455877880668399319640149596412038590881508629251591778667832999168042820189045630276789368395901265283868698844558656911576177324913284521263941716367415579801466590370536585137433608102659096941626193153016703441104162821021065068667560750265595439328354928248383263724551044205122645293613142958564875090804562445003121487724742342529385740444587596244204487319057906103570010607540402610100420093016319750045358514613279630555229286744244429175749601623502903548522821431318720445706345525093997559659428740073449880661168612541342687651350623646726744552291522360811984362661430230303172424899229546739980187112694344175678256245561193211293068270484672460938073898842212282782923580857297249287086814621821075488217745963982698850372648105237125447812196622464007557811804768729894730139946910522493622894173283538211595094156020820590412319518558929728556120409803807179067385280151028030011677208491374412001396561347983633348644256902247651974647611633375142855593147598498932826307352068990073657755365728223043</span>
+</span></span><span class="line"><span class="cl"><span class="n">n2</span><span class="o">=</span><span class="mi">35737323411073741114961714260656125394132606804020984164543763980478354102159517065444978781264155197959928127831509585956386290009269911835788065969587358257262896331932956821291330741654387008671774336025815027779391493859717496473553388651951333602538396538209172485674227493032899223003553373323704646870194280960604152822412195000849402012345751154164197522819783651903181873938752004083859340110653761498932090351298912934287372166527752376510782932601767161104552376821239774898673557435364318268269957599761844422672224127292974145924194504555457715003635483514719923221432735092520927926791840963132792312781481516531958409130693697891296860018978480591462854044278197989229051248184268166507997666199327373260445782398317972077620909605544579844550551664247807955506178068137492372729438769641790579761017534193486279727074998018789482171816327307834469847532283742644839394847655903927847523317704534797895013275056685761182874806752021728172244749478525508165133599693135248007513243871587134825639203106549854818245071662657076168233725557602788957225514413159668344035253695539296736301045991767028321240920449333831281572579276557425183946880142154768659295624552890705761061809649034188214811161615554539489523812770660217655155997744320423381695120994162639146580540534563977056173830826481807909753853803142753391477987696561631372884688094573933523265311176664699318409919286195854649637306825330566543884851561638412970863983262969547256679975323156207950395516091428013066881945410181139651894293908127059062074298220680879172602968513488592925539828405773142799725777259859041365566829194041543312290657560094612314708605983631596352529345237189100068498343643523337777597827349121696096327006359505140020134588093412371093020471218992994087141428767914856991157497076722726504987564562332952143888856525593184515804690053801647861690663392819697465111934397807519141170892942315292041047080743773218852945875468678252618099102527395365927510297971236749734752498856875174508736519852041023396136433894036549064995215861124363</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">calculate_q1_q2</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">p</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">gcd</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">    <span class="n">q1</span> <span class="o">=</span> <span class="n">n1</span> <span class="o">//</span> <span class="n">p</span>
+</span></span><span class="line"><span class="cl">    <span class="n">q2</span> <span class="o">=</span> <span class="n">n2</span> <span class="o">//</span> <span class="n">p</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">p</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">q2</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="n">p</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">q2</span> <span class="o">=</span> <span class="n">calculate_q1_q2</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">extended_gcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">b</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">a</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gcd</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">extended_gcd</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">%</span> <span class="n">b</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">y1</span>
+</span></span><span class="line"><span class="cl">    <span class="n">y</span> <span class="o">=</span> <span class="n">x1</span> <span class="o">-</span> <span class="p">(</span><span class="n">a</span> <span class="o">//</span> <span class="n">b</span><span class="p">)</span> <span class="o">*</span> <span class="n">y1</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">gcd</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">mod_inverse</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">phi_n</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gcd</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">extended_gcd</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">phi_n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">gcd</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;模逆不存在&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">x</span> <span class="o">%</span> <span class="n">phi_n</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">rsa_decrypt</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">enc</span><span class="p">,</span> <span class="n">e</span><span class="o">=</span><span class="mi">65537</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n</span> <span class="o">=</span> <span class="n">p</span> <span class="o">*</span> <span class="n">q</span>
+</span></span><span class="line"><span class="cl">    <span class="n">phi_n</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">q</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">d</span> <span class="o">=</span> <span class="n">mod_inverse</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">phi_n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">plain</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="n">enc</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">plain</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="n">plain</span> <span class="o">=</span> <span class="n">rsa_decrypt</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">q1</span><span class="p">,</span> <span class="n">enc1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">long_to_bytes</span><span class="p">(</span><span class="n">plain</span><span class="p">))</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>答案为：
+<code>furryCTF{The_Eas9_RSA_Enc0de_1n_furryCTF}</code></p>
+<h2 id="参考" class="heading-element"><span>参考</span>
+  <a href="#%e5%8f%82%e8%80%83" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><a href="https://github.com/Cryflmind-Redstone/furryCTF-WP"target="_blank" rel="external nofollow noopener noreferrer">官方 WP</a></p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2025-07-25 01:50:22">更新于 2025-07-25&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/ctf-furryctf/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/ctf/" class="post-tag" title="标签 - CTF">CTF</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/misc2024-%E5%B9%B4%E5%BA%A6%E6%80%BB%E7%BB%93/" class="post-nav-item" rel="prev" title="2024 年度总结"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>2024 年度总结</a><a href="/posts/misc2025.5.24-%E8%AE%B0/" class="post-nav-item" rel="next" title="2025.05.24 记">2025.05.24 记<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+</article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2024 - 2025</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":false},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>

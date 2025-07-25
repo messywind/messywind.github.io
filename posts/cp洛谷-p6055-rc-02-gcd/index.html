@@ -40,7 +40,7 @@ $$\sum_{d=1}^{n}\mu(d) \lfloor\frac{n}{d}\rfloor^3$$
 就可以用杜教筛了
 代码： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 #include &lt;bits/stdc&#43;&#43;.h&gt; #define int long long using namespace std; const int N = 2e6 &#43; 5, mod = 998244353; int n, mobius[N], primes[N], cnt, sum[N], res; bool st[N]; unordered_map&lt;int, int&gt; mp; void get_mobius(int n) { mobius[1] = 1; for (int i = 2; i &lt;= n; i &#43;&#43;) { if (!st[i]) { primes[cnt &#43;&#43;] = i; mobius[i] = -1; } for (int j = 0; primes[j] * i &lt;= n; j &#43;&#43;) { int t = primes[j] * i; st[t] = 1; if (i % primes[j] == 0) { mobius[t] = 0; break; } mobius[t] = -mobius[i]; } } for (int i = 1; i &lt;= n; i &#43;&#43;) sum[i] = (sum[i - 1] &#43; mobius[i] &#43; mod) % mod; } int Sum(int n) { if (n &lt; N) return sum[n]; if (mp[n]) return mp[n]; int res = 1; for (int l = 2, r; l &lt;= n; l = r &#43; 1) { r = n / (n / l); res = (res - Sum(n / l) * (r - l &#43; 1) % mod &#43; mod) % mod; } return mp[n] = res; } signed main() { get_mobius(N - 1); cin &gt;&gt; n; for (int l = 1, r; l &lt;= n; l = r &#43; 1) { r = n / (n / l); res = (res &#43; (Sum(r) - Sum(l - 1)) * (n / l) % mod * (n / l) % mod * (n / l) % mod &#43; mod) % mod; } cout &lt;&lt; res &lt;&lt; endl; }">
   <meta itemprop="datePublished" content="2021-09-17T20:34:06+00:00">
-  <meta itemprop="dateModified" content="2025-07-21T09:29:31+00:00">
+  <meta itemprop="dateModified" content="2025-07-25T01:50:22+00:00">
   <meta itemprop="wordCount" content="386">
   <meta itemprop="keywords" content="莫比乌斯反演,杜教筛"><meta property="og:url" content="https://blog.messywind.top/posts/cp%E6%B4%9B%E8%B0%B7-p6055-rc-02-gcd/">
   <meta property="og:site_name" content="凌乱之风的博客">
@@ -65,7 +65,7 @@ $$\sum_{d=1}^{n}\mu(d) \lfloor\frac{n}{d}\rfloor^3$$
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2021-09-17T20:34:06+00:00">
-    <meta property="article:modified_time" content="2025-07-21T09:29:31+00:00">
+    <meta property="article:modified_time" content="2025-07-25T01:50:22+00:00">
     <meta property="article:tag" content="莫比乌斯反演">
     <meta property="article:tag" content="杜教筛">
 
@@ -100,7 +100,7 @@ $$\sum_{d=1}^{n}\mu(d) \lfloor\frac{n}{d}\rfloor^3$$
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/cp%E6%B4%9B%E8%B0%B7-p6055-rc-02-gcd\/"
     },"genre": "posts","keywords": "莫比乌斯反演, 杜教筛","wordcount":  386 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/cp%E6%B4%9B%E8%B0%B7-p6055-rc-02-gcd\/","datePublished": "2021-09-17T20:34:06+00:00","dateModified": "2025-07-21T09:29:31+00:00","publisher": {
+    "url": "https:\/\/blog.messywind.top\/posts\/cp%E6%B4%9B%E8%B0%B7-p6055-rc-02-gcd\/","datePublished": "2021-09-17T20:34:06+00:00","dateModified": "2025-07-25T01:50:22+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -114,10 +114,25 @@ $$\sum_{d=1}^{n}\mu(d) \lfloor\frac{n}{d}\rfloor^3$$
       <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
     <nav>
       <ul class="menu"><li class="menu-item">
-              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 档案</a></li><li class="menu-item">
-              <a class="menu-link" href="/categories/"><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 目录</a></li><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E5%AE%89/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网安</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
               <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
-              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
             <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
             <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
               <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
@@ -159,7 +174,21 @@ $$\sum_{d=1}^{n}\mu(d) \lfloor\frac{n}{d}\rfloor^3$$
             <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
               取消
             </a>
-          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 档案</a></li><li class="menu-item"><a class="menu-link" href="/categories/"><i class="fa-solid fa-folder-tree fa-fw fa-sm" aria-hidden="true"></i> 目录</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item menu-system">
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E5%AE%89/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网安</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
           <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
       </ul>
     </nav>
@@ -174,7 +203,7 @@ $$\sum_{d=1}^{n}\mu(d) \lfloor\frac{n}{d}\rfloor^3$$
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[洛谷 P6055] [RC-02] GCD</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2021-09-17 20:34:06"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-09-17">2021-09-17</time></span>&nbsp;<span title="更新于 2025-07-21 09:29:31"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-07-21">2025-07-21</time></span>&nbsp;<span title="386 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 1 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2021-09-17 20:34:06"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-09-17">2021-09-17</time></span>&nbsp;<span title="更新于 2025-07-25 01:50:22"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-07-25">2025-07-25</time></span>&nbsp;<span title="386 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 1 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -303,7 +332,7 @@ $$\sum_{d=1}^{n}\mu(d) \lfloor\frac{n}{d}\rfloor^3$$
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2025-07-21 09:29:31">更新于 2025-07-21&nbsp;</span>
+        <span title="更新于 2025-07-25 01:50:22">更新于 2025-07-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/cp%E6%B4%9B%E8%B0%B7-p6055-rc-02-gcd/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

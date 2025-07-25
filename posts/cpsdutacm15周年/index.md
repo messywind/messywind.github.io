@@ -10,6 +10,10 @@
 
 [速览](https://mp.weixin.qq.com/s/Qe6mxR_qBC1l7gA2XzVjOg)
 
+![15](/image/cp/SDUTACM15th-TimeLine-front.jpg)
+
+![15](/image/cp/SDUTACM15th-TimeLine-re.jpg)
+
 ![15](/image/15sdutacm.png)
 
 ![15](/image/15sdutacm1.webp)
