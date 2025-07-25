@@ -21,7 +21,7 @@ $(1 \le n, m \le 998244352, 1 \le k \le 2 \times 10 ^ 3)$
 分析：
 首先每个盒子有 $\lceil \dfrac{m}{2} \rceil$ 个奇数球和 $\lfloor \dfrac{m}{2} \rfloor$ 个偶数球，那么所有方案数为 $m ^ n = (\lceil \dfrac{m}{2} \rceil &#43; \lfloor \dfrac{m}{2} \rfloor) ^ n$，根据二项式定理，所以每个 $F$ 的贡献就为 $F ^ k \times \dbinom{n}{F} \times \lceil \dfrac{m}{2} \rceil ^ F \times \lfloor \dfrac{m}{2} \rfloor ^ {n - F}$ 所以总答案为 $$ \sum_{i = 0} ^ {n} i ^ k \times \dbinom{n}{i} \times \lceil \dfrac{m}{2} \rceil ^ i \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i} $$ 由于 $n \le 998244352$，没法直接求，但是看到 $i ^ k$ 想到自然数幂展开 $$ i ^ k = \sum_{j = 0} ^ {k} {k \brace j} \times j! \times \binom{i}{j} $$ 带入得 $$ \sum_{i = 0} ^ {n} \dbinom{n}{i} \times \lceil \dfrac{m}{2} \rceil ^ i \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i} \sum_{j = 0} ^ {k} {k \brace j} \times j! \times \binom{i}{j} $$ 将 $\dbinom{n}{i}$ 放到后面的求和号化简：$\dbinom{n}{i} \times j! \times \dbinom{i}{j} = \dfrac{n!}{i! \times (n - i)!} \times j! \times \dfrac{i!}{j! \times (i - j)!} = \dfrac{n!}{(n - i)! \times (i - j)!}$，那么式子变为 $$ \sum_{i = 0} ^ {n} \lceil \dfrac{m}{2} \rceil ^ i \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i} \sum_{j = 0} ^ {k} {k \brace j} \times \dfrac{n!}{(n - i)! \times (i - j)!} $$ 交换求和次序，注意 $i$ 要从 $j$ 开始，因为要保证 $i - j \ge 0$ $$ \sum_{j = 0} ^ {k} {k \brace j} \sum_{i = j} ^ {n} \dfrac{n!}{(n - i)! \times (i - j)!} \times \lceil \dfrac{m}{2} \rceil ^ i \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i} $$ 对第二个和式做变换 $i - j \rightarrow i$ $$ \sum_{j = 0} ^ {k} {k \brace j} \sum_{i = 0} ^ {n - j} \dfrac{n!}{(n - i - j)! \times i!} \times \lceil \dfrac{m}{2} \rceil ^ {i &#43; j} \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i - j} $$ 到这里发现第二个和式比较像二项式展开了，即 $(a &#43; b) ^ n = \sum\limits_{i = 0} ^ {n} \dbinom{n}{i} a ^ {i} b ^ {n - i}$，那么考虑往这个方向凑式子，首先要解决的是组合数，发现第二个和式上界为 $n - j$，那么我们就要凑一个 $\dbinom{n - j}{i} = \dfrac{(n - j)!}{(n - i - j) \times i!}$ 的组合数，发现恰好多了 $n \times(n - 1) \times \cdots \times (n - j &#43; 1) = n ^ {\underline j}$，那么后面也多了 $\lceil \dfrac{m}{2} \rceil ^ {j}$，提出来之后为 $$ \sum_{j = 0} ^ {k} {k \brace j} \times n ^ {\underline j} \times \lceil \dfrac{m}{2} \rceil ^ {j} \sum_{i = 0} ^ {n - j} \binom{n - j}{i} \times \lceil \dfrac{m}{2} \rceil ^ {i} \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i - j} $$ 由二项式定理得 $\sum\limits_{i = 0} ^ {n - j} \dbinom{n - j}{i} \times \lceil \dfrac{m}{2} \rceil ^ {i} \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i - j} = (\lceil \dfrac{m}{2} \rceil &#43; \lfloor \dfrac{m}{2} \rfloor) ^ {n - j} = m ^ {n - j}$，那么答案为 $$ \sum_{j = 0} ^ {k} {k \brace j} \times n ^ {\underline j} \times \lceil \dfrac{m}{2} \rceil ^ {j} \times m ^ {n - j} $$ 所以只需要预处理 $2 \times 10 ^ 3$ 以内的第二类斯特林数，再 $O(k)$ 维护下降幂即可。">
   <meta itemprop="datePublished" content="2022-08-05T15:37:55+00:00">
-  <meta itemprop="dateModified" content="2025-07-25T02:04:08+00:00">
+  <meta itemprop="dateModified" content="2025-07-25T02:10:40+00:00">
   <meta itemprop="wordCount" content="1384">
   <meta itemprop="keywords" content="组合计数,推式子"><meta property="og:url" content="https://blog.messywind.top/posts/cpeducational-codeforces-round-133-f-bags-with-balls/">
   <meta property="og:site_name" content="凌乱之风的博客">
@@ -36,7 +36,7 @@ $(1 \le n, m \le 998244352, 1 \le k \le 2 \times 10 ^ 3)$
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2022-08-05T15:37:55+00:00">
-    <meta property="article:modified_time" content="2025-07-25T02:04:08+00:00">
+    <meta property="article:modified_time" content="2025-07-25T02:10:40+00:00">
     <meta property="article:tag" content="组合计数">
     <meta property="article:tag" content="推式子">
 
@@ -61,7 +61,7 @@ $(1 \le n, m \le 998244352, 1 \le k \le 2 \times 10 ^ 3)$
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/cpeducational-codeforces-round-133-f-bags-with-balls\/"
     },"genre": "posts","keywords": "组合计数, 推式子","wordcount":  1384 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/cpeducational-codeforces-round-133-f-bags-with-balls\/","datePublished": "2022-08-05T15:37:55+00:00","dateModified": "2025-07-25T02:04:08+00:00","publisher": {
+    "url": "https:\/\/blog.messywind.top\/posts\/cpeducational-codeforces-round-133-f-bags-with-balls\/","datePublished": "2022-08-05T15:37:55+00:00","dateModified": "2025-07-25T02:10:40+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -164,7 +164,7 @@ $(1 \le n, m \le 998244352, 1 \le k \le 2 \times 10 ^ 3)$
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[Educational Codeforces Round 133 F] Bags With Balls</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-08-05 15:37:55"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-08-05">2022-08-05</time></span>&nbsp;<span title="更新于 2025-07-25 02:04:08"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-07-25">2025-07-25</time></span>&nbsp;<span title="1384 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-08-05 15:37:55"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-08-05">2022-08-05</time></span>&nbsp;<span title="更新于 2025-07-25 02:10:40"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-07-25">2025-07-25</time></span>&nbsp;<span title="1384 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -444,7 +444,7 @@ $$
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2025-07-25 02:04:08">更新于 2025-07-25&nbsp;</span>
+        <span title="更新于 2025-07-25 02:10:40">更新于 2025-07-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/cpeducational-codeforces-round-133-f-bags-with-balls/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">
