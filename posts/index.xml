@@ -6,8 +6,24 @@
     <description>凌乱之风的博客</description>
     <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 25 Jul 2025 02:10:40 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 28 Jul 2025 08:21:28 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Vue3 项目打包为 shortcodes 流程</title>
+      <link>https://blog.messywind.top/posts/blog-vue3-%E6%89%93%E5%8C%85-shortcodes/</link>
+      <pubDate>Sun, 27 Jul 2025 16:08:00 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/blog-vue3-%E6%89%93%E5%8C%85-shortcodes/</guid>
+      <category domain="https://blog.messywind.top/categories/%E5%8D%9A%E5%AE%A2/">博客</category>
+      <description>Vue3 项目打包为 shortcodes 流程</description>
+    </item>
+    <item>
+      <title>日报/周报生成工具</title>
+      <link>https://blog.messywind.top/posts/develop-%E6%97%A5%E6%8A%A5%E5%91%A8%E6%8A%A5%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Sun, 27 Jul 2025 15:53:00 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/develop-%E6%97%A5%E6%8A%A5%E5%91%A8%E6%8A%A5%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/</guid>
+      <category domain="https://blog.messywind.top/categories/%E5%BC%80%E5%8F%91/">开发</category>
+      <description>日报/周报生成工具</description>
+    </item>
     <item>
       <title>计网自顶向下</title>
       <link>https://blog.messywind.top/posts/e-book%E8%AE%A1%E7%BD%91%E8%87%AA%E9%A1%B6%E5%90%91%E4%B8%8B/</link>
@@ -189,7 +205,7 @@
       <link>https://blog.messywind.top/posts/blogadmonition/</link>
       <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
       <guid>https://blog.messywind.top/posts/blogadmonition/</guid>
-      <category domain="https://blog.messywind.top/categories/%E5%8D%9A%E5%AE%A2%E8%AF%AD%E6%B3%95/">博客语法</category>
+      <category domain="https://blog.messywind.top/categories/%E5%8D%9A%E5%AE%A2/">博客</category>
       <description>博客 admonition</description>
     </item>
     <item>

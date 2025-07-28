@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>工具 - 标签 - 凌乱之风的博客</title>
+    <link>https://blog.messywind.top/tags/%E5%B7%A5%E5%85%B7/</link>
+    <description>凌乱之风的博客</description>
+    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 28 Jul 2025 08:21:28 +0000</lastBuildDate>
+    <atom:link href="https://blog.messywind.top/tags/%E5%B7%A5%E5%85%B7/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>日报/周报生成工具</title>
+      <link>https://blog.messywind.top/posts/develop-%E6%97%A5%E6%8A%A5%E5%91%A8%E6%8A%A5%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/</link>
+      <pubDate>Sun, 27 Jul 2025 15:53:00 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/develop-%E6%97%A5%E6%8A%A5%E5%91%A8%E6%8A%A5%E7%94%9F%E6%88%90%E5%B7%A5%E5%85%B7/</guid>
+      <category domain="https://blog.messywind.top/categories/%E5%BC%80%E5%8F%91/">开发</category>
+      <description>日报/周报生成工具</description>
+    </item>
+  </channel>
+</rss>
