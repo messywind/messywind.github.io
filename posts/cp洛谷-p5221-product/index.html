@@ -58,7 +58,7 @@ $$\prod_{d=1}^{n}d^{2\sum\limits_{i=1}^{\lfloor\frac{n}{d} \rfloor}\varphi(i)-1}
 $$(n!)^{2n}\cdot (\prod_{d=1}^{n}d^{2\sum\limits_{i=1}^{\lfloor\frac{n}{d} \rfloor}\varphi(i)-1})^{-2}$$
 代码(毒瘤出题人卡空间)： 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 #include &lt;cstdio&gt; using namespace std; const int N = 1e6 &#43; 5, mod = 104857601; int n, fact = 1, euler[N], primes[N], cnt, res = 1, inv = 1; bool st[N]; int qmi(int a, int b) { int res = 1; while (b) { if (b &amp; 1) res = 1ll * res * a % mod; a = 1ll * a * a % mod; b &gt;&gt;= 1; } return res; } void get_eulers(int n) { euler[1] = 1; for (int i = 2; i &lt;= n; i &#43;&#43;) { if (!st[i]) { primes[cnt &#43;&#43;] = i; euler[i] = i - 1; } for (int j = 0; primes[j] * i &lt;= n; j &#43;&#43;) { int t = primes[j] * i; st[t] = 1; if (i % primes[j] == 0) { euler[t] = euler[i] * primes[j]; break; } euler[t] = euler[i] * (primes[j] - 1); } } for (int i = 1; i &lt;= n; i &#43;&#43;) euler[i] = (euler[i - 1] &#43; 2 * euler[i]) % (mod - 1); } signed main() { scanf(&#34;%d&#34;, &amp;n); get_eulers(n); for (int i = 1; i &lt;= n; i &#43;&#43;) fact = 1ll * fact * i % mod; res = qmi(fact, 2 * n); for (int i = 1; i &lt;= n; i &#43;&#43;) { inv = (1ll * inv * qmi(i, euler[n / i] - 1)) % mod; } printf(&#34;%d\n&#34;, 1ll * res * qmi(1ll * inv * inv % mod, mod - 2) % mod); }">
   <meta itemprop="datePublished" content="2021-10-19T10:14:16+00:00">
-  <meta itemprop="dateModified" content="2025-08-05T09:26:53+00:00">
+  <meta itemprop="dateModified" content="2025-08-06T02:50:49+00:00">
   <meta itemprop="wordCount" content="415">
   <meta itemprop="keywords" content="莫比乌斯反演"><meta property="og:url" content="https://blog.messywind.top/posts/cp%E6%B4%9B%E8%B0%B7-p5221-product/">
   <meta property="og:site_name" content="凌乱之风的博客">
@@ -92,7 +92,7 @@ $$(n!)^{2n}\cdot (\prod_{d=1}^{n}d^{2\sum\limits_{i=1}^{\lfloor\frac{n}{d} \rflo
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2021-10-19T10:14:16+00:00">
-    <meta property="article:modified_time" content="2025-08-05T09:26:53+00:00">
+    <meta property="article:modified_time" content="2025-08-06T02:50:49+00:00">
     <meta property="article:tag" content="莫比乌斯反演">
 
   <meta name="twitter:card" content="summary">
@@ -135,7 +135,7 @@ $$(n!)^{2n}\cdot (\prod_{d=1}^{n}d^{2\sum\limits_{i=1}^{\lfloor\frac{n}{d} \rflo
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/cp%E6%B4%9B%E8%B0%B7-p5221-product\/"
     },"genre": "posts","keywords": "莫比乌斯反演","wordcount":  415 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/cp%E6%B4%9B%E8%B0%B7-p5221-product\/","datePublished": "2021-10-19T10:14:16+00:00","dateModified": "2025-08-05T09:26:53+00:00","publisher": {
+    "url": "https:\/\/blog.messywind.top\/posts\/cp%E6%B4%9B%E8%B0%B7-p5221-product\/","datePublished": "2021-10-19T10:14:16+00:00","dateModified": "2025-08-06T02:50:49+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -242,7 +242,7 @@ $$(n!)^{2n}\cdot (\prod_{d=1}^{n}d^{2\sum\limits_{i=1}^{\lfloor\frac{n}{d} \rflo
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[洛谷 P5221] Product</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2021-10-19 10:14:16"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-10-19">2021-10-19</time></span>&nbsp;<span title="更新于 2025-08-05 09:26:53"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-05">2025-08-05</time></span>&nbsp;<span title="415 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 1 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2021-10-19 10:14:16"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-10-19">2021-10-19</time></span>&nbsp;<span title="更新于 2025-08-06 02:50:49"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-06">2025-08-06</time></span>&nbsp;<span title="415 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 1 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -378,7 +378,7 @@ $$(n!)^{2n}\cdot (\prod_{d=1}^{n}d^{2\sum\limits_{i=1}^{\lfloor\frac{n}{d} \rflo
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2025-08-05 09:26:53">更新于 2025-08-05&nbsp;</span>
+        <span title="更新于 2025-08-06 02:50:49">更新于 2025-08-06&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/cp%E6%B4%9B%E8%B0%B7-p5221-product/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">
