@@ -12,8 +12,8 @@
 <meta name="description" content="凌乱之风的博客"><meta name="keywords" content='Hugo, FixIt'>
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="凌乱之风的博客">
-  <meta itemprop="datePublished" content="2025-08-05T17:24:00+00:00">
-  <meta itemprop="dateModified" content="2025-08-29T07:16:00+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="datePublished" content="2025-08-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-09-05T09:09:37+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="凌乱之风的博客">
@@ -134,7 +134,42 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpatcoder-arc140-d-one-to-one/">[AtCoder Arc140 D] One to One</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/">[2022 广东省赛M] 拉格朗日插值</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-07-01 21:57:26'>发布于 <time datetime="2022-07-01">2022-07-01</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><strong>题意</strong></p>
+<p>求在满足 $\sum\limits_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} = 1$ 的条件下，从长度为 $m$ 的数组 $b$ 中选 $k$ 个数组成 $a_1,a_2,\cdots,a_k$，$\prod\limits_{i = 1} ^{k} x_i$ 的最大值的期望，$k$ 为偶数。</p>
+<p>$(1 \le k \le m \le 10 ^ 5, 0  &lt; b_i &lt; 10 ^ 9)$</p>
+<p><strong>分析：</strong></p>
+<p>首先求解最大值需要用到高等数学中多元函数条件极值的拉格朗日乘数法，设
+$$
+L(x_1,x_2,\cdots,x_k, \lambda) = \prod_{i = 1} ^{k} x_i +  \lambda(\sum\limits_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} - 1)
+$$
+对每个变量求偏导数，令偏导数为 $0$ 得
+$$
+\frac{\partial L}{\partial x_1} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_1} + \frac{2\lambda x_1}{a_1 ^ 2} = 0
+\\
+\frac{\partial L}{\partial x_2} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_2} + \frac{2\lambda x_2}{a_2 ^ 2} = 0
+\\
+\cdots
+\\
+\frac{\partial L}{\partial x_k} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_k} + \frac{2\lambda x_k}{a_k ^ 2} = 0
+\\
+\frac{\partial L}{\partial \lambda} =  \sum_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} - 1 = 0
+$$
+那么稍微化简一下，对于 $1 \le i \le k$ 都有
+$$
+\prod_{i = 1} ^ {k}x_i = \frac{-2\lambda x_i ^ 2}{a_i ^ 2}
+$$
+通过任意两式 $1 \le i, j \le k$ 联立消掉 $\lambda$
+$$
+\frac{a_i ^ 2\prod\limits_{i = 1} ^ {k}x_i}{-2x_i ^ 2} = \frac{a_j ^ 2\prod\limits_{i = 1} ^ {k}x_i}{-2x_j ^ 2}
+$$
+化简得
+$$
+\frac{x_i}{a_i} = \frac{x_j}{a_j}
+$$
+所以当且仅当 $\dfrac{x_1}{a_1} = \dfrac{x_2}{a_2}=\cdots=\dfrac{x_k}{a_k}$ 时取得最大值，且 $\sum\limits_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} = 1$，所以对任意 $1 \le i \le k$ 都有 $\dfrac{x_i}{a_i} = \pm \sqrt{\dfrac{1}{k}}$，那么 $\prod\limits_{i = 1} ^{k} x_i = k ^ {- \frac{k}{2}}\prod\limits_{i = 1} ^ {k} a_i$，因为 $k$ 为偶数，所以一定为正，且 $\dfrac{k}{2}$ 一定是整数。</p></div><div class="post-footer">
+    <a href="/posts/cp2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E5%A4%9A%E5%85%83%E5%87%BD%E6%95%B0%E6%9E%81%E5%80%BC/' class="post-tag">多元函数极值</a><a href='/tags/%E5%88%86%E6%B2%BB-ntt/' class="post-tag">分治 NTT</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpatcoder-arc140-d-one-to-one/">[AtCoder Arc140 D] One to One</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-05-18 12:48:28'>发布于 <time datetime="2022-05-18">2022-05-18</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://atcoder.jp/contests/arc140/tasks/arc140_d"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
 <p><strong>题意</strong></p>
 <p>初始有 $n$ 个点，给定一个长度为 $n$ 的数组 $a_i$，若 $a_i \ne -1$，则有无向边 $(i, a_i)$，若 $a_i = -1$，则点 $i$ 可以连向 $1 \sim n$ 任意点，求所有图的联通块个数之和</p>
@@ -199,15 +234,6 @@ f(k) = 1 + \binom{k}{1}x + \binom{k}{2}x ^ 2 + \binom{k}{3}x ^ 3 + \cdots + \bin
 $$
 $x$ 项的系数 $m$ 表示 $k$ 元环中选了 $m$ 条不存在的边，那么系数显然是 $\dbinom{k}{m}$</p></div><div class="post-footer">
     <a href="/posts/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/' class="post-tag">容斥原理</a><a href='/tags/%E5%88%86%E6%B2%BB-ntt/' class="post-tag">分治 NTT</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2021ccpc-%E5%A8%81%E6%B5%B7m-810975/">[2021CCPC 威海M] 810975</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-02-04 22:12:40'>发布于 <time datetime="2022-02-04">2022-02-04</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://codeforces.com/gym/103428/problem/M"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
-<h3 id="前言" class="heading-element"><span>前言</span>
-  <a href="#%e5%89%8d%e8%a8%80" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h3><blockquote>
-<p>今天看了衣锦夜行 $2021$ 年度 $\text{top10}$，看完 $810975$ 突然想起来这题还没补完代码，最近又刚学习了一点多项式，学完多项式快速幂之后终于可以补这道题了，所以决定重新写一遍对这个题发一个重制版的题解</p></div><div class="post-footer">
-    <a href="/posts/cp2021ccpc-%E5%A8%81%E6%B5%B7m-810975/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%BB%84%E5%90%88%E8%AE%A1%E6%95%B0/' class="post-tag">组合计数</a><a href='/tags/%E5%AE%B9%E6%96%A5%E5%8E%9F%E7%90%86/' class="post-tag">容斥原理</a><a href='/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F%E5%BF%AB%E9%80%9F%E5%B9%82/' class="post-tag">多项式快速幂</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>
@@ -238,7 +264,7 @@ $x$ 项的系数 $m$ 表示 $k$ 元环中选了 $m$ 条不存在的边，那么�
           <span class="page-link" aria-hidden="true">&hellip;</span>
         </li><li class="page-item">
           <span class="page-link">
-            <a href="/page/17/">17</a>
+            <a href="/page/18/">18</a>
           </span>
         </li></ul></div></main><footer class="footer">
     <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>

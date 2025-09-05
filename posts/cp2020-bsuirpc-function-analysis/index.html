@@ -21,7 +21,7 @@
 分析：
 对于满足第 $d$ 小数大于 $k$ 的序列 $q = (a_1, a_2, \cdots,a_i,\cdots,a_m)$ ，假设最后一个小于等于 $k$ 的数为 $a_i$，那么一定有 $i \le d - 1$，所以前 $i$ 个数一定要在 $1 \sim k$ 中任取，方案记为 $F(x)$，那么后 $m - i$ 个数一定要在 $k &#43;1 \sim n$ 中取，方案记为 $G(x)$，可以考虑写出 $F(x)$ 与 $G(x)$ 的生成函数，因为数是可排列的，所以要用 $\textbf{EGF}$">
   <meta itemprop="datePublished" content="2022-04-13T10:54:49+00:00">
-  <meta itemprop="dateModified" content="2025-08-29T07:16:00+00:00">
+  <meta itemprop="dateModified" content="2025-09-05T09:09:37+00:00">
   <meta itemprop="wordCount" content="2043">
   <meta itemprop="keywords" content="EGF,NTT"><meta property="og:url" content="https://blog.messywind.top/posts/cp2020-bsuirpc-function-analysis/">
   <meta property="og:site_name" content="凌乱之风的博客">
@@ -36,7 +36,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2022-04-13T10:54:49+00:00">
-    <meta property="article:modified_time" content="2025-08-29T07:16:00+00:00">
+    <meta property="article:modified_time" content="2025-09-05T09:09:37+00:00">
     <meta property="article:tag" content="EGF">
     <meta property="article:tag" content="NTT">
 
@@ -61,7 +61,7 @@
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/cp2020-bsuirpc-function-analysis\/"
     },"genre": "posts","keywords": "EGF, NTT","wordcount":  2043 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/cp2020-bsuirpc-function-analysis\/","datePublished": "2022-04-13T10:54:49+00:00","dateModified": "2025-08-29T07:16:00+00:00","publisher": {
+    "url": "https:\/\/blog.messywind.top\/posts\/cp2020-bsuirpc-function-analysis\/","datePublished": "2022-04-13T10:54:49+00:00","dateModified": "2025-09-05T09:09:37+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -168,7 +168,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[2020 BSUIRPC] Function Analysis</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-04-13 10:54:49"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-04-13">2022-04-13</time></span>&nbsp;<span title="更新于 2025-08-29 07:16:00"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-08-29">2025-08-29</time></span>&nbsp;<span title="2043 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-04-13 10:54:49"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-04-13">2022-04-13</time></span>&nbsp;<span title="更新于 2025-09-05 09:09:37"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-09-05">2025-09-05</time></span>&nbsp;<span title="2043 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -836,7 +836,7 @@ $$
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2025-08-29 07:16:00">更新于 2025-08-29&nbsp;</span>
+        <span title="更新于 2025-09-05 09:09:37">更新于 2025-09-05&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/cp2020-bsuirpc-function-analysis/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

@@ -12,8 +12,8 @@
 <meta name="description" content="凌乱之风的博客"><meta name="keywords" content='Hugo, FixIt'>
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="凌乱之风的博客">
-  <meta itemprop="datePublished" content="2025-08-05T17:24:00+00:00">
-  <meta itemprop="dateModified" content="2025-08-29T07:16:00+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="datePublished" content="2025-08-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-09-05T09:09:37+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="凌乱之风的博客">
@@ -134,7 +134,23 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2021-ccpc-%E5%B9%BF%E5%B7%9E-a-math-ball/">[2021 CCPC 广州 A] Math Ball</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0%E5%A4%9A%E9%A1%B9%E5%BC%8F%E9%A2%98%E5%8D%95/">生成函数、多项式题单</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-10-20 14:39:33'>发布于 <time datetime="2022-10-20">2022-10-20</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><h3 id="生成函数多项式题单-大佬轻喷" class="heading-element"><span>生成函数、多项式题单 (大佬轻喷😭)</span>
+  <a href="#%e7%94%9f%e6%88%90%e5%87%bd%e6%95%b0%e5%a4%9a%e9%a1%b9%e5%bc%8f%e9%a2%98%e5%8d%95-%e5%a4%a7%e4%bd%ac%e8%bd%bb%e5%96%b7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h3 id="模板" class="heading-element"><span>模板：</span>
+  <a href="#%e6%a8%a1%e6%9d%bf" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="fftntt-模板" class="heading-element"><span>FFT/NTT 模板</span>
+  <a href="#fftntt-%e6%a8%a1%e6%9d%bf" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><blockquote>
+<p>用来测试多项式板子</p></div><div class="post-footer">
+    <a href="/posts/cp%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0%E5%A4%9A%E9%A1%B9%E5%BC%8F%E9%A2%98%E5%8D%95/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E9%A2%98%E5%8D%95/' class="post-tag">题单</a><a href='/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/' class="post-tag">生成函数</a><a href='/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F/' class="post-tag">多项式</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2021-ccpc-%E5%B9%BF%E5%B7%9E-a-math-ball/">[2021 CCPC 广州 A] Math Ball</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-10-16 00:32:23'>发布于 <time datetime="2022-10-16">2022-10-16</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://codeforces.com/gym/103415/problem/A"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
 <p><strong>题意</strong></p>
 <p>给定 $n$ 个权值为 $c_1,c_2,\cdots,c_n$ 的物品，总共最多取 $W$ 个，求
@@ -217,25 +233,6 @@ $$</p></div><div class="post-footer">
   </a>
 </h3><p>题目链接 <a href="https://codeforces.com/gym/103736/problem/D"target="_blank" rel="external nofollow noopener noreferrer">https://codeforces.com/gym/103736/problem/D</a></p></div><div class="post-footer">
     <a href="/posts/cpcf-%E9%A2%98%E7%9B%AE%E9%80%89%E8%AE%B2/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/cf/' class="post-tag">CF</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpnoi2020%E7%BB%9F%E4%B8%80%E7%9C%81%E9%80%89-a-%E7%BB%84%E5%90%88%E6%95%B0%E9%97%AE%E9%A2%98/">[NOI2020统一省选 A] 组合数问题</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-09-01 16:09:04'>发布于 <time datetime="2022-09-01">2022-09-01</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://www.luogu.com.cn/problem/P6620"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
-<p><strong>题意</strong></p>
-<p>给定四个整数 $n,x,p,m$，求
-$$
-\sum_{i=0}^{n}f(i)\times x^i\times \binom{n}{i}
-$$
-对 $p$ 取模，其中 $f(x) = a_0 + a_1x + a_2x ^ 2 + \cdots + a_mx ^ m$</p>
-<p>$1 \le n,x,p \le 10 ^ 9, 0 \le a_i \le 10 ^ 9, 0 \le m \le \min(n, 10 ^ 3)$</p>
-<p><strong>分析：</strong></p>
-<p>首先把 $f(i)$ 带入原式
-$$
-\sum_{i=0}^{n} x^i\times \binom{n}{i} \sum_{j = 0} ^ {m} a_j \times i ^ {j}
-$$
-看到 $i ^ j$，故想到展开 $i ^ j = \sum\limits_{k = 0} ^ {j} {j \brace k} i ^ {\underline k}$</p>
-<p>$$
-\sum_{i=0}^{n} x^i\times \binom{n}{i} \sum_{j = 0} ^ {m} a_j \sum_{k = 0} ^ {j} {j \brace k} \times \frac{i!}{(i - k)!}
-$$</p></div><div class="post-footer">
-    <a href="/posts/cpnoi2020%E7%BB%9F%E4%B8%80%E7%9C%81%E9%80%89-a-%E7%BB%84%E5%90%88%E6%95%B0%E9%97%AE%E9%A2%98/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%8E%A8%E5%BC%8F%E5%AD%90/' class="post-tag">推式子</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>
@@ -266,7 +263,7 @@ $$</p></div><div class="post-footer">
           <span class="page-link" aria-hidden="true">&hellip;</span>
         </li><li class="page-item">
           <span class="page-link">
-            <a href="/page/17/">17</a>
+            <a href="/page/18/">18</a>
           </span>
         </li></ul></div></main><footer class="footer">
     <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>

@@ -12,8 +12,8 @@
 <meta name="description" content="凌乱之风的博客"><meta name="keywords" content='Hugo, FixIt'>
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="凌乱之风的博客">
-  <meta itemprop="datePublished" content="2025-08-05T17:24:00+00:00">
-  <meta itemprop="dateModified" content="2025-08-29T07:16:00+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="datePublished" content="2025-08-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-09-05T09:09:37+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="凌乱之风的博客">
@@ -134,7 +134,21 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A12-e-falfa-with-substring/">[2022 牛客多校2 E] Falfa With Substring</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A14-c-easy-counting-problem/">[2022 牛客多校4 C] Easy Counting Problem</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-08-01 10:41:37'>发布于 <time datetime="2022-08-01">2022-08-01</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://ac.nowcoder.com/acm/contest/33189/C"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
+<p><strong>题意</strong></p>
+<p>给定一个正整数 $w$ 及 $w$ 个数 $c_0, c_1, \cdots,c_{w - 1}$</p>
+<p>$q$ 组询问，每次询问给定一个正整数 $n$，计算有多少个长度为 $n$ 的字符串满足：</p>
+<ul>
+<li>每个字符只能取数字 $0 \sim w - 1$</li>
+<li>数字 $i$ 至少出现 $c_i$ 次</li>
+</ul>
+<p>对 $998 , 244 , 353$ 取模。</p>
+<p>$2 \le w \le 10, 1 \le c_i \le 5 \times 10 ^ 4, \sum\limits_{i = 0} ^ {w - 1}c_i \le 5 \times 10 ^ 4$</p>
+<p>$1 \le q \le 300, 1 \le n \le 10 ^ 7$</p>
+<p><strong>分析：</strong></p></div><div class="post-footer">
+    <a href="/posts/cp2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A14-c-easy-counting-problem/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/' class="post-tag">生成函数</a><a href='/tags/ntt/' class="post-tag">NTT</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A12-e-falfa-with-substring/">[2022 牛客多校2 E] Falfa With Substring</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-07-25 20:38:34'>发布于 <time datetime="2022-07-25">2022-07-25</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://ac.nowcoder.com/acm/contest/33187/E"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
 <p><strong>题意</strong></p>
 <p>定义 $F_{n, k}$ 为所有长度为 $n$ 的字符串 $S$ 中恰好出现了 $k$ 次 <code>bit</code> 的个数。</p>
@@ -197,41 +211,6 @@ dp_{i,j} = dp_{i - 1,j} + dp_{i - 1,j \oplus a_i}
 $$
 由于按位异或会变小，所以状态必须开二维，但第一维可以用滚动数组优化。</p></div><div class="post-footer">
     <a href="/posts/cpdp-%E9%A2%98%E7%9B%AE%E9%80%89%E8%AE%B2/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/dp/' class="post-tag">DP</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/">[2022 广东省赛M] 拉格朗日插值</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-07-01 21:57:26'>发布于 <time datetime="2022-07-01">2022-07-01</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><strong>题意</strong></p>
-<p>求在满足 $\sum\limits_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} = 1$ 的条件下，从长度为 $m$ 的数组 $b$ 中选 $k$ 个数组成 $a_1,a_2,\cdots,a_k$，$\prod\limits_{i = 1} ^{k} x_i$ 的最大值的期望，$k$ 为偶数。</p>
-<p>$(1 \le k \le m \le 10 ^ 5, 0  &lt; b_i &lt; 10 ^ 9)$</p>
-<p><strong>分析：</strong></p>
-<p>首先求解最大值需要用到高等数学中多元函数条件极值的拉格朗日乘数法，设
-$$
-L(x_1,x_2,\cdots,x_k, \lambda) = \prod_{i = 1} ^{k} x_i +  \lambda(\sum\limits_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} - 1)
-$$
-对每个变量求偏导数，令偏导数为 $0$ 得
-$$
-\frac{\partial L}{\partial x_1} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_1} + \frac{2\lambda x_1}{a_1 ^ 2} = 0
-\\
-\frac{\partial L}{\partial x_2} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_2} + \frac{2\lambda x_2}{a_2 ^ 2} = 0
-\\
-\cdots
-\\
-\frac{\partial L}{\partial x_k} = \frac{\prod\limits_{i = 1} ^{k} x_i}{x_k} + \frac{2\lambda x_k}{a_k ^ 2} = 0
-\\
-\frac{\partial L}{\partial \lambda} =  \sum_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} - 1 = 0
-$$
-那么稍微化简一下，对于 $1 \le i \le k$ 都有
-$$
-\prod_{i = 1} ^ {k}x_i = \frac{-2\lambda x_i ^ 2}{a_i ^ 2}
-$$
-通过任意两式 $1 \le i, j \le k$ 联立消掉 $\lambda$
-$$
-\frac{a_i ^ 2\prod\limits_{i = 1} ^ {k}x_i}{-2x_i ^ 2} = \frac{a_j ^ 2\prod\limits_{i = 1} ^ {k}x_i}{-2x_j ^ 2}
-$$
-化简得
-$$
-\frac{x_i}{a_i} = \frac{x_j}{a_j}
-$$
-所以当且仅当 $\dfrac{x_1}{a_1} = \dfrac{x_2}{a_2}=\cdots=\dfrac{x_k}{a_k}$ 时取得最大值，且 $\sum\limits_{i = 1} ^ {k}\dfrac{x_i ^ 2}{a_i ^ 2} = 1$，所以对任意 $1 \le i \le k$ 都有 $\dfrac{x_i}{a_i} = \pm \sqrt{\dfrac{1}{k}}$，那么 $\prod\limits_{i = 1} ^{k} x_i = k ^ {- \frac{k}{2}}\prod\limits_{i = 1} ^ {k} a_i$，因为 $k$ 为偶数，所以一定为正，且 $\dfrac{k}{2}$ 一定是整数。</p></div><div class="post-footer">
-    <a href="/posts/cp2022-%E5%B9%BF%E4%B8%9C%E7%9C%81%E8%B5%9Bm-%E6%8B%89%E6%A0%BC%E6%9C%97%E6%97%A5%E6%8F%92%E5%80%BC/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E5%A4%9A%E5%85%83%E5%87%BD%E6%95%B0%E6%9E%81%E5%80%BC/' class="post-tag">多元函数极值</a><a href='/tags/%E5%88%86%E6%B2%BB-ntt/' class="post-tag">分治 NTT</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>
@@ -262,7 +241,7 @@ $$
           <span class="page-link" aria-hidden="true">&hellip;</span>
         </li><li class="page-item">
           <span class="page-link">
-            <a href="/page/17/">17</a>
+            <a href="/page/18/">18</a>
           </span>
         </li></ul></div></main><footer class="footer">
     <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>

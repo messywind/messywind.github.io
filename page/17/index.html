@@ -12,8 +12,8 @@
 <meta name="description" content="凌乱之风的博客"><meta name="keywords" content='Hugo, FixIt'>
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="凌乱之风的博客">
-  <meta itemprop="datePublished" content="2025-08-05T17:24:00+00:00">
-  <meta itemprop="dateModified" content="2025-08-29T07:16:00+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="datePublished" content="2025-08-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-09-05T09:09:37+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="凌乱之风的博客">
@@ -134,7 +134,70 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/math-%E9%AB%98%E6%95%B0%E7%AB%9E%E8%B5%9B%E7%AC%94%E8%AE%B0/">高数竞赛笔记</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp%E6%95%B0%E4%BD%8Ddpdfs%E5%81%9A%E6%B3%95/">数位DP(DFS做法)</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-06-25 22:20:55'>发布于 <time datetime="2021-06-25">2021-06-25</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p>由于算法提高课的数位 DP 的非搜索做法比较难想，所以总结一下数位 DP 的 DFS 写法。</p>
+<p>数位 DP 问题一般给定一个区间 $[L,R]$，问区间满足的条件的数有多少个。</p>
+<p>可以利用前缀和来求解答案：$\sum \limits  _ {i=1}^{R} ans_i - \sum \limits_{i=1}^{L - 1} ans_i$</p>
+<h3 id="模板" class="heading-element"><span>模板：</span>
+  <a href="#%e6%a8%a1%e6%9d%bf" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">dfs</span><span class="p">(</span><span class="kt">int</span> <span class="n">pos</span><span class="p">,</span> <span class="kt">int</span> <span class="n">pre</span><span class="p">,</span> <span class="kt">int</span> <span class="n">lead</span><span class="p">,</span> <span class="kt">int</span> <span class="n">limit</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">pos</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    	<span class="err">边界条件</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">limit</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">lead</span> <span class="o">&amp;&amp;</span> <span class="n">dp</span><span class="p">[</span><span class="n">pos</span><span class="p">][</span><span class="n">pre</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">return</span> <span class="n">dp</span><span class="p">[</span><span class="n">pos</span><span class="p">][</span><span class="n">pre</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">up</span> <span class="o">=</span> <span class="n">limit</span> <span class="o">?</span> <span class="n">a</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span> <span class="o">:</span> <span class="err">无限制位</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">up</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="err">不合法条件</span><span class="p">)</span> <span class="k">continue</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">res</span> <span class="o">+=</span> <span class="n">dfs</span><span class="p">(</span><span class="n">pos</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="err">未定参数</span><span class="p">,</span> <span class="n">lead</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">i</span><span class="p">,</span> <span class="n">limit</span> <span class="o">&amp;&amp;</span> <span class="n">i</span> <span class="o">==</span> <span class="n">up</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">limit</span> <span class="o">?</span> <span class="nl">res</span> <span class="p">:</span> <span class="p">(</span><span class="n">lead</span> <span class="o">?</span> <span class="nl">res</span> <span class="p">:</span> <span class="n">dp</span><span class="p">[</span><span class="n">pos</span><span class="p">][</span><span class="n">sum</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">cal</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">memset</span><span class="p">(</span><span class="n">dp</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="k">sizeof</span> <span class="n">dp</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">len</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="n">a</span><span class="p">[</span><span class="o">++</span> <span class="n">len</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span> <span class="o">%</span> <span class="err">进制</span><span class="p">,</span> <span class="n">x</span> <span class="o">/=</span> <span class="err">进制</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">dfs</span><span class="p">(</span><span class="n">len</span><span class="p">,</span> <span class="err">未定参数</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">l</span> <span class="o">&gt;&gt;</span> <span class="n">r</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">cal</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">-</span> <span class="n">cal</span><span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="textcal函数一般情况" class="heading-element"><span>$\text{cal}$函数（一般情况）：</span>
+  <a href="#textcal%e5%87%bd%e6%95%b0%e4%b8%80%e8%88%ac%e6%83%85%e5%86%b5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>注意每次初始化 DP 数组为 $-1$，长度 $len=0$</strong></p></div><div class="post-footer">
+    <a href="/posts/cp%E6%95%B0%E4%BD%8Ddpdfs%E5%81%9A%E6%B3%95/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%95%B0%E4%BD%8D-dp/' class="post-tag">数位 DP</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/math-%E9%AB%98%E6%95%B0%E7%AB%9E%E8%B5%9B%E7%AC%94%E8%AE%B0/">高数竞赛笔记</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-06-16 16:25:44'>发布于 <time datetime="2021-06-16">2021-06-16</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%95%B0%E5%AD%A6/" class="post-category" title="分类 - 数学"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 数学</a></span></div><div class="content"><h3 id="1已知函数fx连续且fx2-fxcos-xint_02fxdx1求int1_-1fxdx" class="heading-element"><span>$1.已知函数f(x)连续且f(x+2)-f(x)=\cos x,\int_{0}^{2}f(x)dx=1,求\int^{1}_{-1}f(x)dx$</span>
   <a href="#1%e5%b7%b2%e7%9f%a5%e5%87%bd%e6%95%b0fx%e8%bf%9e%e7%bb%ad%e4%b8%94fx2-fxcos-xint_02fxdx1%e6%b1%82int1_-1fxdx" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -176,13 +239,6 @@
 <p>$f(x)e^{f(x)} \ge g(x)e^{g(x)} $</p>
 <p>当 $a&gt;0$ 时， $xe^{x}\geq \dfrac{ex}{a}\ln\dfrac{ex}{a} \Leftrightarrow xe^{x}\geq \ln\dfrac{ex}{a}e^{\ln\frac{ex}{a}}$</p></div><div class="post-footer">
     <a href="/posts/math-2020%E5%B9%B4%E9%AB%98%E8%80%83%E6%95%B0%E5%AD%A621%E9%A2%98/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E9%AB%98%E8%80%83%E6%95%B0%E5%AD%A6/' class="post-tag">高考数学</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/math-pi%E8%8A%82/">今天π节，出了一道题，高中生 大佬勿喷</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2020-03-14 16:39:00'>发布于 <time datetime="2020-03-14">2020-03-14</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%95%B0%E5%AD%A6/" class="post-category" title="分类 - 数学"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 数学</a></span></div><div class="content"><p><img loading="lazy" src="/image/misc/pi.png" alt="2" srcset="/image/misc/pi.png?size=small, /image/misc/pi.png?size=medium 1.5x, /image/misc/pi.png?size=large 2x" data-title="2" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></p>
-<p>分析：</p>
-<p>$(1)$ $g'(x)=\dfrac{π^{x}}{x^{π}}(\lnπ-\frac{π}{x})$</p>
-<p>$∴g'(1)=π(\lnπ-π)$</p>
-<p>$(2)$ $f(x)=\int x \text{d} \frac{π^{x}}{\lnπ} = \dfrac{xπ^{x}}{\lnπ}-\int \dfrac{π^{x}}{\lnπ}\text{d}x = \dfrac{xπ^{x}}{\lnπ}-\dfrac{π^{x}}{\ln ^ 2π}$</p></div><div class="post-footer">
-    <a href="/posts/math-pi%E8%8A%82/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E9%AB%98%E8%80%83%E6%95%B0%E5%AD%A6/' class="post-tag">高考数学</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>
@@ -200,6 +256,10 @@
         </li><li class="page-item active">
           <span class="page-link">
             <a href="/page/17/">17</a>
+          </span>
+        </li><li class="page-item">
+          <span class="page-link">
+            <a href="/page/18/">18</a>
           </span>
         </li></ul></div></main><footer class="footer">
     <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
