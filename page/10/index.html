@@ -12,8 +12,8 @@
 <meta name="description" content="凌乱之风的博客"><meta name="keywords" content='Hugo, FixIt'>
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="凌乱之风的博客">
-  <meta itemprop="datePublished" content="2025-08-23T00:00:00+00:00">
-  <meta itemprop="dateModified" content="2025-09-05T09:09:37+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="datePublished" content="2025-10-01T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-10-13T11:53:59+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="凌乱之风的博客">
@@ -134,7 +134,22 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A14-c-easy-counting-problem/">[2022 牛客多校4 C] Easy Counting Problem</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2022-%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-count-set/">[2022 杭电多校5] Count Set</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-08-03 11:21:22'>发布于 <time datetime="2022-08-03">2022-08-03</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://acm.hdu.edu.cn/showproblem.php?pid=7191"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
+<p><strong>题意</strong></p>
+<p>给定一个长度为 $n$ 的排列 $p$ ${1, 2, \cdots, n}$ 和一个非负整数 $k$，计算排列 $p$ 中的子集 $T$，满足集合大小为 $k$ 且 $T$ 与 $P(T)$ 没有交集，$P(T) = {y \mid y= p_x,x \in T}$</p>
+<p><strong>分析：</strong></p>
+<p>考虑将排列 $p$ 看成图，$i$ 向 $p_i$ 连边，会形成若干个环，那么原问题等价于从图中选出 $k$ 个点且每个环中不能有相邻被选择的点的方案数。考虑构造每个环 $i$ 的生成函数
+$$
+1 + f_{S_i,1}x + f_{S_i,2} x ^ 2 + \cdots + f_{S_i,\lfloor \frac{S_i}{2} \rfloor} x ^ {\lfloor \frac{S_i}{2} \rfloor}
+$$
+其中 $S_i$ 表示环 $i$ 的大小，$f_{S_i,j}$ 表示大小为 $S_i$ 的环中选出 $j$ 个互不相邻的点的方案数，根据鸽巢原理，若 $j &gt; \lfloor \dfrac{S_i}{2} \rfloor$，一定有两个点相邻，所以生成函数只需要取到 $\lfloor \dfrac{S_i}{2} \rfloor$ 项即可。那么答案就为
+$$
+[x ^ k]\prod_{i = 1} ^ {\text{cnt}} \sum_{j = 0} ^ {\lfloor \frac{S_i}{2} \rfloor} f_{S_i,j}x^j
+$$
+$\text{cnt}$ 为图中环的数量。那么现在考虑求出 $f(n, m)$，即大小为 $n$ 的环选出 $m$ 个互不相邻的点的方案数。</p></div><div class="post-footer">
+    <a href="/posts/cp2022-%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-count-set/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/' class="post-tag">生成函数</a><a href='/tags/%E5%88%86%E6%B2%BB-ntt/' class="post-tag">分治 NTT</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A14-c-easy-counting-problem/">[2022 牛客多校4 C] Easy Counting Problem</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-08-01 10:41:37'>发布于 <time datetime="2022-08-01">2022-08-01</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://ac.nowcoder.com/acm/contest/33189/C"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
 <p><strong>题意</strong></p>
 <p>给定一个正整数 $w$ 及 $w$ 个数 $c_0, c_1, \cdots,c_{w - 1}$</p>
@@ -197,20 +212,6 @@ $1 \le T \le 50, 1 \le n \le 10 ^ {12}$</p>
 <p><strong>分析：</strong></p>
 <p>考虑每个数从集合加入或删除的贡献，对于一个数 $x$，从区间 $[x, x + d]$ 中选出任意两个不同的数都可以组成美丽三元组(假设 $x$ 为三元组中的最小值)，记区间中在集合的数量为 $cnt$，那么方案数为 $\dbinom{cnt}{2}$，那么考虑区间 $[x - d, x - 1]$，对区间中的每个数 $i$，考虑 $x$ 加入后的影响，设区间 $[i, i + d]$ 在集合中的个数为 $a_i$，那么美丽三元组的个数为 $\dbinom{a_i}{2}$，则 $x$ 加入后的美丽三元组数量为 $\dbinom{a_i + 1}{2}$，设整个集合为 $S$，那么在区间 $[x - d, x - 1]$ 中新增的美丽三元组数量就为 $\sum\limits_{i = x - d} ^ {x - 1} \left (\dbinom{a_i + 1}{2} - \dbinom{a_i}{2} \right ) [i \in S] = \sum\limits_{i = x - d} ^ {x - 1}a_i [i \in S]$，对于 $x$ 删除后的影响就为 $\sum\limits_{i = x - d} ^ {x - 1} \left (\dbinom{a_i}{2} - \dbinom{a_i - 1}{2} \right ) [i \in S] = \sum\limits_{i = x - d} ^ {x - 1} (a_i - 1) [i \in S]$</p></div><div class="post-footer">
     <a href="/posts/cpeducational-codeforces-round-131-f-points/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%BB%84%E5%90%88%E8%AE%A1%E6%95%B0/' class="post-tag">组合计数</a><a href='/tags/%E7%BA%BF%E6%AE%B5%E6%A0%91/' class="post-tag">线段树</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpdp-%E9%A2%98%E7%9B%AE%E9%80%89%E8%AE%B2/">DP 题目选讲</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-07-07 10:52:14'>发布于 <time datetime="2022-07-07">2022-07-07</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><h3 id="背包acwing-1454-异或和是质数的子集数" class="heading-element"><span>背包：Acwing 1454 异或和是质数的子集数</span>
-  <a href="#%e8%83%8c%e5%8c%85acwing-1454-%e5%bc%82%e6%88%96%e5%92%8c%e6%98%af%e8%b4%a8%e6%95%b0%e7%9a%84%e5%ad%90%e9%9b%86%e6%95%b0" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h3><p>题目链接 <a href="https://www.acwing.com/problem/content/description/1456/"target="_blank" rel="external nofollow noopener noreferrer">https://www.acwing.com/problem/content/description/1456/</a></p>
-<p><strong>分析：</strong></p>
-<p>考虑 $01$ 背包，$1 \sim n$ 中对于每件物品 $1 \le i \le n$ 的体积为 $i$</p>
-<p>定义状态 $dp_{i, j}$ 为从前 $i$ 件物品中选，异或和为 $j$ 的方案数，那么有转移
-$$
-dp_{i,j} = dp_{i - 1,j} + dp_{i - 1,j \oplus a_i}
-$$
-由于按位异或会变小，所以状态必须开二维，但第一维可以用滚动数组优化。</p></div><div class="post-footer">
-    <a href="/posts/cpdp-%E9%A2%98%E7%9B%AE%E9%80%89%E8%AE%B2/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/dp/' class="post-tag">DP</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>
