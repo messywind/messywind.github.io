@@ -12,8 +12,8 @@
 <meta name="description" content="凌乱之风的博客"><meta name="keywords" content='Hugo, FixIt'>
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="凌乱之风的博客">
-  <meta itemprop="datePublished" content="2025-10-01T00:00:00+00:00">
-  <meta itemprop="dateModified" content="2025-10-13T11:53:59+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="datePublished" content="2025-10-07T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-10-18T06:30:33+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="凌乱之风的博客">
@@ -134,7 +134,33 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations/">[2021ICPC上海 B] Strange Permutations</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2020-bsuirpc-function-analysis/">[2020 BSUIRPC] Function Analysis</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-04-13 10:54:49'>发布于 <time datetime="2022-04-13">2022-04-13</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://codeforces.com/gym/103637/problem/F"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
+<p><strong>题意</strong></p>
+<p>给定三个正整数 $n, d, k$ ，现有排列 $p = (1,2,3,\cdots,n)$ ，有 $n - d + 1$ 个询问，对于每个询问有正整数 $m (d \le m \le n)$ ，现从 $p$ 中<strong>随机可重复地</strong>选取 $m$ 个数构成序列 $q$ ，求 $q$ 中第 $d$ 小数大于 $k$ 的概率，</p>
+<p>对 $998244353$ 取模。</p>
+<p><strong>分析：</strong></p>
+<p>对于满足第 $d$ 小数大于 $k$ 的序列 $q = (a_1, a_2, \cdots,a_i,\cdots,a_m)$ ，假设最后一个小于等于 $k$ 的数为 $a_i$，那么一定有 $i \le d - 1$，所以前 $i$ 个数一定要在 $1 \sim k$ 中任取，方案记为 $F(x)$，那么后 $m - i$ 个数一定要在 $k +1 \sim n$ 中取，方案记为 $G(x)$，可以考虑写出 $F(x)$ 与 $G(x)$ 的生成函数，因为数是可排列的，所以要用 $\textbf{EGF}$</p></div><div class="post-footer">
+    <a href="/posts/cp2020-bsuirpc-function-analysis/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/egf/' class="post-tag">EGF</a><a href='/tags/ntt/' class="post-tag">NTT</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/math-%E8%AE%B0%E4%B8%80%E4%B8%AA%E7%BB%8F%E5%85%B8%E4%B8%8D%E7%AD%89%E5%BC%8F%E6%94%BE%E7%BC%A9/">记一个经典不等式放缩</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-04-06 00:07:20'>发布于 <time datetime="2022-04-06">2022-04-06</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%95%B0%E5%AD%A6/" class="post-category" title="分类 - 数学"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 数学</a></span></div><div class="content"><p>今晚闲来无事看了看 $2022$ 年的济南一模最后一题第三问，发现真的是两年没碰高考数学手生疏了，不过还好做出来了。
+<strong>题意</strong>
+证明
+$$
+\sum_{x = 2}^{n} \frac{1}{\ln x} &gt; 1 - \frac{1}{n}
+$$
+<strong>分析：</strong>
+$1 - \dfrac{1}{n} = \dfrac{n - 1}{n}$，左边是 $n$ 个数求和，所以考虑裂项右边</p>
+<p>$$
+\frac{n - 1}{n} = \frac{1}{1 \times 2} + \frac{1}{2 \times 3} + \cdots + \frac{1}{(n - 1) \times n}
+$$</p>
+<p>接下来只需证 $x ^ 2 - x - \ln x &gt; 0 (x \ge 2)$</p>
+<p>设 $f(x) = x ^ 2 - x - \ln x$
+则 $f&rsquo;(x) = \dfrac{(2x+ 1)(x-1)}{x} &gt; 0$
+由于 $f(2) = 2 - \ln2 &gt; 0$
+所以 $f(x)&gt; 0$</p></div><div class="post-footer">
+    <a href="/posts/math-%E8%AE%B0%E4%B8%80%E4%B8%AA%E7%BB%8F%E5%85%B8%E4%B8%8D%E7%AD%89%E5%BC%8F%E6%94%BE%E7%BC%A9/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E9%AB%98%E8%80%83%E6%95%B0%E5%AD%A6/' class="post-tag">高考数学</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations/">[2021ICPC上海 B] Strange Permutations</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-03-26 12:58:58'>发布于 <time datetime="2022-03-26">2022-03-26</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://codeforces.com/gym/103446/problem/B"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
 <p><strong>题意</strong></p>
 <p>给定一个长度为 $n$ 的 $1 \sim n$ 排列 $P$，找到有多少个 $1 \sim n$ 的排列 $Q$ 使得 $\forall i \in[1, n - 1], Q_{i + 1} \ne P_{Q_i}$</p>
@@ -185,29 +211,6 @@ $$
 $$
 因为最多只有 $26$ 个字母，所以直接每次暴力 $\text{NTT}$ 即可，当然也可以分治 $\text{NTT}$</p></div><div class="post-footer">
     <a href="/posts/cpatcoder-abc234-f-reordering/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/ntt/' class="post-tag">NTT</a><a href='/tags/egf/' class="post-tag">EGF</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpahoi2015-%E8%88%AA%E7%BA%BF%E8%A7%84%E5%88%92/">[AHOI2015] 航线规划</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-12-10 11:26:22'>发布于 <time datetime="2021-12-10">2021-12-10</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://www.luogu.com.cn/problem/P2542"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
-<p><strong>题意</strong></p>
-<p>给定一个 $n$ 个点 $m$ 条边的图，有不超过 $40000$ 次的操作，每次操作有三个参数 $op, u, v$</p>
-<p>若 $op =0$ ，表示删除点 $u,v$ 之间的边</p>
-<p>若 $op = 1$，表示询问 $u, v$ 之间有多少<strong>关键边</strong></p>
-<p><strong>关键边：</strong> $u, v$ 联通，若删除该边 $u, v$ 不连通，则为关键边</p>
-<p><strong>分析：</strong></p>
-<p>最朴素的想法是每次删完边之后 $\text{tarjan}$ 缩点，再维护树上两点距离，但这样显然会超时。</p></div><div class="post-footer">
-    <a href="/posts/cpahoi2015-%E8%88%AA%E7%BA%BF%E8%A7%84%E5%88%92/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%A6%BB%E7%BA%BF/' class="post-tag">离线</a><a href='/tags/%E6%A0%91%E9%93%BE%E5%89%96%E5%88%86/' class="post-tag">树链剖分</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/">生成函数</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-12-06 21:05:12'>发布于 <time datetime="2021-12-06">2021-12-06</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><h3 id="形式幂级数" class="heading-element"><span>形式幂级数</span>
-  <a href="#%e5%bd%a2%e5%bc%8f%e5%b9%82%e7%ba%a7%e6%95%b0" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h3><p>设数列 $a_0,a_1, a_2,\cdots,a_n,\cdots$ 那么他的形式幂级数就为</p>
-<p>$$\sum_{i = 0}^{\infty}a_ix^i$$</p>
-<h5 id="运算" class="heading-element"><span>运算：</span>
-  <a href="#%e8%bf%90%e7%ae%97" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h5><p>设 $f(x) = \sum_{i = 0}^{\infty}a_ix^i,g(x) = \sum_{i = 0}^{\infty}b_ix^i$</p></div><div class="post-footer">
-    <a href="/posts/cp%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/' class="post-tag">生成函数</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>
