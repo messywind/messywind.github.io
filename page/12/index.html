@@ -12,8 +12,8 @@
 <meta name="description" content="凌乱之风的博客"><meta name="keywords" content='Hugo, FixIt'>
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="凌乱之风的博客">
-  <meta itemprop="datePublished" content="2025-10-07T00:00:00+00:00">
-  <meta itemprop="dateModified" content="2025-10-18T06:32:10+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="datePublished" content="2025-10-24T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-11-04T09:11:10+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="凌乱之风的博客">
@@ -134,7 +134,24 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2020-bsuirpc-function-analysis/">[2020 BSUIRPC] Function Analysis</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpwannafly-28-msc%E7%9A%84%E8%83%8C%E5%8C%85/">[Wannafly 28] Msc的背包</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-04-27 23:34:56'>发布于 <time datetime="2022-04-27">2022-04-27</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://ac.nowcoder.com/acm/problem/21207"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
+<p><strong>题意</strong></p>
+<p>有 $n$ 种体积为 $1$ 的物品和 $m$ 种体积为 $2$ 的物品，求选择物品的体积为 $k$ 的方案数</p>
+<p>对 $998244353$ 取模</p>
+<p>$(1 \le n, m \le 10 ^ 6,1 \le k \le 9 \times 10 ^ 8)$</p>
+<p><strong>分析：</strong></p>
+<p>所有体积为 $1$ 的生成函数为
+$$
+F(x) = \left ( \sum_{i = 0} ^ {\infty} x ^ i \right ) ^ n
+$$
+所有体积为 $2$ 的生成函数为
+$$
+G(x) = \left ( \sum_{i = 0} ^ {\infty} x ^ {2i} \right ) ^ m
+$$
+那么组成的所有体积方案数为 $F(x) \times G(x)$</p></div><div class="post-footer">
+    <a href="/posts/cpwannafly-28-msc%E7%9A%84%E8%83%8C%E5%8C%85/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%BB%84%E5%90%88%E6%95%B0/' class="post-tag">组合数</a><a href='/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/' class="post-tag">生成函数</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2020-bsuirpc-function-analysis/">[2020 BSUIRPC] Function Analysis</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-04-13 10:54:49'>发布于 <time datetime="2022-04-13">2022-04-13</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://codeforces.com/gym/103637/problem/F"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
 <p><strong>题意</strong></p>
 <p>给定三个正整数 $n, d, k$ ，现有排列 $p = (1,2,3,\cdots,n)$ ，有 $n - d + 1$ 个询问，对于每个询问有正整数 $m (d \le m \le n)$ ，现从 $p$ 中<strong>随机可重复地</strong>选取 $m$ 个数构成序列 $q$ ，求 $q$ 中第 $d$ 小数大于 $k$ 的概率，</p>
@@ -190,27 +207,6 @@ $x$ 项的系数 $m$ 表示 $k$ 元环中选了 $m$ 条不存在的边，那么�
 </h3><p><a href="https://www.luogu.com.cn/problem/U198005"target="_blank" rel="external nofollow noopener noreferrer">题目链接</a></p>
 <p>已知斐波那契数列 $f_1 = 1, f_2 = 1, f_i = f_{i - 1} + f_{i - 2}, i \ge 3$  ，给定正整数 $n$ ，求 $f_n \bmod 10 ^ 9 + 7$</p></div><div class="post-footer">
     <a href="/posts/cpdp/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/dp/' class="post-tag">DP</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpatcoder-abc234-f-reordering/">[AtCoder Abc234 F] Reordering</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-01-09 14:10:44'>发布于 <time datetime="2022-01-09">2022-01-09</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://atcoder.jp/contests/abc234/tasks/abc234_f"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
-<p><strong>题意</strong></p>
-<p>给定一个长度为 $n$ 的字符串 $S$，计算有多少种<strong>非空子序列</strong>的排列，对 $998244353$ 取模。</p>
-<p>$1 \le n \le 5\times 10^3$</p>
-<p><strong>分析：</strong></p>
-<p>设 $26$ 个英文字母每个字母 $u$ 的生成函数为（因为要计算排列，所以是 $\textbf{EGF}$）
-$$
-1 + \frac{1}{1!}x + \frac{1}{2!}x^2 + \cdots + \frac{1}{cnt_{u}!}x^{cnt_{u}}
-$$
-其中 $cnt_{u}$ 为字母在 $S$ 中出现次数。</p>
-<p>那么最终所有方案为
-$$
-\prod_{u = 1} ^{26}(1 + \frac{1}{1!}x + \frac{1}{2!}x^2 + \cdots + \frac{1}{cnt_{u}!}x^{cnt_{u}})
-$$
-记所有方案为 $F(x)$，那么计算子序列的方案数就是把字符串长度为 $1 \sim n$ 的所有方案乘长度的阶乘加起来，即
-$$
-\sum_{i = 1}^{n}i! \times [x^i]F(x)
-$$
-因为最多只有 $26$ 个字母，所以直接每次暴力 $\text{NTT}$ 即可，当然也可以分治 $\text{NTT}$</p></div><div class="post-footer">
-    <a href="/posts/cpatcoder-abc234-f-reordering/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/ntt/' class="post-tag">NTT</a><a href='/tags/egf/' class="post-tag">EGF</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>
