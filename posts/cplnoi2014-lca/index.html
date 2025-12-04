@@ -27,7 +27,7 @@ $1 \le n,q \le 5×10^4$
 分析：
 对式子进行一步转化，那就相当于在 $[l,r]$ 区间内的每个点，每次将该点和树根的路径上点权 $&#43;1$，最后查询 $z$ 到树根路径的点权之和。这样做显然是超时的，所以就考虑怎么优化式子，我们发现每次询问是在 $[1,n]$ 区间的，所以就可以想到前缀和，也就是">
   <meta itemprop="datePublished" content="2021-11-01T11:37:53+00:00">
-  <meta itemprop="dateModified" content="2025-11-04T09:15:41+00:00">
+  <meta itemprop="dateModified" content="2025-12-04T03:07:21+00:00">
   <meta itemprop="wordCount" content="1300">
   <meta itemprop="keywords" content="离线,差分,树链剖分"><meta property="og:url" content="https://blog.messywind.top/posts/cplnoi2014-lca/">
   <meta property="og:site_name" content="凌乱之风的博客">
@@ -45,7 +45,7 @@ $1 \le n,q \le 5×10^4$
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2021-11-01T11:37:53+00:00">
-    <meta property="article:modified_time" content="2025-11-04T09:15:41+00:00">
+    <meta property="article:modified_time" content="2025-12-04T03:07:21+00:00">
     <meta property="article:tag" content="离线">
     <meta property="article:tag" content="差分">
     <meta property="article:tag" content="树链剖分">
@@ -74,7 +74,7 @@ $1 \le n,q \le 5×10^4$
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/cplnoi2014-lca\/"
     },"genre": "posts","keywords": "离线, 差分, 树链剖分","wordcount":  1300 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/cplnoi2014-lca\/","datePublished": "2021-11-01T11:37:53+00:00","dateModified": "2025-11-04T09:15:41+00:00","publisher": {
+    "url": "https:\/\/blog.messywind.top\/posts\/cplnoi2014-lca\/","datePublished": "2021-11-01T11:37:53+00:00","dateModified": "2025-12-04T03:07:21+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -181,7 +181,7 @@ $1 \le n,q \le 5×10^4$
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[LNOI2014] LCA</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2021-11-01 11:37:53"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-11-01">2021-11-01</time></span>&nbsp;<span title="更新于 2025-11-04 09:15:41"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-11-04">2025-11-04</time></span>&nbsp;<span title="1300 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2021-11-01 11:37:53"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-11-01">2021-11-01</time></span>&nbsp;<span title="更新于 2025-12-04 03:07:21"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2025-12-04">2025-12-04</time></span>&nbsp;<span title="1300 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -473,7 +473,7 @@ $1 \le n,q \le 5×10^4$
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2025-11-04 09:15:41">更新于 2025-11-04&nbsp;</span>
+        <span title="更新于 2025-12-04 03:07:21">更新于 2025-12-04&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/cplnoi2014-lca/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

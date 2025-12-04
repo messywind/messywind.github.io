@@ -12,8 +12,8 @@
 <meta name="description" content="凌乱之风的博客"><meta name="keywords" content='Hugo, FixIt'>
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="凌乱之风的博客">
-  <meta itemprop="datePublished" content="2025-10-24T00:00:00+00:00">
-  <meta itemprop="dateModified" content="2025-11-04T09:15:41+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="datePublished" content="2025-12-03T15:53:00+00:00">
+  <meta itemprop="dateModified" content="2025-12-04T03:07:21+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="凌乱之风的博客">
@@ -134,7 +134,27 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2021ccpc-%E5%A8%81%E6%B5%B7g-shinyruo-and-kfc/">[2021CCPC 威海G] Shinyruo and KFC</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2021-ccpc-%E5%B9%BF%E5%B7%9E-a-math-ball/">[2021 CCPC 广州 A] Math Ball</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-10-16 00:32:23'>发布于 <time datetime="2022-10-16">2022-10-16</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://codeforces.com/gym/103415/problem/A"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
+<p><strong>题意</strong></p>
+<p>给定 $n$ 个权值为 $c_1,c_2,\cdots,c_n$ 的物品，总共最多取 $W$ 个，求
+$$
+\sum_{k_1+k_2+\cdots+k_n \le W} \prod_{i = 1} ^ {n} k_i ^ {c_i}
+$$
+对 $998,244,353$ 取模，其中 $k_i$ 代表第 $i$ 个物品取的次数。</p>
+<p>$1 \le n \le 10 ^ 5, \sum\limits_{i = 1} ^ {n} c_i \le 10 ^ 5, W \le 10 ^ {18}$</p>
+<p><strong>分析：</strong></p>
+<p>首先观察题目要我们求的式子，可以看出是一个多项式卷积形式，不难写出每个物品的生成函数，设第 $i$ 个物品的生成函数为
+$$
+f_i(x) = \sum_{j = 0} ^ {\infty} j ^ {c_i}x ^ j
+$$
+那么答案就是
+$$
+\sum_{i = 0} ^ {W} [x ^ i]\prod_{j = 1} ^ {n}f_j(x)
+$$
+但 $W$ 是 $10 ^ {18}$ 的，我们肯定不能这么求，所以考虑将答案求一次前缀和，计算第 $W$ 项的系数。</p></div><div class="post-footer">
+    <a href="/posts/cp2021-ccpc-%E5%B9%BF%E5%B7%9E-a-math-ball/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/' class="post-tag">生成函数</a><a href='/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F/' class="post-tag">多项式</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2021ccpc-%E5%A8%81%E6%B5%B7g-shinyruo-and-kfc/">[2021CCPC 威海G] Shinyruo and KFC</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-10-04 15:21:43'>发布于 <time datetime="2022-10-04">2022-10-04</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://codeforces.com/gym/103428/problem/G"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
 <p><strong>题意</strong></p>
 <p>给定 $n$ 个正整数 $a_1,a_2,\cdots,a_n$，并给定正整数 $m$，对于每个 $k \in [1, m]$，计算 $\prod\limits_{i = 1} ^ {n} \dbinom{k}{a_i}$</p>
@@ -216,37 +236,6 @@ $$
 \sum_{i=0}^{n} x^i\times \binom{n}{i} \sum_{j = 0} ^ {m} a_j \sum_{k = 0} ^ {j} {j \brace k} \times \frac{i!}{(i - k)!}
 $$</p></div><div class="post-footer">
     <a href="/posts/cpnoi2020%E7%BB%9F%E4%B8%80%E7%9C%81%E9%80%89-a-%E7%BB%84%E5%90%88%E6%95%B0%E9%97%AE%E9%A2%98/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%8E%A8%E5%BC%8F%E5%AD%90/' class="post-tag">推式子</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2021icpc%E6%B5%8E%E5%8D%97-l-strange-series/">[2021ICPC济南 L] Strange Series</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-08-30 13:26:27'>发布于 <time datetime="2022-08-30">2022-08-30</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><strong>题意</strong></p>
-<p>$T$ 组输入，给定一个 $n$ 次多项式 $f(x) = a_0 + a_1x + \cdots + a_nx ^ n$，定义 $S = \sum\limits_{i = 0} ^ {\infty} \dfrac{f(i)}{i!}$，可以证明 $S$ 一定是 $e$ 的倍数，即 $S = p \times e$，求 $p$ 对 $998,244,353$ 取模。</p>
-<p>$1 \le T \le 100, 0 \le n \le 10 ^ 5,0 \le a_i &lt; 998,244,353$</p>
-<p><strong>分析：</strong></p>
-<p>首先将 $f(x)$ 代入 $S$ 得
-$$
-\sum_{i = 0} ^ {\infty}\frac{1}{i!} \sum_{j = 0} ^ {n}a_j \times i ^ j
-$$
-看到自然数幂想到展开 $i ^ k = \sum\limits_{j = 0} ^ {k} {k \brace j} i ^{\underline j}$，代入得
-$$
-\sum_{i = 0} ^ {\infty} \frac{1}{i!} \sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} i ^ {\underline k}
-$$
-交换求和次序，先对 $i$ 求和
-$$
-\sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} \sum_{i = 0} ^ {\infty} \frac{i ^ {\underline k}}{i!}
-$$
-把下降幂消掉
-$$
-\sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} \sum_{i = k} ^ {\infty} \frac{1}{(i-k)!}
-$$
-做变换 $(i - k) \rightarrow i$
-$$
-\sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} \sum_{i = 0} ^ {\infty} \frac{1}{i!}
-$$
-由于 $e = \sum\limits_{i = 0} ^ {\infty} \dfrac{1}{i!}$，所以原式为 $e$ 的倍数得证，那么式子变为
-$$
-\sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} \times e
-$$
-事实上 $\text{Bell} _ {n} = \sum \limits_{i = 0} ^ {n} {n \brace i}$，其中 $\text{Bell}_{n}$ 为第 $n$ 项贝尔数，代表 $n$ 个元素的集合划分为任意非空子集的方案数，所以答案就为</p></div><div class="post-footer">
-    <a href="/posts/cp2021icpc%E6%B5%8E%E5%8D%97-l-strange-series/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/bell-%E6%95%B0/' class="post-tag">Bell 数</a><a href='/tags/%E5%A4%9A%E9%A1%B9%E5%BC%8F/' class="post-tag">多项式</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>
