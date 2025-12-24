@@ -12,8 +12,8 @@
 <meta name="description" content="凌乱之风的博客"><meta name="keywords" content='Hugo, FixIt'>
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="凌乱之风的博客">
-  <meta itemprop="datePublished" content="2025-12-03T11:18:00+00:00">
-  <meta itemprop="dateModified" content="2025-12-22T06:58:48+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="datePublished" content="2025-12-23T14:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-12-24T09:07:31+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="凌乱之风的博客">
@@ -134,7 +134,20 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2018-icpc%E5%BE%90%E5%B7%9E%E7%BD%91%E7%BB%9C%E8%B5%9B-easy-math/">[2018 ICPC徐州网络赛] Easy Math</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpnc-200008-lady-layton-with-math/">[NC 200008] Lady Layton With Math</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-09-23 08:58:54'>发布于 <time datetime="2021-09-23">2021-09-23</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://ac.nowcoder.com/acm/problem/200008"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
+<p><strong>题意</strong></p>
+<p>求</p>
+<p>$$\sum_{i=1}^{n}\sum_{j=1}^{n} \varphi(\gcd(i,j))$$</p>
+<p>$1 \le n \le 10^9$，对 $10^9+7$ 取模</p>
+<p><strong>分析：</strong></p>
+<p>枚举 $\gcd(i,j)$</p>
+<p>$$\sum_{d=1}^{n}\varphi(d)\sum_{i=1}^{n}\sum_{j=1}^{n}[\gcd(i,j)=d]$$</p>
+<p>将 $d$ 拿到上界</p>
+<p>$$\sum_{d=1}^{n}\varphi(d)\sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor}[\gcd(i,j)=1]$$</p>
+<p>因为 $\sum\limits_{i=1}^{n}\sum\limits_{i=1}^{n}[\gcd(i,j)=1]=\sum\limits_{i=1}^{n}2\varphi(i)-1$，所以</p></div><div class="post-footer">
+    <a href="/posts/cpnc-200008-lady-layton-with-math/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%9D%9C%E6%95%99%E7%AD%9B/' class="post-tag">杜教筛</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2018-icpc%E5%BE%90%E5%B7%9E%E7%BD%91%E7%BB%9C%E8%B5%9B-easy-math/">[2018 ICPC徐州网络赛] Easy Math</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-09-18 09:14:03'>发布于 <time datetime="2021-09-18">2021-09-18</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://nanti.jisuanke.com/t/A2003"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
 <p><strong>题意</strong></p>
 <p>求</p>
@@ -310,29 +323,6 @@
 <p>$$\sum_{i=1} ^{n}\sum_{j=1}^{i}i[\gcd(i,j)=1]-\sum_{i=1} ^{n}\sum_{j=1}^{i}j[\gcd(i,j)=1]$$</p>
 <p>前半部分$\sum\limits_{i=1} ^{n}i\sum\limits_{j=1}^{i}[\gcd(i,j)=1]$是欧拉函数的定义 $\varphi(i)$</p></div><div class="post-footer">
     <a href="/posts/cp2019-ccpc%E7%BD%91%E7%BB%9C%E8%B5%9B-huntian-oy/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/' class="post-tag">莫比乌斯反演</a><a href='/tags/%E6%9D%9C%E6%95%99%E7%AD%9B/' class="post-tag">杜教筛</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp%E6%B4%9B%E8%B0%B7-p3768-%E7%AE%80%E5%8D%95%E7%9A%84%E6%95%B0%E5%AD%A6%E9%A2%98/">[洛谷 P3768] 简单的数学题</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-09-13 21:21:31'>发布于 <time datetime="2021-09-13">2021-09-13</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://www.luogu.com.cn/problem/P3768"target="_blank" rel="external nofollow noopener noreferrer">题目链接</a></p>
-<p><strong>题意：</strong></p>
-<p>求</p>
-<p>$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$</p>
-<p>对 $p$ 取模，$n \le10^{10}, 5 ×10^8\le p \le1.1 ×10^{9}$</p>
-<p><strong>分析：</strong></p>
-<p>$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$</p>
-<p>枚举 $\gcd(i,j)$</p>
-<p>$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(i,j)=d]$$</p>
-<p>利用 $\gcd$ 的性质</p>
-<p>$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(\frac{i}{d},\frac{j}{d})=1]$$</p>
-<p>让式子除 $d^2$ 再乘 $d^2$</p>
-<p>$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{n}\sum_{j=1}^{n} \frac{i}{d} \cdot \frac{j}{d}[\gcd(\frac{i}{d},\frac{j}{d})=1]$$</p>
-<p>换一下上界</p>
-<p>$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor} i j[\gcd(i,j)=1]$$</p>
-<p>莫比乌斯反演</p>
-<p>$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor} i j \sum_{k \mid \gcd(i,j)} \mu(k)$$</p>
-<p>交换求和次序</p>
-<p>$$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} \mu(k) \sum_{i=1}^{\lfloor \frac{n}{dk} \rfloor} ik\sum_{j=1}^{\lfloor \frac{n}{dk} \rfloor} jk$$</p>
-<p>化简后半部分</p>
-<p>$$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} k^2 \mu(k) (\sum_{i=1} ^{\lfloor \frac{n}{dk} \rfloor}i)^2$$</p></div><div class="post-footer">
-    <a href="/posts/cp%E6%B4%9B%E8%B0%B7-p3768-%E7%AE%80%E5%8D%95%E7%9A%84%E6%95%B0%E5%AD%A6%E9%A2%98/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/' class="post-tag">莫比乌斯反演</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>
@@ -360,8 +350,10 @@
             <a href="/page/17/">17</a>
           </span>
         </li><li class="page-item">
+          <span class="page-link" aria-hidden="true">&hellip;</span>
+        </li><li class="page-item">
           <span class="page-link">
-            <a href="/page/18/">18</a>
+            <a href="/page/19/">19</a>
           </span>
         </li></ul></div></main><footer class="footer">
     <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>

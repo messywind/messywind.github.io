@@ -12,8 +12,8 @@
 <meta name="description" content="凌乱之风的博客"><meta name="keywords" content='Hugo, FixIt'>
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="凌乱之风的博客">
-  <meta itemprop="datePublished" content="2025-12-03T11:18:00+00:00">
-  <meta itemprop="dateModified" content="2025-12-22T06:58:48+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="datePublished" content="2025-12-23T14:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-12-24T09:07:31+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="凌乱之风的博客">
@@ -134,7 +134,26 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2021icpc%E6%B5%8E%E5%8D%97-l-strange-series/">[2021ICPC济南 L] Strange Series</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpnoi2020%E7%BB%9F%E4%B8%80%E7%9C%81%E9%80%89-a-%E7%BB%84%E5%90%88%E6%95%B0%E9%97%AE%E9%A2%98/">[NOI2020统一省选 A] 组合数问题</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-09-01 16:09:04'>发布于 <time datetime="2022-09-01">2022-09-01</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://www.luogu.com.cn/problem/P6620"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
+<p><strong>题意</strong></p>
+<p>给定四个整数 $n,x,p,m$，求
+$$
+\sum_{i=0}^{n}f(i)\times x^i\times \binom{n}{i}
+$$
+对 $p$ 取模，其中 $f(x) = a_0 + a_1x + a_2x ^ 2 + \cdots + a_mx ^ m$</p>
+<p>$1 \le n,x,p \le 10 ^ 9, 0 \le a_i \le 10 ^ 9, 0 \le m \le \min(n, 10 ^ 3)$</p>
+<p><strong>分析：</strong></p>
+<p>首先把 $f(i)$ 带入原式
+$$
+\sum_{i=0}^{n} x^i\times \binom{n}{i} \sum_{j = 0} ^ {m} a_j \times i ^ {j}
+$$
+看到 $i ^ j$，故想到展开 $i ^ j = \sum\limits_{k = 0} ^ {j} {j \brace k} i ^ {\underline k}$</p>
+<p>$$
+\sum_{i=0}^{n} x^i\times \binom{n}{i} \sum_{j = 0} ^ {m} a_j \sum_{k = 0} ^ {j} {j \brace k} \times \frac{i!}{(i - k)!}
+$$</p></div><div class="post-footer">
+    <a href="/posts/cpnoi2020%E7%BB%9F%E4%B8%80%E7%9C%81%E9%80%89-a-%E7%BB%84%E5%90%88%E6%95%B0%E9%97%AE%E9%A2%98/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%8E%A8%E5%BC%8F%E5%AD%90/' class="post-tag">推式子</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2021icpc%E6%B5%8E%E5%8D%97-l-strange-series/">[2021ICPC济南 L] Strange Series</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-08-30 13:26:27'>发布于 <time datetime="2022-08-30">2022-08-30</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><strong>题意</strong></p>
 <p>$T$ 组输入，给定一个 $n$ 次多项式 $f(x) = a_0 + a_1x + \cdots + a_nx ^ n$，定义 $S = \sum\limits_{i = 0} ^ {\infty} \dfrac{f(i)}{i!}$，可以证明 $S$ 一定是 $e$ 的倍数，即 $S = p \times e$，求 $p$ 对 $998,244,353$ 取模。</p>
 <p>$1 \le T \le 100, 0 \le n \le 10 ^ 5,0 \le a_i &lt; 998,244,353$</p>
@@ -245,20 +264,6 @@ $$
 $$
 $\text{cnt}$ 为图中环的数量。那么现在考虑求出 $f(n, m)$，即大小为 $n$ 的环选出 $m$ 个互不相邻的点的方案数。</p></div><div class="post-footer">
     <a href="/posts/cp2022-%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-count-set/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/' class="post-tag">生成函数</a><a href='/tags/%E5%88%86%E6%B2%BB-ntt/' class="post-tag">分治 NTT</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A14-c-easy-counting-problem/">[2022 牛客多校4 C] Easy Counting Problem</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-08-01 10:41:37'>发布于 <time datetime="2022-08-01">2022-08-01</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://ac.nowcoder.com/acm/contest/33189/C"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
-<p><strong>题意</strong></p>
-<p>给定一个正整数 $w$ 及 $w$ 个数 $c_0, c_1, \cdots,c_{w - 1}$</p>
-<p>$q$ 组询问，每次询问给定一个正整数 $n$，计算有多少个长度为 $n$ 的字符串满足：</p>
-<ul>
-<li>每个字符只能取数字 $0 \sim w - 1$</li>
-<li>数字 $i$ 至少出现 $c_i$ 次</li>
-</ul>
-<p>对 $998 , 244 , 353$ 取模。</p>
-<p>$2 \le w \le 10, 1 \le c_i \le 5 \times 10 ^ 4, \sum\limits_{i = 0} ^ {w - 1}c_i \le 5 \times 10 ^ 4$</p>
-<p>$1 \le q \le 300, 1 \le n \le 10 ^ 7$</p>
-<p><strong>分析：</strong></p></div><div class="post-footer">
-    <a href="/posts/cp2022-%E7%89%9B%E5%AE%A2%E5%A4%9A%E6%A0%A14-c-easy-counting-problem/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/' class="post-tag">生成函数</a><a href='/tags/ntt/' class="post-tag">NTT</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>
@@ -289,7 +294,7 @@ $\text{cnt}$ 为图中环的数量。那么现在考虑求出 $f(n, m)$，即大
           <span class="page-link" aria-hidden="true">&hellip;</span>
         </li><li class="page-item">
           <span class="page-link">
-            <a href="/page/18/">18</a>
+            <a href="/page/19/">19</a>
           </span>
         </li></ul></div></main><footer class="footer">
     <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
