@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Misc - 标签 - 凌乱之风的博客</title>
+    <link>https://blog.messywind.top/tags/misc/</link>
+    <description>凌乱之风的博客</description>
+    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 20 Jan 2026 06:13:15 +0000</lastBuildDate>
+    <atom:link href="https://blog.messywind.top/tags/misc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FurryCTF 2025 WP</title>
+      <link>https://blog.messywind.top/posts/ctf-misc/</link>
+      <pubDate>Mon, 19 Jan 2026 14:00:00 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/ctf-misc/</guid>
+      <category domain="https://blog.messywind.top/categories/%E7%BD%91%E5%AE%89/">网安</category>
+      <description>Misc 教程参考</description>
+    </item>
+  </channel>
+</rss>

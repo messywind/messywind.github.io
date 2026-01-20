@@ -614,5 +614,5 @@ print(long_to_bytes(plain))
 ---
 
 > 作者: [凌乱之风](https://github.com/messywind)  
-> URL: https://blog.messywind.top/posts/ctf-furryctf/  
+> URL: https://blog.messywind.top/posts/ctf-furryctf-2024/  
 
