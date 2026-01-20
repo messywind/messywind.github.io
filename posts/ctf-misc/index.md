@@ -1,4 +1,4 @@
-# FurryCTF 2025 WP
+# Misc 教程参考
 
 
 [Lunatic 大佬的 CTF-Misc Guide](https://goodlunatic.github.io/posts/1ad9200/)
