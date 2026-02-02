@@ -1,7 +1,5 @@
-# FurryCTF 2025 WP
+# FurryCTF 2025 热身赛 WP
 
-
-# 热身赛
 
 [热身赛链接](https://furryctf.com/games/5/challenges)
 
@@ -251,5 +249,5 @@ http://ctf.furryctf.com:32780/?u={{config.__class__.__init__.__globals__[&#39;os
 ---
 
 > 作者: [凌乱之风](https://github.com/messywind)  
-> URL: https://blog.messywind.top/posts/ctf-furryctf-2025/  
+> URL: https://blog.messywind.top/posts/ctf-furryctf-2025-%E7%83%AD%E8%BA%AB%E8%B5%9B/  
 
