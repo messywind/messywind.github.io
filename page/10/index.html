@@ -12,8 +12,8 @@
 <meta name="description" content="凌乱之风的博客"><meta name="keywords" content='Hugo, FixIt'>
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="凌乱之风的博客">
-  <meta itemprop="datePublished" content="2026-01-30T10:31:00+00:00">
-  <meta itemprop="dateModified" content="2026-02-02T07:00:07+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="datePublished" content="2026-02-01T15:00:00+00:00">
+  <meta itemprop="dateModified" content="2026-02-03T09:17:39+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="凌乱之风的博客">
@@ -135,7 +135,21 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/math-n%E5%85%83%E5%9D%87%E5%80%BC%E4%B8%8D%E7%AD%89%E5%BC%8F%E7%9A%84%E8%AF%81%E6%98%8E/">N元均值不等式的证明</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cptjoi2019-%E5%94%B1%E8%B7%B3rap%E5%92%8C%E7%AF%AE%E7%90%83/">[TJOI2019] 唱、跳、rap和篮球</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-09-22 20:06:39'>发布于 <time datetime="2022-09-22">2022-09-22</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://www.luogu.com.cn/problem/P5339"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
+<p><strong>题意</strong></p>
+<p>有 $4$ 类数量分别为 $a,b,c,d$ 的物品，求出长度为 $n$ 的所有不包含 <code>abcd</code> 子串的序列的方案数，对 $998, 244 , 353$ 取模。</p>
+<p><strong>分析：</strong></p>
+<p>此题比较像 2022 牛客多校2 E，考虑将 <code>abcd</code> 捆绑，我们可以先算出至少存在 $i$ 个 <code>abcd</code> 子串的方案数，那么会有 $n - 4 \times i + i = n - 3  \times i$ 个位置，从中选出 $i$ 个位置的方案数为 $\dbinom{n - 3 \times i}{i}$，那么现在要解决的问题是从剩下 $n - 4 \times i$ 个位置随意选 $a,b,c,d$ 的方案数，我们可以写出它们的生成函数，记
+$$
+F_k(x) = \sum_{i = 0} ^ {k} \frac{x ^ i}{i!}
+$$
+那么 $a,b,c,d$ 的生成函数分别为 $F_{a - i}(x),F_{b - i}(x),F_{c - i}(x),F_{d - i}(x)$，所以方案数为 $(n - 4 \times i)! \times [x ^ {n - 4 \times i}]F_{a - i}(x) * F_{b - i}(x) * F_{c - i}(x) * F_{d - i}(x)$，我们现在求出了至少为 $i$ 的方案数，可以用二项式反演求出恰好为 $0$ 的方案数，那么答案就是
+$$
+\sum_{i = 0} ^ {\min(a,b,c,d)} (-1) ^ i \times \binom{n - 3 \times i}{i} \times (n - 4 \times i)! \times [x ^ {n - 4 \times i}]F_{a - i}(x) * F_{b - i}(x) * F_{c - i}(x) * F_{d - i}(x)
+$$</p></div><div class="post-footer">
+    <a href="/posts/cptjoi2019-%E5%94%B1%E8%B7%B3rap%E5%92%8C%E7%AF%AE%E7%90%83/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E4%BA%8C%E9%A1%B9%E5%BC%8F%E5%8F%8D%E6%BC%94/' class="post-tag">二项式反演</a><a href='/tags/ntt/' class="post-tag">NTT</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/math-n%E5%85%83%E5%9D%87%E5%80%BC%E4%B8%8D%E7%AD%89%E5%BC%8F%E7%9A%84%E8%AF%81%E6%98%8E/">N元均值不等式的证明</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-09-16 11:36:41'>发布于 <time datetime="2022-09-16">2022-09-16</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%95%B0%E5%AD%A6/" class="post-category" title="分类 - 数学"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 数学</a></span></div><div class="content"><p><strong>求证：</strong>
 $$
 \frac{n}{\sum\limits_{i = 1} ^ {n} \dfrac{1}{x_i}} \le  \sqrt [n] {\prod_{i = 1} ^ {n} x_i } \le \frac{\sum\limits_{i = 1} ^ {n} x_i}{n} \le \sqrt{\frac{\sum\limits_{i = 1} ^ {n} x_i ^ 2}{n}}
@@ -232,46 +246,6 @@ $$
 <p><strong>分析：</strong></p>
 <p>若直接枚举子集复杂度为 $O(n \times 2 ^ n)$，无法接受，考虑化简，右边和式的 $k$ 次方可以做一下展开，那么</p></div><div class="post-footer">
     <a href="/posts/cp2022ccpc%E5%8D%8E%E4%B8%BA%E4%BA%911005-%E5%B8%A6%E6%9D%83%E5%AD%90%E9%9B%86%E5%92%8C/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/ntt/' class="post-tag">NTT</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpeducational-codeforces-round-133-f-bags-with-balls/">[Educational Codeforces Round 133 F] Bags With Balls</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-08-05 15:37:55'>发布于 <time datetime="2022-08-05">2022-08-05</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://codeforces.com/contest/1716/problem/F"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
-<p><strong>题意</strong></p>
-<p>给定三个正整数 $n,m,k$，有 $n$ 个盒子，每个盒子有 $m$ 个标号分别为 $1 \sim m$ 的球，现从每个盒子选出恰好一个球，将奇数编号的球的个数记为 $F$，求所有方案的 $F ^ k$ 之和对 $998 , 244 , 353$ 取模。</p>
-<p>$(1 \le n, m \le 998244352, 1 \le k \le 2 \times 10 ^ 3)$</p>
-<p><strong>分析：</strong></p>
-<p>首先每个盒子有 $\lceil \dfrac{m}{2} \rceil$ 个奇数球和 $\lfloor \dfrac{m}{2} \rfloor$ 个偶数球，那么所有方案数为 $m ^ n = (\lceil \dfrac{m}{2} \rceil + \lfloor \dfrac{m}{2} \rfloor) ^ n$，根据二项式定理，所以每个 $F$ 的贡献就为 $F ^ k \times \dbinom{n}{F} \times \lceil \dfrac{m}{2} \rceil ^ F \times \lfloor \dfrac{m}{2} \rfloor ^ {n - F}$ 所以总答案为
-$$
-\sum_{i = 0} ^ {n} i ^ k \times \dbinom{n}{i} \times \lceil \dfrac{m}{2} \rceil ^ i \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i}
-$$
-由于 $n \le 998244352$，没法直接求，但是看到 $i ^ k$ 想到自然数幂展开
-$$
-i ^ k = \sum_{j = 0} ^ {k} {k \brace j} \times j! \times \binom{i}{j}
-$$
-带入得
-$$
-\sum_{i = 0} ^ {n} \dbinom{n}{i} \times \lceil \dfrac{m}{2} \rceil ^ i \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i} \sum_{j = 0} ^ {k} {k \brace j} \times j! \times \binom{i}{j}
-$$
-将 $\dbinom{n}{i}$ 放到后面的求和号化简：$\dbinom{n}{i} \times j! \times \dbinom{i}{j} = \dfrac{n!}{i! \times (n - i)!} \times j! \times \dfrac{i!}{j! \times (i - j)!} = \dfrac{n!}{(n - i)! \times (i - j)!}$，那么式子变为
-$$
-\sum_{i = 0} ^ {n} \lceil \dfrac{m}{2} \rceil ^ i \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i} \sum_{j = 0} ^ {k} {k \brace j} \times \dfrac{n!}{(n - i)! \times (i - j)!}
-$$
-交换求和次序，注意 $i$ 要从 $j$ 开始，因为要保证 $i - j \ge 0$
-$$
-\sum_{j = 0} ^ {k} {k \brace j} \sum_{i = j} ^ {n} \dfrac{n!}{(n - i)! \times (i - j)!} \times \lceil \dfrac{m}{2} \rceil ^ i \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i}
-$$
-对第二个和式做变换 $i - j \rightarrow i$
-$$
-\sum_{j = 0} ^ {k} {k \brace j} \sum_{i = 0} ^ {n - j} \dfrac{n!}{(n - i - j)! \times i!} \times \lceil \dfrac{m}{2} \rceil ^ {i + j} \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i - j}
-$$
-到这里发现第二个和式比较像二项式展开了，即 $(a + b) ^ n = \sum\limits_{i = 0} ^ {n} \dbinom{n}{i} a ^ {i} b ^ {n - i}$，那么考虑往这个方向凑式子，首先要解决的是组合数，发现第二个和式上界为 $n - j$，那么我们就要凑一个 $\dbinom{n - j}{i} = \dfrac{(n - j)!}{(n - i - j) \times i!}$ 的组合数，发现恰好多了 $n \times(n - 1) \times \cdots \times (n - j + 1) = n ^ {\underline j}$，那么后面也多了 $\lceil \dfrac{m}{2} \rceil ^ {j}$，提出来之后为
-$$
-\sum_{j = 0} ^ {k} {k \brace j} \times n ^ {\underline j} \times \lceil \dfrac{m}{2} \rceil ^ {j} \sum_{i = 0} ^ {n - j} \binom{n - j}{i} \times \lceil \dfrac{m}{2} \rceil ^ {i} \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i - j}
-$$
-由二项式定理得 $\sum\limits_{i = 0} ^ {n - j} \dbinom{n - j}{i} \times \lceil \dfrac{m}{2} \rceil ^ {i} \times \lfloor \dfrac{m}{2} \rfloor ^ {n - i - j} = (\lceil \dfrac{m}{2} \rceil + \lfloor \dfrac{m}{2} \rfloor) ^ {n - j} = m ^ {n - j}$，那么答案为
-$$
-\sum_{j = 0} ^ {k} {k \brace j} \times n ^ {\underline j} \times \lceil \dfrac{m}{2} \rceil ^ {j} \times m ^ {n - j}
-$$
-所以只需要预处理 $2 \times 10 ^ 3$ 以内的第二类斯特林数，再 $O(k)$ 维护下降幂即可。</p></div><div class="post-footer">
-    <a href="/posts/cpeducational-codeforces-round-133-f-bags-with-balls/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%BB%84%E5%90%88%E8%AE%A1%E6%95%B0/' class="post-tag">组合计数</a><a href='/tags/%E6%8E%A8%E5%BC%8F%E5%AD%90/' class="post-tag">推式子</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>

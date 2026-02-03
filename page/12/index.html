@@ -12,8 +12,8 @@
 <meta name="description" content="凌乱之风的博客"><meta name="keywords" content='Hugo, FixIt'>
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="凌乱之风的博客">
-  <meta itemprop="datePublished" content="2026-01-30T10:31:00+00:00">
-  <meta itemprop="dateModified" content="2026-02-02T07:00:07+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="datePublished" content="2026-02-01T15:00:00+00:00">
+  <meta itemprop="dateModified" content="2026-02-03T09:17:39+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="凌乱之风的博客">
@@ -135,7 +135,18 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpeducational-codeforces-round-131-f-points/">[Educational Codeforces Round 131 F] Points</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2016-ccpc-%E6%9D%AD%E5%B7%9Ej-just-a-math-problem/">[2016 CCPC 杭州J] Just a Math Problem</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-07-15 09:00:04'>发布于 <time datetime="2022-07-15">2022-07-15</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://acm.hdu.edu.cn/showproblem.php?pid=5942"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
+<p><strong>题意</strong></p>
+<p>$T$ 组输入，每次给定一个正整数 $n$，定义 $f(k)$ 为 $k$ 的质因子个数，$g(k) = 2 ^ {f(i)}$，求
+$$
+\sum_{i = 1} ^ {n} g(i)
+$$
+$1 \le T \le 50, 1 \le n \le 10 ^ {12}$</p>
+<p><strong>分析：</strong></p>
+<p>首先 $2 ^ {f(i)}$ 不好直接计算，考虑组合意义，发现 $2 ^ {f(i)}$ 就是从 $i$ 的所有质因子中选出若干个子集的方案数，假设 $i = p_1 ^ {\alpha_1} p_2 ^ {\alpha_2}\cdots p_k ^ {\alpha_k}$，那么我们可以枚举 $i$ 的所有约数 $d$，将约数带入莫比乌斯函数，那么就去掉了所有存在大于等于 $2$ 次的质因子，所以每个 $\alpha_i$ 只能取 $0$ 或 $1$，但如果有奇数个质因子莫比乌斯函数值为负数，所以平方一下即可，即</p></div><div class="post-footer">
+    <a href="/posts/cp2016-ccpc-%E6%9D%AD%E5%B7%9Ej-just-a-math-problem/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/' class="post-tag">莫比乌斯反演</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpeducational-codeforces-round-131-f-points/">[Educational Codeforces Round 131 F] Points</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-07-13 16:28:06'>发布于 <time datetime="2022-07-13">2022-07-13</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://codeforces.com/contest/1701/problem/F"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
 <p><strong>题意</strong></p>
 <p>给定两个正整数 $q, d$，定义三元组 $(i, j, k)$ 满足 $i &lt; j &lt; k, k - i \le d$，为<strong>美丽三元组</strong>，现在有一个空集和 $q$ 组询问，每次给定一个正整数 $x$，若 $x$ 不在集合，那么将 $x$ 加入集合，若 $x$ 在集合中，那么将 $x$ 从集合中删除，每次询问计算集合中<strong>美丽三元组</strong>的个数。</p>
@@ -217,14 +228,6 @@ G(x) = \left ( \sum_{i = 0} ^ {\infty} x ^ {2i} \right ) ^ m
 $$
 那么组成的所有体积方案数为 $F(x) \times G(x)$</p></div><div class="post-footer">
     <a href="/posts/cpwannafly-28-msc%E7%9A%84%E8%83%8C%E5%8C%85/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%BB%84%E5%90%88%E6%95%B0/' class="post-tag">组合数</a><a href='/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/' class="post-tag">生成函数</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2020-bsuirpc-function-analysis/">[2020 BSUIRPC] Function Analysis</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-04-13 10:54:49'>发布于 <time datetime="2022-04-13">2022-04-13</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://codeforces.com/gym/103637/problem/F"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
-<p><strong>题意</strong></p>
-<p>给定三个正整数 $n, d, k$ ，现有排列 $p = (1,2,3,\cdots,n)$ ，有 $n - d + 1$ 个询问，对于每个询问有正整数 $m (d \le m \le n)$ ，现从 $p$ 中<strong>随机可重复地</strong>选取 $m$ 个数构成序列 $q$ ，求 $q$ 中第 $d$ 小数大于 $k$ 的概率，</p>
-<p>对 $998244353$ 取模。</p>
-<p><strong>分析：</strong></p>
-<p>对于满足第 $d$ 小数大于 $k$ 的序列 $q = (a_1, a_2, \cdots,a_i,\cdots,a_m)$ ，假设最后一个小于等于 $k$ 的数为 $a_i$，那么一定有 $i \le d - 1$，所以前 $i$ 个数一定要在 $1 \sim k$ 中任取，方案记为 $F(x)$，那么后 $m - i$ 个数一定要在 $k +1 \sim n$ 中取，方案记为 $G(x)$，可以考虑写出 $F(x)$ 与 $G(x)$ 的生成函数，因为数是可排列的，所以要用 $\textbf{EGF}$</p></div><div class="post-footer">
-    <a href="/posts/cp2020-bsuirpc-function-analysis/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/egf/' class="post-tag">EGF</a><a href='/tags/ntt/' class="post-tag">NTT</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>
