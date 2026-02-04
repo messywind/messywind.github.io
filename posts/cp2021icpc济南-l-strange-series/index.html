@@ -19,7 +19,7 @@ $1 \le T \le 100, 0 \le n \le 10 ^ 5,0 \le a_i &lt; 998,244,353$
 分析：
 首先将 $f(x)$ 代入 $S$ 得 $$ \sum_{i = 0} ^ {\infty}\frac{1}{i!} \sum_{j = 0} ^ {n}a_j \times i ^ j $$ 看到自然数幂想到展开 $i ^ k = \sum\limits_{j = 0} ^ {k} {k \brace j} i ^{\underline j}$，代入得 $$ \sum_{i = 0} ^ {\infty} \frac{1}{i!} \sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} i ^ {\underline k} $$ 交换求和次序，先对 $i$ 求和 $$ \sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} \sum_{i = 0} ^ {\infty} \frac{i ^ {\underline k}}{i!} $$ 把下降幂消掉 $$ \sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} \sum_{i = k} ^ {\infty} \frac{1}{(i-k)!} $$ 做变换 $(i - k) \rightarrow i$ $$ \sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} \sum_{i = 0} ^ {\infty} \frac{1}{i!} $$ 由于 $e = \sum\limits_{i = 0} ^ {\infty} \dfrac{1}{i!}$，所以原式为 $e$ 的倍数得证，那么式子变为 $$ \sum_{j = 0} ^ {n}a_j \sum_{k = 0} ^ {j} {j \brace k} \times e $$ 事实上 $\text{Bell} _ {n} = \sum \limits_{i = 0} ^ {n} {n \brace i}$，其中 $\text{Bell}_{n}$ 为第 $n$ 项贝尔数，代表 $n$ 个元素的集合划分为任意非空子集的方案数，所以答案就为">
   <meta itemprop="datePublished" content="2022-08-30T13:26:27+00:00">
-  <meta itemprop="dateModified" content="2026-02-03T09:17:39+00:00">
+  <meta itemprop="dateModified" content="2026-02-04T07:24:05+00:00">
   <meta itemprop="wordCount" content="2094">
   <meta itemprop="keywords" content="Bell 数,多项式"><meta property="og:url" content="https://blog.messywind.top/posts/cp2021icpc%E6%B5%8E%E5%8D%97-l-strange-series/">
   <meta property="og:site_name" content="凌乱之风的博客">
@@ -33,7 +33,7 @@ $1 \le T \le 100, 0 \le n \le 10 ^ 5,0 \le a_i &lt; 998,244,353$
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2022-08-30T13:26:27+00:00">
-    <meta property="article:modified_time" content="2026-02-03T09:17:39+00:00">
+    <meta property="article:modified_time" content="2026-02-04T07:24:05+00:00">
     <meta property="article:tag" content="Bell 数">
     <meta property="article:tag" content="多项式">
 
@@ -57,7 +57,7 @@ $1 \le T \le 100, 0 \le n \le 10 ^ 5,0 \le a_i &lt; 998,244,353$
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/cp2021icpc%E6%B5%8E%E5%8D%97-l-strange-series\/"
     },"genre": "posts","keywords": "Bell 数, 多项式","wordcount":  2094 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/cp2021icpc%E6%B5%8E%E5%8D%97-l-strange-series\/","datePublished": "2022-08-30T13:26:27+00:00","dateModified": "2026-02-03T09:17:39+00:00","publisher": {
+    "url": "https:\/\/blog.messywind.top\/posts\/cp2021icpc%E6%B5%8E%E5%8D%97-l-strange-series\/","datePublished": "2022-08-30T13:26:27+00:00","dateModified": "2026-02-04T07:24:05+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -165,7 +165,7 @@ $1 \le T \le 100, 0 \le n \le 10 ^ 5,0 \le a_i &lt; 998,244,353$
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[2021ICPC济南 L] Strange Series</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-08-30 13:26:27"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-08-30">2022-08-30</time></span>&nbsp;<span title="更新于 2026-02-03 09:17:39"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-02-03">2026-02-03</time></span>&nbsp;<span title="2094 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-08-30 13:26:27"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-08-30">2022-08-30</time></span>&nbsp;<span title="更新于 2026-02-04 07:24:05"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-02-04">2026-02-04</time></span>&nbsp;<span title="2094 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -872,7 +872,7 @@ $$</p>
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-02-03 09:17:39">更新于 2026-02-03&nbsp;</span>
+        <span title="更新于 2026-02-04 07:24:05">更新于 2026-02-04&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/cp2021icpc%E6%B5%8E%E5%8D%97-l-strange-series/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">
