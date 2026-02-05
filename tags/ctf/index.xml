@@ -6,8 +6,16 @@
     <description>凌乱之风的博客</description>
     <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 04 Feb 2026 07:24:05 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 05 Feb 2026 08:32:44 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/tags/ctf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FurryCTF 2025 WP</title>
+      <link>https://blog.messywind.top/posts/ctf-furryctf-2025/</link>
+      <pubDate>Tue, 03 Feb 2026 15:00:00 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/ctf-furryctf-2025/</guid>
+      <category domain="https://blog.messywind.top/categories/%E7%BD%91%E5%AE%89/">网安</category>
+      <description>FurryCTF 2025 Write UP</description>
+    </item>
     <item>
       <title>Misc 教程参考</title>
       <link>https://blog.messywind.top/posts/ctf-misc/</link>
