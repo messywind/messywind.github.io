@@ -19,7 +19,7 @@ $T$ 组输入，每次给定一个正整数 $n$，定义 $f(k)$ 为 $k$ 的质�
 分析：
 首先 $2 ^ {f(i)}$ 不好直接计算，考虑组合意义，发现 $2 ^ {f(i)}$ 就是从 $i$ 的所有质因子中选出若干个子集的方案数，假设 $i = p_1 ^ {\alpha_1} p_2 ^ {\alpha_2}\cdots p_k ^ {\alpha_k}$，那么我们可以枚举 $i$ 的所有约数 $d$，将约数带入莫比乌斯函数，那么就去掉了所有存在大于等于 $2$ 次的质因子，所以每个 $\alpha_i$ 只能取 $0$ 或 $1$，但如果有奇数个质因子莫比乌斯函数值为负数，所以平方一下即可，即">
   <meta itemprop="datePublished" content="2022-07-15T09:00:04+00:00">
-  <meta itemprop="dateModified" content="2026-02-09T09:10:45+00:00">
+  <meta itemprop="dateModified" content="2026-02-09T09:21:02+00:00">
   <meta itemprop="wordCount" content="768">
   <meta itemprop="keywords" content="莫比乌斯反演"><meta property="og:url" content="https://blog.messywind.top/posts/cp2016-ccpc-%E6%9D%AD%E5%B7%9Ej-just-a-math-problem/">
   <meta property="og:site_name" content="凌乱之风的博客">
@@ -33,7 +33,7 @@ $T$ 组输入，每次给定一个正整数 $n$，定义 $f(k)$ 为 $k$ 的质�
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2022-07-15T09:00:04+00:00">
-    <meta property="article:modified_time" content="2026-02-09T09:10:45+00:00">
+    <meta property="article:modified_time" content="2026-02-09T09:21:02+00:00">
     <meta property="article:tag" content="莫比乌斯反演">
 
   <meta name="twitter:card" content="summary">
@@ -56,7 +56,7 @@ $T$ 组输入，每次给定一个正整数 $n$，定义 $f(k)$ 为 $k$ 的质�
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/cp2016-ccpc-%E6%9D%AD%E5%B7%9Ej-just-a-math-problem\/"
     },"genre": "posts","keywords": "莫比乌斯反演","wordcount":  768 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/cp2016-ccpc-%E6%9D%AD%E5%B7%9Ej-just-a-math-problem\/","datePublished": "2022-07-15T09:00:04+00:00","dateModified": "2026-02-09T09:10:45+00:00","publisher": {
+    "url": "https:\/\/blog.messywind.top\/posts\/cp2016-ccpc-%E6%9D%AD%E5%B7%9Ej-just-a-math-problem\/","datePublished": "2022-07-15T09:00:04+00:00","dateModified": "2026-02-09T09:21:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -164,7 +164,7 @@ $T$ 组输入，每次给定一个正整数 $n$，定义 $f(k)$ 为 $k$ 的质�
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[2016 CCPC 杭州J] Just a Math Problem</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-07-15 09:00:04"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-07-15">2022-07-15</time></span>&nbsp;<span title="更新于 2026-02-09 09:10:45"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-02-09">2026-02-09</time></span>&nbsp;<span title="768 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-07-15 09:00:04"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-07-15">2022-07-15</time></span>&nbsp;<span title="更新于 2026-02-09 09:21:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-02-09">2026-02-09</time></span>&nbsp;<span title="768 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
           <span>目录</span>
@@ -337,7 +337,7 @@ $$
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-02-09 09:10:45">更新于 2026-02-09&nbsp;</span>
+        <span title="更新于 2026-02-09 09:21:02">更新于 2026-02-09&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/cp2016-ccpc-%E6%9D%AD%E5%B7%9Ej-just-a-math-problem/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">
