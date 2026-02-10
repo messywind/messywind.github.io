@@ -12,8 +12,8 @@
 <meta name="description" content="凌乱之风的博客"><meta name="keywords" content='Hugo, FixIt'>
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="凌乱之风的博客">
-  <meta itemprop="datePublished" content="2026-02-08T13:40:00+00:00">
-  <meta itemprop="dateModified" content="2026-02-09T10:51:04+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="datePublished" content="2026-02-08T19:19:00+00:00">
+  <meta itemprop="dateModified" content="2026-02-10T03:03:14+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="凌乱之风的博客">
@@ -135,7 +135,28 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2016-ccpc-%E6%9D%AD%E5%B7%9Ej-just-a-math-problem/">[2016 CCPC 杭州J] Just a Math Problem</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp%E6%95%B0%E8%AE%BA%E6%8F%90%E9%AB%98/">数论提高</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-07-24 15:39:05'>发布于 <time datetime="2022-07-24">2022-07-24</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><h3 id="前置数学符号介绍" class="heading-element"><span>前置：数学符号介绍</span>
+  <a href="#%e5%89%8d%e7%bd%ae%e6%95%b0%e5%ad%a6%e7%ac%a6%e5%8f%b7%e4%bb%8b%e7%bb%8d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>$\sum\limits_{i = 1} ^ {n}$：求和符号，例如 $\sum\limits_{i = 1} ^ {n}i = \dfrac{n \times (n + 1)}{2}$ 代表 $1 + 2 + 3 + 4 + \cdots + n$</li>
+<li>$\prod\limits_{i = 1} ^ {n}$：连乘符号，例如 $\prod\limits_{i = 1} ^ {n} i = n!$ 代表 $1 \times 2 \times 3 \times 4 \times \cdots \times n$</li>
+<li>$\lfloor \dfrac{x}{y} \rfloor$：向下取整符号，例如 $\lfloor \dfrac{5}{2} \rfloor = 2$</li>
+<li>$[]$：艾弗森括号，例如 $[n = 1]$ 只有 $n = 1$ 时才取值为 $1$</li>
+<li>$x \mid y$：整除符号，表示 $x$ 整除 $y$，也就是 $x$ 是 $y$ 的约数，例如 $2 \mid 4$</li>
+</ul>
+<h3 id="欧拉函数" class="heading-element"><span>欧拉函数</span>
+  <a href="#%e6%ac%a7%e6%8b%89%e5%87%bd%e6%95%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>定义：$\varphi(x)$ 为小于等于 $x$ 与 $x$ 互质的数，即
+$$
+\varphi(x) = \sum_ {i = 1} ^ {x} [\gcd(x, i) = 1]
+$$</p></div><div class="post-footer">
+    <a href="/posts/cp%E6%95%B0%E8%AE%BA%E6%8F%90%E9%AB%98/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E6%95%B0%E8%AE%BA/' class="post-tag">数论</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp2016-ccpc-%E6%9D%AD%E5%B7%9Ej-just-a-math-problem/">[2016 CCPC 杭州J] Just a Math Problem</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-07-15 09:00:04'>发布于 <time datetime="2022-07-15">2022-07-15</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://acm.hdu.edu.cn/showproblem.php?pid=5942"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
 <p><strong>题意</strong></p>
 <p>$T$ 组输入，每次给定一个正整数 $n$，定义 $f(k)$ 为 $k$ 的质因子个数，$g(k) = 2 ^ {f(i)}$，求
@@ -211,23 +232,6 @@ $$
 <p><strong>分析：</strong></p>
 <p>首先考虑忽略 $a_i = -1$ 的所有边，那么图中会有若干个连通块，这些连通块分为三种情况：</p></div><div class="post-footer">
     <a href="/posts/cpatcoder-arc140-d-one-to-one/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E5%9B%BE%E8%AE%BA/' class="post-tag">图论</a><a href='/tags/%E7%BB%84%E5%90%88%E8%AE%A1%E6%95%B0/' class="post-tag">组合计数</a><a href='/tags/%E5%88%86%E6%B2%BB-ntt/' class="post-tag">分治 NTT</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpwannafly-28-msc%E7%9A%84%E8%83%8C%E5%8C%85/">[Wannafly 28] Msc的背包</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-04-27 23:34:56'>发布于 <time datetime="2022-04-27">2022-04-27</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://ac.nowcoder.com/acm/problem/21207"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
-<p><strong>题意</strong></p>
-<p>有 $n$ 种体积为 $1$ 的物品和 $m$ 种体积为 $2$ 的物品，求选择物品的体积为 $k$ 的方案数</p>
-<p>对 $998244353$ 取模</p>
-<p>$(1 \le n, m \le 10 ^ 6,1 \le k \le 9 \times 10 ^ 8)$</p>
-<p><strong>分析：</strong></p>
-<p>所有体积为 $1$ 的生成函数为
-$$
-F(x) = \left ( \sum_{i = 0} ^ {\infty} x ^ i \right ) ^ n
-$$
-所有体积为 $2$ 的生成函数为
-$$
-G(x) = \left ( \sum_{i = 0} ^ {\infty} x ^ {2i} \right ) ^ m
-$$
-那么组成的所有体积方案数为 $F(x) \times G(x)$</p></div><div class="post-footer">
-    <a href="/posts/cpwannafly-28-msc%E7%9A%84%E8%83%8C%E5%8C%85/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E7%BB%84%E5%90%88%E6%95%B0/' class="post-tag">组合数</a><a href='/tags/%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0/' class="post-tag">生成函数</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>

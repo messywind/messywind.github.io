@@ -12,8 +12,8 @@
 <meta name="description" content="凌乱之风的博客"><meta name="keywords" content='Hugo, FixIt'>
   <meta itemprop="name" content="凌乱之风的博客">
   <meta itemprop="description" content="凌乱之风的博客">
-  <meta itemprop="datePublished" content="2026-02-08T13:40:00+00:00">
-  <meta itemprop="dateModified" content="2026-02-09T10:51:04+00:00"><meta property="og:url" content="https://blog.messywind.top/">
+  <meta itemprop="datePublished" content="2026-02-08T19:19:00+00:00">
+  <meta itemprop="dateModified" content="2026-02-10T03:03:14+00:00"><meta property="og:url" content="https://blog.messywind.top/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="凌乱之风的博客">
   <meta property="og:description" content="凌乱之风的博客">
@@ -135,7 +135,28 @@
     </a><a href="https://www.zhihu.com/people/ling-luan-zhi-feng" title="知乎"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-zhihu fa-fw" aria-hidden="true"></i>
     </a><a href="https://space.bilibili.com/17363257" title="bilibili"target="_blank" rel="external nofollow noopener noreferrer me"><i class="fa-brands fa-bilibili" aria-hidden="true"></i>
     </a></div></div>
-<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpahoi2015-%E8%88%AA%E7%BA%BF%E8%A7%84%E5%88%92/">[AHOI2015] 航线规划</a>
+<article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpatcoder-abc234-f-reordering/">[AtCoder Abc234 F] Reordering</a>
+  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2022-01-09 14:10:44'>发布于 <time datetime="2022-01-09">2022-01-09</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://atcoder.jp/contests/abc234/tasks/abc234_f"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
+<p><strong>题意</strong></p>
+<p>给定一个长度为 $n$ 的字符串 $S$，计算有多少种<strong>非空子序列</strong>的排列，对 $998244353$ 取模。</p>
+<p>$1 \le n \le 5\times 10^3$</p>
+<p><strong>分析：</strong></p>
+<p>设 $26$ 个英文字母每个字母 $u$ 的生成函数为（因为要计算排列，所以是 $\textbf{EGF}$）
+$$
+1 + \frac{1}{1!}x + \frac{1}{2!}x^2 + \cdots + \frac{1}{cnt_{u}!}x^{cnt_{u}}
+$$
+其中 $cnt_{u}$ 为字母在 $S$ 中出现次数。</p>
+<p>那么最终所有方案为
+$$
+\prod_{u = 1} ^{26}(1 + \frac{1}{1!}x + \frac{1}{2!}x^2 + \cdots + \frac{1}{cnt_{u}!}x^{cnt_{u}})
+$$
+记所有方案为 $F(x)$，那么计算子序列的方案数就是把字符串长度为 $1 \sim n$ 的所有方案乘长度的阶乘加起来，即
+$$
+\sum_{i = 1}^{n}i! \times [x^i]F(x)
+$$
+因为最多只有 $26$ 个字母，所以直接每次暴力 $\text{NTT}$ 即可，当然也可以分治 $\text{NTT}$</p></div><div class="post-footer">
+    <a href="/posts/cpatcoder-abc234-f-reordering/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/ntt/' class="post-tag">NTT</a><a href='/tags/egf/' class="post-tag">EGF</a></div></div>
+</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cpahoi2015-%E8%88%AA%E7%BA%BF%E8%A7%84%E5%88%92/">[AHOI2015] 航线规划</a>
   </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-12-10 11:26:22'>发布于 <time datetime="2021-12-10">2021-12-10</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://www.luogu.com.cn/problem/P2542"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
 <p><strong>题意</strong></p>
 <p>给定一个 $n$ 个点 $m$ 条边的图，有不超过 $40000$ 次的操作，每次操作有三个参数 $op, u, v$</p>
@@ -359,130 +380,6 @@ $1 \le L \le R \le10^9$</p>
 </div>
 </div></div><div class="post-footer">
     <a href="/posts/cpcqoi2015-%E9%80%89%E6%95%B0/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/' class="post-tag">莫比乌斯反演</a><a href='/tags/%E6%9D%9C%E6%95%99%E7%AD%9B/' class="post-tag">杜教筛</a></div></div>
-</article><article class="single summary" itemscope itemtype="http://schema.org/Article"><h2 class="single-title" itemprop="name headline"><a href="/posts/cp%E6%B4%9B%E8%B0%B7-p5221-product/">[洛谷 P5221] Product</a>
-  </h2><div class="post-meta"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span>&nbsp;<span class="post-publish" title='2021-10-19 10:14:16'>发布于 <time datetime="2021-10-19">2021-10-19</time></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="content"><p><a href="https://www.luogu.com.cn/problem/P5221"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
-<p><strong>题意</strong></p>
-<p>求</p>
-<p>$$\prod_{i=1}^{n}\prod^{n}_{j=1}\frac{\text{lcm}(i,j)}{\gcd(i,j)}$$</p>
-<p>对 $104857601$ 取模</p>
-<p>$1 \le n  \le 10^6$</p>
-<p><strong>分析：</strong></p>
-<p>将 $\text{lcm}(i,j)=\dfrac{i \cdot j}{\gcd(i,j)}$ 替换原式得</p>
-<p>$$\prod_{i=1}^{n}\prod^{n}_{j=1}\frac{i \cdot j}{\gcd(i,j)^2}$$</p>
-<p>对 $\gcd(i,j)^2$ 求逆元</p>
-<p>$$\prod_{i=1}^{n}\prod^{n}_{j=1}i \cdot j \cdot \gcd(i,j)^{-2}$$</p>
-<p>前后分开来看</p>
-<p>$$\prod_{i=1}^{n}\prod_{j=1} ^ {n} i \cdot j\prod_{i=1}^{n}\prod^{n}_{j=1}\gcd(i,j)^{-2}$$</p>
-<p>前面 $\prod\limits_{i=1}^{n}\prod\limits_{j=1} ^{n}i \cdot j=\prod\limits_{i=1}^{n}i^n\prod\limits_{j=1} ^{n}j=\prod\limits_{i=1}^{n}i^n\cdot n!=(n!)^{n}\prod\limits_{i=1}^{n}i^n=(n!)^{2n}$</p>
-<p>后半部分 先看原来的值再求逆元</p>
-<p>$$\prod_{i=1}^{n}\prod^{n}_{j=1}\gcd(i,j)^{2}$$</p>
-<p>先把平方拿出去看里面</p>
-<p>$$\prod_{i=1}^{n}\prod^{n}_{j=1}\gcd(i,j)$$</p>
-<p>枚举 $\gcd(i,j)$</p>
-<p>$$\prod_{d=1}^{n}d^{\sum\limits_{i=1}^{n}\sum\limits^{n}_{j=1}[\gcd(i,j)=d]}$$</p>
-<p>指数部分 因为 $\sum\limits_{i=1}^{n}\sum\limits_{i=1}^{n}[\gcd(i,j)=1]=2\sum\limits_{i=1}^{n}\varphi(i)-1$ 所以</p>
-<p>$$\prod_{d=1}^{n}d^{2\sum\limits_{i=1}^{\lfloor\frac{n}{d}
-\rfloor}\varphi(i)-1}$$</p>
-<p>最后答案为</p>
-<p>$$(n!)^{2n}\cdot (\prod_{d=1}^{n}d^{2\sum\limits_{i=1}^{\lfloor\frac{n}{d}
-\rfloor}\varphi(i)-1})^{-2}$$</p>
-<h3 id="代码毒瘤出题人卡空间" class="heading-element"><span>代码(毒瘤出题人卡空间)：</span>
-  <a href="#%e4%bb%a3%e7%a0%81%e6%af%92%e7%98%a4%e5%87%ba%e9%a2%98%e4%ba%ba%e5%8d%a1%e7%a9%ba%e9%97%b4" class="heading-mark">
-    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
-  </a>
-</h3><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-cpp" data-lang="cpp"><span class="line"><span class="cl"><span class="cp">#include</span> <span class="cpf">&lt;cstdio&gt;</span><span class="cp">
-</span></span></span><span class="line"><span class="cl"><span class="cp"></span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="mf">1e6</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="n">mod</span> <span class="o">=</span> <span class="mi">104857601</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="n">n</span><span class="p">,</span> <span class="n">fact</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">euler</span><span class="p">[</span><span class="n">N</span><span class="p">],</span> <span class="n">primes</span><span class="p">[</span><span class="n">N</span><span class="p">],</span> <span class="n">cnt</span><span class="p">,</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">inv</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="kt">bool</span> <span class="n">st</span><span class="p">[</span><span class="n">N</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl"><span class="kt">int</span> <span class="nf">qmi</span><span class="p">(</span><span class="kt">int</span> <span class="n">a</span><span class="p">,</span> <span class="kt">int</span> <span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="kt">int</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">while</span> <span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="n">b</span> <span class="o">&amp;</span> <span class="mi">1</span><span class="p">)</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">1ll</span> <span class="o">*</span> <span class="n">res</span> <span class="o">*</span> <span class="n">a</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">a</span> <span class="o">=</span> <span class="mi">1ll</span> <span class="o">*</span> <span class="n">a</span> <span class="o">*</span> <span class="n">a</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="n">b</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">res</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="kt">void</span> <span class="nf">get_eulers</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">euler</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">st</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="n">primes</span><span class="p">[</span><span class="n">cnt</span> <span class="o">++</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="n">euler</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">primes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">j</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">            <span class="kt">int</span> <span class="n">t</span> <span class="o">=</span> <span class="n">primes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">i</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="n">st</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">%</span> <span class="n">primes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">                <span class="n">euler</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">euler</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">primes</span><span class="p">[</span><span class="n">j</span><span class="p">];</span>
-</span></span><span class="line"><span class="cl">                <span class="k">break</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">            <span class="p">}</span>
-</span></span><span class="line"><span class="cl">            <span class="n">euler</span><span class="p">[</span><span class="n">t</span><span class="p">]</span> <span class="o">=</span> <span class="n">euler</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">primes</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">        <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span> <span class="n">euler</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">euler</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">euler</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">%</span> <span class="p">(</span><span class="n">mod</span> <span class="o">-</span> <span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span><span class="line"><span class="cl"><span class="kt">signed</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">scanf</span><span class="p">(</span><span class="s">&#34;%d&#34;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">n</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">get_eulers</span><span class="p">(</span><span class="n">n</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span> <span class="n">fact</span> <span class="o">=</span> <span class="mi">1ll</span> <span class="o">*</span> <span class="n">fact</span> <span class="o">*</span> <span class="n">i</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">res</span> <span class="o">=</span> <span class="n">qmi</span><span class="p">(</span><span class="n">fact</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="n">n</span><span class="p">;</span> <span class="n">i</span> <span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">        <span class="n">inv</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1ll</span> <span class="o">*</span> <span class="n">inv</span> <span class="o">*</span> <span class="n">qmi</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">euler</span><span class="p">[</span><span class="n">n</span> <span class="o">/</span> <span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">%</span> <span class="n">mod</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">}</span>
-</span></span><span class="line"><span class="cl">    <span class="n">printf</span><span class="p">(</span><span class="s">&#34;%d</span><span class="se">\n</span><span class="s">&#34;</span><span class="p">,</span> <span class="mi">1ll</span> <span class="o">*</span> <span class="n">res</span> <span class="o">*</span> <span class="n">qmi</span><span class="p">(</span><span class="mi">1ll</span> <span class="o">*</span> <span class="n">inv</span> <span class="o">*</span> <span class="n">inv</span> <span class="o">%</span> <span class="n">mod</span><span class="p">,</span> <span class="n">mod</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">%</span> <span class="n">mod</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
-</div>
-</div></div><div class="post-footer">
-    <a href="/posts/cp%E6%B4%9B%E8%B0%B7-p5221-product/">阅读全文</a><div class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href='/tags/%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/' class="post-tag">莫比乌斯反演</a></div></div>
 </article><ul class="pagination"><li class="page-item">
           <span class="page-link">
             <a href="/">1</a>
