@@ -1253,6 +1253,18 @@ exploitNext(&#34;http://ctf.furryctf.com:37407/&#34;);
 
 ## Reverse
 
+### 签到题
+
+使用工具 https://github.com/Veysel072/VMPUnpacker/blob/master/python/vmpunpacker.py 脱壳
+
+![1](/image/CTF/furryCTF2025Official/qd1.png)
+
+IDA PRO 打开搜字符串 `POFP`
+
+![1](/image/CTF/furryCTF2025Official/qd2.png)
+
+答案：`POFP{Welcome_to_POFP!}`
+
 ### ezvm
 
 在 `v21 = *v18 - v20;` 处打断点
