@@ -21,6 +21,18 @@
     &lt;img width=&#34;500&#34; src=&#34;/image/game/diy/ezdiy_签名.png&#34;&gt;
 &lt;/center&gt;
 
+### 至臻 天龙之子 紫 EZ
+
+&lt;center&gt;
+    &lt;img width=&#34;500&#34; src=&#34;/image/game/diy/天龙之子_紫EZ.png&#34;&gt;
+&lt;/center&gt;
+
+### 机械先驱 维克托头
+
+&lt;center&gt;
+    &lt;img width=&#34;500&#34; src=&#34;/image/game/diy/机械先驱_维克托头.png&#34;&gt;
+&lt;/center&gt;
+
 ### 剪纸仙灵 绿刀妹
 
 &lt;center&gt;
