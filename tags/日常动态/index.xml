@@ -6,8 +6,16 @@
     <description>凌乱之风的博客</description>
     <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Wed, 04 Mar 2026 06:36:55 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 09 Mar 2026 10:26:40 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/tags/%E6%97%A5%E5%B8%B8%E5%8A%A8%E6%80%81/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>英雄联盟上翡翠总结</title>
+      <link>https://blog.messywind.top/posts/game%E4%B8%8A%E7%BF%A1%E7%BF%A0%E6%80%BB%E7%BB%93/</link>
+      <pubDate>Mon, 09 Mar 2026 11:00:00 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/game%E4%B8%8A%E7%BF%A1%E7%BF%A0%E6%80%BB%E7%BB%93/</guid>
+      <category domain="https://blog.messywind.top/categories/%E6%B8%B8%E6%88%8F/">游戏</category>
+      <description>记录一下入坑以来到现在上翡翠的心路历程。</description>
+    </item>
     <item>
       <title>过年</title>
       <link>https://blog.messywind.top/posts/misc%E8%BF%87%E5%B9%B4/</link>
@@ -39,6 +47,14 @@
       <guid>https://blog.messywind.top/posts/misc%E9%80%A0%E6%A2%A6%E8%A5%BF%E6%B8%B8-3-bgm/</guid>
       <category domain="https://blog.messywind.top/categories/%E8%AE%B0%E5%BD%95/">记录</category>
       <description>&lt;p&gt;今天听到造梦西游 3 BGM 很有感触，记录一下。&lt;/p&gt;&#xA;&lt;center&gt;&#xA;    &lt;img width=&#34;500&#34; src=&#34;https://blog.messywind.top/image/record/zmxy3bgm.png&#34;&gt;&#xA;&lt;/center&gt;</description>
+    </item>
+    <item>
+      <title>2024 英雄联盟 S14 全球总决赛 观赛感悟</title>
+      <link>https://blog.messywind.top/posts/game%E8%8B%B1%E9%9B%84%E8%81%94%E7%9B%9F-s14-%E6%80%BB%E5%86%B3%E8%B5%9B/</link>
+      <pubDate>Sat, 02 Nov 2024 22:00:00 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/game%E8%8B%B1%E9%9B%84%E8%81%94%E7%9B%9F-s14-%E6%80%BB%E5%86%B3%E8%B5%9B/</guid>
+      <category domain="https://blog.messywind.top/categories/%E6%B8%B8%E6%88%8F/">游戏</category>
+      <description>&lt;p&gt;虽然我英雄联盟只入坑了半年，峡谷也只有白银水平，今年也刚开始看英雄联盟比赛，但这次总决赛我能感受到 LPL 观众对于这次寄希望于全华班夺冠的厚重感。今年从春季赛看到世界赛，也看到了 BLG 的一路努力，从春季赛夺冠到 MSI 击败 T1 但惨败 GENG，夏季赛调整继续夺冠，再到世界赛瑞士轮前期越挫越勇 最后击败 G2 成功晋级八强，淘汰赛横扫 HLE，在四强承接着 WBG 意志走向决赛，目的就是在总决赛的舞台上大放异彩。&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

@@ -38,7 +38,7 @@
 | Atcoder | [https://atcoder.jp/users/messywind](https://atcoder.jp/users/messywind) |
 | 洛谷 | [https://www.luogu.com.cn/user/133351](https://www.luogu.com.cn/user/133351) |
 | **游戏** |  |
-| 英雄联盟 | 网 1/3/6 区：凌乱之风#37145&lt;br&gt;电 1：凌乱之风#73293 |
+| 英雄联盟 | 网 1/3/6 区：樱榴芝莲#49087&lt;br&gt;电 1：凌乱之风#73293 |
 | 无畏契约 | 国服：凌乱之风#4531 |
 | Steam | 凌乱之风 |
 | 网易暴雪 | 炉石传说/守望先锋：凌乱之风#51173 |
