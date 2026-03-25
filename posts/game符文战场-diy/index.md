@@ -7,7 +7,59 @@
 将图1的人物以及背景换为图2，其他任何字以及任何地方都要保持不变！图片尺寸严格生成为图1大小！尺寸：宽度744，高度1040
 ```
 
+```
+将图1的**人物以及背景**{{{完全替换}}}为图2，不要保留图1任何细节！但是**其他任何文字都要保持不变**！图片尺寸严格生成为图1大小！尺寸：宽度744，高度1040
+```
+
 ## DIY
+
+### T1 蔚
+
+&lt;center&gt;
+    &lt;img width=&#34;500&#34; src=&#34;/image/game/diy/T1_蔚.png&#34;&gt;
+&lt;/center&gt;
+
+### T1 蔚 签名
+
+&lt;center&gt;
+    &lt;img width=&#34;500&#34; src=&#34;/image/game/diy/T1_蔚_签名.png&#34;&gt;
+&lt;/center&gt;
+
+### IG 乐芙兰头
+
+&lt;center&gt;
+    &lt;img width=&#34;500&#34; src=&#34;/image/game/diy/IG_乐芙兰头.png&#34;&gt;
+&lt;/center&gt;
+
+### IG 乐芙兰头 签名
+
+&lt;center&gt;
+    &lt;img width=&#34;500&#34; src=&#34;/image/game/diy/IG_乐芙兰头_签名.png&#34;&gt;
+&lt;/center&gt;
+
+### 北极星神皎月头
+
+&lt;center&gt;
+    &lt;img width=&#34;500&#34; src=&#34;/image/game/diy/北极星神皎月头.png&#34;&gt;
+&lt;/center&gt;
+
+### 踏雪寻梅莉莉娅头
+
+&lt;center&gt;
+    &lt;img width=&#34;500&#34; src=&#34;/image/game/diy/踏雪寻梅莉莉娅头.png&#34;&gt;
+&lt;/center&gt;
+
+### 御剑传说剑圣头
+
+&lt;center&gt;
+    &lt;img width=&#34;500&#34; src=&#34;/image/game/diy/御剑传说剑圣头.png&#34;&gt;
+&lt;/center&gt;
+
+### 源计划剑圣头
+
+&lt;center&gt;
+    &lt;img width=&#34;500&#34; src=&#34;/image/game/diy/源计划剑圣头.png&#34;&gt;
+&lt;/center&gt;
 
 ### EZ 头 哥哥
 
