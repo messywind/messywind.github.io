@@ -6,8 +6,16 @@
     <description>凌乱之风的博客</description>
     <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 30 Mar 2026 11:14:14 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Apr 2026 06:46:01 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/tags/%E6%AF%94%E8%B5%9B/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>2026愚人节比赛</title>
+      <link>https://blog.messywind.top/posts/cp2026%E6%84%9A%E4%BA%BA%E8%8A%82%E6%AF%94%E8%B5%9B/</link>
+      <pubDate>Wed, 01 Apr 2026 00:00:00 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/cp2026%E6%84%9A%E4%BA%BA%E8%8A%82%E6%AF%94%E8%B5%9B/</guid>
+      <category domain="https://blog.messywind.top/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/">算法竞赛</category>
+      <description>2026愚人节比赛总结</description>
+    </item>
     <item>
       <title>山东理工大学第十六届ACM程序设计竞赛</title>
       <link>https://blog.messywind.top/posts/cp16%E5%B1%8A%E6%A0%A1%E8%B5%9B/</link>
