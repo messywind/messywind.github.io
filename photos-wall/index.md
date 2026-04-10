@@ -1,7 +1,6 @@
 # 照片墙
 
-{{&lt; nikon-wall &gt;}}
-
+{{&lt; apple-wall &gt;}}
 
 ---
 
