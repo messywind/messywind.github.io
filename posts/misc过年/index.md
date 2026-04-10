@@ -17,29 +17,17 @@
 
 思考了一下，大概在 2021 年及以后，拜年祭就变得无聊了起来，于是我除夕进行的活动就不知道该干什么了，在 2022 年甚至还开黑打起了 codeforces：
 
-&lt;center&gt;
-  &lt;figure&gt;
-    &lt;img width=&#34;500&#34; src=&#34;/image/record/newyear2026/cf.png&#34;&gt;
-    &lt;figcaption style=&#34;font-size: 12px;&#34;&gt;在 X 上翻到的（&lt;/figcaption&gt;
-  &lt;/figure&gt;
-&lt;/center&gt;
+{{&lt; image src=&#34;photo/record/newyear2026/cf.png&#34; width=&#34;500&#34; caption=&#34;在 X 上翻到的（&#34; &gt;}}
 
 于是从那时候到现在我的整个除夕活动都是被架空的，没有什么令我感到开心的事情可以做，以前还能玩会我喜欢的游戏，翻了一下贴吧 我 2016 年大概在玩创想兵团和 MC 服务器：
 
-&lt;center&gt;
-    &lt;img width=&#34;500&#34; src=&#34;/image/record/newyear2026/2016tb.png&#34;&gt;
-&lt;/center&gt;
+{{&lt; image src=&#34;photo/record/newyear2026/2016tb.png&#34; width=&#34;500&#34; caption=&#34;2016 贴吧&#34; &gt;}}
 
 当时用着一台配置很拉跨的电脑，但我只有回老家用这台电脑玩创想兵团是流畅的，在济南只能低帧率玩，我就非常珍惜寒假在淄博畅玩的时光，如今自己电脑配置也高了，但创想兵团变质了，其实说到底还是自己的心气变了，变得对很多事没有沉浸感了。
 
 再说到 MC 服务器，我大抵是在 2015 年过年的时候，第一次看拜年祭，被拜年祭惊艳到之后，登上莹冬世界服务器腐竹发跨年福利和红包，印象深刻，然后大年初一之后和初中同学开始疯狂挖矿、打怪。
 
-&lt;center&gt;
-    &lt;figure&gt;
-        &lt;img width=&#34;500&#34; src=&#34;/image/record/newyear2026/yd.png&#34;&gt;
-        &lt;figcaption style=&#34;font-size: 12px;&#34;&gt;我记得确实没错，这是 2015 年刚开服的时候&lt;/figcaption&gt;
-    &lt;/figure&gt;
-&lt;/center&gt;
+{{&lt; image src=&#34;photo/record/newyear2026/yd.png&#34; width=&#34;500&#34; caption=&#34;我记得确实没错，这是 2015 年刚开服的时候&#34; &gt;}}
 
 2014 年过年，我记忆也挺深刻的，那年好像没有回淄博过年，然后我沉迷于美食大战老鼠，在除夕下午我点了一张 9 星小火炉，疯狂拍桌子，兴奋了一晚上。
 

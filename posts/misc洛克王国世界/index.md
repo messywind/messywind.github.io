@@ -7,15 +7,11 @@
 
 顿时我眼角一湿，思绪直接把我拉回了 2010 年，我已然是注册了 15 年的小洛克😭
 
-&lt;center&gt;
-    &lt;img width=&#34;500&#34; src=&#34;/image/record/洛克.png&#34;&gt;
-&lt;/center&gt;
+{{&lt; image src=&#34;photo/record/rock/洛克.png&#34; width=&#34;500&#34; caption=&#34;洛克纪念&#34; &gt;}}
 
 于是登了一下网页版，看了背包：
 
-&lt;center&gt;
-    &lt;img width=&#34;500&#34; src=&#34;/image/record/洛克背包.png&#34;&gt;
-&lt;/center&gt;
+{{&lt; image src=&#34;photo/record/rock/洛克背包.png&#34; width=&#34;500&#34; caption=&#34;洛克背包&#34; &gt;}}
 
 看着一个个宠物，曾经我对他们是那么的熟悉，如今看到他们又是如此陌生，被我抛弃了十多年的他们现在还在背包里守护着，可曾记得他们带我过了一个个 BOSS，打通了一关关神殿……
 

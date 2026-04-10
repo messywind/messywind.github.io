@@ -19,29 +19,17 @@
 
 ---
 
-&lt;center&gt;
-    &lt;img width=&#34;500&#34; src=&#34;/image/record/fc3/1.png&#34;&gt;
-&lt;/center&gt;
+{{&lt; image src=&#34;photo/record/fc3/1.png&#34; width=&#34;500&#34; caption=&#34;对峙&#34; &gt;}}
 
-&lt;center&gt;
-    &lt;img width=&#34;500&#34; src=&#34;/image/record/fc3/2.png&#34;&gt;
-&lt;/center&gt;
+{{&lt; image src=&#34;photo/record/fc3/2.png&#34; width=&#34;500&#34; caption=&#34;和我玩儿脏？&#34; &gt;}}
 
-&lt;center&gt;
-    &lt;img width=&#34;500&#34; src=&#34;/image/record/fc3/3.png&#34;&gt;
-&lt;/center&gt;
+{{&lt; image src=&#34;photo/record/fc3/3.png&#34; width=&#34;500&#34; caption=&#34;弯道超车&#34; &gt;}}
 
-&lt;center&gt;
-    &lt;img width=&#34;500&#34; src=&#34;/image/record/fc3/4.png&#34;&gt;
-&lt;/center&gt;
+{{&lt; image src=&#34;photo/record/fc3/4.png&#34; width=&#34;500&#34; caption=&#34;不平等谈判&#34; &gt;}}
 
-&lt;center&gt;
-    &lt;img width=&#34;500&#34; src=&#34;/image/record/fc3/5.png&#34;&gt;
-&lt;/center&gt;
+{{&lt; image src=&#34;photo/record/fc3/5.png&#34; width=&#34;500&#34; caption=&#34;胜利冲刺&#34; &gt;}}
 
-&lt;center&gt;
-    &lt;img width=&#34;500&#34; src=&#34;/image/record/fc3/6.png&#34;&gt;
-&lt;/center&gt;
+{{&lt; image src=&#34;photo/record/fc3/6.png&#34; width=&#34;500&#34; caption=&#34;齐心协力&#34; &gt;}}
 
 ---
 
