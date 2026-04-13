@@ -13,6 +13,24 @@
 
 ## DIY
 
+### IG 剑姬
+
+&lt;center&gt;
+    &lt;img width=&#34;500&#34; src=&#34;/image/game/diy/IG_剑姬头.png&#34;&gt;
+&lt;/center&gt;
+
+### IG 剑姬 thshy 签名
+
+&lt;center&gt;
+    &lt;img width=&#34;500&#34; src=&#34;/image/game/diy/IG剑姬头_theshy签字.png&#34;&gt;
+&lt;/center&gt;
+
+### 15周年轮子妈头
+
+&lt;center&gt;
+    &lt;img width=&#34;500&#34; src=&#34;/image/game/diy/15周年轮子妈头.png&#34;&gt;
+&lt;/center&gt;
+
 ### T1 蔚
 
 &lt;center&gt;
