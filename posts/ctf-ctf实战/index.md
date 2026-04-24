@@ -239,5 +239,5 @@ YcXLwTDwqX&#43;cVXAO0g8dfvA6xLVnU8/w1IXfJ9wsjbr95WhqxBZSTkQtHxw/&#43;RXSb2SRCSn3
 ---
 
 > 作者: [凌乱之风](https://github.com/messywind)  
-> URL: https://blog.messywind.top/posts/ctf%E9%BD%90%E9%B2%81%E5%A3%B9%E7%82%B9/  
+> URL: https://blog.messywind.top/posts/ctf-ctf%E5%AE%9E%E6%88%98/  
 
