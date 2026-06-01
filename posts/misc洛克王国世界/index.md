@@ -3,15 +3,15 @@
 
 今天是洛克王国世界开服日，一早我就看到了开服消息，于是早饭的时候手机下了一个，下好之后去工位开玩，一进入游戏就想跳过剧情，然后注册 ID，进入地图新手引导后听到了页游经典 BGM 的改编。剧情引导我和路边小怪打，直到我进入战斗后，突然一阵熟悉又悦耳的 BGM 从我耳机中传来：
 
-{{&lt; video src=&#34;/video/record/洛克.mp4&#34; &gt;}}
+{{&lt; video src=&#34;https://img.messywind.top/blog/video/record/%E6%B4%9B%E5%85%8B.mp4&#34; &gt;}}
 
 顿时我眼角一湿，思绪直接把我拉回了 2010 年，我已然是注册了 15 年的小洛克😭
 
-{{&lt; image src=&#34;photo/record/rock/洛克.png&#34; width=&#34;500&#34; caption=&#34;洛克纪念&#34; &gt;}}
+{{&lt; image src=&#34;https://img.messywind.top/blog/photo/record/rock/%E6%B4%9B%E5%85%8B.png&#34; width=&#34;500&#34; caption=&#34;洛克纪念&#34; &gt;}}
 
 于是登了一下网页版，看了背包：
 
-{{&lt; image src=&#34;photo/record/rock/洛克背包.png&#34; width=&#34;500&#34; caption=&#34;洛克背包&#34; &gt;}}
+{{&lt; image src=&#34;https://img.messywind.top/blog/photo/record/rock/%E6%B4%9B%E5%85%8B%E8%83%8C%E5%8C%85.png&#34; width=&#34;500&#34; caption=&#34;洛克背包&#34; &gt;}}
 
 看着一个个宠物，曾经我对他们是那么的熟悉，如今看到他们又是如此陌生，被我抛弃了十多年的他们现在还在背包里守护着，可曾记得他们带我过了一个个 BOSS，打通了一关关神殿……
 

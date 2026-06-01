@@ -4,7 +4,7 @@
 ## 模型
 模型由多层感知机构成，每层有若干个神经元，第一层是输入层，最后一层是输出层。如下图所示
 
-![1](/image/ML/5.jpg)
+![1](https://img.messywind.top/blog/image/ML/5.jpg)
 
 
 
@@ -12,7 +12,7 @@
 
 ### 神经元
 
-![1](/image/ML/6.jpg)
+![1](https://img.messywind.top/blog/image/ML/6.jpg)
 
 每个节点就是一个神经元，从图中不难发现上一层的每个神经元都有一条边连向该神经元，其中边有边权 $w$
 
@@ -116,7 +116,7 @@ $$
 
 拿 $a^{l - 1}_1$ 举例子，如下图
 
-![1](/image/ML/7.jpg)
+![1](https://img.messywind.top/blog/image/ML/7.jpg)
 
 所以我们可以先把 $C$ 看成 $z^l_1, z^l_2, \cdots, z^l_k$ 的复合函数。
 

@@ -34,7 +34,7 @@ REOREREREREREOREREREREREREOOOREOREREREREOREREREOREREREOOREOREREREREOREREREREREOR
 解码得到 flag：
 
 
-![1](/image/CTF/furryCTF2025/oreo.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025/oreo.png)
 
 ### IIS服务器
 
@@ -42,7 +42,7 @@ REOREREREREREOREREREREREREOOOREOREREREREOREREREOREREREOOREOREREREREOREREREREREOR
 
 文件 -&gt; 导出对象 -&gt; HTTP：
 
-![1](/image/CTF/furryCTF2025/iis.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025/iis.png)
 
 找到 `f12g.txt`
 
@@ -60,13 +60,13 @@ Base64 解密即可。
 
 执行命令 `!analyze -v`
 
-![1](/image/CTF/furryCTF2025/passdump1.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025/passdump1.png)
 
 看一下日志，是 `nvlddmkm.sys` 显卡驱动文件导致的蓝屏问题。
 
 其中错误代码为 `116`，这个时间为超时检测和恢复 (Timeout Detection and Recovery) 简称 TDR
 
-![1](/image/CTF/furryCTF2025/passdump3.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025/passdump3.png)
 
 执行命令 `lm v m nvlddmkm` 查看最后一次编译时间。
 
@@ -80,11 +80,11 @@ Timestamp 这一行就是时间。
 
 于是将他后缀改为 `.zip`，解压，在 `xl/sharedStrings.xml` 发现零宽隐写。
 
-![1](/image/CTF/furryCTF2025/manghe.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025/manghe.png)
 
 解密
 
-![1](/image/CTF/furryCTF2025/manghe2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025/manghe2.png)
 
 ### Miscode
 
@@ -143,7 +143,7 @@ Timestamp 这一行就是时间。
 
 开一下 WSL，在该目录下执行命令 `samdump2 SYSTEM SAM`
 
-![1](/image/CTF/furryCTF2025/sam1.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025/sam1.png)
 
 furryCTF 账户密码的 NTLM 加密就是：
 
@@ -162,7 +162,7 @@ hashcat -m 1000 -a 3 861bd8bac91cac40013172f47ab784a4 ?l?l?l?l?l?s?a?a?a
 
 由于数量级很高，我的显卡和 CPU太垃圾了，于是租一台 5090 在 4min 就爆破出来了！
 
-![1](/image/CTF/furryCTF2025/sam2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025/sam2.png)
 
 密码是 `robin@0w0`
 
@@ -180,7 +180,7 @@ question = input(&#34;&#34;).decode(&#39;utf-8&#39;)
 
 测试一下：
 
-![1](/image/CTF/furryCTF2025/deep1.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025/deep1.png)
 
 发现得到了 246，说明存在漏洞。
 
@@ -196,21 +196,21 @@ str(getattr(getattr(__builtins__, &#39;ope&#39; &#43; &#39;n&#39;)(&#39;fl&#39; 
 
 `.encode(&#39;hex&#39;)` 可以避免后端会检查执行结果是否包含 `furryCTF{}`
 
-![1](/image/CTF/furryCTF2025/deep2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025/deep2.png)
 
-![1](/image/CTF/furryCTF2025/deep3.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025/deep3.png)
 
 ### 固若金汤
 
 题面提示到 dirsearch 有惊喜，扫一下：
 
-![1](/image/CTF/furryCTF2025/gu1.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025/gu1.png)
 
 是 Git 源码泄露。
 
 使用 Githack 将源码拉下来，发现了 `app.py` 和 `config.py`
 
-![1](/image/CTF/furryCTF2025/gu2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025/gu2.png)
 
 ```python{title=&#34;config.py&#34;}
 import os
@@ -227,7 +227,7 @@ SECRET_KEY_FALLBACKS = [&#34;This_key_has_been_deprecated_v2023&#34;]
 
 `app.py` 中的关键信息：
 
-![1](/image/CTF/furryCTF2025/gu3.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025/gu3.png)
 
 这是一个服务端模板注入 (SSTI)
 
@@ -243,7 +243,7 @@ eyJyb2xlIjoiYWRtaW4ifQ.aVtslQ.eWu6ElOxsMyhyeYaIoMeOVDq-lM
 
 发现已经验证为了管理员：
 
-![1](/image/CTF/furryCTF2025/gu4.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025/gu4.png)
 
 构造 Payload
 
@@ -251,7 +251,7 @@ eyJyb2xlIjoiYWRtaW4ifQ.aVtslQ.eWu6ElOxsMyhyeYaIoMeOVDq-lM
 http://ctf.furryctf.com:32780/?u={{config.__class__.__init__.__globals__[&#39;os&#39;].popen(&#39;cat /flag&#39;).read()}}
 ```
 
-![1](/image/CTF/furryCTF2025/gu5.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025/gu5.png)
 
 ## Reverse
 
@@ -259,7 +259,7 @@ http://ctf.furryctf.com:32780/?u={{config.__class__.__init__.__globals__[&#39;os
 
 打开 `IDA Pro`，`Shift &#43; F12` 查找字符串。
 
-![1](/image/CTF/furryCTF2025/getflag1.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025/getflag1.png)
 
 ## OSINT
 
@@ -270,11 +270,11 @@ http://ctf.furryctf.com:32780/?u={{config.__class__.__init__.__globals__[&#39;os
 然后百度地图随便找找，找到了地点。
 
 &lt;div align=&#34;center&#34;&gt;
-  &lt;img src=&#34;/image/CTF/furryCTF2025/osintmaster1.png&#34; width=&#34;300&#34; /&gt;
+  &lt;img src=&#34;https://img.messywind.top/blog/image/CTF/furryCTF2025/osintmaster1.png&#34; width=&#34;300&#34; /&gt;
 &lt;/div&gt;
 
 &lt;div align=&#34;center&#34;&gt;
-  &lt;img src=&#34;/image/CTF/furryCTF2025/osintmaster2.png&#34; width=&#34;300&#34; /&gt;
+  &lt;img src=&#34;https://img.messywind.top/blog/image/CTF/furryCTF2025/osintmaster2.png&#34; width=&#34;300&#34; /&gt;
 &lt;/div&gt;
 
 ---

@@ -1,7 +1,7 @@
 # 被讨厌的勇气
 
 &lt;center&gt;
-	&lt;embed src=&#34;/pdf/e-book/被讨厌的勇气.pdf&#34; width=&#34;1050&#34; height=&#34;1000&#34;&gt;
+	&lt;embed src=&#34;https://img.messywind.top/blog/pdf/e-book/%E8%A2%AB%E8%AE%A8%E5%8E%8C%E7%9A%84%E5%8B%87%E6%B0%94.pdf&#34; width=&#34;1050&#34; height=&#34;1000&#34;&gt;
 &lt;/center&gt;
 
 ## 读书笔记

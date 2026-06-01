@@ -117,7 +117,7 @@ plt.imshow(dists, interpolation=&#39;none&#39;)
 plt.show()
 ```
 
-![](/image/ML/CS231n/1.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/1.png)
 
 #### Inline Question 1
 
@@ -585,7 +585,7 @@ plt.xticks(np.arange(min(k_choices), max(k_choices) &#43; 1, 4))
 plt.ylabel(&#39;Cross-validation accuracy&#39;)
 plt.show()
 ```
-![](/image/ML/CS231n/2.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/2.png)
 
 选一个最佳 $k$ 来预测数据，这里选择 $k = 10$，要求准确率应该在 28% 以上。
 
@@ -639,7 +639,7 @@ ${\textit Your Explanation:}$ 1 显然不对，2、3 直接看结果，4 确实�
 
 还是那个数据集，这次先减去一个图像像素的平均值。然后因为是 SVM，所以 `np.ones` 加上一个 $1$ 的偏置。
 
-![1](/image/ML/CS231n/wb.jpeg)
+![1](https://img.messywind.top/blog/image/ML/CS231n/wb.jpeg)
 
 ```Python
 # Preprocessing: subtract the mean image
@@ -673,7 +673,7 @@ print(X_train.shape, X_val.shape, X_test.shape, X_dev.shape)
 
 多类别支持向量机 &#34;希望 &#34;正确类别的得分至少比所有其他类别的得分高出 delta 值。 如果任何一个类别的得分在红色区域内（或更高），那么就会有累计损失。 否则，损失为零。 我们的目标是为训练数据中的所有示例找到同时满足这一约束条件的权重，并尽可能降低总损失。
 
-![1](/image/ML/CS231n/margin.jpg)
+![1](https://img.messywind.top/blog/image/ML/CS231n/margin.jpg)
 
 除此之外，还要加上一个正则化损失，一般是 L2：
 
@@ -1032,7 +1032,7 @@ iteration 1400 / 1500: loss 5.307236
 That took 7.161625s
 ```
 
-![1](/image/ML/CS231n/3.png)
+![1](https://img.messywind.top/blog/image/ML/CS231n/3.png)
 
 #### TODO: 使用不同学习率和正则化参数
 
@@ -1116,7 +1116,7 @@ best validation accuracy achieved during cross-validation: 0.379000
 ```
 可视化权重：
 
-![1](/image/ML/CS231n/4.png)
+![1](https://img.messywind.top/blog/image/ML/CS231n/4.png)
 
 #### Inline question 2
 
@@ -1148,7 +1148,7 @@ ${\textit Your Answer:}$
 
 ### Q3: Implement a Softmax classifier
 
-![1](/image/ML/CS231n/softmax.webp)
+![1](https://img.messywind.top/blog/image/ML/CS231n/softmax.webp)
 
 #### SoftMax 损失函数
 
@@ -1510,7 +1510,7 @@ ${\textit Your Explanation:}$
 
 可视化权重：
 
-![1](/image/ML/CS231n/5.png)
+![1](https://img.messywind.top/blog/image/ML/CS231n/5.png)
 
 ### Q4: Two-Layer Neural Network
 
@@ -2801,7 +2801,7 @@ plt.show()
 (Epoch 20 / 20) train acc: 1.000000; val_acc: 0.120000
 ```
 
-![](/image/ML/CS231n/6.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/6.png)
 
 #### TODO: Use a five-layer Net to overfit 50 training examples by tweaking just the learning rate and initialization scale.
 
@@ -2873,7 +2873,7 @@ plt.show()
 (Epoch 19 / 20) train acc: 1.000000; val_acc: 0.131000
 (Epoch 20 / 20) train acc: 1.000000; val_acc: 0.131000
 ```
-![](/image/ML/CS231n/7.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/7.png)
 
 #### Inline Question 1
 
@@ -2950,7 +2950,7 @@ velocity error:  4.269287743278663e-09
 ```
 对比
 
-![](/image/ML/CS231n/8.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/8.png)
 
 #### TODO: RMSProp
 
@@ -3085,7 +3085,7 @@ m error:  4.214963193114416e-09
 
 整体对比：
 
-![](/image/ML/CS231n/9.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/9.png)
 
 #### Inline Question 2
 
@@ -3208,9 +3208,9 @@ Test set accuracy:  0.483
 
 核心公式：
 
-![](/image/ML/CS231n/bn1.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/bn1.png)
 
-![](/image/ML/CS231n/bn2.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/bn2.png)
 
 #### TODO: batchnorm_forward
 
@@ -3456,11 +3456,11 @@ gamma1 relative error: 5.94e-09
 gamma2 relative error: 4.14e-09
 ```
 
-![](/image/ML/CS231n/10.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/10.png)
 
-![](/image/ML/CS231n/11.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/11.png)
 
-![](/image/ML/CS231n/12.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/12.png)
 
 #### Inline Question 1:
 Describe the results of this experiment. How does the weight initialization scale affect models with/without batch normalization differently, and why?
@@ -3658,7 +3658,7 @@ dbeta error:  2.276445013433725e-12
 
 对比：
 
-![](/image/ML/CS231n/13.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/13.png)
 
 #### Inline Question 3:
 Which of these data preprocessing steps is analogous to batch normalization, and which is analogous to layer normalization?
@@ -3702,7 +3702,7 @@ When is layer normalization likely to not work well, and why?
 
 简单来说就是前向传播的时候会随机把一些神经元的值变为 0，可以缓解过拟合。
 
-![](/image/ML/CS231n/dropout.jpeg)
+![](https://img.messywind.top/blog/image/ML/CS231n/dropout.jpeg)
 
 #### TODO: dropout_forward
 
@@ -3907,7 +3907,7 @@ b3 relative error: 1.13e-10
 
 训练对比：
 
-![](/image/ML/CS231n/14.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/14.png)
 
 #### Inline Question 2:
 Compare the validation and training accuracies with and without dropout -- what do your results suggest about dropout as a regularizer?
@@ -4008,7 +4008,7 @@ Testing conv_forward_naive
 difference:  2.2121476417505994e-08
 ```
 
-![](/image/ML/CS231n/15.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/15.png)
 
 #### TODO: conv_backward_naive
 
@@ -4441,7 +4441,7 @@ Small data training accuracy: 0.82
 Small data validation accuracy: 0.252
 ```
 
-![](/image/ML/CS231n/16.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/16.png)
 
 Train the Network
 
@@ -4453,7 +4453,7 @@ Full data validation accuracy: 0.499
 
 Visualize Filters
 
-![](/image/ML/CS231n/17.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/17.png)
 
 spatial batchnorm 和 spatial groupnorm 不太会，抄个代码鸽一下。
 
@@ -5226,7 +5226,7 @@ Got 803 / 1000 correct (80.30)
 
 RNN 结构模型图如下：
 
-![](/image/ML/CS231n/rnn1.webp)
+![](https://img.messywind.top/blog/image/ML/CS231n/rnn1.webp)
 
 特点就是可以保留历史信息，其中 $x$ 可以代表一个单词向量，$x_t$ 是第 $t$ 个单词向量 (也叫做 $t$ 时刻)，图中的 $W, U, V$ 是每个时刻共用的参数。
 模型公式：
@@ -5238,7 +5238,7 @@ $$
 
 在 CS231n 中，基本模型如下：
 
-![](/image/ML/CS231n/rnn2.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/rnn2.png)
 
 先从单步模型看起：
 
@@ -6230,16 +6230,16 @@ class CaptioningTransformer(nn.Module):
 
 训练结果：
 
-![](/image/ML/CS231n/trans.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/trans.png)
 
 ```
 Final loss:  0.041785274
 ```
-![](/image/ML/CS231n/transoutput1.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/transoutput1.png)
 
-![](/image/ML/CS231n/transoutput2.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/transoutput2.png)
 
-![](/image/ML/CS231n/transoutput3.png)
+![](https://img.messywind.top/blog/image/ML/CS231n/transoutput3.png)
 
 ## 参考
 

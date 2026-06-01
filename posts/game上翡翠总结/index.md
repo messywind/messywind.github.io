@@ -4,7 +4,7 @@
 记录一下入坑以来到现在上翡翠的心路历程。
 
 &lt;center&gt;
-    &lt;img width=&#34;500&#34; src=&#34;/image/game/lol/翡翠.png&#34;&gt;
+    &lt;img width=&#34;500&#34; src=&#34;https://img.messywind.top/blog/image/game/lol/%E7%BF%A1%E7%BF%A0.png&#34;&gt;
 &lt;/center&gt;
 
 
@@ -13,21 +13,21 @@
 
 &lt;center&gt;
     &lt;figure&gt;
-        &lt;img width=&#34;500&#34; src=&#34;/image/game/lol/时长数.png&#34;&gt;
+        &lt;img width=&#34;500&#34; src=&#34;https://img.messywind.top/blog/image/game/lol/%E6%97%B6%E9%95%BF%E6%95%B0.png&#34;&gt;
         &lt;figcaption style=&#34;font-size: 12px;&#34;&gt; WeGame 统计时长&lt;/figcaption&gt;
     &lt;/figure&gt;
 &lt;/center&gt;
 
 &lt;center&gt;
     &lt;figure&gt;
-        &lt;img width=&#34;500&#34; src=&#34;/image/game/lol/凯隐场次.png&#34;&gt;
+        &lt;img width=&#34;500&#34; src=&#34;https://img.messywind.top/blog/image/game/lol/%E5%87%AF%E9%9A%90%E5%9C%BA%E6%AC%A1.png&#34;&gt;
         &lt;figcaption style=&#34;font-size: 12px;&#34;&gt;左边网一右边电一&lt;/figcaption&gt;
     &lt;/figure&gt;
 &lt;/center&gt;
 
 &lt;center&gt;
     &lt;figure&gt;
-        &lt;img width=&#34;500&#34; src=&#34;/image/game/lol/排位赛段.png&#34;&gt;
+        &lt;img width=&#34;500&#34; src=&#34;https://img.messywind.top/blog/image/game/lol/%E6%8E%92%E4%BD%8D%E8%B5%9B%E6%AE%B5.png&#34;&gt;
         &lt;figcaption style=&#34;font-size: 12px;&#34;&gt;排位赛段&lt;/figcaption&gt;
     &lt;/figure&gt;
 &lt;/center&gt;
@@ -50,7 +50,7 @@
 跟他们打完几局之后我又觉得我行了，同时等级也来到了 30 级，可以开始排位了，于是我就打排位，一开始定级赛压力特别大，我还是对局里梦游，结果直接定了个黑铁 Ⅲ，于是一烂再栏赛段末 42% 胜率黑铁 Ⅳ，成功抵达英雄联盟最菜的段位。
 
 &lt;center&gt;
-  &lt;img width=&#34;500&#34; src=&#34;/image/game/lol/s141.png&#34;&gt;
+  &lt;img width=&#34;500&#34; src=&#34;https://img.messywind.top/blog/image/game/lol/s141.png&#34;&gt;
 &lt;/center&gt;
 
 ### 黄铜
@@ -58,7 +58,7 @@
 到了第二赛段，由于朋友都在网一我就去网一了，正好我也想重新定位一下。于是又打匹配打到了 30 级，开始打五把定位赛，还是黑铁，于是我就以摆烂的心态一直不顾思考的玩，堆了一些很无效的场数，还是仍旧埋头刷野、不抓人。到了赛季末，靠堆场次混到了黄铜 Ⅳ，46% 胜率。
 
 &lt;center&gt;
-  &lt;img width=&#34;500&#34; src=&#34;/image/game/lol/s142.png&#34;&gt;
+  &lt;img width=&#34;500&#34; src=&#34;https://img.messywind.top/blog/image/game/lol/s142.png&#34;&gt;
 &lt;/center&gt;
 
 ### 白银
@@ -68,13 +68,13 @@
 
 
 &lt;center&gt;
-  &lt;img width=&#34;500&#34; src=&#34;/image/game/lol/s143.png&#34;&gt;
+  &lt;img width=&#34;500&#34; src=&#34;https://img.messywind.top/blog/image/game/lol/s143.png&#34;&gt;
 &lt;/center&gt;
 
 灵活强度上去了，我的水平也逐渐水涨船高，在磨练过后，我再去自己打单双排，发现打黄铜局已经游刃有余，终于在 2024 年 10 月 20 号，我最后一局斩获 MVP，成功自己打上了白银，截图纪念了一下！
 
 &lt;center&gt;
-  &lt;img width=&#34;500&#34; src=&#34;/image/game/lol/白银.png&#34;&gt;
+  &lt;img width=&#34;500&#34; src=&#34;https://img.messywind.top/blog/image/game/lol/%E7%99%BD%E9%93%B6.png&#34;&gt;
 &lt;/center&gt;
 
 
@@ -85,7 +85,7 @@
 于是在 S15 第一赛段赛季末，以 60% 的胜率上了单双排黄金！
 
 &lt;center&gt;
-  &lt;img width=&#34;500&#34; src=&#34;/image/game/lol/s151.png&#34;&gt;
+  &lt;img width=&#34;500&#34; src=&#34;https://img.messywind.top/blog/image/game/lol/s151.png&#34;&gt;
 &lt;/center&gt;
 
 
@@ -96,7 +96,7 @@
 所以这次我决定自己打翡翠局！于是花了 400R 找了个小代，只玩凯隐让他帮我从黄金打到了翡翠。
 
 &lt;center&gt;
-  &lt;img width=&#34;500&#34; src=&#34;/image/game/lol/s152.png&#34;&gt;
+  &lt;img width=&#34;500&#34; src=&#34;https://img.messywind.top/blog/image/game/lol/s152.png&#34;&gt;
 &lt;/center&gt;
 
 
@@ -111,7 +111,7 @@
 即便这样，我仍旧以 38% 的负胜率在赛季末变成了铂金 Ⅳ，同时进行了 231 把灵活排位，S15 一整个赛季就以这样收尾了。
 
 &lt;center&gt;
-  &lt;img width=&#34;500&#34; src=&#34;/image/game/lol/s153.png&#34;&gt;
+  &lt;img width=&#34;500&#34; src=&#34;https://img.messywind.top/blog/image/game/lol/s153.png&#34;&gt;
 &lt;/center&gt;
 
 ### 翡翠
@@ -131,7 +131,7 @@
 到这里我认为我能做到的已经很多了，英雄联盟在 S14.2 版本公布了一张段位分布图如下：
 
 &lt;center&gt;
-  &lt;img width=&#34;500&#34; src=&#34;/image/game/lol/段位分布.png&#34;&gt;
+  &lt;img width=&#34;500&#34; src=&#34;https://img.messywind.top/blog/image/game/lol/%E6%AE%B5%E4%BD%8D%E5%88%86%E5%B8%83.png&#34;&gt;
 &lt;/center&gt;
 
 可以看到钻石及以上的玩家仅占 4.35%，上钻石是需要一些天赋的，无论在哪个区、哪个服。我自认为我目前及其以后还没有可以上钻石的水平，一方面因为英雄池很浅且只会打野，另一方面，之后的主要精力可能也不打算放在英雄联盟上了。

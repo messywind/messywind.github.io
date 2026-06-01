@@ -1,6 +1,6 @@
 # QQ 空间的两次删除
 
-{{&lt; image src=&#34;photo/record/misc/qqkj.png&#34; width=&#34;500&#34; caption=&#34;QQ&#34; &gt;}}
+{{&lt; image src=&#34;https://img.messywind.top/blog/photo/record/misc/qqkj.png&#34; width=&#34;500&#34; caption=&#34;QQ&#34; &gt;}}
 
 我两次都经历过，感觉当时玩 QQ 的大部分人也都经历过。
 

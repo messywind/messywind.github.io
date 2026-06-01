@@ -5,17 +5,17 @@
 
 ## 牛客2026年愚人节比赛
 
-![](/image/cp/nowcoder41.png)
+![](https://img.messywind.top/blog/image/cp/nowcoder41.png)
 
 先锐评一下题目：烂活有点多！最想吐槽的是 I 题，怎么答案还能和别的题的题面产生关联的。
 
 不过亮点是，B 题的弹幕还是比较有意思的。
 
-![](/image/cp/nowcoder41B.png)
+![](https://img.messywind.top/blog/image/cp/nowcoder41B.png)
 
 ## April Fools Day Contest 2026
 
-![](/image/cp/cf41.png)
+![](https://img.messywind.top/blog/image/cp/cf41.png)
 
 CF 的其实也还行。不过有些题也是烂活。
 
@@ -102,7 +102,7 @@ Questions:
 
 然后根据他的 AC 顺序的题号，答案字符串就是 `bigchadjeff`
 
-![](/image/cp/cf41G.png)
+![](https://img.messywind.top/blog/image/cp/cf41G.png)
 
 ### H. Double Vision
 
@@ -112,7 +112,7 @@ Questions:
 
 可以使用妙妙工具 [Stereogram solver](https://piellardj.github.io/stereogram-solver/)
 
-![](/image/cp/cf41H.png)
+![](https://img.messywind.top/blog/image/cp/cf41H.png)
 
 ### J. Special Problem
 

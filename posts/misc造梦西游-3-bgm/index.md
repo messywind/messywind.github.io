@@ -3,7 +3,7 @@
 
 今天听到造梦西游 3 BGM 很有感触，记录一下。
 
-{{&lt; image src=&#34;photo/record/misc/zmxy3bgm.png&#34; width=&#34;500&#34; caption=&#34;评论&#34; &gt;}}
+{{&lt; image src=&#34;https://img.messywind.top/blog/photo/record/misc/zmxy3bgm.png&#34; width=&#34;500&#34; caption=&#34;评论&#34; &gt;}}
 
 ---
 

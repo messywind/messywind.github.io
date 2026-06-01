@@ -4,13 +4,13 @@
 ## 核心论文：Attention Is All You Need
 
 &lt;center&gt;
-	&lt;embed src=&#34;/pdf/Attention Is All You Need.pdf&#34; width=&#34;1050&#34; height=&#34;1000&#34;&gt;
+	&lt;embed src=&#34;https://img.messywind.top/blog/pdf/Attention%20Is%20All%20You%20Need.pdf&#34; width=&#34;1050&#34; height=&#34;1000&#34;&gt;
 &lt;/center&gt;
 
 ## 结构
 
 &lt;center&gt;
-  &lt;img width=&#34;500&#34; alt=&#34;image&#34; src=&#34;/image/ML/transformer1.png&#34;&gt;
+  &lt;img width=&#34;500&#34; alt=&#34;image&#34; src=&#34;https://img.messywind.top/blog/image/ML/transformer1.png&#34;&gt;
 &lt;/center&gt;
 
 ## 输入
@@ -25,9 +25,9 @@
 
 在训练时，输入包含原句子和翻译后的句子，分别输入到 Inputs 和 Outputs，其中 Outputs 需要右移一位，在句子开始加一个标志 `&lt;begin&gt;`，用来后续方便处理掩码。
 
-![](/image/ML/word2vec.png)
+![](https://img.messywind.top/blog/image/ML/word2vec.png)
 
-![](/image/ML/embedding.png)
+![](https://img.messywind.top/blog/image/ML/embedding.png)
 
 ### Positional Encoding
 
@@ -52,7 +52,7 @@ $$
 
 #### 结构：
 
-![](/image/ML/Attention.png)
+![](https://img.messywind.top/blog/image/ML/Attention.png)
 
 #### 公式：
 
@@ -64,17 +64,17 @@ $$
 
 首先，需要将输入的每个词向量分别乘上 $W_Q, W_K, W_V$ 矩阵才变成 $Q, K, V$，其中 $W_Q, W_K, W_V$ 是学习参数。
 
-![](/image/ML/wq.png)
+![](https://img.messywind.top/blog/image/ML/wq.png)
 
 然后将 $Q$ 和 $K^\top$ 做矩阵乘法，得到一个分数矩阵，每一列相当于该单词与各个单词分别做内积，值越大，相关度越高。
 
-![](/image/ML/qk.png)
+![](https://img.messywind.top/blog/image/ML/qk.png)
 
 随后再将每个值除以 $\sqrt{d_k}$，这个是矩阵 $Q$ 的维度，因为避免数值过大影响梯度。
 
 之后对每一列进行 softmax，这样做的理由是使得值归一化，
 
-![](/image/ML/softmaxqk.png)
+![](https://img.messywind.top/blog/image/ML/softmaxqk.png)
 
 最终，再乘上 $V$，得到 attention
 
@@ -82,7 +82,7 @@ $$
 
 #### 结构：
 
-![](/image/ML/Multi-HeadAttention.jpg)
+![](https://img.messywind.top/blog/image/ML/Multi-HeadAttention.jpg)
 
 Multi-Head Attention 是由多个 Self-Attention 组合而成，这也叫多头注意力机制。
 
@@ -103,7 +103,7 @@ $$
 
 ### 结构：
 
-![](/image/ML/encoder.png)
+![](https://img.messywind.top/blog/image/ML/encoder.png)
 
 这一部分是 Encoder 的结构，可以看到是由 Multi-Head Attention, Add &amp; Norm, Feed Forward, Add &amp; Norm 组成的。其中 $N \times$ 的意思是有 $N$ 个重复的 Encoder 块堆叠起来。
 
@@ -121,7 +121,7 @@ $$
 
 Add 是指残差连接，通常用于解决多层网络训练的问题，可以让网络只关注当前差异的部分，在 ResNet 中经常用到，用于缓解梯度消失。
 
-![](/image/ML/res.png)
+![](https://img.messywind.top/blog/image/ML/res.png)
 
 Norm 指 Layer Normalization，通常用于 RNN 结构，Layer Normalization 会将每一层神经元的输入都转成均值方差都一样的，这样可以加快收敛。
 
@@ -140,7 +140,7 @@ $$
 
 ### 结构：
 
-![](/image/ML/decoder.png)
+![](https://img.messywind.top/blog/image/ML/decoder.png)
 
 这里的 $N \times$ 同样是 $N$ 个重复的 Decoder 层堆叠起来。
 

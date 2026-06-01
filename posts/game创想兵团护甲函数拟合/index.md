@@ -10,7 +10,7 @@ $$
 
 {{&lt; /admonition &gt;}}
 
-![2](/image/misc/armour.png)
+![2](https://img.messywind.top/blog/image/misc/armour.png)
 
 {{&lt; admonition info &#34;数据集&#34; false &gt;}}
 

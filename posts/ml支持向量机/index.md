@@ -34,7 +34,7 @@ $$
 
 正负样本中距离超平面最近的一些点，这些点叫做支持向量。
 
-![1](/image/ML/8.png)
+![1](https://img.messywind.top/blog/image/ML/8.png)
 
 ### 最优化
 
@@ -73,7 +73,7 @@ $$
 
 含义如下图所示：
 
-![1](/image/ML/9.png)
+![1](https://img.messywind.top/blog/image/ML/9.png)
 
 回顾我们要最大化的目标 $\dfrac{|w^\top x_i &#43; b|}{||w||}$，由于 $y_i (w^\top x_i &#43; b) \ge 1$，那么 $y_i (w^\top x_i &#43; b) = |w^\top x_i &#43; b|$，然后只考虑支持向量，那么 $y_i (w^\top x_i &#43; b) = 1$，再为了推导方便，我们将式子整体乘 $2$ (无影响)，原式变为 $\max \dfrac{2}{||w||}$，相当于 $\min \dfrac{||w||}{2}$，然后我们把 $||w||$ 加一个平方，因为 $x ^ 2$ 单调 (指大于 $0$ 时)不影响最小值点，式子变为
 
@@ -112,7 +112,7 @@ $$
 
 如下图所示 ($u$ 替换为 $x$)：
 
-![1](/image/ML/10.jpg)
+![1](https://img.messywind.top/blog/image/ML/10.jpg)
 
 综上所述，满足 $\alpha_i^* g(u*) = 0$，称作互补松弛。
 
@@ -260,11 +260,11 @@ $$
 
 假设现在是一个线性不可分的样本。
 
-![1](/image/ML/11.jpg)
+![1](https://img.messywind.top/blog/image/ML/11.jpg)
 
 我们可以把特征映射到更高维度。这样在高维就线性可分了。
 
-![1](/image/ML/12.jpg)
+![1](https://img.messywind.top/blog/image/ML/12.jpg)
 
 处理方式是将 $x_i, x_j$ 变为 $\Phi(x_i), \Phi(x_j)$，我们把核函数写做 $K(x_i, x_j)$
 

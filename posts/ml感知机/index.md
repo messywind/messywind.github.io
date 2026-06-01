@@ -22,7 +22,7 @@ $$
 
 对所有正类的数据集都有 $w \cdot x &#43; b &gt; 0$，负类数据集 $w \cdot x &#43; b &lt; 0$
 
-![1](/image/ML/4.png)
+![1](https://img.messywind.top/blog/image/ML/4.png)
 
 如上图，考虑两个特征 $x_1,x_2$，类型用 x 和 o 来表示，x 类型都在直线的下方，带入直线方程会发现均小于 $0$，那么 $\text{sign}$ 值就为 $-1$
 

@@ -13,7 +13,7 @@
 
 打开二维码发现是个微信小程序，于是用 Fiddle 抓包，抓到了一个获取个人信息的接口：
 
-![1](/image/CTF/qlyd/fiddle.png)
+![1](https://img.messywind.top/blog/image/CTF/qlyd/fiddle.png)
 
 ### 越权访问测试 (IDOR)
 
@@ -27,7 +27,7 @@
 
 但是，查出来的信息手机号、QQ 号、照片 URL 是加密的，说个搞笑的，headImag 的值和 showPhotos 字段（加密）的明文是一样的。
 
-![1](/image/CTF/qlyd/postman.png)
+![1](https://img.messywind.top/blog/image/CTF/qlyd/postman.png)
 
 尝试解密手机号，经观察得出这可能是个 AES 加密，没有密钥解不出来。
 
@@ -40,7 +40,7 @@
 于是打开 `Everything` 搜索 `Applet\` 目录，按时间排序，果然在
 `C:\Users\XXX\AppData\Roaming\Tencent\xwechat\radium\users\649164f56d150de9876f6a1df91c8200\applet\packages` 这个路径下找到了可疑的小程序文件夹。
 
-![1](/image/CTF/qlyd/applet.png)
+![1](https://img.messywind.top/blog/image/CTF/qlyd/applet.png)
 
 首先按时间排序，你无法确定是哪个小程序、叫什么名字。所以这里我想了个办法：直接删除所有目录，重启微信，第一时间打开这个小程序，然后在此目录刷新一下，新生成的目录就是要解包的小程序。
 
@@ -51,7 +51,7 @@
 
 解一下最新的前三个包。
 
-![1](/image/CTF/qlyd/jiebao.png)
+![1](https://img.messywind.top/blog/image/CTF/qlyd/jiebao.png)
 
 可以看到 3.3MB 的最可能是主程序，其他的是插件/组件。
 
@@ -193,7 +193,7 @@ var r = &#34;MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCvT0vHJn/iebE3GIjng5efC67tZrR
 
 所以我们可以直接自己请求伪造一个 16 位的密钥，用他的 RSA 公钥加密，比如说我密钥就为 `1234567812345678`，使用 RSA 生成一个明文：
 
-![1](/image/CTF/qlyd/rsa.png)
+![1](https://img.messywind.top/blog/image/CTF/qlyd/rsa.png)
 
 那么我只需要把这个
 ```Base64
@@ -203,11 +203,11 @@ YcXLwTDwqX&#43;cVXAO0g8dfvA6xLVnU8/w1IXfJ9wsjbr95WhqxBZSTkQtHxw/&#43;RXSb2SRCSn3
 
 用 URL 编码将此 Base64 串编一下发请求，果然，依旧可以请求成功：
 
-![1](/image/CTF/qlyd/伪造请求.png)
+![1](https://img.messywind.top/blog/image/CTF/qlyd/%E4%BC%AA%E9%80%A0%E8%AF%B7%E6%B1%82.png)
 
 并且我们拿到一个属于我们自己的 AES 明文，直接填入自己伪造的密钥进行解密：
 
-![1](/image/CTF/qlyd/aes.png)
+![1](https://img.messywind.top/blog/image/CTF/qlyd/aes.png)
 
 这里 `IV=Key`，是不安全的初始化向量实现。
 

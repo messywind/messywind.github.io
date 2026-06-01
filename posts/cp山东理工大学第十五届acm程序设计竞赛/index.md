@@ -10,7 +10,7 @@
 
 {{&lt; admonition tips &#34;题解&#34; &gt;}}
 &lt;center&gt;
-	&lt;embed src=&#34;/pdf/15thsolve.pdf&#34; width=&#34;1050&#34; height=&#34;1000&#34;&gt;
+	&lt;embed src=&#34;https://img.messywind.top/blog/pdf/15thsolve.pdf&#34; width=&#34;1050&#34; height=&#34;1000&#34;&gt;
 &lt;/center&gt;
 {{&lt; /admonition &gt;}}
 

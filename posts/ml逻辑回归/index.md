@@ -8,7 +8,7 @@
 
 逻辑回归的拟合函数是 sigmoid 函数：$f(z) = \dfrac{1}{1&#43;e^{-z}}$
 
-![1](/image/ML/1.png)
+![1](https://img.messywind.top/blog/image/ML/1.png)
 
 通过函数图像的观察，我们可以发现 $\lim\limits_{x \rightarrow \infty} f(x) = 1, \lim\limits_{x \rightarrow -\infty} f(x) = 0, f(0) = \dfrac{1}{2}$
 
@@ -22,13 +22,13 @@
 
 ### 线性决策边界
 
-![1](/image/ML/2.png)
+![1](https://img.messywind.top/blog/image/ML/2.png)
 
 如上图所示，此线性数据的决策边界为 $x_1 &#43; x_2 - 3 = 0$，如果 $x_1 &#43; x_2 - 3 &gt; 0$ 时，就会在这条直线的上方判定为属于 1 类，那 sigmoid 函数值就会大于等于 $0.5$，反之。
 
 ### 非线性决策边界
 
-![1](/image/ML/3.png)
+![1](https://img.messywind.top/blog/image/ML/3.png)
 
 这里的决策边界为 $x_1^2 &#43; x_2^2 - 1 = 0$，如果在圆内是一类，在圆外是另一类。
 
@@ -42,7 +42,7 @@ $$
 
 ### 多元分类
 
-![1](/image/ML/4.webp)
+![1](https://img.messywind.top/blog/image/ML/4.webp)
 
 假设我们的训练集中有三种物品，我们可以训练三个分类器如上图，分别将其中的一类当正类，其他都当负类，然后进行一次二元分类。计算完三个分类器后，在预测时，向三个分类器中输入一个数据，将会分别返回三个概率，选择概率最大的那个当做预测类别。
 

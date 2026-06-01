@@ -59,11 +59,11 @@ signed main() {
 
 我们可以通过调整 $\alpha$ 来改变这个过程。下面是一些调参的结果：
 
-![1](/image/ML/1.webp)
+![1](https://img.messywind.top/blog/image/ML/1.webp)
 
 对于二元函数，同样和上述过程类似，需要把求导改为偏导，即 $\theta_i -\alpha\dfrac{\partial J}{\partial \theta_i}$
 
-![1](/image/ML/2.webp)
+![1](https://img.messywind.top/blog/image/ML/2.webp)
 
 
 ## 多变量线性回归
@@ -80,7 +80,7 @@ signed main() {
 
 在我们面对多维特征问题的时候，我们要保证这些特征都具有相近的尺度，这将帮助梯度下降算法更快地收敛。以房价问题为例，假设我们使用两个特征，房屋的尺寸和房间的数量，尺寸的值为 0~2000 平方英尺，而房间数量的值则是 0~5，以两个参数分别为横纵坐标，绘制代价函数的等高线图能，看出图像会显得很扁，梯度下降算法需要非常多次的迭代才能收敛。我们可以将房屋大小除以 2000，将卧室个数除以 5，再画出等高线图就比较合适了（如下图右）。
 
-![1](/image/ML/3.webp)
+![1](https://img.messywind.top/blog/image/ML/3.webp)
 
 #### 均值归一化
 

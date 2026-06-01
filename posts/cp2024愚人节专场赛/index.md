@@ -33,7 +33,7 @@ L 题 idea 也是质因数分解，还有使用 oeis
 {{&lt; admonition tips &#34;题解&#34; &gt;}}
 
 &lt;center&gt;
-	&lt;embed src=&#34;/pdf/2024AprilFools.pdf&#34; width=&#34;1050&#34; height=&#34;1000&#34;&gt;
+	&lt;embed src=&#34;https://img.messywind.top/blog/pdf/2024AprilFools.pdf&#34; width=&#34;1050&#34; height=&#34;1000&#34;&gt;
 &lt;/center&gt;
 {{&lt; /admonition &gt;}}
 

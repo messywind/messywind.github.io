@@ -403,7 +403,7 @@ swap(s[2], s[3])
 
 点一下 V5 就可以了，一开始以为是等级。。
 
-![1](/image/CTF/furryCTF/F.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF/F.png)
 
 ## T [misc]网盘
 
@@ -478,11 +478,11 @@ Base92 解码：
 
 用 Wireshark 打开流量包，搜索字符串 `flag` 找到网址。
 
-![1](/image/CTF/furryCTF/P.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF/P.png)
 
 然后用 winHex 打开图片，发现末尾有可疑的 PHP
 
-![1](/image/CTF/furryCTF/P2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF/P2.png)
 
 显示乱码，尝试字符集转成 UTF-8，发现是如下：
 
@@ -492,7 +492,7 @@ Base92 解码：
 
 这是盲文，用一下[转换器](https://www.lddgo.net/common/braille)得到 flag
 
-![1](/image/CTF/furryCTF/P3.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF/P3.png)
 
 ## b [rev]Login
 
@@ -500,7 +500,7 @@ Base92 解码：
 
 IDA 打开一下，然后看 strings 的视图找到可疑字符串`50955130862247346033129849911215869256974228669048534734398765262912025541901441526490493`
 
-![1](/image/CTF/furryCTF/b.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF/b.png)
 
 和雪花飘飘一样，转 16 进制再转 hex 得到 flag
 
@@ -510,7 +510,7 @@ IDA 打开一下，然后看 strings 的视图找到可疑字符串`509551308622
 
 用 ARCHPR 暴力破解出密码 `furry`
 
-![1](/image/CTF/furryCTF/c.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF/c.png)
 
 然后还是用 IDA 打开里面的文件做和 b 题相同的操作。得到数字 `181028990419375709681764670364570214516897360554680698682721225149223938429`
 
@@ -520,20 +520,20 @@ IDA 打开一下，然后看 strings 的视图找到可疑字符串`509551308622
 
 直接把 `project.json` 后缀改成 `sb3`，然后用 [scratch 在线网站](https://scratch.focalhot.com/) 打开
 
-![1](/image/CTF/furryCTF/g.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF/g.png)
 
 ```
 102 117 114 114 121 67 84 70 123 76 105 102 101 95 49 115 95 83 105 110 103 49 110 103 125
 ```
 这显然是 ASCII 码，转成字符串。
 
-![1](/image/CTF/furryCTF/g2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF/g2.png)
 
 ## j [crypto]粗心的猫猫
 
 拿到压缩包先检验并去除伪加密 `09` 改 `00`
 
-![1](/image/CTF/furryCTF/j.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF/j.png)
 
 拿到 `RSA.py`
 

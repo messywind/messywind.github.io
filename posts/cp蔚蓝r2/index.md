@@ -5,7 +5,7 @@
 {{&lt; bilibili BV1ut421p7UM &gt;}}
 
 &lt;center&gt;
-	&lt;embed src=&#34;/pdf/bluer2.pdf&#34; width=&#34;1050&#34; height=&#34;1000&#34;&gt;
+	&lt;embed src=&#34;https://img.messywind.top/blog/pdf/bluer2.pdf&#34; width=&#34;1050&#34; height=&#34;1000&#34;&gt;
 &lt;/center&gt;
 
 ---

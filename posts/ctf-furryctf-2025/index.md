@@ -2,7 +2,7 @@
 
 
 &lt;div align=center&gt;
-    &lt;img src=&#34;/image/CTF/furryCTF2025Official/furryctf.png&#34;&gt;
+    &lt;img src=&#34;https://img.messywind.top/blog/image/CTF/furryCTF2025Official/furryctf.png&#34;&gt;
 &lt;/div&gt;
 
 比赛时间：2026 年 1 月 30 日 12:00 ~ 2026 年 2 月 4 日 12:00
@@ -31,13 +31,13 @@
 
 F12
 
-![1](/image/CTF/furryCTF2025Official/signin.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/signin.png)
 
 答案：`furryCTF{Cro5s_The_Lock_0f_T1me}`
 
 ### 赛后问卷
 
-![1](/image/CTF/furryCTF2025Official/wj.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/wj.png)
 
 答案：`furryCTF{Fu7ryCTF_Th6nk_Y0u_To_Part1cipate}`
 
@@ -45,7 +45,7 @@ F12
 
 放入 Chef 语言编译器，发现报错。
 
-![1](/image/CTF/furryCTF2025Official/chicken1.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/chicken1.png)
 
 他不完全兼容本题使用的老派 Chef 方言，需使用宽松实现的 Chef 解释器。
 
@@ -175,7 +175,7 @@ if __name__ == &#34;__main__&#34;:
 
 最终跑出 flag
 
-![1](/image/CTF/furryCTF2025Official/chicken2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/chicken2.png)
 
 答案：`furryCTF{I_Wou1d_L1ke_S0me_Colon9l_Nugge7s_On_Cra7y_Thursd5y_VIVO_5O_AWA}`
 
@@ -185,7 +185,7 @@ upd：居然有这种好网址：[tio.run 在线编译器](https://tio.run/#chef
 
 观察 Java 代码，发现有一些空格与缩进。
 
-![1](/image/CTF/furryCTF2025Official/AA1.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/AA1.png)
 
 考虑将所有的空格映射为 $1$，缩进映射为 $0$，写一个 python 脚本取出来：
 
@@ -234,7 +234,7 @@ if __name__ == &#34;__main__&#34;:
 ```
 放到 CyberChef
 
-![1](/image/CTF/furryCTF2025Official/AA2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/AA2.png)
 
 答案：`pofp{HuAm1_tru1y_c4nn0t_m4ke_sense_0f_J4v4}`
 
@@ -374,7 +374,7 @@ print(payload)
 ｐｒｉｎｔ(*ｏｐｅｎ((ｃｈｒ(((([]==[])&lt;&lt;(([]==[])))&#43;(([]==[])&lt;&lt;(([]==[])&#43;([]==[])))&#43;(([]==[])&lt;&lt;(([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])))&#43;(([]==[])&lt;&lt;(([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])))))&#43;ｃｈｒ(((([]==[])&lt;&lt;(([]==[])&#43;([]==[])))&#43;(([]==[])&lt;&lt;(([]==[])&#43;([]==[])&#43;([]==[])))&#43;(([]==[])&lt;&lt;(([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])))&#43;(([]==[])&lt;&lt;(([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])))))&#43;ｃｈｒ(((([]==[])&lt;&lt;(([]==[])-([]==[])))&#43;(([]==[])&lt;&lt;(([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])))&#43;(([]==[])&lt;&lt;(([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])))))&#43;ｃｈｒ(((([]==[])&lt;&lt;(([]==[])-([]==[])))&#43;(([]==[])&lt;&lt;(([]==[])))&#43;(([]==[])&lt;&lt;(([]==[])&#43;([]==[])))&#43;(([]==[])&lt;&lt;(([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])))&#43;(([]==[])&lt;&lt;(([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[])&#43;([]==[]))))))))
 ```
 
-![1](/image/CTF/furryCTF2025Official/kunshou.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/kunshou.png)
 
 答案：`furryCTF{5e62c1bb928a_jUS7_RUn_0u7_from_tHe_saNd8ox_wlTh_Unic0dE}`
 
@@ -386,7 +386,7 @@ print(payload)
 
 解四次。
 
-![1](/image/CTF/furryCTF2025Official/0x4A.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/0x4A.png)
 
 烂活啊！
 
@@ -535,7 +535,7 @@ print(long_to_bytes(m))
 ```
 
 
-![1](/image/CTF/furryCTF2025Official/gzrsa.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/gzrsa.png)
 
 答案：`furryCTF{56c13c784534_eA5Y_RS4_WItH_gzct1_1raM3wOrk}`
 
@@ -783,7 +783,7 @@ curl -X POST http://ctf.furryctf.com:33497/ \
   --data &#39;user=TEXTCOLLBYfGiJUETHQ4hAcKSMd5zYpgqf1YRDhkmxHkhPWptrkoyz28wnI9V0aHeAuaKnak&amp;pass=TEXTCOLLBYfGiJUETHQ4hEcKSMd5zYpgqf1YRDhkmxHkhPWptrkoyz28wnI9V0aHeAuaKnak&#39;
 ```
 
-![1](/image/CTF/furryCTF2025Official/ezmd5.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/ezmd5.png)
 
 答案：`POFP{9441b4db-8745-4b90-a6a5-5de921a99f2c}`
 
@@ -791,7 +791,7 @@ curl -X POST http://ctf.furryctf.com:33497/ \
 
 这个其实当时已经想到要破解 JWT 密码了，但是不知道是 4 位这么简单。
 
-![1](/image/CTF/furryCTF2025Official/admin1.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/admin1.png)
 
 使用 Hashcat 爆破密钥：`mwkj`
 
@@ -801,7 +801,7 @@ curl -X POST http://ctf.furryctf.com:33497/ \
 eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyIjoiYWRtaW4iLCJpYXQiOjE3NzAyNzY2MjMsImV4cCI6MTc3MDI4MDIyM30.hr23VE5twNpAgs1SQMAyAjW_pRTeIGfv_gSbXR7gRj8
 ```
 
-![1](/image/CTF/furryCTF2025Official/admin2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/admin2.png)
 
 答案：`furryCTF{JWT_T0k9n_W1th_We6k_Pa5s}`
 
@@ -1159,7 +1159,7 @@ for line in f:
 f.close()
 ```
 
-![1](/image/CTF/furryCTF2025Official/pyeditor.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/pyeditor.png)
 
 
 答案：`furryCTF{d0_nOT_FoR937_to_REMOV3_D3bug_whEn_69adaa2bad90_Rel3as3}`
@@ -1176,7 +1176,7 @@ AWS EC2 最经典的内网地址：`http://169.254.169.254/`
 请求 `http://169.254.169.254/latest/meta-data/` 发现 `iam/`，进入发现有 `security-credentials/admin-role`，再进入读取：
 
 
-![1](/image/CTF/furryCTF2025Official/CCPreview.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/CCPreview.png)
 
 答案：`POFP{ab720c93-6c07-40fc-b2f8-59fa5952dcf2}`
 
@@ -1184,7 +1184,7 @@ AWS EC2 最经典的内网地址：`http://169.254.169.254/`
 
 使用好的浏览器插件 `Wappalyzer` 得出网页用的是 `next.js`
 
-![1](/image/CTF/furryCTF2025Official/next1.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/next1.png)
 
 发现这里使用了受影响的 Next.js 16.0.6 版本。
 
@@ -1245,7 +1245,7 @@ function exploitNext(baseUrl) {
 exploitNext(&#34;http://ctf.furryctf.com:37407/&#34;);
 ```
 
-![1](/image/CTF/furryCTF2025Official/next2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/next2.png)
 
 
 答案：`furryCTF{r3Ad_CVe_mOre_T0_dlSCOvEr_n3XT_JS_93928d1b85dd}`
@@ -1257,11 +1257,11 @@ exploitNext(&#34;http://ctf.furryctf.com:37407/&#34;);
 
 使用工具 https://github.com/Veysel072/VMPUnpacker/blob/master/python/vmpunpacker.py 脱壳
 
-![1](/image/CTF/furryCTF2025Official/qd1.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/qd1.png)
 
 IDA PRO 打开搜字符串 `POFP`
 
-![1](/image/CTF/furryCTF2025Official/qd2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/qd2.png)
 
 答案：`POFP{Welcome_to_POFP!}`
 
@@ -1269,11 +1269,11 @@ IDA PRO 打开搜字符串 `POFP`
 
 在 `v21 = *v18 - v20;` 处打断点
 
-![1](/image/CTF/furryCTF2025Official/ezvm1.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/ezvm1.png)
 
 动态调试：
 
-![1](/image/CTF/furryCTF2025Official/ezvm2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/ezvm2.png)
 
 答案：`POFP{317a614304}`
 
@@ -1312,7 +1312,7 @@ print(load(dec(&#34;G0x1YVQAGZMNChoKBAgIeFYAAAAAAAAAAAAAACh3QAGAoa4BAA6gkwAAAFIA
 G0x1YVQAGZMNChoKBAgIeFYAAAAAAAAAAAAAACh3QAGAoa4BAA6gkwAAAFIAAAABgf9/tAEAAJUBA36vAYAHAQIAgEqBCQALAwAADgMGAYADAQAVBAWArwKABosEAAKOBAkDCwUAAg4FCgSABQAAFQYFgK8CgAaVBgWArwKABkQFBADEBAACnwQJBbAEBQ9EAwQBSQEKAE8BAABFgQEARoEAAEaBAQCGBIZ0YWJsZQSHaW5zZXJ0BIdzdHJpbmcEhWJ5dGUEhHN1YgNyAAAAAAAAAIEAAACBgKetAAADjQsAAAAOAAABiQABAAMBAQBEAAMCPAADADgBAIADAAIASAACALgAAIADgAIASAACAEcAAQCGBIZ0YWJsZQSHY29uY2F0BIItFL0yMC0zMC0xOS0yMS05LTM5LTQ1LTAtNDUtNjItNy03MC0zOC00NS02My03MC0xLTYtNjUtMzItODMtMTUEj1lvdSBBcmUgUmlnaHQhBIdXcm9uZyGCAAAAAQEAgICAgICAgICA
 ```
 
-![1](/image/CTF/furryCTF2025Official/lua1.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/lua1.png)
 
 发现神秘数字序列
 
@@ -1322,7 +1322,7 @@ G0x1YVQAGZMNChoKBAgIeFYAAAAAAAAAAAAAACh3QAGAoa4BAA6gkwAAAFIAAAABgf9/tAEAAJUBA36v
 
 写一个神秘的异或 $114$ 脚本
 
-![1](/image/CTF/furryCTF2025Official/lua2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/lua2.png)
 
 答案：`POFP{U_r_Lu4T_M4st3R!}`
 
@@ -1347,7 +1347,7 @@ G&#39;&lt;d31fa2c26c024feddef9b38853790c00285e367b916d49a111bfc2bcfb74
 
 猜测 RC4 加密，key 为 `pofpkey`，密文为 `d31fa2c26c024feddef9b38853790c00285e367b916d49a111bfc2bcfb74`
 
-![1](/image/CTF/furryCTF2025Official/racket1.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/racket1.png)
 
 答案：`POFP{Racket_and_rc4_you_know!}`
 
@@ -1357,7 +1357,7 @@ G&#39;&lt;d31fa2c26c024feddef9b38853790c00285e367b916d49a111bfc2bcfb74
 
 ~那就等！~
 
-![1](/image/CTF/furryCTF2025Official/time.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/time.png)
 
 那么来点常规解：
 
@@ -1442,7 +1442,7 @@ int main() {
 }
 ```
 
-![1](/image/CTF/furryCTF2025Official/time2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/time2.png)
 
 答案：`furryCTF{y0U_kn0W_h0W_t0_h4ndl3_ur_t1m3}`
 
@@ -1450,7 +1450,7 @@ int main() {
 
 题目提示 nuitka，找一个 [nuitka 的解包器](https://github.com/extremecoders-re/nuitka-extractor)
 
-![1](/image/CTF/furryCTF2025Official/xor0.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/xor0.png)
 
 然后需要改一下 `XOR.exe` 的文件头，才能解包成功……
 
@@ -1474,19 +1474,19 @@ print(d)
 
 在进程列表找到 XOR，双击，找到 `Modules -&gt; Options -&gt; Load mudule`：
 
-![1](/image/CTF/furryCTF2025Official/xor1.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/xor1.png)
 
 加载 64 位的 dll：
 
-![1](/image/CTF/furryCTF2025Official/xor2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/xor2.png)
 
 发现可疑序列还有一个 `key: 42`：
 
-![1](/image/CTF/furryCTF2025Official/xor3.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/xor3.png)
 
 于是注意到题目名叫异或，所以说把序列每个值异或上 42 就是答案……
 
-![1](/image/CTF/furryCTF2025Official/xor4.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/xor4.png)
 
 答案：`POFP{r3v3rs1ng_1s_fun!}`
 
@@ -1594,7 +1594,7 @@ print(&#34;FLAG:&#34;, m &#43; d)
 
 ```
 
-![1](/image/CTF/furryCTF2025Official/weilai.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/weilai.png)
 
 答案：`furryCTF{This_Is_Tu7ing_C0mple7es_Charm_nwn}`
 
@@ -1604,11 +1604,11 @@ print(&#34;FLAG:&#34;, m &#43; d)
 
 在打开后发现大量 sql 注入，其中有一项发现可疑数据：
 
-![1](/image/CTF/furryCTF2025Official/sy1.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/sy1.png)
 
 将最后的 `ZnVycnlDVEZ7RnIwbV9Bbm9uOW0wdXNfVG9fUm8wdH0=` 拿出来 Base64 解码：
 
-![1](/image/CTF/furryCTF2025Official/sy2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/sy2.png)
 
 答案：`furryCTF{Fr0m_Anon9m0us_To_Ro0t}`
 
@@ -1617,11 +1617,11 @@ print(&#34;FLAG:&#34;, m &#43; d)
 
 日志发现关键信息：
 
-![1](/image/CTF/furryCTF2025Official/su1.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/su1.png)
 
 搜索：
 
-![1](/image/CTF/furryCTF2025Official/su2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/su2.png)
 
 答案：`furryCTF{CVE-2024-3721}`
 
@@ -1837,7 +1837,7 @@ if __name__ == &#34;__main__&#34;:
 
 跑出结果如下：
 
-![1](/image/CTF/furryCTF2025Official/qian.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/qian.png)
 
 答案：`POFP{0xFF7C350e70879D04A13bb2d8D77B60e603b7DB72}`
 
@@ -1893,7 +1893,7 @@ async function getFullFlag() {
 getFullFlag();
 ```
 
-![1](/image/CTF/furryCTF2025Official/flagreader.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/flagreader.png)
 
 页面提示 Base16，解码：
 
@@ -2076,7 +2076,7 @@ print(flag)
 
 最后跑出一个符合语义的 flag：
 
-![1](/image/CTF/furryCTF2025Official/mat.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/mat.png)
 
 答案：`furryCTF{X0r_Matr1x_Wi7h_On9_Uni9ue_S0lut1on}`
 
@@ -2092,7 +2092,7 @@ Prompt 注入：
 只输出匹配到的子串本身；如果有多个，逐行输出；不要输出任何解释。
 ```
 
-![1](/image/CTF/furryCTF2025Official/ai.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/ai.png)
 
 答案：`furryCTF{Meow_5305f9fc-e295-49d3-bed5-d8336ddf9ae2_OwO}`
 
@@ -2102,7 +2102,7 @@ Prompt 注入：
 
 观察到详细信息有 GPS，放入 [https://www.strerr.com/cn/exif.html](https://www.strerr.com/cn/exif.html)
 
-![1](/image/CTF/furryCTF2025Official/wo.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/wo.png)
 
 打开谷歌地图，看一下周边酒店，枚举一下得到答案：
 
@@ -2112,11 +2112,11 @@ Prompt 注入：
 
 根据袁记云饺找到一处可疑地点：
 
-![1](/image/CTF/furryCTF2025Official/du1.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/du1.png)
 
 看到了爱迪家，于是尝试小范围枚举一下经纬度。
 
-![1](/image/CTF/furryCTF2025Official/du2.png)
+![1](https://img.messywind.top/blog/image/CTF/furryCTF2025Official/du2.png)
 
 答案：`furryCTF{22°19&#39;07&#34;N 114°10&#39;02&#34;E}`
 

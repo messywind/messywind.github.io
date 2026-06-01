@@ -70,11 +70,11 @@ $$
 
 举一个 $k = 2$ 的例子。
 
-&lt;div align=center&gt;&lt;img src=&#34;/image/ML/kdt1.jpg&#34;&gt;&lt;/div&gt;
+&lt;div align=center&gt;&lt;img src=&#34;https://img.messywind.top/blog/image/ML/kdt1.jpg&#34;&gt;&lt;/div&gt;
 
 建出的树：
 
-&lt;div align=center&gt;&lt;img src=&#34;/image/ML/kdt2.jpg&#34;&gt;&lt;/div&gt;
+&lt;div align=center&gt;&lt;img src=&#34;https://img.messywind.top/blog/image/ML/kdt2.jpg&#34;&gt;&lt;/div&gt;
 
 这样树的高度最多为 $\log n$
 

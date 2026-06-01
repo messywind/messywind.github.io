@@ -6,7 +6,7 @@
 [比赛链接(div.2)](https://acm.sdut.edu.cn/onlinejudge3/competitions-public/19/intro)
 
 &lt;center&gt;
-	&lt;embed src=&#34;/pdf/bluer1.pdf&#34; width=&#34;1050&#34; height=&#34;1000&#34;&gt;
+	&lt;embed src=&#34;https://img.messywind.top/blog/pdf/bluer1.pdf&#34; width=&#34;1050&#34; height=&#34;1000&#34;&gt;
 &lt;/center&gt;
 
 ---
