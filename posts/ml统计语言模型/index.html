@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>统计语言模型 - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="1. 句子的概率 语言模型的核心任务可以用一句话概括：计算一个句子的概率，或者预测下一个词出现的概率。
+假设一个句子由 $n$ 个词按顺序组成：$S = (w_1, w_2, \dots, w_n)$。为了体现词语之间的先后顺序和因果关系（例如区分“我吃苹果”和“苹果吃我”），我们不能简单地将概率相乘，而必须使用概率论的链式法则（Chain Rule）将联合概率展开：
+"><meta name="keywords" content='统计语言模型'>
+  <meta itemprop="name" content="统计语言模型">
+  <meta itemprop="description" content="1. 句子的概率 语言模型的核心任务可以用一句话概括：计算一个句子的概率，或者预测下一个词出现的概率。
+假设一个句子由 $n$ 个词按顺序组成：$S = (w_1, w_2, \dots, w_n)$。为了体现词语之间的先后顺序和因果关系（例如区分“我吃苹果”和“苹果吃我”），我们不能简单地将概率相乘，而必须使用概率论的链式法则（Chain Rule）将联合概率展开：">
+  <meta itemprop="datePublished" content="2026-06-02T09:47:00+00:00">
+  <meta itemprop="dateModified" content="2026-06-02T09:31:11+00:00">
+  <meta itemprop="wordCount" content="3177">
+  <meta itemprop="keywords" content="统计语言模型"><meta property="og:url" content="https://blog.messywind.top/posts/ml%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="统计语言模型">
+  <meta property="og:description" content="1. 句子的概率 语言模型的核心任务可以用一句话概括：计算一个句子的概率，或者预测下一个词出现的概率。
+假设一个句子由 $n$ 个词按顺序组成：$S = (w_1, w_2, \dots, w_n)$。为了体现词语之间的先后顺序和因果关系（例如区分“我吃苹果”和“苹果吃我”），我们不能简单地将概率相乘，而必须使用概率论的链式法则（Chain Rule）将联合概率展开：">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-06-02T09:47:00+00:00">
+    <meta property="article:modified_time" content="2026-06-02T09:31:11+00:00">
+    <meta property="article:tag" content="统计语言模型">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="统计语言模型">
+  <meta name="twitter:description" content="1. 句子的概率 语言模型的核心任务可以用一句话概括：计算一个句子的概率，或者预测下一个词出现的概率。
+假设一个句子由 $n$ 个词按顺序组成：$S = (w_1, w_2, \dots, w_n)$。为了体现词语之间的先后顺序和因果关系（例如区分“我吃苹果”和“苹果吃我”），我们不能简单地将概率相乘，而必须使用概率论的链式法则（Chain Rule）将联合概率展开：">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/ml%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" title="统计语言模型 - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/e-book%E4%BA%BA%E5%91%90/" title="人呐" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/ml%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/index.md" title="统计语言模型 - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "统计语言模型",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/ml%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B\/"
+    },"genre": "posts","keywords": "统计语言模型","wordcount":  3177 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/ml%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B\/","datePublished": "2026-06-02T09:47:00+00:00","dateModified": "2026-06-02T09:31:11+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>统计语言模型</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-02 09:47:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-02">2026-06-02</time></span>&nbsp;<span title="更新于 2026-06-02 09:31:11"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-02">2026-06-02</time></span>&nbsp;<span title="3177 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 3200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 7 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="统计语言模型"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-句子的概率">1. 句子的概率</a></li>
+    <li><a href="#2-马尔可夫假设与-n-gram-模型">2. 马尔可夫假设与 N-gram 模型</a>
+      <ul>
+        <li><a href="#-参数爆炸的估值计算">① 参数爆炸的估值计算</a></li>
+        <li><a href="#-概率如何计算极大似然估计-mle">② 概率如何计算？（极大似然估计 MLE）</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-完美主义的克星平滑技术smoothing">3. 完美主义的克星：平滑技术（Smoothing）</a>
+      <ul>
+        <li><a href="#-加一平滑-laplace-smoothing">① 加一平滑 (Laplace Smoothing)</a></li>
+        <li><a href="#-其他主流平滑算法">② 其他主流平滑算法</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-经典统计语言模型的缺点">4. 经典统计语言模型的缺点</a></li>
+    <li><a href="#5-如何评价一个语言模型困惑度perplexity-pp">5. 如何评价一个语言模型？困惑度（Perplexity, PP）</a>
+      <ul>
+        <li><a href="#公式定义">公式定义</a></li>
+        <li><a href="#核心物理意义分支因子branching-factor">核心物理意义：分支因子（Branching Factor）</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="1-句子的概率" class="heading-element"><span>1. 句子的概率</span>
+  <a href="#1-%e5%8f%a5%e5%ad%90%e7%9a%84%e6%a6%82%e7%8e%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>语言模型的核心任务可以用一句话概括：<strong>计算一个句子的概率，或者预测下一个词出现的概率。</strong></p>
+<p>假设一个句子由 $n$ 个词按顺序组成：$S = (w_1, w_2, \dots, w_n)$。为了体现词语之间的先后顺序和因果关系（例如区分“我吃苹果”和“苹果吃我”），我们不能简单地将概率相乘，而必须使用概率论的链式法则（Chain Rule）将联合概率展开：</p>
+<p>$$
+\begin{aligned}
+P(w_1, w_2, \dots, w_n) &amp;= P(w_1) \cdot P(w_2 \mid w_1) \cdot P(w_3 \mid w_1, w_2) \dots P(w_n \mid w_1, w_2, \dots, w_{n-1}) \\
+&amp;= \prod_{i = 0} ^ n P(w_i \mid w_1, w_2, \dots, w_{i-1})
+\end{aligned}
+$$</p>
+<ul>
+<li><strong>直观理解</strong>：计算“我 喜欢 吃 苹果”的概率，等于计算“我”开头的概率 $\times$ “我”后面接“喜欢”的概率 $\times$ “我 喜欢”后面接“吃”的概率……</li>
+<li><strong>致命缺陷（参数爆炸与数据稀疏）</strong>：随着句子变长，条件概率的历史背景（条件项）越来越长。这会导致两个严重问题：</li>
+</ul>
+<ol>
+<li><strong>参数量指数爆炸</strong>：这里的“参数”是指模型需要从训练语料中统计并记录的条件概率值的数量。</li>
+<li><strong>数据稀疏（Sparsity）</strong>：尽管数学上的组合空间巨大，但在现实文本中，绝大多数的词语组合一辈子都不会出现（例如“喝 电脑”、“写 苹果”）。如果把统计结果画成一个大表格，你会发现 <strong>99.99% 的格子计数都是 0</strong>。长尾效应严重，导致很多条件概率在实际中根本算不出来。</li>
+</ol>
+<hr>
+<h2 id="2-马尔可夫假设与-n-gram-模型" class="heading-element"><span>2. 马尔可夫假设与 N-gram 模型</span>
+  <a href="#2-%e9%a9%ac%e5%b0%94%e5%8f%af%e5%a4%ab%e5%81%87%e8%ae%be%e4%b8%8e-n-gram-%e6%a8%a1%e5%9e%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>为了解决参数爆炸和数据稀疏问题，前人引入了<strong>马尔可夫假设（Markov Assumption）</strong>。</p>
+<blockquote>
+<p><strong>马尔可夫假设</strong>：每个词出现的概率，只与它前面的<strong>有限的几个词</strong>相关，而与更早的词无关。</p>
+</blockquote>
+<p>基于这个假设，我们只看当前词前面的 $N-1$ 个词，这就是 <strong>N-gram（N元语法）模型</strong>。</p>
+<h3 id="-参数爆炸的估值计算" class="heading-element"><span>① 参数爆炸的估值计算</span>
+  <a href="#-%e5%8f%82%e6%95%b0%e7%88%86%e7%82%b8%e7%9a%84%e4%bc%b0%e5%80%bc%e8%ae%a1%e7%ae%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>为了直观感受马尔可夫假设瘦身的效果，我们来算一笔账。假设我们的词表（Vocabulary）大小为 <strong>$V = 100,000$（10万个常用词）</strong>，每个概率值用 4 字节（Byte）的浮点数存储：</p>
+<ol>
+<li>
+<p><strong>Unigram（1-gram / 一元模型）</strong>：假设每个词独立出现，不依赖任何历史。</p>
+<ul>
+<li>公式：$P(w_n \mid w_1, \dots, w_{n-1}) \approx P(w_n)$</li>
+<li>参数量：$V^1 = 10^5$ 个</li>
+<li>内存占用：$10^5 \times 4 \text{ B} \approx 400 \text{ KB}$</li>
+</ul>
+</li>
+<li>
+<p><strong>Bigram（2-gram / 二元模型）</strong>：每个词只与<strong>前一个词</strong>相关（一阶马尔可夫链）。</p>
+<ul>
+<li>公式：$P(w_n \mid w_1, \dots, w_{n-1}) \approx P(w_n \mid w_{n-1})$</li>
+<li>参数量：$V^2 = (10^5)^2 = 10^{10}$ 个（100亿个参数）</li>
+<li>内存占用：$10^{10} \times 4 \text{ B} \approx 40 \text{ GB}$</li>
+</ul>
+</li>
+<li>
+<p><strong>Trigram（3-gram / 三元模型）</strong>：每个词只与<strong>前两个词</strong>相关（二阶马尔可夫链）。</p>
+<ul>
+<li>公式：$P(w_n \mid w_1, \dots, w_{n-1}) \approx P(w_n \mid w_{n-2}, w_{n-1})$</li>
+<li>参数量：$V^3 = (10^5)^3 = 10^{15}$ 个（1000万亿个参数）</li>
+<li>内存占用：$10^{15} \times 4 \text{ B} \approx 4,000 \text{ TB} = 4 \text{ PB}$</li>
+</ul>
+</li>
+</ol>
+<p>可以看出，随着 $N$ 的增大，参数量以 <strong>$V^N$</strong> 的速度<strong>指数级爆炸</strong>。实际工业界中，统计语言模型的 $N$ 通常很难超过 5。</p>
+<h3 id="-概率如何计算极大似然估计-mle" class="heading-element"><span>② 概率如何计算？（极大似然估计 MLE）</span>
+  <a href="#-%e6%a6%82%e7%8e%87%e5%a6%82%e4%bd%95%e8%ae%a1%e7%ae%97%e6%9e%81%e5%a4%a7%e4%bc%bc%e7%84%b6%e4%bc%b0%e8%ae%a1-mle" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>在实际操作中，N-gram 的概率通过在语料库中数数（频数统计）来决定。以 Bigram 为例：</p>
+<p>$$P_{MLE}(w_i \mid w_{i-1}) = \frac{\text{Count}(w_{i-1}, w_i)}{\text{Count}(w_{i-1})}$$</p>
+<ul>
+<li><strong>物理含义</strong>：$\text{Count}(w_{i-1}, w_i)$ 指的是在整个训练语料库中， $w_{i-1}$ 和 $w_i$ 这两个词紧挨着、按顺序前后拼接（Concat）出现的总次数。</li>
+<li><strong>例子</strong>：如果语料库里“苹果”出现了 100 次，“吃 苹果”出现了 30 次，那么 $P(\text{苹果} \mid \text{吃}) = \frac{30}{100} = 0.3$。</li>
+</ul>
+<div class="details admonition info open">
+  <div class="details-summary admonition-title"><i class="icon fa-fw fa-solid fa-circle-info" aria-hidden="true"></i>为什么是极大似然估计？<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></div>
+  <div class="details-content">
+    <div class="admonition-content"><p>数学原理：它让看到当前语料的“可能性”最大化</p>
+<p>“似然”（Likelihood）字面意思就是“可能性”。极大似然估计的数学目标是：<strong>寻找一组参数（概率值），使得我们眼前的这篇语料库（训练集）出现的概率达到最大。</strong></p>
+<p>我们用一个简单的 Bigram（2-gram）来推导：
+假设我们要估计 $P(w_2 | w_1) = \theta$。现在我们在语料库里观察到 $w_1$ 后面紧跟 $w_2$ 的次数是 $C(w_1, w_2)$，而 $w_1$ 后面接其他词的次数是 $C(w_1) - C(w_1, w_2)$。</p>
+<p>这其实符合<strong>二项分布</strong>。写出它的似然函数（即看到这个统计结果的概率）：</p>
+<p>$$L(\theta) = \theta^{C(w_1, w_2)} \cdot (1-\theta)^{C(w_1) - C(w_1, w_2)}$$</p>
+<p>我们的目标是找到一个 $\theta$，让 $L(\theta)$ 最大。为了方便计算，我们两边取对数（Log-Likelihood），然后对 $\theta$ 求导并令导数为 0：</p>
+<p>$$\frac{d}{d\theta} \ln L(\theta) = \frac{C(w_1, w_2)}{\theta} - \frac{C(w_1) - C(w_1, w_2)}{1-\theta} = 0$$</p>
+<p>解这个方程，最终得到的结果就是：</p>
+<p>$$\theta = \frac{C(w_1, w_2)}{C(w_1)}$$</p>
+<p><strong>结论：</strong> 数学推导告诉我们，只有当概率等于“频数之比”时，整个语料库生成的可能性才是最高的。如果你设置任何其他的概率值，语料库出现的概率都会降低。</p>
+</div>
+  </div>
+</div>
+<hr>
+<h2 id="3-完美主义的克星平滑技术smoothing" class="heading-element"><span>3. 完美主义的克星：平滑技术（Smoothing）</span>
+  <a href="#3-%e5%ae%8c%e7%be%8e%e4%b8%bb%e4%b9%89%e7%9a%84%e5%85%8b%e6%98%9f%e5%b9%b3%e6%bb%91%e6%8a%80%e6%9c%afsmoothing" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>即便限制了 $N$ 的大小，N-gram 依然无法完全避开“零概率问题”。如果测试集里出现了一个词对（比如“喝 苹果汁”），但在训练语料库里<strong>从来没同时出现过</strong>（$\text{Count}(\text{喝, 苹果汁}) = 0$），那么 $P(\text{苹果汁} \mid \text{喝}) = 0$。</p>
+<p>由于链式法则是连乘，<strong>只要有一个条件概率为 0，整个句子的概率直接变成 0。</strong> 为了解决这个问题，<strong>平滑技术</strong>应运而生。其本质是<strong>劫富济贫</strong>：把高频词的概率抠出一点点，分给那些没见过的零频词。</p>
+<h3 id="-加一平滑-laplace-smoothing" class="heading-element"><span>① 加一平滑 (Laplace Smoothing)</span>
+  <a href="#-%e5%8a%a0%e4%b8%80%e5%b9%b3%e6%bb%91-laplace-smoothing" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>逻辑最粗暴的方法：强行给所有可能存在的 N-gram 组合的频数都加上 1。其 Bigram 计算公式为：</p>
+<p>$$P_{Laplace}(w_i \mid w_{i-1}) = \frac{\text{Count}(w_{i-1}, w_i) + 1}{\text{Count}(w_{i-1}) + V}$$</p>
+<ul>
+<li><strong>分子加 1</strong>：确保即使频数为 0，分子也变为 1，概率不再为 0。</li>
+<li><strong>分母加 $V$</strong>：因为对于给定的 $w_{i-1}$，后面可能接的词有 $V$ 种可能（分子一共加了 $V$ 个 1），为了保证概率归一化（即概率加和为 1），分母必须补偿性地加上 $V$。</li>
+<li><em>缺点</em>：给没出现过的冷门组合给予了太多概率空间，效果通常不好。</li>
+</ul>
+<h3 id="-其他主流平滑算法" class="heading-element"><span>② 其他主流平滑算法</span>
+  <a href="#-%e5%85%b6%e4%bb%96%e4%b8%bb%e6%b5%81%e5%b9%b3%e6%bb%91%e7%ae%97%e6%b3%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>古德-图灵估计 (Good-Turing Estimation)</strong>：用出现 $r+1$ 次的词的频率去调整、预测出现 $r$ 次的词的概率。</li>
+<li><strong>回退法 (Katz Back-off)</strong>：如果高阶 Count（如 Trigram）为 0，就打个折扣回退到低阶（如 Bigram）去算；如果还是 0，就继续回退到 Unigram。</li>
+<li><strong>Kneser-Ney 平滑 (KN Smoothing)</strong>：目前统计模型中效果最好、最常用的方法。它不仅看词频，还引入了<strong>延续概率</strong>（考虑一个词作为新搭配出现的广泛度），完美解决了某些孤立高频词（如“金山”往往只接在“旧”后面，不宜作为其他词的后继）的干扰。</li>
+</ul>
+<hr>
+<h2 id="4-经典统计语言模型的缺点" class="heading-element"><span>4. 经典统计语言模型的缺点</span>
+  <a href="#4-%e7%bb%8f%e5%85%b8%e7%bb%9f%e8%ae%a1%e8%af%ad%e8%a8%80%e6%a8%a1%e5%9e%8b%e7%9a%84%e7%bc%ba%e7%82%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ol>
+<li><strong>无法捕捉长距离依赖</strong>：受限于马尔可夫假设和计算机存储， $N$ 很难超过 5。</li>
+</ol>
+<ul>
+<li><em>例句</em>：“<strong>我</strong>前天在图书馆借的那本封面是蓝色的<strong>书</strong>不见了。” 这里的“我”和“不见了”跨越了整个句子，N-gram 根本无法关联它们。</li>
+</ul>
+<ol start="2">
+<li><strong>泛化能力差（缺乏语义理解）</strong>：统计模型不理解语义。在它眼里，<code>[吃, 苹果]</code> 和 <code>[吃, 梨子]</code> 是两条完全独立的路径。如果模型只见过前者，它无法利用“苹果”和“梨子”都是水果这一相似性去泛化预测后者。</li>
+<li><strong>过拟合（Overfitting）隐乎严重</strong>：</li>
+</ol>
+<ul>
+<li><strong>死记硬背</strong>：当 $N$ 增大时，模型会极大地倾向于“完美复制”训练集里的特定词语链条。一旦测试集换了个别词（哪怕语义相近），概率就会雪崩。</li>
+<li><strong>平滑带来的矫枉过正</strong>：为了照顾零频词，平滑算法会把原本属于高频词的合理概率空间<strong>强行稀释</strong>给冷门词，导致模型在测试集上不敢给真正通顺的句子高概率。</li>
+</ul>
+<hr>
+<h2 id="5-如何评价一个语言模型困惑度perplexity-pp" class="heading-element"><span>5. 如何评价一个语言模型？困惑度（Perplexity, PP）</span>
+  <a href="#5-%e5%a6%82%e4%bd%95%e8%af%84%e4%bb%b7%e4%b8%80%e4%b8%aa%e8%af%ad%e8%a8%80%e6%a8%a1%e5%9e%8b%e5%9b%b0%e6%83%91%e5%ba%a6perplexity-pp" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>最常用、最直接的内部评价指标就是<strong>困惑度（Perplexity，简称 PP）</strong>。</p>
+<h3 id="公式定义" class="heading-element"><span>公式定义</span>
+  <a href="#%e5%85%ac%e5%bc%8f%e5%ae%9a%e4%b9%89" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>困惑度本质上是衡量<strong>模型在测试集上预测下一个词时的不确定性</strong>。对于一个包含 $n$ 个词的测试句子 $S = (w_1, w_2, \dots, w_n)$，其困惑度公式为：</p>
+<p>$$PP(S) = P(w_1, w_2, \dots, w_n)^{-\frac{1}{n}} = \sqrt[n]{\frac{1}{P(w_1, w_2, \dots, w_n)}}$$</p>
+<p>根据链式法则，它也可以写成测试集里所有条件概率连乘倒数的几何平均数。</p>
+<h3 id="核心物理意义分支因子branching-factor" class="heading-element"><span>核心物理意义：分支因子（Branching Factor）</span>
+  <a href="#%e6%a0%b8%e5%bf%83%e7%89%a9%e7%90%86%e6%84%8f%e4%b9%89%e5%88%86%e6%94%af%e5%9b%a0%e5%ad%90branching-factor" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ol>
+<li><strong>指标走向</strong>：从公式可以看出，模型赋予真实测试句子的联合概率 $P(S)$ 越大，取倒数后的 $PP(S)$ 就越小。<strong>因此，困惑度越低，模型性能越好。</strong></li>
+<li><strong>直观理解</strong>：困惑度可以理解为<strong>模型在预测下一个词时，平均有多少个等概率的候选词让它感到“困惑”</strong>。</li>
+</ol>
+<ul>
+<li>如果一个模型的 $PP = 10$，这意味着它预测下一个词时，其混乱程度相当于在 10 个均等的词里做单选题。</li>
+<li>如果另一个模型的 $PP = 100$，说明它面对的是 100 选 1。显然，前者的预测更精准、更有把握。</li>
+</ul>
+<ol start="3">
+<li><strong>极端边界</strong>：如果模型完美预测，每次概率都是 1，则 $PP = 1$。如果模型完全是等概率瞎猜（词表大小为 $V$），则 $PP = V$。</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-06-02 09:31:11">更新于 2026-06-02&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/ml%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" class="post-tag" title="标签 - 统计语言模型">统计语言模型</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/e-book%E4%BA%BA%E5%91%90/" class="post-nav-item" rel="prev" title="人呐"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>人呐</a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>
