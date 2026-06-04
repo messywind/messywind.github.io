@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>神经语言模型 - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="NNLM (Neural Network Language Model) 1. 基础定义与前置准备 1.1 词表与词向量矩阵 语料集 $V$：对原始语料进行分词、去重后得到的词汇表（Vocabulary）。 词表大小 $|V|$：词汇表中不同单词的总数。 词向量维度 $D$：每个单词被映射到的低维稠密连续向量空间的维度（通常为百维级别）。 查找表（Look-up Table）/ 词向量矩阵 $C$： $$C \in \mathbb{R}^{|V| \times D}$$
+"><meta name="keywords" content='神经语言模型'>
+  <meta itemprop="name" content="神经语言模型">
+  <meta itemprop="description" content="NNLM (Neural Network Language Model) 1. 基础定义与前置准备 1.1 词表与词向量矩阵 语料集 $V$：对原始语料进行分词、去重后得到的词汇表（Vocabulary）。 词表大小 $|V|$：词汇表中不同单词的总数。 词向量维度 $D$：每个单词被映射到的低维稠密连续向量空间的维度（通常为百维级别）。 查找表（Look-up Table）/ 词向量矩阵 $C$： $$C \in \mathbb{R}^{|V| \times D}$$">
+  <meta itemprop="datePublished" content="2026-06-03T10:33:00+00:00">
+  <meta itemprop="dateModified" content="2026-06-04T06:01:02+00:00">
+  <meta itemprop="wordCount" content="4377">
+  <meta itemprop="keywords" content="神经语言模型"><meta property="og:url" content="https://blog.messywind.top/posts/ml%E7%A5%9E%E7%BB%8F%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="神经语言模型">
+  <meta property="og:description" content="NNLM (Neural Network Language Model) 1. 基础定义与前置准备 1.1 词表与词向量矩阵 语料集 $V$：对原始语料进行分词、去重后得到的词汇表（Vocabulary）。 词表大小 $|V|$：词汇表中不同单词的总数。 词向量维度 $D$：每个单词被映射到的低维稠密连续向量空间的维度（通常为百维级别）。 查找表（Look-up Table）/ 词向量矩阵 $C$： $$C \in \mathbb{R}^{|V| \times D}$$">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-06-03T10:33:00+00:00">
+    <meta property="article:modified_time" content="2026-06-04T06:01:02+00:00">
+    <meta property="article:tag" content="神经语言模型">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="神经语言模型">
+  <meta name="twitter:description" content="NNLM (Neural Network Language Model) 1. 基础定义与前置准备 1.1 词表与词向量矩阵 语料集 $V$：对原始语料进行分词、去重后得到的词汇表（Vocabulary）。 词表大小 $|V|$：词汇表中不同单词的总数。 词向量维度 $D$：每个单词被映射到的低维稠密连续向量空间的维度（通常为百维级别）。 查找表（Look-up Table）/ 词向量矩阵 $C$： $$C \in \mathbb{R}^{|V| \times D}$$">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/ml%E7%A5%9E%E7%BB%8F%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" title="神经语言模型 - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/ml%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" title="统计语言模型" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/ml%E7%A5%9E%E7%BB%8F%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/index.md" title="神经语言模型 - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "神经语言模型",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/ml%E7%A5%9E%E7%BB%8F%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B\/"
+    },"genre": "posts","keywords": "神经语言模型","wordcount":  4377 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/ml%E7%A5%9E%E7%BB%8F%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B\/","datePublished": "2026-06-03T10:33:00+00:00","dateModified": "2026-06-04T06:01:02+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>神经语言模型</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/favicon.ico" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-03 10:33:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-03">2026-06-03</time></span>&nbsp;<span title="更新于 2026-06-04 06:01:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-04">2026-06-04</time></span>&nbsp;<span title="4377 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 9 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="神经语言模型"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-基础定义与前置准备">1. 基础定义与前置准备</a>
+      <ul>
+        <li><a href="#11-词表与词向量矩阵">1.1 词表与词向量矩阵</a></li>
+        <li><a href="#12-输入定义">1.2 输入定义</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-训练阶段-training-phase">2. 训练阶段 (Training Phase)</a>
+      <ul>
+        <li><a href="#step-1-滑动窗口与上下文获取">Step 1: 滑动窗口与上下文获取</a></li>
+        <li><a href="#step-2-词向量查表与拼接-embedding-layer">Step 2: 词向量查表与拼接 (Embedding Layer)</a></li>
+        <li><a href="#step-3-隐层非线性变换-hidden-layer">Step 3: 隐层非线性变换 (Hidden Layer)</a></li>
+        <li><a href="#step-4-输出层与概率计算-output-layer">Step 4: 输出层与概率计算 (Output Layer)</a></li>
+        <li><a href="#step-5-损失计算与反向传播-loss--backpropagation">Step 5: 损失计算与反向传播 (Loss &amp; Backpropagation)</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-推理阶段-inference-phase---自回归生成">3. 推理阶段 (Inference Phase - 自回归生成)</a>
+      <ul>
+        <li><a href="#step-1-上下文滑动窗口截取与填充-padding">Step 1: 上下文滑动窗口截取与填充 (Padding)</a></li>
+        <li><a href="#step-2-前向传播">Step 2: 前向传播</a></li>
+        <li><a href="#step-3-采样策略-sampling-strategy">Step 3: 采样策略 (Sampling Strategy)</a></li>
+        <li><a href="#step-4-自回归循环">Step 4: 自回归循环</a></li>
+      </ul>
+    </li>
+    <li><a href="#4如果神经语言模型的词表-v-很大如何加速训练避免直接用-softmax">4.如果神经语言模型的词表 V 很大，如何加速训练，避免直接用 softmax？</a>
+      <ul>
+        <li><a href="#一负采样-negative-sampling-neg">一、负采样 (Negative Sampling, NEG)</a>
+          <ul>
+            <li><a href="#1-核心思想">1. 核心思想</a></li>
+            <li><a href="#2-数学损失函数">2. 数学损失函数</a></li>
+            <li><a href="#3-带权采样机制">3. 带权采样机制</a></li>
+          </ul>
+        </li>
+        <li><a href="#二-层级-softmax-hierarchical-softmax-hs">二、 层级 Softmax (Hierarchical Softmax, HS)</a>
+          <ul>
+            <li><a href="#1-基础架构霍夫曼树huffman-tree">1. 基础架构：霍夫曼树（Huffman Tree）</a></li>
+            <li><a href="#2-训练阶段原理精确计算与定向更新">2. 训练阶段原理（精确计算与定向更新）</a>
+              <ul>
+                <li><a href="#-自底向上的路径提取代码层面">① 自底向上的路径提取（代码层面）</a></li>
+                <li><a href="#-自顶向下的前向传播神经网络计算">② 自顶向下的前向传播（神经网络计算）</a></li>
+                <li><a href="#-局部参数更新">③ 局部参数更新</a></li>
+              </ul>
+            </li>
+            <li><a href="#3-推理阶段原理全路漫延与-beam-search-剪枝">3. 推理阶段原理（全路漫延与 Beam Search 剪枝）</a>
+              <ul>
+                <li><a href="#-概率的自顶向下全路漫延">① 概率的自顶向下全路漫延</a></li>
+                <li><a href="#-工业级加速核心带剪枝的-bfsbeam-search">② 工业级加速核心：带剪枝的 BFS（Beam Search）</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li><a href="#三疑问">三、疑问</a></li>
+        <li><a href="#-疑问-1为什么要人为定义路径方向为-1-和--1">❓ 疑问 1：为什么要人为定义路径方向为 1 和 -1？</a></li>
+        <li><a href="#-疑问-2训练时向量进入树是随机游走吗深层词多乘了参数会导致概率不准吗">❓ 疑问 2：训练时向量进入树是随机游走吗？深层词多乘了参数会导致概率不准吗？</a></li>
+        <li><a href="#-疑问-3推理时的-beam-search-剪枝是先全遍历每个节点再剪枝吗">❓ 疑问 3：推理时的 Beam Search 剪枝，是先全遍历每个节点再剪枝吗？</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="nnlm-neural-network-language-model" class="heading-element"><span>NNLM (Neural Network Language Model)</span>
+  <a href="#nnlm-neural-network-language-model" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h2 id="1-基础定义与前置准备" class="heading-element"><span>1. 基础定义与前置准备</span>
+  <a href="#1-%e5%9f%ba%e7%a1%80%e5%ae%9a%e4%b9%89%e4%b8%8e%e5%89%8d%e7%bd%ae%e5%87%86%e5%a4%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="11-词表与词向量矩阵" class="heading-element"><span>1.1 词表与词向量矩阵</span>
+  <a href="#11-%e8%af%8d%e8%a1%a8%e4%b8%8e%e8%af%8d%e5%90%91%e9%87%8f%e7%9f%a9%e9%98%b5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>语料集 $V$</strong>：对原始语料进行分词、去重后得到的词汇表（Vocabulary）。</li>
+<li><strong>词表大小 $|V|$</strong>：词汇表中不同单词的总数。</li>
+<li><strong>词向量维度 $D$</strong>：每个单词被映射到的低维稠密连续向量空间的维度（通常为百维级别）。</li>
+<li><strong>查找表（Look-up Table）/ 词向量矩阵 $C$</strong>：</li>
+</ul>
+<p>$$C \in \mathbb{R}^{|V| \times D}$$</p>
+<p>矩阵的每一行对应一个单词的语义向量（Embedding）。训练开始前，该矩阵通过随机分布（如高斯分布、均匀分布）进行<strong>随机初始化</strong>。网络的训练目的之一就是通过梯度下降来更新和维护这个矩阵。</p>
+<h3 id="12-输入定义" class="heading-element"><span>1.2 输入定义</span>
+  <a href="#12-%e8%be%93%e5%85%a5%e5%ae%9a%e4%b9%89" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>对于输入的任意一条语料序列，可以表示为一组词的序列：$W = (w_1, w_2, \dots, w_T)$，其中 $w_t \in V$。</p>
+<hr>
+<h2 id="2-训练阶段-training-phase" class="heading-element"><span>2. 训练阶段 (Training Phase)</span>
+  <a href="#2-%e8%ae%ad%e7%bb%83%e9%98%b6%e6%ae%b5-training-phase" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>训练的核心目标是：<strong>根据当前词的前 $n-1$ 个历史词，预测当前词 $w_t$ 的概率，并最大化似然估计。</strong></p>
+<h3 id="step-1-滑动窗口与上下文获取" class="heading-element"><span>Step 1: 滑动窗口与上下文获取</span>
+  <a href="#step-1-%e6%bb%91%e5%8a%a8%e7%aa%97%e5%8f%a3%e4%b8%8e%e4%b8%8a%e4%b8%8b%e6%96%87%e8%8e%b7%e5%8f%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>采用大小为 $n$ 的滑动窗口沿语料序列向右移动。当窗口停留在当前目标词 $w_t$ 时，提取其左侧的 $n-1$ 个历史上下文词：</p>
+<p>$$\text{Context} = (w_{t-n+1}, \dots, w_{t-2}, w_{t-1})$$</p>
+<h3 id="step-2-词向量查表与拼接-embedding-layer" class="heading-element"><span>Step 2: 词向量查表与拼接 (Embedding Layer)</span>
+  <a href="#step-2-%e8%af%8d%e5%90%91%e9%87%8f%e6%9f%a5%e8%a1%a8%e4%b8%8e%e6%8b%bc%e6%8e%a5-embedding-layer" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ol>
+<li><strong>查表</strong>：通过独热编码（One-hot）乘以矩阵 $C$，或者直接根据词索引，从矩阵 $C$ 中取出这 $n-1$ 个词对应的 $D$ 维向量：</li>
+</ol>
+<p>$$x_i = C(w_i) \in \mathbb{R}^{1 \times D}, \quad \text{where } i \in [t-n+1, t-1]$$</p>
+<ol start="2">
+<li><strong>拼接（Concatenation）</strong>：将这 $n-1$ 个一维向量按顺序首尾拼接，形成一个长的一维特征向量 $X$：</li>
+</ol>
+<p>$$X = [x_{t-n+1} ;|; \dots ;|; x_{t-2} ;|; x_{t-1}] \in \mathbb{R}^{1 \times (n-1)D}$$</p>
+<h3 id="step-3-隐层非线性变换-hidden-layer" class="heading-element"><span>Step 3: 隐层非线性变换 (Hidden Layer)</span>
+  <a href="#step-3-%e9%9a%90%e5%b1%82%e9%9d%9e%e7%ba%bf%e6%80%a7%e5%8f%98%e6%8d%a2-hidden-layer" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>将拼接后的长向量 $X$ 送入隐藏层。隐藏层通过激活函数（如 $\tanh$）进行非线性映射：</p>
+<p>$$H = \tanh(X \cdot W_{hx} + b_h)$$</p>
+<p>其中：</p>
+<ul>
+<li>$W_{hx} \in \mathbb{R}^{(n-1)D \times H_{dim}}$ 是输入层到隐层的权重矩阵（$H_{dim}$ 为隐层神经元个数）。</li>
+<li>$b_h \in \mathbb{R}^{1 \times H_{dim}}$ 是隐层偏置。</li>
+</ul>
+<h3 id="step-4-输出层与概率计算-output-layer" class="heading-element"><span>Step 4: 输出层与概率计算 (Output Layer)</span>
+  <a href="#step-4-%e8%be%93%e5%87%ba%e5%b1%82%e4%b8%8e%e6%a6%82%e7%8e%87%e8%ae%a1%e7%ae%97-output-layer" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>计算未归一化的得分（Logits）$Y$，并映射回词表空间 $|V|$：</p>
+<p>$$Y = H \cdot W_{yh} + X \cdot W_{yx} + b_y$$</p>
+<blockquote>
+<p><strong>注</strong>：经典 NNLM（如 Bengio 2003）中包含一条从输入层直连到输出层的线性边权重 $W_{yx} \in \mathbb{R}^{(n-1)D \times |V|}$（可选，有时为减少参数可舍弃）。$W_{yh} \in \mathbb{R}^{H_{dim} \times |V|}$ 为隐层到输出层的权重。</p>
+</blockquote>
+<p>通过 $\text{Softmax}$ 函数计算词表 $|V|$ 上每一个词的条件概率分布：</p>
+<p>$$P(w_t \mid w_{t-n+1}^{t-1}) = \text{Softmax}(Y) = \frac{\exp(Y[w_t])}{\sum_{j=1}^{|V|} \exp(Y[j])}$$</p>
+<h3 id="step-5-损失计算与反向传播-loss--backpropagation" class="heading-element"><span>Step 5: 损失计算与反向传播 (Loss &amp; Backpropagation)</span>
+  <a href="#step-5-%e6%8d%9f%e5%a4%b1%e8%ae%a1%e7%ae%97%e4%b8%8e%e5%8f%8d%e5%90%91%e4%bc%a0%e6%92%ad-loss--backpropagation" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>使用交叉熵损失（Cross-Entropy Loss）计算预测分布与真实当前词 $w_t$（其 One-hot 标签为 $y$）之间的差距：</p>
+<p>$$\mathcal{L} = -\sum_{j=1}^{|V|} y_j \log P(j) = -\log P(w_t \mid w_{t-n+1}^{t-1})$$</p>
+<p>通过梯度下降（SGD / Adam）算法，将误差反向传播，不仅更新网络参数 $W_{hx}, b_h, W_{yh}, b_y$，同时关键性地更新和维护词向量矩阵 $C$。</p>
+<hr>
+<h2 id="3-推理阶段-inference-phase---自回归生成" class="heading-element"><span>3. 推理阶段 (Inference Phase - 自回归生成)</span>
+  <a href="#3-%e6%8e%a8%e7%90%86%e9%98%b6%e6%ae%b5-inference-phase---%e8%87%aa%e5%9b%9e%e5%bd%92%e7%94%9f%e6%88%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>在推理阶段（如文本生成），模型基于给定的前缀，以自回归（Autoregressive）的方式逐字预测下一个词。</p>
+<h3 id="step-1-上下文滑动窗口截取与填充-padding" class="heading-element"><span>Step 1: 上下文滑动窗口截取与填充 (Padding)</span>
+  <a href="#step-1-%e4%b8%8a%e4%b8%8b%e6%96%87%e6%bb%91%e5%8a%a8%e7%aa%97%e5%8f%a3%e6%88%aa%e5%8f%96%e4%b8%8e%e5%a1%ab%e5%85%85-padding" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>假设当前需要生成第 $t$ 个词，模型需要往前寻找 $n-1$ 个词作为输入：</p>
+<ul>
+<li><strong>正常情况</strong>：如果左侧已有足够的生成历史，直接截取最近的 $n-1$ 个词。</li>
+<li><strong>边界情况</strong>：如果是句首，左侧历史词不足 $n-1$ 个，则在左侧使用特殊占位符 <code>[PAD]</code> 进行<strong>填充（Padding）</strong>，使其长度严格保持为 $n-1$。<code>[PAD]</code> 在矩阵 $C$ 中同样有一个对应的初始化向量（通常固定为全 0 或参与训练）。</li>
+</ul>
+<h3 id="step-2-前向传播" class="heading-element"><span>Step 2: 前向传播</span>
+  <a href="#step-2-%e5%89%8d%e5%90%91%e4%bc%a0%e6%92%ad" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>与训练时一致，将这 $n-1$ 个词通过词向量矩阵 $C$ 查表、拼接成 $(n-1) \times D$ 维长向量，经过隐藏层变换，最终在输出层通过 $\text{Softmax}$ 得到一个全词表 $|V|$ 的概率分布：</p>
+<p>$$\hat{P} = \text{Softmax}(Y) \in \mathbb{R}^{|V|}$$</p>
+<h3 id="step-3-采样策略-sampling-strategy" class="heading-element"><span>Step 3: 采样策略 (Sampling Strategy)</span>
+  <a href="#step-3-%e9%87%87%e6%a0%b7%e7%ad%96%e7%95%a5-sampling-strategy" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>为了避免每次生成的文本完全一致或陷入死循环，不能简单地每次都取概率最大的词（Greedy Search，贪心搜索），而是根据概率分布 $\hat{P}$ 采用相应的<strong>采样策略</strong>来决定最终输出的词 $w_t^*$：</p>
+<ul>
+<li><strong>Top-k 采样</strong>：只保留概率最高的前 $k$ 个词，重新归一化后进行随机采样。</li>
+<li><strong>Top-p (Nucleus) 采样</strong>：按概率从大到小累加，直到累加值达到阈值 $p$（如 0.9），只在这部分词中重新归一化并采样。</li>
+<li><strong>Temperature (温度系数) 调节</strong>：通过参数 $T$ 缩放 Logits（$Y/T$）后再做 Softmax。$T$ 越大，分布越平缓，生成越有创意/随机；$T$ 越小，分布越尖锐，生成越保守。</li>
+</ul>
+<h3 id="step-4-自回归循环" class="heading-element"><span>Step 4: 自回归循环</span>
+  <a href="#step-4-%e8%87%aa%e5%9b%9e%e5%bd%92%e5%be%aa%e7%8e%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>将采样得到的词 $w_t^*$ 拼接回已生成的序列末尾，更新当前序列：</p>
+<p>$$\text{New Sequence} = (\dots, w_{t-1}, w_t^*)$$</p>
+<p>滚动滑动窗口，将 $w_t^*$ 作为下一步的上下文历史之一，重复上述 <strong>Step 1 ~ Step 3</strong>，直至触发终止符 <code>[EOS]</code> 或达到最大生成长度。</p>
+<h2 id="4如果神经语言模型的词表-v-很大如何加速训练避免直接用-softmax" class="heading-element"><span>4.如果神经语言模型的词表 V 很大，如何加速训练，避免直接用 softmax？</span>
+  <a href="#4%e5%a6%82%e6%9e%9c%e7%a5%9e%e7%bb%8f%e8%af%ad%e8%a8%80%e6%a8%a1%e5%9e%8b%e7%9a%84%e8%af%8d%e8%a1%a8-v-%e5%be%88%e5%a4%a7%e5%a6%82%e4%bd%95%e5%8a%a0%e9%80%9f%e8%ae%ad%e7%bb%83%e9%81%bf%e5%85%8d%e7%9b%b4%e6%8e%a5%e7%94%a8-softmax" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>在神经语言模型（如 NNLM、Word2Vec）中，当词表规模 $|V|$ 极大时，标准 $\text{Softmax}$ 的分母求和需要遍历整个词表，计算复杂度高达 $\mathcal{O}(|V|)$。为了攻克这一算力瓶颈，<strong>负采样（Negative Sampling）</strong> 与 <strong>层级 Softmax（Hierarchical Softmax）</strong> 应运而生。</p>
+<h3 id="一负采样-negative-sampling-neg" class="heading-element"><span>一、负采样 (Negative Sampling, NEG)</span>
+  <a href="#%e4%b8%80%e8%b4%9f%e9%87%87%e6%a0%b7-negative-sampling-neg" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="1-核心思想" class="heading-element"><span>1. 核心思想</span>
+  <a href="#1-%e6%a0%b8%e5%bf%83%e6%80%9d%e6%83%b3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>不与词表里的每一个错词（负样本）较劲。每次训练时，模型只需要识别正确的上下文词（正样本），并随机盲抽几个无关的错词（负样本，通常 $k \in [5, 20]$）作为陪衬。更新参数时，也只更新这 $1+k$ 个词相关的权重，将计算复杂度直接降至 $\mathcal{O}(k)$。</p>
+<h4 id="2-数学损失函数" class="heading-element"><span>2. 数学损失函数</span>
+  <a href="#2-%e6%95%b0%e5%ad%a6%e6%8d%9f%e5%a4%b1%e5%87%bd%e6%95%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>引入 $\text{Sigmoid}$ 函数 $\sigma(s) = \frac{1}{1 + \exp(-s)}$ 评估两个词是否具有真实的上下文关系。对于当前上下文特征向量 $\boldsymbol{x}$、正样本 $\boldsymbol{w}$ 以及 $k$ 个负样本 $\tilde{\boldsymbol{w}}_i$，其优化损失函数（Loss）为：</p>
+<p>$$
+\mathrm{Loss}_{\mathrm{NEG}} = -\ln\sigma(x^\top v _w) - \sum_{i=1}^{k} \ln\sigma(- x^\top v_{\tilde{w}_i})
+$$</p>
+<ul>
+<li><strong>前项</strong>：拉近正样本与上下文的距离，使其内积增大。</li>
+<li><strong>后项</strong>：利用 $\sigma(-s) = 1 - \sigma(s)$，推远负样本与上下文的距离。</li>
+</ul>
+<h4 id="3-带权采样机制" class="heading-element"><span>3. 带权采样机制</span>
+  <a href="#3-%e5%b8%a6%e6%9d%83%e9%87%87%e6%a0%b7%e6%9c%ba%e5%88%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>负样本盲抽采用基于词频的幂函数惩罚公式，以适度提升低频词被抽中的概率，压低超高频词的统治地位：</p>
+<p>$$P(w_i) = \frac{U(w_i)^{\frac{3}{4}}}{\sum_{j=1}^{|V|} U(j)^{\frac{3}{4}}}$$</p>
+<hr>
+<h3 id="二-层级-softmax-hierarchical-softmax-hs" class="heading-element"><span>二、 层级 Softmax (Hierarchical Softmax, HS)</span>
+  <a href="#%e4%ba%8c-%e5%b1%82%e7%ba%a7-softmax-hierarchical-softmax-hs" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="1-基础架构霍夫曼树huffman-tree" class="heading-element"><span>1. 基础架构：霍夫曼树（Huffman Tree）</span>
+  <a href="#1-%e5%9f%ba%e7%a1%80%e6%9e%b6%e6%9e%84%e9%9c%8d%e5%a4%ab%e6%9b%bc%e6%a0%91huffman-tree" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>层级 Softmax 放弃了输出层离散平铺的映射，将整个词表构建为一棵二叉树（通常采用霍夫曼树）。</p>
+<ul>
+<li><strong>叶子节点（Leaf Nodes）</strong>：树的最末端，对应词表里的每一个具体单词 $w$。一棵有 $|V|$ 个单词的树，恰好有 $|V|$ 个叶子节点。</li>
+<li><strong>内部节点（Internal Nodes）</strong>：代表分叉路口。每个内部节点都驻扎着一个“带路守卫”，拥有一个属于该节点、<strong>独立且可学习的权重向量 $\theta_{node}$</strong>。</li>
+<li><strong>霍夫曼编码红利</strong>：该树基于“词频”构建，语料库里的绝对高频词（如“的”、“是”）被安排在离根节点最近的浅层；极度冷门的罕见词（如“魑魅”)则被发配到树的最深处。</li>
+</ul>
+<hr>
+<h4 id="2-训练阶段原理精确计算与定向更新" class="heading-element"><span>2. 训练阶段原理（精确计算与定向更新）</span>
+  <a href="#2-%e8%ae%ad%e7%bb%83%e9%98%b6%e6%ae%b5%e5%8e%9f%e7%90%86%e7%b2%be%e7%a1%ae%e8%ae%a1%e7%ae%97%e4%b8%8e%e5%ae%9a%e5%90%91%e6%9b%b4%e6%96%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>在训练阶段，模型的核心任务是：<strong>拉高当前样本正确目标词的概率，并对该目标词路径上的相关参数进行梯度更新。</strong></p>
+<h5 id="-自底向上的路径提取代码层面" class="heading-element"><span>① 自底向上的路径提取（代码层面）</span>
+  <a href="#-%e8%87%aa%e5%ba%95%e5%90%91%e4%b8%8a%e7%9a%84%e8%b7%af%e5%be%84%e6%8f%90%e5%8f%96%e4%bb%a3%e7%a0%81%e5%b1%82%e9%9d%a2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h5><p>由于是训练状态，我们<strong>明确知晓当前样本的“标准答案”</strong>（即当前要预测的目标词 $w$）。
+为了获得该词在树中的位置，程序在内存中从该词对应的叶子节点开始，通过父指针 <code>p = fa[p]</code> 一路往上跳，直到跳到根节点。通过这个逆向过程，我们可以快速且静态地提取出一条唯一的<strong>方向轨迹（路径掩码 Matrix Mask）</strong>，知道从根节点到该词需要经过哪些内部节点，以及每次是需要左拐（<code>1</code>）还是右拐（<code>-1</code>）。</p>
+<h5 id="-自顶向下的前向传播神经网络计算" class="heading-element"><span>② 自顶向下的前向传播（神经网络计算）</span>
+  <a href="#-%e8%87%aa%e9%a1%b6%e5%90%91%e4%b8%8b%e7%9a%84%e5%89%8d%e5%90%91%e4%bc%a0%e6%92%ad%e7%a5%9e%e7%bb%8f%e7%bd%91%e7%bb%9c%e8%ae%a1%e7%ae%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h5><p>拿到路径地图后，代表上下文含义的特征向量 $x$ 从根节点出发，顺流而下：</p>
+<ol>
+<li>每到一个路径指定的内部节点 $n(w, j)$，向量 $x$ 便与该节点的守卫参数 $\theta_{n(w, j)}$ 进行点乘内积，并通过 $\text{Sigmoid}$ 算出朝正确方向走的条件概率。</li>
+<li>将一路上所有正确抉择的条件概率进行<strong>链式连乘</strong>，即得到产生该目标词的全局绝对概率：</li>
+</ol>
+<p>$$P(w \mid \text{Context}) = \prod_{j=1}^{L(w)-1} \sigma\left( \text{sign}(w, j) \cdot x^T \theta_{n(w, j)} \right)$$</p>
+<h5 id="-局部参数更新" class="heading-element"><span>③ 局部参数更新</span>
+  <a href="#-%e5%b1%80%e9%83%a8%e5%8f%82%e6%95%b0%e6%9b%b4%e6%96%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h5><p>计算交叉熵损失 $\text{Loss} = -\ln P(w \mid \text{Context})$ 并进行反向传播。此时，<strong>只有该目标词唯一路径上经过的内部节点参数 $\theta$ 会被更新</strong>，树中其余所有无关分支的参数全部静止。这使得单次训练的计算复杂度直接锁定在路径深度 $\mathcal{O}(L(w))$。</p>
+<hr>
+<h4 id="3-推理阶段原理全路漫延与-beam-search-剪枝" class="heading-element"><span>3. 推理阶段原理（全路漫延与 Beam Search 剪枝）</span>
+  <a href="#3-%e6%8e%a8%e7%90%86%e9%98%b6%e6%ae%b5%e5%8e%9f%e7%90%86%e5%85%a8%e8%b7%af%e6%bc%ab%e5%bb%b6%e4%b8%8e-beam-search-%e5%89%aa%e6%9e%9d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>在推理（预测下一个词）阶段，模型<strong>没有标准答案带路</strong>。</p>
+<h5 id="-概率的自顶向下全路漫延" class="heading-element"><span>① 概率的自顶向下全路漫延</span>
+  <a href="#-%e6%a6%82%e7%8e%87%e7%9a%84%e8%87%aa%e9%a1%b6%e5%90%91%e4%b8%8b%e5%85%a8%e8%b7%af%e6%bc%ab%e5%bb%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h5><p>没有了人工牵引，特征向量 $x$ 从根节点注入后，会像高山流水一样向所有分支蔓延。</p>
+<ul>
+<li>根节点守卫计算后，分流出左拐概率 $P(L)$ 和右拐概率 $P(R) = 1 - P(L)$。</li>
+<li>水流继续流向下一层，在上一层条件概率的基础上继续连乘各自节点的二分类概率。</li>
+<li>当所有水流严格、完整地流到最底层的全部叶子节点时，整个词表所有词的最终绝对概率分布便被计算了出来，且全表概率严格归一：$\sum_{w \in V} P(w \mid \text{Context}) = 1$。</li>
+</ul>
+<h5 id="-工业级加速核心带剪枝的-bfsbeam-search" class="heading-element"><span>② 工业级加速核心：带剪枝的 BFS（Beam Search）</span>
+  <a href="#-%e5%b7%a5%e4%b8%9a%e7%ba%a7%e5%8a%a0%e9%80%9f%e6%a0%b8%e5%bf%83%e5%b8%a6%e5%89%aa%e6%9e%9d%e7%9a%84-bfsbeam-search" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h5><p>如果傻傻地让水流漫延到全树每一个节点，计算复杂度会退化至 $\mathcal{O}(|V|)$。在工程落地中，我们采用 <strong>Beam Search（束搜索）</strong>，其本质是一种<strong>带剪枝的广度优先搜索（Pruned BFS）</strong>。</p>
+<p>假设我们设置束宽（Beam Width）为 $k=2$，意味着在整棵树的每一层，我们<strong>最多只允许 2 个分支存活</strong>：</p>
+<ol>
+<li><strong>第一层（根节点）</strong>：向量 $x$ 只计算根节点 1 个内部节点的 $\text{Sigmoid}$，产生左拐（0.8）和右拐（0.2）两个分支，两个分支皆保留。</li>
+<li><strong>第二层</strong>：左、右两个节点各自分裂出两个孙子。向量 $x$ <strong>只计算这 $2k = 4$ 个节点的 $\text{Sigmoid}$ 概率</strong>，并计算出它们各自的路径累积概率（例如 <code>[0.72, 0.08, 0.12, 0.08]</code>）。</li>
+<li><strong>当场剪枝（Prune）</strong>：算法在这个大小为 $2k$ 的临时小概率数组里调用 <code>top_k()</code>，<strong>只保留前 2 名（0.72 和 0.12）</strong>。剩下两个得分仅 0.08 的弱势分支被当场抹杀，其伞下的庞大子树彻底被隔离，模型后续不再对其进行任何计算。</li>
+<li><strong>层层推进直到叶子</strong>：由于树高为 $\log_2 |V|$，且每一层雷打不动地只计算 $2k$ 个节点，推理的最终计算复杂度期望成功被按在 <strong>$\mathcal{O}(k \cdot \log_2 |V|)$</strong> 级别。</li>
+</ol>
+<hr>
+<h3 id="三疑问" class="heading-element"><span>三、疑问</span>
+  <a href="#%e4%b8%89%e7%96%91%e9%97%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h3 id="-疑问-1为什么要人为定义路径方向为-1-和--1" class="heading-element"><span>❓ 疑问 1：为什么要人为定义路径方向为 1 和 -1？</span>
+  <a href="#-%e7%96%91%e9%97%ae-1%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e4%ba%ba%e4%b8%ba%e5%ae%9a%e4%b9%89%e8%b7%af%e5%be%84%e6%96%b9%e5%90%91%e4%b8%ba-1-%e5%92%8c--1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>答：这是为了追求统一连乘公式的“数学对称美学”，避免代码中出现臃肿的分类讨论。</strong></p>
+<p>在二分类分支中：</p>
+<ul>
+<li>设向左走的正确概率为：$\sigma(x^T \theta)$</li>
+<li>则向右走的正确概率为：$1 - \sigma(x^T \theta) = \sigma(-x^T \theta)$</li>
+</ul>
+<p>为了不用 <code>if-else</code> 分开写“左”和“右”的概率，科学家引入控制正负号的开关变量 $\text{sign} \in {1, -1}$：</p>
+<ul>
+<li>真实路径<strong>向左</strong>时，$\text{sign} = 1 \implies \sigma(1 \cdot x^T \theta) = \sigma(x^T \theta)$</li>
+<li>真实路径<strong>向右</strong>时，$\text{sign} = -1 \implies \sigma(-1 \cdot x^T \theta) = \sigma(-x^T \theta)$</li>
+</ul>
+<p>借助这一技巧，无论向左还是向右，任意节点的抉择概率都可以统一表达。</p>
+<hr>
+<h3 id="-疑问-2训练时向量进入树是随机游走吗深层词多乘了参数会导致概率不准吗" class="heading-element"><span>❓ 疑问 2：训练时向量进入树是随机游走吗？深层词多乘了参数会导致概率不准吗？</span>
+  <a href="#-%e7%96%91%e9%97%ae-2%e8%ae%ad%e7%bb%83%e6%97%b6%e5%90%91%e9%87%8f%e8%bf%9b%e5%85%a5%e6%a0%91%e6%98%af%e9%9a%8f%e6%9c%ba%e6%b8%b8%e8%b5%b0%e5%90%97%e6%b7%b1%e5%b1%82%e8%af%8d%e5%a4%9a%e4%b9%98%e4%ba%86%e5%8f%82%e6%95%b0%e4%bc%9a%e5%af%bc%e8%87%b4%e6%a6%82%e7%8e%87%e4%b8%8d%e5%87%86%e5%90%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>答：绝对不是随机游走。</strong> 训练时由“标准答案”提供逆向索引硬编码定死唯一路径，前向神经网络计算时向量顺流而下即可。对于深层词（冷门词），因为要通过更多的卡口筛选，一路上多连乘了多个小于 1 的 $\text{Sigmoid}$ 概率值，导致最终绝对概率更低，这在条件概率链式法则中完全合理且自洽。</p>
+<hr>
+<h3 id="-疑问-3推理时的-beam-search-剪枝是先全遍历每个节点再剪枝吗" class="heading-element"><span>❓ 疑问 3：推理时的 Beam Search 剪枝，是先全遍历每个节点再剪枝吗？</span>
+  <a href="#-%e7%96%91%e9%97%ae-3%e6%8e%a8%e7%90%86%e6%97%b6%e7%9a%84-beam-search-%e5%89%aa%e6%9e%9d%e6%98%af%e5%85%88%e5%85%a8%e9%81%8d%e5%8e%86%e6%af%8f%e4%b8%aa%e8%8a%82%e7%82%b9%e5%86%8d%e5%89%aa%e6%9e%9d%e5%90%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>答：正好相反！如果是先全遍历再剪枝，复杂度在一开始就已经崩盘为 $\mathcal{O}(|V|)$ 了。</strong>
+Beam Search 采取的是<strong>动态前置防御剪枝</strong>。在第一层保留 $k$ 个，第二层只让这 $k$ 个节点去繁衍下一代（产生 $2k$ 个节点），计算完这 $2k$ 个繁衍节点的局部小数组后，立刻用剪刀杀掉一半，只留 $k$ 个去繁衍第三代。它是<strong>在往下走的过程中限制繁衍资格</strong>，从而实现了真正的对数级加速。</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-06-04 06:01:02">更新于 2026-06-04&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/ml%E7%A5%9E%E7%BB%8F%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/%E7%A5%9E%E7%BB%8F%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" class="post-tag" title="标签 - 神经语言模型">神经语言模型</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/ml%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" class="post-nav-item" rel="prev" title="统计语言模型"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>统计语言模型</a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>
