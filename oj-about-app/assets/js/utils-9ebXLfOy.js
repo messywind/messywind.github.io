@@ -1,0 +1,1 @@
+function e(e){const t=document.querySelector(`.${e}-highlight`),r=new IntersectionObserver(e=>{e.forEach(e=>{e.isIntersecting?e.target.classList.add("highlight-enter-active"):e.target.classList.remove("highlight-enter-active")})},{threshold:0});t&&r.observe(t)}export{e as s};

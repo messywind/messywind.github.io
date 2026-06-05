@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="MessyWind Blog">
+  <defs>
+    <linearGradient id="mw-bg" x1="18" y1="18" x2="142" y2="142" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#84c5ff"/>
+      <stop offset="0.48" stop-color="#b7efbf"/>
+      <stop offset="1" stop-color="#ffe08a"/>
+    </linearGradient>
+    <linearGradient id="mw-ink" x1="38" y1="44" x2="123" y2="119" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#111315"/>
+      <stop offset="1" stop-color="#31506f"/>
+    </linearGradient>
+  </defs>
+  <rect width="160" height="160" rx="40" fill="url(#mw-bg)"/>
+  <circle cx="80" cy="80" r="58" fill="rgba(255,255,255,0.62)" stroke="rgba(17,19,21,0.14)" stroke-width="3"/>
+  <path fill="url(#mw-ink)" d="M35 111V49h16l18 31 18-31h16v62H88V75L73 101h-8L50 75v36H35Zm73 0 13-62h15l-13 62h-15Z"/>
+</svg>

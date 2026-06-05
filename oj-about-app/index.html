@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/images/blog-brand/logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <title>凌乱之风的博客</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      (function() {
+        const doc = document.documentElement;
+        
+        function updateRem() {
+          const width = doc.clientWidth;          
+          if (width <= 320) {
+            doc.style.fontSize = "18px";
+          } else if (width >= 1920) {
+            doc.style.fontSize = "20px";
+          } else {
+            doc.style.fontSize = "";
+          }
+        }
+
+        updateRem();
+        
+        let timer;
+        window.addEventListener("resize", () => {
+          clearTimeout(timer);
+          timer = setTimeout(updateRem, 300);
+        });
+      })();
+    </script>
+    <script type="module" crossorigin src="/oj-about-app/assets/js/index-DkJQ2UB_.js"></script>
+    <link rel="modulepreload" crossorigin href="/oj-about-app/assets/js/vendor-KDdJdyBV.js">
+    <link rel="modulepreload" crossorigin href="/oj-about-app/assets/js/vue-core-CN9mqXZG.js">
+    <link rel="modulepreload" crossorigin href="/oj-about-app/assets/js/vue-ecosystem-BnIodEgL.js">
+    <link rel="modulepreload" crossorigin href="/oj-about-app/assets/js/element-plus-BY_yHmju.js">
+    <link rel="modulepreload" crossorigin href="/oj-about-app/assets/js/gsap-DkW3BH_U.js">
+    <link rel="modulepreload" crossorigin href="/oj-about-app/assets/js/utils-9ebXLfOy.js">
+    <link rel="modulepreload" crossorigin href="/oj-about-app/assets/js/about-components-BszMUKHh.js">
+    <link rel="modulepreload" crossorigin href="/oj-about-app/assets/js/components-CD2S4Q0x.js">
+    <link rel="stylesheet" crossorigin href="/oj-about-app/assets/css/element-plus-DCy6a4AG.css">
+    <link rel="stylesheet" crossorigin href="/oj-about-app/assets/css/about-components-CDi04gHL.css">
+    <link rel="stylesheet" crossorigin href="/oj-about-app/assets/css/components-BdHlYmzt.css">
+    <link rel="stylesheet" crossorigin href="/oj-about-app/assets/css/index-CN4echVs.css">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
