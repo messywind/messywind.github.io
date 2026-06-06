@@ -49,6 +49,332 @@
     <link rel="stylesheet" crossorigin href="/oj-about-app/assets/css/about-components-CDi04gHL.css">
     <link rel="stylesheet" crossorigin href="/oj-about-app/assets/css/components-BdHlYmzt.css">
     <link rel="stylesheet" crossorigin href="/oj-about-app/assets/css/index-CN4echVs.css">
+    <link rel="stylesheet" href="/lib/fontawesome-free/all.min.css">
+    <style id="blog-nav-inline-fix">
+      .nav-container {
+        --blog-nav-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.66));
+        --blog-nav-surface-strong: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 247, 250, 0.94));
+        --blog-nav-hover: rgba(29, 29, 31, 0.075);
+        --blog-nav-border: rgba(29, 29, 31, 0.12);
+        --blog-nav-text: #1d1d1f;
+        --blog-nav-muted: rgba(29, 29, 31, 0.7);
+        --blog-nav-shadow: 0 18px 46px rgba(15, 23, 42, 0.12), 0 1px 0 rgba(255, 255, 255, 0.72) inset;
+        top: 0.78rem !important;
+        left: 50% !important;
+        width: min(calc(100vw - 2.5rem), 1180px) !important;
+        max-width: 1180px !important;
+        height: 3.08rem !important;
+        min-height: 3.08rem !important;
+        padding: 0 0.74rem !important;
+        border: 1px solid var(--blog-nav-border) !important;
+        border-radius: 8px !important;
+        background: var(--blog-nav-surface) !important;
+        overflow: visible !important;
+        box-shadow: var(--blog-nav-shadow) !important;
+        transform: translateX(-50%) translateY(0) !important;
+        backdrop-filter: blur(22px) saturate(165%) !important;
+        -webkit-backdrop-filter: blur(22px) saturate(165%) !important;
+        transition:
+          background 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+          border-color 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+          box-shadow 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.32s cubic-bezier(0.22, 1, 0.36, 1) !important;
+      }
+
+      html,
+      body {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .nav-container {
+          --blog-nav-surface: linear-gradient(180deg, rgba(30, 30, 34, 0.86), rgba(21, 21, 24, 0.78));
+          --blog-nav-surface-strong: linear-gradient(180deg, rgba(38, 38, 42, 0.98), rgba(24, 24, 28, 0.96));
+          --blog-nav-hover: rgba(255, 255, 255, 0.105);
+          --blog-nav-border: rgba(255, 255, 255, 0.13);
+          --blog-nav-text: #f4f4f5;
+          --blog-nav-muted: rgba(244, 244, 245, 0.78);
+          --blog-nav-shadow: 0 20px 54px rgba(0, 0, 0, 0.36), 0 1px 0 rgba(255, 255, 255, 0.1) inset;
+        }
+      }
+
+      .nav-container:hover {
+        border-color: rgba(29, 29, 31, 0.16) !important;
+        box-shadow: 0 22px 58px rgba(15, 23, 42, 0.16), 0 1px 0 rgba(255, 255, 255, 0.78) inset !important;
+        transform: translateX(-50%) translateY(0) !important;
+      }
+
+      .nav-container .links,
+      .nav-container .links .nav-item {
+        overflow: visible !important;
+      }
+
+      .nav-container .logo {
+        gap: 0.56rem !important;
+        padding-left: 0 !important;
+      }
+
+      .nav-container .logo-img {
+        width: 2.12rem !important;
+        height: 2.12rem !important;
+        border: 1px solid rgba(255, 255, 255, 0.58) !important;
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12) !important;
+      }
+
+      .nav-container .logo-text {
+        color: var(--blog-nav-text) !important;
+        font-weight: 760 !important;
+        letter-spacing: 0 !important;
+      }
+
+      .nav-container .links {
+        gap: 0.12rem !important;
+      }
+
+      .nav-container .links .link::before,
+      .nav-container .links .submenu a::before {
+        content: none !important;
+        display: none !important;
+      }
+
+      .nav-container .links .link,
+      .nav-container .links .submenu a {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 0.34rem !important;
+        color: var(--blog-nav-muted) !important;
+        border-radius: 8px !important;
+        font-size: 0.9rem !important;
+        font-weight: 720 !important;
+        letter-spacing: 0 !important;
+        white-space: nowrap !important;
+        transition:
+          color 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+          background 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.28s cubic-bezier(0.2, 1.12, 0.36, 1) !important;
+      }
+
+      .nav-container .links .link:focus,
+      .nav-container .links .submenu a:focus,
+      .nav-container .tools .btn:focus,
+      .nav-container .tools .btn a:focus {
+        outline: none !important;
+        box-shadow: none !important;
+      }
+
+      .nav-container .links .link {
+        height: 2.08rem !important;
+        padding: 0 0.56rem !important;
+      }
+
+      .nav-container .links .link:hover,
+      .nav-container .links .nav-item:hover > .link,
+      .nav-container .links .nav-item:focus-within > .link,
+      .nav-container .links .nav-item.is-submenu-open > .link,
+      .nav-container .links .submenu a:hover {
+        color: var(--blog-nav-text) !important;
+        background: var(--blog-nav-hover) !important;
+        transform: translateY(-1px) !important;
+      }
+
+      .nav-container .blog-nav-icon {
+        display: inline-flex !important;
+        width: 1rem !important;
+        min-width: 1rem !important;
+        height: 1rem !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: currentColor !important;
+        font-size: 0.88em !important;
+        opacity: 0.9 !important;
+      }
+
+      .nav-container .links .nav-item.has-submenu::after {
+        position: absolute !important;
+        right: -0.8rem !important;
+        bottom: -1.1rem !important;
+        left: -0.8rem !important;
+        height: 1.38rem !important;
+        content: "" !important;
+      }
+
+      .nav-container .links .nav-item .submenu {
+        top: calc(100% + 0.18rem) !important;
+        width: 11.8rem !important;
+        min-width: 11.8rem !important;
+        max-width: 11.8rem !important;
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        padding: 0.46rem !important;
+        border: 1px solid var(--blog-nav-border) !important;
+        border-radius: 8px !important;
+        background: var(--blog-nav-surface-strong) !important;
+        box-shadow: var(--blog-nav-shadow) !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        scrollbar-width: none !important;
+        visibility: hidden !important;
+        transform: translate3d(-50%, -0.55rem, 0) scale(0.972) !important;
+        transform-origin: 50% 0 !important;
+        backdrop-filter: blur(24px) saturate(165%) !important;
+        -webkit-backdrop-filter: blur(24px) saturate(165%) !important;
+        transition:
+          opacity 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+          visibility 0.18s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.34s cubic-bezier(0.2, 1.18, 0.36, 1) !important;
+      }
+
+      .nav-container .links .nav-item .submenu::-webkit-scrollbar {
+        display: none !important;
+      }
+
+      .nav-container .links .nav-item:hover .submenu,
+      .nav-container .links .nav-item:focus-within .submenu,
+      .nav-container .links .nav-item.is-submenu-open .submenu {
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        visibility: visible !important;
+        transform: translate3d(-50%, 0, 0) scale(1) !important;
+      }
+
+      .nav-container .links .nav-item .submenu a {
+        width: 100% !important;
+        height: 2.2rem !important;
+        min-height: 2.2rem !important;
+        justify-content: flex-start !important;
+        padding: 0 0.72rem !important;
+        line-height: 1 !important;
+      }
+
+      .nav-container .tools {
+        gap: 0.54rem !important;
+        padding-right: 0 !important;
+      }
+
+      .nav-container .tools .btn,
+      .nav-container .tools .btn a {
+        border-radius: 8px !important;
+        transition:
+          color 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+          background 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.28s cubic-bezier(0.2, 1.12, 0.36, 1) !important;
+      }
+
+      .nav-container .tools .btn:hover {
+        transform: translateY(-1px) !important;
+      }
+
+      @media (max-width: 1180px) {
+        .nav-container {
+          width: min(calc(100vw - 1rem), 1160px) !important;
+          padding: 0 0.55rem !important;
+        }
+
+        .nav-container .links .link {
+          padding: 0 0.46rem !important;
+        }
+
+        .nav-container .links .link,
+        .nav-container .links .submenu a {
+          gap: 0.28rem !important;
+          font-size: 0.84rem !important;
+        }
+      }
+    </style>
+    <script>
+      (function() {
+        const iconMap = new Map([
+          ["/archives/", "fa-solid fa-archive"],
+          ["/categories/记录/", "fa-solid fa-pencil"],
+          ["/photos-wall/", "fa-solid fa-camera"],
+          ["/categories/游戏/", "fa-solid fa-gamepad"],
+          ["/categories/电子书/", "fa-solid fa-book"],
+          ["/tags/", "fa-solid fa-tags"],
+          ["/friends/", "fa-solid fa-link"],
+          ["/about/", "fa-solid fa-info-circle"],
+          ["/categories/算法竞赛/", "fa-solid fa-trophy"],
+          ["/categories/机器学习/", "fa-solid fa-gears"],
+          ["/categories/网络安全/", "fa-solid fa-shield"],
+          ["/categories/开发/", "fa-solid fa-code"],
+          ["/categories/数学/", "fa-solid fa-square-root-variable"],
+          ["/categories/博客/", "fa-solid fa-file"]
+        ]);
+
+        function decorateLink(link, iconClass) {
+          if (!link || !iconClass) return;
+          const icons = Array.from(link.querySelectorAll(":scope > .blog-nav-icon"));
+          const staleIcon = icons.shift();
+          icons.forEach((icon) => icon.remove());
+          if (staleIcon) {
+            staleIcon.className = iconClass + " blog-nav-icon";
+            return;
+          }
+          const icon = document.createElement("i");
+          icon.className = iconClass + " blog-nav-icon";
+          icon.setAttribute("aria-hidden", "true");
+          link.prepend(icon);
+        }
+
+        function stabilizeNav() {
+          const nav = document.querySelector(".nav-container");
+          if (!nav) return false;
+
+          nav.querySelectorAll(".links a:not([href='javascript:void(0);'])").forEach((link) => {
+            const href = link.getAttribute("href");
+            decorateLink(link, iconMap.get(href));
+          });
+
+          nav.querySelectorAll(".nav-item.has-submenu").forEach((item) => {
+            if (item.dataset.blogStableNav === "true") return;
+            item.dataset.blogStableNav = "true";
+            decorateLink(item.querySelector(":scope > .link"), "fa-solid fa-newspaper");
+
+            let closeTimer = 0;
+            const open = () => {
+              window.clearTimeout(closeTimer);
+              item.classList.add("is-submenu-open");
+            };
+            const close = () => {
+              window.clearTimeout(closeTimer);
+              closeTimer = window.setTimeout(() => item.classList.remove("is-submenu-open"), 460);
+            };
+
+            item.addEventListener("pointerenter", open);
+            item.addEventListener("pointerleave", close);
+            item.addEventListener("mouseenter", open);
+            item.addEventListener("mouseleave", close);
+            item.addEventListener("focusin", open);
+            item.addEventListener("focusout", close);
+            item.querySelector(":scope > .submenu")?.addEventListener("pointerenter", open);
+            item.querySelector(":scope > .link")?.addEventListener("click", (event) => {
+              event.preventDefault();
+              window.clearTimeout(closeTimer);
+              item.classList.toggle("is-submenu-open");
+            });
+          });
+
+          return true;
+        }
+
+        function boot() {
+          if (stabilizeNav()) return;
+          const observer = new MutationObserver(() => {
+            if (stabilizeNav()) observer.disconnect();
+          });
+          observer.observe(document.documentElement, { childList: true, subtree: true });
+          window.setTimeout(() => observer.disconnect(), 8000);
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", boot);
+        } else {
+          boot();
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="app"></div>
