@@ -284,5 +284,5 @@ LSTM 单元内部雷打不动地包含了 4 个并行的门控计算网络（遗
 ---
 
 > 作者: [凌乱之风](https://github.com/messywind)  
-> URL: https://blog.messywind.top/posts/ml-rnn-lstm/  
+> URL: https://blog.messywind.top/posts/mlrnn-lstm/  
 
