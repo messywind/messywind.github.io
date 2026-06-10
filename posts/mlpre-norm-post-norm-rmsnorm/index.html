@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Pre-Norm &amp; Post-Norm &amp; RMSNorm - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="模块一：核心数学公式与基础理论 标准化算法的核心目的是将隐藏层特征向量的数值范围约束在健康的区间内。假设单样本的隐藏层特征向量为 $x \in \mathbb{R}^d$，其中 $d$ 为特征维度。
+"><meta name="keywords" content='Pre-Norm, Post-Norm, RMSNorm'>
+  <meta itemprop="name" content="Pre-Norm & Post-Norm & RMSNorm">
+  <meta itemprop="description" content="模块一：核心数学公式与基础理论 标准化算法的核心目的是将隐藏层特征向量的数值范围约束在健康的区间内。假设单样本的隐藏层特征向量为 $x \in \mathbb{R}^d$，其中 $d$ 为特征维度。">
+  <meta itemprop="datePublished" content="2026-06-10T14:32:00+00:00">
+  <meta itemprop="dateModified" content="2026-06-10T08:54:18+00:00">
+  <meta itemprop="wordCount" content="2826">
+  <meta itemprop="keywords" content="Pre-Norm,Post-Norm,RMSNorm"><meta property="og:url" content="https://blog.messywind.top/posts/mlpre-norm-post-norm-rmsnorm/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="Pre-Norm & Post-Norm & RMSNorm">
+  <meta property="og:description" content="模块一：核心数学公式与基础理论 标准化算法的核心目的是将隐藏层特征向量的数值范围约束在健康的区间内。假设单样本的隐藏层特征向量为 $x \in \mathbb{R}^d$，其中 $d$ 为特征维度。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-06-10T14:32:00+00:00">
+    <meta property="article:modified_time" content="2026-06-10T08:54:18+00:00">
+    <meta property="article:tag" content="Pre-Norm">
+    <meta property="article:tag" content="Post-Norm">
+    <meta property="article:tag" content="RMSNorm">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Pre-Norm & Post-Norm & RMSNorm">
+  <meta name="twitter:description" content="模块一：核心数学公式与基础理论 标准化算法的核心目的是将隐藏层特征向量的数值范围约束在健康的区间内。假设单样本的隐藏层特征向量为 $x \in \mathbb{R}^d$，其中 $d$ 为特征维度。">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mlpre-norm-post-norm-rmsnorm/" title="Pre-Norm &amp; Post-Norm &amp; RMSNorm - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/mlbeam-search-top-k-top-p/" title="Beam Search &amp; Top-K &amp; Top-P" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mlpre-norm-post-norm-rmsnorm/index.md" title="Pre-Norm & Post-Norm & RMSNorm - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Pre-Norm \u0026 Post-Norm \u0026 RMSNorm",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/mlpre-norm-post-norm-rmsnorm\/"
+    },"genre": "posts","keywords": "Pre-Norm, Post-Norm, RMSNorm","wordcount":  2826 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlpre-norm-post-norm-rmsnorm\/","datePublished": "2026-06-10T14:32:00+00:00","dateModified": "2026-06-10T08:54:18+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Pre-Norm &amp; Post-Norm &amp; RMSNorm</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-10 14:32:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-10">2026-06-10</time></span>&nbsp;<span title="更新于 2026-06-10 08:54:18"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-10">2026-06-10</time></span>&nbsp;<span title="2826 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="Pre-Norm &amp; Post-Norm &amp; RMSNorm"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#模块一核心数学公式与基础理论">模块一：核心数学公式与基础理论</a>
+      <ul>
+        <li><a href="#1-经典-layernorm-ln">1. 经典 LayerNorm (LN)</a></li>
+        <li><a href="#2-rmsnorm-root-mean-square-normalization">2. RMSNorm (Root Mean Square Normalization)</a></li>
+        <li><a href="#-核心数理桥梁方差与-rms-的物理等价性">💡 核心数理桥梁：方差与 RMS 的物理等价性</a></li>
+      </ul>
+    </li>
+    <li><a href="#模块二post-norm-后归一化--消失与爆炸的深渊">模块二：Post-Norm (后归一化) —— 消失与爆炸的深渊</a>
+      <ul>
+        <li><a href="#1-架构公式与前向流">1. 架构公式与前向流</a></li>
+        <li><a href="#2-反向梯度流机理微积分推导">2. 反向梯度流机理（微积分推导）</a></li>
+        <li><a href="#-致命痛点高层爆炸底层消失">💥 致命痛点：高层爆炸，底层消失</a></li>
+      </ul>
+    </li>
+    <li><a href="#模块三pre-norm-前归一化--现代大模型的钢铁骨架">模块三：Pre-Norm (前归一化) —— 现代大模型的钢铁骨架</a>
+      <ul>
+        <li><a href="#1-架构公式与前向流-1">1. 架构公式与前向流</a></li>
+        <li><a href="#2-反向梯度流机理梯度高铁的诞生">2. 反向梯度流机理（“梯度高铁”的诞生）</a></li>
+        <li><a href="#-隐蔽代价方差滚雪球与容量坍塌混日子效应">📉 隐蔽代价：方差滚雪球与容量坍塌（混日子效应）</a>
+          <ul>
+            <li><a href="#-前向方差滚雪球定律">① 前向方差滚雪球定律</a></li>
+            <li><a href="#-高层梯度被无情稀释">② 高层梯度被无情稀释</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#模块四rmsnorm-升级--工程与速度的极致榨干">模块四：RMSNorm 升级 —— 工程与速度的极致榨干</a>
+      <ul>
+        <li><a href="#1-解决的痛点打破显存带宽限制-memory-bound">1. 解决的痛点：打破显存带宽限制 (Memory-Bound)</a></li>
+        <li><a href="#2-完美的数学继承梯度控温能力不减">2. 完美的数学继承：梯度控温能力不减</a></li>
+      </ul>
+    </li>
+    <li><a href="#模块五三大标准化配置纵向对比总结表">模块五：三大标准化配置纵向对比总结表</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="模块一核心数学公式与基础理论" class="heading-element"><span>模块一：核心数学公式与基础理论</span>
+  <a href="#%e6%a8%a1%e5%9d%97%e4%b8%80%e6%a0%b8%e5%bf%83%e6%95%b0%e5%ad%a6%e5%85%ac%e5%bc%8f%e4%b8%8e%e5%9f%ba%e7%a1%80%e7%90%86%e8%ae%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>标准化算法的核心目的是将隐藏层特征向量的数值范围约束在健康的区间内。假设单样本的隐藏层特征向量为 $x \in \mathbb{R}^d$，其中 $d$ 为特征维度。</p>
+<h3 id="1-经典-layernorm-ln" class="heading-element"><span>1. 经典 LayerNorm (LN)</span>
+  <a href="#1-%e7%bb%8f%e5%85%b8-layernorm-ln" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>LayerNorm 通过计算整条向量的<strong>均值</strong>与<strong>方差</strong>，执行“平移”与“缩放”两个微观动作：</p>
+<p>$$y = \frac{x - \mu}{\sigma + \epsilon} \odot \gamma + \beta$$</p>
+<ul>
+<li><strong>均值（平移项）</strong>：$\mu = \frac{1}{d} \sum_{i=1}^d x_i$ （将数据中心平移到原点 $0$）</li>
+<li><strong>方差（缩放项）</strong>：$\sigma^2 = \frac{1}{d} \sum_{i=1}^d (x_i - \mu)^2$</li>
+<li><strong>可学习参数</strong>：$\gamma, \beta \in \mathbb{R}^d$（仿射变换参数），$\epsilon$ 为防止分母为 0 的极小常数。</li>
+</ul>
+<h3 id="2-rmsnorm-root-mean-square-normalization" class="heading-element"><span>2. RMSNorm (Root Mean Square Normalization)</span>
+  <a href="#2-rmsnorm-root-mean-square-normalization" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>RMSNorm 基于“均值平移对稳定训练贡献极小”的学术发现，大刀阔斧地砍掉了均值 $\mu$ 的计算，强行假设 $\mu = 0$：</p>
+<p>$$\text{RMSNorm}(x) = \frac{x}{\text{RMS}(x) + \epsilon} \odot \gamma$$</p>
+<ul>
+<li><strong>均方根（RMS）</strong>：$\text{RMS}(x) = \sqrt{\frac{1}{d} \sum_{i=1}^d x_i^2}$</li>
+</ul>
+<h3 id="-核心数理桥梁方差与-rms-的物理等价性" class="heading-element"><span>💡 核心数理桥梁：方差与 RMS 的物理等价性</span>
+  <a href="#-%e6%a0%b8%e5%bf%83%e6%95%b0%e7%90%86%e6%a1%a5%e6%a2%81%e6%96%b9%e5%b7%ae%e4%b8%8e-rms-%e7%9a%84%e7%89%a9%e7%90%86%e7%ad%89%e4%bb%b7%e6%80%a7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>在数理统计中，存在恒等式：$\text{Var}(X) = E[X^2] - (E[X])^2$。
+在大模型前向传播空间中，随着网络稳定或受到对称性初始化影响，特征均值 $E[x] \approx 0$。代入恒等式：</p>
+<p>$$\text{Var}(x) = E[x^2] - 0 = \text{RMS}^2(x) \implies \text{RMS}(x) = \sqrt{\text{Var}(x)}$$</p>
+<p><strong>物理本质</strong>：当均值为 0 时，向量的均方根 $\text{RMS}(x)$ 与其标准差（方差开根号）在数学上完全等价。</p>
+<hr>
+<h2 id="模块二post-norm-后归一化--消失与爆炸的深渊" class="heading-element"><span>模块二：Post-Norm (后归一化) —— 消失与爆炸的深渊</span>
+  <a href="#%e6%a8%a1%e5%9d%97%e4%ba%8cpost-norm-%e5%90%8e%e5%bd%92%e4%b8%80%e5%8c%96--%e6%b6%88%e5%a4%b1%e4%b8%8e%e7%88%86%e7%82%b8%e7%9a%84%e6%b7%b1%e6%b8%8a" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="1-架构公式与前向流" class="heading-element"><span>1. 架构公式与前向流</span>
+  <a href="#1-%e6%9e%b6%e6%9e%84%e5%85%ac%e5%bc%8f%e4%b8%8e%e5%89%8d%e5%90%91%e6%b5%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>后归一化将标准化算子挂在残差连接的<strong>最外层</strong>：</p>
+<p>$$x_{l+1} = \text{LN}(x_l + \text{SubLayer}(x_l))$$</p>
+<h3 id="2-反向梯度流机理微积分推导" class="heading-element"><span>2. 反向梯度流机理（微积分推导）</span>
+  <a href="#2-%e5%8f%8d%e5%90%91%e6%a2%af%e5%ba%a6%e6%b5%81%e6%9c%ba%e7%90%86%e5%be%ae%e7%a7%af%e5%88%86%e6%8e%a8%e5%af%bc" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>假设最终的顶层损失函数为 $\mathcal{L}$，为了计算第 $l$ 层输入 $x_l$ 的梯度，使用链式法则（Chain Rule）拆解：</p>
+<p>$$\frac{\partial \mathcal{L}}{\partial x_l} = \frac{\partial \mathcal{L}}{\partial x_{l+1}} \cdot \frac{\partial x_{l+1}}{\partial y_l} \cdot \frac{\partial y_l}{\partial x_l}$$</p>
+<p>其中 $y_l = x_l + \text{SubLayer}(x_l)$ 为残差相加的未归一化中间结果。</p>
+<ol>
+<li>由于 $\text{LN}(y_l) \approx \frac{y_l}{\sigma_l}$，根据微积分商法则，LayerNorm 对输入的偏导数其量级<strong>反比于其标准差</strong>：$\frac{\partial x_{l+1}}{\partial y_l} \propto \frac{1}{\sigma_l}$。</li>
+<li>残差项导数：$\frac{\partial y_l}{\partial x_l} = I + \frac{\partial \text{SubLayer}(x_l)}{\partial x_l}$。</li>
+</ol>
+<p>若将梯度从最顶层（第 $L$ 层）一路连乘回传到最底层（第 1 层）：</p>
+<p>$$\frac{\partial \mathcal{L}}{\partial x_1} \propto \left( \prod_{l=1}^{L-1} \frac{1}{\sigma_l} \right) \cdot \frac{\partial \mathcal{L}}{\partial x_L}$$</p>
+<h3 id="-致命痛点高层爆炸底层消失" class="heading-element"><span>💥 致命痛点：高层爆炸，底层消失</span>
+  <a href="#-%e8%87%b4%e5%91%bd%e7%97%9b%e7%82%b9%e9%ab%98%e5%b1%82%e7%88%86%e7%82%b8%e5%ba%95%e5%b1%82%e6%b6%88%e5%a4%b1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>前向方差重置</strong>：由于 Post-Norm 每层最外层都套了 LN，前向传播时每一层的输出方差都被强行重置为 1（即 $\text{Var}(x_l)=1$）。</li>
+<li><strong>残差叠加导致中间方差膨胀</strong>：虽然 $x_l$ 方差为 1，但经过 $\text{SubLayer}$ 叠加后，$y_l$ 的方差 $\sigma_l^2 &gt; 1$。</li>
+<li><strong>底层梯度消失</strong>：因为 $\sigma_l &gt; 1$，导致连乘项中的分母 $\frac{1}{\sigma_l} &lt; 1$。当模型有 $L=100$ 层时，底层的梯度必须连续乘以 100 个小于 1 的小数（如 $0.8^{100} \to 0$）。底层参数被“层层剥削”，完全训不动。</li>
+<li><strong>高层梯度爆炸</strong>：靠近顶层的网络由于距离 Loss 最近，缺少足够的 $\frac{1}{\sigma_l}$ 算子去稀释和中和，其特征矩阵及参数导数体量极度庞大，开局极易引发数值溢出（出现 <code>NaN</code>）。</li>
+</ul>
+<hr>
+<h2 id="模块三pre-norm-前归一化--现代大模型的钢铁骨架" class="heading-element"><span>模块三：Pre-Norm (前归一化) —— 现代大模型的钢铁骨架</span>
+  <a href="#%e6%a8%a1%e5%9d%97%e4%b8%89pre-norm-%e5%89%8d%e5%bd%92%e4%b8%80%e5%8c%96--%e7%8e%b0%e4%bb%a3%e5%a4%a7%e6%a8%a1%e5%9e%8b%e7%9a%84%e9%92%a2%e9%93%81%e9%aa%a8%e6%9e%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="1-架构公式与前向流-1" class="heading-element"><span>1. 架构公式与前向流</span>
+  <a href="#1-%e6%9e%b6%e6%9e%84%e5%85%ac%e5%bc%8f%e4%b8%8e%e5%89%8d%e5%90%91%e6%b5%81-1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>前归一化将标准化算子移入残差分支的<strong>内部（小路）</strong>，而残差主干（大路）不加任何拦截：</p>
+<p>$$x_{l+1} = x_l + \text{SubLayer}(\text{LN}(x_l))$$</p>
+<p>若将该公式从第 0 层（Embedding）一路前向展开到第 $L$ 层，会呈现出清晰的宏观加法链：</p>
+<p>$$x_L = x_0 + \sum_{l=0}^{L-1} \text{SubLayer}_l(\text{LN}(x_l))$$</p>
+<h3 id="2-反向梯度流机理梯度高铁的诞生" class="heading-element"><span>2. 反向梯度流机理（“梯度高铁”的诞生）</span>
+  <a href="#2-%e5%8f%8d%e5%90%91%e6%a2%af%e5%ba%a6%e6%b5%81%e6%9c%ba%e7%90%86%e6%a2%af%e5%ba%a6%e9%ab%98%e9%93%81%e7%9a%84%e8%af%9e%e7%94%9f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>根据上述宏观展开式，依据导数的加法法则，顶层对底层输入 $x_0$ 直接求偏导，会将主干上的 $x_0$ 拆出项：</p>
+<p>$$\frac{\partial \mathcal{L}}{\partial x_0} = \frac{\partial \mathcal{L}}{\partial x_L} \cdot \frac{\partial x_L}{\partial x_0} = \frac{\partial \mathcal{L}}{\partial x_L} \cdot \left( I + \sum_{l=0}^{L-1} \frac{\partial \text{SubLayer}_l}{\partial x_0} \right)$$</p>
+<ul>
+<li><strong>单位矩阵 $I$（即常数 1）的本质</strong>：它代表残差主干那条“毫无阻碍的直线通道”。</li>
+<li><strong>100% 梯度直达</strong>：无论中间各层的分支 $\text{SubLayer}$ 导数缩水到多么小（哪怕全部衰减为 0），顶层的梯度 $\frac{\partial \mathcal{L}}{\partial x_L}$ 乘以单位矩阵 $I$，依然能够 <strong>100% 完整无损地灌回最底层</strong>，从数学结构上免疫了梯度消失。</li>
+</ul>
+<h3 id="-隐蔽代价方差滚雪球与容量坍塌混日子效应" class="heading-element"><span>📉 隐蔽代价：方差滚雪球与容量坍塌（混日子效应）</span>
+  <a href="#-%e9%9a%90%e8%94%bd%e4%bb%a3%e4%bb%b7%e6%96%b9%e5%b7%ae%e6%bb%9a%e9%9b%aa%e7%90%83%e4%b8%8e%e5%ae%b9%e9%87%8f%e5%9d%8d%e5%a1%8c%e6%b7%b7%e6%97%a5%e5%ad%90%e6%95%88%e5%ba%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Pre-Norm 带来了绝对的训练稳定性，但天下没有免费的午餐，它付出了高层特征稀释的惨痛代价：</p>
+<h4 id="-前向方差滚雪球定律" class="heading-element"><span>① 前向方差滚雪球定律</span>
+  <a href="#-%e5%89%8d%e5%90%91%e6%96%b9%e5%b7%ae%e6%bb%9a%e9%9b%aa%e7%90%83%e5%ae%9a%e5%be%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>在概率论中，若随机变量 $A$ 与 $B$ 独立不相关，则 $\text{Var}(A+B) = \text{Var}(A) + \text{Var}(B)$。
+在前向主干 $x_{l+1} = x_l + f_l$ 中，假设分支吐出的新特征方差稳定为常数 $v$，且初始词嵌入方差 $\text{Var}(x_0) = 1$。由于主干没有标准化拦截，方差随层数线性累加：</p>
+<p>$$\text{Var}(x_l) \approx 1 + l \cdot v$$</p>
+<p>越往高层走，主干数据范围越膨胀，在高层形成了一片方差规模极其宏大的“特征太平洋”。</p>
+<h4 id="-高层梯度被无情稀释" class="heading-element"><span>② 高层梯度被无情稀释</span>
+  <a href="#-%e9%ab%98%e5%b1%82%e6%a2%af%e5%ba%a6%e8%a2%ab%e6%97%a0%e6%83%85%e7%a8%80%e9%87%8a" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>当数据准备进入高层子层内部时，必须先通过 LN，此时 LN 算出的标准差为 $\sigma_l = \sqrt{\text{Var}(x_l)} \approx \sqrt{l \cdot v}$。
+将此项带入反向传播的分支链式展开中：</p>
+<p>$$\frac{\partial \text{SubLayer}_l}{\partial x_0} = \frac{\partial \text{SubLayer}_l}{\partial \text{LN}(x_l)} \cdot \underset{\text{极小项 } \mathcal{O}(\frac{1}{\sqrt{l}})}{\frac{\partial \text{LN}(x_l)}{\partial x_l}} \cdot \frac{\partial x_l}{\partial x_0}$$</p>
+<p>由于 $\frac{\partial \text{LN}(x_l)}{\partial x_l} \propto \frac{1}{\sigma_l} \approx \frac{1}{\sqrt{l}}$：</p>
+<ul>
+<li>当网络堆叠到第 400 层时，该项导数被庞大的分母稀释为原来的 $\frac{1}{\sqrt{400}} = \frac{1}{20}$。</li>
+<li><strong>最终后果</strong>：越往高层，子层分支拿到的参数更新梯度越微弱，高层 Attention/FFN 权重几乎更新不动；在前向传播中，新算出的轻量特征加进太平洋主干也如同“一滴水融入大海”。高层网络退化为等价映射（Identity Mapping），开始“混日子”，引发<strong>模型容量坍塌</strong>。</li>
+</ul>
+<hr>
+<h2 id="模块四rmsnorm-升级--工程与速度的极致榨干" class="heading-element"><span>模块四：RMSNorm 升级 —— 工程与速度的极致榨干</span>
+  <a href="#%e6%a8%a1%e5%9d%97%e5%9b%9brmsnorm-%e5%8d%87%e7%ba%a7--%e5%b7%a5%e7%a8%8b%e4%b8%8e%e9%80%9f%e5%ba%a6%e7%9a%84%e6%9e%81%e8%87%b4%e6%a6%a8%e5%b9%b2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>现代大模型（如 LLaMA、DeepSeek）在保留 Pre-Norm 骨架的前提下，无一例外将 LayerNorm 升级为了 <strong>RMSNorm</strong>，彻底解决了大模型在大规模训练中的算力与硬件痛点。</p>
+<h3 id="1-解决的痛点打破显存带宽限制-memory-bound" class="heading-element"><span>1. 解决的痛点：打破显存带宽限制 (Memory-Bound)</span>
+  <a href="#1-%e8%a7%a3%e5%86%b3%e7%9a%84%e7%97%9b%e7%82%b9%e6%89%93%e7%a0%b4%e6%98%be%e5%ad%98%e5%b8%a6%e5%ae%bd%e9%99%90%e5%88%b6-memory-bound" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>LayerNorm 的硬件地狱</strong>：计算经典 LN 需要两次遍历特征向量。第一次遍历所有元素计算均值 $\mu$，写入显存；硬件再次读取整条向量计算方差 $\sigma^2$。大模型隐藏层维度动辄上万（如 8192），这种<strong>重复读写</strong>造成了极大的 GPU 显存带宽浪费。</li>
+<li><strong>RMSNorm 的单次遍历</strong>：因为去掉了均值 $\mu$，硬件内核（CUDA Kernel）可以在单次遍历特征时，一边读取数据，一边在寄存器里累加平方值，直接算懂 $\text{RMS}(x)$。消除了重复读写，整体计算速度直接<strong>飙升 10% ~ 50%</strong>。</li>
+</ul>
+<h3 id="2-完美的数学继承梯度控温能力不减" class="heading-element"><span>2. 完美的数学继承：梯度控温能力不减</span>
+  <a href="#2-%e5%ae%8c%e7%be%8e%e7%9a%84%e6%95%b0%e5%ad%a6%e7%bb%a7%e6%89%bf%e6%a2%af%e5%ba%a6%e6%8e%a7%e6%b8%a9%e8%83%bd%e5%8a%9b%e4%b8%8d%e5%87%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>将均值归零的 RMS 引入反向传播，它对高层方差根号级膨胀的投影依然完好：</p>
+<p>$$\text{RMS}(x_l) \approx \sqrt{\text{Var}(x_l)} \approx \sqrt{l \cdot v}$$</p>
+<p>其偏导数依然雷打不动地保留了倒数缩放特性：</p>
+<p>$$\frac{\partial \text{RMSNorm}(x_l)}{\partial x_l} \propto \frac{1}{\text{RMS}(x_l)} \approx \frac{1}{\sqrt{l}}$$</p>
+<p>它完美继承了经典 LN 的“梯度控温”能力，既确保了高层混日子、主干不崩溃的绝对安全，又卸下了沉重的硬件带宽包袱。</p>
+<hr>
+<h2 id="模块五三大标准化配置纵向对比总结表" class="heading-element"><span>模块五：三大标准化配置纵向对比总结表</span>
+  <a href="#%e6%a8%a1%e5%9d%97%e4%ba%94%e4%b8%89%e5%a4%a7%e6%a0%87%e5%87%86%e5%8c%96%e9%85%8d%e7%bd%ae%e7%ba%b5%e5%90%91%e5%af%b9%e6%af%94%e6%80%bb%e7%bb%93%e8%a1%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>Post-Norm (经典 Transformer)</th>
+          <th>Pre-Norm (GPT-3 时代)</th>
+          <th>RMSNorm + Pre-Norm (现代大模型标准)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>算子定义</strong></td>
+          <td>$y = \frac{x-\mu}{\sigma}\cdot\gamma + \beta$</td>
+          <td>$y = \frac{x-\mu}{\sigma}\cdot\gamma + \beta$</td>
+          <td>$y = \frac{x}{\text{RMS}(x)}\cdot\gamma$ （无 $\mu$、无 $\beta$）</td>
+      </tr>
+      <tr>
+          <td><strong>前向前流</strong></td>
+          <td>$x_{l+1} = \text{LN}(x_l + f_l)$</td>
+          <td>$x_{l+1} = x_l + f_l(\text{LN}(x_l))$</td>
+          <td>$x_{l+1} = x_l + f_l(\text{RMSNorm}(x_l))$</td>
+      </tr>
+      <tr>
+          <td><strong>主干方差</strong></td>
+          <td>恒定约束为 1</td>
+          <td>线性滚雪球累加：$\text{Var} \approx l \cdot v$</td>
+          <td>线性滚雪球累加：$\text{Var} \approx l \cdot v$</td>
+      </tr>
+      <tr>
+          <td><strong>反向导数</strong></td>
+          <td>连乘机制：$\prod \frac{1}{\sigma_l}$</td>
+          <td>加法独立项机制：$I + \sum \text{f&rsquo;}_l$</td>
+          <td>加法独立项机制：$I + \sum \text{f&rsquo;}_l$</td>
+      </tr>
+      <tr>
+          <td><strong>底层硬伤</strong></td>
+          <td>极易梯度消失与顶层爆炸</td>
+          <td>高层表达能力被压制（容量坍塌）</td>
+          <td>高层表达能力被压制（容量坍塌）</td>
+      </tr>
+      <tr>
+          <td><strong>硬件效率</strong></td>
+          <td>慢（低效两次遍历）</td>
+          <td>慢（低效两次遍历）</td>
+          <td><strong>极快（高效单次遍历，节省显存带宽）</strong></td>
+      </tr>
+      <tr>
+          <td><strong>工业地位</strong></td>
+          <td>弃用（层数上双即崩溃）</td>
+          <td>基石底座（适合百亿规模）</td>
+          <td><strong>绝对统治（现代 LLM 工业界默认死配）</strong></td>
+      </tr>
+      <tr>
+          <td><strong>工程补丁</strong></td>
+          <td>必须配合严格的 Learning Rate Warmup</td>
+          <td><strong>必须在输出 Head 前加 Final Norm 收尾</strong></td>
+          <td><strong>必须在输出 Head 前加 Final Norm 收尾</strong></td>
+      </tr>
+  </tbody>
+</table>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-06-10 08:54:18">更新于 2026-06-10&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/mlpre-norm-post-norm-rmsnorm/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/pre-norm/" class="post-tag" title="标签 - Pre-Norm">Pre-Norm</a><a href="/tags/post-norm/" class="post-tag" title="标签 - Post-Norm">Post-Norm</a><a href="/tags/rmsnorm/" class="post-tag" title="标签 - RMSNorm">RMSNorm</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/mlbeam-search-top-k-top-p/" class="post-nav-item" rel="prev" title="Beam Search &amp; Top-K &amp; Top-P"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Beam Search &amp; Top-K &amp; Top-P</a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>
