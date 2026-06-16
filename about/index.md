@@ -16,7 +16,9 @@
       &lt;/div&gt;
     &lt;/div&gt;
     &lt;div class=&#34;about-hero-card&#34; aria-label=&#34;个人概览&#34;&gt;
-      &lt;img class=&#34;about-avatar&#34; src=&#34;/images/avatar.png&#34; alt=&#34;凌乱之风头像&#34;&gt;
+      &lt;span class=&#34;about-avatar-ring&#34;&gt;
+        &lt;img class=&#34;about-avatar&#34; src=&#34;/images/avatar.png&#34; alt=&#34;凌乱之风头像&#34;&gt;
+      &lt;/span&gt;
       &lt;div&gt;
         &lt;p&gt;Messywind&lt;/p&gt;
         &lt;strong&gt;QQ: 1092718960&lt;/strong&gt;
