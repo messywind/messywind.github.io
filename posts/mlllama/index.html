@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>LLaMa - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="🧠 深度解析：LLaMA 家族架构底座与代际演进（v1 - v4） 在大模型面试中，对 LLaMA 的考察通常分为两条线：“横向看架构底座”（考底层算子与推导）与“纵向看代际演进”（考技术视野与选型把控）。
+"><meta name="keywords" content='LLaMa'>
+  <meta itemprop="name" content="LLaMa">
+  <meta itemprop="description" content="🧠 深度解析：LLaMA 家族架构底座与代际演进（v1 - v4） 在大模型面试中，对 LLaMA 的考察通常分为两条线：“横向看架构底座”（考底层算子与推导）与“纵向看代际演进”（考技术视野与选型把控）。">
+  <meta itemprop="datePublished" content="2026-06-17T15:29:00+00:00">
+  <meta itemprop="dateModified" content="2026-06-17T09:14:28+00:00">
+  <meta itemprop="wordCount" content="2347">
+  <meta itemprop="keywords" content="LLaMa"><meta property="og:url" content="https://blog.messywind.top/posts/mlllama/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="LLaMa">
+  <meta property="og:description" content="🧠 深度解析：LLaMA 家族架构底座与代际演进（v1 - v4） 在大模型面试中，对 LLaMA 的考察通常分为两条线：“横向看架构底座”（考底层算子与推导）与“纵向看代际演进”（考技术视野与选型把控）。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-06-17T15:29:00+00:00">
+    <meta property="article:modified_time" content="2026-06-17T09:14:28+00:00">
+    <meta property="article:tag" content="LLaMa">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="LLaMa">
+  <meta name="twitter:description" content="🧠 深度解析：LLaMA 家族架构底座与代际演进（v1 - v4） 在大模型面试中，对 LLaMA 的考察通常分为两条线：“横向看架构底座”（考底层算子与推导）与“纵向看代际演进”（考技术视野与选型把控）。">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mlllama/" title="LLaMa - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/ml%E7%BB%93%E6%9E%84%E5%8C%96%E5%89%AA%E6%9E%9D%E5%92%8C%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F/" title="剪枝与蒸馏" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mlllama/index.md" title="LLaMa - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "LLaMa",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/mlllama\/"
+    },"genre": "posts","keywords": "LLaMa","wordcount":  2347 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlllama\/","datePublished": "2026-06-17T15:29:00+00:00","dateModified": "2026-06-17T09:14:28+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>LLaMa</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-17 15:29:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-17">2026-06-17</time></span>&nbsp;<span title="更新于 2026-06-17 09:14:28"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-17">2026-06-17</time></span>&nbsp;<span title="2347 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="LLaMa"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#一-llama-家族通用底座架构高频硬核考点">一、 LLaMA 家族通用底座架构（高频硬核考点）</a>
+      <ul>
+        <li><a href="#1-归一化rmsnorm--pre-norm">1. 归一化：RMSNorm + Pre-Norm</a></li>
+        <li><a href="#2-位置编码rope-旋转位置编码">2. 位置编码：RoPE (旋转位置编码)</a></li>
+        <li><a href="#3-激活函数swiglu非线性与门控之美">3. 激活函数：SwiGLU（非线性与门控之美）</a>
+          <ul>
+            <li><a href="#-面试加分项为什么-llama-偏爱-silu-而不是-relu">💡 面试加分项：为什么 LLaMA 偏爱 SiLU 而不是 ReLU？</a></li>
+          </ul>
+        </li>
+        <li><a href="#4-推理优化gqa-分组查询注意力">4. 推理优化：GQA (分组查询注意力)</a></li>
+      </ul>
+    </li>
+    <li><a href="#二-llama-1-到-4-的代际演进史宏观视野">二、 LLaMA 1 到 4 的代际演进史（宏观视野）</a>
+      <ul>
+        <li><a href="#-第一阶段基础奠定与开源破局-llama-1--2">💡 第一阶段：基础奠定与开源破局 (LLaMA 1 &amp; 2)</a></li>
+        <li><a href="#-第二阶段工程暴力的巅峰-llama-3--31--32">💡 第二阶段：工程暴力的巅峰 (LLaMA 3 &amp; 3.1 &amp; 3.2)</a></li>
+        <li><a href="#-第三阶段稀疏-moe-与原生多模态时代-llama-4">💡 第三阶段：稀疏 MoE 与原生多模态时代 (LLaMA 4)</a></li>
+      </ul>
+    </li>
+    <li><a href="#三-经典连环追问实战模拟大厂必考">三、 经典连环追问实战模拟（大厂必考）</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="-深度解析llama-家族架构底座与代际演进v1---v4" class="heading-element"><span>🧠 深度解析：LLaMA 家族架构底座与代际演进（v1 - v4）</span>
+  <a href="#-%e6%b7%b1%e5%ba%a6%e8%a7%a3%e6%9e%90llama-%e5%ae%b6%e6%97%8f%e6%9e%b6%e6%9e%84%e5%ba%95%e5%ba%a7%e4%b8%8e%e4%bb%a3%e9%99%85%e6%bc%94%e8%bf%9bv1---v4" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>在大模型面试中，对 LLaMA 的考察通常分为两条线：<strong>“横向看架构底座”</strong>（考底层算子与推导）与“纵向看代际演进”（考技术视野与选型把控）。</p>
+<h2 id="一-llama-家族通用底座架构高频硬核考点" class="heading-element"><span>一、 LLaMA 家族通用底座架构（高频硬核考点）</span>
+  <a href="#%e4%b8%80-llama-%e5%ae%b6%e6%97%8f%e9%80%9a%e7%94%a8%e5%ba%95%e5%ba%a7%e6%9e%b6%e6%9e%84%e9%ab%98%e9%a2%91%e7%a1%ac%e6%a0%b8%e8%80%83%e7%82%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>LLaMA 确立了现代开源大模型的“行业标准架构”，以下四大组件是重中之重：</p>
+<h3 id="1-归一化rmsnorm--pre-norm" class="heading-element"><span>1. 归一化：RMSNorm + Pre-Norm</span>
+  <a href="#1-%e5%bd%92%e4%b8%80%e5%8c%96rmsnorm--pre-norm" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>为什么用 RMSNorm？</strong> 原生的 LayerNorm 需要计算均值 $\mu$ 和方差 $\sigma^2$ ，并引入学习参数 $\gamma$ 和 $\beta$。RMSNorm 认为“均值归零”和“偏置项”对模型收益不大，直接砍掉了 $\mu$ 和 $\beta$，仅保留均方根（RMS）进行缩放。这消除了跨显存的重复读写，前向计算速度飙升 10% ~ 50%。</li>
+<li><strong>为什么用 Pre-Norm？</strong> 经典的 Post-Norm 在深层网络中容易导致梯度消失或爆炸。LLaMA 在进入 Attention 和 FFN 之前先做归一化（Pre-Norm），确保主干残差的特征体量始终大于新算出的特征，保障了深层训练的绝对稳定性。</li>
+</ul>
+<h3 id="2-位置编码rope-旋转位置编码" class="heading-element"><span>2. 位置编码：RoPE (旋转位置编码)</span>
+  <a href="#2-%e4%bd%8d%e7%bd%ae%e7%bc%96%e7%a0%81rope-%e6%97%8b%e8%bd%ac%e4%bd%8d%e7%bd%ae%e7%bc%96%e7%a0%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>核心思想：</strong> “用绝对位置的旋转，来实现相对位置的计算”。通过在复数域上对 Query 和 Key 向量乘以一个随位置变化的旋转矩阵，点积时绝对位置自然抵消，仅保留相对距离特征。</li>
+<li><strong>长文本扩展：</strong> 面对长文本，直接外推会导致低频维度越界（OOD）。业界通常通过对 RoPE 的基础频率 $\theta$（Base）进行动态缩放（如 NTK-aware Scaling 或 YaRN 算法），做到“高频不改，低频压缩”，实现无损的长文本上下文扩展。</li>
+</ul>
+<h3 id="3-激活函数swiglu非线性与门控之美" class="heading-element"><span>3. 激活函数：SwiGLU（非线性与门控之美）</span>
+  <a href="#3-%e6%bf%80%e6%b4%bb%e5%87%bd%e6%95%b0swiglu%e9%9d%9e%e7%ba%bf%e6%80%a7%e4%b8%8e%e9%97%a8%e6%8e%a7%e4%b9%8b%e7%be%8e" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>在原始 Transformer 中，FFN 采用带 Bias 的 ReLU。LLaMA 移除了 Bias，并引入了门控机制（Gate）。</p>
+<ul>
+<li><strong>底层数学公式：</strong>
+首先计算带有门控的 SwiGLU 激活输出：</li>
+</ul>
+<p>$$SwiGLU(x) = SiLU(xW_1) \otimes (xW_3)$$</p>
+<p>然后乘上降维矩阵 $W_2$ 得到最终的 FFN 输出：</p>
+<p>$$FFN_{LLaMA}(x) = (SiLU(xW_1) \otimes xW_3)W_2$$</p>
+<ul>
+<li><strong>机制解析：</strong> $xW_1$ 经过 $SiLU$ 激活后充当“门控”，控制 $xW_3$ 提取的信息流向下一层的比例。</li>
+<li><strong>参数对齐：</strong> 由于多了一个权重矩阵 $W_3$，为了与经典 Transformer 保持相同的总参数量，LLaMA 将 FFN 的隐藏层维度从经典的 $4d$ 缩小到了 $\frac{8}{3}d$ 的倍数。</li>
+</ul>
+<p>SiLU 其实就是 $\beta=1$ 时的 Swish 函数，它的数学公式是输入 $x$ 乘以 $x$ 的 Sigmoid 激活值：</p>
+<p>$$SiLU(x) = x \cdot \sigma(x) = \frac{x}{1 + e^{-x}}$$</p>
+<h4 id="-面试加分项为什么-llama-偏爱-silu-而不是-relu" class="heading-element"><span>💡 面试加分项：为什么 LLaMA 偏爱 SiLU 而不是 ReLU？</span>
+  <a href="#-%e9%9d%a2%e8%af%95%e5%8a%a0%e5%88%86%e9%a1%b9%e4%b8%ba%e4%bb%80%e4%b9%88-llama-%e5%81%8f%e7%88%b1-silu-%e8%80%8c%e4%b8%8d%e6%98%af-relu" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>如果在面试中写出这个公式，面试官大概率会追问：“<strong>从数学图像上看，SiLU 相比 ReLU 有什么优势？</strong>” 你可以补充以下两点：</p>
+<ol>
+<li><strong>平滑的非单调性（Smooth Non-monotonicity）：</strong>
+ReLU 在 $x=0$ 处是一个不可导的尖角（拐点），而 SiLU 处处平滑可导。这种平滑的误差曲面能让优化器（如 AdamW）在训练时更容易找到全局最优解，收敛更稳定。</li>
+<li><strong>保留微弱的负梯度（解决 Dying ReLU 问题）：</strong>
+当 $x &lt; 0$ 时，ReLU 会直接将输出暴力截断为 0，导致神经元“死亡”（梯度彻底消失）。而 SiLU 在 $x &lt; 0$ 的区域依然会保留一个微小的负值输出（大约在 $x \approx -1.28$ 时达到最小值），这使得即使输入是负数，信息和梯度依然能够微弱地流动，极大地提升了网络的表达能力。</li>
+</ol>
+<h3 id="4-推理优化gqa-分组查询注意力" class="heading-element"><span>4. 推理优化：GQA (分组查询注意力)</span>
+  <a href="#4-%e6%8e%a8%e7%90%86%e4%bc%98%e5%8c%96gqa-%e5%88%86%e7%bb%84%e6%9f%a5%e8%af%a2%e6%b3%a8%e6%84%8f%e5%8a%9b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>解决显存灾难：</strong> 传统 MHA 为每个 Query 头保存独立 KV 矩阵，导致显存受限（Memory-bound）。</li>
+<li><strong>核心机制：</strong> GQA 将 Query 头分组，每组共享一组 KV 头。这是 MQA 和 MHA 的折中方案，大幅降低了 KV Cache 的显存占用，提高了推理的 Batch Size 上限，同时几乎无损模型性能。</li>
+</ul>
+<hr>
+<h2 id="二-llama-1-到-4-的代际演进史宏观视野" class="heading-element"><span>二、 LLaMA 1 到 4 的代际演进史（宏观视野）</span>
+  <a href="#%e4%ba%8c-llama-1-%e5%88%b0-4-%e7%9a%84%e4%bb%a3%e9%99%85%e6%bc%94%e8%bf%9b%e5%8f%b2%e5%ae%8f%e8%a7%82%e8%a7%86%e9%87%8e" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="-第一阶段基础奠定与开源破局-llama-1--2" class="heading-element"><span>💡 第一阶段：基础奠定与开源破局 (LLaMA 1 &amp; 2)</span>
+  <a href="#-%e7%ac%ac%e4%b8%80%e9%98%b6%e6%ae%b5%e5%9f%ba%e7%a1%80%e5%a5%a0%e5%ae%9a%e4%b8%8e%e5%bc%80%e6%ba%90%e7%a0%b4%e5%b1%80-llama-1--2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>LLaMA 1 (2023.02)：</strong> 确立了 RMSNorm、RoPE、SwiGLU 的基本盘，但上下文仅 2K，无官方对话对齐版。</li>
+<li><strong>LLaMA 2 (2023.07)：</strong> 走向商用。上下文扩至 4K，在 34B/70B 中正式引入 GQA。官方发布了 SFT 和 RLHF 对齐的 LLaMA-2-Chat，并引入 Ghost Attention (GAtt) 控制多轮对话。</li>
+</ul>
+<h3 id="-第二阶段工程暴力的巅峰-llama-3--31--32" class="heading-element"><span>💡 第二阶段：工程暴力的巅峰 (LLaMA 3 &amp; 3.1 &amp; 3.2)</span>
+  <a href="#-%e7%ac%ac%e4%ba%8c%e9%98%b6%e6%ae%b5%e5%b7%a5%e7%a8%8b%e6%9a%b4%e5%8a%9b%e7%9a%84%e5%b7%85%e5%b3%b0-llama-3--31--32" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>LLaMA 3 (2024.04)：</strong> 原生 8K Context；词表从 32K 扩容至 128K（极大提升多语言与中文效率）；全系标配 GQA；使用惊人的 15T Token 训练，极致压榨了 8B 小模型的潜力。</li>
+<li><strong>LLaMA 3.1：</strong> RoPE 扩展使上下文暴增至 128K，发布 405B 超大杯。</li>
+<li><strong>LLaMA 3.2：</strong> 走向端侧与多模态。推出 1B/3B 轻量级模型（应用剪枝与蒸馏），并引入 11B/90B 视觉编码器。</li>
+</ul>
+<h3 id="-第三阶段稀疏-moe-与原生多模态时代-llama-4" class="heading-element"><span>💡 第三阶段：稀疏 MoE 与原生多模态时代 (LLaMA 4)</span>
+  <a href="#-%e7%ac%ac%e4%b8%89%e9%98%b6%e6%ae%b5%e7%a8%80%e7%96%8f-moe-%e4%b8%8e%e5%8e%9f%e7%94%9f%e5%a4%9a%e6%a8%a1%e6%80%81%e6%97%b6%e4%bb%a3-llama-4" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>LLaMA 4 首次全面引入了<strong>稀疏混合专家（Sparse MoE）架构</strong>和早期融合（Early Fusion）技术。以其标志性的双子星模型为例：</p>
+<table>
+  <thead>
+      <tr>
+          <th>比较维度</th>
+          <th>Llama 4 Scout (17B-16E)</th>
+          <th>Llama 4 Maverick (17B-128E)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>底层总参数量</strong></td>
+          <td>~109B</td>
+          <td>~400B</td>
+      </tr>
+      <tr>
+          <td><strong>单次推理激活</strong></td>
+          <td>17B</td>
+          <td>17B</td>
+      </tr>
+      <tr>
+          <td><strong>MoE 专家配置</strong></td>
+          <td>16 个专家</td>
+          <td>128 个极其细粒度的专家</td>
+      </tr>
+      <tr>
+          <td><strong>上下文长度</strong></td>
+          <td>行业级标准配置</td>
+          <td>极限可达 512K - 1M</td>
+      </tr>
+      <tr>
+          <td><strong>核心业务取向</strong></td>
+          <td>高速并发、通用提取（~99%直接提取准确率）</td>
+          <td>复杂逻辑推理、长文档分析、代码与 Agent 驱动</td>
+      </tr>
+      <tr>
+          <td><strong>面试高分总结</strong></td>
+          <td>适合追求低延迟、低成本、高并发的企业通用任务。</td>
+          <td>证明了“专家数量越多、底层库越大”，越能涌现深度的 System 2（慢思考）推理能力。</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="三-经典连环追问实战模拟大厂必考" class="heading-element"><span>三、 经典连环追问实战模拟（大厂必考）</span>
+  <a href="#%e4%b8%89-%e7%bb%8f%e5%85%b8%e8%bf%9e%e7%8e%af%e8%bf%bd%e9%97%ae%e5%ae%9e%e6%88%98%e6%a8%a1%e6%8b%9f%e5%a4%a7%e5%8e%82%e5%bf%85%e8%80%83" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>Q1：LLaMA 在生成时突然不断重复同一个词，从解码策略上怎么解决？</strong></p>
+<blockquote>
+<p><strong>解答：</strong> 这属于典型的“退化式生成”。可以通过调整解码策略（Decoding Strategy）解决：</p>
+<ol>
+<li>引入 <strong>Top-P（核采样）</strong> 和 <strong>Top-K</strong> 截断长尾低概率词的干扰。</li>
+<li>调高惩罚项中的 <strong>Repetition Penalty</strong>（重复惩罚系数），强行压低已生成词的输出概率。</li>
+<li>适当调高 <strong>Temperature（温度参数）</strong>，软化 Softmax 分布，增加生成的随机性。</li>
+</ol>
+</blockquote>
+<p><strong>Q2：如果要训练一个垂直领域（如医疗/金融）的 LLaMA，完整的落地流程是怎样的？</strong></p>
+<blockquote>
+<p><strong>解答：</strong></p>
+<ol>
+<li><strong>词表扩充（Vocab Extension）：</strong> 评估专有名词比例，必要时向 128K 词表中注入行业 Token，并初始化对应的 Embedding 层。</li>
+<li><strong>CPT (继续预训练 / Continue Pre-training)：</strong> 喂入海量无标注的行业研报、文档，让模型注入垂直领域的“暗知识”。</li>
+<li><strong>SFT (监督微调)：</strong> 使用高质量的 Q&amp;A 数据对，约束模型的回答格式与语气。为了节省算力，通常采用 <strong>LoRA 或 QLoRA</strong> 进行参数高效微调（PEFT）。</li>
+<li><strong>推理部署：</strong> 采用 vLLM 等框架，利用 PagedAttention 技术对 KV Cache 进行分块加载，极大提升生产环境的并发吞吐量。</li>
+</ol>
+</blockquote>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-06-17 09:14:28">更新于 2026-06-17&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/mlllama/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/llama/" class="post-tag" title="标签 - LLaMa">LLaMa</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/ml%E7%BB%93%E6%9E%84%E5%8C%96%E5%89%AA%E6%9E%9D%E5%92%8C%E7%9F%A5%E8%AF%86%E8%92%B8%E9%A6%8F/" class="post-nav-item" rel="prev" title="剪枝与蒸馏"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>剪枝与蒸馏</a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>
