@@ -6,8 +6,16 @@
     <description>凌乱之风的博客</description>
     <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Thu, 18 Jun 2026 09:13:52 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 22 Jun 2026 08:25:19 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NiKo夺冠感想</title>
+      <link>https://blog.messywind.top/posts/miscniko%E5%A4%BA%E5%86%A0%E6%84%9F%E6%83%B3/</link>
+      <pubDate>Mon, 22 Jun 2026 16:12:00 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/miscniko%E5%A4%BA%E5%86%A0%E6%84%9F%E6%83%B3/</guid>
+      <category domain="https://blog.messywind.top/categories/%E8%AE%B0%E5%BD%95/">记录</category>
+      <description>&lt;p&gt;今天中午，我看到 NiKo 的采访顿时抽泣了起来，虽然我也不咋玩 CSGO，也不怎么看比赛，但 NiKo 的精神真的深深打动了我。3067 天，NiKo 终于实现了他一直以来想拿到 Major 冠军的愿望，他夺冠后激动的说道：&lt;/p&gt;&#xA;&lt;p&gt;I think I’m a prime example to never give up. Never give up on your dreams, never give up on your life. Keep believing, okay? You’re gonna achieve the things……&lt;/p&gt;&#xA;&lt;p&gt;曾经他还说过：也许不是今天，也许不是明天，也许不是下个月，但总有一天，我会成为冠军。&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Scaling Law</title>
       <link>https://blog.messywind.top/posts/mlscaling-law/</link>
