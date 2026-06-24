@@ -7,30 +7,30 @@
     <meta name="robots" content="noodp" />
     <title>RoPE - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
 <meta name="description" content="RoPE 论文
-🧠 RoPE (旋转位置编码) 深度解析与工业级落地笔记 🎯 一、 核心动机与一句话总结 RoPE（Rotary Position Embedding）的核心魔法可以概括为：“用绝对位置的旋转，来实现相对位置的计算。”
+RoPE (旋转位置编码) 深度解析与工业级落地笔记 一、 核心动机与一句话总结 RoPE（Rotary Position Embedding）的核心魔法可以概括为：“用绝对位置的旋转，来实现相对位置的计算。”
 "><meta name="keywords" content='RoPE'>
   <meta itemprop="name" content="RoPE">
   <meta itemprop="description" content="RoPE 论文
-🧠 RoPE (旋转位置编码) 深度解析与工业级落地笔记 🎯 一、 核心动机与一句话总结 RoPE（Rotary Position Embedding）的核心魔法可以概括为：“用绝对位置的旋转，来实现相对位置的计算。”">
+RoPE (旋转位置编码) 深度解析与工业级落地笔记 一、 核心动机与一句话总结 RoPE（Rotary Position Embedding）的核心魔法可以概括为：“用绝对位置的旋转，来实现相对位置的计算。”">
   <meta itemprop="datePublished" content="2026-06-11T19:48:00+00:00">
-  <meta itemprop="dateModified" content="2026-06-22T08:25:19+00:00">
-  <meta itemprop="wordCount" content="2704">
+  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
+  <meta itemprop="wordCount" content="2698">
   <meta itemprop="keywords" content="RoPE"><meta property="og:url" content="https://blog.messywind.top/posts/mlrope/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="RoPE">
   <meta property="og:description" content="RoPE 论文
-🧠 RoPE (旋转位置编码) 深度解析与工业级落地笔记 🎯 一、 核心动机与一句话总结 RoPE（Rotary Position Embedding）的核心魔法可以概括为：“用绝对位置的旋转，来实现相对位置的计算。”">
+RoPE (旋转位置编码) 深度解析与工业级落地笔记 一、 核心动机与一句话总结 RoPE（Rotary Position Embedding）的核心魔法可以概括为：“用绝对位置的旋转，来实现相对位置的计算。”">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2026-06-11T19:48:00+00:00">
-    <meta property="article:modified_time" content="2026-06-22T08:25:19+00:00">
+    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
     <meta property="article:tag" content="RoPE">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="RoPE">
   <meta name="twitter:description" content="RoPE 论文
-🧠 RoPE (旋转位置编码) 深度解析与工业级落地笔记 🎯 一、 核心动机与一句话总结 RoPE（Rotary Position Embedding）的核心魔法可以概括为：“用绝对位置的旋转，来实现相对位置的计算。”">
+RoPE (旋转位置编码) 深度解析与工业级落地笔记 一、 核心动机与一句话总结 RoPE（Rotary Position Embedding）的核心魔法可以概括为：“用绝对位置的旋转，来实现相对位置的计算。”">
 <meta name="application-name" content="凌乱之风的博客">
 <meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mlrope/" title="RoPE - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/mlpre-norm-post-norm-rmsnorm/" title="Pre-Norm &amp; Post-Norm &amp; RMSNorm" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/mlkv-cache/" title="KV Cache" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mlrope/index.md" title="RoPE - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
@@ -43,8 +43,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/mlrope\/"
-    },"genre": "posts","keywords": "RoPE","wordcount":  2704 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/mlrope\/","datePublished": "2026-06-11T19:48:00+00:00","dateModified": "2026-06-22T08:25:19+00:00","publisher": {
+    },"genre": "posts","keywords": "RoPE","wordcount":  2698 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlrope\/","datePublished": "2026-06-11T19:48:00+00:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -152,7 +152,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>RoPE</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-11 19:48:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-11">2026-06-11</time></span>&nbsp;<span title="更新于 2026-06-22 08:25:19"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-22">2026-06-22</time></span>&nbsp;<span title="2704 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="RoPE"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-11 19:48:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-11">2026-06-11</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="2698 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="RoPE"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -161,13 +161,13 @@
         </div>
         <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
   <ul>
-    <li><a href="#-一-核心动机与一句话总结">🎯 一、 核心动机与一句话总结</a></li>
-    <li><a href="#-二-时代背景传统位置编码输在了哪里">🚧 二、 时代背景：传统位置编码输在了哪里？</a>
+    <li><a href="#一-核心动机与一句话总结">一、 核心动机与一句话总结</a></li>
+    <li><a href="#二-时代背景传统位置编码输在了哪里">二、 时代背景：传统位置编码输在了哪里？</a>
       <ul>
-        <li><a href="#-核心释疑为什么原版无参数的三角位置编码也被淘汰了">🚨 核心释疑：为什么原版“无参数的三角位置编码”也被淘汰了？</a></li>
+        <li><a href="#核心释疑为什么原版无参数的三角位置编码也被淘汰了">核心释疑：为什么原版“无参数的三角位置编码”也被淘汰了？</a></li>
       </ul>
     </li>
-    <li><a href="#-三-rope-的数学原理与公式推导-2d-平面">📐 三、 RoPE 的数学原理与公式推导 (2D 平面)</a>
+    <li><a href="#三-rope-的数学原理与公式推导-2d-平面">三、 RoPE 的数学原理与公式推导 (2D 平面)</a>
       <ul>
         <li><a href="#step-1-映射到二维复平面">Step 1: 映射到二维复平面</a></li>
         <li><a href="#step-2-施加位置旋转">Step 2: 施加位置旋转</a></li>
@@ -187,23 +187,23 @@
         <li><a href="#2-rope-的优雅解法">2. RoPE 的优雅解法</a></li>
       </ul>
     </li>
-    <li><a href="#-六-为什么工业界大模型全都在用-rope">🏆 六、 为什么工业界大模型全都在用 RoPE？</a></li>
+    <li><a href="#六-为什么工业界大模型全都在用-rope">六、 为什么工业界大模型全都在用 RoPE？</a></li>
   </ul>
 </nav></div>
       </div><div class="content" id="content"><p><a href="https://arxiv.org/pdf/2104.09864"target="_blank" rel="external nofollow noopener noreferrer">RoPE 论文</a></p>
-<h2 id="-rope-旋转位置编码-深度解析与工业级落地笔记" class="heading-element"><span>🧠 RoPE (旋转位置编码) 深度解析与工业级落地笔记</span>
-  <a href="#-rope-%e6%97%8b%e8%bd%ac%e4%bd%8d%e7%bd%ae%e7%bc%96%e7%a0%81-%e6%b7%b1%e5%ba%a6%e8%a7%a3%e6%9e%90%e4%b8%8e%e5%b7%a5%e4%b8%9a%e7%ba%a7%e8%90%bd%e5%9c%b0%e7%ac%94%e8%ae%b0" class="heading-mark">
+<h2 id="rope-旋转位置编码-深度解析与工业级落地笔记" class="heading-element"><span>RoPE (旋转位置编码) 深度解析与工业级落地笔记</span>
+  <a href="#rope-%e6%97%8b%e8%bd%ac%e4%bd%8d%e7%bd%ae%e7%bc%96%e7%a0%81-%e6%b7%b1%e5%ba%a6%e8%a7%a3%e6%9e%90%e4%b8%8e%e5%b7%a5%e4%b8%9a%e7%ba%a7%e8%90%bd%e5%9c%b0%e7%ac%94%e8%ae%b0" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h2><h2 id="-一-核心动机与一句话总结" class="heading-element"><span>🎯 一、 核心动机与一句话总结</span>
-  <a href="#-%e4%b8%80-%e6%a0%b8%e5%bf%83%e5%8a%a8%e6%9c%ba%e4%b8%8e%e4%b8%80%e5%8f%a5%e8%af%9d%e6%80%bb%e7%bb%93" class="heading-mark">
+</h2><h2 id="一-核心动机与一句话总结" class="heading-element"><span>一、 核心动机与一句话总结</span>
+  <a href="#%e4%b8%80-%e6%a0%b8%e5%bf%83%e5%8a%a8%e6%9c%ba%e4%b8%8e%e4%b8%80%e5%8f%a5%e8%af%9d%e6%80%bb%e7%bb%93" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h2><p>RoPE（Rotary Position Embedding）的核心魔法可以概括为：<strong>“用绝对位置的旋转，来实现相对位置的计算。”</strong></p>
 <p>通过将位置信息变为旋转矩阵（乘法）而非传统的偏置向量（加法），RoPE 成功让 Query 和 Key 的点积结果只与它们的<strong>相对距离</strong>有关，完美解决了传统位置编码的痛点，成为 LLaMA、Qwen、ChatGLM 等现代大模型的绝对标配。</p>
 <hr>
-<h2 id="-二-时代背景传统位置编码输在了哪里" class="heading-element"><span>🚧 二、 时代背景：传统位置编码输在了哪里？</span>
-  <a href="#-%e4%ba%8c-%e6%97%b6%e4%bb%a3%e8%83%8c%e6%99%af%e4%bc%a0%e7%bb%9f%e4%bd%8d%e7%bd%ae%e7%bc%96%e7%a0%81%e8%be%93%e5%9c%a8%e4%ba%86%e5%93%aa%e9%87%8c" class="heading-mark">
+<h2 id="二-时代背景传统位置编码输在了哪里" class="heading-element"><span>二、 时代背景：传统位置编码输在了哪里？</span>
+  <a href="#%e4%ba%8c-%e6%97%b6%e4%bb%a3%e8%83%8c%e6%99%af%e4%bc%a0%e7%bb%9f%e4%bd%8d%e7%bd%ae%e7%bc%96%e7%a0%81%e8%be%93%e5%9c%a8%e4%ba%86%e5%93%aa%e9%87%8c" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h2><p>在 Attention 机制中，模型本身是“词序免疫”的，因此必须引入位置编码。历史上的方案均有明显硬伤：</p>
@@ -221,8 +221,8 @@
 </ul>
 </li>
 </ol>
-<h3 id="-核心释疑为什么原版无参数的三角位置编码也被淘汰了" class="heading-element"><span>🚨 核心释疑：为什么原版“无参数的三角位置编码”也被淘汰了？</span>
-  <a href="#-%e6%a0%b8%e5%bf%83%e9%87%8a%e7%96%91%e4%b8%ba%e4%bb%80%e4%b9%88%e5%8e%9f%e7%89%88%e6%97%a0%e5%8f%82%e6%95%b0%e7%9a%84%e4%b8%89%e8%a7%92%e4%bd%8d%e7%bd%ae%e7%bc%96%e7%a0%81%e4%b9%9f%e8%a2%ab%e6%b7%98%e6%b1%b0%e4%ba%86" class="heading-mark">
+<h3 id="核心释疑为什么原版无参数的三角位置编码也被淘汰了" class="heading-element"><span>核心释疑：为什么原版“无参数的三角位置编码”也被淘汰了？</span>
+  <a href="#%e6%a0%b8%e5%bf%83%e9%87%8a%e7%96%91%e4%b8%ba%e4%bb%80%e4%b9%88%e5%8e%9f%e7%89%88%e6%97%a0%e5%8f%82%e6%95%b0%e7%9a%84%e4%b8%89%e8%a7%92%e4%bd%8d%e7%bd%ae%e7%bc%96%e7%a0%81%e4%b9%9f%e8%a2%ab%e6%b7%98%e6%b1%b0%e4%ba%86" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>虽然原版 Transformer（Attention Is All You Need）的正弦/余弦编码不需要训练参数，但它采用的是<strong>加法机制（Add）</strong>：</p>
@@ -240,8 +240,8 @@
 <p>$$q_m^T k_n = x_m^T W_q^T R_{n-m} W_k x_n$$</p>
 <p>这里没有任何相加产生的杂乱交叉项！绝对位置 $m$ 和 $n$ 完全消隐，留下的只有纯净的相对位置 $(n-m)$。</p>
 <hr>
-<h2 id="-三-rope-的数学原理与公式推导-2d-平面" class="heading-element"><span>📐 三、 RoPE 的数学原理与公式推导 (2D 平面)</span>
-  <a href="#-%e4%b8%89-rope-%e7%9a%84%e6%95%b0%e5%ad%a6%e5%8e%9f%e7%90%86%e4%b8%8e%e5%85%ac%e5%bc%8f%e6%8e%a8%e5%af%bc-2d-%e5%b9%b3%e9%9d%a2" class="heading-mark">
+<h2 id="三-rope-的数学原理与公式推导-2d-平面" class="heading-element"><span>三、 RoPE 的数学原理与公式推导 (2D 平面)</span>
+  <a href="#%e4%b8%89-rope-%e7%9a%84%e6%95%b0%e5%ad%a6%e5%8e%9f%e7%90%86%e4%b8%8e%e5%85%ac%e5%bc%8f%e6%8e%a8%e5%af%bc-2d-%e5%b9%b3%e9%9d%a2" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h2><h3 id="step-1-映射到二维复平面" class="heading-element"><span>Step 1: 映射到二维复平面</span>
@@ -332,8 +332,8 @@
 <p>$$ \tilde{k}*n = R*{\Theta, n} \phi(k_n) $$</p>
 <p>因为旋转矩阵本身不破坏向量点积的结合律形式，点积 $\tilde{q}_m^T \tilde{k}_n$ 天然就能获得相对位置信息 $(m-n)$，同时完全不妨碍后续先计算 $(\phi(K)^T V)$ 的线性加速流！原论文在 Section 3.4.2 还指出，即使旋转操作在理论上有破坏核函数非负性的微小隐患，实际训练中模型依然表现出极强的收敛鲁棒性。</p>
 <hr>
-<h2 id="-六-为什么工业界大模型全都在用-rope" class="heading-element"><span>🏆 六、 为什么工业界大模型全都在用 RoPE？</span>
-  <a href="#-%e5%85%ad-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%b7%a5%e4%b8%9a%e7%95%8c%e5%a4%a7%e6%a8%a1%e5%9e%8b%e5%85%a8%e9%83%bd%e5%9c%a8%e7%94%a8-rope" class="heading-mark">
+<h2 id="六-为什么工业界大模型全都在用-rope" class="heading-element"><span>六、 为什么工业界大模型全都在用 RoPE？</span>
+  <a href="#%e5%85%ad-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%b7%a5%e4%b8%9a%e7%95%8c%e5%a4%a7%e6%a8%a1%e5%9e%8b%e5%85%a8%e9%83%bd%e5%9c%a8%e7%94%a8-rope" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h2><ol>
@@ -346,7 +346,7 @@
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-06-22 08:25:19">更新于 2026-06-22&nbsp;</span>
+        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/mlrope/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

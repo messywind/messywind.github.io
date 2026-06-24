@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>MLA - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="MLA（Multi-head Latent Attention）详细笔记 多头潜在注意力，DeepSeek-V2 提出、V3/R1 沿用的核心注意力结构。 本笔记基于 DeepSeek-V2/V3 的 MLA 图解整理，面向初学者，同时覆盖面试要点。
+"><meta name="keywords" content='Multi-Head Latent Attention'>
+  <meta itemprop="name" content="MLA">
+  <meta itemprop="description" content="MLA（Multi-head Latent Attention）详细笔记 多头潜在注意力，DeepSeek-V2 提出、V3/R1 沿用的核心注意力结构。 本笔记基于 DeepSeek-V2/V3 的 MLA 图解整理，面向初学者，同时覆盖面试要点。">
+  <meta itemprop="datePublished" content="2026-06-24T11:00:00+00:00">
+  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
+  <meta itemprop="wordCount" content="4784">
+  <meta itemprop="keywords" content="Multi-Head Latent Attention"><meta property="og:url" content="https://blog.messywind.top/posts/mlmla/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="MLA">
+  <meta property="og:description" content="MLA（Multi-head Latent Attention）详细笔记 多头潜在注意力，DeepSeek-V2 提出、V3/R1 沿用的核心注意力结构。 本笔记基于 DeepSeek-V2/V3 的 MLA 图解整理，面向初学者，同时覆盖面试要点。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-06-24T11:00:00+00:00">
+    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
+    <meta property="article:tag" content="Multi-Head Latent Attention">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="MLA">
+  <meta name="twitter:description" content="MLA（Multi-head Latent Attention）详细笔记 多头潜在注意力，DeepSeek-V2 提出、V3/R1 沿用的核心注意力结构。 本笔记基于 DeepSeek-V2/V3 的 MLA 图解整理，面向初学者，同时覆盖面试要点。">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mlmla/" title="MLA - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/mldeepseek-moe/" title="DeepSeek MoE" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/mlyarn/" title="YaRN" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mlmla/index.md" title="MLA - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "MLA",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/mlmla\/"
+    },"genre": "posts","keywords": "Multi-Head Latent Attention","wordcount":  4784 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlmla\/","datePublished": "2026-06-24T11:00:00+00:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>MLA</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-24 11:00:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="4784 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 10 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="MLA"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0-一句话理解">0. 一句话理解</a></li>
+    <li><a href="#1-背景为什么需要-mla">1. 背景：为什么需要 MLA？</a>
+      <ul>
+        <li><a href="#11-先回顾-kv-cache-是什么">1.1 先回顾 KV Cache 是什么</a></li>
+        <li><a href="#12-标准-mha-的-kv-cache-有多大">1.2 标准 MHA 的 KV Cache 有多大</a></li>
+        <li><a href="#13-已有的折中方案mqa--gqa">1.3 已有的折中方案：MQA / GQA</a></li>
+        <li><a href="#14-mla-的核心思想">1.4 MLA 的核心思想</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-mla-的核心机制低秩压缩low-rank-compression">2. MLA 的核心机制：低秩压缩（Low-Rank Compression）</a></li>
+    <li><a href="#3-一个绕不开的难题rope-与压缩的矛盾--解耦-rope">3. 一个绕不开的难题：RoPE 与压缩的矛盾 → 解耦 RoPE</a>
+      <ul>
+        <li><a href="#31-矛盾在哪">3.1 矛盾在哪</a></li>
+        <li><a href="#32-deepseek-的解法解耦-ropedecoupled-rope">3.2 DeepSeek 的解法：解耦 RoPE（Decoupled RoPE）</a></li>
+        <li><a href="#33-两个重要细节">3.3 两个重要细节</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-完整前向流程prefilling-阶段-对应图-1">4. 完整前向流程（Prefilling 阶段）—— 对应图 1</a>
+      <ul>
+        <li><a href="#41-配置参数deepseek-v3-同款">4.1 配置参数（DeepSeek-V3 同款）</a></li>
+        <li><a href="#42-q-路径图左侧">4.2 Q 路径（图左侧）</a></li>
+        <li><a href="#43-kv-路径图中右侧">4.3 KV 路径（图中/右侧）</a></li>
+        <li><a href="#44-注意力计算--输出">4.4 注意力计算 + 输出</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-维度全程追踪表一眼看懂数据怎么流">5. 维度全程追踪表（一眼看懂数据怎么流）</a></li>
+    <li><a href="#6-矩阵吸收matrix-absorption-推理加速核心对应图-2">6. 矩阵吸收（Matrix Absorption）—— 推理加速核心，对应图 2</a>
+      <ul>
+        <li><a href="#61-k-矩阵的吸收">6.1 K 矩阵的吸收</a></li>
+        <li><a href="#62-v-矩阵的吸收">6.2 V 矩阵的吸收</a></li>
+        <li><a href="#63-最终形式">6.3 最终形式</a></li>
+        <li><a href="#64-为什么矩阵吸收这么关键">6.4 为什么矩阵吸收这么关键</a></li>
+      </ul>
+    </li>
+    <li><a href="#7-mla-vs-其他注意力对比">7. MLA vs 其他注意力对比</a></li>
+    <li><a href="#8-面试高频问答">8. 面试高频问答</a></li>
+    <li><a href="#9-关键记忆点速记卡">9. 关键记忆点（速记卡）</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="mlamulti-head-latent-attention详细笔记" class="heading-element"><span>MLA（Multi-head Latent Attention）详细笔记</span>
+  <a href="#mlamulti-head-latent-attention%e8%af%a6%e7%bb%86%e7%ac%94%e8%ae%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>多头潜在注意力，DeepSeek-V2 提出、V3/R1 沿用的核心注意力结构。
+本笔记基于 DeepSeek-V2/V3 的 MLA 图解整理，面向初学者，同时覆盖面试要点。</p>
+</blockquote>
+<hr>
+<h2 id="0-一句话理解" class="heading-element"><span>0. 一句话理解</span>
+  <a href="#0-%e4%b8%80%e5%8f%a5%e8%af%9d%e7%90%86%e8%a7%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p><strong>MLA = 把每个 token 的 K、V 压缩成一个很小的「潜在向量」存进 KV Cache，需要用的时候再「解压」回来；并且配一套独立的 RoPE 位置信息。</strong></p>
+</blockquote>
+<p>它要解决的核心痛点只有一个：<strong>推理时 KV Cache 太占显存</strong>。MLA 用「低秩压缩 + 矩阵吸收」两个技巧，把 KV Cache 砍到原来的几十分之一，同时几乎不掉点。</p>
+<hr>
+<h2 id="1-背景为什么需要-mla" class="heading-element"><span>1. 背景：为什么需要 MLA？</span>
+  <a href="#1-%e8%83%8c%e6%99%af%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81-mla" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="11-先回顾-kv-cache-是什么" class="heading-element"><span>1.1 先回顾 KV Cache 是什么</span>
+  <a href="#11-%e5%85%88%e5%9b%9e%e9%a1%be-kv-cache-%e6%98%af%e4%bb%80%e4%b9%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>自回归生成时，每生成一个新 token，都要拿它的 Query 去和<strong>前面所有 token</strong> 的 Key、Value 做注意力。
+如果每一步都重算前面所有 token 的 K、V，会有大量重复计算。所以工程上把已经算好的 K、V <strong>缓存下来</strong>，这就是 KV Cache。</p>
+<p>代价是：序列越长，缓存越大。它直接决定了：</p>
+<ul>
+<li>单卡能放下多长的上下文；</li>
+<li>能并发服务多少个请求（batch size）；</li>
+<li>长文本推理的速度（显存带宽往往是瓶颈）。</li>
+</ul>
+<h3 id="12-标准-mha-的-kv-cache-有多大" class="heading-element"><span>1.2 标准 MHA 的 KV Cache 有多大</span>
+  <a href="#12-%e6%a0%87%e5%87%86-mha-%e7%9a%84-kv-cache-%e6%9c%89%e5%a4%9a%e5%a4%a7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>标准多头注意力（MHA）需要为<strong>每个头</strong>都缓存一份完整的 K 和 V。</p>
+<p>以本笔记的配置（128 个头、每个头维度 128）为例，每个 token 要存：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">KV Cache(MHA) = 2 (K和V) × 头数 × 每头维度
+</span></span><span class="line"><span class="cl">             = 2 × 128 × 128 = 32768 个数 / token</span></span></code></pre></td></tr></table>
+</div>
+</div><p>序列一长，这个数字乘以序列长度，显存就爆了。</p>
+<h3 id="13-已有的折中方案mqa--gqa" class="heading-element"><span>1.3 已有的折中方案：MQA / GQA</span>
+  <a href="#13-%e5%b7%b2%e6%9c%89%e7%9a%84%e6%8a%98%e4%b8%ad%e6%96%b9%e6%a1%88mqa--gqa" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th>方法</th>
+          <th>思路</th>
+          <th>KV Cache</th>
+          <th>效果</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>MHA</strong>（标准多头）</td>
+          <td>每个头独立的 K、V</td>
+          <td>最大</td>
+          <td>效果最好</td>
+      </tr>
+      <tr>
+          <td><strong>MQA</strong>（Multi-Query）</td>
+          <td>所有头<strong>共享一份</strong> K、V</td>
+          <td>最小</td>
+          <td>省得多，但掉点明显</td>
+      </tr>
+      <tr>
+          <td><strong>GQA</strong>（Grouped-Query）</td>
+          <td>把头分成几组，组内共享 K、V</td>
+          <td>中等</td>
+          <td>MHA 和 MQA 的折中</td>
+      </tr>
+      <tr>
+          <td><strong>MLA</strong></td>
+          <td>K、V 压缩成低维潜在向量再缓存</td>
+          <td>很小</td>
+          <td><strong>几乎不掉点，还更省</strong></td>
+      </tr>
+  </tbody>
+</table>
+<p>MQA/GQA 是通过「<strong>减少 K、V 的份数</strong>」来省显存，本质是牺牲表达能力。
+MLA 换了个思路：份数不减，但把<strong>每份压缩</strong>到极低维度再存。</p>
+<h3 id="14-mla-的核心思想" class="heading-element"><span>1.4 MLA 的核心思想</span>
+  <a href="#14-mla-%e7%9a%84%e6%a0%b8%e5%bf%83%e6%80%9d%e6%83%b3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p><strong>缓存的不是完整的 K、V，而是一个被压缩过的「潜在向量」 $c^{KV}$（512 维），用的时候再通过一个上投影矩阵解压回完整的 K、V。</strong></p>
+</blockquote>
+<p>而且后面会看到，靠「矩阵吸收」技巧，<strong>连解压这一步都可以省掉</strong>——直接在压缩空间里算注意力。</p>
+<hr>
+<h2 id="2-mla-的核心机制低秩压缩low-rank-compression" class="heading-element"><span>2. MLA 的核心机制：低秩压缩（Low-Rank Compression）</span>
+  <a href="#2-mla-%e7%9a%84%e6%a0%b8%e5%bf%83%e6%9c%ba%e5%88%b6%e4%bd%8e%e7%a7%a9%e5%8e%8b%e7%bc%a9low-rank-compression" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>「低秩」可以这样直观理解：
+一个 token 的完整 K（128×128 维）信息其实有很多冗余，并不需要那么多维度就能表达。
+我们可以先用一个<strong>降维矩阵</strong>把高维 hidden state 压成一个小向量（如 512 维），缓存这个小向量；
+真正要用 K、V 时，再用一个<strong>升维矩阵</strong>把它还原回去。</p>
+<p>MLA 对 <strong>K/V</strong> 和 <strong>Q</strong> 都做了这种「先降维（down）、再升维（up）」的压缩：</p>
+<ul>
+<li><strong>KV 压缩</strong>：是为了<strong>省 KV Cache 显存</strong>（这是主目的）。</li>
+<li><strong>Q 压缩</strong>：Q 不需要缓存，压缩它主要是为了<strong>省训练时的参数量和激活显存</strong>。</li>
+</ul>
+<p>记住几个关键符号：</p>
+<table>
+  <thead>
+      <tr>
+          <th>符号</th>
+          <th>含义</th>
+          <th>维度</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>$h_t$</td>
+          <td>第 t 个 token 的输入隐藏状态</td>
+          <td>7168</td>
+      </tr>
+      <tr>
+          <td>$c_t^{KV}$</td>
+          <td>KV 的压缩潜在向量（<strong>要缓存</strong>）</td>
+          <td>512</td>
+      </tr>
+      <tr>
+          <td>$k_t^{R}$</td>
+          <td>解耦 RoPE 的 Key（<strong>要缓存</strong>，所有头共享）</td>
+          <td>64</td>
+      </tr>
+      <tr>
+          <td>$c_t^{Q}$</td>
+          <td>Q 的压缩潜在向量（不缓存）</td>
+          <td>1536</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p><strong>🔑 KV Cache 只需要存 $c_t^{KV}$(512) + $k_t^R$(64) = 576 个数 / token。</strong>
+对比 MHA 的 32768，缩小约 <strong>57 倍</strong>！</p>
+</blockquote>
+<hr>
+<h2 id="3-一个绕不开的难题rope-与压缩的矛盾--解耦-rope" class="heading-element"><span>3. 一个绕不开的难题：RoPE 与压缩的矛盾 → 解耦 RoPE</span>
+  <a href="#3-%e4%b8%80%e4%b8%aa%e7%bb%95%e4%b8%8d%e5%bc%80%e7%9a%84%e9%9a%be%e9%a2%98rope-%e4%b8%8e%e5%8e%8b%e7%bc%a9%e7%9a%84%e7%9f%9b%e7%9b%be--%e8%a7%a3%e8%80%a6-rope" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>这是 MLA 设计里最精妙、也是面试最爱问的一点。</p>
+<h3 id="31-矛盾在哪" class="heading-element"><span>3.1 矛盾在哪</span>
+  <a href="#31-%e7%9f%9b%e7%9b%be%e5%9c%a8%e5%93%aa" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>MLA 想做的优化是「矩阵吸收」（见第 6 节）：把 K 的升维矩阵预先合并到 Q 上，这样推理时<strong>不用真的把 $c^{KV}$ 解压成 K</strong>。</p>
+<p>但 <strong>RoPE 是一个跟「位置」相关的旋转操作</strong>，它作用在 Q、K 上时，旋转的角度取决于 token 的位置 $t$。
+如果 K 里带了 RoPE，那「Q 升维矩阵 × K 升维矩阵」这个乘积里就夹着一个<strong>随位置变化的旋转矩阵</strong>，没法在推理前提前合并（吸收）——因为每对 (i, j) 位置的旋转都不一样。</p>
+<p>一句话：<strong>RoPE 的位置依赖性，破坏了矩阵吸收所需要的「可提前合并」性质。</strong></p>
+<h3 id="32-deepseek-的解法解耦-ropedecoupled-rope" class="heading-element"><span>3.2 DeepSeek 的解法：解耦 RoPE（Decoupled RoPE）</span>
+  <a href="#32-deepseek-%e7%9a%84%e8%a7%a3%e6%b3%95%e8%a7%a3%e8%80%a6-ropedecoupled-rope" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>把 Query 和 Key 都<strong>拆成两部分</strong>：</p>
+<ul>
+<li><strong>nope 部分（no positional embedding）</strong>：不带位置信息，参与低秩压缩 + 矩阵吸收。维度 128。</li>
+<li><strong>rope 部分</strong>：专门承载 RoPE 位置信息，单独走一条小通路。维度 64。</li>
+</ul>
+<p>最终的 Q、K 是两部分<strong>拼接</strong>起来的：</p>
+<p>$$q_{t,i} = [,q_{t,i}^{C},;,q_{t,i}^{R},] \qquad k_{t,i} = [,k_{t,i}^{C},;,k_{t}^{R},]$$</p>
+<ul>
+<li>上标 $C$ = content（nope，内容部分）</li>
+<li>上标 $R$ = RoPE（位置部分）</li>
+</ul>
+<p>注意力打分时，两部分点积<strong>自然相加</strong>：</p>
+<p>$$q_{t,i}^T k_{j,i} = \underbrace{q_{t,i}^{C}\cdot k_{j,i}^{C}}_{\text{nope，可被吸收}} + \underbrace{q_{t,i}^{R}\cdot k_{j}^{R}}_{\text{rope，单独算}}$$</p>
+<p>这样 nope 部分可以享受矩阵吸收的全部好处，rope 部分单独处理位置，互不干扰。</p>
+<h3 id="33-两个重要细节" class="heading-element"><span>3.3 两个重要细节</span>
+  <a href="#33-%e4%b8%a4%e4%b8%aa%e9%87%8d%e8%a6%81%e7%bb%86%e8%8a%82" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ol>
+<li><strong>RoPE Key 所有头共享</strong>：$k_t^R$ 只有一份（64 维），不是每个头一份。所以 KV Cache 里只加 64 维。图中 KV rope 出来后要 <strong>Repeat</strong> 广播到每个头。</li>
+<li><strong>缩放因子要带上 rope 维度</strong>：注意力分母是 $\sqrt{d_h + d_h^R} = \sqrt{128 + 64}$，因为拼接后总维度变大了。</li>
+</ol>
+<hr>
+<h2 id="4-完整前向流程prefilling-阶段-对应图-1" class="heading-element"><span>4. 完整前向流程（Prefilling 阶段）—— 对应图 1</span>
+  <a href="#4-%e5%ae%8c%e6%95%b4%e5%89%8d%e5%90%91%e6%b5%81%e7%a8%8bprefilling-%e9%98%b6%e6%ae%b5-%e5%af%b9%e5%ba%94%e5%9b%be-1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="41-配置参数deepseek-v3-同款" class="heading-element"><span>4.1 配置参数（DeepSeek-V3 同款）</span>
+  <a href="#41-%e9%85%8d%e7%bd%ae%e5%8f%82%e6%95%b0deepseek-v3-%e5%90%8c%e6%ac%be" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th>参数</th>
+          <th>值</th>
+          <th>含义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>hidden_size</code></td>
+          <td>7168</td>
+          <td>输入隐藏维度 $d$</td>
+      </tr>
+      <tr>
+          <td><code>num_attention_head</code></td>
+          <td>128</td>
+          <td>头数 $n_h$</td>
+      </tr>
+      <tr>
+          <td><code>q_lora_rank</code></td>
+          <td>1536</td>
+          <td>Q 压缩后的维度</td>
+      </tr>
+      <tr>
+          <td><code>kv_lora_rank</code></td>
+          <td>512</td>
+          <td>KV 压缩后的维度（缓存的核心）</td>
+      </tr>
+      <tr>
+          <td><code>qk_nope_head_dim</code></td>
+          <td>128</td>
+          <td>每头 nope 部分维度</td>
+      </tr>
+      <tr>
+          <td><code>qk_rope_head_dim</code></td>
+          <td>64</td>
+          <td>每头 rope 部分维度</td>
+      </tr>
+      <tr>
+          <td><code>v_head_dim</code></td>
+          <td>128</td>
+          <td>每头 V 的维度</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p>小提示：图里标题写的是 V2，但这套配置（hidden=7168）其实是 V3 的；V2 的 hidden 是 5120。结构完全一样，只是数值不同。</p>
+</blockquote>
+<h3 id="42-q-路径图左侧" class="heading-element"><span>4.2 Q 路径（图左侧）</span>
+  <a href="#42-q-%e8%b7%af%e5%be%84%e5%9b%be%e5%b7%a6%e4%be%a7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Input [S, 7168]
+</span></span><span class="line"><span class="cl">   │  × W^DQ  (q_a 降维)          W^DQ ∈ [7168, 1536]
+</span></span><span class="line"><span class="cl">   ▼
+</span></span><span class="line"><span class="cl">c_t^Q [S, 1536]                  ← Q 的压缩潜在向量
+</span></span><span class="line"><span class="cl">   │  × W^UQ / W^QR  (q_b 升维)
+</span></span><span class="line"><span class="cl">   ▼
+</span></span><span class="line"><span class="cl">拆成两路：
+</span></span><span class="line"><span class="cl">  Q_nope [S, 128头, 128]  ← q_t^C，由 W^UQ 得到   W^UQ ∈ [1536, 128×128]
+</span></span><span class="line"><span class="cl">  Q_rope [S, 128头, 64]   ← q_t^R，由 W^QR 得到，再过 RoPE   W^QR ∈ [1536, 128×64]
+</span></span><span class="line"><span class="cl">   │
+</span></span><span class="line"><span class="cl">   ▼  concat
+</span></span><span class="line"><span class="cl">Q [S, 128头, 128+64=192]         ← q_{t,i} = [q_{t,i}^C ; q_{t,i}^R]</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对应公式：
+$$c_t^Q = W^{DQ} h_t$$
+$$q_t^C = W^{UQ} c_t^Q \qquad q_t^R = \mathrm{RoPE}(W^{QR} c_t^Q)$$
+$$q_{t,i} = [,q_{t,i}^C,;,q_{t,i}^R,]$$</p>
+<h3 id="43-kv-路径图中右侧" class="heading-element"><span>4.3 KV 路径（图中/右侧）</span>
+  <a href="#43-kv-%e8%b7%af%e5%be%84%e5%9b%be%e4%b8%ad%e5%8f%b3%e4%be%a7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Input [S, 7168]
+</span></span><span class="line"><span class="cl">   │  × [W^DKV | W^KR]  (Kv_down 降维)
+</span></span><span class="line"><span class="cl">   ▼      W^DKV ∈ [7168, 512]   W^KR ∈ [7168, 64]
+</span></span><span class="line"><span class="cl">拆成两路：
+</span></span><span class="line"><span class="cl">  KV nope [S, 512]  = c_t^KV     ← 压缩潜在向量（要缓存！）
+</span></span><span class="line"><span class="cl">  KV rope [S, 64]   = k_t^R      ← 过 RoPE，所有头共享（要缓存！）
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">c_t^KV [S, 512]
+</span></span><span class="line"><span class="cl">   │  × W^UK / W^UV  (kv_up 升维)
+</span></span><span class="line"><span class="cl">   ▼      W^UK ∈ [512, 128×128]   W^UV ∈ [512, 128×128]
+</span></span><span class="line"><span class="cl">拆成两路（split）：
+</span></span><span class="line"><span class="cl">  k_t^C [S, 128头, 128]   ← 每个头的内容 Key
+</span></span><span class="line"><span class="cl">  v_t^C [S, 128头, 128]   ← 每个头的 Value</span></span></code></pre></td></tr></table>
+</div>
+</div><p>构建最终的 K（把共享的 rope key 广播到每个头再拼接）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">k_t^R [S, 64]  ──Repeat──▶ [S, 128头, 64]
+</span></span><span class="line"><span class="cl">                              │
+</span></span><span class="line"><span class="cl">k_t^C [S, 128头, 128] ───────┤ concat
+</span></span><span class="line"><span class="cl">                              ▼
+</span></span><span class="line"><span class="cl">K [S, 128头, 128+64=192]     ← k_{t,i} = [k_{t,i}^C ; k_t^R]</span></span></code></pre></td></tr></table>
+</div>
+</div><p>构建最终的 V：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">V [S, 128头, 128] = v_t^C</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对应公式：
+$$c_t^{KV} = W^{DKV} h_t \qquad k_t^R = \mathrm{RoPE}(W^{KR} h_t)$$
+$$k_t^C = W^{UK} c_t^{KV} \qquad v_t^C = W^{UV} c_t^{KV}$$
+$$k_{t,i} = [,k_{t,i}^C,;,k_t^R,]$$</p>
+<h3 id="44-注意力计算--输出" class="heading-element"><span>4.4 注意力计算 + 输出</span>
+  <a href="#44-%e6%b3%a8%e6%84%8f%e5%8a%9b%e8%ae%a1%e7%ae%97--%e8%be%93%e5%87%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Q [S,128,192]   K [S,128,192]   V [S,128,128]
+</span></span><span class="line"><span class="cl">        └──────────┬──────────┘
+</span></span><span class="line"><span class="cl">                MHA kernel
+</span></span><span class="line"><span class="cl">                   │  输出 [S, 128头, 128]
+</span></span><span class="line"><span class="cl">                   ▼
+</span></span><span class="line"><span class="cl">              × W^O  (w_o 输出投影)     W^O ∈ [128×128, 7168]
+</span></span><span class="line"><span class="cl">                   ▼
+</span></span><span class="line"><span class="cl">            Output [S, 7168]</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对应公式：
+$$o_{t,i} = \sum_{j=1}^{t} \mathrm{Softmax}_j!\left(\frac{q_{t,i}^T k_{j,i}}{\sqrt{d_h + d_h^R}}\right) v_{j,i}^C$$
+$$u_t = W^O,[,o_{t,1},;,o_{t,2},;,\dots,;,o_{t,n_h},]$$</p>
+<blockquote>
+<p>Prefilling（处理 prompt）阶段就是按上面这套<strong>完整</strong>流程跑一遍，把 K、V 都解压出来算注意力，同时把 $c_t^{KV}$ 和 $k_t^R$ 缓存起来。
+真正省显存的关键在 <strong>Decoding（逐 token 生成）阶段 + 矩阵吸收</strong>，见下一节。</p>
+</blockquote>
+<hr>
+<h2 id="5-维度全程追踪表一眼看懂数据怎么流" class="heading-element"><span>5. 维度全程追踪表（一眼看懂数据怎么流）</span>
+  <a href="#5-%e7%bb%b4%e5%ba%a6%e5%85%a8%e7%a8%8b%e8%bf%bd%e8%b8%aa%e8%a1%a8%e4%b8%80%e7%9c%bc%e7%9c%8b%e6%87%82%e6%95%b0%e6%8d%ae%e6%80%8e%e4%b9%88%e6%b5%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>阶段</th>
+          <th>张量</th>
+          <th>维度</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>输入</td>
+          <td>$h_t$</td>
+          <td>[S, 7168]</td>
+          <td>hidden state</td>
+      </tr>
+      <tr>
+          <td>Q 降维</td>
+          <td>$c_t^Q$</td>
+          <td>[S, 1536]</td>
+          <td>不缓存</td>
+      </tr>
+      <tr>
+          <td>Q 升维(nope)</td>
+          <td>$q_t^C$</td>
+          <td>[S, 128, 128]</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>Q 升维(rope)</td>
+          <td>$q_t^R$</td>
+          <td>[S, 128, 64]</td>
+          <td>过 RoPE</td>
+      </tr>
+      <tr>
+          <td>Q 拼接</td>
+          <td>$q_{t,i}$</td>
+          <td>[S, 128, 192]</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td><strong>KV 降维(nope)</strong></td>
+          <td>$c_t^{KV}$</td>
+          <td><strong>[S, 512]</strong></td>
+          <td><strong>缓存 ✅</strong></td>
+      </tr>
+      <tr>
+          <td><strong>KV 降维(rope)</strong></td>
+          <td>$k_t^R$</td>
+          <td><strong>[S, 64]</strong></td>
+          <td><strong>缓存 ✅，共享</strong></td>
+      </tr>
+      <tr>
+          <td>K 升维(nope)</td>
+          <td>$k_t^C$</td>
+          <td>[S, 128, 128]</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>K 拼接</td>
+          <td>$k_{t,i}$</td>
+          <td>[S, 128, 192]</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>V 升维</td>
+          <td>$v_t^C$</td>
+          <td>[S, 128, 128]</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>注意力输出</td>
+          <td>$o_{t,i}$</td>
+          <td>[S, 128, 128]</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>最终输出</td>
+          <td>$u_t$</td>
+          <td>[S, 7168]</td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p><strong>缓存账本：每个 token 只存 512 + 64 = 576 维。</strong> 这就是 MLA 省显存的全部秘密所在。</p>
+</blockquote>
+<hr>
+<h2 id="6-矩阵吸收matrix-absorption-推理加速核心对应图-2" class="heading-element"><span>6. 矩阵吸收（Matrix Absorption）—— 推理加速核心，对应图 2</span>
+  <a href="#6-%e7%9f%a9%e9%98%b5%e5%90%b8%e6%94%b6matrix-absorption-%e6%8e%a8%e7%90%86%e5%8a%a0%e9%80%9f%e6%a0%b8%e5%bf%83%e5%af%b9%e5%ba%94%e5%9b%be-2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>第 4 节里，推理时我们好像还是把 $c^{KV}$ 解压回了完整的 K、V。
+<strong>矩阵吸收</strong>告诉我们：其实没必要解压，可以直接在 512 维的压缩空间里算注意力。原理是把升维矩阵<strong>提前合并进相邻的矩阵</strong>。</p>
+<h3 id="61-k-矩阵的吸收" class="heading-element"><span>6.1 K 矩阵的吸收</span>
+  <a href="#61-k-%e7%9f%a9%e9%98%b5%e7%9a%84%e5%90%b8%e6%94%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>只看 nope 部分的注意力打分，逐步展开：</p>
+<p>$$
+\begin{aligned}
+\text{Attention} &amp;= q_t^C , k_t^{C,T} \
+&amp;= (c_t^Q W^{UQ})(c_t^{KV} W^{UK})^T \
+&amp;= c_t^Q , W^{UQ} W^{UK,T} , c_t^{KV,T} \
+&amp;= c_t^Q ,\underbrace{(W^{UQ} W^{UK,T})}_{\text{提前合并}}, c_t^{KV,T} \
+&amp;= c_t^Q , W^{UQK} , c_t^{KV,T}
+\end{aligned}
+$$</p>
+<p>维度变化（每个头）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">W^UQ  ∈ [1536, 128, 128]
+</span></span><span class="line"><span class="cl">W^UK  ∈ [512, 128, 128]
+</span></span><span class="line"><span class="cl">W^UQ × W^UK^T  ∈ [1536, 128, 512]  =  W^UQK   ← 合并成一个新矩阵</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>含义</strong>：把「K 的升维矩阵 $W^{UK}$」<strong>吸收进了 Query 那一侧</strong>。于是：</p>
+<ul>
+<li>推理时<strong>不需要</strong>把缓存的 $c^{KV}$ 还原成 K；</li>
+<li>直接拿 $c_t^Q$（经 $W^{UQK}$ 变换后）和缓存的 $c_j^{KV}$ 做点积即可。</li>
+<li><strong>$c^{KV}$ 同时扮演了「被缓存的 Key」的角色。</strong></li>
+</ul>
+<h3 id="62-v-矩阵的吸收" class="heading-element"><span>6.2 V 矩阵的吸收</span>
+  <a href="#62-v-%e7%9f%a9%e9%98%b5%e7%9a%84%e5%90%b8%e6%94%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>同理看输出侧（注意力加权 V 之后再过输出投影 $W^O$）：</p>
+<p>$$
+\begin{aligned}
+\text{Output} &amp;= (c_t^{KV} W^{UV}), W^O \
+&amp;= c_t^{KV},\underbrace{(W^{UV} W^O)}_{\text{提前合并}} \
+&amp;= c_t^{KV}, W^{UVO}
+\end{aligned}
+$$</p>
+<p>维度变化（每个头）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">W^UV ∈ [512, 128, 128]
+</span></span><span class="line"><span class="cl">W^O  ∈ [128, 128, 7168]
+</span></span><span class="line"><span class="cl">W^UV × W^O  ∈ [512, 128, 7168]  =  W^UVO   ← 合并成一个新矩阵</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>含义</strong>：把「V 的升维矩阵 $W^{UV}$」<strong>吸收进了输出矩阵 $W^O$</strong>。于是：</p>
+<ul>
+<li>注意力的加权求和直接在 512 维潜在空间里完成（对 $c_j^{KV}$ 加权）；</li>
+<li>最后用 $W^{UVO}$ 一次性投影回 7168 维。</li>
+<li><strong>$c^{KV}$ 同时又扮演了「被缓存的 Value」的角色。</strong></li>
+</ul>
+<h3 id="63-最终形式" class="heading-element"><span>6.3 最终形式</span>
+  <a href="#63-%e6%9c%80%e7%bb%88%e5%bd%a2%e5%bc%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>把两次吸收合起来，整个 MLA 在推理时可以写成一个紧凑式子：</p>
+<p>$$\text{Output} = \mathrm{softmax}!\left(\frac{h_t, W^{DQ}, W^{UQK}, c_t^{KV,T}}{\sqrt{d}}\right) c_t^{KV}, W^{UVO}$$</p>
+<blockquote>
+<p>注意：上式是 nope 部分的简化示意，实际还要加上 rope 部分的打分 $q^R \cdot k^R$。完整缩放因子是 $\sqrt{d_h + d_h^R}$。</p>
+</blockquote>
+<h3 id="64-为什么矩阵吸收这么关键" class="heading-element"><span>6.4 为什么矩阵吸收这么关键</span>
+  <a href="#64-%e4%b8%ba%e4%bb%80%e4%b9%88%e7%9f%a9%e9%98%b5%e5%90%b8%e6%94%b6%e8%bf%99%e4%b9%88%e5%85%b3%e9%94%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ol>
+<li><strong>省显存</strong>：缓存里只有 512+64 维的 $c^{KV}$、$k^R$，永远不需要展开成 128×128 的完整 K、V。</li>
+<li><strong>省计算/带宽</strong>：解码时读取的缓存量极小，而显存带宽通常是长文本推理的瓶颈。</li>
+<li><strong>不掉点</strong>：吸收只是矩阵结合律的等价变形，数学上完全等价，不损失精度。</li>
+<li><strong>这也正是为什么需要解耦 RoPE</strong>——只有 nope 部分能被吸收，带位置的 rope 部分必须单独留出来。</li>
+</ol>
+<hr>
+<h2 id="7-mla-vs-其他注意力对比" class="heading-element"><span>7. MLA vs 其他注意力对比</span>
+  <a href="#7-mla-vs-%e5%85%b6%e4%bb%96%e6%b3%a8%e6%84%8f%e5%8a%9b%e5%af%b9%e6%af%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>MHA</th>
+          <th>MQA</th>
+          <th>GQA</th>
+          <th><strong>MLA</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>K/V 份数</td>
+          <td>每头一份</td>
+          <td>全共享一份</td>
+          <td>分组共享</td>
+          <td>每头一份（但压缩）</td>
+      </tr>
+      <tr>
+          <td>省显存手段</td>
+          <td>无</td>
+          <td>减份数</td>
+          <td>减份数</td>
+          <td><strong>低秩压缩</strong></td>
+      </tr>
+      <tr>
+          <td>每 token 缓存（本配置）</td>
+          <td>32768</td>
+          <td>256</td>
+          <td>中等</td>
+          <td><strong>576</strong></td>
+      </tr>
+      <tr>
+          <td>效果</td>
+          <td>基准</td>
+          <td>掉点明显</td>
+          <td>接近 MHA</td>
+          <td><strong>≈MHA 甚至更好</strong></td>
+      </tr>
+      <tr>
+          <td>位置编码</td>
+          <td>RoPE 直接加</td>
+          <td>RoPE 直接加</td>
+          <td>RoPE 直接加</td>
+          <td><strong>解耦 RoPE</strong></td>
+      </tr>
+      <tr>
+          <td>实现复杂度</td>
+          <td>简单</td>
+          <td>简单</td>
+          <td>简单</td>
+          <td>较复杂</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p>MLA 的卖点：<strong>用 GQA 级别（甚至更低）的缓存开销，拿到 MHA 级别的效果。</strong></p>
+</blockquote>
+<hr>
+<h2 id="8-面试高频问答" class="heading-element"><span>8. 面试高频问答</span>
+  <a href="#8-%e9%9d%a2%e8%af%95%e9%ab%98%e9%a2%91%e9%97%ae%e7%ad%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>Q1：MLA 是用来解决什么问题的？</strong>
+A：推理时 KV Cache 占显存太大，限制了上下文长度和并发。MLA 通过对 K、V 做低秩压缩，把每 token 缓存从几万维降到几百维。</p>
+<p><strong>Q2：MLA 缓存的到底是什么？</strong>
+A：只缓存压缩后的潜在向量 $c_t^{KV}$（512 维）和一份所有头共享的 RoPE Key $k_t^R$（64 维），共 576 维/token。完整的 K、V 在需要时由升维矩阵恢复。</p>
+<p><strong>Q3：为什么要搞「解耦 RoPE」？</strong>
+A：因为 MLA 想用「矩阵吸收」省掉 K、V 的解压步骤，但 RoPE 是位置相关的旋转，夹在升维矩阵中间就没法提前合并。于是把 Q、K 拆成 nope（参与吸收）和 rope（单独承载位置）两部分。</p>
+<p><strong>Q4：什么是矩阵吸收？为什么不掉点？</strong>
+A：利用矩阵乘法结合律，把 K 的升维矩阵合并进 Query 侧（$W^{UQK}$）、把 V 的升维矩阵合并进输出侧（$W^{UVO}$）。这样推理时直接在压缩空间算注意力，无需展开 K、V。因为是等价变形，精度无损。</p>
+<p><strong>Q5：MLA 和 GQA 的本质区别？</strong>
+A：GQA 靠「减少 K、V 的份数」省显存（牺牲表达力）；MLA 份数不减，靠「把每份压缩到低维」省显存，并能用吸收技巧进一步免解压，所以效果更接近 MHA。</p>
+<p><strong>Q6：Q 为什么也要压缩？</strong>
+A：Q 不进 KV Cache，压缩它不是为了推理省显存，而是为了减少训练时的参数量和激活显存。</p>
+<p><strong>Q7：注意力缩放因子为什么是 $\sqrt{d_h + d_h^R}$？</strong>
+A：因为最终的 Q、K 是 nope(128) 和 rope(64) 拼接而成的，总维度是 192，缩放要按拼接后的总维度算。</p>
+<hr>
+<h2 id="9-关键记忆点速记卡" class="heading-element"><span>9. 关键记忆点（速记卡）</span>
+  <a href="#9-%e5%85%b3%e9%94%ae%e8%ae%b0%e5%bf%86%e7%82%b9%e9%80%9f%e8%ae%b0%e5%8d%a1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li><strong>目标</strong>：砍 KV Cache 显存。</li>
+<li><strong>手段</strong>：K/V 低秩压缩 → 缓存 $c^{KV}$(512) + 共享 $k^R$(64)，共 <strong>576/token</strong>。</li>
+<li><strong>两次降升维</strong>：
+<ul>
+<li>Q：<code>h → c^Q(1536) → q(192/头)</code></li>
+<li>KV：<code>h → c^KV(512) → k^C/v^C(128/头)</code>；外加 <code>h → k^R(64)</code>。</li>
+</ul>
+</li>
+<li><strong>拼接结构</strong>：$q=[q^C;q^R]$、$k=[k^C;k^R]$，nope=128、rope=64。</li>
+<li><strong>解耦 RoPE</strong>：rope 单独走，nope 才能被吸收；RoPE Key 全头共享。</li>
+<li><strong>矩阵吸收</strong>：
+<ul>
+<li>K 侧：$W^{UQ}W^{UK,T} = W^{UQK}$（K 升维吸进 Q）</li>
+<li>V 侧：$W^{UV}W^{O} = W^{UVO}$（V 升维吸进输出）</li>
+<li>效果：推理直接在 512 维空间算注意力，<strong>免解压、不掉点</strong>。</li>
+</ul>
+</li>
+<li><strong>一句话</strong>：<strong>压缩存、吸收算、效果不输 MHA。</strong></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/mlmla/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/multi-head-latent-attention/" class="post-tag" title="标签 - Multi-Head Latent Attention">Multi-Head Latent Attention</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/mldeepseek-moe/" class="post-nav-item" rel="prev" title="DeepSeek MoE"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>DeepSeek MoE</a><a href="/posts/mlyarn/" class="post-nav-item" rel="next" title="YaRN">YaRN<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>

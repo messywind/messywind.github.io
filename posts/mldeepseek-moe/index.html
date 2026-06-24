@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>DeepSeek MoE - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="DeepSeek 大模型 — MoE 架构笔记 0. 一句话脉络 MoE（Mixture of Experts）的核心思想是 &ldquo;用多个专家网络 &#43; 一个门控（路由）网络，按输入动态决定让哪些专家参与计算&rdquo;。
+"><meta name="keywords" content='MoE'>
+  <meta itemprop="name" content="DeepSeek MoE">
+  <meta itemprop="description" content="DeepSeek 大模型 — MoE 架构笔记 0. 一句话脉络 MoE（Mixture of Experts）的核心思想是 “用多个专家网络 &#43; 一个门控（路由）网络，按输入动态决定让哪些专家参与计算”。">
+  <meta itemprop="datePublished" content="2026-06-23T10:48:00+00:00">
+  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
+  <meta itemprop="wordCount" content="5015">
+  <meta itemprop="keywords" content="MoE"><meta property="og:url" content="https://blog.messywind.top/posts/mldeepseek-moe/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="DeepSeek MoE">
+  <meta property="og:description" content="DeepSeek 大模型 — MoE 架构笔记 0. 一句话脉络 MoE（Mixture of Experts）的核心思想是 “用多个专家网络 &#43; 一个门控（路由）网络，按输入动态决定让哪些专家参与计算”。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-06-23T10:48:00+00:00">
+    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
+    <meta property="article:tag" content="MoE">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="DeepSeek MoE">
+  <meta name="twitter:description" content="DeepSeek 大模型 — MoE 架构笔记 0. 一句话脉络 MoE（Mixture of Experts）的核心思想是 “用多个专家网络 &#43; 一个门控（路由）网络，按输入动态决定让哪些专家参与计算”。">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mldeepseek-moe/" title="DeepSeek MoE - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/miscniko%E5%A4%BA%E5%86%A0%E6%84%9F%E6%83%B3/" title="NiKo夺冠感想" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/mlmla/" title="MLA" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mldeepseek-moe/index.md" title="DeepSeek MoE - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "DeepSeek MoE",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/mldeepseek-moe\/"
+    },"genre": "posts","keywords": "MoE","wordcount":  5015 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mldeepseek-moe\/","datePublished": "2026-06-23T10:48:00+00:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>DeepSeek MoE</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-23 10:48:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-23">2026-06-23</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="5015 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 5100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 11 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="DeepSeek MoE"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0-一句话脉络">0. 一句话脉络</a></li>
+    <li><a href="#1-dense-moe稠密-moe">1. Dense MoE（稠密 MoE）</a>
+      <ul>
+        <li><a href="#结构">结构</a></li>
+        <li><a href="#公式">公式</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-稀疏-moe-的三种门控公式核心">2. 稀疏 MoE 的三种门控公式（核心）</a>
+      <ul>
+        <li><a href="#-dense-moe">① Dense MoE</a></li>
+        <li><a href="#-稀疏-moesparse">② 稀疏 MoE（Sparse）</a></li>
+        <li><a href="#-带噪稀疏-moenoisy-top-k-gating">③ 带噪稀疏 MoE（Noisy Top-K Gating）</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-mixtral-moe-架构">3. Mixtral MoE 架构</a>
+      <ul>
+        <li><a href="#关键参数">关键参数</a></li>
+        <li><a href="#结构-1">结构</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-deepseek-moe-架构专家隔离--共享专家">4. DeepSeek MoE 架构（专家隔离 + 共享专家）</a>
+      <ul>
+        <li><a href="#结构-2">结构</a></li>
+        <li><a href="#两类专家">两类专家</a></li>
+        <li><a href="#版本参数对比">版本参数对比</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-token-路由直观示例">5. Token 路由直观示例</a></li>
+    <li><a href="#6-面试题-1为什么要有共享专家的设计有什么好处">6. 面试题 1：为什么要有&quot;共享专家&quot;的设计？有什么好处？</a></li>
+    <li><a href="#7-面试题-2moe-的门控输出必须用-softmax-吗">7. 面试题 2：MoE 的门控输出必须用 softmax 吗？</a></li>
+    <li><a href="#8-速记小结">8. 速记小结</a></li>
+    <li><a href="#代码">代码：</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="deepseek-大模型--moe-架构笔记" class="heading-element"><span>DeepSeek 大模型 — MoE 架构笔记</span>
+  <a href="#deepseek-%e5%a4%a7%e6%a8%a1%e5%9e%8b--moe-%e6%9e%b6%e6%9e%84%e7%ac%94%e8%ae%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h2 id="0-一句话脉络" class="heading-element"><span>0. 一句话脉络</span>
+  <a href="#0-%e4%b8%80%e5%8f%a5%e8%af%9d%e8%84%89%e7%bb%9c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>MoE（Mixture of Experts）的核心思想是 <strong>&ldquo;用多个专家网络 + 一个门控（路由）网络，按输入动态决定让哪些专家参与计算&rdquo;</strong>。</p>
+<p>演进路线：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Adaptive Mixtures of Local Experts (1991, bagging 思想)
+</span></span><span class="line"><span class="cl">        ↓
+</span></span><span class="line"><span class="cl">Dense MoE        —— 所有专家都算，门控给权重
+</span></span><span class="line"><span class="cl">        ↓
+</span></span><span class="line"><span class="cl">Sparse MoE       —— 只激活 Top-K 专家（Sparsely-Gated MoE, Google 2017）
+</span></span><span class="line"><span class="cl">        ↓
+</span></span><span class="line"><span class="cl">Mixtral MoE      —— 8 个 FFN 专家，Top-2 激活
+</span></span><span class="line"><span class="cl">        ↓
+</span></span><span class="line"><span class="cl">DeepSeek MoE     —— 细粒度路由专家 + 共享专家（专家隔离）</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="1-dense-moe稠密-moe" class="heading-element"><span>1. Dense MoE（稠密 MoE）</span>
+  <a href="#1-dense-moe%e7%a8%a0%e5%af%86-moe" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="结构" class="heading-element"><span>结构</span>
+  <a href="#%e7%bb%93%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">输入 X [B, D]
+</span></span><span class="line"><span class="cl">   ├──&gt; Expert1 ──&gt; o1 [B, M] ──┐
+</span></span><span class="line"><span class="cl">   ├──&gt; Expert2 ──&gt; o2 [B, M] ──┤
+</span></span><span class="line"><span class="cl">   └──&gt; Expert3 ──&gt; o3 [B, M] ──┤
+</span></span><span class="line"><span class="cl">                                 ├──&gt; Σ ──&gt; 输出 Y [B, M]
+</span></span><span class="line"><span class="cl">   X ──&gt; 门控 (Gating) ──&gt; [B, 3] ┘
+</span></span><span class="line"><span class="cl">        输出权重 w1, w2, w3 ∈ [0, 1]</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><strong>门控网络</strong>：对输入打分，输出每个专家的权重，激活函数用 <strong>sigmoid / softmax</strong>，把权重压到 <code>[0, 1]</code>。</li>
+<li><strong>Dense 的特点</strong>：<strong>每个专家都要计算</strong>，再用门控权重做加权求和。计算量大，没有稀疏性。</li>
+</ul>
+<h3 id="公式" class="heading-element"><span>公式</span>
+  <a href="#%e5%85%ac%e5%bc%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>$$
+y = \sum_{k=1}^{K} o_k \cdot w_k
+$$</p>
+<p>其中 $o_k$ 是第 $k$ 个专家的输出，$w_k$ 是门控给出的权重。</p>
+<hr>
+<h2 id="2-稀疏-moe-的三种门控公式核心" class="heading-element"><span>2. 稀疏 MoE 的三种门控公式（核心）</span>
+  <a href="#2-%e7%a8%80%e7%96%8f-moe-%e7%9a%84%e4%b8%89%e7%a7%8d%e9%97%a8%e6%8e%a7%e5%85%ac%e5%bc%8f%e6%a0%b8%e5%bf%83" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>这一组公式是面试常考的&quot;数学层&quot;，建议背下来。</p>
+</blockquote>
+<h3 id="-dense-moe" class="heading-element"><span>① Dense MoE</span>
+  <a href="#-dense-moe" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>$$
+y = \sum_{i=1}^{n} G(x_i) \cdot E(x_i)
+$$</p>
+<p>$$
+G(x) = \mathrm{softmax}(x \cdot W_g) \in [B, L, n]
+$$</p>
+<ul>
+<li>门控输出维度是 <code>n</code>（专家总数），<strong>所有专家都有非零权重</strong>。</li>
+</ul>
+<h3 id="-稀疏-moesparse" class="heading-element"><span>② 稀疏 MoE（Sparse）</span>
+  <a href="#-%e7%a8%80%e7%96%8f-moesparse" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>$$
+G(x) = \mathrm{softmax}\big(\mathrm{KeepTopK}(H(x), k)\big) \in [B, L, K]
+$$</p>
+<p>$$
+H(x) = x \cdot W_g
+$$</p>
+<ul>
+<li>先打分 $H(x)$，再用 <strong>KeepTopK 只保留 Top-K</strong>，其余置 $-\infty$，softmax 后变成 0 → 实现稀疏激活。</li>
+<li>门控有效维度从 <code>n</code> 降到 <code>K</code>。</li>
+</ul>
+<h3 id="-带噪稀疏-moenoisy-top-k-gating" class="heading-element"><span>③ 带噪稀疏 MoE（Noisy Top-K Gating）</span>
+  <a href="#-%e5%b8%a6%e5%99%aa%e7%a8%80%e7%96%8f-moenoisy-top-k-gating" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>即 Google 的 <strong>Sparsely-Gated MoE</strong>（Shazeer et al., 2017）</p>
+</blockquote>
+<p>$$
+H(x_i) = x_i \cdot W_g + \mathrm{StandardNormal}(\cdot) \cdot \mathrm{Softplus}(x_i \cdot W_{noise}) \in [B, L, n]
+$$</p>
+<p>$$
+\mathrm{Softplus}(x) = \log(1 + e^{x})
+$$</p>
+<p>$$
+\mathrm{KeepTopK}(v, k)_i =
+\begin{cases}
+v_i &amp; \text{if } v_i \text{ 在 } v \text{ 的 Top-}k \text{ 中} \
+-\infty &amp; \text{otherwise}
+\end{cases}
+$$</p>
+<ul>
+<li><strong>加噪的作用</strong>：在打分上加可学习的高斯噪声（噪声幅度由 $W_{noise}$ 控制），<strong>鼓励探索、缓解专家&quot;赢者通吃&quot;、帮助负载均衡</strong>。</li>
+<li>Softplus 保证噪声幅度恒为正。</li>
+</ul>
+<hr>
+<h2 id="3-mixtral-moe-架构" class="heading-element"><span>3. Mixtral MoE 架构</span>
+  <a href="#3-mixtral-moe-%e6%9e%b6%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="关键参数" class="heading-element"><span>关键参数</span>
+  <a href="#%e5%85%b3%e9%94%ae%e5%8f%82%e6%95%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>Mixtral 8×7B</strong>：8 个 FFN 专家，每个约 7B。</li>
+<li><strong>56B 总参数，14B 激活</strong>（Top-K=2，约 2×7B 被激活）。</li>
+</ul>
+<h3 id="结构-1" class="heading-element"><span>结构</span>
+  <a href="#%e7%bb%93%e6%9e%84-1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">输入 X [B, L, D]
+</span></span><span class="line"><span class="cl">   └─&gt; 路由网络 ──&gt; 选出 Top-2 专家
+</span></span><span class="line"><span class="cl">         ├──&gt; FFN1 (7b) ──&gt; o1 [B,L,D] ──┐
+</span></span><span class="line"><span class="cl">         ├──&gt; FFN2 (7b) ──&gt; o2  ✗(未选中) │
+</span></span><span class="line"><span class="cl">         ├──&gt; ......                       ├──&gt; Σ ──&gt; 输出 Y [B,L,D]
+</span></span><span class="line"><span class="cl">         └──&gt; FFN8 (7b) ──&gt; o8 [B,L,D] ──┘
+</span></span><span class="line"><span class="cl">   专家权重 [B, L, Top-K], K=2</span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>用 <strong>FFN</strong> 充当专家（取代 Transformer Block 里的标准 FFN）。</li>
+<li>路由网络选 <strong>Top-2</strong>，未选中的专家（如图中 FFN2）<strong>不参与计算</strong>（红叉），权重路径被切断。</li>
+<li>总参数大但激活参数小 → <strong>推理时算力 ≈ 2 个 FFN</strong>，但模型容量 ≈ 8 个 FFN。</li>
+</ul>
+<hr>
+<h2 id="4-deepseek-moe-架构专家隔离--共享专家" class="heading-element"><span>4. DeepSeek MoE 架构（专家隔离 + 共享专家）</span>
+  <a href="#4-deepseek-moe-%e6%9e%b6%e6%9e%84%e4%b8%93%e5%ae%b6%e9%9a%94%e7%a6%bb--%e5%85%b1%e4%ba%ab%e4%b8%93%e5%ae%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="结构-2" class="heading-element"><span>结构</span>
+  <a href="#%e7%bb%93%e6%9e%84-2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">                            ┌─&gt; 共享专家 (Shared) ──────────────┐
+</span></span><span class="line"><span class="cl">输入 X [B,L,D] ──────────────┤                                    │
+</span></span><span class="line"><span class="cl">   └─&gt; 路由网络 ─────────────┼─&gt; 路由专家1 ──&gt; o1 ──&gt; w1 ──┐      │
+</span></span><span class="line"><span class="cl">        ↑                    ├─&gt; 路由专家2 ──&gt; o2  ✗         ├──&gt; Σ ──&gt; 输出 Y [B,L,D]
+</span></span><span class="line"><span class="cl">   高斯噪声(打分加噪)         └─&gt; 路由专家n ──&gt; on ──&gt; wn ──┘      │
+</span></span><span class="line"><span class="cl">                              专家权重 [B, L, Top-K]                │
+</span></span><span class="line"><span class="cl">                                                                    ┘</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="两类专家" class="heading-element"><span>两类专家</span>
+  <a href="#%e4%b8%a4%e7%b1%bb%e4%b8%93%e5%ae%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th>类型</th>
+          <th>作用</th>
+          <th>是否每次都激活</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>共享专家 (Shared Expert)</strong></td>
+          <td>提供通用特征提取，所有 token 都过</td>
+          <td>✅ 始终激活</td>
+      </tr>
+      <tr>
+          <td><strong>路由专家 (Routed Expert)</strong></td>
+          <td>细粒度、各有专长，由路由网络选 Top-K</td>
+          <td>❌ 只激活 Top-K</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p>路由网络打分时会<strong>加入高斯噪声</strong>（对应第 2 节的带噪门控），帮助负载均衡。</p>
+</blockquote>
+<h3 id="版本参数对比" class="heading-element"><span>版本参数对比</span>
+  <a href="#%e7%89%88%e6%9c%ac%e5%8f%82%e6%95%b0%e5%af%b9%e6%af%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th>版本</th>
+          <th>路由专家</th>
+          <th>共享专家</th>
+          <th>Top-K</th>
+          <th>激活/总参数</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>DeepSeek V2</strong></td>
+          <td>160 routed</td>
+          <td>2 shared</td>
+          <td>6</td>
+          <td>21B / 236B</td>
+      </tr>
+      <tr>
+          <td><strong>DeepSeek V3</strong></td>
+          <td>256 routed</td>
+          <td>1 shared</td>
+          <td>8</td>
+          <td>37B / 671B</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p>趋势：<strong>专家更细粒度（数量更多）、共享专家更少、Top-K 更多、激活率更低</strong>。</p>
+</blockquote>
+<hr>
+<h2 id="5-token-路由直观示例" class="heading-element"><span>5. Token 路由直观示例</span>
+  <a href="#5-token-%e8%b7%af%e7%94%b1%e7%9b%b4%e8%a7%82%e7%a4%ba%e4%be%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>例句：<strong>&ldquo;他昨天很荣幸地收到了期待已久的 offer&rdquo;</strong></p>
+<p>假设三个专家的专长：</p>
+<ul>
+<li><strong>专家 1</strong>：擅长处理情感词汇和情感表达</li>
+<li><strong>专家 2</strong>：擅长处理实体指代和关系理解</li>
+<li><strong>专家 3</strong>：擅长处理语法结构和句法关系</li>
+<li><strong>共享专家</strong>：提供通用的特征提取</li>
+</ul>
+<table>
+  <thead>
+      <tr>
+          <th>Token</th>
+          <th>词性</th>
+          <th>可能路由到</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>他</td>
+          <td>代词 (Pronoun)</td>
+          <td>专家 2（实体指代）</td>
+      </tr>
+      <tr>
+          <td>昨天</td>
+          <td>时间状语 (Time Adverb)</td>
+          <td>专家 2（情境理解）</td>
+      </tr>
+      <tr>
+          <td>很荣幸地</td>
+          <td>副词+形容词</td>
+          <td>专家 1（情感词汇）</td>
+      </tr>
+      <tr>
+          <td>收到</td>
+          <td>动词 (Verb)</td>
+          <td>专家 3（动词/语法结构）</td>
+      </tr>
+      <tr>
+          <td>了</td>
+          <td>助词 (Particle)</td>
+          <td>专家 3（语法助词）</td>
+      </tr>
+      <tr>
+          <td>期待已久的</td>
+          <td>形容词短语</td>
+          <td>专家 1（情感）+ 专家 2（描述性信息）</td>
+      </tr>
+      <tr>
+          <td>offer</td>
+          <td>名词 (Noun)</td>
+          <td>专家 2（实体）</td>
+      </tr>
+      <tr>
+          <td><strong>整个句子</strong></td>
+          <td>—</td>
+          <td><strong>都会经过共享专家</strong></td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p>直觉：不同 token 按&quot;语义功能&quot;被路由到不同的专长专家；共享专家兜底通用信息。
+在自回归生成中，<strong>每一步、每一层、每个 token 激活的专家组合都不同</strong>（图 2 的逐步生成示意）。</p>
+</blockquote>
+<hr>
+<h2 id="6-面试题-1为什么要有共享专家的设计有什么好处" class="heading-element"><span>6. 面试题 1：为什么要有&quot;共享专家&quot;的设计？有什么好处？</span>
+  <a href="#6-%e9%9d%a2%e8%af%95%e9%a2%98-1%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e6%9c%89%e5%85%b1%e4%ba%ab%e4%b8%93%e5%ae%b6%e7%9a%84%e8%ae%be%e8%ae%a1%e6%9c%89%e4%bb%80%e4%b9%88%e5%a5%bd%e5%a4%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>① 减少冗余，让 Routed experts 更专业</strong></p>
+<ul>
+<li>通用知识由共享专家承担，路由专家不必各自重复学习通用特征，可以更专注于细分领域 → 提升专业化程度、提高参数利用率。</li>
+</ul>
+<p><strong>② 计算更高效（与 All2All 通信相关）</strong></p>
+<ul>
+<li>MoE 的专家并行需要 <strong>All2All 通信</strong>把 token 分发到对应专家所在的设备。</li>
+<li>共享专家始终在本地参与计算，可以 <strong>让通信与计算重叠（overlap）</strong>，把 All2All 的通信延迟&quot;隐藏&quot;在共享专家的计算里 → 整体吞吐更高。</li>
+</ul>
+<blockquote>
+<p>关键词：<strong>减少冗余 / 专业化 / 通信-计算重叠 / 通信隐藏 / All2All</strong></p>
+</blockquote>
+<hr>
+<h2 id="7-面试题-2moe-的门控输出必须用-softmax-吗" class="heading-element"><span>7. 面试题 2：MoE 的门控输出必须用 softmax 吗？</span>
+  <a href="#7-%e9%9d%a2%e8%af%95%e9%a2%98-2moe-%e7%9a%84%e9%97%a8%e6%8e%a7%e8%be%93%e5%87%ba%e5%bf%85%e9%a1%bb%e7%94%a8-softmax-%e5%90%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>结论：不是必须。</strong> DeepSeek V2 用 softmax，<strong>V3 改用 sigmoid</strong>。</p>
+<p>为什么 V3 换成 sigmoid：</p>
+<p><strong>① Softmax 的 score 区分度会随专家数 N 增大而降低</strong></p>
+<ul>
+<li>专家数 <code>N↑</code> 时，softmax 归一化把概率摊薄 → 分布<strong>变平坦</strong>，各专家得分差异变小，难以区分。</li>
+</ul>
+<p><strong>② sigmoid 值域更宽，不受专家数量 N 影响</strong></p>
+<ul>
+<li>sigmoid 对每个专家<strong>独立</strong>打 <code>[0,1]</code> 分，不做跨专家归一化 → 专家数再多，单个分数也不会被稀释。</li>
+</ul>
+<p><strong>③ 从&quot;单选&quot;变&quot;多选&quot;，有助于负载均衡</strong></p>
+<ul>
+<li>softmax 天然是&quot;互斥竞争&quot;（此消彼长）；sigmoid 是独立判断，更像多标签 → token 不会被强行挤到少数专家，<strong>有利于负载均衡</strong>。</li>
+</ul>
+<blockquote>
+<p>关键词：<strong>区分度 / N↑ 变平坦 / 值域不受 N 影响 / 单选→多选 / 负载均衡</strong></p>
+</blockquote>
+<hr>
+<h2 id="8-速记小结" class="heading-element"><span>8. 速记小结</span>
+  <a href="#8-%e9%80%9f%e8%ae%b0%e5%b0%8f%e7%bb%93" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li><strong>Dense MoE</strong>：全专家计算 + 加权求和，无稀疏。</li>
+<li><strong>Sparse MoE</strong>：<code>softmax(KeepTopK(...))</code>，只激活 Top-K。</li>
+<li><strong>Noisy Top-K（Google 2017）</strong>：打分加高斯噪声 × Softplus，促进负载均衡。</li>
+<li><strong>Mixtral</strong>：8×7B，Top-2，56B 总 / 14B 激活。</li>
+<li><strong>DeepSeek MoE</strong>：路由专家 + 共享专家（专家隔离）；V2: 160+2 / Top-6 / 21B@236B；V3: 256+1 / Top-8 / 37B@671B。</li>
+<li><strong>共享专家好处</strong>：减冗余 + 专业化 + 通信计算重叠（隐藏 All2All）。</li>
+<li><strong>门控激活函数</strong>：softmax 非必须，V3 用 sigmoid（区分度、值域、负载均衡三点）。</li>
+</ul>
+<h2 id="代码" class="heading-element"><span>代码：</span>
+  <a href="#%e4%bb%a3%e7%a0%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span><span class="lnt">164
+</span><span class="lnt">165
+</span><span class="lnt">166
+</span><span class="lnt">167
+</span><span class="lnt">168
+</span><span class="lnt">169
+</span><span class="lnt">170
+</span><span class="lnt">171
+</span><span class="lnt">172
+</span><span class="lnt">173
+</span><span class="lnt">174
+</span><span class="lnt">175
+</span><span class="lnt">176
+</span><span class="lnt">177
+</span><span class="lnt">178
+</span><span class="lnt">179
+</span><span class="lnt">180
+</span><span class="lnt">181
+</span><span class="lnt">182
+</span><span class="lnt">183
+</span><span class="lnt">184
+</span><span class="lnt">185
+</span><span class="lnt">186
+</span><span class="lnt">187
+</span><span class="lnt">188
+</span><span class="lnt">189
+</span><span class="lnt">190
+</span><span class="lnt">191
+</span><span class="lnt">192
+</span><span class="lnt">193
+</span><span class="lnt">194
+</span><span class="lnt">195
+</span><span class="lnt">196
+</span><span class="lnt">197
+</span><span class="lnt">198
+</span><span class="lnt">199
+</span><span class="lnt">200
+</span><span class="lnt">201
+</span><span class="lnt">202
+</span><span class="lnt">203
+</span><span class="lnt">204
+</span><span class="lnt">205
+</span><span class="lnt">206
+</span><span class="lnt">207
+</span><span class="lnt">208
+</span><span class="lnt">209
+</span><span class="lnt">210
+</span><span class="lnt">211
+</span><span class="lnt">212
+</span><span class="lnt">213
+</span><span class="lnt">214
+</span><span class="lnt">215
+</span><span class="lnt">216
+</span><span class="lnt">217
+</span><span class="lnt">218
+</span><span class="lnt">219
+</span><span class="lnt">220
+</span><span class="lnt">221
+</span><span class="lnt">222
+</span><span class="lnt">223
+</span><span class="lnt">224
+</span><span class="lnt">225
+</span><span class="lnt">226
+</span><span class="lnt">227
+</span><span class="lnt">228
+</span><span class="lnt">229
+</span><span class="lnt">230
+</span><span class="lnt">231
+</span><span class="lnt">232
+</span><span class="lnt">233
+</span><span class="lnt">234
+</span><span class="lnt">235
+</span><span class="lnt">236
+</span><span class="lnt">237
+</span><span class="lnt">238
+</span><span class="lnt">239
+</span><span class="lnt">240
+</span><span class="lnt">241
+</span><span class="lnt">242
+</span><span class="lnt">243
+</span><span class="lnt">244
+</span><span class="lnt">245
+</span><span class="lnt">246
+</span><span class="lnt">247
+</span><span class="lnt">248
+</span><span class="lnt">249
+</span><span class="lnt">250
+</span><span class="lnt">251
+</span><span class="lnt">252
+</span><span class="lnt">253
+</span><span class="lnt">254
+</span><span class="lnt">255
+</span><span class="lnt">256
+</span><span class="lnt">257
+</span><span class="lnt">258
+</span><span class="lnt">259
+</span><span class="lnt">260
+</span><span class="lnt">261
+</span><span class="lnt">262
+</span><span class="lnt">263
+</span><span class="lnt">264
+</span><span class="lnt">265
+</span><span class="lnt">266
+</span><span class="lnt">267
+</span><span class="lnt">268
+</span><span class="lnt">269
+</span><span class="lnt">270
+</span><span class="lnt">271
+</span><span class="lnt">272
+</span><span class="lnt">273
+</span><span class="lnt">274
+</span><span class="lnt">275
+</span><span class="lnt">276
+</span><span class="lnt">277
+</span><span class="lnt">278
+</span><span class="lnt">279
+</span><span class="lnt">280
+</span><span class="lnt">281
+</span><span class="lnt">282
+</span><span class="lnt">283
+</span><span class="lnt">284
+</span><span class="lnt">285
+</span><span class="lnt">286
+</span><span class="lnt">287
+</span><span class="lnt">288
+</span><span class="lnt">289
+</span><span class="lnt">290
+</span><span class="lnt">291
+</span><span class="lnt">292
+</span><span class="lnt">293
+</span><span class="lnt">294
+</span><span class="lnt">295
+</span><span class="lnt">296
+</span><span class="lnt">297
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">DeepSeek MoE 手撕实现（学习用）
+</span></span></span><span class="line"><span class="cl"><span class="s2">==================================
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">本文件把 notebook 的渐进式搭建过程整理为模块化结构，方便对照架构学习：
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    ModelArgs           —— 超参数配置
+</span></span></span><span class="line"><span class="cl"><span class="s2">    TopkRouter          —— 带噪声的 Top-K 门控路由
+</span></span></span><span class="line"><span class="cl"><span class="s2">    Expert              —— 标准 FFN 专家（ReLU），对应基础版 MoE
+</span></span></span><span class="line"><span class="cl"><span class="s2">    SparseMOE           —— 基础稀疏 MoE（仅路由专家）
+</span></span></span><span class="line"><span class="cl"><span class="s2">    DeepSeekExpert      —— SwiGLU 专家，DeepSeek 用的 FFN
+</span></span></span><span class="line"><span class="cl"><span class="s2">    DeepSeekMOE         —— 完整 DeepSeek MoE（路由专家 + 共享专家）
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">整体数据流（一句话总结）：
+</span></span></span><span class="line"><span class="cl"><span class="s2">    x --router--&gt; 选 Top-K 个专家并给出门控权重
+</span></span></span><span class="line"><span class="cl"><span class="s2">      --gather--&gt; 只把被选中的 token 喂给对应专家计算
+</span></span></span><span class="line"><span class="cl"><span class="s2">      --weighted sum--&gt; 按门控权重加权求和写回
+</span></span></span><span class="line"><span class="cl"><span class="s2">      --shared experts--&gt; 所有 token 都过共享专家，结果叠加
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">运行：python deepseek_moe.py
+</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torch</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ============================================================</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 超参数配置</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ============================================================</span>
+</span></span><span class="line"><span class="cl"><span class="nd">@dataclass</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ModelArgs</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n_dim</span><span class="p">:</span> <span class="nb">int</span>              <span class="c1"># 隐藏维度 d</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n_experts</span><span class="p">:</span> <span class="nb">int</span>          <span class="c1"># 路由专家数量</span>
+</span></span><span class="line"><span class="cl">    <span class="n">n_shared_experts</span><span class="p">:</span> <span class="nb">int</span>   <span class="c1"># 共享专家数量（DeepSeek 的关键设计）</span>
+</span></span><span class="line"><span class="cl">    <span class="n">top_k</span><span class="p">:</span> <span class="nb">int</span>              <span class="c1"># 每个 token 激活的路由专家数</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dropout</span><span class="p">:</span> <span class="nb">float</span>
+</span></span><span class="line"><span class="cl">    <span class="n">batch</span><span class="p">:</span> <span class="nb">int</span>
+</span></span><span class="line"><span class="cl">    <span class="n">seq_len</span><span class="p">:</span> <span class="nb">int</span>
+</span></span><span class="line"><span class="cl">    <span class="n">add_noise</span><span class="p">:</span> <span class="nb">bool</span>         <span class="c1"># 训练时是否给门控 logits 加噪声</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ============================================================</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Router：带噪声的 Top-K 门控</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ============================================================</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">TopkRouter</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;Top-K MoE 门控单元。
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    作用：对每个 token，决定走哪 top_k 个专家，并给出归一化的门控权重。
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    关键步骤：
+</span></span></span><span class="line"><span class="cl"><span class="s2">        1. 线性层得到 logits        [b, l, n_experts]
+</span></span></span><span class="line"><span class="cl"><span class="s2">        2. 加可学习的高斯噪声        noise = N(0,1) * softplus(W_noise · x)
+</span></span></span><span class="line"><span class="cl"><span class="s2">        3. topk 选出每个 token 的前 k 个专家
+</span></span></span><span class="line"><span class="cl"><span class="s2">        4. 用 scatter 把非 Top-K 位置填成 -inf 得到稀疏 logits
+</span></span></span><span class="line"><span class="cl"><span class="s2">        5. softmax 得到门控权重（-inf 位置自动变 0，权重只在被选专家间归一化）
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">ModelArgs</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">top_k</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">top_k</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">add_noise</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">add_noise</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 门控打分层</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">top_k_linear</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">n_dim</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">n_experts</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 噪声幅度也是可学习的（Noisy Top-K Gating）</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">noise_linear</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">n_dim</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">n_experts</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mha_output</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># logits: [b, l, n_experts]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">top_k_linear</span><span class="p">(</span><span class="n">mha_output</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 加噪声：normal(.) * softplus(W_noise · x)</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># softplus 保证噪声幅度非负；噪声能鼓励探索、缓解专家&#34;赢者通吃&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_noise</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">noise_logits</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_linear</span><span class="p">(</span><span class="n">mha_output</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">noise</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn_like</span><span class="p">(</span><span class="n">logits</span><span class="p">)</span> <span class="o">*</span> <span class="n">F</span><span class="o">.</span><span class="n">softplus</span><span class="p">(</span><span class="n">noise_logits</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">logits</span> <span class="o">=</span> <span class="n">logits</span> <span class="o">+</span> <span class="n">noise</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 选出每个 token 的 top_k 专家</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 修正：原 notebook 这里写的是 args.top_k（依赖全局变量），改用 self.top_k 让类自洽</span>
+</span></span><span class="line"><span class="cl">        <span class="n">top_k_logits</span><span class="p">,</span> <span class="n">top_k_indices</span> <span class="o">=</span> <span class="n">logits</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_k</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 构造稀疏 logits：先全填 -inf，再把 Top-K 的真实分数 scatter 回去</span>
+</span></span><span class="line"><span class="cl">        <span class="n">infs</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">full_like</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&#34;-inf&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sparse_logits</span> <span class="o">=</span> <span class="n">infs</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">top_k_indices</span><span class="p">,</span> <span class="n">top_k_logits</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># softmax：-inf 位置 -&gt; 0，权重只在被选中的专家之间归一化</span>
+</span></span><span class="line"><span class="cl">        <span class="n">gating_output</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">sparse_logits</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># gating_output: [b, l, n_experts]（非 Top-K 位置为 0）</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># top_k_indices : [b, l, top_k]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">gating_output</span><span class="p">,</span> <span class="n">top_k_indices</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ============================================================</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 专家网络</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ============================================================</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">Expert</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;标准 FFN 专家（基础版 MoE 用），结构：Linear -&gt; ReLU -&gt; Linear -&gt; Dropout。&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">ModelArgs</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">ffn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">n_dim</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">args</span><span class="o">.</span><span class="n">n_dim</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">args</span><span class="o">.</span><span class="n">n_dim</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">n_dim</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">            <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">dropout</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ffn</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">DeepSeekExpert</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;DeepSeek 风格的 SwiGLU 专家。
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    SwiGLU(x) = down_proj( silu(gate_proj(x)) * up_proj(x) )
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    与标准 FFN 的区别：用门控乘法（gate * up）替代单一激活，表达能力更强，
+</span></span></span><span class="line"><span class="cl"><span class="s2">    是 LLaMA / DeepSeek 等现代模型的标配。
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">ModelArgs</span><span class="p">,</span> <span class="n">bias</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">gate_proj</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">n_dim</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">args</span><span class="o">.</span><span class="n">n_dim</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="n">bias</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">up_proj</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">n_dim</span><span class="p">,</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">args</span><span class="o">.</span><span class="n">n_dim</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="n">bias</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">down_proj</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">args</span><span class="o">.</span><span class="n">n_dim</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">n_dim</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="n">bias</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">gate</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gate_proj</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">up</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">up_proj</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">down_proj</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">silu</span><span class="p">(</span><span class="n">gate</span><span class="p">)</span> <span class="o">*</span> <span class="n">up</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ============================================================</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 基础版稀疏 MoE（仅路由专家）</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ============================================================</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">SparseMOE</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;完整的稀疏 MoE 网络（基础版）。
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    核心思想：先算 router 决定每个 token 走哪些专家，
+</span></span></span><span class="line"><span class="cl"><span class="s2">    再&#34;按专家分组&#34;批量计算——没被选中的专家完全不参与计算（这才是稀疏的省算力来源）。
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">ModelArgs</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">router</span> <span class="o">=</span> <span class="n">TopkRouter</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">experts</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">([</span><span class="n">Expert</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">n_experts</span><span class="p">)])</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">top_k</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">top_k</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># gating_output: [b, l, n_experts]; indices: [b, l, top_k]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">gating_output</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 输出初始化为 0，形状与输入相同 [b, l, d]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">final_output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 摊平到 token 维度，方便按专家做 batch 计算</span>
+</span></span><span class="line"><span class="cl">        <span class="n">flat_x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>                              <span class="c1"># [b*l, d]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">flat_gating_output</span> <span class="o">=</span> <span class="n">gating_output</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">gating_output</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># [b*l, n_experts]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 逐个专家处理（同一专家选中的 token 一起算）</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">expert</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">experts</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 该专家是否出现在某个 token 的 Top-K 里：[b, l]</span>
+</span></span><span class="line"><span class="cl">            <span class="n">expert_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">indices</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">flat_mask</span> <span class="o">=</span> <span class="n">expert_mask</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>                         <span class="c1"># [b*l]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">flat_mask</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">                <span class="c1"># 只取选中该专家的 token：[select_k, d]</span>
+</span></span><span class="line"><span class="cl">                <span class="n">expert_input</span> <span class="o">=</span> <span class="n">flat_x</span><span class="p">[</span><span class="n">flat_mask</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                <span class="n">expert_output</span> <span class="o">=</span> <span class="n">expert</span><span class="p">(</span><span class="n">expert_input</span><span class="p">)</span>                <span class="c1"># [select_k, d]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="c1"># 取这些 token 在专家 i 上的门控权重：[select_k] -&gt; [select_k, 1]</span>
+</span></span><span class="line"><span class="cl">                <span class="n">gating_scores</span> <span class="o">=</span> <span class="n">flat_gating_output</span><span class="p">[</span><span class="n">flat_mask</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">weighted_output</span> <span class="o">=</span> <span class="n">expert_output</span> <span class="o">*</span> <span class="n">gating_scores</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="c1"># 写回输出（一个 token 可能被多个专家更新，所以用 +=）</span>
+</span></span><span class="line"><span class="cl">                <span class="n">final_output</span><span class="p">[</span><span class="n">expert_mask</span><span class="p">]</span> <span class="o">+=</span> <span class="n">weighted_output</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">final_output</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ============================================================</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># DeepSeek MoE（路由专家 + 共享专家）</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ============================================================</span>
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">DeepSeekMOE</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;完整的 DeepSeek MoE。
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    相比基础版的两点关键改动：
+</span></span></span><span class="line"><span class="cl"><span class="s2">        1. 专家用 SwiGLU（DeepSeekExpert）
+</span></span></span><span class="line"><span class="cl"><span class="s2">        2. 增加&#34;共享专家&#34;：所有 token 都会经过，提供公共/通用知识，
+</span></span></span><span class="line"><span class="cl"><span class="s2">           让路由专家更专注于各自擅长的细分能力。
+</span></span></span><span class="line"><span class="cl"><span class="s2">    最终输出 = 路由专家的加权和 + 所有共享专家之和
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">ModelArgs</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">router</span> <span class="o">=</span> <span class="n">TopkRouter</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">routed_experts</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="p">[</span><span class="n">DeepSeekExpert</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">n_experts</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">shared_experts</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="p">[</span><span class="n">DeepSeekExpert</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">n_shared_experts</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">top_k</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">top_k</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">gating_output</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">router</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>             <span class="c1"># [b,l,n_experts], [b,l,top_k]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">final_output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>                  <span class="c1"># [b, l, d]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">flat_x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>                     <span class="c1"># [b*l, d]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">flat_gating_output</span> <span class="o">=</span> <span class="n">gating_output</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">gating_output</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># ---- 路由专家：稀疏激活，仅算被选中的 token ----</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">expert</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">routed_experts</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">expert_mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">indices</span> <span class="o">==</span> <span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>        <span class="c1"># [b, l]</span>
+</span></span><span class="line"><span class="cl">            <span class="n">flat_mask</span> <span class="o">=</span> <span class="n">expert_mask</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>                <span class="c1"># [b*l]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">flat_mask</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">                <span class="n">expert_input</span> <span class="o">=</span> <span class="n">flat_x</span><span class="p">[</span><span class="n">flat_mask</span><span class="p">]</span>            <span class="c1"># [select_k, d]</span>
+</span></span><span class="line"><span class="cl">                <span class="n">expert_output</span> <span class="o">=</span> <span class="n">expert</span><span class="p">(</span><span class="n">expert_input</span><span class="p">)</span>        <span class="c1"># [select_k, d]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="n">gating_scores</span> <span class="o">=</span> <span class="n">flat_gating_output</span><span class="p">[</span><span class="n">flat_mask</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">                <span class="n">weighted_output</span> <span class="o">=</span> <span class="n">expert_output</span> <span class="o">*</span> <span class="n">gating_scores</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                <span class="n">final_output</span><span class="p">[</span><span class="n">expert_mask</span><span class="p">]</span> <span class="o">+=</span> <span class="n">weighted_output</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># ---- 共享专家：所有 token 都经过，直接叠加（无门控权重）----</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 修正：原 notebook 用 expert(flat_x) 得到 [b*l, d] 加到 [b,l,d] 上，</span>
+</span></span><span class="line"><span class="cl">        <span class="c1">#       靠 batch=1 的广播碰巧能跑；这里直接用 expert(x) 保持 [b,l,d]，对任意 batch 都正确。</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">expert</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">shared_experts</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">final_output</span> <span class="o">=</span> <span class="n">final_output</span> <span class="o">+</span> <span class="n">expert</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">final_output</span><span class="p">,</span> <span class="n">indices</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ============================================================</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Demo / 测试</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># ============================================================</span>
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_demo_forward</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">ModelArgs</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;跑一遍前向，确认输入输出维度一致。&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">mha_output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">batch</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">seq_len</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">n_dim</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">moe</span> <span class="o">=</span> <span class="n">DeepSeekMOE</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">final_output</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">moe</span><span class="p">(</span><span class="n">mha_output</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;=== 前向测试 ===&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;input  shape:&#34;</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">mha_output</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;output shape:&#34;</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">final_output</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;选中的专家 indices:</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span> <span class="n">indices</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">_demo_load_balance</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">ModelArgs</span><span class="p">,</span> <span class="n">count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;统计专家负载，直观感受路由是否均衡。
+</span></span></span><span class="line"><span class="cl"><span class="s2">
+</span></span></span><span class="line"><span class="cl"><span class="s2">    理想情况下 count*seq_len*top_k 次激活会比较均匀地分到各专家上；
+</span></span></span><span class="line"><span class="cl"><span class="s2">    若某些专家长期被冷落，就需要负载均衡损失（aux loss）来约束——
+</span></span></span><span class="line"><span class="cl"><span class="s2">    这也是 MoE 面试常被追问的点。
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">moe</span> <span class="o">=</span> <span class="n">DeepSeekMOE</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">utilization</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">n_experts</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">mha_output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">batch</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">seq_len</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">n_dim</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_</span><span class="p">,</span> <span class="n">indices</span> <span class="o">=</span> <span class="n">moe</span><span class="p">(</span><span class="n">mha_output</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">indices</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">flatten</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">            <span class="n">utilization</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">=== 专家负载测试 ===&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;专家负载:&#34;</span><span class="p">,</span> <span class="n">utilization</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;激活总次数:&#34;</span><span class="p">,</span> <span class="n">utilization</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">          <span class="sa">f</span><span class="s2">&#34;(= count </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> * seq_len </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">seq_len</span><span class="si">}</span><span class="s2"> * top_k </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">top_k</span><span class="si">}</span><span class="s2">)&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">args</span> <span class="o">=</span> <span class="n">ModelArgs</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">        <span class="n">n_dim</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">n_experts</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">n_shared_experts</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">top_k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">batch</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">seq_len</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">add_noise</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">_demo_forward</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_demo_load_balance</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/mldeepseek-moe/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/moe/" class="post-tag" title="标签 - MoE">MoE</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/miscniko%E5%A4%BA%E5%86%A0%E6%84%9F%E6%83%B3/" class="post-nav-item" rel="prev" title="NiKo夺冠感想"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>NiKo夺冠感想</a><a href="/posts/mlmla/" class="post-nav-item" rel="next" title="MLA">MLA<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>

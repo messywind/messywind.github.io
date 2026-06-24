@@ -1,7 +1,7 @@
-# LLaMa
+# LLaMA
 
 
-# 🧠 深度解析：LLaMA 家族架构底座与代际演进（v1 - v4）
+# LLaMA 家族架构底座与代际演进（v1 - v4）
 
 在大模型面试中，对 LLaMA 的考察通常分为两条线：**“横向看架构底座”**（考底层算子与推导）与“纵向看代际演进”（考技术视野与选型把控）。
 
@@ -107,6 +107,324 @@ LLaMA 4 首次全面引入了**稀疏混合专家（Sparse MoE）架构**和早�
 &gt; 4. **推理部署：** 采用 vLLM 等框架，利用 PagedAttention 技术对 KV Cache 进行分块加载，极大提升生产环境的并发吞吐量。
 &gt; 
 &gt;
+
+## 手撕代码：
+```python
+&#34;&#34;&#34;
+LLaMA3 —— 手撕版（从 notebook 整理而来的模块化实现）
+
+核心组件：
+    1. RMSNorm           —— 均方根归一化
+    2. RoPE              —— 旋转位置编码（复数实现）
+    3. Attention (GQA)   —— 分组查询注意力 &#43; 因果掩码
+    4. FeedForward       —— SwiGLU 前馈网络
+    5. TransformerBlock  —— 一个 Decoder Layer（两段残差）
+    6. Transformer       —— Embedding &#43; N 层 Block &#43; 输出头
+
+约定的张量维度记号：
+    B   batch size
+    T   序列长度 (seq_len)
+    D   模型维度 dim          (= 4096)
+    H   注意力头数 n_heads    (= 32)
+    Hkv KV 头数 n_kv_heads   (= 8)
+    hd  每个头的维度 head_dim (= dim // n_heads = 128)
+&#34;&#34;&#34;
+
+import math
+from dataclasses import dataclass
+
+import torch
+import torch.nn.functional as F
+from torch import nn
+
+
+# ============================================================
+# 0. 配置（对应 params.json）
+# ============================================================
+@dataclass
+class ModelArgs:
+    dim: int = 4096            # 模型隐藏维度 D
+    n_layers: int = 32         # Decoder 层数
+    n_heads: int = 32          # Q 的注意力头数 H
+    n_kv_heads: int = 8        # K/V 的头数 Hkv（GQA：H 个 Q 共享 Hkv 组 KV）
+    vocab_size: int = 128256   # 词表大小
+    multiple_of: int = 1024    # FFN 隐藏维度对齐到该值的倍数
+    ffn_dim_multiplier: float = 1.3
+    norm_eps: float = 1e-5     # RMSNorm 的 eps
+    rope_theta: float = 500000.0  # RoPE 频率基数 θ
+    max_seq_len: int = 2048
+
+    @property
+    def head_dim(self) -&gt; int:
+        return self.dim // self.n_heads      # hd = D / H
+
+    @property
+    def n_rep(self) -&gt; int:
+        return self.n_heads // self.n_kv_heads  # 每组 KV 被复制的次数 (kv_group)
+
+
+# ============================================================
+# 1. RMSNorm
+# ============================================================
+class RMSNorm(nn.Module):
+    &#34;&#34;&#34;x / sqrt(mean(x^2) &#43; eps) * weight
+
+    与 LayerNorm 的区别：不减均值、无偏置，只做缩放，更省算力。
+    &#34;&#34;&#34;
+
+    def __init__(self, dim: int, eps: float = 1e-5):
+        super().__init__()
+        self.eps = eps
+        self.weight = nn.Parameter(torch.ones(dim))   # 可学习缩放（shift）
+
+    def _norm(self, x: torch.Tensor) -&gt; torch.Tensor:
+        # rsqrt = 1/sqrt；在最后一维 D 上求均方
+        return x * torch.rsqrt(x.pow(2).mean(-1, keepdim=True) &#43; self.eps)
+
+    def forward(self, x: torch.Tensor) -&gt; torch.Tensor:
+        # 归一化用 float32 保证数值稳定，再转回原 dtype
+        return self._norm(x.float()).type_as(x) * self.weight
+
+
+# ============================================================
+# 2. RoPE 旋转位置编码
+# ============================================================
+def precompute_freqs_cis(head_dim: int, seq_len: int, theta: float) -&gt; torch.Tensor:
+    &#34;&#34;&#34;预计算每个位置、每个频率对应的旋转复数 e^{i·m·θ_k}
+
+    返回 shape: (seq_len, head_dim // 2) 的复数张量。
+    &#34;&#34;&#34;
+    # θ_k = 1 / theta^(2k/hd)，k = 0,1,...,hd/2-1
+    k = torch.arange(0, head_dim, 2)[: head_dim // 2].float() / head_dim
+    freqs = 1.0 / (theta ** k)                       # (hd/2,)
+
+    m = torch.arange(seq_len)                        # 位置索引 (T,)
+    freqs = torch.outer(m, freqs)                    # m·θ_k -&gt; (T, hd/2)
+
+    # 用模长为 1、角度为 freqs 的极坐标，构造复数 cos&#43;isin
+    freqs_cis = torch.polar(torch.ones_like(freqs), freqs)  # (T, hd/2) complex
+    return freqs_cis
+
+
+def apply_rotary_emb(
+    xq: torch.Tensor, xk: torch.Tensor, freqs_cis: torch.Tensor
+) -&gt; tuple[torch.Tensor, torch.Tensor]:
+    &#34;&#34;&#34;对 Q、K 施加旋转位置编码。
+
+    xq: (B, T, H,   hd)
+    xk: (B, T, Hkv, hd)
+    把相邻两维拼成复数 -&gt; 乘以旋转复数 -&gt; 再拆回实数。
+    &#34;&#34;&#34;
+    # (..., hd) -&gt; (..., hd/2, 2) -&gt; 复数 (..., hd/2)
+    xq_c = torch.view_as_complex(xq.float().reshape(*xq.shape[:-1], -1, 2))
+    xk_c = torch.view_as_complex(xk.float().reshape(*xk.shape[:-1], -1, 2))
+
+    # freqs_cis: (T, hd/2) -&gt; (1, T, 1, hd/2) 以便和 (B,T,H,hd/2) 广播
+    freqs_cis = freqs_cis[None, :, None, :]
+
+    # 复数相乘即在极坐标上旋转；再 view_as_real 拆回 (..., hd/2, 2) -&gt; 展平回 (..., hd)
+    xq_out = torch.view_as_real(xq_c * freqs_cis).flatten(-2)
+    xk_out = torch.view_as_real(xk_c * freqs_cis).flatten(-2)
+    return xq_out.type_as(xq), xk_out.type_as(xk)
+
+
+# ============================================================
+# 3. GQA 注意力
+# ============================================================
+def repeat_kv(x: torch.Tensor, n_rep: int) -&gt; torch.Tensor:
+    &#34;&#34;&#34;把 KV 头复制 n_rep 份，让 Hkv 对齐到 H。
+
+    x: (B, T, Hkv, hd) -&gt; (B, T, Hkv*n_rep, hd)
+    &#34;&#34;&#34;
+    B, T, Hkv, hd = x.shape
+    if n_rep == 1:
+        return x
+    return (
+        x[:, :, :, None, :]                  # (B, T, Hkv, 1,    hd)
+        .expand(B, T, Hkv, n_rep, hd)        # (B, T, Hkv, n_rep,hd)
+        .reshape(B, T, Hkv * n_rep, hd)      # (B, T, H,         hd)
+    )
+
+
+class Attention(nn.Module):
+    def __init__(self, args: ModelArgs):
+        super().__init__()
+        self.n_heads = args.n_heads
+        self.n_kv_heads = args.n_kv_heads
+        self.n_rep = args.n_rep
+        self.head_dim = args.head_dim
+
+        # 注意：Q 输出 H*hd，K/V 输出 Hkv*hd（GQA 的关键，KV 更小）
+        self.wq = nn.Linear(args.dim, args.n_heads * args.head_dim, bias=False)
+        self.wk = nn.Linear(args.dim, args.n_kv_heads * args.head_dim, bias=False)
+        self.wv = nn.Linear(args.dim, args.n_kv_heads * args.head_dim, bias=False)
+        self.wo = nn.Linear(args.n_heads * args.head_dim, args.dim, bias=False)
+
+    def forward(
+        self, x: torch.Tensor, freqs_cis: torch.Tensor, mask: torch.Tensor | None
+    ) -&gt; torch.Tensor:
+        B, T, _ = x.shape
+
+        # 线性投影并拆成多头
+        xq = self.wq(x).view(B, T, self.n_heads, self.head_dim)
+        xk = self.wk(x).view(B, T, self.n_kv_heads, self.head_dim)
+        xv = self.wv(x).view(B, T, self.n_kv_heads, self.head_dim)
+
+        # RoPE（只作用在 Q、K 上）
+        xq, xk = apply_rotary_emb(xq, xk, freqs_cis)
+
+        # GQA：把 KV 复制到与 Q 相同的头数
+        xk = repeat_kv(xk, self.n_rep)
+        xv = repeat_kv(xv, self.n_rep)
+
+        # (B, T, H, hd) -&gt; (B, H, T, hd)，把头维提前便于做注意力
+        xq = xq.transpose(1, 2)
+        xk = xk.transpose(1, 2)
+        xv = xv.transpose(1, 2)
+
+        # 注意力分数 QK^T / sqrt(hd)
+        scores = torch.matmul(xq, xk.transpose(2, 3)) / math.sqrt(self.head_dim)
+        if mask is not None:
+            scores = scores &#43; mask          # 因果掩码（上三角 -inf）
+
+        scores = F.softmax(scores.float(), dim=-1).type_as(xq)
+        out = torch.matmul(scores, xv)      # (B, H, T, hd)
+
+        # 合并多头 -&gt; (B, T, H*hd) -&gt; 输出投影
+        out = out.transpose(1, 2).contiguous().view(B, T, -1)
+        return self.wo(out)
+
+
+# ============================================================
+# 4. SwiGLU 前馈网络
+# ============================================================
+class FeedForward(nn.Module):
+    &#34;&#34;&#34;FFN(x) = w2( SiLU(w1 x) * w3 x )
+
+    w1 = gate（门控），w3 = up（升维），w2 = down（降维）。
+    &#34;&#34;&#34;
+
+    def __init__(self, args: ModelArgs):
+        super().__init__()
+        # 计算隐藏维度：先 4*dim*2/3，再乘 multiplier，并向上对齐到 multiple_of
+        hidden = int(2 * (4 * args.dim) / 3)
+        hidden = int(args.ffn_dim_multiplier * hidden)
+        hidden = args.multiple_of * ((hidden &#43; args.multiple_of - 1) // args.multiple_of)
+
+        self.w1 = nn.Linear(args.dim, hidden, bias=False)   # gate
+        self.w3 = nn.Linear(args.dim, hidden, bias=False)   # up
+        self.w2 = nn.Linear(hidden, args.dim, bias=False)   # down
+
+    def forward(self, x: torch.Tensor) -&gt; torch.Tensor:
+        return self.w2(F.silu(self.w1(x)) * self.w3(x))
+
+
+# ============================================================
+# 5. 一个 Decoder Layer
+# ============================================================
+class TransformerBlock(nn.Module):
+    &#34;&#34;&#34;两段「Norm -&gt; 子层 -&gt; 残差」：
+
+        h = x &#43; Attention(RMSNorm(x))
+        out = h &#43; FFN(RMSNorm(h))
+    （Pre-Norm 结构）
+    &#34;&#34;&#34;
+
+    def __init__(self, args: ModelArgs):
+        super().__init__()
+        self.attention = Attention(args)
+        self.feed_forward = FeedForward(args)
+        self.attention_norm = RMSNorm(args.dim, args.norm_eps)
+        self.ffn_norm = RMSNorm(args.dim, args.norm_eps)
+
+    def forward(
+        self, x: torch.Tensor, freqs_cis: torch.Tensor, mask: torch.Tensor | None
+    ) -&gt; torch.Tensor:
+        h = x &#43; self.attention(self.attention_norm(x), freqs_cis, mask)
+        out = h &#43; self.feed_forward(self.ffn_norm(h))
+        return out
+
+
+# ============================================================
+# 6. 完整模型
+# ============================================================
+class Transformer(nn.Module):
+    def __init__(self, args: ModelArgs):
+        super().__init__()
+        self.args = args
+        self.tok_embeddings = nn.Embedding(args.vocab_size, args.dim)
+        self.layers = nn.ModuleList(TransformerBlock(args) for _ in range(args.n_layers))
+        self.norm = RMSNorm(args.dim, args.norm_eps)               # 最后的输出归一化
+        self.output = nn.Linear(args.dim, args.vocab_size, bias=False)  # 映射回词表
+
+        # 预计算 RoPE 频率，注册为 buffer（不参与训练，但随模型搬到 GPU）
+        freqs_cis = precompute_freqs_cis(args.head_dim, args.max_seq_len, args.rope_theta)
+        self.register_buffer(&#34;freqs_cis&#34;, freqs_cis, persistent=False)
+
+    def forward(self, tokens: torch.Tensor) -&gt; torch.Tensor:
+        &#34;&#34;&#34;tokens: (B, T) 的 token id -&gt; logits: (B, T, vocab_size)&#34;&#34;&#34;
+        B, T = tokens.shape
+        h = self.tok_embeddings(tokens)            # (B, T, D)
+
+        freqs_cis = self.freqs_cis[:T]             # 取前 T 个位置的旋转复数
+
+        # 构造因果掩码：上三角（不含对角线）为 -inf，禁止看未来
+        mask = None
+        if T &gt; 1:
+            mask = torch.full((T, T), float(&#34;-inf&#34;), device=tokens.device)
+            mask = torch.triu(mask, diagonal=1)    # (T, T)，会广播到 (B, H, T, T)
+
+        for layer in self.layers:
+            h = layer(h, freqs_cis, mask)
+
+        h = self.norm(h)                           # 输出前最后一次归一化
+        logits = self.output(h)                    # (B, T, vocab_size)
+        return logits
+
+    @torch.inference_mode()
+    def generate(self, tokens: torch.Tensor, max_new_tokens: int) -&gt; torch.Tensor:
+        &#34;&#34;&#34;最简单的贪心解码（每步取 argmax）。tokens: (B, T0)&#34;&#34;&#34;
+        for _ in range(max_new_tokens):
+            tokens_cond = tokens[:, -self.args.max_seq_len:]
+            logits = self(tokens_cond)             # (B, T, V)
+            next_token = logits[:, -1].argmax(dim=-1, keepdim=True)  # (B, 1)
+            tokens = torch.cat([tokens, next_token], dim=1)
+        return tokens
+
+
+# ============================================================
+# 7. （可选）加载 Meta 官方权重 consolidated.00.pth
+# ============================================================
+def load_meta_weights(model: Transformer, ckpt_path: str) -&gt; Transformer:
+    &#34;&#34;&#34;把官方 state_dict 的命名映射到本模块。
+
+    官方权重命名本就和这里基本一致（tok_embeddings / layers.{i}.attention.wq ...），
+    所以直接 load_state_dict 即可。&#34;&#34;&#34;
+    state = torch.load(ckpt_path, map_location=&#34;cpu&#34;)
+    model.load_state_dict(state, strict=True)
+    return model
+
+
+# ============================================================
+# 8. demo：随机权重跑一遍前向，验证维度
+# ============================================================
+if __name__ == &#34;__main__&#34;:
+    # 用一份缩小的配置，方便在 CPU 上快速验证 shape 是否对齐
+    args = ModelArgs(
+        dim=256, n_layers=2, n_heads=8, n_kv_heads=2,
+        vocab_size=1000, multiple_of=64, ffn_dim_multiplier=1.0, max_seq_len=128,
+    )
+    model = Transformer(args)
+    n_params = sum(p.numel() for p in model.parameters())
+    print(f&#34;参数量: {n_params/1e6:.2f}M&#34;)
+
+    tokens = torch.randint(0, args.vocab_size, (2, 16))   # (B=2, T=16)
+    logits = model(tokens)
+    print(&#34;logits shape:&#34;, logits.shape)                  # 期望 (2, 16, 1000)
+
+    out = model.generate(tokens, max_new_tokens=5)
+    print(&#34;generate shape:&#34;, out.shape)                   # 期望 (2, 21)
+```
 
 ---
 
