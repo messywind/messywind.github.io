@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>DSA &amp; MTP - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="DSA &amp; MTP 详细学习笔记 DeepSeek 系列两大关键创新:
+DSA (DeepSeek Sparse Attention) —— DeepSeek-V3.2-Exp / V3.2 引入的细粒度稀疏注意力机制 MTP (Multi-Token Prediction) —— DeepSeek-V3 引入的多 token 预测训练目标 二者解决的是不同维度的问题:DSA 优化长上下文推理/训练的计算复杂度,MTP 优化训练信号密度 &#43; 推理加速(投机解码)。
+"><meta name="keywords" content='DeepSeek Sparse Attention, Multi-Token Prediction'>
+  <meta itemprop="name" content="DSA & MTP">
+  <meta itemprop="description" content="DSA &amp; MTP 详细学习笔记 DeepSeek 系列两大关键创新:
+DSA (DeepSeek Sparse Attention) —— DeepSeek-V3.2-Exp / V3.2 引入的细粒度稀疏注意力机制 MTP (Multi-Token Prediction) —— DeepSeek-V3 引入的多 token 预测训练目标 二者解决的是不同维度的问题:DSA 优化长上下文推理/训练的计算复杂度,MTP 优化训练信号密度 &#43; 推理加速(投机解码)。">
+  <meta itemprop="datePublished" content="2026-06-25T10:22:00+00:00">
+  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="wordCount" content="5970">
+  <meta itemprop="keywords" content="DeepSeek Sparse Attention,Multi-Token Prediction"><meta property="og:url" content="https://blog.messywind.top/posts/mldsamtp/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="DSA & MTP">
+  <meta property="og:description" content="DSA &amp; MTP 详细学习笔记 DeepSeek 系列两大关键创新:
+DSA (DeepSeek Sparse Attention) —— DeepSeek-V3.2-Exp / V3.2 引入的细粒度稀疏注意力机制 MTP (Multi-Token Prediction) —— DeepSeek-V3 引入的多 token 预测训练目标 二者解决的是不同维度的问题:DSA 优化长上下文推理/训练的计算复杂度,MTP 优化训练信号密度 &#43; 推理加速(投机解码)。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-06-25T10:22:00+00:00">
+    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
+    <meta property="article:tag" content="DeepSeek Sparse Attention">
+    <meta property="article:tag" content="Multi-Token Prediction">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="DSA & MTP">
+  <meta name="twitter:description" content="DSA &amp; MTP 详细学习笔记 DeepSeek 系列两大关键创新:
+DSA (DeepSeek Sparse Attention) —— DeepSeek-V3.2-Exp / V3.2 引入的细粒度稀疏注意力机制 MTP (Multi-Token Prediction) —— DeepSeek-V3 引入的多 token 预测训练目标 二者解决的是不同维度的问题:DSA 优化长上下文推理/训练的计算复杂度,MTP 优化训练信号密度 &#43; 推理加速(投机解码)。">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mldsamtp/" title="DSA &amp; MTP - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/mlyarn/" title="YaRN" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/mldeepseek-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" title="DeepSeek 负载均衡" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mldsamtp/index.md" title="DSA & MTP - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "DSA \u0026 MTP",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/mldsamtp\/"
+    },"genre": "posts","keywords": "DeepSeek Sparse Attention, Multi-Token Prediction","wordcount":  5970 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mldsamtp\/","datePublished": "2026-06-25T10:22:00+00:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>DSA &amp; MTP</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-25 10:22:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="5970 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 6000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 12 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="DSA &amp; MTP"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#11-背景与动机">1.1 背景与动机</a></li>
+    <li><a href="#12-整体架构">1.2 整体架构</a></li>
+    <li><a href="#13-组件一lightning-indexer闪电索引器">1.3 组件一:Lightning Indexer(闪电索引器)</a></li>
+    <li><a href="#14-组件二fine-grained-token-selection细粒度-token-选择">1.4 组件二:Fine-grained Token Selection(细粒度 token 选择)</a></li>
+    <li><a href="#15-在-mla-下的实例化为什么用-mqa-mode">1.5 在 MLA 下的实例化:为什么用 MQA mode</a></li>
+    <li><a href="#16-训练流程两阶段-continued-pre-training">1.6 训练流程(两阶段 continued pre-training)</a>
+      <ul>
+        <li><a href="#阶段-adense-warm-up-stage稠密热身初始化-indexer">阶段 A:Dense Warm-up Stage(稠密热身,初始化 indexer)</a></li>
+        <li><a href="#阶段-bsparse-training-stage稀疏训练适配稀疏模式">阶段 B:Sparse Training Stage(稀疏训练,适配稀疏模式)</a></li>
+        <li><a href="#一个重要的结构选择detach-indexer-输入">一个重要的结构选择:detach indexer 输入</a></li>
+      </ul>
+    </li>
+    <li><a href="#17-复杂度与推理收益">1.7 复杂度与推理收益</a></li>
+    <li><a href="#18-与其他稀疏注意力对比">1.8 与其他稀疏注意力对比</a></li>
+    <li><a href="#19-dsa-面试问答">1.9 DSA 面试问答</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#21-背景与动机">2.1 背景与动机</a></li>
+    <li><a href="#22-核心区别sequential-vs-parallel">2.2 核心区别:Sequential vs Parallel</a></li>
+    <li><a href="#23-mtp-模块组成">2.3 MTP 模块组成</a></li>
+    <li><a href="#24-前向计算流程核心公式">2.4 前向计算流程(核心公式)</a></li>
+    <li><a href="#25-训练目标loss">2.5 训练目标(Loss)</a></li>
+    <li><a href="#26-推理阶段两种用法">2.6 推理阶段:两种用法</a></li>
+    <li><a href="#27-mtp-面试问答">2.7 MTP 面试问答</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#31-一张表理清两者">3.1 一张表理清两者</a></li>
+    <li><a href="#32-综合面试题">3.2 综合面试题</a></li>
+    <li><a href="#参考与延伸">参考与延伸</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="dsa--mtp-详细学习笔记" class="heading-element"><span>DSA &amp; MTP 详细学习笔记</span>
+  <a href="#dsa--mtp-%e8%af%a6%e7%bb%86%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>DeepSeek 系列两大关键创新:</p>
+<ul>
+<li><strong>DSA (DeepSeek Sparse Attention)</strong> —— DeepSeek-V3.2-Exp / V3.2 引入的细粒度稀疏注意力机制</li>
+<li><strong>MTP (Multi-Token Prediction)</strong> —— DeepSeek-V3 引入的多 token 预测训练目标</li>
+</ul>
+<p>二者解决的是不同维度的问题:DSA 优化<strong>长上下文推理/训练的计算复杂度</strong>,MTP 优化<strong>训练信号密度 + 推理加速(投机解码)</strong>。</p>
+</blockquote>
+<hr>
+<h2 id="part-1--dsadeepseek-sparse-attention" class="heading-element"><span>Part 1 · DSA(DeepSeek Sparse Attention)</span>
+  <a href="#part-1--dsadeepseek-sparse-attention" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h2 id="11-背景与动机" class="heading-element"><span>1.1 背景与动机</span>
+  <a href="#11-%e8%83%8c%e6%99%af%e4%b8%8e%e5%8a%a8%e6%9c%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>标准 attention 是 <strong>O(L²)</strong> 复杂度(L 为序列长度)。在长上下文(如 128K)场景下,attention 计算成为主要瓶颈,训练和推理成本都急剧上升。</p>
+<p>DSA 的核心思想:<strong>从&quot;attend to everything&quot;转向&quot;attend to what matters&quot;</strong>。</p>
+<ul>
+<li>实证观察:每个 head、每个样本的 attention 分布高度稀疏(&gt;90% 的权重接近 0),但&quot;哪些 token 重要&quot;这件事是<strong>随输入和 head 动态变化的</strong>。</li>
+<li>因此固定模式的稀疏(滑动窗口 / block / 随机 / 全局 token)效果受限,需要<strong>内容自适应(content-adaptive)、动态(input-dependent)</strong> 的稀疏。</li>
+</ul>
+<p>DSA 是 DeepSeek-V3.2 相比 V3.1-Terminus <strong>唯一的架构改动</strong>,通过 continued training(在已有 checkpoint 上继续训练)引入。</p>
+<blockquote>
+<p>关键定位:DSA 的目标<strong>不是</strong>超过 V3.1-Terminus 的性能,而是<strong>在引入稀疏后尽量减少性能退化的同时,获得效率收益</strong>(性能持平 + 成本大降)。</p>
+</blockquote>
+<hr>
+<h2 id="12-整体架构" class="heading-element"><span>1.2 整体架构</span>
+  <a href="#12-%e6%95%b4%e4%bd%93%e6%9e%b6%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>DSA = <strong>两个组件</strong>:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">                  ┌─────────────────────────┐
+</span></span><span class="line"><span class="cl">   query token h_t│                         │
+</span></span><span class="line"><span class="cl">   ───────────────▶  Lightning Indexer       │  计算 index score I_{t,s}
+</span></span><span class="line"><span class="cl">                  │  (轻量、FP8、少量 head)   │  对每个历史 token 打分
+</span></span><span class="line"><span class="cl">                  └───────────┬─────────────┘
+</span></span><span class="line"><span class="cl">                              │ top-k 选择
+</span></span><span class="line"><span class="cl">                              ▼
+</span></span><span class="line"><span class="cl">                  ┌─────────────────────────┐
+</span></span><span class="line"><span class="cl">                  │ Fine-grained Token       │  选出 top-k 个最相关的
+</span></span><span class="line"><span class="cl">                  │ Selection (top-k)        │  KV entry(如 2048 个)
+</span></span><span class="line"><span class="cl">                  └───────────┬─────────────┘
+</span></span><span class="line"><span class="cl">                              │ 只在被选中的 token 上
+</span></span><span class="line"><span class="cl">                              ▼
+</span></span><span class="line"><span class="cl">                  ┌─────────────────────────┐
+</span></span><span class="line"><span class="cl">                  │  主注意力(基于 MLA)     │  仅对 top-k 个 KV 做 attention
+</span></span><span class="line"><span class="cl">                  └─────────────────────────┘</span></span></code></pre></td></tr></table>
+</div>
+</div><p>DSA 是<strong>实例化在 MLA 之上</strong>的(instantiated under MLA),不是替换 MLA。</p>
+<hr>
+<h2 id="13-组件一lightning-indexer闪电索引器" class="heading-element"><span>1.3 组件一:Lightning Indexer(闪电索引器)</span>
+  <a href="#13-%e7%bb%84%e4%bb%b6%e4%b8%80lightning-indexer%e9%97%aa%e7%94%b5%e7%b4%a2%e5%bc%95%e5%99%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>作用:对于第 t 个 query token <code>h_t</code>,快速计算它与每个前序 token <code>h_s</code> 的<strong>相关性分数(index score)</strong> <code>I_{t,s}</code>,决定哪些 token 值得被选中。</p>
+<p>索引分数公式(直观形式):</p>
+$$
+I_{t,s} = \sum_{j=1}^{H^{I}} w^{I}\_{t,j} \cdot \mathrm{ReLU}\!\left(q^{I}\_{t,j} \cdot k^{I}_{s}\right)
+$$<ul>
+<li>$H^I$:indexer 的 head 数(很少,远小于主注意力的 head 数)</li>
+<li>$q^I_{t,j}, k^I_s$:indexer 专用的 query / key 投影(低维)</li>
+<li>$w^I_{t,j}$:可学习的标量权重</li>
+<li><strong>激活函数选 ReLU</strong>:出于吞吐量(throughput)考虑,而非 softmax</li>
+</ul>
+<p>为什么它&quot;轻量(lightning)&quot;:</p>
+<ol>
+<li><strong>head 数少</strong> —— 只需要少量 head 做粗粒度打分。</li>
+<li><strong>可用 FP8 执行</strong> —— indexer 的乘加运算用 FP8,进一步降本。</li>
+<li>虽然 indexer 本身名义上仍是 $O(L²)$,但因为它极其轻量(少 head + 低维 + FP8),它的成本被&quot;不再对整个 context 做完整 MLA&quot;省下的成本<strong>完全淹没</strong>。</li>
+</ol>
+<hr>
+<h2 id="14-组件二fine-grained-token-selection细粒度-token-选择" class="heading-element"><span>1.4 组件二:Fine-grained Token Selection(细粒度 token 选择)</span>
+  <a href="#14-%e7%bb%84%e4%bb%b6%e4%ba%8cfine-grained-token-selection%e7%bb%86%e7%b2%92%e5%ba%a6-token-%e9%80%89%e6%8b%a9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li>基于 indexer 算出的分数 <code>I_{t,s}</code>,对每个 query token 选出 <strong>top-k</strong> 个最相关的 KV entry。</li>
+<li>DeepSeek-V3.2 中 <strong>k = 2048</strong>(从 128K 的上下文里选 2048 个),这是一个超参。</li>
+<li>选择是 <strong>per-query、细粒度</strong> 的:不同 query token 各自选自己的 top-k,而不是固定窗口或固定 block。</li>
+<li>indexer 和 selector <strong>都是可学习的</strong>,二者共同构成一个动态的 attention mask,把不相关 token 过滤掉。</li>
+</ul>
+<p>工程实现要点(面试加分):</p>
+<ul>
+<li>top-k 用 GPU 的 partial sort 算法实现,可融合成单个 kernel(参考 DeepSeek 开源的 TileLang kernel)。</li>
+<li>gather 操作 + 主注意力用定制 CUDA kernel,处理<strong>每个 query 稀疏度可变</strong>的情况。</li>
+</ul>
+<hr>
+<h2 id="15-在-mla-下的实例化为什么用-mqa-mode" class="heading-element"><span>1.5 在 MLA 下的实例化:为什么用 MQA mode</span>
+  <a href="#15-%e5%9c%a8-mla-%e4%b8%8b%e7%9a%84%e5%ae%9e%e4%be%8b%e5%8c%96%e4%b8%ba%e4%bb%80%e4%b9%88%e7%94%a8-mqa-mode" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>DeepSeek-V3.2 从 V3.1-Terminus continued training,而后者用的是 <strong>MLA</strong>。DSA 必须兼容 MLA。</p>
+<p>关键约束:<strong>kernel 层面,每个 KV entry 必须被多个 query 共享</strong>才能高效。</p>
+<p>因此 DSA 实现在 <strong>MLA 的 MQA(Multi-Query Attention)模式</strong>下:</p>
+<ul>
+<li>MLA 的每个 latent 向量(即 MLA 的 KV entry)被<strong>所有 query head 共享</strong>。</li>
+<li>这样在做 gather(根据 top-k 索引去取 KV)时,一份 KV 服务所有 head,kernel 效率高。</li>
+</ul>
+<blockquote>
+<p>一句话总结:<strong>DSA 套在 MLA 上,且用 MQA 模式跑,让一份被选中的 latent KV 被所有 query head 共享,从而在稀疏 gather 时保持 kernel 级效率。</strong></p>
+</blockquote>
+<hr>
+<h2 id="16-训练流程两阶段-continued-pre-training" class="heading-element"><span>1.6 训练流程(两阶段 continued pre-training)</span>
+  <a href="#16-%e8%ae%ad%e7%bb%83%e6%b5%81%e7%a8%8b%e4%b8%a4%e9%98%b6%e6%ae%b5-continued-pre-training" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>DSA 不是从头训练,而是在 V3.1-Terminus checkpoint 上<strong>继续训练</strong>引入。数据分布与 V3.1-Terminus 的 128K 长上下文扩展数据对齐。</p>
+<h3 id="阶段-adense-warm-up-stage稠密热身初始化-indexer" class="heading-element"><span>阶段 A:Dense Warm-up Stage(稠密热身,初始化 indexer)</span>
+  <a href="#%e9%98%b6%e6%ae%b5-adense-warm-up-stage%e7%a8%a0%e5%af%86%e7%83%ad%e8%ba%ab%e5%88%9d%e5%a7%8b%e5%8c%96-indexer" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>目标:让新加入的 indexer 学会模仿主注意力的分布。</p>
+<ul>
+<li><strong>冻结除 indexer 外的所有参数</strong>,保持稠密注意力。</li>
+<li>构造对齐目标分布 $p_{t,:}$:
+<ul>
+<li>对第 t 个 query,把主注意力分数<strong>沿所有 head 求和</strong>;</li>
+<li>再沿序列维度做 <strong>L1 归一化</strong>,得到目标分布 $p_{t,:} \in \mathbb{R}^{t}$。</li>
+</ul>
+</li>
+<li>训练目标 = <strong>KL 散度损失</strong>,让 indexer 输出对齐 $p_{t,:}$。</li>
+<li>超参:LR = $10^{-3}$,训 <strong>1000 步</strong>,每步 16 条 128K 序列 → 共 <strong>2.1B tokens</strong>。</li>
+</ul>
+<h3 id="阶段-bsparse-training-stage稀疏训练适配稀疏模式" class="heading-element"><span>阶段 B:Sparse Training Stage(稀疏训练,适配稀疏模式)</span>
+  <a href="#%e9%98%b6%e6%ae%b5-bsparse-training-stage%e7%a8%80%e7%96%8f%e8%ae%ad%e7%bb%83%e9%80%82%e9%85%8d%e7%a8%80%e7%96%8f%e6%a8%a1%e5%bc%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>引入 top-k token selection,<strong>放开所有参数一起训</strong>,让主模型适配稀疏 attention 模式。</li>
+<li>仍然做 indexer 对齐,但 <strong>只在被选中的 token 集合 $S_t$ 上</strong>对齐。</li>
+<li>超参:LR = $7.3 \times 10^{-6}$,每个 query 选 <strong>2048</strong> 个 KV token,训 <strong>15000 步</strong>,每步 480 条 128K 序列 → 共 <strong>943.7B tokens</strong>。</li>
+</ul>
+<h3 id="一个重要的结构选择detach-indexer-输入" class="heading-element"><span>一个重要的结构选择:detach indexer 输入</span>
+  <a href="#%e4%b8%80%e4%b8%aa%e9%87%8d%e8%a6%81%e7%9a%84%e7%bb%93%e6%9e%84%e9%80%89%e6%8b%a9detach-indexer-%e8%be%93%e5%85%a5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>把 indexer 的输入<strong>从计算图中 detach(切断梯度)</strong>。</li>
+<li>效果:<strong>indexer 只被 indexer loss(KL)优化,主模型只被语言建模 loss 优化</strong>,两路梯度互不干扰。</li>
+</ul>
+<hr>
+<h2 id="17-复杂度与推理收益" class="heading-element"><span>1.7 复杂度与推理收益</span>
+  <a href="#17-%e5%a4%8d%e6%9d%82%e5%ba%a6%e4%b8%8e%e6%8e%a8%e7%90%86%e6%94%b6%e7%9b%8a" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li>核心注意力复杂度:<strong>O(L²) → O(Lk)</strong>,其中 $k \ll L$。当 L=128K、k=2048 时收益巨大。</li>
+<li>实测(H800 集群):长序列场景下,端到端 GPU 成本约<strong>减半(~2×)</strong>;成本节省随 token 在序列中的位置越靠后越明显(因为前面要 attend 的历史越长)。</li>
+<li>长上下文任务(如 Fiction.liveBench)上性能<strong>不退化</strong>,验证了 DSA 训练的稳定性。</li>
+</ul>
+<blockquote>
+<p>深层含义(面试可引申):DSA 本质是<strong>把花在&quot;参数&quot;上的 FLOPs 换成花在&quot;token&quot;上的 FLOPs</strong>。它让长链推理(test-time compute / 大量 reasoning token)变得便宜,从而能在<strong>线性成本包络</strong>内堆更多推理 token —— 这也是 V3.2 能逼近 GPT-5 级推理的关键之一。</p>
+</blockquote>
+<hr>
+<h2 id="18-与其他稀疏注意力对比" class="heading-element"><span>1.8 与其他稀疏注意力对比</span>
+  <a href="#18-%e4%b8%8e%e5%85%b6%e4%bb%96%e7%a8%80%e7%96%8f%e6%b3%a8%e6%84%8f%e5%8a%9b%e5%af%b9%e6%af%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>方法</th>
+          <th>稀疏模式</th>
+          <th>是否内容自适应</th>
+          <th>缺点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>滑动窗口(Sliding Window,如 Gemma 3)</td>
+          <td>固定局部窗口</td>
+          <td>否</td>
+          <td>丢失远距离依赖</td>
+      </tr>
+      <tr>
+          <td>Block / Strided</td>
+          <td>固定块</td>
+          <td>否</td>
+          <td>需手工调 token 布局</td>
+      </tr>
+      <tr>
+          <td>Random / Global token</td>
+          <td>部分固定</td>
+          <td>部分</td>
+          <td>不够灵活</td>
+      </tr>
+      <tr>
+          <td><strong>DSA</strong></td>
+          <td><strong>动态 top-k</strong></td>
+          <td><strong>是(per-query 学习)</strong></td>
+          <td>indexer 需额外训练对齐</td>
+      </tr>
+  </tbody>
+</table>
+<p>DSA 的优势:<strong>每个 token 学会去关注它认为最相关的少数历史 token</strong>,而不是固定窗口或固定模式 —— 在保持质量的前提下做到内容自适应稀疏。</p>
+<hr>
+<h2 id="19-dsa-面试问答" class="heading-element"><span>1.9 DSA 面试问答</span>
+  <a href="#19-dsa-%e9%9d%a2%e8%af%95%e9%97%ae%e7%ad%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>Q1:DSA 解决什么问题?和 MLA 是什么关系?</strong>
+A:DSA 解决长上下文下 attention 的 O(L²) 计算瓶颈。它不替换 MLA,而是<strong>实例化在 MLA 之上</strong>:用一个轻量 indexer 对历史 token 打分,选 top-k(如 2048)个最相关的 latent KV,只在这些 KV 上跑 MLA,把复杂度降到 O(Lk)。</p>
+<p><strong>Q2:Lightning Indexer 为什么&quot;快&quot;?</strong>
+A:三点 —— ① head 数很少;② 低维投影;③ 用 FP8 计算,且激活用 ReLU(不用 softmax)以提吞吐。虽然 indexer 名义上仍 O(L²),但它极轻量,成本被&quot;不对全 context 做完整 MLA&quot;省下的部分淹没。</p>
+<p><strong>Q3:为什么 DSA 要在 MLA 的 MQA 模式下实现?</strong>
+A:kernel 层面需要每个 KV entry 被多个 query 共享才高效。MQA 模式让 MLA 的一个 latent KV 被所有 query head 共享,这样按 top-k 索引做 gather 时一份 KV 服务全部 head,kernel 效率最高。</p>
+<p><strong>Q4:indexer 是怎么训练出来的?为什么要 detach?</strong>
+A:两阶段。先 dense warm-up:冻结其他参数,用主注意力分布(跨 head 求和 + L1 归一)作为目标,用 KL 散度训 indexer 模仿它。再 sparse training:引入 top-k,放开全部参数,只在选中集合上对齐。<strong>detach indexer 输入</strong>是为了让 indexer 只被 KL loss 优化、主模型只被 LM loss 优化,两路梯度解耦,训练更稳。</p>
+<p><strong>Q5:DSA 和滑动窗口稀疏有什么本质区别?</strong>
+A:滑动窗口是<strong>固定</strong>的局部模式,丢远距离依赖;DSA 是<strong>学习得到的、内容自适应</strong>的 top-k,每个 query 动态选自己最相关的历史 token,既稀疏又不丢关键长程依赖。</p>
+<p><strong>Q6:DSA 带来的收益?</strong>
+A:复杂度 O(L²)→O(Lk);长序列端到端成本约减半;长上下文性能基本不退化。更深一层,它让 test-time compute 变便宜,使大规模 RL / 长推理在线性成本内可行。</p>
+<hr>
+<hr>
+<h2 id="part-2--mtpmulti-token-prediction" class="heading-element"><span>Part 2 · MTP(Multi-Token Prediction)</span>
+  <a href="#part-2--mtpmulti-token-prediction" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h2 id="21-背景与动机" class="heading-element"><span>2.1 背景与动机</span>
+  <a href="#21-%e8%83%8c%e6%99%af%e4%b8%8e%e5%8a%a8%e6%9c%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>标准语言模型每个位置只预测<strong>下一个 token</strong>(next-token prediction)。MTP 把预测范围扩展到<strong>每个位置预测多个未来 token</strong>。</p>
+<p>两个动机:</p>
+<ol>
+<li><strong>稠密化训练信号(densify training signals)</strong>:每个 token 不只贡献一个预测 loss,而是贡献多个,提升数据效率。</li>
+<li><strong>让模型预先规划表示(pre-plan representations)</strong>:为了预测更远的 token,模型被迫学习更有前瞻性的内部表示。</li>
+</ol>
+<blockquote>
+<p>灵感来自 Gloeckle et al. (2024),但有关键区别 —— 见 2.2。</p>
+</blockquote>
+<hr>
+<h2 id="22-核心区别sequential-vs-parallel" class="heading-element"><span>2.2 核心区别:Sequential vs Parallel</span>
+  <a href="#22-%e6%a0%b8%e5%bf%83%e5%8c%ba%e5%88%absequential-vs-parallel" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th></th>
+          <th>Gloeckle et al. (2024)</th>
+          <th><strong>DeepSeek-V3 MTP</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>预测方式</td>
+          <td><strong>并行</strong>预测 D 个 token</td>
+          <td><strong>顺序(sequential)</strong> 预测 D 个 token</td>
+      </tr>
+      <tr>
+          <td>输出头</td>
+          <td>D 个<strong>独立</strong>输出头</td>
+          <td>模块串联,<strong>共享</strong>输出头</td>
+      </tr>
+      <tr>
+          <td>因果链</td>
+          <td>不保持完整因果链</td>
+          <td><strong>保持完整因果链(complete causal chain)</strong></td>
+      </tr>
+  </tbody>
+</table>
+<p>DeepSeek 的关键改进:<strong>用串联的多个 MTP 模块顺序预测,并在每个预测深度都保持完整的因果链</strong>,从而保留自回归特性。这一点和 EAGLE 的&quot;维持因果链&quot;思想类似,但 EAGLE 主要目标是投机解码,DeepSeek 主要目标是<strong>提升训练</strong>。</p>
+<hr>
+<h2 id="23-mtp-模块组成" class="heading-element"><span>2.3 MTP 模块组成</span>
+  <a href="#23-mtp-%e6%a8%a1%e5%9d%97%e7%bb%84%e6%88%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>用 <strong>D 个串联 MTP 模块</strong>预测 D 个额外 token。第 k 个 MTP 模块包含 4 个部件:</p>
+<table>
+  <thead>
+      <tr>
+          <th>部件</th>
+          <th>是否共享</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Embedding Layer $\mathrm{Emb}(\cdot)$</td>
+          <td><strong>与主模型共享</strong></td>
+          <td>复用主模型学到的 token 表示</td>
+      </tr>
+      <tr>
+          <td>Output Head $\mathrm{OutHead}(\cdot)$</td>
+          <td><strong>与主模型共享</strong></td>
+          <td>复用主模型 hidden→词表概率的映射</td>
+      </tr>
+      <tr>
+          <td>Transformer Block $\mathrm{TRM}_k(\cdot)$</td>
+          <td><strong>独立(每个深度一个)</strong></td>
+          <td>处理该深度的组合表示</td>
+      </tr>
+      <tr>
+          <td>Projection Matrix $M_k$</td>
+          <td><strong>独立(每个深度一个)</strong></td>
+          <td>把拼接后的表示投影回模型维度</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p>记忆口诀:<strong>Embedding 和 Output Head 共享,Transformer Block 和 Projection 各深度独立。</strong></p>
+</blockquote>
+<hr>
+<h2 id="24-前向计算流程核心公式" class="heading-element"><span>2.4 前向计算流程(核心公式)</span>
+  <a href="#24-%e5%89%8d%e5%90%91%e8%ae%a1%e7%ae%97%e6%b5%81%e7%a8%8b%e6%a0%b8%e5%bf%83%e5%85%ac%e5%bc%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>设主模型已对输入 $t_1, \dots, t_T$ 算出 hidden states。对第 i 个 token、预测深度 k:</p>
+<p><strong>Step 1 — 拼接 + 投影</strong>:把上一深度的 hidden $h_i^{k-1}$ 与&quot;未来第 k 个真实 token&quot;的 embedding 拼接,经 $M_k$ 投影:</p>
+$$
+h_i^{\prime k} = M_k \left[\, \mathrm{RMSNorm}(h_i^{k-1}) \,;\, \mathrm{RMSNorm}(\mathrm{Emb}(t_{i+k})) \,\right]
+$$<p><strong>Step 2 — 过 Transformer Block</strong>:</p>
+$$
+h_{1:T-k}^{k} = \mathrm{TRM}\_k\!\left(h_{1:T-k}^{\prime k}\right)
+$$<p><strong>Step 3 — 共享输出头预测</strong>:</p>
+$$
+p_{i+k+1}^{k} = \mathrm{OutHead}\!\left(h_i^{k}\right)
+$$<p>直观例子(D=2,输入 t1~t4,主模型预测 t5):</p>
+<ul>
+<li>主模型:用 h1~h5 预测 t5(下一个 token)</li>
+<li>MTP(k=1):用 h1~h4 预测 <strong>t6</strong></li>
+<li>MTP(k=2):用 h1~h3 预测 <strong>t7</strong></li>
+</ul>
+<p>注意:<strong>深度越深,可用的输入序列越短</strong>(因为每深一层就要多看一个未来 token 作为输入)。</p>
+<hr>
+<h2 id="25-训练目标loss" class="heading-element"><span>2.5 训练目标(Loss)</span>
+  <a href="#25-%e8%ae%ad%e7%bb%83%e7%9b%ae%e6%a0%87loss" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>每个深度 k 计算一个交叉熵损失 $\mathcal{L}_{\mathrm{MTP}}^{k}$,然后对所有深度取平均,再乘一个权重因子 $\lambda$:</p>
+$$
+\mathcal{L}\_{\mathrm{MTP}} = \frac{\lambda}{D} \sum_{k=1}^{D} \mathcal{L}_{\mathrm{MTP}}^{k}
+$$<ul>
+<li>MTP loss 作为<strong>主训练目标(next-token)的辅助损失</strong>加入。</li>
+<li>核心目的是<strong>提升主模型本身的性能</strong>(让主模型表示更有前瞻性)。</li>
+</ul>
+<hr>
+<h2 id="26-推理阶段两种用法" class="heading-element"><span>2.6 推理阶段:两种用法</span>
+  <a href="#26-%e6%8e%a8%e7%90%86%e9%98%b6%e6%ae%b5%e4%b8%a4%e7%a7%8d%e7%94%a8%e6%b3%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>MTP 模块在推理时有两条路:</p>
+<p><strong>用法 1 —— 直接丢弃(默认)</strong></p>
+<ul>
+<li>MTP 的主要目的是改善训练。推理时<strong>可直接丢弃所有 MTP 模块</strong>,主模型独立正常工作,不增加任何推理开销。</li>
+</ul>
+<p><strong>用法 2 —— 复用为投机解码(Speculative Decoding)</strong></p>
+<ul>
+<li>把 MTP 模块当作&quot;draft model&quot;,一次前向草拟多个未来 token;</li>
+<li>主模型并行验证这些草稿 token,匹配则接受,跳过若干计算步;</li>
+<li>DeepSeek 报告:<strong>第二个预测 token(MTP1)接受率约 85–90%(&gt;80%)</strong>,带来约 <strong>1.8× 的生成吞吐(TPS)提升</strong>;在 SGLang 等框架上实测端到端延迟/吞吐提升约 1.2–2.1×。</li>
+</ul>
+<blockquote>
+<p>MTP 模块&quot;轻量&quot;(单层 transformer head + 共享 embedding/head),所以做草稿模型成本很低。</p>
+</blockquote>
+<hr>
+<h2 id="27-mtp-面试问答" class="heading-element"><span>2.7 MTP 面试问答</span>
+  <a href="#27-mtp-%e9%9d%a2%e8%af%95%e9%97%ae%e7%ad%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>Q1:MTP 和普通的 next-token prediction 区别?</strong>
+A:普通 LM 每个位置只预测下一个 token;MTP 每个位置预测多个未来 token。好处:① 稠密化训练信号、提升数据效率;② 逼模型学更有前瞻性的表示。</p>
+<p><strong>Q2:DeepSeek 的 MTP 和 Gloeckle(Meta)的 MTP 有什么不同?</strong>
+A:Meta 版用 D 个独立输出头<strong>并行</strong>预测、不保持因果链;DeepSeek 用串联模块<strong>顺序</strong>预测,<strong>保持完整因果链</strong>,且共享 embedding 和 output head。保持因果链让它天然兼容投机解码,也更符合自回归本质。</p>
+<p><strong>Q3:一个 MTP 模块由哪些部件组成?哪些共享哪些独立?</strong>
+A:四个部件 —— 共享的 Embedding 和 Output Head(复用主模型),独立的 Transformer Block 和 Projection Matrix(每个深度各一个)。</p>
+<p><strong>Q4:MTP 第 k 个模块的输入是什么?</strong>
+A:上一深度的 hidden $h_i^{k-1}$ 与&quot;未来第 k 个真实 token&quot;的 embedding $\mathrm{Emb}(t_{i+k})$,各自 RMSNorm 后拼接,再经 $M_k$ 投影到模型维度,送入该深度的 Transformer Block。</p>
+<p><strong>Q5:MTP 的 loss 怎么算?</strong>
+A:每个深度一个交叉熵,跨 D 个深度求平均,再乘权重 $\lambda$,作为辅助损失加到主 next-token 目标上。</p>
+<p><strong>Q6:训练用了 MTP,推理时怎么办?</strong>
+A:两种 —— ① 直接丢弃 MTP 模块,主模型独立工作,零额外开销;② 复用为投机解码的草稿模型。后者中 MTP1 接受率约 85–90%,带来约 1.8× 吞吐提升。</p>
+<p><strong>Q7:为什么 MTP 既能&quot;提训练&quot;又能&quot;提推理&quot;?</strong>
+A:训练时它稠密化信号、强迫模型学前瞻表示,提升主模型质量;推理时这些已经训好的轻量模块恰好能当草稿模型做投机解码 —— 一份训练投入,两处收益。</p>
+<hr>
+<hr>
+<h2 id="part-3--dsa-vs-mtp-对比--综合面试题" class="heading-element"><span>Part 3 · DSA vs MTP 对比 &amp; 综合面试题</span>
+  <a href="#part-3--dsa-vs-mtp-%e5%af%b9%e6%af%94--%e7%bb%bc%e5%90%88%e9%9d%a2%e8%af%95%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h2 id="31-一张表理清两者" class="heading-element"><span>3.1 一张表理清两者</span>
+  <a href="#31-%e4%b8%80%e5%bc%a0%e8%a1%a8%e7%90%86%e6%b8%85%e4%b8%a4%e8%80%85" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>DSA</th>
+          <th>MTP</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>出处</td>
+          <td>DeepSeek-V3.2-Exp / V3.2</td>
+          <td>DeepSeek-V3</td>
+      </tr>
+      <tr>
+          <td>解决的问题</td>
+          <td>长上下文 attention 的 <strong>计算复杂度</strong></td>
+          <td>训练信号密度 + 推理加速</td>
+      </tr>
+      <tr>
+          <td>作用阶段</td>
+          <td>训练 <strong>和</strong> 推理都受益</td>
+          <td>训练为主;推理可选复用</td>
+      </tr>
+      <tr>
+          <td>核心机制</td>
+          <td>indexer 打分 + top-k 稀疏选择</td>
+          <td>串联模块顺序预测多 token</td>
+      </tr>
+      <tr>
+          <td>复杂度影响</td>
+          <td>O(L²) → O(Lk)</td>
+          <td>不改主模型推理复杂度</td>
+      </tr>
+      <tr>
+          <td>与 MLA 关系</td>
+          <td>实例化在 MLA 之上(MQA mode)</td>
+          <td>正交,独立模块</td>
+      </tr>
+      <tr>
+          <td>推理时去留</td>
+          <td>始终启用(就是推理机制)</td>
+          <td>可丢弃或复用为投机解码</td>
+      </tr>
+      <tr>
+          <td>是否改架构</td>
+          <td>是(V3.2 唯一架构改动)</td>
+          <td>是(加 MTP 模块)</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="32-综合面试题" class="heading-element"><span>3.2 综合面试题</span>
+  <a href="#32-%e7%bb%bc%e5%90%88%e9%9d%a2%e8%af%95%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>Q1:DeepSeek 一整条技术线里,MLA、MoE、MTP、DSA 各自解决什么?</strong>
+A:</p>
+<ul>
+<li><strong>MLA</strong>:压缩 KV cache,降推理显存(低秩 latent KV)。</li>
+<li><strong>MoE</strong>:稀疏激活,扩参数量但控激活算力。</li>
+<li><strong>MTP</strong>:多 token 预测,稠密训练信号 + 可做投机解码。</li>
+<li><strong>DSA</strong>:稀疏 attention,把长上下文 attention 从 O(L²) 降到 O(Lk)。
+四者分别打<strong>显存、参数效率、训练信号/推理加速、长上下文计算</strong>四个不同维度的瓶颈。</li>
+</ul>
+<p><strong>Q2:DSA 和 MTP 都说能&quot;加速推理&quot;,加速的是同一回事吗?</strong>
+A:不是。</p>
+<ul>
+<li>DSA 加速的是<strong>单次前向里 attention 的计算量</strong>(长上下文下尤其明显),是算法复杂度层面的下降。</li>
+<li>MTP 加速的是<strong>生成阶段的 token 吞吐</strong>(通过投机解码一次草拟多个 token、并行验证),是解码策略层面的加速。</li>
+<li>两者正交,可叠加。</li>
+</ul>
+<p><strong>Q3:如果让你给一个长上下文 + 高并发推理的 Agent 系统选型,这两个特性你怎么用?</strong>
+A:DSA 必开 —— Agent 场景上下文长(工具调用历史、检索内容),O(Lk) 能显著降本;MTP 模块复用为投机解码 —— Agent 输出往往较长,1.8× 左右的吞吐提升直接降低端到端延迟。两者一个管&quot;读得起长上下文&quot;,一个管&quot;吐得快&quot;。</p>
+<hr>
+<h2 id="参考与延伸" class="heading-element"><span>参考与延伸</span>
+  <a href="#%e5%8f%82%e8%80%83%e4%b8%8e%e5%bb%b6%e4%bc%b8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li>DeepSeek-V3 Technical Report(MTP 原始实现,Figure 3 + 公式 21–25)</li>
+<li>DeepSeek-V3.2 / V3.2-Exp Report(DSA:lightning indexer + token selection + 两阶段训练)</li>
+<li>工程实现参考:vLLM、SGLang、Megatron-LM 的 MTP/DSA 支持文档</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/mldsamtp/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/deepseek-sparse-attention/" class="post-tag" title="标签 - DeepSeek Sparse Attention">DeepSeek Sparse Attention</a><a href="/tags/multi-token-prediction/" class="post-tag" title="标签 - Multi-Token Prediction">Multi-Token Prediction</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/mlyarn/" class="post-nav-item" rel="prev" title="YaRN"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>YaRN</a><a href="/posts/mldeepseek-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" class="post-nav-item" rel="next" title="DeepSeek 负载均衡">DeepSeek 负载均衡<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>

@@ -11,8 +11,8 @@
   <meta itemprop="name" content="Word2Vec (CBOW/Skip-gram) 与 GloVe">
   <meta itemprop="description" content="一、 分布式表征：终结离散编码的灾难 1. 核心动机：One-hot 编码的工业硬伤 在传统自然语言处理中，单词使用 One-hot 编码。这种高维稀疏的表征机制存在两大缺陷：">
   <meta itemprop="datePublished" content="2026-06-04T17:20:00+08:00">
-  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
-  <meta itemprop="wordCount" content="1943">
+  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="wordCount" content="1786">
   <meta itemprop="keywords" content="Word2Vec,CBOW,Skip-Gram,GloVe"><meta property="og:url" content="https://blog.messywind.top/posts/ml%E7%AC%AC%E4%B8%80%E4%BB%A3%E9%A2%84%E8%AE%AD%E7%BB%83%E8%AF%8D%E5%90%91%E9%87%8F%E6%8A%80%E6%9C%AF/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="Word2Vec (CBOW/Skip-gram) 与 GloVe">
@@ -21,7 +21,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2026-06-04T17:20:00+08:00">
-    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
+    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
     <meta property="article:tag" content="Word2Vec">
     <meta property="article:tag" content="CBOW">
     <meta property="article:tag" content="Skip-Gram">
@@ -42,8 +42,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/ml%E7%AC%AC%E4%B8%80%E4%BB%A3%E9%A2%84%E8%AE%AD%E7%BB%83%E8%AF%8D%E5%90%91%E9%87%8F%E6%8A%80%E6%9C%AF\/"
-    },"genre": "posts","keywords": "Word2Vec, CBOW, Skip-gram, GloVe","wordcount":  1943 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/ml%E7%AC%AC%E4%B8%80%E4%BB%A3%E9%A2%84%E8%AE%AD%E7%BB%83%E8%AF%8D%E5%90%91%E9%87%8F%E6%8A%80%E6%9C%AF\/","datePublished": "2026-06-04T17:20:00+08:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
+    },"genre": "posts","keywords": "Word2Vec, CBOW, Skip-gram, GloVe","wordcount":  1786 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/ml%E7%AC%AC%E4%B8%80%E4%BB%A3%E9%A2%84%E8%AE%AD%E7%BB%83%E8%AF%8D%E5%90%91%E9%87%8F%E6%8A%80%E6%9C%AF\/","datePublished": "2026-06-04T17:20:00+08:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -151,7 +151,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Word2Vec (CBOW/Skip-Gram) 与 GloVe</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-04 17:20:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-04">2026-06-04</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="1943 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="Word2Vec (CBOW/Skip-Gram) 与 GloVe"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-04 17:20:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-04">2026-06-04</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="1786 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="Word2Vec (CBOW/Skip-Gram) 与 GloVe"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -252,9 +252,7 @@ $$X = \frac{1}{2k} \sum v(context)$$</li>
   <a href="#3-%e9%93%be%e5%bc%8f%e6%b3%95%e5%88%99%e5%8f%8d%e5%90%91%e4%bc%a0%e6%92%ad%e4%b8%8e%e5%a4%a7%e9%94%85%e9%a5%ad%e6%a2%af%e5%ba%a6%e7%a8%80%e9%87%8a" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h4><p>当模型预测错误产生 Loss 时，系统通过反向传播将梯度一路回传修改输入端。根据求导链式法则，融合向量 X 对其中某一个特定的上下文词向量 v 产生的偏导数为常数：
-$$\frac{\partial Loss}{\partial v} = \frac{\partial Loss}{\partial X} \cdot \frac{1}{2k}$$</p>
-<blockquote>
+</h4>$$\frac{\partial Loss}{\partial v} = \frac{\partial Loss}{\partial X} \cdot \frac{1}{2k}$$<blockquote>
 <p>📌 <strong>底层工程痛点：梯度平摊与稀释</strong></p>
 <p>最终算出的梯度，跨越了整体平均状态。在反向调整时，<strong>所有的上下文单词分到的是一模一样的梯度分量</strong>（总梯度无差别地除以 2k）。系统在修改参数时，根本分不清这次猜错到底是哪一个特定词的偏离。</p>
 <p>此外，自然语言符合长尾分布，大盘中 90% 以上的词出现频数极低。当稀有的专业词（如“太空步”）和超级高频词组合在一起时，由于 CBOW 的求和平均机制，<strong>低频词的微弱梯度特征会被高频词巨大的语义引力彻底吞噬和稀释</strong>。</p>
@@ -306,8 +304,7 @@ $$\text{Complexity} = \mathcal{O}(N \times k)$$</li>
   <a href="#1-%e6%9d%a1%e4%bb%b6%e5%85%b1%e7%8e%b0%e6%a6%82%e7%8e%87%e5%ae%9a%e4%b9%89" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h4><p>$$P(ik) = \frac{X(ik)}{X(i)}$$</p>
-<ul>
+</h4>$$P(ik) = \frac{X(ik)}{X(i)}$$<ul>
 <li><strong>分母 X(i)</strong>：词 i 的总共现频数（即共现矩阵中第 i 行所有格子的数值总和）。</li>
 <li><strong>关于 X(k) 的去向</strong>：探测词 k 本身的热度，<strong>已经百分之百包含和体现在分子结果变量 X(ik) 的大小中了</strong>。在概率定义中无需在分母重复多除一次。</li>
 </ul>
@@ -315,21 +312,17 @@ $$\text{Complexity} = \mathcal{O}(N \times k)$$</li>
   <a href="#2-%e5%85%b1%e7%8e%b0%e6%a6%82%e7%8e%87%e6%af%94-ratio-%e9%ad%94%e6%b3%95" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h4><p>$$Ratio = \frac{P(ik)}{P(jk)}$$
+</h4>$$Ratio = \frac{P(ik)}{P(jk)}$$<p>
 单词本身的全局绝对频率包袱在相除中被优雅约去，只留下了纯粹的、相对的语义倾向性。</p>
 <h3 id="3-底层方程同构推导把减法拍进除法" class="heading-element"><span>3. 底层方程同构推导：把减法拍进除法</span>
   <a href="#3-%e5%ba%95%e5%b1%82%e6%96%b9%e7%a8%8b%e5%90%8c%e6%9e%84%e6%8e%a8%e5%af%bc%e6%8a%8a%e5%87%8f%e6%b3%95%e6%8b%8d%e8%bf%9b%e9%99%a4%e6%b3%95" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><p>利用自然指数函数实现数学同构，令分子分母严格对齐并两边同时取自然对数，完美推导出 <strong>GloVe 底层核心主方程</strong>（其中 b 为偏置项）：
-$$v(i)^T v(k) + b(i) + b(k) = \ln X(ik)$$</p>
-<h3 id="4-全局非线性最小二乘损失函数与权重约束" class="heading-element"><span>4. 全局非线性最小二乘损失函数与权重约束</span>
+</h3>$$v(i)^T v(k) + b(i) + b(k) = \ln X(ik)$$<h3 id="4-全局非线性最小二乘损失函数与权重约束" class="heading-element"><span>4. 全局非线性最小二乘损失函数与权重约束</span>
   <a href="#4-%e5%85%a8%e5%b1%80%e9%9d%9e%e7%ba%bf%e6%80%a7%e6%9c%80%e5%b0%8f%e4%ba%8c%e4%b9%98%e6%8d%9f%e5%a4%b1%e5%87%bd%e6%95%b0%e4%b8%8e%e6%9d%83%e9%87%8d%e7%ba%a6%e6%9d%9f" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><p>引入全局损失函数项，让多维空间中的词向量点积去严格逼近和拟合大账本：
-$$Loss = \sum f(X(ik)) \cdot (v(i)^T v(k) + b(i) + b(k) - \ln X(ik))^2$$</p>
-<p>为了在工程上过滤零共现引发的数学崩溃（避开对数零），同时强行约束高频垃圾词统治大盘，权重约束函数 $f(X)$ 采用如下分段工程规则：</p>
+</h3>$$Loss = \sum f(X(ik)) \cdot (v(i)^T v(k) + b(i) + b(k) - \ln X(ik))^2$$<p>为了在工程上过滤零共现引发的数学崩溃（避开对数零），同时强行约束高频垃圾词统治大盘，权重约束函数 $f(X)$ 采用如下分段工程规则：</p>
 <ul>
 <li><strong>当共现次数为 0 时</strong>：权重 $f(0) = 0$，直接跳过计算，不参与反向传播。</li>
 <li><strong>当共现次数小于阈值时</strong>（小于 100 次）：次数越低，权重按幂函数衰减越快，直接过滤长尾噪音。</li>
@@ -339,7 +332,7 @@ $$Loss = \sum f(X(ik)) \cdot (v(i)^T v(k) + b(i) + b(k) - \ln X(ik))^2$$</p>
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
+        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/ml%E7%AC%AC%E4%B8%80%E4%BB%A3%E9%A2%84%E8%AE%AD%E7%BB%83%E8%AF%8D%E5%90%91%E9%87%8F%E6%8A%80%E6%9C%AF/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

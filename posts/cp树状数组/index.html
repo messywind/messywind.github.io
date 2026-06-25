@@ -13,8 +13,8 @@
   <meta itemprop="description" content="树状数组的基本应用： $O(\log n)$单点修改、区间查询
 原理： 设区间 $[1,R]$，对区间右端点 $R$ 做二进制拆分，有：">
   <meta itemprop="datePublished" content="2021-07-02T13:54:21+00:00">
-  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
-  <meta itemprop="wordCount" content="1624">
+  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="wordCount" content="1711">
   <meta itemprop="keywords" content="树状数组"><meta property="og:url" content="https://blog.messywind.top/posts/cp%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="树状数组">
@@ -24,7 +24,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2021-07-02T13:54:21+00:00">
-    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
+    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
     <meta property="article:tag" content="树状数组">
 
   <meta name="twitter:card" content="summary">
@@ -43,8 +43,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/cp%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84\/"
-    },"genre": "posts","keywords": "树状数组","wordcount":  1624 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/cp%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84\/","datePublished": "2021-07-02T13:54:21+00:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
+    },"genre": "posts","keywords": "树状数组","wordcount":  1711 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/cp%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84\/","datePublished": "2021-07-02T13:54:21+00:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -152,7 +152,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>树状数组</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2021-07-02 13:54:21"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-07-02">2021-07-02</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="1624 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="树状数组"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2021-07-02 13:54:21"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-07-02">2021-07-02</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="1711 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="树状数组"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -187,12 +187,10 @@
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h2><p>设区间 $[1,R]$，对区间右端点 $R$ 做二进制拆分，有：</p>
-<p>$$R=2^{x_1}+2^{x_2}+\cdots+2^{x_k}$$</p>
-<p>假设 $x_1\sim x_k$ 严格单调递减，那么可以把区间 $[1,R]$ 拆分成 $\log R$ 个区间</p>
-<p>$$[1,2^{x_1}],\
-[2^{x_1}+1,2^{x_1}+2^{x_2}],\
-\cdots, \ [2^{x_1}+2^{x_2}+ \cdots + 2^{x_{k-1}}+1,2^{x_1}+2^{x_2}+\cdots+2^{x_k}]$$</p>
-<p>可以发现每个区间的长度就等于每个区间结尾的 $\text{lowbit}$，所以可以建立一个数组 $tr$，保存区间 $[R-\text{lowbit}(R)+1,R]$ 的和，也就是树状数组。</p>
+$$R=2^{x_1}+2^{x_2}+\cdots+2^{x_k}$$<p>假设 $x_1\sim x_k$ 严格单调递减，那么可以把区间 $[1,R]$ 拆分成 $\log R$ 个区间</p>
+$$[1,2^{x_1}],\\ 
+[2^{x_1}+1,2^{x_1}+2^{x_2}],\\ 
+\cdots, \\ [2^{x_1}+2^{x_2}+ \cdots + 2^{x_{k-1}}+1,2^{x_1}+2^{x_2}+\cdots+2^{x_k}]$$<p>可以发现每个区间的长度就等于每个区间结尾的 $\text{lowbit}$，所以可以建立一个数组 $tr$，保存区间 $[R-\text{lowbit}(R)+1,R]$ 的和，也就是树状数组。</p>
 <h2 id="查询区间和" class="heading-element"><span>查询区间和：</span>
   <a href="#%e6%9f%a5%e8%af%a2%e5%8c%ba%e9%97%b4%e5%92%8c" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -463,8 +461,7 @@
   </a>
 </h2><p><a href="https://www.acwing.com/problem/content/244/"target="_blank" rel="external nofollow noopener noreferrer">AcWing 243 一个简单的整数问题2</a></p>
 <p><strong>分析：</strong> 区间修改可以用差分维护，那么如果查询区间 $[1,R]$，就等价于求</p>
-<p>$$\sum_{i=1}^{R}\sum_{j=1}^{i}b_{j}=\sum_{i=1}^{R}(R-i+1) * b_{i}=(R+1)\sum_{i=1}^{R}b_{i}-\sum_{i=1}^{R}i * b_{i}$$</p>
-<p>所以只需要再增加一个树状数组维护 $i*b_i$ 的前缀和即可。</p>
+$$\sum_{i=1}^{R}\sum_{j=1}^{i}b_{j}=\sum_{i=1}^{R}(R-i+1) * b_{i}=(R+1)\sum_{i=1}^{R}b_{i}-\sum_{i=1}^{R}i * b_{i}$$<p>所以只需要再增加一个树状数组维护 $i*b_i$ 的前缀和即可。</p>
 <h2 id="代码-5" class="heading-element"><span>代码：</span>
   <a href="#%e4%bb%a3%e7%a0%81-5" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -546,7 +543,7 @@
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
+        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/cp%E6%A0%91%E7%8A%B6%E6%95%B0%E7%BB%84/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

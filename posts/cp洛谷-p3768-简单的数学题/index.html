@@ -9,79 +9,37 @@
 <meta name="description" content="题目链接
 题意：
 求
-$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$
-对 $p$ 取模，$n \le10^{10}, 5 ×10^8\le p \le1.1 ×10^{9}$
+$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$对 $p$ 取模，$n \le10^{10}, 5 ×10^8\le p \le1.1 ×10^{9}$
 分析：
-$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$
-枚举 $\gcd(i,j)$
-$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(i,j)=d]$$
-利用 $\gcd$ 的性质
-$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(\frac{i}{d},\frac{j}{d})=1]$$
-让式子除 $d^2$ 再乘 $d^2$
-$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{n}\sum_{j=1}^{n} \frac{i}{d} \cdot \frac{j}{d}[\gcd(\frac{i}{d},\frac{j}{d})=1]$$
-换一下上界
-$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor} i j[\gcd(i,j)=1]$$
-莫比乌斯反演
-$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor} i j \sum_{k \mid \gcd(i,j)} \mu(k)$$
-交换求和次序
-$$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} \mu(k) \sum_{i=1}^{\lfloor \frac{n}{dk} \rfloor} ik\sum_{j=1}^{\lfloor \frac{n}{dk} \rfloor} jk$$
-化简后半部分
-$$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} k^2 \mu(k) (\sum_{i=1} ^{\lfloor \frac{n}{dk} \rfloor}i)^2$$
+$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$枚举 $\gcd(i,j)$
+$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(i,j)=d]$$利用 $\gcd$ 的性质
 "><meta name="keywords" content='莫比乌斯反演'>
   <meta itemprop="name" content="[洛谷 P3768] 简单的数学题">
   <meta itemprop="description" content="题目链接
 题意：
 求
-$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$
-对 $p$ 取模，$n \le10^{10}, 5 ×10^8\le p \le1.1 ×10^{9}$
+$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$对 $p$ 取模，$n \le10^{10}, 5 ×10^8\le p \le1.1 ×10^{9}$
 分析：
-$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$
-枚举 $\gcd(i,j)$
-$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(i,j)=d]$$
-利用 $\gcd$ 的性质
-$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(\frac{i}{d},\frac{j}{d})=1]$$
-让式子除 $d^2$ 再乘 $d^2$
-$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{n}\sum_{j=1}^{n} \frac{i}{d} \cdot \frac{j}{d}[\gcd(\frac{i}{d},\frac{j}{d})=1]$$
-换一下上界
-$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor} i j[\gcd(i,j)=1]$$
-莫比乌斯反演
-$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor} i j \sum_{k \mid \gcd(i,j)} \mu(k)$$
-交换求和次序
-$$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} \mu(k) \sum_{i=1}^{\lfloor \frac{n}{dk} \rfloor} ik\sum_{j=1}^{\lfloor \frac{n}{dk} \rfloor} jk$$
-化简后半部分
-$$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} k^2 \mu(k) (\sum_{i=1} ^{\lfloor \frac{n}{dk} \rfloor}i)^2$$">
+$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$枚举 $\gcd(i,j)$
+$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(i,j)=d]$$利用 $\gcd$ 的性质">
   <meta itemprop="datePublished" content="2021-09-13T21:21:31+00:00">
-  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
-  <meta itemprop="wordCount" content="755">
+  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="wordCount" content="1138">
   <meta itemprop="keywords" content="莫比乌斯反演"><meta property="og:url" content="https://blog.messywind.top/posts/cp%E6%B4%9B%E8%B0%B7-p3768-%E7%AE%80%E5%8D%95%E7%9A%84%E6%95%B0%E5%AD%A6%E9%A2%98/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="[洛谷 P3768] 简单的数学题">
   <meta property="og:description" content="题目链接
 题意：
 求
-$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$
-对 $p$ 取模，$n \le10^{10}, 5 ×10^8\le p \le1.1 ×10^{9}$
+$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$对 $p$ 取模，$n \le10^{10}, 5 ×10^8\le p \le1.1 ×10^{9}$
 分析：
-$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$
-枚举 $\gcd(i,j)$
-$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(i,j)=d]$$
-利用 $\gcd$ 的性质
-$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(\frac{i}{d},\frac{j}{d})=1]$$
-让式子除 $d^2$ 再乘 $d^2$
-$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{n}\sum_{j=1}^{n} \frac{i}{d} \cdot \frac{j}{d}[\gcd(\frac{i}{d},\frac{j}{d})=1]$$
-换一下上界
-$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor} i j[\gcd(i,j)=1]$$
-莫比乌斯反演
-$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor} i j \sum_{k \mid \gcd(i,j)} \mu(k)$$
-交换求和次序
-$$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} \mu(k) \sum_{i=1}^{\lfloor \frac{n}{dk} \rfloor} ik\sum_{j=1}^{\lfloor \frac{n}{dk} \rfloor} jk$$
-化简后半部分
-$$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} k^2 \mu(k) (\sum_{i=1} ^{\lfloor \frac{n}{dk} \rfloor}i)^2$$">
+$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$枚举 $\gcd(i,j)$
+$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(i,j)=d]$$利用 $\gcd$ 的性质">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2021-09-13T21:21:31+00:00">
-    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
+    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
     <meta property="article:tag" content="莫比乌斯反演">
 
   <meta name="twitter:card" content="summary">
@@ -89,24 +47,10 @@ $$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} k^2 \mu(k) (\sum
   <meta name="twitter:description" content="题目链接
 题意：
 求
-$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$
-对 $p$ 取模，$n \le10^{10}, 5 ×10^8\le p \le1.1 ×10^{9}$
+$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$对 $p$ 取模，$n \le10^{10}, 5 ×10^8\le p \le1.1 ×10^{9}$
 分析：
-$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$
-枚举 $\gcd(i,j)$
-$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(i,j)=d]$$
-利用 $\gcd$ 的性质
-$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(\frac{i}{d},\frac{j}{d})=1]$$
-让式子除 $d^2$ 再乘 $d^2$
-$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{n}\sum_{j=1}^{n} \frac{i}{d} \cdot \frac{j}{d}[\gcd(\frac{i}{d},\frac{j}{d})=1]$$
-换一下上界
-$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor} i j[\gcd(i,j)=1]$$
-莫比乌斯反演
-$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor} i j \sum_{k \mid \gcd(i,j)} \mu(k)$$
-交换求和次序
-$$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} \mu(k) \sum_{i=1}^{\lfloor \frac{n}{dk} \rfloor} ik\sum_{j=1}^{\lfloor \frac{n}{dk} \rfloor} jk$$
-化简后半部分
-$$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} k^2 \mu(k) (\sum_{i=1} ^{\lfloor \frac{n}{dk} \rfloor}i)^2$$">
+$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$枚举 $\gcd(i,j)$
+$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(i,j)=d]$$利用 $\gcd$ 的性质">
 <meta name="application-name" content="凌乱之风的博客">
 <meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/cp%E6%B4%9B%E8%B0%B7-p3768-%E7%AE%80%E5%8D%95%E7%9A%84%E6%95%B0%E5%AD%A6%E9%A2%98/" title="[洛谷 P3768] 简单的数学题 - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/cp%E6%9D%9C%E6%95%99%E7%AD%9B/" title="杜教筛" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/cp2019-ccpc%E7%BD%91%E7%BB%9C%E8%B5%9B-huntian-oy/" title="[2019 CCPC网络赛] huntian oy" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/cp%E6%B4%9B%E8%B0%B7-p3768-%E7%AE%80%E5%8D%95%E7%9A%84%E6%95%B0%E5%AD%A6%E9%A2%98/index.md" title="[洛谷 P3768] 简单的数学题 - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
@@ -119,8 +63,8 @@ $$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} k^2 \mu(k) (\sum
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/cp%E6%B4%9B%E8%B0%B7-p3768-%E7%AE%80%E5%8D%95%E7%9A%84%E6%95%B0%E5%AD%A6%E9%A2%98\/"
-    },"genre": "posts","keywords": "莫比乌斯反演","wordcount":  755 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/cp%E6%B4%9B%E8%B0%B7-p3768-%E7%AE%80%E5%8D%95%E7%9A%84%E6%95%B0%E5%AD%A6%E9%A2%98\/","datePublished": "2021-09-13T21:21:31+00:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
+    },"genre": "posts","keywords": "莫比乌斯反演","wordcount":  1138 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/cp%E6%B4%9B%E8%B0%B7-p3768-%E7%AE%80%E5%8D%95%E7%9A%84%E6%95%B0%E5%AD%A6%E9%A2%98\/","datePublished": "2021-09-13T21:21:31+00:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -228,7 +172,7 @@ $$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} k^2 \mu(k) (\sum
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[洛谷 P3768] 简单的数学题</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2021-09-13 21:21:31"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-09-13">2021-09-13</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="755 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="[洛谷 P3768] 简单的数学题"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2021-09-13 21:21:31"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-09-13">2021-09-13</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="1138 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="[洛谷 P3768] 简单的数学题"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -243,41 +187,24 @@ $$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} k^2 \mu(k) (\sum
       </div><div class="content" id="content"><p><a href="https://www.luogu.com.cn/problem/P3768"target="_blank" rel="external nofollow noopener noreferrer">题目链接</a></p>
 <p><strong>题意：</strong></p>
 <p>求</p>
-<p>$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$</p>
-<p>对 $p$ 取模，$n \le10^{10}, 5 ×10^8\le p \le1.1 ×10^{9}$</p>
+$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$<p>对 $p$ 取模，$n \le10^{10}, 5 ×10^8\le p \le1.1 ×10^{9}$</p>
 <p><strong>分析：</strong></p>
-<p>$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$</p>
-<p>枚举 $\gcd(i,j)$</p>
-<p>$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(i,j)=d]$$</p>
-<p>利用 $\gcd$ 的性质</p>
-<p>$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(\frac{i}{d},\frac{j}{d})=1]$$</p>
-<p>让式子除 $d^2$ 再乘 $d^2$</p>
-<p>$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{n}\sum_{j=1}^{n} \frac{i}{d} \cdot \frac{j}{d}[\gcd(\frac{i}{d},\frac{j}{d})=1]$$</p>
-<p>换一下上界</p>
-<p>$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor} i j[\gcd(i,j)=1]$$</p>
-<p>莫比乌斯反演</p>
-<p>$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor} i j \sum_{k \mid \gcd(i,j)} \mu(k)$$</p>
-<p>交换求和次序</p>
-<p>$$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} \mu(k) \sum_{i=1}^{\lfloor \frac{n}{dk} \rfloor} ik\sum_{j=1}^{\lfloor \frac{n}{dk} \rfloor} jk$$</p>
-<p>化简后半部分</p>
-<p>$$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} k^2 \mu(k) (\sum_{i=1} ^{\lfloor \frac{n}{dk} \rfloor}i)^2$$</p>
-<p>设 $T=dk$</p>
-<p>$$\sum_{T=1} ^{n} T^2 \sum_{d \mid T}  d\mu(\frac{T}{d}) (\sum_{i=1} ^{\lfloor \frac{n}{T} \rfloor}i)^2$$</p>
-<p>因为 $\mu * Id=\varphi$，替换 $\sum \limits_{d \mid T}  d\mu(\frac{T}{d})$ 得</p>
-<p>$$\sum_{T=1} ^{n} T^2 \varphi(T) (\sum_{i=1} ^{\lfloor \frac{n}{T} \rfloor}i)^2$$</p>
-<p>根据 $(\dfrac{n^2 +n}{2})^2=1^3+2^3+\cdots+n^3$</p>
-<p>$$\sum_{T=1} ^{n} T^2 \varphi(T) \sum_{i=1} ^{\lfloor \frac{n}{T} \rfloor}i^3$$</p>
-<p>设 $f(x)= x^2\varphi(x)$ 套用杜教筛，$S(n)$ 为 $\sum \limits_{i=1}^{n} f(i)$</p>
-<p>$$g(1)S(n)=\sum_{i=1} ^{n}h(i)-\sum_{i=1}^{n}g(i)S(\lfloor \frac{n}{i} \rfloor)$$</p>
-<p>那么 $h=f *g$，也就是 $h(n)=\sum \limits _{d \mid n}f(n)g(\dfrac{n}{d})$，带入 $f(n)$ 得</p>
-<p>$$h(n)=\sum_{d \mid n} d^2\varphi(d)g(\frac{n}{d})$$</p>
-<p>考虑把 $d^2$ 消去，所以设 $g(x)=x^2$，故</p>
-<p>$$h(n)=n^2\sum_{d \mid n}\varphi(d)$$</p>
-<p>根据 $\varphi *I=Id$</p>
-<p>$$h(n)=n^3$$</p>
-<p>那么 $f(x)$ 的前缀和就是</p>
-<p>$$S(n)=(\frac{n^2+n}{2})^2-\sum_{i=2} ^{n}i^2S(\lfloor \frac{n}{i} \rfloor)$$</p>
-<h2 id="代码" class="heading-element"><span>代码：</span>
+$$\sum_{i=1}^{n}\sum_{j=1}^{n}ij\gcd(i,j)$$<p>枚举 $\gcd(i,j)$</p>
+$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(i,j)=d]$$<p>利用 $\gcd$ 的性质</p>
+$$\sum_{d=1} ^{n} d \sum_{i=1}^{n}\sum_{j=1}^{n}ij[\gcd(\frac{i}{d},\frac{j}{d})=1]$$<p>让式子除 $d^2$ 再乘 $d^2$</p>
+$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{n}\sum_{j=1}^{n} \frac{i}{d} \cdot \frac{j}{d}[\gcd(\frac{i}{d},\frac{j}{d})=1]$$<p>换一下上界</p>
+$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor} i j[\gcd(i,j)=1]$$<p>莫比乌斯反演</p>
+$$\sum_{d=1} ^{n} d^3 \sum_{i=1}^{\lfloor \frac{n}{d} \rfloor}\sum_{j=1}^{\lfloor \frac{n}{d} \rfloor} i j \sum_{k \mid \gcd(i,j)} \mu(k)$$<p>交换求和次序</p>
+$$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} \mu(k) \sum_{i=1}^{\lfloor \frac{n}{dk} \rfloor} ik\sum_{j=1}^{\lfloor \frac{n}{dk} \rfloor} jk$$<p>化简后半部分</p>
+$$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} k^2 \mu(k) (\sum_{i=1} ^{\lfloor \frac{n}{dk} \rfloor}i)^2$$<p>设 $T=dk$</p>
+$$\sum_{T=1} ^{n} T^2 \sum_{d \mid T}  d\mu(\frac{T}{d}) (\sum_{i=1} ^{\lfloor \frac{n}{T} \rfloor}i)^2$$<p>因为 $\mu * Id=\varphi$，替换 $\sum \limits_{d \mid T}  d\mu(\frac{T}{d})$ 得</p>
+$$\sum_{T=1} ^{n} T^2 \varphi(T) (\sum_{i=1} ^{\lfloor \frac{n}{T} \rfloor}i)^2$$<p>根据 $(\dfrac{n^2 +n}{2})^2=1^3+2^3+\cdots+n^3$</p>
+$$\sum_{T=1} ^{n} T^2 \varphi(T) \sum_{i=1} ^{\lfloor \frac{n}{T} \rfloor}i^3$$<p>设 $f(x)= x^2\varphi(x)$ 套用杜教筛，$S(n)$ 为 $\sum \limits_{i=1}^{n} f(i)$</p>
+$$g(1)S(n)=\sum_{i=1} ^{n}h(i)-\sum_{i=1}^{n}g(i)S(\lfloor \frac{n}{i} \rfloor)$$<p>那么 $h=f *g$，也就是 $h(n)=\sum \limits _{d \mid n}f(n)g(\dfrac{n}{d})$，带入 $f(n)$ 得</p>
+$$h(n)=\sum_{d \mid n} d^2\varphi(d)g(\frac{n}{d})$$<p>考虑把 $d^2$ 消去，所以设 $g(x)=x^2$，故</p>
+$$h(n)=n^2\sum_{d \mid n}\varphi(d)$$<p>根据 $\varphi *I=Id$</p>
+$$h(n)=n^3$$<p>那么 $f(x)$ 的前缀和就是</p>
+$$S(n)=(\frac{n^2+n}{2})^2-\sum_{i=2} ^{n}i^2S(\lfloor \frac{n}{i} \rfloor)$$<h2 id="代码" class="heading-element"><span>代码：</span>
   <a href="#%e4%bb%a3%e7%a0%81" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -420,7 +347,7 @@ $$\sum_{d=1} ^{n} d^3 \sum_{k=1} ^{\lfloor \frac{n}{d} \rfloor} k^2 \mu(k) (\sum
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
+        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/cp%E6%B4%9B%E8%B0%B7-p3768-%E7%AE%80%E5%8D%95%E7%9A%84%E6%95%B0%E5%AD%A6%E9%A2%98/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

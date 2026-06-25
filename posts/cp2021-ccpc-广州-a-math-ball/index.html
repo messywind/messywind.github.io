@@ -8,35 +8,38 @@
     <title>[2021 CCPC 广州 A] Math Ball - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
 <meta name="description" content="原题链接
 题意
-给定 $n$ 个权值为 $c_1,c_2,\cdots,c_n$ 的物品，总共最多取 $W$ 个，求 $$ \sum_{k_1&#43;k_2&#43;\cdots&#43;k_n \le W} \prod_{i = 1} ^ {n} k_i ^ {c_i} $$ 对 $998,244,353$ 取模，其中 $k_i$ 代表第 $i$ 个物品取的次数。
+$$ \sum_{k_1&#43;k_2&#43;\cdots&#43;k_n \le W} \prod_{i = 1} ^ {n} k_i ^ {c_i} $$ 对 $998,244,353$ 取模，其中 $k_i$ 代表第 $i$ 个物品取的次数。
 $1 \le n \le 10 ^ 5, \sum\limits_{i = 1} ^ {n} c_i \le 10 ^ 5, W \le 10 ^ {18}$
 分析：
-首先观察题目要我们求的式子，可以看出是一个多项式卷积形式，不难写出每个物品的生成函数，设第 $i$ 个物品的生成函数为 $$ f_i(x) = \sum_{j = 0} ^ {\infty} j ^ {c_i}x ^ j $$ 那么答案就是 $$ \sum_{i = 0} ^ {W} [x ^ i]\prod_{j = 1} ^ {n}f_j(x) $$ 但 $W$ 是 $10 ^ {18}$ 的，我们肯定不能这么求，所以考虑将答案求一次前缀和，计算第 $W$ 项的系数。
+$$ f_i(x) = \sum_{j = 0} ^ {\infty} j ^ {c_i}x ^ j $$$$ \sum_{i = 0} ^ {W} [x ^ i]\prod_{j = 1} ^ {n}f_j(x) $$ 但 $W$ 是 $10 ^ {18}$ 的，我们肯定不能这么求，所以考虑将答案求一次前缀和，计算第 $W$ 项的系数。
+$$ [x ^ W]\frac{1}{1 - x} \times \prod_{j = 1} ^ {n}f_j(x) $$ 但这样还是不能解决问题。
 "><meta name="keywords" content='生成函数, 多项式'>
   <meta itemprop="name" content="[2021 CCPC 广州 A] Math Ball">
   <meta itemprop="description" content="原题链接
 题意
-给定 $n$ 个权值为 $c_1,c_2,\cdots,c_n$ 的物品，总共最多取 $W$ 个，求 $$ \sum_{k_1&#43;k_2&#43;\cdots&#43;k_n \le W} \prod_{i = 1} ^ {n} k_i ^ {c_i} $$ 对 $998,244,353$ 取模，其中 $k_i$ 代表第 $i$ 个物品取的次数。
+$$ \sum_{k_1&#43;k_2&#43;\cdots&#43;k_n \le W} \prod_{i = 1} ^ {n} k_i ^ {c_i} $$ 对 $998,244,353$ 取模，其中 $k_i$ 代表第 $i$ 个物品取的次数。
 $1 \le n \le 10 ^ 5, \sum\limits_{i = 1} ^ {n} c_i \le 10 ^ 5, W \le 10 ^ {18}$
 分析：
-首先观察题目要我们求的式子，可以看出是一个多项式卷积形式，不难写出每个物品的生成函数，设第 $i$ 个物品的生成函数为 $$ f_i(x) = \sum_{j = 0} ^ {\infty} j ^ {c_i}x ^ j $$ 那么答案就是 $$ \sum_{i = 0} ^ {W} [x ^ i]\prod_{j = 1} ^ {n}f_j(x) $$ 但 $W$ 是 $10 ^ {18}$ 的，我们肯定不能这么求，所以考虑将答案求一次前缀和，计算第 $W$ 项的系数。">
+$$ f_i(x) = \sum_{j = 0} ^ {\infty} j ^ {c_i}x ^ j $$$$ \sum_{i = 0} ^ {W} [x ^ i]\prod_{j = 1} ^ {n}f_j(x) $$ 但 $W$ 是 $10 ^ {18}$ 的，我们肯定不能这么求，所以考虑将答案求一次前缀和，计算第 $W$ 项的系数。
+$$ [x ^ W]\frac{1}{1 - x} \times \prod_{j = 1} ^ {n}f_j(x) $$ 但这样还是不能解决问题。">
   <meta itemprop="datePublished" content="2022-10-16T00:32:23+00:00">
-  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
-  <meta itemprop="wordCount" content="4033">
+  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="wordCount" content="3634">
   <meta itemprop="keywords" content="生成函数,多项式"><meta property="og:url" content="https://blog.messywind.top/posts/cp2021-ccpc-%E5%B9%BF%E5%B7%9E-a-math-ball/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="[2021 CCPC 广州 A] Math Ball">
   <meta property="og:description" content="原题链接
 题意
-给定 $n$ 个权值为 $c_1,c_2,\cdots,c_n$ 的物品，总共最多取 $W$ 个，求 $$ \sum_{k_1&#43;k_2&#43;\cdots&#43;k_n \le W} \prod_{i = 1} ^ {n} k_i ^ {c_i} $$ 对 $998,244,353$ 取模，其中 $k_i$ 代表第 $i$ 个物品取的次数。
+$$ \sum_{k_1&#43;k_2&#43;\cdots&#43;k_n \le W} \prod_{i = 1} ^ {n} k_i ^ {c_i} $$ 对 $998,244,353$ 取模，其中 $k_i$ 代表第 $i$ 个物品取的次数。
 $1 \le n \le 10 ^ 5, \sum\limits_{i = 1} ^ {n} c_i \le 10 ^ 5, W \le 10 ^ {18}$
 分析：
-首先观察题目要我们求的式子，可以看出是一个多项式卷积形式，不难写出每个物品的生成函数，设第 $i$ 个物品的生成函数为 $$ f_i(x) = \sum_{j = 0} ^ {\infty} j ^ {c_i}x ^ j $$ 那么答案就是 $$ \sum_{i = 0} ^ {W} [x ^ i]\prod_{j = 1} ^ {n}f_j(x) $$ 但 $W$ 是 $10 ^ {18}$ 的，我们肯定不能这么求，所以考虑将答案求一次前缀和，计算第 $W$ 项的系数。">
+$$ f_i(x) = \sum_{j = 0} ^ {\infty} j ^ {c_i}x ^ j $$$$ \sum_{i = 0} ^ {W} [x ^ i]\prod_{j = 1} ^ {n}f_j(x) $$ 但 $W$ 是 $10 ^ {18}$ 的，我们肯定不能这么求，所以考虑将答案求一次前缀和，计算第 $W$ 项的系数。
+$$ [x ^ W]\frac{1}{1 - x} \times \prod_{j = 1} ^ {n}f_j(x) $$ 但这样还是不能解决问题。">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2022-10-16T00:32:23+00:00">
-    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
+    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
     <meta property="article:tag" content="生成函数">
     <meta property="article:tag" content="多项式">
 
@@ -44,10 +47,11 @@ $1 \le n \le 10 ^ 5, \sum\limits_{i = 1} ^ {n} c_i \le 10 ^ 5, W \le 10 ^ {18}$
   <meta name="twitter:title" content="[2021 CCPC 广州 A] Math Ball">
   <meta name="twitter:description" content="原题链接
 题意
-给定 $n$ 个权值为 $c_1,c_2,\cdots,c_n$ 的物品，总共最多取 $W$ 个，求 $$ \sum_{k_1&#43;k_2&#43;\cdots&#43;k_n \le W} \prod_{i = 1} ^ {n} k_i ^ {c_i} $$ 对 $998,244,353$ 取模，其中 $k_i$ 代表第 $i$ 个物品取的次数。
+$$ \sum_{k_1&#43;k_2&#43;\cdots&#43;k_n \le W} \prod_{i = 1} ^ {n} k_i ^ {c_i} $$ 对 $998,244,353$ 取模，其中 $k_i$ 代表第 $i$ 个物品取的次数。
 $1 \le n \le 10 ^ 5, \sum\limits_{i = 1} ^ {n} c_i \le 10 ^ 5, W \le 10 ^ {18}$
 分析：
-首先观察题目要我们求的式子，可以看出是一个多项式卷积形式，不难写出每个物品的生成函数，设第 $i$ 个物品的生成函数为 $$ f_i(x) = \sum_{j = 0} ^ {\infty} j ^ {c_i}x ^ j $$ 那么答案就是 $$ \sum_{i = 0} ^ {W} [x ^ i]\prod_{j = 1} ^ {n}f_j(x) $$ 但 $W$ 是 $10 ^ {18}$ 的，我们肯定不能这么求，所以考虑将答案求一次前缀和，计算第 $W$ 项的系数。">
+$$ f_i(x) = \sum_{j = 0} ^ {\infty} j ^ {c_i}x ^ j $$$$ \sum_{i = 0} ^ {W} [x ^ i]\prod_{j = 1} ^ {n}f_j(x) $$ 但 $W$ 是 $10 ^ {18}$ 的，我们肯定不能这么求，所以考虑将答案求一次前缀和，计算第 $W$ 项的系数。
+$$ [x ^ W]\frac{1}{1 - x} \times \prod_{j = 1} ^ {n}f_j(x) $$ 但这样还是不能解决问题。">
 <meta name="application-name" content="凌乱之风的博客">
 <meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/cp2021-ccpc-%E5%B9%BF%E5%B7%9E-a-math-ball/" title="[2021 CCPC 广州 A] Math Ball - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/cp2021ccpc-%E5%A8%81%E6%B5%B7g-shinyruo-and-kfc/" title="[2021CCPC 威海G] Shinyruo and KFC" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/cp%E7%94%9F%E6%88%90%E5%87%BD%E6%95%B0%E5%A4%9A%E9%A1%B9%E5%BC%8F%E9%A2%98%E5%8D%95/" title="生成函数、多项式题单" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/cp2021-ccpc-%E5%B9%BF%E5%B7%9E-a-math-ball/index.md" title="[2021 CCPC 广州 A] Math Ball - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
@@ -60,8 +64,8 @@ $1 \le n \le 10 ^ 5, \sum\limits_{i = 1} ^ {n} c_i \le 10 ^ 5, W \le 10 ^ {18}$
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/cp2021-ccpc-%E5%B9%BF%E5%B7%9E-a-math-ball\/"
-    },"genre": "posts","keywords": "生成函数, 多项式","wordcount":  4033 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/cp2021-ccpc-%E5%B9%BF%E5%B7%9E-a-math-ball\/","datePublished": "2022-10-16T00:32:23+00:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
+    },"genre": "posts","keywords": "生成函数, 多项式","wordcount":  3634 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/cp2021-ccpc-%E5%B9%BF%E5%B7%9E-a-math-ball\/","datePublished": "2022-10-16T00:32:23+00:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -169,7 +173,7 @@ $1 \le n \le 10 ^ 5, \sum\limits_{i = 1} ^ {n} c_i \le 10 ^ 5, W \le 10 ^ {18}$
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[2021 CCPC 广州 A] Math Ball</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-10-16 00:32:23"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-10-16">2022-10-16</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="4033 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 9 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="[2021 CCPC 广州 A] Math Ball"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-10-16 00:32:23"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-10-16">2022-10-16</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="3634 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 3700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 8 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="[2021 CCPC 广州 A] Math Ball"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -183,53 +187,39 @@ $1 \le n \le 10 ^ 5, \sum\limits_{i = 1} ^ {n} c_i \le 10 ^ 5, W \le 10 ^ {18}$
 </nav></div>
       </div><div class="content" id="content"><p><a href="https://codeforces.com/gym/103415/problem/A"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
 <p><strong>题意</strong></p>
-<p>给定 $n$ 个权值为 $c_1,c_2,\cdots,c_n$ 的物品，总共最多取 $W$ 个，求
 $$
 \sum_{k_1+k_2+\cdots+k_n \le W} \prod_{i = 1} ^ {n} k_i ^ {c_i}
-$$
+$$<p>
 对 $998,244,353$ 取模，其中 $k_i$ 代表第 $i$ 个物品取的次数。</p>
 <p>$1 \le n \le 10 ^ 5, \sum\limits_{i = 1} ^ {n} c_i \le 10 ^ 5, W \le 10 ^ {18}$</p>
 <p><strong>分析：</strong></p>
-<p>首先观察题目要我们求的式子，可以看出是一个多项式卷积形式，不难写出每个物品的生成函数，设第 $i$ 个物品的生成函数为
 $$
 f_i(x) = \sum_{j = 0} ^ {\infty} j ^ {c_i}x ^ j
-$$
-那么答案就是
-$$
+$$$$
 \sum_{i = 0} ^ {W} [x ^ i]\prod_{j = 1} ^ {n}f_j(x)
-$$
+$$<p>
 但 $W$ 是 $10 ^ {18}$ 的，我们肯定不能这么求，所以考虑将答案求一次前缀和，计算第 $W$ 项的系数。</p>
-<p>我们知道给一个多项式乘以 $\sum\limits_{i = 0} ^ {\infty} x ^ i = \dfrac{1}{1 -x}$ 就相当于求一次前缀和，故答案为
 $$
 [x ^ W]\frac{1}{1 - x} \times \prod_{j = 1} ^ {n}f_j(x)
-$$
+$$<p>
 但这样还是不能解决问题。</p>
-<p>所以考虑化简每个物品的生成函数 $f_i(x)$，我们知道有自然数幂展开 $i ^ k = \sum\limits_{j = 0} ^ {k} {k \brace j} \times j! \times \dbinom{i}{j}$，所以 $f_i(x)$ 就为
 $$
 f_i(x) = \sum_{j = 0} ^ {\infty} \sum_{k = 0} ^ {c_i}{c_i \brace k} \times k! \times \binom{j}{k} \times x ^ j
-$$
-交换求和次序
-$$
+$$$$
 f_i(x) = \sum_{k = 0} ^ {c_i} {c_i \brace k} \times k! \sum_{j = 0} ^ {\infty}\binom{j}{k} x ^ j
-$$
+$$<p>
 现在考虑化简 $\sum\limits_{j = 0} ^ {\infty}\dbinom{j}{k} x ^ j$，我们根据广义二项式定理知道 $\sum\limits_{i = 0} ^ {\infty} \dbinom{i + k - 1}{i}x ^ i$ 的封闭形式为 $\dfrac{1}{(1 - x) ^ k}$，那么 $\sum\limits_{i = 0} ^ {\infty} \dbinom{i + k}{i}x ^ i = \dfrac{1}{(1 - x) ^ {k + 1}}$</p>
-<p>由组合数性质有 $\dbinom{i + k}{i}=\dbinom{i + k}{k}$，所以 $\sum\limits_{i = 0} ^ {\infty} \dbinom{i + k}{i}x ^ i = \sum\limits_{i = 0} ^ {\infty} \dbinom{i + k}{k}x ^ i = \sum\limits_{i = k} ^ {\infty} \dbinom{i}{k}x ^ {i - k} = \dfrac{1}{(1 - x) ^ {k + 1}}$ 再等式两边同乘 $x ^ k$，得出结论
 $$
 \sum_{i = 0} ^ {\infty} \binom{i}{k}x ^ i = \frac{x ^ k}{(1 - x) ^ {k + 1}}
-$$
+$$<p>
 (由于 $\dbinom{n}{m}$ 在 $n &lt; m$ 时为 $0$，所以 $i$ 从 $0$ 或从 $k$ 开始都一样)</p>
-<p>所以进一步化简了 $f_i(x)$，为
 $$
 f_i(x) = \sum_{k = 0} ^ {c_i} {c_i \brace k} \times k! \times \frac{x ^ k}{(1 - x) ^ {k + 1}}
-$$
-尽管如此，$f_i(x)$ 仍然不好算，我们注意到题目条件 $\sum\limits_{i = 1} ^ {n} c_i \le 10 ^ 5$，一般会往分治 $\texttt{NTT}$ 上考虑，我们不妨将 $f_i(x)$ 的形式变成
-$$
+$$$$
 f_i(x) = \sum\limits_{k = 0} ^ {c_i} {c_i \brace k} \times k! \times (\frac{x}{1-x}) ^ {k} \times \frac{1}{1 - x}
-$$
-此时如果令 $y = \dfrac{x}{1 - x},f_i(x) = g_i(y) \times \dfrac{1}{1 - x}$，其中 $g_i(y) = \sum\limits_{k = 0} ^ {c_i} {c_i \brace k} \times k! \times y ^ {k}$ 那么答案就为
-$$
+$$$$
 [x ^ W] \frac{\prod_{j = 1} ^ {n} g_j(y)}{(1 - x) ^ {n + 1}}
-$$
+$$<p>
 这样的话 $\prod\limits_{j = 1} ^ {n} g_j(y)$ 是可以用分治 $\texttt{NTT}$ 求解的，其中需要用到快速求解第二类斯特林数的每一行，求出之后考虑计算第 $W$ 项的系数。</p>
 <p>令 $F(x) = \prod\limits_{j = 1} ^ {n} g_j(y)$，那么 $F(x)$ 的第 $k$ 项就形如 $a_k \times (\dfrac{x}{1 - x}) ^ k$，其中 $a_k$ 为 $F(x)$ 的第 $k$ 项系数，那么 $a_k \times (\dfrac{x}{1 - x}) ^ k = a_k \times x ^ k \times \dfrac{1}{(1 - x) ^ k}$，把 $\dfrac{1}{(1 - x) ^ k}$ 拿到下面，变为 $\dfrac{1}{(1 - x) ^ {n + k + 1}}$</p>
 <p>由于 $F(x)$ 项数较少，所以考虑枚举 $F(x)$ 的每一项，即答案为 $a_k$ 与 $\dfrac{1}{(1 - x) ^ {n + k + 1}}$ 的第 $W - k$ 项的乘积之和，考虑展开 $\dfrac{1}{(1 - x) ^ {n + k + 1}} = \sum\limits_{i = 0} ^ {\infty} \dbinom{n + k + i}{i}x ^ i$，所以第 $W - k$ 项为 $\dbinom{W + n}{W - k}$，虽然 $W$ 较大，但 $n$ 很小，经典维护 $W$ 的下降幂即可。</p>
@@ -1328,7 +1318,7 @@ $$
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
+        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/cp2021-ccpc-%E5%B9%BF%E5%B7%9E-a-math-ball/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

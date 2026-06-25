@@ -12,7 +12,8 @@
 对 $998244353$ 取模
 $(1 \le n \le 10 ^ 5, 1 \le P_i \le n)$
 分析：
-如果只观察式子可能看不出什么规律，我们可以把条件转化为 $n$ 个点的图，考虑把排列 $Q$ 表示为边集 ${(Q_1, Q_2),(Q_2, Q_3),\cdots,(Q_{n-1},Q_n)}$ ，那么排列 $P$ 的意思就是图中不能存在边集 ${(1,P_1),(2,P_2),\cdots,(n,P_n)}$ ，那么就等价于在一张图中选一条哈密顿路径的方案数，所以考虑对每条不存在的边集进行容斥。考虑计算选了 $i$ 个不存在的边的方案数，发现排列 $P$ 一定会成环，所以对于每个 $k$ 元环可以选择 $0 \sim k - 1$ 个不存在的边(哈密顿路径无环所以不能包含 $k$ 个不存在的边)，那么可以用生成函数 $f(k)$ 来表示 $$ f(k) = 1 &#43; \binom{k}{1}x &#43; \binom{k}{2}x ^ 2 &#43; \binom{k}{3}x ^ 3 &#43; \cdots &#43; \binom{k}{k - 1}x ^ {k - 1} $$ $x$ 项的系数 $m$ 表示 $k$ 元环中选了 $m$ 条不存在的边，那么系数显然是 $\dbinom{k}{m}$
+$$ f(k) = 1 &#43; \binom{k}{1}x &#43; \binom{k}{2}x ^ 2 &#43; \binom{k}{3}x ^ 3 &#43; \cdots &#43; \binom{k}{k - 1}x ^ {k - 1} $$ $x$ 项的系数 $m$ 表示 $k$ 元环中选了 $m$ 条不存在的边，那么系数显然是 $\dbinom{k}{m}$
+所以只需找出排列 $P$ 的所有环及其环的大小，假设有 $t$ 个 $a_1,a_2,\cdots,a_t$ ，$a_i$ 表示第 $i$ 个环的大小。
 "><meta name="keywords" content='容斥原理, 分治 NTT'>
   <meta itemprop="name" content="[2021ICPC上海 B] Strange Permutations">
   <meta itemprop="description" content="原题链接
@@ -21,10 +22,11 @@ $(1 \le n \le 10 ^ 5, 1 \le P_i \le n)$
 对 $998244353$ 取模
 $(1 \le n \le 10 ^ 5, 1 \le P_i \le n)$
 分析：
-如果只观察式子可能看不出什么规律，我们可以把条件转化为 $n$ 个点的图，考虑把排列 $Q$ 表示为边集 ${(Q_1, Q_2),(Q_2, Q_3),\cdots,(Q_{n-1},Q_n)}$ ，那么排列 $P$ 的意思就是图中不能存在边集 ${(1,P_1),(2,P_2),\cdots,(n,P_n)}$ ，那么就等价于在一张图中选一条哈密顿路径的方案数，所以考虑对每条不存在的边集进行容斥。考虑计算选了 $i$ 个不存在的边的方案数，发现排列 $P$ 一定会成环，所以对于每个 $k$ 元环可以选择 $0 \sim k - 1$ 个不存在的边(哈密顿路径无环所以不能包含 $k$ 个不存在的边)，那么可以用生成函数 $f(k)$ 来表示 $$ f(k) = 1 &#43; \binom{k}{1}x &#43; \binom{k}{2}x ^ 2 &#43; \binom{k}{3}x ^ 3 &#43; \cdots &#43; \binom{k}{k - 1}x ^ {k - 1} $$ $x$ 项的系数 $m$ 表示 $k$ 元环中选了 $m$ 条不存在的边，那么系数显然是 $\dbinom{k}{m}$">
+$$ f(k) = 1 &#43; \binom{k}{1}x &#43; \binom{k}{2}x ^ 2 &#43; \binom{k}{3}x ^ 3 &#43; \cdots &#43; \binom{k}{k - 1}x ^ {k - 1} $$ $x$ 项的系数 $m$ 表示 $k$ 元环中选了 $m$ 条不存在的边，那么系数显然是 $\dbinom{k}{m}$
+所以只需找出排列 $P$ 的所有环及其环的大小，假设有 $t$ 个 $a_1,a_2,\cdots,a_t$ ，$a_i$ 表示第 $i$ 个环的大小。">
   <meta itemprop="datePublished" content="2022-03-26T12:58:58+00:00">
-  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
-  <meta itemprop="wordCount" content="2211">
+  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="wordCount" content="1966">
   <meta itemprop="keywords" content="容斥原理,分治 NTT"><meta property="og:url" content="https://blog.messywind.top/posts/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="[2021ICPC上海 B] Strange Permutations">
@@ -34,12 +36,13 @@ $(1 \le n \le 10 ^ 5, 1 \le P_i \le n)$
 对 $998244353$ 取模
 $(1 \le n \le 10 ^ 5, 1 \le P_i \le n)$
 分析：
-如果只观察式子可能看不出什么规律，我们可以把条件转化为 $n$ 个点的图，考虑把排列 $Q$ 表示为边集 ${(Q_1, Q_2),(Q_2, Q_3),\cdots,(Q_{n-1},Q_n)}$ ，那么排列 $P$ 的意思就是图中不能存在边集 ${(1,P_1),(2,P_2),\cdots,(n,P_n)}$ ，那么就等价于在一张图中选一条哈密顿路径的方案数，所以考虑对每条不存在的边集进行容斥。考虑计算选了 $i$ 个不存在的边的方案数，发现排列 $P$ 一定会成环，所以对于每个 $k$ 元环可以选择 $0 \sim k - 1$ 个不存在的边(哈密顿路径无环所以不能包含 $k$ 个不存在的边)，那么可以用生成函数 $f(k)$ 来表示 $$ f(k) = 1 &#43; \binom{k}{1}x &#43; \binom{k}{2}x ^ 2 &#43; \binom{k}{3}x ^ 3 &#43; \cdots &#43; \binom{k}{k - 1}x ^ {k - 1} $$ $x$ 项的系数 $m$ 表示 $k$ 元环中选了 $m$ 条不存在的边，那么系数显然是 $\dbinom{k}{m}$">
+$$ f(k) = 1 &#43; \binom{k}{1}x &#43; \binom{k}{2}x ^ 2 &#43; \binom{k}{3}x ^ 3 &#43; \cdots &#43; \binom{k}{k - 1}x ^ {k - 1} $$ $x$ 项的系数 $m$ 表示 $k$ 元环中选了 $m$ 条不存在的边，那么系数显然是 $\dbinom{k}{m}$
+所以只需找出排列 $P$ 的所有环及其环的大小，假设有 $t$ 个 $a_1,a_2,\cdots,a_t$ ，$a_i$ 表示第 $i$ 个环的大小。">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2022-03-26T12:58:58+00:00">
-    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
+    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
     <meta property="article:tag" content="容斥原理">
     <meta property="article:tag" content="分治 NTT">
 
@@ -51,7 +54,8 @@ $(1 \le n \le 10 ^ 5, 1 \le P_i \le n)$
 对 $998244353$ 取模
 $(1 \le n \le 10 ^ 5, 1 \le P_i \le n)$
 分析：
-如果只观察式子可能看不出什么规律，我们可以把条件转化为 $n$ 个点的图，考虑把排列 $Q$ 表示为边集 ${(Q_1, Q_2),(Q_2, Q_3),\cdots,(Q_{n-1},Q_n)}$ ，那么排列 $P$ 的意思就是图中不能存在边集 ${(1,P_1),(2,P_2),\cdots,(n,P_n)}$ ，那么就等价于在一张图中选一条哈密顿路径的方案数，所以考虑对每条不存在的边集进行容斥。考虑计算选了 $i$ 个不存在的边的方案数，发现排列 $P$ 一定会成环，所以对于每个 $k$ 元环可以选择 $0 \sim k - 1$ 个不存在的边(哈密顿路径无环所以不能包含 $k$ 个不存在的边)，那么可以用生成函数 $f(k)$ 来表示 $$ f(k) = 1 &#43; \binom{k}{1}x &#43; \binom{k}{2}x ^ 2 &#43; \binom{k}{3}x ^ 3 &#43; \cdots &#43; \binom{k}{k - 1}x ^ {k - 1} $$ $x$ 项的系数 $m$ 表示 $k$ 元环中选了 $m$ 条不存在的边，那么系数显然是 $\dbinom{k}{m}$">
+$$ f(k) = 1 &#43; \binom{k}{1}x &#43; \binom{k}{2}x ^ 2 &#43; \binom{k}{3}x ^ 3 &#43; \cdots &#43; \binom{k}{k - 1}x ^ {k - 1} $$ $x$ 项的系数 $m$ 表示 $k$ 元环中选了 $m$ 条不存在的边，那么系数显然是 $\dbinom{k}{m}$
+所以只需找出排列 $P$ 的所有环及其环的大小，假设有 $t$ 个 $a_1,a_2,\cdots,a_t$ ，$a_i$ 表示第 $i$ 个环的大小。">
 <meta name="application-name" content="凌乱之风的博客">
 <meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations/" title="[2021ICPC上海 B] Strange Permutations - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/cp2021ccpc-%E5%A8%81%E6%B5%B7m-810975/" title="[2021CCPC 威海M] 810975" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/math-%E8%AE%B0%E4%B8%80%E4%B8%AA%E7%BB%8F%E5%85%B8%E4%B8%8D%E7%AD%89%E5%BC%8F%E6%94%BE%E7%BC%A9/" title="记一个经典不等式放缩" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations/index.md" title="[2021ICPC上海 B] Strange Permutations - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
@@ -64,8 +68,8 @@ $(1 \le n \le 10 ^ 5, 1 \le P_i \le n)$
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations\/"
-    },"genre": "posts","keywords": "容斥原理, 分治 NTT","wordcount":  2211 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations\/","datePublished": "2022-03-26T12:58:58+00:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
+    },"genre": "posts","keywords": "容斥原理, 分治 NTT","wordcount":  1966 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations\/","datePublished": "2022-03-26T12:58:58+00:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -173,7 +177,7 @@ $(1 \le n \le 10 ^ 5, 1 \le P_i \le n)$
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[2021ICPC上海 B] Strange Permutations</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-03-26 12:58:58"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-03-26">2022-03-26</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="2211 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="[2021ICPC上海 B] Strange Permutations"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-03-26 12:58:58"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-03-26">2022-03-26</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="1966 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="[2021ICPC上海 B] Strange Permutations"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -191,21 +195,18 @@ $(1 \le n \le 10 ^ 5, 1 \le P_i \le n)$
 <p>对 $998244353$ 取模</p>
 <p>$(1 \le n \le 10 ^ 5, 1 \le P_i \le n)$</p>
 <p><strong>分析：</strong></p>
-<p>如果只观察式子可能看不出什么规律，我们可以把条件转化为 $n$ 个点的图，考虑把排列 $Q$ 表示为边集 ${(Q_1, Q_2),(Q_2, Q_3),\cdots,(Q_{n-1},Q_n)}$ ，那么排列 $P$ 的意思就是图中不能存在边集 ${(1,P_1),(2,P_2),\cdots,(n,P_n)}$ ，那么就等价于在一张图中选一条哈密顿路径的方案数，所以考虑对每条不存在的边集进行容斥。考虑计算选了 $i$ 个不存在的边的方案数，发现排列 $P$ 一定会成环，所以对于每个 $k$ 元环可以选择 $0 \sim k - 1$ 个不存在的边(哈密顿路径无环所以不能包含 $k$ 个不存在的边)，那么可以用生成函数 $f(k)$ 来表示
 $$
 f(k) = 1 + \binom{k}{1}x + \binom{k}{2}x ^ 2 + \binom{k}{3}x ^ 3 + \cdots + \binom{k}{k - 1}x ^ {k - 1}
-$$
+$$<p>
 $x$ 项的系数 $m$ 表示 $k$ 元环中选了 $m$ 条不存在的边，那么系数显然是 $\dbinom{k}{m}$</p>
 <p>所以只需找出排列 $P$ 的所有环及其环的大小，假设有 $t$ 个 $a_1,a_2,\cdots,a_t$ ，$a_i$ 表示第 $i$ 个环的大小。</p>
-<p>那么方案就是
 $$
 \prod_{i = 1} ^ {t} f(a_i)
-$$
+$$<p>
 做一次分治 $\text{NTT}$ 或启发式合并得到多项式 $F(x)$</p>
-<p>最后容斥计算答案，钦定选了 $i$ 条不存在的边其他边的数量就是 $(n - i)!$ 那么最后的答案就为
 $$
 \sum_{i = 0} ^ {n}(-1) ^ i(n - i)![x^i]F(x)
-$$
+$$<p>
 时间复杂度 $O(n\log ^2n)$</p>
 <h2 id="代码" class="heading-element"><span>代码：</span>
   <a href="#%e4%bb%a3%e7%a0%81" class="heading-mark">
@@ -916,7 +917,7 @@ $$
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
+        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

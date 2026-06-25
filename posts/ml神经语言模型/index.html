@@ -6,28 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
     <meta name="robots" content="noodp" />
     <title>神经语言模型 - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
-<meta name="description" content="NNLM (Neural Network Language Model) 1. 基础定义与前置准备 1.1 词表与词向量矩阵 语料集 $V$：对原始语料进行分词、去重后得到的词汇表（Vocabulary）。 词表大小 $|V|$：词汇表中不同单词的总数。 词向量维度 $D$：每个单词被映射到的低维稠密连续向量空间的维度（通常为百维级别）。 查找表（Look-up Table）/ 词向量矩阵 $C$： $$C \in \mathbb{R}^{|V| \times D}$$
+<meta name="description" content="NNLM (Neural Network Language Model) 1. 基础定义与前置准备 1.1 词表与词向量矩阵 语料集 $V$：对原始语料进行分词、去重后得到的词汇表（Vocabulary）。 词表大小 $|V|$：词汇表中不同单词的总数。 词向量维度 $D$：每个单词被映射到的低维稠密连续向量空间的维度（通常为百维级别）。 查找表（Look-up Table）/ 词向量矩阵 $C$： $$C \in \mathbb{R}^{|V| \times D}$$矩阵的每一行对应一个单词的语义向量（Embedding）。训练开始前，该矩阵通过随机分布（如高斯分布、均匀分布）进行随机初始化。网络的训练目的之一就是通过梯度下降来更新和维护这个矩阵。
 "><meta name="keywords" content='NNLM, Hierarchical Softmax'>
   <meta itemprop="name" content="神经语言模型">
-  <meta itemprop="description" content="NNLM (Neural Network Language Model) 1. 基础定义与前置准备 1.1 词表与词向量矩阵 语料集 $V$：对原始语料进行分词、去重后得到的词汇表（Vocabulary）。 词表大小 $|V|$：词汇表中不同单词的总数。 词向量维度 $D$：每个单词被映射到的低维稠密连续向量空间的维度（通常为百维级别）。 查找表（Look-up Table）/ 词向量矩阵 $C$： $$C \in \mathbb{R}^{|V| \times D}$$">
+  <meta itemprop="description" content="NNLM (Neural Network Language Model) 1. 基础定义与前置准备 1.1 词表与词向量矩阵 语料集 $V$：对原始语料进行分词、去重后得到的词汇表（Vocabulary）。 词表大小 $|V|$：词汇表中不同单词的总数。 词向量维度 $D$：每个单词被映射到的低维稠密连续向量空间的维度（通常为百维级别）。 查找表（Look-up Table）/ 词向量矩阵 $C$： $$C \in \mathbb{R}^{|V| \times D}$$矩阵的每一行对应一个单词的语义向量（Embedding）。训练开始前，该矩阵通过随机分布（如高斯分布、均匀分布）进行随机初始化。网络的训练目的之一就是通过梯度下降来更新和维护这个矩阵。">
   <meta itemprop="datePublished" content="2026-06-03T10:33:00+00:00">
-  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
-  <meta itemprop="wordCount" content="4377">
+  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="wordCount" content="4413">
   <meta itemprop="keywords" content="NNLM,Hierarchical Softmax"><meta property="og:url" content="https://blog.messywind.top/posts/ml%E7%A5%9E%E7%BB%8F%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="神经语言模型">
-  <meta property="og:description" content="NNLM (Neural Network Language Model) 1. 基础定义与前置准备 1.1 词表与词向量矩阵 语料集 $V$：对原始语料进行分词、去重后得到的词汇表（Vocabulary）。 词表大小 $|V|$：词汇表中不同单词的总数。 词向量维度 $D$：每个单词被映射到的低维稠密连续向量空间的维度（通常为百维级别）。 查找表（Look-up Table）/ 词向量矩阵 $C$： $$C \in \mathbb{R}^{|V| \times D}$$">
+  <meta property="og:description" content="NNLM (Neural Network Language Model) 1. 基础定义与前置准备 1.1 词表与词向量矩阵 语料集 $V$：对原始语料进行分词、去重后得到的词汇表（Vocabulary）。 词表大小 $|V|$：词汇表中不同单词的总数。 词向量维度 $D$：每个单词被映射到的低维稠密连续向量空间的维度（通常为百维级别）。 查找表（Look-up Table）/ 词向量矩阵 $C$： $$C \in \mathbb{R}^{|V| \times D}$$矩阵的每一行对应一个单词的语义向量（Embedding）。训练开始前，该矩阵通过随机分布（如高斯分布、均匀分布）进行随机初始化。网络的训练目的之一就是通过梯度下降来更新和维护这个矩阵。">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2026-06-03T10:33:00+00:00">
-    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
+    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
     <meta property="article:tag" content="NNLM">
     <meta property="article:tag" content="Hierarchical Softmax">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="神经语言模型">
-  <meta name="twitter:description" content="NNLM (Neural Network Language Model) 1. 基础定义与前置准备 1.1 词表与词向量矩阵 语料集 $V$：对原始语料进行分词、去重后得到的词汇表（Vocabulary）。 词表大小 $|V|$：词汇表中不同单词的总数。 词向量维度 $D$：每个单词被映射到的低维稠密连续向量空间的维度（通常为百维级别）。 查找表（Look-up Table）/ 词向量矩阵 $C$： $$C \in \mathbb{R}^{|V| \times D}$$">
+  <meta name="twitter:description" content="NNLM (Neural Network Language Model) 1. 基础定义与前置准备 1.1 词表与词向量矩阵 语料集 $V$：对原始语料进行分词、去重后得到的词汇表（Vocabulary）。 词表大小 $|V|$：词汇表中不同单词的总数。 词向量维度 $D$：每个单词被映射到的低维稠密连续向量空间的维度（通常为百维级别）。 查找表（Look-up Table）/ 词向量矩阵 $C$： $$C \in \mathbb{R}^{|V| \times D}$$矩阵的每一行对应一个单词的语义向量（Embedding）。训练开始前，该矩阵通过随机分布（如高斯分布、均匀分布）进行随机初始化。网络的训练目的之一就是通过梯度下降来更新和维护这个矩阵。">
 <meta name="application-name" content="凌乱之风的博客">
 <meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/ml%E7%A5%9E%E7%BB%8F%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" title="神经语言模型 - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/ml%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/" title="统计语言模型" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/ml%E7%AC%AC%E4%B8%80%E4%BB%A3%E9%A2%84%E8%AE%AD%E7%BB%83%E8%AF%8D%E5%90%91%E9%87%8F%E6%8A%80%E6%9C%AF/" title="Word2Vec (CBOW/Skip-gram) 与 GloVe" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/ml%E7%A5%9E%E7%BB%8F%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/index.md" title="神经语言模型 - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
@@ -40,8 +40,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/ml%E7%A5%9E%E7%BB%8F%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B\/"
-    },"genre": "posts","keywords": "NNLM, Hierarchical Softmax","wordcount":  4377 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/ml%E7%A5%9E%E7%BB%8F%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B\/","datePublished": "2026-06-03T10:33:00+00:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
+    },"genre": "posts","keywords": "NNLM, Hierarchical Softmax","wordcount":  4413 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/ml%E7%A5%9E%E7%BB%8F%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B\/","datePublished": "2026-06-03T10:33:00+00:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -149,7 +149,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>神经语言模型</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-03 10:33:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-03">2026-06-03</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="4377 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 9 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="神经语言模型"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-03 10:33:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-03">2026-06-03</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="4413 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 9 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="神经语言模型"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -234,8 +234,7 @@
 <li><strong>词向量维度 $D$</strong>：每个单词被映射到的低维稠密连续向量空间的维度（通常为百维级别）。</li>
 <li><strong>查找表（Look-up Table）/ 词向量矩阵 $C$</strong>：</li>
 </ul>
-<p>$$C \in \mathbb{R}^{|V| \times D}$$</p>
-<p>矩阵的每一行对应一个单词的语义向量（Embedding）。训练开始前，该矩阵通过随机分布（如高斯分布、均匀分布）进行<strong>随机初始化</strong>。网络的训练目的之一就是通过梯度下降来更新和维护这个矩阵。</p>
+$$C \in \mathbb{R}^{|V| \times D}$$<p>矩阵的每一行对应一个单词的语义向量（Embedding）。训练开始前，该矩阵通过随机分布（如高斯分布、均匀分布）进行<strong>随机初始化</strong>。网络的训练目的之一就是通过梯度下降来更新和维护这个矩阵。</p>
 <h3 id="12-输入定义" class="heading-element"><span>1.2 输入定义</span>
   <a href="#12-%e8%be%93%e5%85%a5%e5%ae%9a%e4%b9%89" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -252,26 +251,22 @@
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>采用大小为 $n$ 的滑动窗口沿语料序列向右移动。当窗口停留在当前目标词 $w_t$ 时，提取其左侧的 $n-1$ 个历史上下文词：</p>
-<p>$$\text{Context} = (w_{t-n+1}, \dots, w_{t-2}, w_{t-1})$$</p>
-<h3 id="step-2-词向量查表与拼接-embedding-layer" class="heading-element"><span>Step 2: 词向量查表与拼接 (Embedding Layer)</span>
+$$\text{Context} = (w_{t-n+1}, \dots, w_{t-2}, w_{t-1})$$<h3 id="step-2-词向量查表与拼接-embedding-layer" class="heading-element"><span>Step 2: 词向量查表与拼接 (Embedding Layer)</span>
   <a href="#step-2-%e8%af%8d%e5%90%91%e9%87%8f%e6%9f%a5%e8%a1%a8%e4%b8%8e%e6%8b%bc%e6%8e%a5-embedding-layer" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><ol>
 <li><strong>查表</strong>：通过独热编码（One-hot）乘以矩阵 $C$，或者直接根据词索引，从矩阵 $C$ 中取出这 $n-1$ 个词对应的 $D$ 维向量：</li>
 </ol>
-<p>$$x_i = C(w_i) \in \mathbb{R}^{1 \times D}, \quad \text{where } i \in [t-n+1, t-1]$$</p>
-<ol start="2">
+$$x_i = C(w_i) \in \mathbb{R}^{1 \times D}, \quad \text{where } i \in [t-n+1, t-1]$$<ol start="2">
 <li><strong>拼接（Concatenation）</strong>：将这 $n-1$ 个一维向量按顺序首尾拼接，形成一个长的一维特征向量 $X$：</li>
 </ol>
-<p>$$X = [x_{t-n+1} ;|; \dots ;|; x_{t-2} ;|; x_{t-1}] \in \mathbb{R}^{1 \times (n-1)D}$$</p>
-<h3 id="step-3-隐层非线性变换-hidden-layer" class="heading-element"><span>Step 3: 隐层非线性变换 (Hidden Layer)</span>
+$$X = [x_{t-n+1} \;\|\; \dots \;\|\; x_{t-2} \;\|\; x_{t-1}] \in \mathbb{R}^{1 \times (n-1)D}$$<h3 id="step-3-隐层非线性变换-hidden-layer" class="heading-element"><span>Step 3: 隐层非线性变换 (Hidden Layer)</span>
   <a href="#step-3-%e9%9a%90%e5%b1%82%e9%9d%9e%e7%ba%bf%e6%80%a7%e5%8f%98%e6%8d%a2-hidden-layer" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>将拼接后的长向量 $X$ 送入隐藏层。隐藏层通过激活函数（如 $\tanh$）进行非线性映射：</p>
-<p>$$H = \tanh(X \cdot W_{hx} + b_h)$$</p>
-<p>其中：</p>
+$$H = \tanh(X \cdot W_{hx} + b_h)$$<p>其中：</p>
 <ul>
 <li>$W_{hx} \in \mathbb{R}^{(n-1)D \times H_{dim}}$ 是输入层到隐层的权重矩阵（$H_{dim}$ 为隐层神经元个数）。</li>
 <li>$b_h \in \mathbb{R}^{1 \times H_{dim}}$ 是隐层偏置。</li>
@@ -281,19 +276,16 @@
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>计算未归一化的得分（Logits）$Y$，并映射回词表空间 $|V|$：</p>
-<p>$$Y = H \cdot W_{yh} + X \cdot W_{yx} + b_y$$</p>
-<blockquote>
+$$Y = H \cdot W_{yh} + X \cdot W_{yx} + b_y$$<blockquote>
 <p><strong>注</strong>：经典 NNLM（如 Bengio 2003）中包含一条从输入层直连到输出层的线性边权重 $W_{yx} \in \mathbb{R}^{(n-1)D \times |V|}$（可选，有时为减少参数可舍弃）。$W_{yh} \in \mathbb{R}^{H_{dim} \times |V|}$ 为隐层到输出层的权重。</p>
 </blockquote>
 <p>通过 $\text{Softmax}$ 函数计算词表 $|V|$ 上每一个词的条件概率分布：</p>
-<p>$$P(w_t \mid w_{t-n+1}^{t-1}) = \text{Softmax}(Y) = \frac{\exp(Y[w_t])}{\sum_{j=1}^{|V|} \exp(Y[j])}$$</p>
-<h3 id="step-5-损失计算与反向传播-loss--backpropagation" class="heading-element"><span>Step 5: 损失计算与反向传播 (Loss &amp; Backpropagation)</span>
+$$P(w_t \mid w_{t-n+1}^{t-1}) = \text{Softmax}(Y) = \frac{\exp(Y[w_t])}{\sum_{j=1}^{|V|} \exp(Y[j])}$$<h3 id="step-5-损失计算与反向传播-loss--backpropagation" class="heading-element"><span>Step 5: 损失计算与反向传播 (Loss &amp; Backpropagation)</span>
   <a href="#step-5-%e6%8d%9f%e5%a4%b1%e8%ae%a1%e7%ae%97%e4%b8%8e%e5%8f%8d%e5%90%91%e4%bc%a0%e6%92%ad-loss--backpropagation" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>使用交叉熵损失（Cross-Entropy Loss）计算预测分布与真实当前词 $w_t$（其 One-hot 标签为 $y$）之间的差距：</p>
-<p>$$\mathcal{L} = -\sum_{j=1}^{|V|} y_j \log P(j) = -\log P(w_t \mid w_{t-n+1}^{t-1})$$</p>
-<p>通过梯度下降（SGD / Adam）算法，将误差反向传播，不仅更新网络参数 $W_{hx}, b_h, W_{yh}, b_y$，同时关键性地更新和维护词向量矩阵 $C$。</p>
+$$\mathcal{L} = -\sum_{j=1}^{|V|} y_j \log P(j) = -\log P(w_t \mid w_{t-n+1}^{t-1})$$<p>通过梯度下降（SGD / Adam）算法，将误差反向传播，不仅更新网络参数 $W_{hx}, b_h, W_{yh}, b_y$，同时关键性地更新和维护词向量矩阵 $C$。</p>
 <hr>
 <h2 id="3-推理阶段-inference-phase---自回归生成" class="heading-element"><span>3. 推理阶段 (Inference Phase - 自回归生成)</span>
   <a href="#3-%e6%8e%a8%e7%90%86%e9%98%b6%e6%ae%b5-inference-phase---%e8%87%aa%e5%9b%9e%e5%bd%92%e7%94%9f%e6%88%90" class="heading-mark">
@@ -314,8 +306,7 @@
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>与训练时一致，将这 $n-1$ 个词通过词向量矩阵 $C$ 查表、拼接成 $(n-1) \times D$ 维长向量，经过隐藏层变换，最终在输出层通过 $\text{Softmax}$ 得到一个全词表 $|V|$ 的概率分布：</p>
-<p>$$\hat{P} = \text{Softmax}(Y) \in \mathbb{R}^{|V|}$$</p>
-<h3 id="step-3-采样策略-sampling-strategy" class="heading-element"><span>Step 3: 采样策略 (Sampling Strategy)</span>
+$$\hat{P} = \text{Softmax}(Y) \in \mathbb{R}^{|V|}$$<h3 id="step-3-采样策略-sampling-strategy" class="heading-element"><span>Step 3: 采样策略 (Sampling Strategy)</span>
   <a href="#step-3-%e9%87%87%e6%a0%b7%e7%ad%96%e7%95%a5-sampling-strategy" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -330,8 +321,7 @@
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>将采样得到的词 $w_t^*$ 拼接回已生成的序列末尾，更新当前序列：</p>
-<p>$$\text{New Sequence} = (\dots, w_{t-1}, w_t^*)$$</p>
-<p>滚动滑动窗口，将 $w_t^*$ 作为下一步的上下文历史之一，重复上述 <strong>Step 1 ~ Step 3</strong>，直至触发终止符 <code>[EOS]</code> 或达到最大生成长度。</p>
+$$\text{New Sequence} = (\dots, w_{t-1}, w_t^*)$$<p>滚动滑动窗口，将 $w_t^*$ 作为下一步的上下文历史之一，重复上述 <strong>Step 1 ~ Step 3</strong>，直至触发终止符 <code>[EOS]</code> 或达到最大生成长度。</p>
 <h2 id="4如果神经语言模型的词表-v-很大如何加速训练避免直接用-softmax" class="heading-element"><span>4.如果神经语言模型的词表 V 很大，如何加速训练，避免直接用 softmax？</span>
   <a href="#4%e5%a6%82%e6%9e%9c%e7%a5%9e%e7%bb%8f%e8%af%ad%e8%a8%80%e6%a8%a1%e5%9e%8b%e7%9a%84%e8%af%8d%e8%a1%a8-v-%e5%be%88%e5%a4%a7%e5%a6%82%e4%bd%95%e5%8a%a0%e9%80%9f%e8%ae%ad%e7%bb%83%e9%81%bf%e5%85%8d%e7%9b%b4%e6%8e%a5%e7%94%a8-softmax" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -351,10 +341,9 @@
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h4><p>引入 $\text{Sigmoid}$ 函数 $\sigma(s) = \frac{1}{1 + \exp(-s)}$ 评估两个词是否具有真实的上下文关系。对于当前上下文特征向量 $\boldsymbol{x}$、正样本 $\boldsymbol{w}$ 以及 $k$ 个负样本 $\tilde{\boldsymbol{w}}_i$，其优化损失函数（Loss）为：</p>
-<p>$$
-\mathrm{Loss}_{\mathrm{NEG}} = -\ln\sigma(x^\top v _w) - \sum_{i=1}^{k} \ln\sigma(- x^\top v_{\tilde{w}_i})
-$$</p>
-<ul>
+$$
+\mathrm{Loss}\_{\mathrm{NEG}} = -\ln\sigma(x^\top v \_w) - \sum\_{i=1}^{k} \ln\sigma(- x^\top v\_{\tilde{w}\_i})
+$$<ul>
 <li><strong>前项</strong>：拉近正样本与上下文的距离，使其内积增大。</li>
 <li><strong>后项</strong>：利用 $\sigma(-s) = 1 - \sigma(s)$，推远负样本与上下文的距离。</li>
 </ul>
@@ -363,8 +352,7 @@ $$</p>
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h4><p>负样本盲抽采用基于词频的幂函数惩罚公式，以适度提升低频词被抽中的概率，压低超高频词的统治地位：</p>
-<p>$$P(w_i) = \frac{U(w_i)^{\frac{3}{4}}}{\sum_{j=1}^{|V|} U(j)^{\frac{3}{4}}}$$</p>
-<hr>
+$$P(w_i) = \frac{U(w_i)^{\frac{3}{4}}}{\sum_{j=1}^{|V|} U(j)^{\frac{3}{4}}}$$<hr>
 <h3 id="二-层级-softmax-hierarchical-softmax-hs" class="heading-element"><span>二、 层级 Softmax (Hierarchical Softmax, HS)</span>
   <a href="#%e4%ba%8c-%e5%b1%82%e7%ba%a7-softmax-hierarchical-softmax-hs" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -400,8 +388,7 @@ $$</p>
 <li>每到一个路径指定的内部节点 $n(w, j)$，向量 $x$ 便与该节点的守卫参数 $\theta_{n(w, j)}$ 进行点乘内积，并通过 $\text{Sigmoid}$ 算出朝正确方向走的条件概率。</li>
 <li>将一路上所有正确抉择的条件概率进行<strong>链式连乘</strong>，即得到产生该目标词的全局绝对概率：</li>
 </ol>
-<p>$$P(w \mid \text{Context}) = \prod_{j=1}^{L(w)-1} \sigma\left( \text{sign}(w, j) \cdot x^T \theta_{n(w, j)} \right)$$</p>
-<h5 id="-局部参数更新" class="heading-element"><span>③ 局部参数更新</span>
+$$P(w \mid \text{Context}) = \prod_{j=1}^{L(w)-1} \sigma\left( \text{sign}(w, j) \cdot x^T \theta_{n(w, j)} \right)$$<h5 id="-局部参数更新" class="heading-element"><span>③ 局部参数更新</span>
   <a href="#-%e5%b1%80%e9%83%a8%e5%8f%82%e6%95%b0%e6%9b%b4%e6%96%b0" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -472,7 +459,7 @@ Beam Search 采取的是<strong>动态前置防御剪枝</strong>。在第一层
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
+        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/ml%E7%A5%9E%E7%BB%8F%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

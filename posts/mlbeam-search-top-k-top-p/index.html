@@ -11,8 +11,8 @@
   <meta itemprop="name" content="Beam Search & Top-K & Top-P">
   <meta itemprop="description" content="💡 深度学习笔记：大语言模型（LLM）解码策略对比 在自回归（Autoregressive）语言模型中，文本生成本质上是在给定的上下文 $X$ 下，通过链式法则最大化目标序列 $Y = (y_1, y_2, \dots, y_T)$ 的联合条件概率：">
   <meta itemprop="datePublished" content="2026-06-09T16:30:00+00:00">
-  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
-  <meta itemprop="wordCount" content="1770">
+  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="wordCount" content="1773">
   <meta itemprop="keywords" content="Beam Search,Top-K,Top-P"><meta property="og:url" content="https://blog.messywind.top/posts/mlbeam-search-top-k-top-p/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="Beam Search & Top-K & Top-P">
@@ -21,7 +21,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2026-06-09T16:30:00+00:00">
-    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
+    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
     <meta property="article:tag" content="Beam Search">
     <meta property="article:tag" content="Top-K">
     <meta property="article:tag" content="Top-P">
@@ -41,8 +41,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/mlbeam-search-top-k-top-p\/"
-    },"genre": "posts","keywords": "Beam Search, Top-K, Top-P","wordcount":  1770 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/mlbeam-search-top-k-top-p\/","datePublished": "2026-06-09T16:30:00+00:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
+    },"genre": "posts","keywords": "Beam Search, Top-K, Top-P","wordcount":  1773 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlbeam-search-top-k-top-p\/","datePublished": "2026-06-09T16:30:00+00:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -150,7 +150,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Beam Search &amp; Top-K &amp; Top-P</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-09 16:30:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-09">2026-06-09</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="1770 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="Beam Search &amp; Top-K &amp; Top-P"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-09 16:30:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-09">2026-06-09</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="1773 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="Beam Search &amp; Top-K &amp; Top-P"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -185,8 +185,7 @@
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h2><p>在自回归（Autoregressive）语言模型中，文本生成本质上是在给定的上下文 $X$ 下，通过链式法则最大化目标序列 $Y = (y_1, y_2, \dots, y_T)$ 的联合条件概率：</p>
-<p>$$P(Y \mid X) = \prod_{t=1}^{T} P(y_t \mid y_{1:t-1}, X)$$</p>
-<p>由于全词表搜索空间为 $\mathcal{O}(|V|^T)$，精确求解全局最优解是 NP-Hard 的。因此，工业界提出了不同的解码策略（Decoding Strategies）来进行近似求解或引入随机性。主要分为两大阵营：<strong>确定性搜索（Deterministic Search）<strong>与</strong>随机采样（Stochastic Sampling）</strong>。</p>
+$$P(Y \mid X) = \prod_{t=1}^{T} P(y_t \mid y_{1:t-1}, X)$$<p>由于全词表搜索空间为 $\mathcal{O}(|V|^T)$，精确求解全局最优解是 NP-Hard 的。因此，工业界提出了不同的解码策略（Decoding Strategies）来进行近似求解或引入随机性。主要分为两大阵营：<strong>确定性搜索（Deterministic Search）<strong>与</strong>随机采样（Stochastic Sampling）</strong>。</p>
 <hr>
 <h2 id="一-beam-search-束搜索" class="heading-element"><span>一、 Beam Search (束搜索)</span>
   <a href="#%e4%b8%80-beam-search-%e6%9d%9f%e6%90%9c%e7%b4%a2" class="heading-mark">
@@ -200,8 +199,7 @@
   </a>
 </h3><p>在时间步 $t$ 生成时，模型不保留所有的扩展序列，而是始终在搜索树中保留累计对数概率（Log-Probability）最高的 $k$ 个候选序列（$k$ 称为<strong>束宽 Beam Width</strong>）。
 对于候选集合中的每一个序列，模型计算下一步的所有可能扩展，并在 $k \times |V|$ 个新组合中再次截断出 Top $k$ 个序列，作为下一步的候选集。其优化目标近似为：</p>
-<p>$$\hat{Y} \approx \arg\max_{Y} \sum_{t=1}^{T} \log P(y_t \mid y_{1:t-1}, X)$$</p>
-<h3 id="2-特性评估" class="heading-element"><span>2. 特性评估</span>
+$$\hat{Y} \approx \arg\max_{Y} \sum_{t=1}^{T} \log P(y_t \mid y_{1:t-1}, X)$$<h3 id="2-特性评估" class="heading-element"><span>2. 特性评估</span>
   <a href="#2-%e7%89%b9%e6%80%a7%e8%af%84%e4%bc%b0" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -223,8 +221,7 @@
   </a>
 </h3><p>在时间步 $t$ 预测下一个词时，将当前词表 $V$ 中预测概率最高的 $K$ 个词构成候选子集 $V^{(K)}$。将不在此子集内的词汇概率强制置零，并在 $V^{(K)}$ 内部重新归一化（Renormalize）概率质量（Probability Mass），随后进行依概率采样。</p>
 <p>重加权后的概率分布公式为：</p>
-<p>$$P&rsquo;(y_t \mid y_{1:t-1}) = \begin{cases} \frac{P(y_t \mid y_{1:t-1})}{\sum_{w \in V^{(K)}} P(w \mid y_{1:t-1})} &amp; \text{if } y_t \in V^{(K)} \ 0 &amp; \text{otherwise} \end{cases}$$</p>
-<h3 id="2-特性评估-1" class="heading-element"><span>2. 特性评估</span>
+$$P'(y_t \mid y_{1:t-1}) = \begin{cases} \frac{P(y_t \mid y_{1:t-1})}{\sum_{w \in V^{(K)}} P(w \mid y_{1:t-1})} & \text{if } y_t \in V^{(K)} \\ 0 & \text{otherwise} \end{cases}$$<h3 id="2-特性评估-1" class="heading-element"><span>2. 特性评估</span>
   <a href="#2-%e7%89%b9%e6%80%a7%e8%af%84%e4%bc%b0-1" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -244,8 +241,7 @@
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>模型将词表按预测概率从大到小排序，并选择使得<strong>累积概率质量刚好超过预设阈值 $p$</strong>（例如 $p=0.9$）的最小词汇集合 $V^{(p)}$。即寻找最小的子集 $V^{(p)} \subset V$，满足：</p>
-<p>$$\sum_{w \in V^{(p)}} P(w \mid y_{1:t-1}) \ge p$$</p>
-<p>随后，将概率分布在动态候选集 $V^{(p)}$ 内重新归一化并进行抽样。公式同 Top-K，只是分母换成了 $V^{(p)}$ 的概率和。</p>
+$$\sum_{w \in V^{(p)}} P(w \mid y_{1:t-1}) \ge p$$<p>随后，将概率分布在动态候选集 $V^{(p)}$ 内重新归一化并进行抽样。公式同 Top-K，只是分母换成了 $V^{(p)}$ 的概率和。</p>
 <h3 id="2-特性评估-2" class="heading-element"><span>2. 特性评估</span>
   <a href="#2-%e7%89%b9%e6%80%a7%e8%af%84%e4%bc%b0-2" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -265,8 +261,7 @@
 <li><strong>Temperature 缩放</strong>：
 在 Softmax 前改变 Logits 的分布形态。$T &gt; 1$ 使分布更平滑（增加随机性），$T &lt; 1$ 使分布更尖锐（增加确定性）。</li>
 </ol>
-<p>$$P(y_i) = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)}$$</p>
-<ol start="2">
+$$P(y_i) = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)}$$<ol start="2">
 <li><strong>Top-K 截断</strong>：应用超参数 $K$（通常设为 40-50）做一次粗筛，砍掉绝对的长尾垃圾词。</li>
 <li><strong>Top-P 截断</strong>：在 Top-K 粗筛的基础上，应用超参数 $p$（通常设为 0.8-0.95）做动态精筛。</li>
 <li><strong>最终采样</strong>：在经过双重截断并重新归一化的分布上执行依概率抽样。</li>
@@ -275,7 +270,7 @@
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
+        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/mlbeam-search-top-k-top-p/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

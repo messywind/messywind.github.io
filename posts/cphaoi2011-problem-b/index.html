@@ -7,114 +7,42 @@
     <meta name="robots" content="noodp" />
     <title>[HAOI2011] Problem B - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
 <meta name="description" content="题意： 求
-$$\sum_{i=a}^{b}\sum_{j=c}^{d}[\gcd(i,j)=k]$$
-分析：
+$$\sum_{i=a}^{b}\sum_{j=c}^{d}[\gcd(i,j)=k]$$分析：
 用二维前缀和的思想，把答案分为$4$个部分
-$$令S(x,y)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=k]$$
-则
-$$\sum_{i=a}^{b}\sum_{j=b}^{d}[\gcd(i,j)=k]=S(b,d)-S(a-1,d)-S(b,c-1)&#43;S(a-1,c-1)$$
-问题转化为求 $S(x,y)$
-构造
-$$f(n)=\sum_{i=1}^{x}\sum_{j=1}^{y}[n|\gcd(i,j)]$$
-$$g(n)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=n]$$
-可以发现
-$$f(n)=\sum_{n \mid d}g(d)$$
-所以就可以莫比乌斯反演
-$$g(n)=\sum_{n \mid d}\mu(\frac{d}{n})f(d)$$
-$$\because d\mid\gcd(i,j),\therefore d\mid i,d \mid j$$
-$$\therefore f(d)=\lfloor\frac{x}{d}\rfloor\lfloor\frac{y}{d}\rfloor$$
-$$g(n)=\sum_{n \mid d}\mu(\frac{d}{n})\lfloor\frac{x}{d}\rfloor\lfloor\frac{y}{d}\rfloor$$
-设
-$$t=\frac{d}{n},d=nt$$
-则
-$$g(n)=\sum_{t=1}^{\min(x,y)}\mu(t)\lfloor\frac{x}{nt}\rfloor\lfloor\frac{y}{nt}\rfloor$$
-所以只需要求 $g(k)$，可以枚举 $t$，用整除分块，加上筛莫比乌斯函数前缀和，时间复杂度 $O(N&#43;T\sqrt n)$
+$$令S(x,y)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=k]$$则
+$$\sum_{i=a}^{b}\sum_{j=b}^{d}[\gcd(i,j)=k]=S(b,d)-S(a-1,d)-S(b,c-1)&#43;S(a-1,c-1)$$问题转化为求 $S(x,y)$
 "><meta name="keywords" content='莫比乌斯反演'>
   <meta itemprop="name" content="[HAOI2011] problem b">
   <meta itemprop="description" content="题意： 求
-$$\sum_{i=a}^{b}\sum_{j=c}^{d}[\gcd(i,j)=k]$$
-分析：
+$$\sum_{i=a}^{b}\sum_{j=c}^{d}[\gcd(i,j)=k]$$分析：
 用二维前缀和的思想，把答案分为$4$个部分
-$$令S(x,y)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=k]$$
-则
-$$\sum_{i=a}^{b}\sum_{j=b}^{d}[\gcd(i,j)=k]=S(b,d)-S(a-1,d)-S(b,c-1)&#43;S(a-1,c-1)$$
-问题转化为求 $S(x,y)$
-构造
-$$f(n)=\sum_{i=1}^{x}\sum_{j=1}^{y}[n|\gcd(i,j)]$$
-$$g(n)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=n]$$
-可以发现
-$$f(n)=\sum_{n \mid d}g(d)$$
-所以就可以莫比乌斯反演
-$$g(n)=\sum_{n \mid d}\mu(\frac{d}{n})f(d)$$
-$$\because d\mid\gcd(i,j),\therefore d\mid i,d \mid j$$
-$$\therefore f(d)=\lfloor\frac{x}{d}\rfloor\lfloor\frac{y}{d}\rfloor$$
-$$g(n)=\sum_{n \mid d}\mu(\frac{d}{n})\lfloor\frac{x}{d}\rfloor\lfloor\frac{y}{d}\rfloor$$
-设
-$$t=\frac{d}{n},d=nt$$
-则
-$$g(n)=\sum_{t=1}^{\min(x,y)}\mu(t)\lfloor\frac{x}{nt}\rfloor\lfloor\frac{y}{nt}\rfloor$$
-所以只需要求 $g(k)$，可以枚举 $t$，用整除分块，加上筛莫比乌斯函数前缀和，时间复杂度 $O(N&#43;T\sqrt n)$">
+$$令S(x,y)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=k]$$则
+$$\sum_{i=a}^{b}\sum_{j=b}^{d}[\gcd(i,j)=k]=S(b,d)-S(a-1,d)-S(b,c-1)&#43;S(a-1,c-1)$$问题转化为求 $S(x,y)$">
   <meta itemprop="datePublished" content="2021-07-22T17:31:51+00:00">
-  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
-  <meta itemprop="wordCount" content="442">
+  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="wordCount" content="846">
   <meta itemprop="keywords" content="莫比乌斯反演"><meta property="og:url" content="https://blog.messywind.top/posts/cphaoi2011-problem-b/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="[HAOI2011] problem b">
   <meta property="og:description" content="题意： 求
-$$\sum_{i=a}^{b}\sum_{j=c}^{d}[\gcd(i,j)=k]$$
-分析：
+$$\sum_{i=a}^{b}\sum_{j=c}^{d}[\gcd(i,j)=k]$$分析：
 用二维前缀和的思想，把答案分为$4$个部分
-$$令S(x,y)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=k]$$
-则
-$$\sum_{i=a}^{b}\sum_{j=b}^{d}[\gcd(i,j)=k]=S(b,d)-S(a-1,d)-S(b,c-1)&#43;S(a-1,c-1)$$
-问题转化为求 $S(x,y)$
-构造
-$$f(n)=\sum_{i=1}^{x}\sum_{j=1}^{y}[n|\gcd(i,j)]$$
-$$g(n)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=n]$$
-可以发现
-$$f(n)=\sum_{n \mid d}g(d)$$
-所以就可以莫比乌斯反演
-$$g(n)=\sum_{n \mid d}\mu(\frac{d}{n})f(d)$$
-$$\because d\mid\gcd(i,j),\therefore d\mid i,d \mid j$$
-$$\therefore f(d)=\lfloor\frac{x}{d}\rfloor\lfloor\frac{y}{d}\rfloor$$
-$$g(n)=\sum_{n \mid d}\mu(\frac{d}{n})\lfloor\frac{x}{d}\rfloor\lfloor\frac{y}{d}\rfloor$$
-设
-$$t=\frac{d}{n},d=nt$$
-则
-$$g(n)=\sum_{t=1}^{\min(x,y)}\mu(t)\lfloor\frac{x}{nt}\rfloor\lfloor\frac{y}{nt}\rfloor$$
-所以只需要求 $g(k)$，可以枚举 $t$，用整除分块，加上筛莫比乌斯函数前缀和，时间复杂度 $O(N&#43;T\sqrt n)$">
+$$令S(x,y)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=k]$$则
+$$\sum_{i=a}^{b}\sum_{j=b}^{d}[\gcd(i,j)=k]=S(b,d)-S(a-1,d)-S(b,c-1)&#43;S(a-1,c-1)$$问题转化为求 $S(x,y)$">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2021-07-22T17:31:51+00:00">
-    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
+    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
     <meta property="article:tag" content="莫比乌斯反演">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="[HAOI2011] problem b">
   <meta name="twitter:description" content="题意： 求
-$$\sum_{i=a}^{b}\sum_{j=c}^{d}[\gcd(i,j)=k]$$
-分析：
+$$\sum_{i=a}^{b}\sum_{j=c}^{d}[\gcd(i,j)=k]$$分析：
 用二维前缀和的思想，把答案分为$4$个部分
-$$令S(x,y)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=k]$$
-则
-$$\sum_{i=a}^{b}\sum_{j=b}^{d}[\gcd(i,j)=k]=S(b,d)-S(a-1,d)-S(b,c-1)&#43;S(a-1,c-1)$$
-问题转化为求 $S(x,y)$
-构造
-$$f(n)=\sum_{i=1}^{x}\sum_{j=1}^{y}[n|\gcd(i,j)]$$
-$$g(n)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=n]$$
-可以发现
-$$f(n)=\sum_{n \mid d}g(d)$$
-所以就可以莫比乌斯反演
-$$g(n)=\sum_{n \mid d}\mu(\frac{d}{n})f(d)$$
-$$\because d\mid\gcd(i,j),\therefore d\mid i,d \mid j$$
-$$\therefore f(d)=\lfloor\frac{x}{d}\rfloor\lfloor\frac{y}{d}\rfloor$$
-$$g(n)=\sum_{n \mid d}\mu(\frac{d}{n})\lfloor\frac{x}{d}\rfloor\lfloor\frac{y}{d}\rfloor$$
-设
-$$t=\frac{d}{n},d=nt$$
-则
-$$g(n)=\sum_{t=1}^{\min(x,y)}\mu(t)\lfloor\frac{x}{nt}\rfloor\lfloor\frac{y}{nt}\rfloor$$
-所以只需要求 $g(k)$，可以枚举 $t$，用整除分块，加上筛莫比乌斯函数前缀和，时间复杂度 $O(N&#43;T\sqrt n)$">
+$$令S(x,y)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=k]$$则
+$$\sum_{i=a}^{b}\sum_{j=b}^{d}[\gcd(i,j)=k]=S(b,d)-S(a-1,d)-S(b,c-1)&#43;S(a-1,c-1)$$问题转化为求 $S(x,y)$">
 <meta name="application-name" content="凌乱之风的博客">
 <meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/cphaoi2011-problem-b/" title="[HAOI2011] problem b - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/cp%E8%8E%AB%E6%AF%94%E4%B9%8C%E6%96%AF%E5%8F%8D%E6%BC%94/" title="莫比乌斯反演" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/cpsdoi2015-%E7%BA%A6%E6%95%B0%E4%B8%AA%E6%95%B0%E5%92%8C/" title="[SDOI2015] 约数个数和" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/cphaoi2011-problem-b/index.md" title="[HAOI2011] problem b - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
@@ -127,8 +55,8 @@ $$g(n)=\sum_{t=1}^{\min(x,y)}\mu(t)\lfloor\frac{x}{nt}\rfloor\lfloor\frac{y}{nt}
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/cphaoi2011-problem-b\/"
-    },"genre": "posts","keywords": "莫比乌斯反演","wordcount":  442 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/cphaoi2011-problem-b\/","datePublished": "2021-07-22T17:31:51+00:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
+    },"genre": "posts","keywords": "莫比乌斯反演","wordcount":  846 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/cphaoi2011-problem-b\/","datePublished": "2021-07-22T17:31:51+00:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -236,7 +164,7 @@ $$g(n)=\sum_{t=1}^{\min(x,y)}\mu(t)\lfloor\frac{x}{nt}\rfloor\lfloor\frac{y}{nt}
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[HAOI2011] Problem B</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2021-07-22 17:31:51"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-07-22">2021-07-22</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="442 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 500 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 1 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="[HAOI2011] Problem B"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2021-07-22 17:31:51"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2021-07-22">2021-07-22</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="846 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 2 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="[HAOI2011] Problem B"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -250,28 +178,16 @@ $$g(n)=\sum_{t=1}^{\min(x,y)}\mu(t)\lfloor\frac{x}{nt}\rfloor\lfloor\frac{y}{nt}
 </nav></div>
       </div><div class="content" id="content"><p><strong>题意：</strong>
 求</p>
-<p>$$\sum_{i=a}^{b}\sum_{j=c}^{d}[\gcd(i,j)=k]$$</p>
-<p><strong>分析：</strong></p>
+$$\sum_{i=a}^{b}\sum_{j=c}^{d}[\gcd(i,j)=k]$$<p><strong>分析：</strong></p>
 <p>用二维前缀和的思想，把答案分为$4$个部分</p>
-<p>$$令S(x,y)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=k]$$</p>
-<p>则</p>
-<p>$$\sum_{i=a}^{b}\sum_{j=b}^{d}[\gcd(i,j)=k]=S(b,d)-S(a-1,d)-S(b,c-1)+S(a-1,c-1)$$</p>
-<p>问题转化为求 $S(x,y)$</p>
+$$令S(x,y)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=k]$$<p>则</p>
+$$\sum_{i=a}^{b}\sum_{j=b}^{d}[\gcd(i,j)=k]=S(b,d)-S(a-1,d)-S(b,c-1)+S(a-1,c-1)$$<p>问题转化为求 $S(x,y)$</p>
 <p>构造</p>
-<p>$$f(n)=\sum_{i=1}^{x}\sum_{j=1}^{y}[n|\gcd(i,j)]$$</p>
-<p>$$g(n)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=n]$$</p>
-<p>可以发现</p>
-<p>$$f(n)=\sum_{n \mid d}g(d)$$</p>
-<p>所以就可以莫比乌斯反演</p>
-<p>$$g(n)=\sum_{n \mid d}\mu(\frac{d}{n})f(d)$$</p>
-<p>$$\because d\mid\gcd(i,j),\therefore d\mid i,d \mid j$$</p>
-<p>$$\therefore f(d)=\lfloor\frac{x}{d}\rfloor\lfloor\frac{y}{d}\rfloor$$</p>
-<p>$$g(n)=\sum_{n \mid d}\mu(\frac{d}{n})\lfloor\frac{x}{d}\rfloor\lfloor\frac{y}{d}\rfloor$$</p>
-<p>设</p>
-<p>$$t=\frac{d}{n},d=nt$$</p>
-<p>则</p>
-<p>$$g(n)=\sum_{t=1}^{\min(x,y)}\mu(t)\lfloor\frac{x}{nt}\rfloor\lfloor\frac{y}{nt}\rfloor$$</p>
-<p>所以只需要求 $g(k)$，可以枚举 $t$，用整除分块，加上筛莫比乌斯函数前缀和，时间复杂度 $O(N+T\sqrt n)$</p>
+$$f(n)=\sum_{i=1}^{x}\sum_{j=1}^{y}[n|\gcd(i,j)]$$$$g(n)=\sum_{i=1}^{x}\sum_{j=1}^{y}[\gcd(i,j)=n]$$<p>可以发现</p>
+$$f(n)=\sum_{n \mid d}g(d)$$<p>所以就可以莫比乌斯反演</p>
+$$g(n)=\sum_{n \mid d}\mu(\frac{d}{n})f(d)$$$$\because d\mid\gcd(i,j),\therefore d\mid i,d \mid j$$$$\therefore f(d)=\lfloor\frac{x}{d}\rfloor\lfloor\frac{y}{d}\rfloor$$$$g(n)=\sum_{n \mid d}\mu(\frac{d}{n})\lfloor\frac{x}{d}\rfloor\lfloor\frac{y}{d}\rfloor$$<p>设</p>
+$$t=\frac{d}{n},d=nt$$<p>则</p>
+$$g(n)=\sum_{t=1}^{\min(x,y)}\mu(t)\lfloor\frac{x}{nt}\rfloor\lfloor\frac{y}{nt}\rfloor$$<p>所以只需要求 $g(k)$，可以枚举 $t$，用整除分块，加上筛莫比乌斯函数前缀和，时间复杂度 $O(N+T\sqrt n)$</p>
 <h2 id="代码" class="heading-element"><span>代码：</span>
   <a href="#%e4%bb%a3%e7%a0%81" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -365,7 +281,7 @@ $$g(n)=\sum_{t=1}^{\min(x,y)}\mu(t)\lfloor\frac{x}{nt}\rfloor\lfloor\frac{y}{nt}
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
+        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/cphaoi2011-problem-b/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

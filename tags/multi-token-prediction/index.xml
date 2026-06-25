@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Multi-Token Prediction - 标签 - 凌乱之风的博客</title>
+    <link>https://blog.messywind.top/tags/multi-token-prediction/</link>
+    <description>凌乱之风的博客</description>
+    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 25 Jun 2026 08:26:02 +0000</lastBuildDate>
+    <atom:link href="https://blog.messywind.top/tags/multi-token-prediction/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>DSA &amp; MTP</title>
+      <link>https://blog.messywind.top/posts/mldsamtp/</link>
+      <pubDate>Thu, 25 Jun 2026 10:22:00 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/mldsamtp/</guid>
+      <category domain="https://blog.messywind.top/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</category>
+      <description>&lt;h2 id=&#34;dsa--mtp-详细学习笔记&#34; class=&#34;heading-element&#34;&gt;&lt;span&gt;DSA &amp;amp; MTP 详细学习笔记&lt;/span&gt;&#xA;  &lt;a href=&#34;#dsa--mtp-%e8%af%a6%e7%bb%86%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;blockquote&gt;&#xA;&lt;p&gt;DeepSeek 系列两大关键创新:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;strong&gt;DSA (DeepSeek Sparse Attention)&lt;/strong&gt; —— DeepSeek-V3.2-Exp / V3.2 引入的细粒度稀疏注意力机制&lt;/li&gt;&#xA;&lt;li&gt;&lt;strong&gt;MTP (Multi-Token Prediction)&lt;/strong&gt; —— DeepSeek-V3 引入的多 token 预测训练目标&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;二者解决的是不同维度的问题:DSA 优化&lt;strong&gt;长上下文推理/训练的计算复杂度&lt;/strong&gt;,MTP 优化&lt;strong&gt;训练信号密度 + 推理加速(投机解码)&lt;/strong&gt;。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

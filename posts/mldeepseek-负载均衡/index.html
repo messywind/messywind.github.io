@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>DeepSeek 负载均衡 - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="DeepSeek 负载均衡策略详解 学习笔记 · 聚焦 MoE 路由的负载均衡（Load Balancing） 演进路线：DeepSeekMoE / V2（辅助损失）→ V3（无辅助损失 Auxiliary-Loss-Free）
+"><meta name="keywords" content='DeepSeek 负载均衡'>
+  <meta itemprop="name" content="DeepSeek 负载均衡">
+  <meta itemprop="description" content="DeepSeek 负载均衡策略详解 学习笔记 · 聚焦 MoE 路由的负载均衡（Load Balancing） 演进路线：DeepSeekMoE / V2（辅助损失）→ V3（无辅助损失 Auxiliary-Loss-Free）">
+  <meta itemprop="datePublished" content="2026-06-25T16:00:00+00:00">
+  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="wordCount" content="4999">
+  <meta itemprop="keywords" content="DeepSeek 负载均衡"><meta property="og:url" content="https://blog.messywind.top/posts/mldeepseek-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="DeepSeek 负载均衡">
+  <meta property="og:description" content="DeepSeek 负载均衡策略详解 学习笔记 · 聚焦 MoE 路由的负载均衡（Load Balancing） 演进路线：DeepSeekMoE / V2（辅助损失）→ V3（无辅助损失 Auxiliary-Loss-Free）">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-06-25T16:00:00+00:00">
+    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
+    <meta property="article:tag" content="DeepSeek 负载均衡">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="DeepSeek 负载均衡">
+  <meta name="twitter:description" content="DeepSeek 负载均衡策略详解 学习笔记 · 聚焦 MoE 路由的负载均衡（Load Balancing） 演进路线：DeepSeekMoE / V2（辅助损失）→ V3（无辅助损失 Auxiliary-Loss-Free）">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mldeepseek-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" title="DeepSeek 负载均衡 - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/mldsamtp/" title="DSA &amp; MTP" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mldeepseek-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/index.md" title="DeepSeek 负载均衡 - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "DeepSeek 负载均衡",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/mldeepseek-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1\/"
+    },"genre": "posts","keywords": "DeepSeek 负载均衡","wordcount":  4999 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mldeepseek-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1\/","datePublished": "2026-06-25T16:00:00+00:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>DeepSeek 负载均衡</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-25 16:00:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="4999 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 5000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 10 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="DeepSeek 负载均衡"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0-为什么-moe-需要负载均衡">0. 为什么 MoE 需要负载均衡？</a></li>
+    <li><a href="#1-前置deepseekmoe-架构基础">1. 前置：DeepSeekMoE 架构基础</a></li>
+    <li><a href="#2-第一代方案辅助损失auxiliary-loss-deepseekmoe--v2">2. 第一代方案：辅助损失（Auxiliary Loss）—— DeepSeekMoE / V2</a>
+      <ul>
+        <li><a href="#21-专家级负载均衡损失expert-level-balance-loss">2.1 专家级负载均衡损失（Expert-Level Balance Loss）</a></li>
+        <li><a href="#22-设备级负载均衡损失device-level-balance-loss">2.2 设备级负载均衡损失（Device-Level Balance Loss）</a></li>
+        <li><a href="#23-通信负载均衡损失communication-balance-loss">2.3 通信负载均衡损失（Communication Balance Loss）</a></li>
+        <li><a href="#24-设备受限路由device-limited-routing">2.4 设备受限路由（Device-Limited Routing）</a></li>
+        <li><a href="#25-token-丢弃策略token-dropping">2.5 Token 丢弃策略（Token-Dropping）</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-辅助损失的根本缺陷-v3-改进的动机">3. 辅助损失的根本缺陷 ⭐（V3 改进的动机）</a></li>
+    <li><a href="#4-第二代方案无辅助损失负载均衡auxiliary-loss-free-deepseek-v3-">4. 第二代方案：无辅助损失负载均衡（Auxiliary-Loss-Free）—— DeepSeek-V3 ⭐⭐⭐</a>
+      <ul>
+        <li><a href="#41-核心思想给每个专家加一个可学习的偏置项bias-term">4.1 核心思想：给每个专家加一个可学习的偏置项（Bias Term）</a></li>
+        <li><a href="#42-数学表达">4.2 数学表达</a></li>
+        <li><a href="#43-偏置的动态更新无梯度规则式调整">4.3 偏置的动态更新（无梯度，规则式调整）</a></li>
+        <li><a href="#44-关键洞察偏置只改路由不改门控值-">4.4 关键洞察：偏置只改路由，不改门控值 ⭐</a></li>
+        <li><a href="#45-互补的序列级辅助损失complementary-sequence-wise-auxiliary-loss">4.5 互补的序列级辅助损失（Complementary Sequence-Wise Auxiliary Loss）</a></li>
+        <li><a href="#46-节点受限路由node-limited-routing">4.6 节点受限路由（Node-Limited Routing）</a></li>
+        <li><a href="#47-训练全程不丢弃-tokenno-token-dropping">4.7 训练全程不丢弃 Token（No Token-Dropping）</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-v2辅助损失vs-v3无辅助损失对比">5. V2（辅助损失）vs V3（无辅助损失）对比</a></li>
+    <li><a href="#6-面试直觉总结-背这几条就够答">6. 面试直觉总结 ⭐（背这几条就够答）</a></li>
+    <li><a href="#7-极简代码无辅助损失偏置路由">7. 极简代码：无辅助损失偏置路由</a></li>
+    <li><a href="#附延伸阅读">附：延伸阅读</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="deepseek-负载均衡策略详解" class="heading-element"><span>DeepSeek 负载均衡策略详解</span>
+  <a href="#deepseek-%e8%b4%9f%e8%bd%bd%e5%9d%87%e8%a1%a1%e7%ad%96%e7%95%a5%e8%af%a6%e8%a7%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>学习笔记 · 聚焦 MoE 路由的负载均衡（Load Balancing）
+演进路线：<strong>DeepSeekMoE / V2（辅助损失）→ V3（无辅助损失 Auxiliary-Loss-Free）</strong></p>
+</blockquote>
+<hr>
+<h2 id="0-为什么-moe-需要负载均衡" class="heading-element"><span>0. 为什么 MoE 需要负载均衡？</span>
+  <a href="#0-%e4%b8%ba%e4%bb%80%e4%b9%88-moe-%e9%9c%80%e8%a6%81%e8%b4%9f%e8%bd%bd%e5%9d%87%e8%a1%a1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>MoE（Mixture-of-Experts）每个 token 只激活 Top-K 个专家，路由器（Router/Gate）决定 token 去哪些专家。如果不加约束，会出现两类问题：</p>
+<ol>
+<li>
+<p><strong>路由坍缩（Routing Collapse）</strong>
+训练初期某些专家偶然被多选 → 它们训练得更好 → 更容易被选中 → 形成&quot;马太效应&quot;。最终只有少数专家被频繁使用，其余专家几乎&quot;饿死&quot;，相当于浪费了模型容量，MoE 退化成一个小的稠密模型。</p>
+</li>
+<li>
+<p><strong>计算/通信效率低下（系统层面）</strong>
+专家分布在不同 GPU/节点上。如果负载不均，热门专家所在设备成为瓶颈，其他设备空转等待，拖慢整体吞吐；同时 all-to-all 通信也会不均衡。</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>核心矛盾</strong>：负载均衡（让专家被均匀使用）与模型性能（让 token 去最合适的专家）天然冲突。DeepSeek 的整条技术演进，本质就是在&quot;如何更优雅地化解这对矛盾&quot;。</p>
+</blockquote>
+<p>负载均衡需要在<strong>两个层面</strong>同时考虑：</p>
+<ul>
+<li><strong>算法层面</strong>：每个专家被选中的频率大致均衡（避免坍缩）。</li>
+<li><strong>系统层面</strong>：设备（device）、节点（node）之间的计算与通信负载均衡。</li>
+</ul>
+<hr>
+<h2 id="1-前置deepseekmoe-架构基础" class="heading-element"><span>1. 前置：DeepSeekMoE 架构基础</span>
+  <a href="#1-%e5%89%8d%e7%bd%aedeepseekmoe-%e6%9e%b6%e6%9e%84%e5%9f%ba%e7%a1%80" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>DeepSeek 的 MoE 有两个标志性设计，理解负载均衡前需要先知道：</p>
+<ul>
+<li>
+<p><strong>细粒度专家分割（Fine-Grained Expert Segmentation）</strong>
+把每个专家的 FFN 中间维度切小，专家数量变多（比如把 N 个专家拆成 mN 个更小的专家），相应每个 token 激活的专家数也变多。好处是专家组合更灵活、知识分解更细致。</p>
+</li>
+<li>
+<p><strong>共享专家隔离（Shared Expert Isolation）</strong>
+把一部分专家设为<strong>共享专家（Shared Expert）</strong>，对所有 token 恒定激活，用来学习通用/共性知识；其余为<strong>路由专家（Routed Expert）</strong>，由 Router 动态选择，学习专门化知识。</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>关键点</strong>：负载均衡只作用于<strong>路由专家</strong>。共享专家恒定激活，不存在&quot;被不被选&quot;的问题。</p>
+</blockquote>
+<p>记号约定（下文统一使用）：</p>
+<ul>
+<li>$u_t$：第 $t$ 个 token 的输入隐藏向量</li>
+<li>$e_i$：第 $i$ 个路由专家的中心向量（centroid）</li>
+<li>$s_{i,t}$：token $t$ 与专家 $i$ 的亲和度（affinity）</li>
+<li>$N_r$：路由专家总数；$K_r$：每个 token 激活的路由专家数</li>
+<li>$T$：序列长度（token 数）</li>
+</ul>
+<hr>
+<h2 id="2-第一代方案辅助损失auxiliary-loss-deepseekmoe--v2" class="heading-element"><span>2. 第一代方案：辅助损失（Auxiliary Loss）—— DeepSeekMoE / V2</span>
+  <a href="#2-%e7%ac%ac%e4%b8%80%e4%bb%a3%e6%96%b9%e6%a1%88%e8%be%85%e5%8a%a9%e6%8d%9f%e5%a4%b1auxiliary-loss-deepseekmoe--v2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>思路：在语言建模主损失之外，<strong>额外加几个均衡损失项</strong>，用梯度&quot;逼&quot;路由器把负载摊平。V2 一共用了<strong>三个</strong>辅助损失 + 两个工程策略。</p>
+<h3 id="21-专家级负载均衡损失expert-level-balance-loss" class="heading-element"><span>2.1 专家级负载均衡损失（Expert-Level Balance Loss）</span>
+  <a href="#21-%e4%b8%93%e5%ae%b6%e7%ba%a7%e8%b4%9f%e8%bd%bd%e5%9d%87%e8%a1%a1%e6%8d%9f%e5%a4%b1expert-level-balance-loss" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>防止单个专家被过度使用（防坍缩）。</p>
+$$
+\mathcal{L}_{\text{ExpBal}} = \alpha_1 \sum_{i=1}^{N_r} f_i P_i
+$$<ul>
+<li>$f_i$：专家 $i$ 实际被选中的 <strong>频率（fraction）</strong>
+$$
+f_i = \frac{N_r}{K_r T} \sum_{t=1}^{T} \mathbb{1}\big(\text{token } t \text{ 选了专家 } i\big)
+$$</li>
+<li>$P_i$：专家 $i$ 的<strong>平均门控概率（soft 概率）</strong>
+$$
+P_i = \frac{1}{T} \sum_{t=1}^{T} s_{i,t}
+$$</li>
+</ul>
+<p><strong>直觉</strong>：$f_i$ 是&quot;硬&quot;的选中比例（不可导），$P_i$ 是&quot;软&quot;的概率（可导）。两者相乘求和，当某专家又被频繁选中（$f_i$ 大）又被赋予高概率（$P_i$ 大）时，损失变大，梯度会通过 $P_i$ 把该专家的概率压下去。最小化该损失 ⟺ 把选中分布推向均匀分布。</p>
+<h3 id="22-设备级负载均衡损失device-level-balance-loss" class="heading-element"><span>2.2 设备级负载均衡损失（Device-Level Balance Loss）</span>
+  <a href="#22-%e8%ae%be%e5%a4%87%e7%ba%a7%e8%b4%9f%e8%bd%bd%e5%9d%87%e8%a1%a1%e6%8d%9f%e5%a4%b1device-level-balance-loss" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>把专家分成 $D$ 组，每组放一个设备上，<strong>让设备间的负载均衡</strong>（比专家级更粗粒度，更贴近实际算力分配）。</p>
+$$
+\mathcal{L}_{\text{DevBal}} = \alpha_2 \sum_{i=1}^{D} f'_i P'_i,
+\quad
+f'_i = \frac{1}{|\mathcal{E}_i|}\sum_{j \in \mathcal{E}_i} f_j,
+\quad
+P'_i = \sum_{j \in \mathcal{E}_i} P_j
+$$<p>其中 $\mathcal{E}_i$ 是第 $i$ 个设备上的专家集合。</p>
+<h3 id="23-通信负载均衡损失communication-balance-loss" class="heading-element"><span>2.3 通信负载均衡损失（Communication Balance Loss）</span>
+  <a href="#23-%e9%80%9a%e4%bf%a1%e8%b4%9f%e8%bd%bd%e5%9d%87%e8%a1%a1%e6%8d%9f%e5%a4%b1communication-balance-loss" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>设备级均衡保证&quot;每个设备接收的 token 大致相等&quot;，但不能保证&quot;每个设备<strong>发送</strong>的 token 也相等&quot;。这个损失约束<strong>all-to-all 通信中每个设备的发送量</strong>均衡，避免某些设备成为通信热点。</p>
+$$
+\mathcal{L}_{\text{CommBal}} = \alpha_3 \sum_{i=1}^{D} f''_i P''_i
+$$<p>（形式与上面类似，只是统计的是发往各设备的通信量。）</p>
+<h3 id="24-设备受限路由device-limited-routing" class="heading-element"><span>2.4 设备受限路由（Device-Limited Routing）</span>
+  <a href="#24-%e8%ae%be%e5%a4%87%e5%8f%97%e9%99%90%e8%b7%af%e7%94%b1device-limited-routing" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>机制约束</strong>，不是损失：限制每个 token 最多只能被路由到 $M$ 个设备上（先按设备上专家的最高亲和度选出 Top-M 设备，再在这些设备内选 Top-K 专家）。</p>
+<p><strong>作用</strong>：直接给通信成本设上界——一个 token 的 all-to-all 通信最多只涉及 $M$ 个设备，避免 token 把专家散布到所有设备造成通信爆炸。</p>
+<h3 id="25-token-丢弃策略token-dropping" class="heading-element"><span>2.5 Token 丢弃策略（Token-Dropping）</span>
+  <a href="#25-token-%e4%b8%a2%e5%bc%83%e7%ad%96%e7%95%a5token-dropping" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>即便有均衡损失，训练中仍会有瞬时不均。为控制计算浪费，V2 采用<strong>设备级 token 丢弃</strong>：每个设备设一个容量上限（capacity factor），超过容量的、亲和度最低的 token 被丢弃（不参与该专家计算）。注意：会保护对均衡损失影响大的 token。</p>
+<hr>
+<h2 id="3-辅助损失的根本缺陷-v3-改进的动机" class="heading-element"><span>3. 辅助损失的根本缺陷 ⭐（V3 改进的动机）</span>
+  <a href="#3-%e8%be%85%e5%8a%a9%e6%8d%9f%e5%a4%b1%e7%9a%84%e6%a0%b9%e6%9c%ac%e7%bc%ba%e9%99%b7-v3-%e6%94%b9%e8%bf%9b%e7%9a%84%e5%8a%a8%e6%9c%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>辅助损失虽然有效，但有个绕不开的问题：<strong>干扰梯度（Interference Gradients）</strong>。</p>
+<ul>
+<li>辅助损失的梯度和语言建模主损失的梯度<strong>方向不一定一致</strong>，相当于在主任务上引入了&quot;噪声/拉扯&quot;。</li>
+<li>这就产生一个两难的<strong>权衡困境（trade-off dilemma）</strong>：
+<ul>
+<li>$\alpha$（损失权重）<strong>太大</strong> → 均衡得很好，但损害模型性能（主任务被干扰）。</li>
+<li>$\alpha$ <strong>太小</strong> → 不干扰性能，但均衡不住，专家又会坍缩、token 被大量丢弃。</li>
+</ul>
+</li>
+<li>调 $\alpha$ 成了玄学，且无论怎么调，都是在&quot;性能&quot;和&quot;均衡&quot;之间做妥协，不存在两全。</li>
+</ul>
+<blockquote>
+<p><strong>一句话总结动机</strong>：辅助损失把&quot;负载均衡&quot;硬塞进了&quot;语言建模&quot;的梯度里，两个目标互相打架。能不能让负载均衡<strong>不通过主损失的梯度</strong>来实现？—— 这就是 V3 的答案。</p>
+</blockquote>
+<hr>
+<h2 id="4-第二代方案无辅助损失负载均衡auxiliary-loss-free-deepseek-v3-" class="heading-element"><span>4. 第二代方案：无辅助损失负载均衡（Auxiliary-Loss-Free）—— DeepSeek-V3 ⭐⭐⭐</span>
+  <a href="#4-%e7%ac%ac%e4%ba%8c%e4%bb%a3%e6%96%b9%e6%a1%88%e6%97%a0%e8%be%85%e5%8a%a9%e6%8d%9f%e5%a4%b1%e8%b4%9f%e8%bd%bd%e5%9d%87%e8%a1%a1auxiliary-loss-free-deepseek-v3-" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>这是 V3 在 MoE 训练上的<strong>头号贡献</strong>，面试几乎必考。</p>
+</blockquote>
+<h3 id="41-核心思想给每个专家加一个可学习的偏置项bias-term" class="heading-element"><span>4.1 核心思想：给每个专家加一个可学习的偏置项（Bias Term）</span>
+  <a href="#41-%e6%a0%b8%e5%bf%83%e6%80%9d%e6%83%b3%e7%bb%99%e6%af%8f%e4%b8%aa%e4%b8%93%e5%ae%b6%e5%8a%a0%e4%b8%80%e4%b8%aa%e5%8f%af%e5%ad%a6%e4%b9%a0%e7%9a%84%e5%81%8f%e7%bd%ae%e9%a1%b9bias-term" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>为每个路由专家 $i$ 维护一个<strong>偏置 $b_i$</strong>。这个偏置<strong>只在 Top-K 选择时</strong>加到亲和度上，用来&quot;调节&quot;哪些专家更容易被选中；但它<strong>不参与最终门控值（gating value）的计算</strong>。</p>
+<h3 id="42-数学表达" class="heading-element"><span>4.2 数学表达</span>
+  <a href="#42-%e6%95%b0%e5%ad%a6%e8%a1%a8%e8%be%be" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>V3 的门控（注意 V3 把亲和度从 V2 的 <strong>Softmax 改成了 Sigmoid</strong>）：</p>
+$$
+s_{i,t} = \text{Sigmoid}\big(u_t^{\top} e_i\big)
+$$<p>Top-K 选择时用的是 <strong>加了偏置</strong> 的分数：</p>
+$$
+g'_{i,t} =
+\begin{cases}
+s_{i,t}, & s_{i,t} + b_i \in \operatorname{TopK}\big(\{\, s_{j,t} + b_j \mid 1 \le j \le N_r \,\},\; K_r\big) \\[4pt]
+0, & \text{otherwise}
+\end{cases}
+$$<p>最后归一化得到门控权重：</p>
+$$
+g_{i,t} = \frac{g'_{i,t}}{\sum_{j=1}^{N_r} g'_{j,t}}
+$$<h3 id="43-偏置的动态更新无梯度规则式调整" class="heading-element"><span>4.3 偏置的动态更新（无梯度，规则式调整）</span>
+  <a href="#43-%e5%81%8f%e7%bd%ae%e7%9a%84%e5%8a%a8%e6%80%81%e6%9b%b4%e6%96%b0%e6%97%a0%e6%a2%af%e5%ba%a6%e8%a7%84%e5%88%99%e5%bc%8f%e8%b0%83%e6%95%b4" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>$b_i$ <strong>不是靠损失反向传播学的</strong>，而是每个训练步后按&quot;专家当前负载&quot;用一条简单规则更新：</p>
+<ul>
+<li>统计本 batch 每个专家收到的 token 数（负载 $c_i$）。</li>
+<li>若专家 $i$ <strong>过载</strong>（负载高于平均）→ $b_i \leftarrow b_i - \gamma$（降低偏置，让它后续更难被选中）。</li>
+<li>若专家 $i$ <strong>欠载</strong>（负载低于平均）→ $b_i \leftarrow b_i + \gamma$（提高偏置，让它后续更易被选中）。</li>
+</ul>
+<p>其中 $\gamma$ 是<strong>偏置更新速度</strong>（bias update speed），是一个超参。可写成：</p>
+$$
+b_i \leftarrow b_i + \gamma \cdot \text{sign}\big(\bar{c} - c_i\big)
+$$<p>这是一个<strong>负反馈控制器</strong>：热门专家被自动&quot;调冷&quot;，冷门专家被自动&quot;调热&quot;，整个系统自我趋向均衡。</p>
+<h3 id="44-关键洞察偏置只改路由不改门控值-" class="heading-element"><span>4.4 关键洞察：偏置只改路由，不改门控值 ⭐</span>
+  <a href="#44-%e5%85%b3%e9%94%ae%e6%b4%9e%e5%af%9f%e5%81%8f%e7%bd%ae%e5%8f%aa%e6%94%b9%e8%b7%af%e7%94%b1%e4%b8%8d%e6%94%b9%e9%97%a8%e6%8e%a7%e5%80%bc-" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>这是整个方案的精髓，<strong>一定要理解</strong>：</p>
+<ul>
+<li>$b_i$ <strong>只用于 Top-K 的筛选</strong>（决定&quot;谁被选&quot;）。</li>
+<li>一旦专家被选中，乘到 token 表示上的权重 $g_{i,t}$ 仍来自<strong>原始亲和度 $s_{i,t}$</strong>，<strong>不含 $b_i$</strong>。</li>
+</ul>
+<p>因此：</p>
+<ul>
+<li>偏置实现了负载均衡，却<strong>没有往主损失里注入任何梯度</strong>——彻底避开了&quot;干扰梯度&quot;。</li>
+<li>负载均衡和语言建模<strong>解耦</strong>，不再有 $\alpha$ 的权衡困境。</li>
+<li>结果：V3 既保持了优秀的均衡，又拿到了比&quot;靠辅助损失&quot;更好的模型性能。</li>
+</ul>
+<h3 id="45-互补的序列级辅助损失complementary-sequence-wise-auxiliary-loss" class="heading-element"><span>4.5 互补的序列级辅助损失（Complementary Sequence-Wise Auxiliary Loss）</span>
+  <a href="#45-%e4%ba%92%e8%a1%a5%e7%9a%84%e5%ba%8f%e5%88%97%e7%ba%a7%e8%be%85%e5%8a%a9%e6%8d%9f%e5%a4%b1complementary-sequence-wise-auxiliary-loss" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>偏置法保证的是<strong>全局/batch 级</strong>均衡，但无法防止<strong>单条序列内部</strong>出现极端不均（某条序列把 token 全堆给少数专家）。所以 V3 仍保留一个<strong>极小权重 $\alpha$</strong> 的序列级均衡损失作为兜底：</p>
+$$
+\mathcal{L}_{\text{Bal}} = \alpha \sum_{i=1}^{N_r} f_i P_i
+$$$$
+f_i = \frac{N_r}{K_r T}\sum_{t=1}^{T}\mathbb{1}\big(\text{token } t \text{ 选了专家 } i\big),
+\quad
+P_i = \frac{1}{T}\sum_{t=1}^{T} s'_{i,t},
+\quad
+s'_{i,t} = \frac{s_{i,t}}{\sum_{j=1}^{N_r} s_{j,t}}
+$$<blockquote>
+<p>注意：它是&quot;<strong>序列级（sequence-wise）</strong>&ldquo;统计（在每条序列内部算），且 $\alpha$ <strong>极小</strong>——只起兜底作用，不会重新引入明显的干扰梯度。这是它和 V2 辅助损失的本质区别。</p>
+</blockquote>
+<h3 id="46-节点受限路由node-limited-routing" class="heading-element"><span>4.6 节点受限路由（Node-Limited Routing）</span>
+  <a href="#46-%e8%8a%82%e7%82%b9%e5%8f%97%e9%99%90%e8%b7%af%e7%94%b1node-limited-routing" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>V2 的&quot;设备受限&quot;在 V3 升级为&rdquo;<strong>节点受限</strong>&quot;：每个 token 最多被路由到 $M$ 个节点（V3 中 $M=4$）。选节点的依据是&quot;该节点上专家亲和度 Top-K 之和&quot;最高的 $M$ 个节点。同样是为了<strong>给跨节点通信成本设上界</strong>，让计算-通信尽量重叠。</p>
+<h3 id="47-训练全程不丢弃-tokenno-token-dropping" class="heading-element"><span>4.7 训练全程不丢弃 Token（No Token-Dropping）</span>
+  <a href="#47-%e8%ae%ad%e7%bb%83%e5%85%a8%e7%a8%8b%e4%b8%8d%e4%b8%a2%e5%bc%83-tokenno-token-dropping" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>由于偏置法把负载均衡得足够好，V3 在<strong>训练和推理全程都不丢 token</strong>，避免了 token-dropping 带来的信息损失和训练-推理不一致。</p>
+<hr>
+<h2 id="5-v2辅助损失vs-v3无辅助损失对比" class="heading-element"><span>5. V2（辅助损失）vs V3（无辅助损失）对比</span>
+  <a href="#5-v2%e8%be%85%e5%8a%a9%e6%8d%9f%e5%a4%b1vs-v3%e6%97%a0%e8%be%85%e5%8a%a9%e6%8d%9f%e5%a4%b1%e5%af%b9%e6%af%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>DeepSeek-V2 / MoE</th>
+          <th>DeepSeek-V3</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>均衡核心手段</td>
+          <td>多个<strong>辅助损失</strong>（专家级/设备级/通信级）</td>
+          <td><strong>偏置项</strong> $b_i$（无梯度规则更新）</td>
+      </tr>
+      <tr>
+          <td>是否引入干扰梯度</td>
+          <td>是（核心痛点）</td>
+          <td><strong>否</strong>（均衡与主损失解耦）</td>
+      </tr>
+      <tr>
+          <td>亲和度激活函数</td>
+          <td>Softmax</td>
+          <td><strong>Sigmoid</strong></td>
+      </tr>
+      <tr>
+          <td>偏置是否影响门控值</td>
+          <td>—（无偏置）</td>
+          <td><strong>否</strong>，只影响 Top-K 选择</td>
+      </tr>
+      <tr>
+          <td>是否还有辅助损失</td>
+          <td>有，且权重需谨慎调</td>
+          <td>仅保留<strong>极小权重</strong>的序列级兜底损失</td>
+      </tr>
+      <tr>
+          <td>路由范围约束</td>
+          <td>设备受限路由（Device-Limited）</td>
+          <td>节点受限路由（Node-Limited，$M=4$）</td>
+      </tr>
+      <tr>
+          <td>Token 丢弃</td>
+          <td>设备级 token-dropping</td>
+          <td><strong>全程不丢弃</strong></td>
+      </tr>
+      <tr>
+          <td>调参负担</td>
+          <td>需要在性能/均衡间艰难权衡 $\alpha$</td>
+          <td>只需调更新速度 $\gamma$，鲁棒得多</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="6-面试直觉总结-背这几条就够答" class="heading-element"><span>6. 面试直觉总结 ⭐（背这几条就够答）</span>
+  <a href="#6-%e9%9d%a2%e8%af%95%e7%9b%b4%e8%a7%89%e6%80%bb%e7%bb%93-%e8%83%8c%e8%bf%99%e5%87%a0%e6%9d%a1%e5%b0%b1%e5%a4%9f%e7%ad%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ol>
+<li>
+<p><strong>MoE 为什么要负载均衡？</strong> 防路由坍缩（避免容量浪费）+ 系统层面设备/通信均衡（避免瓶颈）。</p>
+</li>
+<li>
+<p><strong>传统辅助损失的问题？</strong> 引入<strong>干扰梯度</strong>，造成&quot;性能 vs 均衡&quot;的权衡困境，$\alpha$ 难调。</p>
+</li>
+<li>
+<p><strong>V3 怎么解决的？</strong> 用<strong>偏置项</strong>做负载均衡：偏置<strong>只影响 Top-K 路由选择，不进入门控值计算</strong>，所以不产生干扰梯度，把均衡和主损失<strong>解耦</strong>。</p>
+</li>
+<li>
+<p><strong>偏置怎么更新？</strong> 不靠反向传播，而是规则式负反馈：过载专家降偏置、欠载专家升偏置，速度由 $\gamma$ 控制。</p>
+</li>
+<li>
+<p><strong>为什么还留一个辅助损失？</strong> 偏置管不了<strong>单条序列内部</strong>的极端不均，所以保留一个<strong>极小权重的序列级损失</strong>兜底。</p>
+</li>
+<li>
+<p><strong>一句话电梯陈述</strong>：</p>
+<blockquote>
+<p>&ldquo;V3 把负载均衡从&rsquo;损失项&rsquo;变成了&rsquo;路由偏置&rsquo;——它只在选专家时起作用、不参与权重计算，因此不污染语言建模的梯度，从而同时拿到了好的均衡和好的性能。&rdquo;</p>
+</blockquote>
+</li>
+</ol>
+<hr>
+<h2 id="7-极简代码无辅助损失偏置路由" class="heading-element"><span>7. 极简代码：无辅助损失偏置路由</span>
+  <a href="#7-%e6%9e%81%e7%ae%80%e4%bb%a3%e7%a0%81%e6%97%a0%e8%be%85%e5%8a%a9%e6%8d%9f%e5%a4%b1%e5%81%8f%e7%bd%ae%e8%b7%af%e7%94%b1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>下面是 V3 风格 router 的最小可运行骨架，重点演示 <strong>4.2 / 4.3 / 4.4</strong> 三个核心点（偏置只用于选择、门控值用原始亲和度、偏置规则更新）。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torch</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">AuxFreeRouter</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;DeepSeek-V3 风格的无辅助损失负载均衡路由器（教学简化版）&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">n_experts</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">top_k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">                 <span class="n">bias_update_speed</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-3</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 专家中心向量 e_i，用一个 Linear 表示 u_t^T e_i</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">gate</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">hidden_dim</span><span class="p">,</span> <span class="n">n_experts</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">top_k</span> <span class="o">=</span> <span class="n">top_k</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">=</span> <span class="n">bias_update_speed</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 偏置 b_i：注意是 buffer 不是 Parameter —— 它不参与反向传播！</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span><span class="s2">&#34;bias&#34;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_experts</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># x: [num_tokens, hidden_dim]</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 1) 亲和度用 Sigmoid（V3 的改动，V2 是 Softmax）</span>
+</span></span><span class="line"><span class="cl">        <span class="n">affinity</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gate</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>          <span class="c1"># s_{i,t}, [T, N]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 2) Top-K 选择时加上偏置 b_i（核心点之一）</span>
+</span></span><span class="line"><span class="cl">        <span class="n">scored</span> <span class="o">=</span> <span class="n">affinity</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span>                    <span class="c1"># s + b</span>
+</span></span><span class="line"><span class="cl">        <span class="n">topk_idx</span> <span class="o">=</span> <span class="n">scored</span><span class="o">.</span><span class="n">topk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">top_k</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">indices</span>  <span class="c1"># [T, K]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 3) 门控值仍来自“原始亲和度” s，不含 b（核心点之二！）</span>
+</span></span><span class="line"><span class="cl">        <span class="n">topk_affinity</span> <span class="o">=</span> <span class="n">affinity</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">topk_idx</span><span class="p">)</span>    <span class="c1"># 注意是 affinity 不是 scored</span>
+</span></span><span class="line"><span class="cl">        <span class="n">gates</span> <span class="o">=</span> <span class="n">topk_affinity</span> <span class="o">/</span> <span class="n">topk_affinity</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># 归一化</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># 训练时统计每个专家负载，供 update_bias 使用</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">training</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">load</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">topk_idx</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span>
+</span></span><span class="line"><span class="cl">                                  <span class="n">minlength</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">numel</span><span class="p">())</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">_last_load</span> <span class="o">=</span> <span class="n">load</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">topk_idx</span><span class="p">,</span> <span class="n">gates</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@torch.no_grad</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">update_bias</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;每个训练步之后调用：规则式负反馈更新偏置（无梯度，核心点之三）&#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">load</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_load</span>
+</span></span><span class="line"><span class="cl">        <span class="n">avg</span> <span class="o">=</span> <span class="n">load</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 过载(load&gt;avg) -&gt; 降偏置；欠载 -&gt; 升偏置</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">bias</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">avg</span> <span class="o">-</span> <span class="n">load</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># ---- 使用示意 ----</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># router = AuxFreeRouter(hidden_dim=512, n_experts=64, top_k=6)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># for batch in loader:</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     idx, gates = router(batch)        # 路由</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     loss = compute_lm_loss(...)       # 只有语言建模损失（+极小序列级兜底）</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     loss.backward(); optimizer.step()</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#     router.update_bias()              # 关键：在优化器之外单独更新偏置</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>三个最该记住的代码细节</strong>：</p>
+<ul>
+<li><code>self.bias</code> 用 <code>register_buffer</code> 而非 <code>nn.Parameter</code> —— 强调它<strong>不走反向传播</strong>。</li>
+<li>计算 <code>gates</code> 时 gather 的是 <strong><code>affinity</code>（原始 $s$）</strong> 而不是 <code>scored</code>（$s+b$）—— 偏置<strong>不进门控值</strong>。</li>
+<li><code>update_bias()</code> 在 <code>optimizer.step()</code> <strong>之外</strong>单独调用 —— 负载均衡与主损失优化<strong>解耦</strong>。</li>
+</ul>
+<hr>
+<h2 id="附延伸阅读" class="heading-element"><span>附：延伸阅读</span>
+  <a href="#%e9%99%84%e5%bb%b6%e4%bc%b8%e9%98%85%e8%af%bb" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li>DeepSeekMoE 论文：细粒度专家 + 共享专家隔离</li>
+<li>DeepSeek-V2 论文：三个辅助损失 + 设备受限路由 + token 丢弃</li>
+<li>DeepSeek-V3 论文：Auxiliary-Loss-Free Load Balancing（本笔记第 4 章核心来源）</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/mldeepseek-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/deepseek-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" class="post-tag" title="标签 - DeepSeek 负载均衡">DeepSeek 负载均衡</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/mldsamtp/" class="post-nav-item" rel="prev" title="DSA &amp; MTP"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>DSA &amp; MTP</a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>

@@ -11,8 +11,8 @@
   <meta itemprop="name" content="Pre-Norm & Post-Norm & RMSNorm">
   <meta itemprop="description" content="模块一：核心数学公式与基础理论 标准化算法的核心目的是将隐藏层特征向量的数值范围约束在健康的区间内。假设单样本的隐藏层特征向量为 $x \in \mathbb{R}^d$，其中 $d$ 为特征维度。">
   <meta itemprop="datePublished" content="2026-06-10T14:32:00+00:00">
-  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
-  <meta itemprop="wordCount" content="2826">
+  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="wordCount" content="2916">
   <meta itemprop="keywords" content="Pre-Norm,Post-Norm,RMSNorm"><meta property="og:url" content="https://blog.messywind.top/posts/mlpre-norm-post-norm-rmsnorm/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="Pre-Norm & Post-Norm & RMSNorm">
@@ -21,7 +21,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2026-06-10T14:32:00+00:00">
-    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
+    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
     <meta property="article:tag" content="Pre-Norm">
     <meta property="article:tag" content="Post-Norm">
     <meta property="article:tag" content="RMSNorm">
@@ -41,8 +41,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/mlpre-norm-post-norm-rmsnorm\/"
-    },"genre": "posts","keywords": "Pre-Norm, Post-Norm, RMSNorm","wordcount":  2826 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/mlpre-norm-post-norm-rmsnorm\/","datePublished": "2026-06-10T14:32:00+00:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
+    },"genre": "posts","keywords": "Pre-Norm, Post-Norm, RMSNorm","wordcount":  2916 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlpre-norm-post-norm-rmsnorm\/","datePublished": "2026-06-10T14:32:00+00:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -150,7 +150,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Pre-Norm &amp; Post-Norm &amp; RMSNorm</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-10 14:32:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-10">2026-06-10</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="2826 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="Pre-Norm &amp; Post-Norm &amp; RMSNorm"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-10 14:32:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-10">2026-06-10</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="2916 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 3000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="Pre-Norm &amp; Post-Norm &amp; RMSNorm"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -204,8 +204,7 @@
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>LayerNorm 通过计算整条向量的<strong>均值</strong>与<strong>方差</strong>，执行“平移”与“缩放”两个微观动作：</p>
-<p>$$y = \frac{x - \mu}{\sigma + \epsilon} \odot \gamma + \beta$$</p>
-<ul>
+$$y = \frac{x - \mu}{\sigma + \epsilon} \odot \gamma + \beta$$<ul>
 <li><strong>均值（平移项）</strong>：$\mu = \frac{1}{d} \sum_{i=1}^d x_i$ （将数据中心平移到原点 $0$）</li>
 <li><strong>方差（缩放项）</strong>：$\sigma^2 = \frac{1}{d} \sum_{i=1}^d (x_i - \mu)^2$</li>
 <li><strong>可学习参数</strong>：$\gamma, \beta \in \mathbb{R}^d$（仿射变换参数），$\epsilon$ 为防止分母为 0 的极小常数。</li>
@@ -215,8 +214,7 @@
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>RMSNorm 基于“均值平移对稳定训练贡献极小”的学术发现，大刀阔斧地砍掉了均值 $\mu$ 的计算，强行假设 $\mu = 0$：</p>
-<p>$$\text{RMSNorm}(x) = \frac{x}{\text{RMS}(x) + \epsilon} \odot \gamma$$</p>
-<ul>
+$$\text{RMSNorm}(x) = \frac{x}{\text{RMS}(x) + \epsilon} \odot \gamma$$<ul>
 <li><strong>均方根（RMS）</strong>：$\text{RMS}(x) = \sqrt{\frac{1}{d} \sum_{i=1}^d x_i^2}$</li>
 </ul>
 <h3 id="-核心数理桥梁方差与-rms-的物理等价性" class="heading-element"><span>💡 核心数理桥梁：方差与 RMS 的物理等价性</span>
@@ -225,8 +223,7 @@
   </a>
 </h3><p>在数理统计中，存在恒等式：$\text{Var}(X) = E[X^2] - (E[X])^2$。
 在大模型前向传播空间中，随着网络稳定或受到对称性初始化影响，特征均值 $E[x] \approx 0$。代入恒等式：</p>
-<p>$$\text{Var}(x) = E[x^2] - 0 = \text{RMS}^2(x) \implies \text{RMS}(x) = \sqrt{\text{Var}(x)}$$</p>
-<p><strong>物理本质</strong>：当均值为 0 时，向量的均方根 $\text{RMS}(x)$ 与其标准差（方差开根号）在数学上完全等价。</p>
+$$\text{Var}(x) = E[x^2] - 0 = \text{RMS}^2(x) \implies \text{RMS}(x) = \sqrt{\text{Var}(x)}$$<p><strong>物理本质</strong>：当均值为 0 时，向量的均方根 $\text{RMS}(x)$ 与其标准差（方差开根号）在数学上完全等价。</p>
 <hr>
 <h2 id="模块二post-norm-后归一化--消失与爆炸的深渊" class="heading-element"><span>模块二：Post-Norm (后归一化) —— 消失与爆炸的深渊</span>
   <a href="#%e6%a8%a1%e5%9d%97%e4%ba%8cpost-norm-%e5%90%8e%e5%bd%92%e4%b8%80%e5%8c%96--%e6%b6%88%e5%a4%b1%e4%b8%8e%e7%88%86%e7%82%b8%e7%9a%84%e6%b7%b1%e6%b8%8a" class="heading-mark">
@@ -237,21 +234,18 @@
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>后归一化将标准化算子挂在残差连接的<strong>最外层</strong>：</p>
-<p>$$x_{l+1} = \text{LN}(x_l + \text{SubLayer}(x_l))$$</p>
-<h3 id="2-反向梯度流机理微积分推导" class="heading-element"><span>2. 反向梯度流机理（微积分推导）</span>
+$$x_{l+1} = \text{LN}(x_l + \text{SubLayer}(x_l))$$<h3 id="2-反向梯度流机理微积分推导" class="heading-element"><span>2. 反向梯度流机理（微积分推导）</span>
   <a href="#2-%e5%8f%8d%e5%90%91%e6%a2%af%e5%ba%a6%e6%b5%81%e6%9c%ba%e7%90%86%e5%be%ae%e7%a7%af%e5%88%86%e6%8e%a8%e5%af%bc" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>假设最终的顶层损失函数为 $\mathcal{L}$，为了计算第 $l$ 层输入 $x_l$ 的梯度，使用链式法则（Chain Rule）拆解：</p>
-<p>$$\frac{\partial \mathcal{L}}{\partial x_l} = \frac{\partial \mathcal{L}}{\partial x_{l+1}} \cdot \frac{\partial x_{l+1}}{\partial y_l} \cdot \frac{\partial y_l}{\partial x_l}$$</p>
-<p>其中 $y_l = x_l + \text{SubLayer}(x_l)$ 为残差相加的未归一化中间结果。</p>
+$$\frac{\partial \mathcal{L}}{\partial x_l} = \frac{\partial \mathcal{L}}{\partial x_{l+1}} \cdot \frac{\partial x_{l+1}}{\partial y_l} \cdot \frac{\partial y_l}{\partial x_l}$$<p>其中 $y_l = x_l + \text{SubLayer}(x_l)$ 为残差相加的未归一化中间结果。</p>
 <ol>
 <li>由于 $\text{LN}(y_l) \approx \frac{y_l}{\sigma_l}$，根据微积分商法则，LayerNorm 对输入的偏导数其量级<strong>反比于其标准差</strong>：$\frac{\partial x_{l+1}}{\partial y_l} \propto \frac{1}{\sigma_l}$。</li>
 <li>残差项导数：$\frac{\partial y_l}{\partial x_l} = I + \frac{\partial \text{SubLayer}(x_l)}{\partial x_l}$。</li>
 </ol>
 <p>若将梯度从最顶层（第 $L$ 层）一路连乘回传到最底层（第 1 层）：</p>
-<p>$$\frac{\partial \mathcal{L}}{\partial x_1} \propto \left( \prod_{l=1}^{L-1} \frac{1}{\sigma_l} \right) \cdot \frac{\partial \mathcal{L}}{\partial x_L}$$</p>
-<h3 id="-致命痛点高层爆炸底层消失" class="heading-element"><span>💥 致命痛点：高层爆炸，底层消失</span>
+$$\frac{\partial \mathcal{L}}{\partial x_1} \propto \left( \prod_{l=1}^{L-1} \frac{1}{\sigma_l} \right) \cdot \frac{\partial \mathcal{L}}{\partial x_L}$$<h3 id="-致命痛点高层爆炸底层消失" class="heading-element"><span>💥 致命痛点：高层爆炸，底层消失</span>
   <a href="#-%e8%87%b4%e5%91%bd%e7%97%9b%e7%82%b9%e9%ab%98%e5%b1%82%e7%88%86%e7%82%b8%e5%ba%95%e5%b1%82%e6%b6%88%e5%a4%b1" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -271,16 +265,13 @@
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>前归一化将标准化算子移入残差分支的<strong>内部（小路）</strong>，而残差主干（大路）不加任何拦截：</p>
-<p>$$x_{l+1} = x_l + \text{SubLayer}(\text{LN}(x_l))$$</p>
-<p>若将该公式从第 0 层（Embedding）一路前向展开到第 $L$ 层，会呈现出清晰的宏观加法链：</p>
-<p>$$x_L = x_0 + \sum_{l=0}^{L-1} \text{SubLayer}_l(\text{LN}(x_l))$$</p>
-<h3 id="2-反向梯度流机理梯度高铁的诞生" class="heading-element"><span>2. 反向梯度流机理（“梯度高铁”的诞生）</span>
+$$x_{l+1} = x_l + \text{SubLayer}(\text{LN}(x_l))$$<p>若将该公式从第 0 层（Embedding）一路前向展开到第 $L$ 层，会呈现出清晰的宏观加法链：</p>
+$$x_L = x_0 + \sum_{l=0}^{L-1} \text{SubLayer}_l(\text{LN}(x_l))$$<h3 id="2-反向梯度流机理梯度高铁的诞生" class="heading-element"><span>2. 反向梯度流机理（“梯度高铁”的诞生）</span>
   <a href="#2-%e5%8f%8d%e5%90%91%e6%a2%af%e5%ba%a6%e6%b5%81%e6%9c%ba%e7%90%86%e6%a2%af%e5%ba%a6%e9%ab%98%e9%93%81%e7%9a%84%e8%af%9e%e7%94%9f" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>根据上述宏观展开式，依据导数的加法法则，顶层对底层输入 $x_0$ 直接求偏导，会将主干上的 $x_0$ 拆出项：</p>
-<p>$$\frac{\partial \mathcal{L}}{\partial x_0} = \frac{\partial \mathcal{L}}{\partial x_L} \cdot \frac{\partial x_L}{\partial x_0} = \frac{\partial \mathcal{L}}{\partial x_L} \cdot \left( I + \sum_{l=0}^{L-1} \frac{\partial \text{SubLayer}_l}{\partial x_0} \right)$$</p>
-<ul>
+$$\frac{\partial \mathcal{L}}{\partial x_0} = \frac{\partial \mathcal{L}}{\partial x_L} \cdot \frac{\partial x_L}{\partial x_0} = \frac{\partial \mathcal{L}}{\partial x_L} \cdot \left( I + \sum_{l=0}^{L-1} \frac{\partial \text{SubLayer}_l}{\partial x_0} \right)$$<ul>
 <li><strong>单位矩阵 $I$（即常数 1）的本质</strong>：它代表残差主干那条“毫无阻碍的直线通道”。</li>
 <li><strong>100% 梯度直达</strong>：无论中间各层的分支 $\text{SubLayer}$ 导数缩水到多么小（哪怕全部衰减为 0），顶层的梯度 $\frac{\partial \mathcal{L}}{\partial x_L}$ 乘以单位矩阵 $I$，依然能够 <strong>100% 完整无损地灌回最底层</strong>，从数学结构上免疫了梯度消失。</li>
 </ul>
@@ -295,16 +286,14 @@
   </a>
 </h4><p>在概率论中，若随机变量 $A$ 与 $B$ 独立不相关，则 $\text{Var}(A+B) = \text{Var}(A) + \text{Var}(B)$。
 在前向主干 $x_{l+1} = x_l + f_l$ 中，假设分支吐出的新特征方差稳定为常数 $v$，且初始词嵌入方差 $\text{Var}(x_0) = 1$。由于主干没有标准化拦截，方差随层数线性累加：</p>
-<p>$$\text{Var}(x_l) \approx 1 + l \cdot v$$</p>
-<p>越往高层走，主干数据范围越膨胀，在高层形成了一片方差规模极其宏大的“特征太平洋”。</p>
+$$\text{Var}(x_l) \approx 1 + l \cdot v$$<p>越往高层走，主干数据范围越膨胀，在高层形成了一片方差规模极其宏大的“特征太平洋”。</p>
 <h4 id="-高层梯度被无情稀释" class="heading-element"><span>② 高层梯度被无情稀释</span>
   <a href="#-%e9%ab%98%e5%b1%82%e6%a2%af%e5%ba%a6%e8%a2%ab%e6%97%a0%e6%83%85%e7%a8%80%e9%87%8a" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h4><p>当数据准备进入高层子层内部时，必须先通过 LN，此时 LN 算出的标准差为 $\sigma_l = \sqrt{\text{Var}(x_l)} \approx \sqrt{l \cdot v}$。
 将此项带入反向传播的分支链式展开中：</p>
-<p>$$\frac{\partial \text{SubLayer}_l}{\partial x_0} = \frac{\partial \text{SubLayer}_l}{\partial \text{LN}(x_l)} \cdot \underset{\text{极小项 } \mathcal{O}(\frac{1}{\sqrt{l}})}{\frac{\partial \text{LN}(x_l)}{\partial x_l}} \cdot \frac{\partial x_l}{\partial x_0}$$</p>
-<p>由于 $\frac{\partial \text{LN}(x_l)}{\partial x_l} \propto \frac{1}{\sigma_l} \approx \frac{1}{\sqrt{l}}$：</p>
+$$\frac{\partial \text{SubLayer}_l}{\partial x_0} = \frac{\partial \text{SubLayer}_l}{\partial \text{LN}(x_l)} \cdot \underset{\text{极小项 } \mathcal{O}(\frac{1}{\sqrt{l}})}{\frac{\partial \text{LN}(x_l)}{\partial x_l}} \cdot \frac{\partial x_l}{\partial x_0}$$<p>由于 $\frac{\partial \text{LN}(x_l)}{\partial x_l} \propto \frac{1}{\sigma_l} \approx \frac{1}{\sqrt{l}}$：</p>
 <ul>
 <li>当网络堆叠到第 400 层时，该项导数被庞大的分母稀释为原来的 $\frac{1}{\sqrt{400}} = \frac{1}{20}$。</li>
 <li><strong>最终后果</strong>：越往高层，子层分支拿到的参数更新梯度越微弱，高层 Attention/FFN 权重几乎更新不动；在前向传播中，新算出的轻量特征加进太平洋主干也如同“一滴水融入大海”。高层网络退化为等价映射（Identity Mapping），开始“混日子”，引发<strong>模型容量坍塌</strong>。</li>
@@ -328,10 +317,8 @@
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>将均值归零的 RMS 引入反向传播，它对高层方差根号级膨胀的投影依然完好：</p>
-<p>$$\text{RMS}(x_l) \approx \sqrt{\text{Var}(x_l)} \approx \sqrt{l \cdot v}$$</p>
-<p>其偏导数依然雷打不动地保留了倒数缩放特性：</p>
-<p>$$\frac{\partial \text{RMSNorm}(x_l)}{\partial x_l} \propto \frac{1}{\text{RMS}(x_l)} \approx \frac{1}{\sqrt{l}}$$</p>
-<p>它完美继承了经典 LN 的“梯度控温”能力，既确保了高层混日子、主干不崩溃的绝对安全，又卸下了沉重的硬件带宽包袱。</p>
+$$\text{RMS}(x_l) \approx \sqrt{\text{Var}(x_l)} \approx \sqrt{l \cdot v}$$<p>其偏导数依然雷打不动地保留了倒数缩放特性：</p>
+$$\frac{\partial \text{RMSNorm}(x_l)}{\partial x_l} \propto \frac{1}{\text{RMS}(x_l)} \approx \frac{1}{\sqrt{l}}$$<p>它完美继承了经典 LN 的“梯度控温”能力，既确保了高层混日子、主干不崩溃的绝对安全，又卸下了沉重的硬件带宽包袱。</p>
 <hr>
 <h2 id="模块五三大标准化配置纵向对比总结表" class="heading-element"><span>模块五：三大标准化配置纵向对比总结表</span>
   <a href="#%e6%a8%a1%e5%9d%97%e4%ba%94%e4%b8%89%e5%a4%a7%e6%a0%87%e5%87%86%e5%8c%96%e9%85%8d%e7%bd%ae%e7%ba%b5%e5%90%91%e5%af%b9%e6%af%94%e6%80%bb%e7%bb%93%e8%a1%a8" class="heading-mark">
@@ -401,7 +388,7 @@
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
+        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/mlpre-norm-post-norm-rmsnorm/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

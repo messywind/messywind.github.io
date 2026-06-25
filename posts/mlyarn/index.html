@@ -11,8 +11,8 @@
   <meta itemprop="name" content="YaRN">
   <meta itemprop="description" content="RoPE 长文本外推为什么受限，以及 YaRN 是怎么解决的 主线：RoPE 原理 → 直接外推为什么崩 → 内插(PI)的代价 → NTK-Aware 分频段处理 → NTK-by-parts / YaRN 的完整方案。 一句话抓手：RoPE 的注意力分数只依赖相对位置对应的旋转角；外推就是把这个角推到了训练时从没见过的区间，于是分布外（OOD）导致效果骤降（直接外推往往只剩 20%~30% 的有效性能）。">
   <meta itemprop="datePublished" content="2026-06-24T13:40:00+00:00">
-  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
-  <meta itemprop="wordCount" content="3694">
+  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="wordCount" content="3665">
   <meta itemprop="keywords" content="YaRN"><meta property="og:url" content="https://blog.messywind.top/posts/mlyarn/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="YaRN">
@@ -21,14 +21,14 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2026-06-24T13:40:00+00:00">
-    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
+    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
     <meta property="article:tag" content="YaRN">
 
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="YaRN">
   <meta name="twitter:description" content="RoPE 长文本外推为什么受限，以及 YaRN 是怎么解决的 主线：RoPE 原理 → 直接外推为什么崩 → 内插(PI)的代价 → NTK-Aware 分频段处理 → NTK-by-parts / YaRN 的完整方案。 一句话抓手：RoPE 的注意力分数只依赖相对位置对应的旋转角；外推就是把这个角推到了训练时从没见过的区间，于是分布外（OOD）导致效果骤降（直接外推往往只剩 20%~30% 的有效性能）。">
 <meta name="application-name" content="凌乱之风的博客">
-<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mlyarn/" title="YaRN - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/mlmla/" title="MLA" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mlyarn/index.md" title="YaRN - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mlyarn/" title="YaRN - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/mlmla/" title="MLA" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/mldsamtp/" title="DSA &amp; MTP" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mlyarn/index.md" title="YaRN - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
   {
@@ -39,8 +39,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/mlyarn\/"
-    },"genre": "posts","keywords": "YaRN","wordcount":  3694 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/mlyarn\/","datePublished": "2026-06-24T13:40:00+00:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
+    },"genre": "posts","keywords": "YaRN","wordcount":  3665 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlyarn\/","datePublished": "2026-06-24T13:40:00+00:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -148,7 +148,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>YaRN</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-24 13:40:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="3694 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 3700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 8 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="YaRN"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-24 13:40:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="3665 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 3700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 8 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="YaRN"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -198,19 +198,17 @@
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h2><p>RoPE 把 query / key 向量按维度两两分组，每一组（第 $d$ 对，$d \in [0, \tfrac{D}{2}-1]$，$D$ 为 head 维度）按位置 $m$ 旋转一个角度 $m\theta_d$，其中</p>
-<p>$$
+$$
 \theta_d = b^{-2d/D},\qquad b=10000 \ (\text{base})
-$$</p>
-<ul>
+$$<ul>
 <li>$d$ 小 → $\theta_d$ 大 → <strong>高频</strong>维度（转得快、波长短）。</li>
 <li>$d$ 大 → $\theta_d$ 小 → <strong>低频</strong>维度（转得慢、波长长）。</li>
 </ul>
 <p><strong>关键性质（相对位置不变性）</strong>：query 在位置 $m$、key 在位置 $n$，做内积后只依赖相对位置 $m-n$：</p>
-<p>$$
-\langle f_q(x_m, m),, f_k(x_n, n)\rangle
-= \mathrm{Re}!\left[, x_m^{*} W_q^{*} W_k, x_n \cdot e^{,i,\theta_d (m-n)},\right]
-$$</p>
-<p>注意力分数随相对位置 $(m-n)$ 在复平面上<strong>绕单位圆旋转</strong>，旋转角 = $(m-n)\theta_d$。这一项 $e^{i\theta_d(m-n)}$ 就是后面所有讨论的主角。</p>
+$$
+\langle f_q(x_m, m),\, f_k(x_n, n)\rangle
+= \mathrm{Re}\!\left[\, x_m^{\*} W_q^{*} W_k\, x_n \cdot e^{\,i\,\theta_d (m-n)}\,\right]
+$$<p>注意力分数随相对位置 $(m-n)$ 在复平面上<strong>绕单位圆旋转</strong>，旋转角 = $(m-n)\theta_d$。这一项 $e^{i\theta_d(m-n)}$ 就是后面所有讨论的主角。</p>
 <hr>
 <h2 id="1-为什么直接外推会受限对应图-1" class="heading-element"><span>1. 为什么&quot;直接外推&quot;会受限（对应图 1）</span>
   <a href="#1-%e4%b8%ba%e4%bb%80%e4%b9%88%e7%9b%b4%e6%8e%a5%e5%a4%96%e6%8e%a8%e4%bc%9a%e5%8f%97%e9%99%90%e5%af%b9%e5%ba%94%e5%9b%be-1" class="heading-mark">
@@ -222,23 +220,21 @@ $$</p>
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>设训练长度（Train Size）为 $L$：</p>
-<p>$$
+$$
 m-n \in [0,\ L-1]
 \quad\Rightarrow\quad
 \text{rotary angle} = (m-n)\theta_d \in [0,\ (L-1)\theta_d]
-$$</p>
-<p>也就是说，训练阶段模型<strong>只见过</strong> $[0,\ (L-1)\theta_d]$ 这一段角度（图中红色点覆盖的弧）。</p>
+$$<p>也就是说，训练阶段模型<strong>只见过</strong> $[0,\ (L-1)\theta_d]$ 这一段角度（图中红色点覆盖的弧）。</p>
 <h3 id="12-测试时把角度推到了圆外" class="heading-element"><span>1.2 测试时把角度推到了圆外</span>
   <a href="#12-%e6%b5%8b%e8%af%95%e6%97%b6%e6%8a%8a%e8%a7%92%e5%ba%a6%e6%8e%a8%e5%88%b0%e4%ba%86%e5%9c%86%e5%a4%96" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>设测试长度（Test Size）扩到 $2L$：</p>
-<p>$$
+$$
 m-n \in [0,\ 2L-1]
 \quad\Rightarrow\quad
 \text{angle} \in [0,\ (2L-1)\theta_d]
-$$</p>
-<p>新增的 $[(L-1)\theta_d,\ (2L-1)\theta_d]$ 这一段（图中黄色 / 绿色箭头指向的弧）是<strong>训练时从未出现过的角度区间</strong>，即图里标注的 <strong><code>out of bound</code>（越界 / OOD）</strong>。</p>
+$$<p>新增的 $[(L-1)\theta_d,\ (2L-1)\theta_d]$ 这一段（图中黄色 / 绿色箭头指向的弧）是<strong>训练时从未出现过的角度区间</strong>，即图里标注的 <strong><code>out of bound</code>（越界 / OOD）</strong>。</p>
 <blockquote>
 <p>直观理解：模型学到的是&quot;在见过的角度范围内，相对位置 → 注意力&quot;的映射。一旦相对位置变大、把角度推到没见过的区间，这套映射就失效了，注意力分布紊乱 → 长文本性能骤降（经验上直接外推常常只剩 <strong>20%~30%</strong> 的有效能力）。</p>
 </blockquote>
@@ -290,12 +286,11 @@ $$</p>
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h2><p><strong>核心思想</strong>：<code>g(m)</code> 不动（仍然 $g(m)=m$），只对每个维度的频率 $h(\theta_d)$ 做<strong>随频率渐变</strong>的调整。</p>
-<p>$$
+$$
 h(\theta_d) = b^{-2d/D}\cdot s^{-2d/D},
 \qquad d \in \left[0,\ \tfrac{D}{2}-1\right],
 \qquad s = \frac{L_{\text{test}}}{L_{\text{train}}}
-$$</p>
-<blockquote>
+$$<blockquote>
 <p>等价说法：把 base 从 $b$ 放大为 $b&rsquo; \approx b\cdot s^{D/(D-2)}$，本质是&quot;改 base&quot;。$s$ 是上下文扩展比例，相当于在原频率上多乘了 $s^{-2d/D}$ 这一项做插值。</p>
 </blockquote>
 <h3 id="两端分析理解设计动机" class="heading-element"><span>两端分析（理解设计动机）</span>
@@ -304,13 +299,11 @@ $$</p>
   </a>
 </h3><ul>
 <li>
-<p><strong>高频端</strong>（$d=0$）：
-$$ s^{-2d/D}=s^{0}=1 ;\Rightarrow; h(\theta_0)=\theta_0 $$
+$$ s^{-2d/D}=s^{0}=1 \;\Rightarrow\; h(\theta_0)=\theta_0 $$<p>
 频率不变 → <strong>等于直接外推</strong>，完整保留高频细节（局部分辨率不丢）。</p>
 </li>
 <li>
-<p><strong>低频端</strong>（$d=\tfrac{D}{2}$）：
-$$ s^{-2d/D}=s^{-1} ;\Rightarrow; h(\theta_{D/2})=\frac{\theta_{D/2}}{s} $$
+$$ s^{-2d/D}=s^{-1} \;\Rightarrow\; h(\theta_{D/2})=\frac{\theta_{D/2}}{s} $$<p>
 频率压缩 $s$ 倍 → <strong>退化成线性内插（PI）</strong>，把最危险的低频维度压回安全范围。</p>
 </li>
 </ul>
@@ -330,14 +323,12 @@ $$ s^{-2d/D}=s^{-1} ;\Rightarrow; h(\theta_{D/2})=\frac{\theta_{D/2}}{s} $$
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>一个维度转满一圈需要的 token 数（波长 / 周期）：</p>
-<p>$$
+$$
 T_d = \frac{2\pi}{\theta_d}
-$$</p>
-<p>训练长度内，该维度转过的<strong>圈数</strong>：</p>
-<p>$$
-r(d) = \frac{L_{\text{train}}}{T_d} = \frac{\theta_d, L_{\text{train}}}{2\pi}
-$$</p>
-<ul>
+$$<p>训练长度内，该维度转过的<strong>圈数</strong>：</p>
+$$
+r(d) = \frac{L_{\text{train}}}{T_d} = \frac{\theta_d\, L_{\text{train}}}{2\pi}
+$$<ul>
 <li>$r(d)$ 大 → 训练内转了很多圈 → <strong>高频</strong>，圆被点满 → 该外推。</li>
 <li>$r(d)$ 小 → 训练内连一圈都不到 → <strong>低频</strong>，只点亮一小段 → 该内插。</li>
 </ul>
@@ -345,25 +336,23 @@ $$</p>
   <a href="#42-ramp-%e5%87%bd%e6%95%b0-gammar%e5%86%b3%e5%ae%9a%e5%a4%96%e6%8e%a8--%e5%86%85%e6%8f%92--%e6%b7%b7%e5%90%88" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><p>$$
+</h3>$$
 \gamma(r)=
 \begin{cases}
-1, &amp; r&gt;\beta,\\
-0, &amp; r&lt;\alpha,\\
-\dfrac{r-\alpha}{\beta-\alpha}, &amp; \alpha \le r \le \beta.
+1, & r>\beta,\\\\
+0, & r<\alpha,\\\\
+\dfrac{r-\alpha}{\beta-\alpha}, & \alpha \le r \le \beta.
 \end{cases}
-$$</p>
-<blockquote>
+$$<blockquote>
 <p>注：图中&quot;otherwise&quot;分子写成 $r-\beta$、分母 $\alpha-\beta$ 是手写笔误；要满足 $\gamma(\alpha)=0,\ \gamma(\beta)=1$，标准形式应为 $\dfrac{r-\alpha}{\beta-\alpha}$。</p>
 </blockquote>
 <h3 id="43-频率调整公式三段式" class="heading-element"><span>4.3 频率调整公式（三段式）</span>
   <a href="#43-%e9%a2%91%e7%8e%87%e8%b0%83%e6%95%b4%e5%85%ac%e5%bc%8f%e4%b8%89%e6%ae%b5%e5%bc%8f" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h3><p>$$
-h(\theta_d) = \big(1-\gamma(r(d))\big)\cdot\frac{\theta_d}{s} ;+; \gamma(r(d))\cdot \theta_d
-$$</p>
-<p>对照图 3 的两个圆来理解：</p>
+</h3>$$
+h(\theta_d) = \big(1-\gamma(r(d))\big)\cdot\frac{\theta_d}{s} \;+\; \gamma(r(d))\cdot \theta_d
+$$<p>对照图 3 的两个圆来理解：</p>
 <table>
   <thead>
       <tr>
@@ -408,12 +397,11 @@ $$</p>
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>长上下文下注意力 logits 的分布会漂移（熵变大、变&quot;软&quot;），YaRN 额外引入温度 $t$ 给 logits 做缩放，把注意力重新&quot;锐化&quot;：</p>
-<p>$$
-\mathrm{softmax}!\left(\frac{q_m^{T} k_n}{t\sqrt{|D|}}\right),
+$$
+\mathrm{softmax}\!\left(\frac{q_m^{T} k_n}{t\sqrt{|D|}}\right),
 \qquad
 \sqrt{\frac{1}{t}} = 0.1\ln(s) + 1
-$$</p>
-<ul>
+$$<ul>
 <li>$s$ 越大（扩展倍数越高），$\tfrac{1}{\sqrt t}$ 越大 → logits 被放大、注意力更集中，补偿长文本带来的分布偏移。</li>
 <li>工程上很便宜：这个缩放因子可以<strong>直接乘进 RoPE 的 cos/sin 表</strong>，推理时零额外开销。</li>
 </ul>
@@ -499,26 +487,25 @@ A：PI 把所有维度的位置统一压缩 $s$ 倍（一刀切），代价是�
 A：两点。① <strong>NTK-by-parts</strong>：不用渐变公式，而是用旋转圈数 $r$ 配合 ramp 函数 $\gamma$ 做精确分段——$r&gt;\beta$ 保留高频（外推 $\theta_d$）、$r&lt;\alpha$ 避免混淆（内插 $\theta_d/s$）、中间线性混合。② <strong>softmax 温度缩放</strong>：$\tfrac{1}{\sqrt t}=0.1\ln s+1$，补偿长上下文下注意力 logits 的分布漂移，且可融进 cos/sin 表零开销。</p>
 <p><strong>Q5：YaRN 的 ramp 函数和最终频率公式写一下。</strong>
 A：</p>
-<p>$$
+$$
 \gamma(r)=
 \begin{cases}
-1, &amp; r&gt;\beta,\\
-0, &amp; r&lt;\alpha,\\
-\frac{r-\alpha}{\beta-\alpha}, &amp; \alpha\le r\le\beta,
+1, & r>\beta,\\\\
+0, & r<\alpha,\\\\
+\frac{r-\alpha}{\beta-\alpha}, & \alpha\le r\le\beta,
 \end{cases}
 \qquad
 h(\theta_d)=
 (1-\gamma(r))\frac{\theta_d}{s}
 +\gamma(r)\theta_d.
-$$</p>
-<p>DeepSeek-V2 取 $\alpha=1,\ \beta=32$。</p>
+$$<p>DeepSeek-V2 取 $\alpha=1,\ \beta=32$。</p>
 <p><strong>Q6：$\alpha,\beta$ 分别控制什么？</strong>
 A：$\beta$ 是&quot;保留高频&quot;的圈数上阈值——圈数大于 $\beta$ 的维度完全外推（不插值）；$\alpha$ 是&quot;避免位置混淆&quot;的圈数下阈值——圈数小于 $\alpha$ 的维度完全内插。$[\alpha,\beta]$ 之间做平滑过渡，避免频率调整出现突变。</p>
 </div><div class="post-footer" id="post-footer">
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
+        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/mlyarn/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">
@@ -531,7 +518,7 @@ A：$\beta$ 是&quot;保留高频&quot;的圈数上阈值——圈数大于 $\be
     <section>
       <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
     </section>
-  </div><div class="post-nav"><a href="/posts/mlmla/" class="post-nav-item" rel="prev" title="MLA"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>MLA</a></div>
+  </div><div class="post-nav"><a href="/posts/mlmla/" class="post-nav-item" rel="prev" title="MLA"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>MLA</a><a href="/posts/mldsamtp/" class="post-nav-item" rel="next" title="DSA &amp; MTP">DSA &amp; MTP<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
 </div>
 <div id="comments"><div id="giscus" class="comment">
           <script

@@ -11,8 +11,8 @@
   <meta itemprop="name" content="LLaMA">
   <meta itemprop="description" content="LLaMA 家族架构底座与代际演进（v1 - v4） 在大模型面试中，对 LLaMA 的考察通常分为两条线：“横向看架构底座”（考底层算子与推导）与“纵向看代际演进”（考技术视野与选型把控）。">
   <meta itemprop="datePublished" content="2026-06-17T15:29:00+00:00">
-  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
-  <meta itemprop="wordCount" content="4700">
+  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="wordCount" content="4715">
   <meta itemprop="keywords" content="LLaMa"><meta property="og:url" content="https://blog.messywind.top/posts/mlllama/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="LLaMA">
@@ -21,7 +21,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2026-06-17T15:29:00+00:00">
-    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
+    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
     <meta property="article:tag" content="LLaMa">
 
   <meta name="twitter:card" content="summary">
@@ -39,8 +39,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/mlllama\/"
-    },"genre": "posts","keywords": "LLaMa","wordcount":  4700 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/mlllama\/","datePublished": "2026-06-17T15:29:00+00:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
+    },"genre": "posts","keywords": "LLaMa","wordcount":  4715 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlllama\/","datePublished": "2026-06-17T15:29:00+00:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -148,7 +148,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>LLaMA</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-17 15:29:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-17">2026-06-17</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="4700 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 10 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="LLaMA"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-17 15:29:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-17">2026-06-17</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="4715 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 10 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="LLaMA"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -215,16 +215,13 @@
 <li><strong>底层数学公式：</strong>
 首先计算带有门控的 SwiGLU 激活输出：</li>
 </ul>
-<p>$$SwiGLU(x) = SiLU(xW_1) \otimes (xW_3)$$</p>
-<p>然后乘上降维矩阵 $W_2$ 得到最终的 FFN 输出：</p>
-<p>$$FFN_{LLaMA}(x) = (SiLU(xW_1) \otimes xW_3)W_2$$</p>
-<ul>
+$$SwiGLU(x) = SiLU(xW_1) \otimes (xW_3)$$<p>然后乘上降维矩阵 $W_2$ 得到最终的 FFN 输出：</p>
+$$FFN_{LLaMA}(x) = (SiLU(xW_1) \otimes xW_3)W_2$$<ul>
 <li><strong>机制解析：</strong> $xW_1$ 经过 $SiLU$ 激活后充当“门控”，控制 $xW_3$ 提取的信息流向下一层的比例。</li>
 <li><strong>参数对齐：</strong> 由于多了一个权重矩阵 $W_3$，为了与经典 Transformer 保持相同的总参数量，LLaMA 将 FFN 的隐藏层维度从经典的 $4d$ 缩小到了 $\frac{8}{3}d$ 的倍数。</li>
 </ul>
 <p>SiLU 其实就是 $\beta=1$ 时的 Swish 函数，它的数学公式是输入 $x$ 乘以 $x$ 的 Sigmoid 激活值：</p>
-<p>$$SiLU(x) = x \cdot \sigma(x) = \frac{x}{1 + e^{-x}}$$</p>
-<h4 id="-面试加分项为什么-llama-偏爱-silu-而不是-relu" class="heading-element"><span>💡 面试加分项：为什么 LLaMA 偏爱 SiLU 而不是 ReLU？</span>
+$$SiLU(x) = x \cdot \sigma(x) = \frac{x}{1 + e^{-x}}$$<h4 id="-面试加分项为什么-llama-偏爱-silu-而不是-relu" class="heading-element"><span>💡 面试加分项：为什么 LLaMA 偏爱 SiLU 而不是 ReLU？</span>
   <a href="#-%e9%9d%a2%e8%af%95%e5%8a%a0%e5%88%86%e9%a1%b9%e4%b8%ba%e4%bb%80%e4%b9%88-llama-%e5%81%8f%e7%88%b1-silu-%e8%80%8c%e4%b8%8d%e6%98%af-relu" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -976,7 +973,7 @@ ReLU 在 $x=0$ 处是一个不可导的尖角（拐点），而 SiLU 处处平�
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
+        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/mlllama/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

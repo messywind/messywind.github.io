@@ -15,8 +15,8 @@
 课程网址
 本地环境部署 由于 2024 版的没有给 jupyter 的压缩包，所以先下载 2024 colab 版本，然后在 colab 上把数据拉下来然后下载到本地，放到 /datasets 下，之后删除掉一开始的 google.colab 驱动相关。">
   <meta itemprop="datePublished" content="2024-12-03T13:47:00+00:00">
-  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
-  <meta itemprop="wordCount" content="41907">
+  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="wordCount" content="41974">
   <meta itemprop="keywords" content="KNN,神经网络,SVM"><meta property="og:url" content="https://blog.messywind.top/posts/mlcs231n/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="CS231n">
@@ -27,7 +27,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2024-12-03T13:47:00+00:00">
-    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
+    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
     <meta property="article:tag" content="KNN">
     <meta property="article:tag" content="神经网络">
     <meta property="article:tag" content="SVM">
@@ -49,8 +49,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/mlcs231n\/"
-    },"genre": "posts","keywords": "KNN, 神经网络, SVM","wordcount":  41907 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/mlcs231n\/","datePublished": "2024-12-03T13:47:00+00:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
+    },"genre": "posts","keywords": "KNN, 神经网络, SVM","wordcount":  41974 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlcs231n\/","datePublished": "2024-12-03T13:47:00+00:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -158,7 +158,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>CS231n</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2024-12-03 13:47:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-12-03">2024-12-03</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="41907 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 42000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 84 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="CS231n"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2024-12-03 13:47:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2024-12-03">2024-12-03</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="41974 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 42000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 84 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="CS231n"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -698,9 +698,7 @@
   </a>
 </h4><p>We can also use other distance metrics such as L1 distance.
 For pixel values $p_{ij}^{(k)}$ at location $(i,j)$ of some image $I_k$,</p>
-<p>the mean $\mu$ across all pixels over all images is $$\mu=\frac{1}{nhw}\sum_{k=1}^n\sum_{i=1}^{h}\sum_{j=1}^{w}p_{ij}^{(k)}$$
-And the pixel-wise mean $\mu_{ij}$ across all images is
-$$\mu_{ij}=\frac{1}{n}\sum_{k=1}^np_{ij}^{(k)}.$$
+$$\mu=\frac{1}{nhw}\sum_{k=1}^n\sum_{i=1}^{h}\sum_{j=1}^{w}p_{ij}^{(k)}$$$$\mu_{ij}=\frac{1}{n}\sum_{k=1}^np_{ij}^{(k)}.$$<p>
 The general standard deviation $\sigma$ and pixel-wise standard deviation $\sigma_{ij}$ is defined similarly.</p>
 <p>Which of the following preprocessing steps will not change the performance of a Nearest Neighbor classifier that uses L1 distance? Select all that apply. To clarify, both training and test examples are preprocessed in the same way.</p>
 <ol>
@@ -714,11 +712,7 @@ The general standard deviation $\sigma$ and pixel-wise standard deviation $\sigm
 <p>${\textit Your Explanation:}$</p>
 <p>我们也可以使用其他距离度量方法，比如 L1 距离。
 对于某个图像 $I_k$ 中位置 $(i,j)$ 的像素值 $p_{ij}^{(k)}$，</p>
-<p>所有图像中所有像素的均值 $\mu$ 为：
-$$\mu=\frac{1}{nhw}\sum_{k=1}^n\sum_{i=1}^{h}\sum_{j=1}^{w}p_{ij}^{(k)}$$</p>
-<p>所有图像中每个像素位置的均值 $\mu_{ij}$ 为：
-$$\mu_{ij}=\frac{1}{n}\sum_{k=1}^np_{ij}^{(k)}.$$</p>
-<p>总体标准差 $\sigma$ 和每个像素位置的标准差 $\sigma_{ij}$ 的定义类似。</p>
+$$\mu=\frac{1}{nhw}\sum_{k=1}^n\sum_{i=1}^{h}\sum_{j=1}^{w}p_{ij}^{(k)}$$$$\mu_{ij}=\frac{1}{n}\sum_{k=1}^np_{ij}^{(k)}.$$<p>总体标准差 $\sigma$ 和每个像素位置的标准差 $\sigma_{ij}$ 的定义类似。</p>
 <p>以下哪种预处理步骤不会改变使用 L1 距离的最近邻分类器的性能？选择所有适用的选项。为明确起见，训练和测试样本都以相同的方式进行预处理。</p>
 <ol>
 <li>减去均值 $\mu$ ($\tilde{p}_{ij}^{(k)}=p_{ij}^{(k)}-\mu$.)</li>
@@ -1445,14 +1439,12 @@ $$\mu_{ij}=\frac{1}{n}\sum_{k=1}^np_{ij}^{(k)}.$$</p>
 <p>多类别支持向量机 &ldquo;希望 &ldquo;正确类别的得分至少比所有其他类别的得分高出 delta 值。 如果任何一个类别的得分在红色区域内（或更高），那么就会有累计损失。 否则，损失为零。 我们的目标是为训练数据中的所有示例找到同时满足这一约束条件的权重，并尽可能降低总损失。</p>
 <p><a class="lightgallery" href="https://img.messywind.top/blog/image/ML/CS231n/margin.jpg?size=large" data-thumbnail="https://img.messywind.top/blog/image/ML/CS231n/margin.jpg?size=small" data-sub-html="<h2>1</h2>"><img loading="lazy" src="https://img.messywind.top/blog/image/ML/CS231n/margin.jpg" alt="1" srcset="https://img.messywind.top/blog/image/ML/CS231n/margin.jpg?size=small, https://img.messywind.top/blog/image/ML/CS231n/margin.jpg?size=medium 1.5x, https://img.messywind.top/blog/image/ML/CS231n/margin.jpg?size=large 2x" data-title="1" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
 <p>除此之外，还要加上一个正则化损失，一般是 L2：</p>
-<p>$$
+$$
 R(W) = \sum_{k}\sum_{l}W_{k, l} ^ 2
-$$</p>
-<p>然后乘以一个参数(函数传入的 reg)，最后和平均累计损失相加得到最终损失：</p>
-<p>$$
+$$<p>然后乘以一个参数(函数传入的 reg)，最后和平均累计损失相加得到最终损失：</p>
+$$
 L = \frac{1}{N}\sum_i L_i + \lambda R(W)
-$$</p>
-<p>那么梯度就是对损失函数对 W 求导，第一部分可以在算损失的时候计算出来。</p>
+$$<p>那么梯度就是对损失函数对 W 求导，第一部分可以在算损失的时候计算出来。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -2271,40 +2263,33 @@ $$</p>
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h4><p>SoftMax 是把得分转换成了概率。公式如下：</p>
-<p>$$
+$$
 S(y_i) = \dfrac{e ^ {y_i}}{\sum\limits_{j} e ^ {y_j}}
-$$</p>
-<p>损失函数就是根据交叉熵套了个 $-\log(x)$：</p>
-<p>$$
+$$<p>损失函数就是根据交叉熵套了个 $-\log(x)$：</p>
+$$
 L_i = -\log\left(\dfrac{e ^ {y_i}}{\sum\limits_{j} e ^ {y_j}}\right)
-$$</p>
-<h4 id="softmax-梯度推导" class="heading-element"><span>SoftMax 梯度推导</span>
+$$<h4 id="softmax-梯度推导" class="heading-element"><span>SoftMax 梯度推导</span>
   <a href="#softmax-%e6%a2%af%e5%ba%a6%e6%8e%a8%e5%af%bc" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h4><p>首先样本 $i$ 的得分为：</p>
-<p>$$
+$$
 s_i = x_i \cdot W
-$$</p>
-<p>$s_{i, j}$ 表示样本 $i$ 在类别 $j$ 上的得分。</p>
-<p>$$
+$$<p>$s_{i, j}$ 表示样本 $i$ 在类别 $j$ 上的得分。</p>
+$$
 p_i = \text{softmax}(s_i) = \dfrac{e ^ {s_i}}{\sum\limits_{k} e ^ {s_{i, k}}}
-$$</p>
-<p>$p_{i, j}$ 表示样本 $i$ 被预测为类别 $j$ 的概率。</p>
+$$<p>$p_{i, j}$ 表示样本 $i$ 被预测为类别 $j$ 的概率。</p>
 <p>假设一共有 $C$ 类，$p_i$ 是长这样子的：</p>
-<p>$$
+$$
 p_i = \left[ \frac{e^{s_{i, 1}}}{\sum\limits_{k=1}^{C} e^{s_{i, k}}}, \frac{e^{s_{i, 2}}}{\sum\limits_{k=1}^{C} e^{s_{i, k}}}, \cdots, \frac{e^{s_{i, C}}}{\sum\limits_{k=1}^{C} e^{s_{i, k}}} \right]
-$$</p>
-<p>那么它的损失函数为：</p>
-<p>$$
+$$<p>那么它的损失函数为：</p>
+$$
 L_i = -\log(p_i) = -\log\left(\dfrac{e ^ {s_i}}{\sum\limits_{k} e ^ {s_{i, k}}}\right)
-$$</p>
-<p>(以下公式为了形式美观将 $s_{i, j}$ 令成 $s_j$，$p_{i, j}$ 令成 $p_j$，意思是都是样本 $i$ 的)</p>
+$$<p>(以下公式为了形式美观将 $s_{i, j}$ 令成 $s_j$，$p_{i, j}$ 令成 $p_j$，意思是都是样本 $i$ 的)</p>
 <p>损失函数对 $W$ 求导，并使用链式法则：</p>
-<p>$$
+$$
 \dfrac{\partial L_i}{\partial W} = \dfrac{\partial L_i}{\partial s_j} \times \dfrac{\partial s_j}{\partial W}
-$$</p>
-<p>显然有 $\dfrac{\partial s_j}{\partial W} = x_i$，重点讨论 $\dfrac{\partial L_i}{\partial s_j}$：</p>
+$$<p>显然有 $\dfrac{\partial s_j}{\partial W} = x_i$，重点讨论 $\dfrac{\partial L_i}{\partial s_j}$：</p>
 <div class="details admonition tip open">
   <div class="details-summary admonition-title"><i class="icon fa-fw fa-regular fa-lightbulb" aria-hidden="true"></i>$\frac{\partial L_i}{\partial s_j}$<i class="details-icon fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></div>
   <div class="details-content">
@@ -2312,34 +2297,28 @@ $$</p>
 <ul>
 <li>如果 $j$ 为正确类别 ($y_i = j$)：</li>
 </ul>
-<p>$$
+$$
 \frac{\partial L_i}{\partial s_j} = \frac{\partial (-\log(p_j))}{\partial s_j} = -\frac{1}{p_j} \times \frac{\partial p_j}{\partial s_j}
-$$</p>
-<p>接下来 $\dfrac{\partial p_j}{\partial s_j}$ 是：</p>
-<p>$$
+$$<p>接下来 $\dfrac{\partial p_j}{\partial s_j}$ 是：</p>
+$$
 \frac{\partial p_j}{\partial s_j} = \frac{\partial}{\partial s_j} \left( \frac{e^{s_j}}{\sum\limits_{k} e^{s_{j, k}}} \right)
-$$</p>
-<p>求导：</p>
-<p>$$
+$$<p>求导：</p>
+$$
 \frac{\partial}{\partial s_j} \left( \frac{e^{s_j}}{\sum\limits_{k} e^{s_{j, k}}} \right) = \frac{e^{s_j} \sum\limits_{k} e^{s_{j, k}} - e^{s_j} \cdot e^{s_j}}{\left(\sum\limits_{k} e^{s_{j, k}}\right)^2} = \frac{e^{s_j} \left(\sum\limits_{k} e^{s_{j, k}} - e^{s_j}\right)}{\left(\sum\limits_{k} e^{s_{j, k}}\right)^2} = \dfrac{e ^ {s_j}}{\sum\limits_{k} e^{s_{j, k}}} \times \left(1 - \dfrac{e ^ {s_j}}{\sum\limits_{k} e^{s_{j, k}}}\right) = p_j (1 - p_j)
-$$</p>
-<p>于是 $\dfrac{\partial L_i}{\partial s_j} = -\dfrac{1}{p_j} \times p_j(1 - p_j) = (p_j - 1)$</p>
+$$<p>于是 $\dfrac{\partial L_i}{\partial s_j} = -\dfrac{1}{p_j} \times p_j(1 - p_j) = (p_j - 1)$</p>
 <p>则 $\dfrac{\partial L_i}{\partial W} = (p_j - 1) x_i$</p>
 <ul>
 <li>如果 $j$ 为不正确类别 ($y_i \ne j$)：</li>
 </ul>
-<p>$$
+$$
 \frac{\partial L_i}{\partial s_{y_j}} = \frac{\partial (-\log(p_{y_i}))}{\partial s_{y_j}} = -\frac{1}{p_{y_i}} \times \frac{\partial p_{y_i}}{\partial s_{y_j}}
-$$</p>
-<p>接下来 $\dfrac{\partial p_{y_j}}{\partial s_{y_j}}$ 是：</p>
-<p>$$
+$$<p>接下来 $\dfrac{\partial p_{y_j}}{\partial s_{y_j}}$ 是：</p>
+$$
 \dfrac{\partial p_{y_j}}{\partial s_{y_j}} = \frac{\partial}{\partial s_{y_j}} \left( \frac{e^{s_j}}{\sum\limits_{k} e^{s_{j, k}}} \right)
-$$</p>
-<p>求导：</p>
-<p>$$
+$$<p>求导：</p>
+$$
 \frac{\partial}{\partial s_{y_j}} \left( \frac{e^{s_j}}{\sum\limits_{k} e^{s_{j, k}}} \right) = -\frac{e^{s_j} e ^ {s_{y_j}}}{\left(\sum\limits_{k} e^{s_{j, k}}\right) ^ 2} = -p_j p_{y_j}
-$$</p>
-<p>于是 $\dfrac{\partial L_i}{\partial s_{y_j}} = -\dfrac{1}{p_{y_i}} \times \dfrac{\partial p_{y_i}}{\partial s_{y_j}} = p_j$</p>
+$$<p>于是 $\dfrac{\partial L_i}{\partial s_{y_j}} = -\dfrac{1}{p_{y_i}} \times \dfrac{\partial p_{y_i}}{\partial s_{y_j}} = p_j$</p>
 <p>则 $\dfrac{\partial L_i}{\partial W} = p_j x_i$</p>
 </div>
   </div>
@@ -2934,46 +2913,36 @@ $$</p>
 </h4><p>我们知道这是批量梯度下降，也就是说输入数据 $x$ 被我们处理成了 $n \times k$ 维的，每一行代表一个数据，列就是特征。那么输出层定义为 $n \times m$ 维的，$n$ 是数据批量个数，$m$ 是输出层节点个数，但是 $w$ 和 $b$ 分别是 $k \times m$ 与 $1 \times m$ 维的，也就是说这 $n$ 个数据共用 $w$ 和 $b$，然后每个数据对应一组输出。</p>
 <p>那么在反向传播时，我们需要计算 $x, w, b$ 的偏导，首先他给了一个 <code>dout</code> 数组，这代表输出层的导数，他也是一个 $n \times m$ 的。</p>
 <p>单看 $\text{out}_{i, j}$：</p>
-<p>$$
-\text{out}_{i, j} = \sum_k x_{i, k} w_{k, j} + b_j
-$$</p>
-<p>$\text{out}_{i, j}$ 对 $w_{k, j}$ 求偏导：</p>
-<p>$$
-\dfrac{\partial \text{out}_{i, j}}{\partial w_{k, j}} = x_{i, k}
-$$</p>
-<p>$\text{out}_{i, j}$ 对 $x_{i, k}$ 求偏导：</p>
-<p>$$
-\dfrac{\partial \text{out}_{i, j}}{\partial x_{i, k}} = w_{k, j}
-$$</p>
-<p>$\text{out}_{i, j}$ 对 $b_j$ 求偏导：</p>
-<p>$$
-\dfrac{\partial \text{out}_{i, j}}{\partial b_j} = 1
-$$</p>
-<p>那么损失函数 $L$ 对 $w_{k, j}$ 求偏导，根据链式法则有：</p>
-<p>$$
-\dfrac{\partial L}{\partial w_{k, j}} = \sum_i \dfrac{\partial L}{\partial \text{out}_{i, j}} \dfrac{\partial \text{out}_{i, j}}{\partial w_{k, j}}
-$$</p>
-<p>其中 $\dfrac{\partial L}{\partial \text{out}_{i, j}}$ 这个东西就是 <code>dout[i, j]</code> (上游传来的导数)，而 $\dfrac{\partial \text{out}_{i, j}}{\partial w_{k, j}} = x_{i, k}$，所以</p>
-<p>$$
-\dfrac{\partial L}{\partial w_{k, j}} = \sum_i \text{dout}_{i, j}x_{i, k}
-$$</p>
-<p>再来看损失函数 $L_i$ 对 $x_{i, k}$ 求偏导，根据链式法则有：</p>
-<p>$$
-\dfrac{\partial L}{\partial x_{i, k}} = \sum_j \dfrac{\partial L}{\partial \text{out}_{i, j}} \dfrac{\partial \text{out}_{i, j}}{\partial x_{i, k}}
-$$</p>
-<p>继续带入 $\dfrac{\partial L}{\partial \text{out}_{i, j}} = \text{dout}_{i, j}$，$\dfrac{\partial \text{out}_{i, j}}{\partial x_{i, k}} = w_{k, j}$：</p>
-<p>$$
-\dfrac{\partial L}{\partial x_{i, k}} = \sum_j \text{dout}_{i, j}w_{k, j}
-$$</p>
-<p>继续看损失函数 $L_i$ 对 $b_{j}$ 求偏导，根据链式法则有：</p>
-<p>$$
-\dfrac{\partial L}{\partial b_{j}} = \sum_i \dfrac{\partial L}{\partial \text{out}_{i, j}} \dfrac{\partial \text{out}_{i, j}}{\partial b_{j}}
-$$</p>
-<p>还是继续带入 $\dfrac{\partial L}{\partial \text{out}_{i, j}} = \text{dout}_{i, j}$，$\dfrac{\partial \text{out}_{i, j}}{\partial b_j} = 1$，那么：</p>
-<p>$$
-\dfrac{\partial L}{\partial b_{j}} = \sum_i \text{dout}_{i, j}
-$$</p>
-<p>代码直接三行结束。</p>
+$$
+\text{out}\_{i, j} = \sum_k x_{i, k} w_{k, j} + b_j
+$$<p>$\text{out}_{i, j}$ 对 $w_{k, j}$ 求偏导：</p>
+$$
+\dfrac{\partial \text{out}\_{i, j}}{\partial w_{k, j}} = x_{i, k}
+$$<p>$\text{out}_{i, j}$ 对 $x_{i, k}$ 求偏导：</p>
+$$
+\dfrac{\partial \text{out}\_{i, j}}{\partial x_{i, k}} = w_{k, j}
+$$<p>$\text{out}_{i, j}$ 对 $b_j$ 求偏导：</p>
+$$
+\dfrac{\partial \text{out}\_{i, j}}{\partial b_j} = 1
+$$<p>那么损失函数 $L$ 对 $w_{k, j}$ 求偏导，根据链式法则有：</p>
+$$
+\dfrac{\partial L}{\partial w_{k, j}} = \sum_i \dfrac{\partial L}{\partial \text{out}\_{i, j}} \dfrac{\partial \text{out}\_{i, j}}{\partial w_{k, j}}
+$$<p>其中 $\dfrac{\partial L}{\partial \text{out}_{i, j}}$ 这个东西就是 <code>dout[i, j]</code> (上游传来的导数)，而 $\dfrac{\partial \text{out}_{i, j}}{\partial w_{k, j}} = x_{i, k}$，所以</p>
+$$
+\dfrac{\partial L}{\partial w_{k, j}} = \sum_i \text{dout}\_{i, j}x_{i, k}
+$$<p>再来看损失函数 $L_i$ 对 $x_{i, k}$ 求偏导，根据链式法则有：</p>
+$$
+\dfrac{\partial L}{\partial x_{i, k}} = \sum_j \dfrac{\partial L}{\partial \text{out}\_{i, j}} \dfrac{\partial \text{out}\_{i, j}}{\partial x_{i, k}}
+$$<p>继续带入 $\dfrac{\partial L}{\partial \text{out}_{i, j}} = \text{dout}_{i, j}$，$\dfrac{\partial \text{out}_{i, j}}{\partial x_{i, k}} = w_{k, j}$：</p>
+$$
+\dfrac{\partial L}{\partial x_{i, k}} = \sum_j \text{dout}\_{i, j}w_{k, j}
+$$<p>继续看损失函数 $L_i$ 对 $b_{j}$ 求偏导，根据链式法则有：</p>
+$$
+\dfrac{\partial L}{\partial b_{j}} = \sum_i \dfrac{\partial L}{\partial \text{out}\_{i, j}} \dfrac{\partial \text{out}\_{i, j}}{\partial b_{j}}
+$$<p>还是继续带入 $\dfrac{\partial L}{\partial \text{out}_{i, j}} = \text{dout}_{i, j}$，$\dfrac{\partial \text{out}_{i, j}}{\partial b_j} = 1$，那么：</p>
+$$
+\dfrac{\partial L}{\partial b_{j}} = \sum_i \text{dout}\_{i, j}
+$$<p>代码直接三行结束。</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -3110,11 +3079,9 @@ $$</p>
   <a href="#todo-relu_forward" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h4><p>这个就是直接套公式
-$$
+</h4>$$
 \text{ReLU}(x) = \max(0, x)
-$$</p>
-<div class="highlight"><div class="chroma">
+$$<div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -9522,11 +9489,10 @@ $$</p>
 <p><a class="lightgallery" href="https://img.messywind.top/blog/image/ML/CS231n/rnn1.webp?size=large" data-thumbnail="https://img.messywind.top/blog/image/ML/CS231n/rnn1.webp?size=small" data-sub-html="<h2>https://img.messywind.top/blog/image/ML/CS231n/rnn1.webp</h2>"><img loading="lazy" src="https://img.messywind.top/blog/image/ML/CS231n/rnn1.webp" alt="https://img.messywind.top/blog/image/ML/CS231n/rnn1.webp" srcset="https://img.messywind.top/blog/image/ML/CS231n/rnn1.webp?size=small, https://img.messywind.top/blog/image/ML/CS231n/rnn1.webp?size=medium 1.5x, https://img.messywind.top/blog/image/ML/CS231n/rnn1.webp?size=large 2x" data-title="https://img.messywind.top/blog/image/ML/CS231n/rnn1.webp" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
 <p>特点就是可以保留历史信息，其中 $x$ 可以代表一个单词向量，$x_t$ 是第 $t$ 个单词向量 (也叫做 $t$ 时刻)，图中的 $W, U, V$ 是每个时刻共用的参数。
 模型公式：</p>
-<p>$$
-o_t = g(V \cdot s_t) \\
+$$
+o_t = g(V \cdot s_t) \\\\
 s_t = f(U \cdot x_t + W \cdot s_{t - 1})
-$$</p>
-<p>在 CS231n 中，基本模型如下：</p>
+$$<p>在 CS231n 中，基本模型如下：</p>
 <p><a class="lightgallery" href="https://img.messywind.top/blog/image/ML/CS231n/rnn2.png?size=large" data-thumbnail="https://img.messywind.top/blog/image/ML/CS231n/rnn2.png?size=small" data-sub-html="<h2>https://img.messywind.top/blog/image/ML/CS231n/rnn2.png</h2>"><img loading="lazy" src="https://img.messywind.top/blog/image/ML/CS231n/rnn2.png" alt="https://img.messywind.top/blog/image/ML/CS231n/rnn2.png" srcset="https://img.messywind.top/blog/image/ML/CS231n/rnn2.png?size=small, https://img.messywind.top/blog/image/ML/CS231n/rnn2.png?size=medium 1.5x, https://img.messywind.top/blog/image/ML/CS231n/rnn2.png?size=large 2x" data-title="https://img.messywind.top/blog/image/ML/CS231n/rnn2.png" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/></a></p>
 <p>先从单步模型看起：</p>
 <h4 id="todo-rnn_step_forward" class="heading-element"><span>TODO: rnn_step_forward</span>
@@ -9534,10 +9500,9 @@ $$</p>
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h4><p>单步的前向传播直接套用公式，这里激活函数一般是 $\tanh$</p>
-<p>$$
+$$
 \text{next}_h = \tanh(\text{prev}_h \cdot W_h + x \cdot W_x + b)
-$$</p>
-<div class="highlight"><div class="chroma">
+$$<div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
 </span><span class="lnt"> 2
@@ -9616,15 +9581,12 @@ $$</p>
 <p>根据公式 $\text{next}_h = \tanh(\text{prev}_h \cdot W_h + x \cdot W_x + b)$</p>
 <p>我们先设 $z = \text{prev}_h \cdot W_h + x \cdot W_x + b$</p>
 <p>也就是 $\text{next}_h = \tanh(z)$</p>
-<p>那么 $x$ 的梯度就是
 $$
 \frac{\partial L}{\partial x} = \frac{\partial L}{ \partial z} \cdot \frac{\partial z}{ \partial x} = \frac{\partial L}{ \partial z} \cdot W_x ^ {\top}
-$$</p>
-<p>那来看一下 $\dfrac{\partial L}{\partial z}$ 这是什么：</p>
-<p>$$
+$$<p>那来看一下 $\dfrac{\partial L}{\partial z}$ 这是什么：</p>
+$$
 \frac{\partial L}{\partial z} = \frac{\partial L}{\partial \text{next}_h} \cdot \frac{\partial \text{next}_h}{\partial z} = \mathrm{d} \text{next}_h \cdot \frac{\partial \text{next}_h}{\partial z}
-$$</p>
-<p>那么 $\dfrac{\partial \text{next}_h}{\partial z}$ 就是对 $\tanh(z)$ 求导，导数为 $1 - \tanh^2(z)$</p>
+$$<p>那么 $\dfrac{\partial \text{next}_h}{\partial z}$ 就是对 $\tanh(z)$ 求导，导数为 $1 - \tanh^2(z)$</p>
 <p>所以 $\dfrac{\partial L}{\partial z} = \mathrm{d} \text{next}_h (1 - \tanh^2(z))$，把这个记为 $\mathrm{d}\tanh$</p>
 <p>所以 $\mathrm{d}x = \mathrm{d}\tanh \cdot W_x ^ {\top}$</p>
 <p>其他参数都是同理的。</p>
@@ -11425,7 +11387,7 @@ $$</p>
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
+        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/mlcs231n/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

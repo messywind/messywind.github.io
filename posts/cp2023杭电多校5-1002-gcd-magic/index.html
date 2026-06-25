@@ -7,51 +7,42 @@
     <meta name="robots" content="noodp" />
     <title>[2023杭电多校5 1002] GCD Magic - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
 <meta name="description" content="原题链接
-题意 求 $$ \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}[\gcd(2 ^ i - 1, 2 ^ j - 1)] ^ k $$
-对 $998,244,353$ 取模。
+$$ \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}[\gcd(2 ^ i - 1, 2 ^ j - 1)] ^ k $$对 $998,244,353$ 取模。
 $1 \le n \le 10 ^ 9, 0 \le k \le 10$
 分析：
 易证 $\gcd(2 ^ i - 1, 2 ^ j - 1) = 2 ^ {\gcd(i, j)} - 1$，代入得
-$$ \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^{\gcd(i, j)} - 1) ^ k $$
-常规枚举 $d$
-$$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^d - 1) ^ k [\gcd(i,j) = d] $$
-把 $d$ 拿到求和上界
-$$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ { \lfloor \frac{n}{d} \rfloor } \sum_{j = 1} ^ { \lfloor \frac{n}{d} \rfloor}\left(2^d - 1\right) ^ k[\gcd(i,j) = 1] $$
+$$ \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^{\gcd(i, j)} - 1) ^ k $$常规枚举 $d$
+$$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^d - 1) ^ k [\gcd(i,j) = d] $$把 $d$ 拿到求和上界
+$$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ { \lfloor \frac{n}{d} \rfloor } \sum_{j = 1} ^ { \lfloor \frac{n}{d} \rfloor}\left(2^d - 1\right) ^ k[\gcd(i,j) = 1] $$我们知道 $\sum\limits_{i = 1} ^ {n}\sum\limits_{j = 1} ^ {n}[\gcd(i,j) = 1] = 2\sum\limits_{i = 1} ^ {n}\varphi(i) - 1$，($-1$ 在 $\sum$ 外面)，代入得
 "><meta name="keywords" content='莫比乌斯反演, 推式子, 杜教筛'>
   <meta itemprop="name" content="[2023杭电多校5 1002] GCD Magic">
   <meta itemprop="description" content="原题链接
-题意 求 $$ \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}[\gcd(2 ^ i - 1, 2 ^ j - 1)] ^ k $$
-对 $998,244,353$ 取模。
+$$ \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}[\gcd(2 ^ i - 1, 2 ^ j - 1)] ^ k $$对 $998,244,353$ 取模。
 $1 \le n \le 10 ^ 9, 0 \le k \le 10$
 分析：
 易证 $\gcd(2 ^ i - 1, 2 ^ j - 1) = 2 ^ {\gcd(i, j)} - 1$，代入得
-$$ \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^{\gcd(i, j)} - 1) ^ k $$
-常规枚举 $d$
-$$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^d - 1) ^ k [\gcd(i,j) = d] $$
-把 $d$ 拿到求和上界
-$$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ { \lfloor \frac{n}{d} \rfloor } \sum_{j = 1} ^ { \lfloor \frac{n}{d} \rfloor}\left(2^d - 1\right) ^ k[\gcd(i,j) = 1] $$">
+$$ \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^{\gcd(i, j)} - 1) ^ k $$常规枚举 $d$
+$$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^d - 1) ^ k [\gcd(i,j) = d] $$把 $d$ 拿到求和上界
+$$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ { \lfloor \frac{n}{d} \rfloor } \sum_{j = 1} ^ { \lfloor \frac{n}{d} \rfloor}\left(2^d - 1\right) ^ k[\gcd(i,j) = 1] $$我们知道 $\sum\limits_{i = 1} ^ {n}\sum\limits_{j = 1} ^ {n}[\gcd(i,j) = 1] = 2\sum\limits_{i = 1} ^ {n}\varphi(i) - 1$，($-1$ 在 $\sum$ 外面)，代入得">
   <meta itemprop="datePublished" content="2023-08-01T17:05:41+00:00">
-  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
-  <meta itemprop="wordCount" content="1042">
+  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="wordCount" content="1048">
   <meta itemprop="keywords" content="莫比乌斯反演,推式子,杜教筛"><meta property="og:url" content="https://blog.messywind.top/posts/cp2023%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-1002-gcd-magic/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="[2023杭电多校5 1002] GCD Magic">
   <meta property="og:description" content="原题链接
-题意 求 $$ \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}[\gcd(2 ^ i - 1, 2 ^ j - 1)] ^ k $$
-对 $998,244,353$ 取模。
+$$ \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}[\gcd(2 ^ i - 1, 2 ^ j - 1)] ^ k $$对 $998,244,353$ 取模。
 $1 \le n \le 10 ^ 9, 0 \le k \le 10$
 分析：
 易证 $\gcd(2 ^ i - 1, 2 ^ j - 1) = 2 ^ {\gcd(i, j)} - 1$，代入得
-$$ \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^{\gcd(i, j)} - 1) ^ k $$
-常规枚举 $d$
-$$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^d - 1) ^ k [\gcd(i,j) = d] $$
-把 $d$ 拿到求和上界
-$$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ { \lfloor \frac{n}{d} \rfloor } \sum_{j = 1} ^ { \lfloor \frac{n}{d} \rfloor}\left(2^d - 1\right) ^ k[\gcd(i,j) = 1] $$">
+$$ \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^{\gcd(i, j)} - 1) ^ k $$常规枚举 $d$
+$$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^d - 1) ^ k [\gcd(i,j) = d] $$把 $d$ 拿到求和上界
+$$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ { \lfloor \frac{n}{d} \rfloor } \sum_{j = 1} ^ { \lfloor \frac{n}{d} \rfloor}\left(2^d - 1\right) ^ k[\gcd(i,j) = 1] $$我们知道 $\sum\limits_{i = 1} ^ {n}\sum\limits_{j = 1} ^ {n}[\gcd(i,j) = 1] = 2\sum\limits_{i = 1} ^ {n}\varphi(i) - 1$，($-1$ 在 $\sum$ 外面)，代入得">
   <meta property="og:locale" content="zh_cn">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2023-08-01T17:05:41+00:00">
-    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
+    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
     <meta property="article:tag" content="莫比乌斯反演">
     <meta property="article:tag" content="推式子">
     <meta property="article:tag" content="杜教筛">
@@ -59,16 +50,13 @@ $$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ { \lfloor \frac{n}{d} \rfloor } \sum_{j = 1
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="[2023杭电多校5 1002] GCD Magic">
   <meta name="twitter:description" content="原题链接
-题意 求 $$ \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}[\gcd(2 ^ i - 1, 2 ^ j - 1)] ^ k $$
-对 $998,244,353$ 取模。
+$$ \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}[\gcd(2 ^ i - 1, 2 ^ j - 1)] ^ k $$对 $998,244,353$ 取模。
 $1 \le n \le 10 ^ 9, 0 \le k \le 10$
 分析：
 易证 $\gcd(2 ^ i - 1, 2 ^ j - 1) = 2 ^ {\gcd(i, j)} - 1$，代入得
-$$ \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^{\gcd(i, j)} - 1) ^ k $$
-常规枚举 $d$
-$$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^d - 1) ^ k [\gcd(i,j) = d] $$
-把 $d$ 拿到求和上界
-$$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ { \lfloor \frac{n}{d} \rfloor } \sum_{j = 1} ^ { \lfloor \frac{n}{d} \rfloor}\left(2^d - 1\right) ^ k[\gcd(i,j) = 1] $$">
+$$ \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^{\gcd(i, j)} - 1) ^ k $$常规枚举 $d$
+$$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^d - 1) ^ k [\gcd(i,j) = d] $$把 $d$ 拿到求和上界
+$$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ { \lfloor \frac{n}{d} \rfloor } \sum_{j = 1} ^ { \lfloor \frac{n}{d} \rfloor}\left(2^d - 1\right) ^ k[\gcd(i,j) = 1] $$我们知道 $\sum\limits_{i = 1} ^ {n}\sum\limits_{j = 1} ^ {n}[\gcd(i,j) = 1] = 2\sum\limits_{i = 1} ^ {n}\varphi(i) - 1$，($-1$ 在 $\sum$ 外面)，代入得">
 <meta name="application-name" content="凌乱之风的博客">
 <meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/cp2023%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-1002-gcd-magic/" title="[2023杭电多校5 1002] GCD Magic - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/cpsdutacm-%E5%87%BA%E9%A2%98%E5%8F%82%E8%80%83/" title="SDUTACM 出题参考" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/cp2023%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-1005-snake/" title="[2023杭电多校5 1005] Snake" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/cp2023%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-1002-gcd-magic/index.md" title="[2023杭电多校5 1002] GCD Magic - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
@@ -81,8 +69,8 @@ $$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ { \lfloor \frac{n}{d} \rfloor } \sum_{j = 1
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/cp2023%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-1002-gcd-magic\/"
-    },"genre": "posts","keywords": "莫比乌斯反演, 推式子, 杜教筛","wordcount":  1042 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/cp2023%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-1002-gcd-magic\/","datePublished": "2023-08-01T17:05:41+00:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
+    },"genre": "posts","keywords": "莫比乌斯反演, 推式子, 杜教筛","wordcount":  1048 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/cp2023%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-1002-gcd-magic\/","datePublished": "2023-08-01T17:05:41+00:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -190,7 +178,7 @@ $$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ { \lfloor \frac{n}{d} \rfloor } \sum_{j = 1
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[2023杭电多校5 1002] GCD Magic</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2023-08-01 17:05:41"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-08-01">2023-08-01</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="1042 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="[2023杭电多校5 1002] GCD Magic"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2023-08-01 17:05:41"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2023-08-01">2023-08-01</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="1048 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1100 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 3 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="[2023杭电多校5 1002] GCD Magic"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -203,47 +191,36 @@ $$ \sum_{d = 1} ^ {n} \sum_{i = 1} ^ { \lfloor \frac{n}{d} \rfloor } \sum_{j = 1
   </ul>
 </nav></div>
       </div><div class="content" id="content"><p><a href="https://acm.hdu.edu.cn/showproblem.php?pid=7325"target="_blank" rel="external nofollow noopener noreferrer">原题链接</a></p>
-<p><strong>题意</strong>
-求
 $$
 \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}[\gcd(2 ^ i - 1, 2 ^ j - 1)] ^ k
-$$</p>
-<p>对 $998,244,353$ 取模。</p>
+$$<p>对 $998,244,353$ 取模。</p>
 <p>$1 \le n \le 10 ^ 9, 0 \le k \le 10$</p>
 <p><strong>分析：</strong></p>
 <p>易证 $\gcd(2 ^ i - 1, 2 ^ j - 1) = 2 ^ {\gcd(i, j)} - 1$，代入得</p>
-<p>$$
+$$
 \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^{\gcd(i, j)} - 1) ^ k
-$$</p>
-<p>常规枚举 $d$</p>
-<p>$$
+$$<p>常规枚举 $d$</p>
+$$
 \sum_{d = 1} ^ {n} \sum_{i = 1} ^ {n} \sum_{j = 1} ^ {n}(2^d - 1) ^ k [\gcd(i,j) = d]
-$$</p>
-<p>把 $d$ 拿到求和上界</p>
-<p>$$
+$$<p>把 $d$ 拿到求和上界</p>
+$$
 \sum_{d = 1} ^ {n} \sum_{i = 1} ^ { \lfloor \frac{n}{d} \rfloor } \sum_{j = 1} ^ { \lfloor \frac{n}{d} \rfloor}\left(2^d - 1\right) ^ k[\gcd(i,j) = 1]
-$$</p>
-<p>我们知道 $\sum\limits_{i = 1} ^ {n}\sum\limits_{j = 1} ^ {n}[\gcd(i,j) = 1] = 2\sum\limits_{i = 1} ^ {n}\varphi(i) - 1$，($-1$ 在 $\sum$ 外面)，代入得</p>
-<p>$$
+$$<p>我们知道 $\sum\limits_{i = 1} ^ {n}\sum\limits_{j = 1} ^ {n}[\gcd(i,j) = 1] = 2\sum\limits_{i = 1} ^ {n}\varphi(i) - 1$，($-1$ 在 $\sum$ 外面)，代入得</p>
+$$
 \sum_{d = 1} ^ {n}\left(2^d - 1\right) ^ k \left(2\sum_{i = 1} ^ { \lfloor \frac{n}{d} \rfloor}\varphi(i) - 1\right)
-$$</p>
-<p>考虑整除分块，后面欧拉函数前缀和可以用杜教筛，那么考虑如何快速求 $\left(2^d - 1\right) ^ k$ 的前缀和。记</p>
-<p>$$
-S(n) = \sum_{i = 1} ^ {n}(2 ^ i - 1) ^ k
-$$</p>
-<p>将 $\left(2^i - 1\right) ^ k$ 二项式展开</p>
-<p>$$
+$$<p>考虑整除分块，后面欧拉函数前缀和可以用杜教筛，那么考虑如何快速求 $\left(2^d - 1\right) ^ k$ 的前缀和。记</p>
+$$
+S(n) = \sum_{i = 1} ^ {n}(2 ^ i - 1) ^ k 
+$$<p>将 $\left(2^i - 1\right) ^ k$ 二项式展开</p>
+$$
 S(n) = \sum_{i = 1} ^ {n}\sum_{j = 0} ^ {k} \binom{k}{j} \times 2 ^ {i\times j} \times (-1) ^ {k - j}
-$$</p>
-<p>交换求和顺序</p>
-<p>$$
+$$<p>交换求和顺序</p>
+$$
 \sum_{j = 0} ^ {k} \binom{k}{j}\times (-1) ^ {k - j} \sum_{i = 1} ^ {n}  (2 ^ {j}) ^ {i}
-$$</p>
-<p>其中 $\sum\limits_{i = 1} ^ {n}  (2 ^ {j}) ^ {i}$ 用等比数列求和公式</p>
-<p>$$
+$$<p>其中 $\sum\limits_{i = 1} ^ {n}  (2 ^ {j}) ^ {i}$ 用等比数列求和公式</p>
+$$
 \sum_{j = 0} ^ {k} \binom{k}{j}\times (-1) ^ {k - j} \times 2 ^ j \times \frac{2 ^ {j \times n} - 1}{2 ^ j - 1}
-$$</p>
-<p>这样求 $S(n)$ 就变为 $O(k \log n)$ 了，注意特判 $j = 0$ 和欧拉降幂
+$$<p>这样求 $S(n)$ 就变为 $O(k \log n)$ 了，注意特判 $j = 0$ 和欧拉降幂
 时间复杂度 $O(n ^ {\frac{2}{3}} + k \sqrt n \log n)$</p>
 <h2 id="代码" class="heading-element"><span>代码：</span>
   <a href="#%e4%bb%a3%e7%a0%81" class="heading-mark">
@@ -428,7 +405,7 @@ $$</p>
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
+        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/cp2023%E6%9D%AD%E7%94%B5%E5%A4%9A%E6%A0%A15-1002-gcd-magic/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

@@ -11,8 +11,8 @@
   <meta itemprop="name" content="RNN 与 LSTM">
   <meta itemprop="description" content="RNN 一、 技术演进背景：为什么要引入 RNN？ 自然语言处理（NLP）模型的演进本质上是一场关于如何处理“上文（Context）”与如何表征“语义”的战争。">
   <meta itemprop="datePublished" content="2026-06-05T15:58:00+00:00">
-  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
-  <meta itemprop="wordCount" content="5809">
+  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="wordCount" content="5840">
   <meta itemprop="keywords" content="RNN,LSTM"><meta property="og:url" content="https://blog.messywind.top/posts/mlrnn-lstm/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="RNN 与 LSTM">
@@ -21,7 +21,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2026-06-05T15:58:00+00:00">
-    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
+    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
     <meta property="article:tag" content="RNN">
     <meta property="article:tag" content="LSTM">
 
@@ -40,8 +40,8 @@
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/mlrnn-lstm\/"
-    },"genre": "posts","keywords": "RNN, LSTM","wordcount":  5809 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/mlrnn-lstm\/","datePublished": "2026-06-05T15:58:00+00:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
+    },"genre": "posts","keywords": "RNN, LSTM","wordcount":  5840 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlrnn-lstm\/","datePublished": "2026-06-05T15:58:00+00:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -149,7 +149,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>RNN 与 LSTM</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-05 15:58:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-05">2026-06-05</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="5809 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 5900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 12 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="RNN 与 LSTM"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-05 15:58:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-05">2026-06-05</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="5840 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 5900 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 12 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="RNN 与 LSTM"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -273,9 +273,7 @@
   <a href="#%e7%ac%ac%e4%b8%80%e6%ad%a5%e7%ae%97%e8%ae%b0%e5%bf%86%e7%8a%b6%e6%80%81%e6%9b%b4%e6%96%b0" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h4><p>$$z_t = W_{hx} x_t + W_{hh} h_{t-1} + b_h$$</p>
-<p>$$h_t = \tanh(z_t)$$</p>
-<blockquote>
+</h4>$$z_t = W_{hx} x_t + W_{hh} h_{t-1} + b_h$$$$h_t = \tanh(z_t)$$<blockquote>
 <p>💡 <strong>工程真相</strong>：
 当 $t=1$ 时，上时刻记忆不存在，系统会初始化一个全0的向量作为 $h_0$。
 产生的最新记忆 $h_t$ 是一串<strong>临时存在显存里的数字向量</strong>。在这个融合计算的过程中，<strong>矩阵参数 $W$ 里面的数值没有发生任何改变</strong>！它只是纯粹的矩阵乘法与激活函数运算。</p>
@@ -284,9 +282,7 @@
   <a href="#%e7%ac%ac%e4%ba%8c%e6%ad%a5%e7%ae%97%e9%a2%84%e6%b5%8b%e6%98%a0%e5%b0%84%e8%be%93%e5%87%ba" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
-</h4><p>$$q_t = W_{qh} h_t + b_q$$</p>
-<p>$$\hat{y}_t = \text{Softmax}(q_t)$$</p>
-<blockquote>
+</h4>$$q_t = W_{qh} h_t + b_q$$$$\hat{y}_t = \text{Softmax}(q_t)$$<blockquote>
 <p>模型最终吐出来的预测结果 $\hat{y}_t$ 是一个全词表单词的概率列表（如 <code>[0.95, 0.01, 0.04...]</code>），系统会根据采样策略或选最大概率对应的单词作为预测词。</p>
 </blockquote>
 <hr>
@@ -359,12 +355,9 @@
   </a>
 </h3><p>隐藏状态更新公式：$h_t = \tanh(W_{hx} x_t + W_{hh} h_{t-1} + b_h)$
 若要求最后第 $T$ 步的总损失 $\mathcal{L}$ 对极早时期第 $t$ 步隐藏状态 $h_t$ 的偏导，根据高数链式法则展开：</p>
-<p>$$\frac{\partial \mathcal{L}}{\partial h_t} = \frac{\partial \mathcal{L}}{\partial h_T} \cdot \frac{\partial h_T}{\partial h_{T-1}} \cdot \frac{\partial h_{T-1}}{\partial h_{T-2}} \dots \frac{\partial h_{t+1}}{\partial h_t} = \frac{\partial \mathcal{L}}{\partial h_T} \cdot \prod_{k=t+1}^{T} \frac{\partial h_k}{\partial h_{k-1}}$$</p>
-<p>把中间相邻两项的偏导（雅可比矩阵）代入：</p>
-<p>$$\frac{\partial h_k}{\partial h_{k-1}} = \text{diag}(1 - \tanh^2(\cdot)) \cdot W_{hh}^T$$</p>
-<p>最终得到的连乘恐怖大公式：</p>
-<p>$$\frac{\partial \mathcal{L}}{\partial h_t} = \frac{\partial \mathcal{L}}{\partial h_T} \cdot \prod_{k=t+1}^{T} \left[ \text{diag}(1 - \tanh^2(\cdot)) \cdot W_{hh}^T \right]$$</p>
-<h3 id="3-导致梯度消失的双重数学元凶" class="heading-element"><span>3. 导致梯度消失的双重数学元凶</span>
+$$\frac{\partial \mathcal{L}}{\partial h_t} = \frac{\partial \mathcal{L}}{\partial h_T} \cdot \frac{\partial h_T}{\partial h_{T-1}} \cdot \frac{\partial h_{T-1}}{\partial h_{T-2}} \dots \frac{\partial h_{t+1}}{\partial h_t} = \frac{\partial \mathcal{L}}{\partial h_T} \cdot \prod_{k=t+1}^{T} \frac{\partial h_k}{\partial h_{k-1}}$$<p>把中间相邻两项的偏导（雅可比矩阵）代入：</p>
+$$\frac{\partial h_k}{\partial h_{k-1}} = \text{diag}(1 - \tanh^2(\cdot)) \cdot W_{hh}^T$$<p>最终得到的连乘恐怖大公式：</p>
+$$\frac{\partial \mathcal{L}}{\partial h_t} = \frac{\partial \mathcal{L}}{\partial h_T} \cdot \prod_{k=t+1}^{T} \left[ \text{diag}(1 - \tanh^2(\cdot)) \cdot W_{hh}^T \right]$$<h3 id="3-导致梯度消失的双重数学元凶" class="heading-element"><span>3. 导致梯度消失的双重数学元凶</span>
   <a href="#3-%e5%af%bc%e8%87%b4%e6%a2%af%e5%ba%a6%e6%b6%88%e5%a4%b1%e7%9a%84%e5%8f%8c%e9%87%8d%e6%95%b0%e5%ad%a6%e5%85%83%e5%87%b6" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -455,8 +448,7 @@
 <li><strong>职能</strong>：算出 $0 \sim 1$ 之间的衰减系数系数，决定上一步的长期记忆 $C_{t-1}$ 有多少应该从“信息高铁”上扔下去。</li>
 <li><strong>数学算式</strong>：</li>
 </ul>
-<p>$$f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f)$$</p>
-<h4 id="-输入门input-gate与-候选新记忆candidate-cell-state-新血液灌注" class="heading-element"><span>② 输入门（Input Gate）与 候选新记忆（Candidate Cell State）—— 新血液灌注</span>
+$$f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f)$$<h4 id="-输入门input-gate与-候选新记忆candidate-cell-state-新血液灌注" class="heading-element"><span>② 输入门（Input Gate）与 候选新记忆（Candidate Cell State）—— 新血液灌注</span>
   <a href="#-%e8%be%93%e5%85%a5%e9%97%a8input-gate%e4%b8%8e-%e5%80%99%e9%80%89%e6%96%b0%e8%ae%b0%e5%bf%86candidate-cell-state-%e6%96%b0%e8%a1%80%e6%b6%b2%e7%81%8c%e6%b3%a8" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -465,11 +457,9 @@
 <li><strong>候选新特征 $\tilde{C}_t$</strong>：通过 $\tanh$ 提取出带有正反对立方向的当前新鲜特征。</li>
 <li><strong>数学算式</strong>：</li>
 </ul>
-<p>$$i_t = \sigma(W_i \cdot [h_{t-1}, x_t] + b_i)$$</p>
-<p>$$
-\widetilde{C}_t = \tanh\big(W_c \cdot \bigl[h_{t-1},, x_t\bigr] + b_c\big)
-$$</p>
-<h4 id="-灵魂节点长期记忆线性融合cell-state-update" class="heading-element"><span>💥 灵魂节点：长期记忆线性融合（Cell State Update）</span>
+$$i_t = \sigma(W_i \cdot [h_{t-1}, x_t] + b_i)$$$$
+\widetilde{C}\_t = \tanh\big(W_c \cdot \bigl[h_{t-1},\, x_t\bigr] + b_c\big)
+$$<h4 id="-灵魂节点长期记忆线性融合cell-state-update" class="heading-element"><span>💥 灵魂节点：长期记忆线性融合（Cell State Update）</span>
   <a href="#-%e7%81%b5%e9%ad%82%e8%8a%82%e7%82%b9%e9%95%bf%e6%9c%9f%e8%ae%b0%e5%bf%86%e7%ba%bf%e6%80%a7%e8%9e%8d%e5%90%88cell-state-update" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -477,8 +467,7 @@ $$</p>
 <li><strong>职能</strong>：旧记忆打折保留，加上新知识提炼注入。由于是<strong>线性的加法</strong>连接，反向传播时梯度在这里不发生矩阵连乘，直接向前传递。</li>
 <li><strong>数学算式</strong>：</li>
 </ul>
-<p>$$C_t = f_t \odot C_{t-1} + i_t \odot \tilde{C}_t$$</p>
-<h4 id="-输出门output-gate与-短期记忆诞生-提炼当下的临时记忆" class="heading-element"><span>③ 输出门（Output Gate）与 短期记忆诞生—— 提炼当下的临时记忆</span>
+$$C_t = f_t \odot C_{t-1} + i_t \odot \tilde{C}_t$$<h4 id="-输出门output-gate与-短期记忆诞生-提炼当下的临时记忆" class="heading-element"><span>③ 输出门（Output Gate）与 短期记忆诞生—— 提炼当下的临时记忆</span>
   <a href="#-%e8%be%93%e5%87%ba%e9%97%a8output-gate%e4%b8%8e-%e7%9f%ad%e6%9c%9f%e8%ae%b0%e5%bf%86%e8%af%9e%e7%94%9f-%e6%8f%90%e7%82%bc%e5%bd%93%e4%b8%8b%e7%9a%84%e4%b8%b4%e6%97%b6%e8%ae%b0%e5%bf%86" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
@@ -486,9 +475,7 @@ $$</p>
 <li><strong>输出门 $o_t$</strong>：算出 $0 \sim 1$ 之间的系数，决定从最新的长期记忆 $C_t$ 中挑出哪些最相关的特征，化作当下的短期隐状态 $h_t$。</li>
 <li><strong>数学算式</strong>：</li>
 </ul>
-<p>$$o_t = \sigma(W_o \cdot [h_{t-1}, x_t] + b_o)$$</p>
-<p>$$h_t = o_t \odot \tanh(C_t)$$</p>
-<hr>
+$$o_t = \sigma(W_o \cdot [h_{t-1}, x_t] + b_o)$$$$h_t = o_t \odot \tanh(C_t)$$<hr>
 <h2 id="三-终极物理直觉思辨为什么不能互换激活函数" class="heading-element"><span>三、 终极物理直觉思辨：为什么不能互换激活函数？</span>
   <a href="#%e4%b8%89-%e7%bb%88%e6%9e%81%e7%89%a9%e7%90%86%e7%9b%b4%e8%a7%89%e6%80%9d%e8%be%a8%e4%b8%ba%e4%bb%80%e4%b9%88%e4%b8%8d%e8%83%bd%e4%ba%92%e6%8d%a2%e6%bf%80%e6%b4%bb%e5%87%bd%e6%95%b0" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -554,7 +541,7 @@ LSTM 单元内部雷打不动地包含了 4 个并行的门控计算网络（遗
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
+        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/mlrnn-lstm/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

@@ -13,8 +13,8 @@ RoPE (旋转位置编码) 深度解析与工业级落地笔记 一、 核心动�
   <meta itemprop="description" content="RoPE 论文
 RoPE (旋转位置编码) 深度解析与工业级落地笔记 一、 核心动机与一句话总结 RoPE（Rotary Position Embedding）的核心魔法可以概括为：“用绝对位置的旋转，来实现相对位置的计算。”">
   <meta itemprop="datePublished" content="2026-06-11T19:48:00+00:00">
-  <meta itemprop="dateModified" content="2026-06-24T09:23:47+00:00">
-  <meta itemprop="wordCount" content="2698">
+  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="wordCount" content="2776">
   <meta itemprop="keywords" content="RoPE"><meta property="og:url" content="https://blog.messywind.top/posts/mlrope/">
   <meta property="og:site_name" content="凌乱之风的博客">
   <meta property="og:title" content="RoPE">
@@ -24,7 +24,7 @@ RoPE (旋转位置编码) 深度解析与工业级落地笔记 一、 核心动�
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2026-06-11T19:48:00+00:00">
-    <meta property="article:modified_time" content="2026-06-24T09:23:47+00:00">
+    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
     <meta property="article:tag" content="RoPE">
 
   <meta name="twitter:card" content="summary">
@@ -43,8 +43,8 @@ RoPE (旋转位置编码) 深度解析与工业级落地笔记 一、 核心动�
     "mainEntityOfPage": {
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/mlrope\/"
-    },"genre": "posts","keywords": "RoPE","wordcount":  2698 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/mlrope\/","datePublished": "2026-06-11T19:48:00+00:00","dateModified": "2026-06-24T09:23:47+00:00","publisher": {
+    },"genre": "posts","keywords": "RoPE","wordcount":  2776 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlrope\/","datePublished": "2026-06-11T19:48:00+00:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -152,7 +152,7 @@ RoPE (旋转位置编码) 深度解析与工业级落地笔记 一、 核心动�
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>RoPE</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-11 19:48:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-11">2026-06-11</time></span>&nbsp;<span title="更新于 2026-06-24 09:23:47"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-24">2026-06-24</time></span>&nbsp;<span title="2698 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="RoPE"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-11 19:48:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-11">2026-06-11</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="2776 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="RoPE"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -226,19 +226,12 @@ RoPE (旋转位置编码) 深度解析与工业级落地笔记 一、 核心动�
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>虽然原版 Transformer（Attention Is All You Need）的正弦/余弦编码不需要训练参数，但它采用的是<strong>加法机制（Add）</strong>：</p>
-<p>$$x_i = e_i + p_i$$</p>
-<p>在计算第 $m$ 个位置的 Query 和第 $n$ 个位置的 Key 的点积时，公式会展开为：</p>
-<p>$$q_m^T k_n = (W_q (x_m + p_m))^T (W_k (x_n + p_n))$$</p>
-<p>$$q_m^T k_n = x_m^T W_q^T W_k x_n + x_m^T W_q^T W_k p_n + p_m^T W_q^T W_k x_n + p_m^T W_q^T W_k p_n$$</p>
-<p><strong>致命缺陷</strong>：展开后的第二项和第三项把<strong>当前词的内容与另一个词的绝对位置（$m$ 或 $n$）强行绑定</strong>。由于预测矩阵 $W_q^T W_k$ 的夹塞，整个点积结果<strong>无法</strong>被化简为只跟相对距离 $(m-n)$ 相关的函数。这就导致了绝对位置泄漏，模型无法做到纯粹的相对位置感知。</p>
+$$x_i = e_i + p_i$$<p>在计算第 $m$ 个位置的 Query 和第 $n$ 个位置的 Key 的点积时，公式会展开为：</p>
+$$q_m^T k_n = (W_q (x_m + p_m))^T (W_k (x_n + p_n))$$$$q_m^T k_n = x_m^T W_q^T W_k x_n + x_m^T W_q^T W_k p_n + p_m^T W_q^T W_k x_n + p_m^T W_q^T W_k p_n$$<p><strong>致命缺陷</strong>：展开后的第二项和第三项把<strong>当前词的内容与另一个词的绝对位置（$m$ 或 $n$）强行绑定</strong>。由于预测矩阵 $W_q^T W_k$ 的夹塞，整个点积结果<strong>无法</strong>被化简为只跟相对距离 $(m-n)$ 相关的函数。这就导致了绝对位置泄漏，模型无法做到纯粹的相对位置感知。</p>
 <p>而 RoPE 改变了游戏规则，它将位置信息作为 <strong>旋转矩阵（乘法）</strong> 施加在投影后的向量上：</p>
-<p>$$q_m = R_m W_q x_m$$</p>
-<p>$$k_n = R_n W_k x_n$$</p>
-<p>此时它们算点积：</p>
-<p>$$q_m^T k_n = (R_m W_q x_m)^T (R_n W_k x_n) = x_m^T W_q^T (R_m^T R_n) W_k x_n$$</p>
-<p>因为旋转矩阵具有完美的正交性，满足 $R_m^T R_n = R_{n-m}$，所以：</p>
-<p>$$q_m^T k_n = x_m^T W_q^T R_{n-m} W_k x_n$$</p>
-<p>这里没有任何相加产生的杂乱交叉项！绝对位置 $m$ 和 $n$ 完全消隐，留下的只有纯净的相对位置 $(n-m)$。</p>
+$$q_m = R_m W_q x_m$$$$k_n = R_n W_k x_n$$<p>此时它们算点积：</p>
+$$q_m^T k_n = (R_m W_q x_m)^T (R_n W_k x_n) = x_m^T W_q^T (R_m^T R_n) W_k x_n$$<p>因为旋转矩阵具有完美的正交性，满足 $R_m^T R_n = R_{n-m}$，所以：</p>
+$$q_m^T k_n = x_m^T W_q^T R_{n-m} W_k x_n$$<p>这里没有任何相加产生的杂乱交叉项！绝对位置 $m$ 和 $n$ 完全消隐，留下的只有纯净的相对位置 $(n-m)$。</p>
 <hr>
 <h2 id="三-rope-的数学原理与公式推导-2d-平面" class="heading-element"><span>三、 RoPE 的数学原理与公式推导 (2D 平面)</span>
   <a href="#%e4%b8%89-rope-%e7%9a%84%e6%95%b0%e5%ad%a6%e5%8e%9f%e7%90%86%e4%b8%8e%e5%85%ac%e5%bc%8f%e6%8e%a8%e5%af%bc-2d-%e5%b9%b3%e9%9d%a2" class="heading-mark">
@@ -249,32 +242,25 @@ RoPE (旋转位置编码) 深度解析与工业级落地笔记 一、 核心动�
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>为了方便旋转操作，假设特征维度 $d=2$。二维向量可以完美映射到复数平面上，将词向量看作复数：</p>
-<p>$$q = q_0 + i q_1 = R_q e^{i \phi_q}$$</p>
-<p>其中 $R_q$ 是向量的模长，$\phi_q$ 是向量与实轴的初始夹角。</p>
+$$q = q_0 + i q_1 = R_q e^{i \phi_q}$$<p>其中 $R_q$ 是向量的模长，$\phi_q$ 是向量与实轴的初始夹角。</p>
 <h3 id="step-2-施加位置旋转" class="heading-element"><span>Step 2: 施加位置旋转</span>
   <a href="#step-2-%e6%96%bd%e5%8a%a0%e4%bd%8d%e7%bd%ae%e6%97%8b%e8%bd%ac" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>RoPE 规定，如果词汇在第 $m$ 个位置，就把它逆时针旋转 $m\theta$ 的角度（$\theta$ 是预设基础频率）：</p>
-<p>$$f_q(q, m) = q \cdot e^{im\theta} = R_q e^{i(\phi_q + m\theta)}$$</p>
-<p>同理，对 Key 向量在位置 $n$ 进行变换：</p>
-<p>$$f_k(k, n) = k \cdot e^{in\theta} = R_k e^{i(\phi_k + n\theta)}$$</p>
-<h3 id="step-3-点积验证绝对位置的抵消" class="heading-element"><span>Step 3: 点积验证（绝对位置的抵消）</span>
+$$f_q(q, m) = q \cdot e^{im\theta} = R_q e^{i(\phi_q + m\theta)}$$<p>同理，对 Key 向量在位置 $n$ 进行变换：</p>
+$$f_k(k, n) = k \cdot e^{in\theta} = R_k e^{i(\phi_k + n\theta)}$$<h3 id="step-3-点积验证绝对位置的抵消" class="heading-element"><span>Step 3: 点积验证（绝对位置的抵消）</span>
   <a href="#step-3-%e7%82%b9%e7%a7%af%e9%aa%8c%e8%af%81%e7%bb%9d%e5%af%b9%e4%bd%8d%e7%bd%ae%e7%9a%84%e6%8a%b5%e6%b6%88" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>复数的内积等于第一个复数乘以第二个复数的共轭（虚部取反），再取其实部（Real part）：</p>
-<p>$$\langle f_q, f_k \rangle = \text{Re} [ (R_q e^{i(\phi_q + m\theta)}) \cdot (R_k e^{-i(\phi_k + n\theta)}) ]$$</p>
-<p>$$\langle f_q, f_k \rangle = \text{Re} [ R_q R_k e^{i((\phi_q - \phi_k) + (m-n)\theta)} ]$$</p>
-<p>$$\langle f_q, f_k \rangle = R_q R_k \cos((\phi_q - \phi_k) + (m-n)\theta)$$</p>
-<p><strong>数学结论</strong>：公式右边的绝对位置 $m$ 和 $n$ 彻底消失，被合并成了<strong>相对距离 $(m-n)$</strong>！</p>
+$$\langle f_q, f_k \rangle = \text{Re} [ (R_q e^{i(\phi_q + m\theta)}) \cdot (R_k e^{-i(\phi_k + n\theta)}) ]$$$$\langle f_q, f_k \rangle = \text{Re} [ R_q R_k e^{i((\phi_q - \phi_k) + (m-n)\theta)} ]$$$$\langle f_q, f_k \rangle = R_q R_k \cos((\phi_q - \phi_k) + (m-n)\theta)$$<p><strong>数学结论</strong>：公式右边的绝对位置 $m$ 和 $n$ 彻底消失，被合并成了<strong>相对距离 $(m-n)$</strong>！</p>
 <h3 id="step-4-还原为实数矩阵" class="heading-element"><span>Step 4: 还原为实数矩阵</span>
   <a href="#step-4-%e8%bf%98%e5%8e%9f%e4%b8%ba%e5%ae%9e%e6%95%b0%e7%9f%a9%e9%98%b5" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>根据欧拉公式将上述复数乘法展开，重新写回计算机支持的实数 2D 列向量形式：</p>
-<p>$$\begin{pmatrix} q_0&rsquo; \\ q_1&rsquo; \end{pmatrix} = \begin{pmatrix} \cos m\theta &amp; -\sin m\theta \\ \sin m\theta &amp; \cos m\theta \end{pmatrix} \begin{pmatrix} q_0 \\ q_1 \end{pmatrix}$$</p>
-<hr>
+$$\begin{pmatrix} q_0' \\\\ q_1' \end{pmatrix} = \begin{pmatrix} \cos m\theta & -\sin m\theta \\\\ \sin m\theta & \cos m\theta \end{pmatrix} \begin{pmatrix} q_0 \\\\ q_1 \end{pmatrix}$$<hr>
 <h2 id="-四-高维推广与工业级极速实现-基于原论文-section-322" class="heading-element"><span>🛠️ 四、 高维推广与工业级极速实现 (基于原论文 Section 3.2.2)</span>
   <a href="#-%e5%9b%9b-%e9%ab%98%e7%bb%b4%e6%8e%a8%e5%b9%bf%e4%b8%8e%e5%b7%a5%e4%b8%9a%e7%ba%a7%e6%9e%81%e9%80%9f%e5%ae%9e%e7%8e%b0-%e5%9f%ba%e4%ba%8e%e5%8e%9f%e8%ae%ba%e6%96%87-section-322" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
@@ -285,16 +271,13 @@ RoPE (旋转位置编码) 深度解析与工业级落地笔记 一、 核心动�
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>对于一个 $d$ 维的向量，论文的做法是把它<strong>两两分组</strong>，切分成 $d/2$ 个独立的二维子空间。RoPE 为每一组二维子空间分配了一个不同的<strong>基础旋转频率</strong>：</p>
-<p>$$\theta_i = 10000^{-2(i-1)/d}$$</p>
-<p>低维度旋转得极快（捕捉局部近距离特征），高维度旋转得极慢（捕捉全局长距离依赖）。此时，高维旋转矩阵 $R^d_{\Theta, m}$ 变成了一个巨大的<strong>分块对角矩阵</strong>：</p>
-<p>$$R^d_{\Theta, m} = \begin{pmatrix} \cos m\theta_1 &amp; -\sin m\theta_1 &amp; 0 &amp; 0 &amp; \dots &amp; 0 &amp; 0 \\ \sin m\theta_1 &amp; \cos m\theta_1 &amp; 0 &amp; 0 &amp; \dots &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; \cos m\theta_2 &amp; -\sin m\theta_2 &amp; \dots &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; \sin m\theta_2 &amp; \cos m\theta_2 &amp; \dots &amp; 0 &amp; 0 \\ \vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; \dots &amp; \cos m\theta_{d/2} &amp; -\sin m\theta_{d/2} \\ 0 &amp; 0 &amp; 0 &amp; 0 &amp; \dots &amp; \sin m\theta_{d/2} &amp; \cos m\theta_{d/2} \end{pmatrix}$$</p>
-<h3 id="2-源码级工程落地从矩阵乘法到交错乘加" class="heading-element"><span>2. 源码级工程落地：从矩阵乘法到“交错乘加”</span>
+$$\theta_i = 10000^{-2(i-1)/d}$$<p>低维度旋转得极快（捕捉局部近距离特征），高维度旋转得极慢（捕捉全局长距离依赖）。此时，高维旋转矩阵 $R^d_{\Theta, m}$ 变成了一个巨大的<strong>分块对角矩阵</strong>：</p>
+$$R^d_{\Theta, m} = \begin{pmatrix} \cos m\theta_1 & -\sin m\theta_1 & 0 & 0 & \dots & 0 & 0 \\\\ \sin m\theta_1 & \cos m\theta_1 & 0 & 0 & \dots & 0 & 0 \\\\ 0 & 0 & \cos m\theta_2 & -\sin m\theta_2 & \dots & 0 & 0 \\\\ 0 & 0 & \sin m\theta_2 & \cos m\theta_2 & \dots & 0 & 0 \\\\ \vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\\\ 0 & 0 & 0 & 0 & \dots & \cos m\theta_{d/2} & -\sin m\theta_{d/2} \\\\ 0 & 0 & 0 & 0 & \dots & \sin m\theta_{d/2} & \cos m\theta_{d/2} \end{pmatrix}$$<h3 id="2-源码级工程落地从矩阵乘法到交错乘加" class="heading-element"><span>2. 源码级工程落地：从矩阵乘法到“交错乘加”</span>
   <a href="#2-%e6%ba%90%e7%a0%81%e7%ba%a7%e5%b7%a5%e7%a8%8b%e8%90%bd%e5%9c%b0%e4%bb%8e%e7%9f%a9%e9%98%b5%e4%b9%98%e6%b3%95%e5%88%b0%e4%ba%a4%e9%94%99%e4%b9%98%e5%8a%a0" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>这个对角矩阵极其稀疏，直接做矩阵乘法会造成算力和显存的巨大浪费。论文在 3.2.2 小节给出了<strong>工业界真实使用的逐元素（Element-wise）极速操作方案</strong>：</p>
-<p>$$R^d_{\Theta, m} x = \begin{pmatrix} x_1 \\ x_2 \\ x_3 \\ x_4 \\ \vdots \end{pmatrix} \otimes \begin{pmatrix} \cos m\theta_1 \\ \cos m\theta_1 \\ \cos m\theta_2 \\ \cos m\theta_2 \\ \vdots \end{pmatrix} + \begin{pmatrix} -x_2 \\ x_1 \\ -x_4 \\ x_3 \\ \vdots \end{pmatrix} \otimes \begin{pmatrix} \sin m\theta_1 \\ \sin m\theta_1 \\ \sin m\theta_2 \\ \sin m\theta_2 \\ \vdots \end{pmatrix}$$</p>
-<p><strong>💻 大厂源码映射（如 LLaMA / HuggingFace 源码）</strong>：
+$$R^d_{\Theta, m} x = \begin{pmatrix} x_1 \\\\ x_2 \\\\ x_3 \\\\ x_4 \\\\ \vdots \end{pmatrix} \otimes \begin{pmatrix} \cos m\theta_1 \\\\ \cos m\theta_1 \\\\ \cos m\theta_2 \\\\ \cos m\theta_2 \\\\ \vdots \end{pmatrix} + \begin{pmatrix} -x_2 \\\\ x_1 \\\\ -x_4 \\\\ x_3 \\\\ \vdots \end{pmatrix} \otimes \begin{pmatrix} \sin m\theta_1 \\\\ \sin m\theta_1 \\\\ \sin m\theta_2 \\\\ \sin m\theta_2 \\\\ \vdots \end{pmatrix}$$<p><strong>💻 大厂源码映射（如 LLaMA / HuggingFace 源码）</strong>：
 为了实现上述右侧项的向量交换并部分取负的操作，大模型核心代码中必然会实现一个 <code>rotate_half(x)</code> 函数：</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -321,16 +304,13 @@ RoPE (旋转位置编码) 深度解析与工业级落地笔记 一、 核心动�
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>线性注意力（如 Performer）为了将 $O(N^2)$ 复杂度降到 $O(N)$，利用核函数 $\phi$ 将公式拆解为：</p>
-<p>$$ \text{Attention}(Q, K, V) \approx \phi(Q) (\phi(K)^T V) $$</p>
-<p>这意味着在线性注意力架构中，<strong>计算机根本不会去计算那个 $N \times N$ 的 $QK^T$ 得分矩阵</strong>。然而，像 T5 那种传统的相对位置编码，是强行在得分矩阵上执行“加偏置 $B$”的操作。两者的数学逻辑根本不兼容，导致传统相对位置方案在线性注意力面前直接瘫痪。</p>
+$$ \text{Attention}(Q, K, V) \approx \phi(Q) (\phi(K)^T V) $$<p>这意味着在线性注意力架构中，<strong>计算机根本不会去计算那个 $N \times N$ 的 $QK^T$ 得分矩阵</strong>。然而，像 T5 那种传统的相对位置编码，是强行在得分矩阵上执行“加偏置 $B$”的操作。两者的数学逻辑根本不兼容，导致传统相对位置方案在线性注意力面前直接瘫痪。</p>
 <h3 id="2-rope-的优雅解法" class="heading-element"><span>2. RoPE 的优雅解法</span>
   <a href="#2-rope-%e7%9a%84%e4%bc%98%e9%9b%85%e8%a7%a3%e6%b3%95" class="heading-mark">
     <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
   </a>
 </h3><p>RoPE 并不修改最后的得分矩阵，它是在进入核函数之后，直接对 Query 和 Key 施加<strong>旋转变换（乘法）</strong>：</p>
-<p>$$ \tilde{q}*m = R*{\Theta, m} \phi(q_m) $$</p>
-<p>$$ \tilde{k}*n = R*{\Theta, n} \phi(k_n) $$</p>
-<p>因为旋转矩阵本身不破坏向量点积的结合律形式，点积 $\tilde{q}_m^T \tilde{k}_n$ 天然就能获得相对位置信息 $(m-n)$，同时完全不妨碍后续先计算 $(\phi(K)^T V)$ 的线性加速流！原论文在 Section 3.4.2 还指出，即使旋转操作在理论上有破坏核函数非负性的微小隐患，实际训练中模型依然表现出极强的收敛鲁棒性。</p>
+$$ \tilde{q}\*m = R\*{\Theta, m} \phi(q_m) $$$$ \tilde{k}\*n = R\*{\Theta, n} \phi(k_n) $$<p>因为旋转矩阵本身不破坏向量点积的结合律形式，点积 $\tilde{q}_m^T \tilde{k}_n$ 天然就能获得相对位置信息 $(m-n)$，同时完全不妨碍后续先计算 $(\phi(K)^T V)$ 的线性加速流！原论文在 Section 3.4.2 还指出，即使旋转操作在理论上有破坏核函数非负性的微小隐患，实际训练中模型依然表现出极强的收敛鲁棒性。</p>
 <hr>
 <h2 id="六-为什么工业界大模型全都在用-rope" class="heading-element"><span>六、 为什么工业界大模型全都在用 RoPE？</span>
   <a href="#%e5%85%ad-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%b7%a5%e4%b8%9a%e7%95%8c%e5%a4%a7%e6%a8%a1%e5%9e%8b%e5%85%a8%e9%83%bd%e5%9c%a8%e7%94%a8-rope" class="heading-mark">
@@ -346,7 +326,7 @@ RoPE (旋转位置编码) 深度解析与工业级落地笔记 一、 核心动�
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-06-24 09:23:47">更新于 2026-06-24&nbsp;</span>
+        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/mlrope/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">
