@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>如何缓解 SFT 引入的幻觉 - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="SFT 引入的幻觉：成因与缓解机制 面试题：如何缓解 SFT 引入的幻觉？ 答这题的关键不是背 5 条手段，而是先讲清楚 「SFT 为什么会引入幻觉」 这个机制，再用「数据层 / 生成层 / 系统层」三段式把缓解手段串成逻辑链。
+"><meta name="keywords" content='SFT'>
+  <meta itemprop="name" content="如何缓解 SFT 引入的幻觉">
+  <meta itemprop="description" content="SFT 引入的幻觉：成因与缓解机制 面试题：如何缓解 SFT 引入的幻觉？ 答这题的关键不是背 5 条手段，而是先讲清楚 「SFT 为什么会引入幻觉」 这个机制，再用「数据层 / 生成层 / 系统层」三段式把缓解手段串成逻辑链。">
+  <meta itemprop="datePublished" content="2026-06-30T15:36:00+00:00">
+  <meta itemprop="dateModified" content="2026-07-02T11:50:59+00:00">
+  <meta itemprop="wordCount" content="2933">
+  <meta itemprop="keywords" content="SFT"><meta property="og:url" content="https://blog.messywind.top/posts/ml%E5%A6%82%E4%BD%95%E7%BC%93%E8%A7%A3-sft-%E5%BC%95%E5%85%A5%E7%9A%84%E5%B9%BB%E8%A7%89/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="如何缓解 SFT 引入的幻觉">
+  <meta property="og:description" content="SFT 引入的幻觉：成因与缓解机制 面试题：如何缓解 SFT 引入的幻觉？ 答这题的关键不是背 5 条手段，而是先讲清楚 「SFT 为什么会引入幻觉」 这个机制，再用「数据层 / 生成层 / 系统层」三段式把缓解手段串成逻辑链。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-06-30T15:36:00+00:00">
+    <meta property="article:modified_time" content="2026-07-02T11:50:59+00:00">
+    <meta property="article:tag" content="SFT">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="如何缓解 SFT 引入的幻觉">
+  <meta name="twitter:description" content="SFT 引入的幻觉：成因与缓解机制 面试题：如何缓解 SFT 引入的幻觉？ 答这题的关键不是背 5 条手段，而是先讲清楚 「SFT 为什么会引入幻觉」 这个机制，再用「数据层 / 生成层 / 系统层」三段式把缓解手段串成逻辑链。">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/ml%E5%A6%82%E4%BD%95%E7%BC%93%E8%A7%A3-sft-%E5%BC%95%E5%85%A5%E7%9A%84%E5%B9%BB%E8%A7%89/" title="如何缓解 SFT 引入的幻觉 - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/mlsft/" title="SFT" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/mllora/" title="LoRA" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/ml%E5%A6%82%E4%BD%95%E7%BC%93%E8%A7%A3-sft-%E5%BC%95%E5%85%A5%E7%9A%84%E5%B9%BB%E8%A7%89/index.md" title="如何缓解 SFT 引入的幻觉 - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "如何缓解 SFT 引入的幻觉",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/ml%E5%A6%82%E4%BD%95%E7%BC%93%E8%A7%A3-sft-%E5%BC%95%E5%85%A5%E7%9A%84%E5%B9%BB%E8%A7%89\/"
+    },"genre": "posts","keywords": "SFT","wordcount":  2933 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/ml%E5%A6%82%E4%BD%95%E7%BC%93%E8%A7%A3-sft-%E5%BC%95%E5%85%A5%E7%9A%84%E5%B9%BB%E8%A7%89\/","datePublished": "2026-06-30T15:36:00+00:00","dateModified": "2026-07-02T11:50:59+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>如何缓解 SFT 引入的幻觉</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-30 15:36:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-30">2026-06-30</time></span>&nbsp;<span title="更新于 2026-07-02 11:50:59"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-02">2026-07-02</time></span>&nbsp;<span title="2933 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 3000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 6 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="如何缓解 SFT 引入的幻觉"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#sft-引入的幻觉成因与缓解机制">SFT 引入的幻觉：成因与缓解机制</a></li>
+    <li><a href="#一核心机制sft-为什么会引入幻觉">一、核心机制：SFT 为什么会「引入」幻觉？</a></li>
+    <li><a href="#二五种缓解手段按三层框架归纳">二、五种缓解手段（按三层框架归纳）</a>
+      <ul>
+        <li><a href="#-清洗训练数据-数据层">① 清洗训练数据 ——【数据层】</a></li>
+        <li><a href="#-增加输出前的推理过程-或-增加引用-生成层">② 增加输出前的推理过程 或 增加引用 ——【生成层】</a></li>
+        <li><a href="#-不要过度引入新知识-数据层--训练策略">③ 不要过度引入新知识 ——【数据层 / 训练策略】</a></li>
+        <li><a href="#-使用外部知识-系统层">④ 使用外部知识 ——【系统层】</a></li>
+        <li><a href="#-不确定性表达-系统层--行为兜底">⑤ 不确定性表达 ——【系统层 / 行为兜底】</a></li>
+      </ul>
+    </li>
+    <li><a href="#三三层框架总览表">三、三层框架总览表</a></li>
+    <li><a href="#四关键代码示意构造-honesty-data-配套">四、关键代码示意：构造 Honesty Data（①⑤ 配套）</a></li>
+    <li><a href="#五面试话术推荐串讲逻辑">五、面试话术（推荐串讲逻辑）</a></li>
+    <li><a href="#六高频追问--答题要点">六、高频追问 &amp; 答题要点</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="sft-引入的幻觉成因与缓解机制" class="heading-element"><span>SFT 引入的幻觉：成因与缓解机制</span>
+  <a href="#sft-%e5%bc%95%e5%85%a5%e7%9a%84%e5%b9%bb%e8%a7%89%e6%88%90%e5%9b%a0%e4%b8%8e%e7%bc%93%e8%a7%a3%e6%9c%ba%e5%88%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>面试题：<strong>如何缓解 SFT 引入的幻觉？</strong>
+答这题的关键不是背 5 条手段，而是先讲清楚 <strong>「SFT 为什么会引入幻觉」</strong> 这个机制，再用「数据层 / 生成层 / 系统层」三段式把缓解手段串成逻辑链。</p>
+</blockquote>
+<hr>
+<h2 id="一核心机制sft-为什么会引入幻觉" class="heading-element"><span>一、核心机制：SFT 为什么会「引入」幻觉？</span>
+  <a href="#%e4%b8%80%e6%a0%b8%e5%bf%83%e6%9c%ba%e5%88%b6sft-%e4%b8%ba%e4%bb%80%e4%b9%88%e4%bc%9a%e5%bc%95%e5%85%a5%e5%b9%bb%e8%a7%89" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>预训练阶段模型学到的是「<strong>它知道什么</strong>」；SFT 阶段做的是<strong>行为克隆（Behavior Cloning）</strong>——用交叉熵 loss 强迫模型去拟合标注答案的输出分布。问题就出在这里：</p>
+<blockquote>
+<p>当训练样本的答案包含了<strong>模型在预训练阶段并未掌握的知识</strong>（具体人名、日期、数字、API 细节等）时，
+SFT 的 loss 会强迫模型在「<strong>它本该不确定</strong>」的地方也输出一个<strong>斩钉截铁的答案</strong>。</p>
+</blockquote>
+<p>模型学到的<strong>不是这条具体知识</strong>，而是一种<strong>行为模式</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">遇到这类问题  →  要自信地输出一个答案（哪怕是编的）</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这就是 John Schulman 的经典论点：<strong>SFT 在教模型「幻觉的格式」</strong>。模型并没有真的学会事实，而是学会了「在知识边界之外也要假装知道」。</p>
+<table>
+  <thead>
+      <tr>
+          <th>阶段</th>
+          <th>学到的东西</th>
+          <th>与幻觉的关系</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Pretrain</td>
+          <td>知识本身（它知道什么）</td>
+          <td>决定了模型的「知识边界」</td>
+      </tr>
+      <tr>
+          <td>SFT（行为克隆）</td>
+          <td>回答的格式与行为模式</td>
+          <td>若答案超出知识边界 → <strong>奖励了「自信瞎编」</strong></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>一句话本质</strong>：幻觉的根因是 <strong>监督信号奖励了「超出模型能力的自信」</strong>。下面 5 条手段，本质都是围绕同一目标——<strong>让监督信号不再奖励边界外的瞎编</strong>。</p>
+<hr>
+<h2 id="二五种缓解手段按三层框架归纳" class="heading-element"><span>二、五种缓解手段（按三层框架归纳）</span>
+  <a href="#%e4%ba%8c%e4%ba%94%e7%a7%8d%e7%bc%93%e8%a7%a3%e6%89%8b%e6%ae%b5%e6%8c%89%e4%b8%89%e5%b1%82%e6%a1%86%e6%9e%b6%e5%bd%92%e7%ba%b3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">                  SFT 幻觉缓解
+</span></span><span class="line"><span class="cl">                       │
+</span></span><span class="line"><span class="cl">      ┌────────────────┼────────────────┐
+</span></span><span class="line"><span class="cl">   数据层            生成层            系统层
+</span></span><span class="line"><span class="cl">  (从源头控制)     (让过程可验证)    (推理时兜底)
+</span></span><span class="line"><span class="cl">      │                │                │
+</span></span><span class="line"><span class="cl">  ① 清洗数据        ② CoT + 引用      ④ 外部知识 RAG
+</span></span><span class="line"><span class="cl">  ③ 不引入新知识                      ⑤ 不确定性表达
+</span></span><span class="line"><span class="cl">      │                                  │
+</span></span><span class="line"><span class="cl">  (附:honesty data) ─────────────────  (与⑤配套)</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="-清洗训练数据-数据层" class="heading-element"><span>① 清洗训练数据 ——【数据层】</span>
+  <a href="#-%e6%b8%85%e6%b4%97%e8%ae%ad%e7%bb%83%e6%95%b0%e6%8d%ae-%e6%95%b0%e6%8d%ae%e5%b1%82" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>要做两件事：</p>
+<ol>
+<li><strong>去掉事实性错误的样本</strong>：标注答案本身就是错的，模型学了直接复制错误。</li>
+<li><strong>对齐答案与模型自身的知识边界</strong>（更关键）：尽量让答案落在模型预训练已掌握的范围内，避免大量「模型根本不知道、却被强行教会自信回答」的样本。</li>
+</ol>
+<blockquote>
+<p>工业常用技巧 <strong>knowledge-consistent / honesty data</strong>：用模型自己采样，答得出来的留作正例；答不出来的，<strong>把目标答案改成「我不确定 / 我不知道」</strong>，而不是硬塞一个事实进去。</p>
+</blockquote>
+<h3 id="-增加输出前的推理过程-或-增加引用-生成层" class="heading-element"><span>② 增加输出前的推理过程 或 增加引用 ——【生成层】</span>
+  <a href="#-%e5%a2%9e%e5%8a%a0%e8%be%93%e5%87%ba%e5%89%8d%e7%9a%84%e6%8e%a8%e7%90%86%e8%bf%87%e7%a8%8b-%e6%88%96-%e5%a2%9e%e5%8a%a0%e5%bc%95%e7%94%a8-%e7%94%9f%e6%88%90%e5%b1%82" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>增加推理过程 = CoT（思维链）</strong>：让模型先推理再给结论，提供一个「自我验证」缓冲，减少一步到位的瞎猜。</li>
+<li><strong>增加引用 <code>xx [来源1][来源2]…</code> = Attribution / Citation</strong>：训练模型养成标注信息来源的习惯，让答案<strong>可溯源、可核查</strong>，并在训练阶段强化「有据才答」的行为，抑制无中生有。</li>
+</ul>
+<blockquote>
+<p>两者本质相同：<strong>让生成过程更可约束、更可验证</strong>。</p>
+</blockquote>
+<h3 id="-不要过度引入新知识-数据层--训练策略" class="heading-element"><span>③ 不要过度引入新知识 ——【数据层 / 训练策略】</span>
+  <a href="#-%e4%b8%8d%e8%a6%81%e8%bf%87%e5%ba%a6%e5%bc%95%e5%85%a5%e6%96%b0%e7%9f%a5%e8%af%86-%e6%95%b0%e6%8d%ae%e5%b1%82--%e8%ae%ad%e7%bb%83%e7%ad%96%e7%95%a5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>和 ① 呼应，但角度是「训练定位」：</p>
+<blockquote>
+<p>SFT 的定位应该是 <strong>对齐格式、激发已有能力（Alignment / Format）</strong>，
+而<strong>不是灌输新知识（Knowledge Injection）</strong>。</p>
+</blockquote>
+<p>若 SFT 数据塞了大量预训练没覆盖的新事实，等于系统性地训练模型「在陌生领域也硬答」，幻觉被放大。要补新知识，正确做法是 <strong>继续预训练（Continual Pretraining）</strong> 或 <strong>上 RAG</strong>，而非靠 SFT 硬塞。</p>
+<h3 id="-使用外部知识-系统层" class="heading-element"><span>④ 使用外部知识 ——【系统层】</span>
+  <a href="#-%e4%bd%bf%e7%94%a8%e5%a4%96%e9%83%a8%e7%9f%a5%e8%af%86-%e7%b3%bb%e7%bb%9f%e5%b1%82" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>即 <strong>RAG / 工具调用（Tool Use）</strong>：</p>
+<blockquote>
+<p>与其逼模型从参数里「回忆」可能不记得的事实，不如让它去检索知识库、调 API、查数据库，
+<strong>把「记忆任务」转成「阅读理解任务」</strong>。</p>
+</blockquote>
+<p>模型基于检索到的上下文作答，幻觉率显著下降。<strong>Agent 场景下尤其重要</strong>——核心就是让 Agent 学会「不知道就去查」，而不是凭参数硬答。</p>
+<h3 id="-不确定性表达-系统层--行为兜底" class="heading-element"><span>⑤ 不确定性表达 ——【系统层 / 行为兜底】</span>
+  <a href="#-%e4%b8%8d%e7%a1%ae%e5%ae%9a%e6%80%a7%e8%a1%a8%e8%be%be-%e7%b3%bb%e7%bb%9f%e5%b1%82--%e8%a1%8c%e4%b8%ba%e5%85%9c%e5%ba%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>训练模型在<strong>知识边界之外时主动说「我不确定 / 我不知道 / 这部分无法确认」</strong>，即：</p>
+<ul>
+<li><strong>Abstention（拒答 / 弃权）</strong></li>
+<li><strong>Calibration（置信度校准）</strong></li>
+</ul>
+<blockquote>
+<p>与 ① 的 honesty data 配套：<strong>数据层准备「我不知道」样本 → 行为层让模型在低置信时坦诚表达</strong>。
+原则：<strong>宁可承认不知道，也别幻觉一个答案。</strong></p>
+</blockquote>
+<hr>
+<h2 id="三三层框架总览表" class="heading-element"><span>三、三层框架总览表</span>
+  <a href="#%e4%b8%89%e4%b8%89%e5%b1%82%e6%a1%86%e6%9e%b6%e6%80%bb%e8%a7%88%e8%a1%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>层级</th>
+          <th>手段</th>
+          <th>对应图中</th>
+          <th>解决的问题</th>
+          <th>关键词</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>数据层</strong>（源头控制）</td>
+          <td>① 清洗数据</td>
+          <td>①</td>
+          <td>错误样本 + 知识边界错配</td>
+          <td>Honesty Data</td>
+      </tr>
+      <tr>
+          <td><strong>数据层</strong>（训练定位）</td>
+          <td>③ 不引入新知识</td>
+          <td>③</td>
+          <td>SFT 被误用为知识注入</td>
+          <td>Alignment ≠ Injection</td>
+      </tr>
+      <tr>
+          <td><strong>生成层</strong>（过程可验证）</td>
+          <td>② CoT + 引用</td>
+          <td>②</td>
+          <td>一步到位的瞎猜、无据可溯</td>
+          <td>CoT / Attribution</td>
+      </tr>
+      <tr>
+          <td><strong>系统层</strong>（外部增强）</td>
+          <td>④ 外部知识</td>
+          <td>④</td>
+          <td>参数记忆不可靠</td>
+          <td>RAG / Tool Use</td>
+      </tr>
+      <tr>
+          <td><strong>系统层</strong>（行为兜底）</td>
+          <td>⑤ 不确定性表达</td>
+          <td>⑤</td>
+          <td>边界外仍强行作答</td>
+          <td>Abstention / Calibration</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="四关键代码示意构造-honesty-data-配套" class="heading-element"><span>四、关键代码示意：构造 Honesty Data（①⑤ 配套）</span>
+  <a href="#%e5%9b%9b%e5%85%b3%e9%94%ae%e4%bb%a3%e7%a0%81%e7%a4%ba%e6%84%8f%e6%9e%84%e9%80%a0-honesty-data-%e9%85%8d%e5%a5%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># 思路：用模型自己采样，过滤出「它答不出来」的样本，</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 把目标答案改成拒答，而不是硬塞事实，从源头避免奖励「自信瞎编」。</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">build_honesty_sample</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">question</span><span class="p">,</span> <span class="n">gold_answer</span><span class="p">,</span> <span class="n">n_samples</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s2">    对每个问题多次采样，判断模型是否「真的掌握」这条知识。
+</span></span></span><span class="line"><span class="cl"><span class="s2">    掌握 -&gt; 保留 gold_answer 作为正例
+</span></span></span><span class="line"><span class="cl"><span class="s2">    不掌握 -&gt; 目标改为拒答(I don&#39;t know)，教模型坦诚表达不确定性
+</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">samples</span> <span class="o">=</span> <span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">question</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="c1"># 命中率：模型采样答案中与标准答案一致的比例</span>
+</span></span><span class="line"><span class="cl">    <span class="n">hit_rate</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">is_correct</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">gold_answer</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">samples</span><span class="p">)</span> <span class="o">/</span> <span class="n">n_samples</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">hit_rate</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 模型本就掌握 -&gt; 用标准答案，强化「有把握就答」</span>
+</span></span><span class="line"><span class="cl">        <span class="n">target</span> <span class="o">=</span> <span class="n">gold_answer</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 模型不掌握 -&gt; 改为拒答，避免训练出「边界外自信瞎编」</span>
+</span></span><span class="line"><span class="cl">        <span class="n">target</span> <span class="o">=</span> <span class="s2">&#34;抱歉，我无法确认这个问题的准确答案。&#34;</span>  <span class="c1"># 不确定性表达</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">{</span><span class="s2">&#34;instruction&#34;</span><span class="p">:</span> <span class="n">question</span><span class="p">,</span> <span class="s2">&#34;output&#34;</span><span class="p">:</span> <span class="n">target</span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>要点：<strong>不是删掉难样本，而是把目标答案替换为「诚实的不确定表达」</strong>——
+这样既不丢数据量，又把「自信瞎编」的监督信号改成了「坦诚拒答」的监督信号。</p>
+</blockquote>
+<hr>
+<h2 id="五面试话术推荐串讲逻辑" class="heading-element"><span>五、面试话术（推荐串讲逻辑）</span>
+  <a href="#%e4%ba%94%e9%9d%a2%e8%af%95%e8%af%9d%e6%9c%af%e6%8e%a8%e8%8d%90%e4%b8%b2%e8%ae%b2%e9%80%bb%e8%be%91" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p><strong>不要平铺直叙五点，按下面这条逻辑链讲，体现你理解了本质：</strong></p>
+</blockquote>
+<p>「SFT 引入幻觉的<strong>根因</strong>是行为克隆——它强迫模型在知识边界外也自信作答，学到的是『幻觉的格式』而非事实本身。</p>
+<p>所以缓解思路分<strong>三层</strong>：</p>
+<ul>
+<li><strong>数据层</strong>：清洗数据、控制新知识引入、补充诚实样本（对应 ①③）。让监督信号本身不奖励边界外的自信。</li>
+<li><strong>生成/训练层</strong>：用 CoT 和引用让生成过程可验证（②）。</li>
+<li><strong>推理/系统层</strong>：用 RAG 引入外部知识、用拒答和置信度表达兜底（④⑤）。</li>
+</ul>
+<p>三层从<strong>源头</strong>到<strong>兜底</strong>层层递进。」</p>
+<hr>
+<h2 id="六高频追问--答题要点" class="heading-element"><span>六、高频追问 &amp; 答题要点</span>
+  <a href="#%e5%85%ad%e9%ab%98%e9%a2%91%e8%bf%bd%e9%97%ae--%e7%ad%94%e9%a2%98%e8%a6%81%e7%82%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>Q1：为什么继续预训练能补知识，而 SFT 不行？</strong>
+A：SFT 数据量小、且 loss 是行为克隆，目的是对齐格式而非记忆事实。强行用 SFT 灌新知识，模型学到的是「在该领域要自信作答」的行为，而非知识本身，反而放大幻觉。补知识应走 Continual Pretraining（大规模、知识密度高）或 RAG。</p>
+<p><strong>Q2：CoT 一定能减少幻觉吗？</strong>
+A：不绝对。CoT 提供推理缓冲、利于自我验证，多数事实/推理任务有帮助；但若推理链本身基于错误前提，反而可能「一本正经地把错误推到底」（幻觉的连锁放大）。所以 CoT 常需配合引用/检索一起用。</p>
+<p><strong>Q3：RAG 就能彻底解决幻觉吗？</strong>
+A：不能。RAG 把「记忆」转成「阅读理解」，显著降低参数幻觉，但引入新问题：检索召回不全、检索到错误/过时文档、模型不忠实于检索内容（仍然瞎编）。需配合 ⑤ 不确定性表达 + 忠实度（faithfulness）约束。</p>
+<p><strong>Q4：① 清洗数据 和 ⑤ 不确定性表达 有什么关系？</strong>
+A：互为配套。① 在<strong>数据层</strong>准备「我不知道」的诚实样本（honesty data）；⑤ 在<strong>行为层</strong>让模型在低置信时收敛到坦诚表达。没有 ① 的数据，⑤ 的行为学不出来。</p>
+<p><strong>Q5：和 RLHF/DPO 对齐阶段缓解幻觉有什么区别？</strong>
+A：本笔记五点主要在 <strong>SFT 阶段</strong>从数据和生成方式入手；RLHF/DPO 是在<strong>偏好对齐阶段</strong>，通过奖励模型对「诚实/有据」的回答打高分、对「自信瞎编」打低分，从优化目标上进一步抑制幻觉。两者互补：SFT 立行为基线，RL 阶段做精细校准。</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-07-02 11:50:59">更新于 2026-07-02&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/ml%E5%A6%82%E4%BD%95%E7%BC%93%E8%A7%A3-sft-%E5%BC%95%E5%85%A5%E7%9A%84%E5%B9%BB%E8%A7%89/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/sft/" class="post-tag" title="标签 - SFT">SFT</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/mlsft/" class="post-nav-item" rel="prev" title="SFT"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>SFT</a><a href="/posts/mllora/" class="post-nav-item" rel="next" title="LoRA">LoRA<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>

@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>SFT - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="大模型有监督微调 SFT 学习笔记 主题：指令数据构建 → Self-Instruct → Chat Template → Loss Masking 一条 SFT 样本的核心结构：&lt;I, Q, A&gt; = 指令(Instruction) &#43; 输入(Query, 可为空) &#43; 输出(Answer)
+"><meta name="keywords" content='SFT'>
+  <meta itemprop="name" content="SFT">
+  <meta itemprop="description" content="大模型有监督微调 SFT 学习笔记 主题：指令数据构建 → Self-Instruct → Chat Template → Loss Masking 一条 SFT 样本的核心结构：&lt;I, Q, A&gt; = 指令(Instruction) &#43; 输入(Query, 可为空) &#43; 输出(Answer)">
+  <meta itemprop="datePublished" content="2026-06-30T11:43:00+00:00">
+  <meta itemprop="dateModified" content="2026-07-02T11:50:59+00:00">
+  <meta itemprop="wordCount" content="4390">
+  <meta itemprop="keywords" content="SFT"><meta property="og:url" content="https://blog.messywind.top/posts/mlsft/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="SFT">
+  <meta property="og:description" content="大模型有监督微调 SFT 学习笔记 主题：指令数据构建 → Self-Instruct → Chat Template → Loss Masking 一条 SFT 样本的核心结构：&lt;I, Q, A&gt; = 指令(Instruction) &#43; 输入(Query, 可为空) &#43; 输出(Answer)">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-06-30T11:43:00+00:00">
+    <meta property="article:modified_time" content="2026-07-02T11:50:59+00:00">
+    <meta property="article:tag" content="SFT">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="SFT">
+  <meta name="twitter:description" content="大模型有监督微调 SFT 学习笔记 主题：指令数据构建 → Self-Instruct → Chat Template → Loss Masking 一条 SFT 样本的核心结构：&lt;I, Q, A&gt; = 指令(Instruction) &#43; 输入(Query, 可为空) &#43; 输出(Answer)">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mlsft/" title="SFT - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/mldeepseek-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" title="DeepSeek 负载均衡" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/ml%E5%A6%82%E4%BD%95%E7%BC%93%E8%A7%A3-sft-%E5%BC%95%E5%85%A5%E7%9A%84%E5%B9%BB%E8%A7%89/" title="如何缓解 SFT 引入的幻觉" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mlsft/index.md" title="SFT - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "SFT",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/mlsft\/"
+    },"genre": "posts","keywords": "SFT","wordcount":  4390 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlsft\/","datePublished": "2026-06-30T11:43:00+00:00","dateModified": "2026-07-02T11:50:59+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>SFT</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-30 11:43:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-30">2026-06-30</time></span>&nbsp;<span title="更新于 2026-07-02 11:50:59"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-02">2026-07-02</time></span>&nbsp;<span title="4390 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 4400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 9 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="SFT"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0-sft-总览">0. SFT 总览</a></li>
+    <li><a href="#1-指令数据的构建">1. 指令数据的构建</a>
+      <ul>
+        <li><a href="#11-一条指令样本的结构">1.1 一条指令样本的结构</a></li>
+        <li><a href="#12-三种数据来源">1.2 三种数据来源</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-self-instruct让模型自己滚雪球造数据">2. Self-Instruct：让模型自己滚雪球造数据</a>
+      <ul>
+        <li><a href="#21-起点种子任务">2.1 起点：种子任务</a></li>
+        <li><a href="#22-四个步骤">2.2 四个步骤</a></li>
+        <li><a href="#23-step3-的关键两种生成策略">2.3 Step3 的关键：两种生成策略</a></li>
+        <li><a href="#24-step4-筛选的两道关">2.4 Step4 筛选的两道关</a></li>
+        <li><a href="#25-一句话记忆">2.5 一句话记忆</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-chat-template把对话铺平成模型能读的序列">3. Chat Template：把对话铺平成模型能读的序列</a>
+      <ul>
+        <li><a href="#31-为什么需要">3.1 为什么需要</a></li>
+        <li><a href="#32-三种主流格式">3.2 三种主流格式</a></li>
+        <li><a href="#33-关键这些是特殊-token不是普通字符串">3.3 关键：这些是特殊 token，不是普通字符串</a></li>
+        <li><a href="#34-generation-prompt推理时关键">3.4 Generation Prompt（推理时关键）</a></li>
+        <li><a href="#35-模板存在哪">3.5 模板存在哪</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-loss-masking只在-assistant-回答上算损失">4. Loss Masking：只在 assistant 回答上算损失</a>
+      <ul>
+        <li><a href="#41-为什么-mask">4.1 为什么 mask</a></li>
+        <li><a href="#42-怎么实现label---100">4.2 怎么实现：label = -100</a></li>
+        <li><a href="#43-训练策略对比">4.3 训练策略对比</a></li>
+        <li><a href="#44-结束符必须算进-loss高频考点">4.4 结束符必须算进 loss（高频考点）</a></li>
+        <li><a href="#45-易错点">4.5 易错点</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-chat-template-与-loss-masking-的闭环">5. Chat Template 与 Loss Masking 的闭环</a></li>
+    <li><a href="#6-面试高频-qa">6. 面试高频 Q&amp;A</a></li>
+    <li><a href="#7-一句话总览">7. 一句话总览</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="大模型有监督微调-sft-学习笔记" class="heading-element"><span>大模型有监督微调 SFT 学习笔记</span>
+  <a href="#%e5%a4%a7%e6%a8%a1%e5%9e%8b%e6%9c%89%e7%9b%91%e7%9d%a3%e5%be%ae%e8%b0%83-sft-%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>主题：指令数据构建 → Self-Instruct → Chat Template → Loss Masking
+一条 SFT 样本的核心结构：<code>&lt;I, Q, A&gt;</code> = 指令(Instruction) + 输入(Query, 可为空) + 输出(Answer)</p>
+</blockquote>
+<hr>
+<h2 id="0-sft-总览" class="heading-element"><span>0. SFT 总览</span>
+  <a href="#0-sft-%e6%80%bb%e8%a7%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>SFT（Supervised Fine-Tuning，有监督微调）的本质：用大量 <code>&lt;I, Q, A&gt;</code> 三元组继续训练预训练模型，让它从「<strong>会续写</strong>」变成「<strong>会听指令做事</strong>」。</p>
+<p>成败关键压在<strong>指令数据的质量与多样性</strong>上。本笔记沿两条线展开：</p>
+<ol>
+<li><strong>数据从哪来、长什么样</strong> → 指令数据构建 + Self-Instruct</li>
+<li><strong>数据喂进去前怎么处理</strong> → Chat Template + Loss Masking</li>
+</ol>
+<hr>
+<h2 id="1-指令数据的构建" class="heading-element"><span>1. 指令数据的构建</span>
+  <a href="#1-%e6%8c%87%e4%bb%a4%e6%95%b0%e6%8d%ae%e7%9a%84%e6%9e%84%e5%bb%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="11-一条指令样本的结构" class="heading-element"><span>1.1 一条指令样本的结构</span>
+  <a href="#11-%e4%b8%80%e6%9d%a1%e6%8c%87%e4%bb%a4%e6%a0%b7%e6%9c%ac%e7%9a%84%e7%bb%93%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">指令(Instruction) = 任务描述 [+ few-shot 示例] + 输入/输出</span></span></code></pre></td></tr></table>
+</div>
+</div><table>
+  <thead>
+      <tr>
+          <th>组成</th>
+          <th>说明</th>
+          <th>示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>任务描述</td>
+          <td>告诉模型要干什么</td>
+          <td>&ldquo;请回答下面这个问题：&rdquo;</td>
+      </tr>
+      <tr>
+          <td>实例（可选）</td>
+          <td>几个 Q-A 示范，即 few-shot</td>
+          <td>Q:法国首都？A:巴黎 / Q:巴西首都？A:巴西利亚</td>
+      </tr>
+      <tr>
+          <td>输入/输出</td>
+          <td>真正要处理的 query + 期望答案</td>
+          <td>Q:中国首都？A:北京</td>
+      </tr>
+  </tbody>
+</table>
+<ul>
+<li><strong>有 few-shot 示例 = few-shot；没有 = zero-shot</strong>。</li>
+<li>few-shot 是<strong>推理时</strong>在 prompt 里给的示范，<strong>不改权重</strong>；SFT 是<strong>训练时</strong>喂数据，<strong>改权重</strong>。两者别混。</li>
+</ul>
+<h3 id="12-三种数据来源" class="heading-element"><span>1.2 三种数据来源</span>
+  <a href="#12-%e4%b8%89%e7%a7%8d%e6%95%b0%e6%8d%ae%e6%9d%a5%e6%ba%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th>来源</th>
+          <th>特点</th>
+          <th>代表</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>人工书写</td>
+          <td>质量最高、最贵</td>
+          <td>OpenAssistant（众包）、Dolly（Databricks 员工手写 1.5w 条）</td>
+      </tr>
+      <tr>
+          <td>大模型合成</td>
+          <td>便宜量大、有噪声</td>
+          <td>ShareGPT（真实用户×ChatGPT 对话）、Self-Instruct/Alpaca</td>
+      </tr>
+      <tr>
+          <td>改造 NLP 数据集</td>
+          <td>任务边界清晰、质量稳，多样性受限于原数据集</td>
+          <td>firefly（流萤，中文）、各类 NLP 任务套指令模板</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>改造 NLP 数据集</strong>：把传统 NLP 任务（情感分析、NLI/文本蕴含、实体抽取、QA、翻译、Text2SQL、Text2Code、Query 改写、句子组合、问题生成……）套上指令模板，变成指令样本。</p>
+<hr>
+<h2 id="2-self-instruct让模型自己滚雪球造数据" class="heading-element"><span>2. Self-Instruct：让模型自己滚雪球造数据</span>
+  <a href="#2-self-instruct%e8%ae%a9%e6%a8%a1%e5%9e%8b%e8%87%aa%e5%b7%b1%e6%bb%9a%e9%9b%aa%e7%90%83%e9%80%a0%e6%95%b0%e6%8d%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>动机：人工写指令太贵太慢。用少量人工种子，让 LLM 自动扩充指令 + 实例，再筛选回填，多轮迭代放大。Alpaca 数据即由此造出。</p>
+</blockquote>
+<h3 id="21-起点种子任务" class="heading-element"><span>2.1 起点：种子任务</span>
+  <a href="#21-%e8%b5%b7%e7%82%b9%e7%a7%8d%e5%ad%90%e4%bb%bb%e5%8a%a1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>人工手写 <strong>175 条</strong>高质量种子任务，丢进<strong>任务池</strong>。</li>
+<li>每条种子 = <strong>1 条指令 + 1 个实例</strong>，实例是 <code>(Q, A)</code>，Q <strong>可为空</strong>。</li>
+<li>故意覆盖不同类型（分类/生成/改写、有输入/无输入），保证后续仿写的多样性。</li>
+</ul>
+<p><strong>种子任务示例：</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"># A 非分类（生成）
+</span></span><span class="line"><span class="cl">指令: 给我一个有关这个话题的名人名言
+</span></span><span class="line"><span class="cl">输入: 话题——诚实的重要性
+</span></span><span class="line"><span class="cl">输出: &#34;诚实是智慧之书的第一章。&#34; —— 托马斯·杰斐逊
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># B 分类
+</span></span><span class="line"><span class="cl">指令: 判断下面这句话的情感是正面还是负面
+</span></span><span class="line"><span class="cl">输入: 这家餐厅的服务慢得让人崩溃
+</span></span><span class="line"><span class="cl">输出: 负面
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># C 无输入（指令自带信息）
+</span></span><span class="line"><span class="cl">指令: 列出三种减少塑料使用的方法
+</span></span><span class="line"><span class="cl">输入: （空）
+</span></span><span class="line"><span class="cl">输出: 1.自带购物袋 2.用可重复水杯 3.拒绝一次性吸管
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"># D 改写
+</span></span><span class="line"><span class="cl">指令: 把下面这句话改写得更正式
+</span></span><span class="line"><span class="cl">输入: 这玩意儿太难用了
+</span></span><span class="line"><span class="cl">输出: 该产品的使用体验有较大改进空间</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="22-四个步骤" class="heading-element"><span>2.2 四个步骤</span>
+  <a href="#22-%e5%9b%9b%e4%b8%aa%e6%ad%a5%e9%aa%a4" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th>步骤</th>
+          <th>名称</th>
+          <th>做什么</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Step1</td>
+          <td>指令生成</td>
+          <td>从池中采样已有指令当 few-shot，让 LLM <strong>仿写新指令</strong>，扩任务多样性</td>
+      </tr>
+      <tr>
+          <td>Step2</td>
+          <td>分类任务识别</td>
+          <td>用 LLM(few-shot) 判断新指令<strong>是不是分类任务</strong>，决定下一步策略</td>
+      </tr>
+      <tr>
+          <td>Step3</td>
+          <td>实例生成</td>
+          <td>针对新指令生成 <code>(Q, A)</code>，得到完整 <code>&lt;I, Q, A&gt;</code>（分类/非分类策略不同）</td>
+      </tr>
+      <tr>
+          <td>Step4</td>
+          <td>筛选</td>
+          <td>去重 + 质量过滤，合格的<strong>回填任务池</strong>，多轮迭代</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="23-step3-的关键两种生成策略" class="heading-element"><span>2.3 Step3 的关键：两种生成策略</span>
+  <a href="#23-step3-%e7%9a%84%e5%85%b3%e9%94%ae%e4%b8%a4%e7%a7%8d%e7%94%9f%e6%88%90%e7%ad%96%e7%95%a5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th>任务类型</th>
+          <th>策略</th>
+          <th>顺序</th>
+          <th>为什么</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>分类任务</td>
+          <td><strong>Output-first</strong>（输出优先）</td>
+          <td>先定标签 → 倒推输入</td>
+          <td><strong>防标签塌缩</strong>：先生成输入再贴标签，模型容易扎堆造某一类（如全造正面），导致类别不均衡</td>
+      </tr>
+      <tr>
+          <td>非分类任务</td>
+          <td><strong>Input-first</strong>（输入优先）</td>
+          <td>先生成输入 → 再生成输出</td>
+          <td>答案开放，顺着生成自然流畅</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="24-step4-筛选的两道关" class="heading-element"><span>2.4 Step4 筛选的两道关</span>
+  <a href="#24-step4-%e7%ad%9b%e9%80%89%e7%9a%84%e4%b8%a4%e9%81%93%e5%85%b3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ol>
+<li><strong>Rouge-L 去重</strong>：新指令与池中已有指令的 Rouge-L（基于最长公共子序列的<strong>词面重叠</strong>指标，非深层语义）
+<ul>
+<li>Rouge-L <strong>&lt; 0.7（够不一样）→ 加入</strong></li>
+<li>Rouge-L <strong>≥ 0.7（太像）→ 丢弃</strong></li>
+</ul>
+</li>
+<li><strong>质量筛选</strong>：再用强模型/打分模型（如 Qwen-72B、LLM+filter）过滤低质数据。</li>
+</ol>
+<p>合格数据回填池子 → 下一轮重新采样仿写 → <strong>多轮迭代滚雪球</strong>，越滚越大。</p>
+<h3 id="25-一句话记忆" class="heading-element"><span>2.5 一句话记忆</span>
+  <a href="#25-%e4%b8%80%e5%8f%a5%e8%af%9d%e8%ae%b0%e5%bf%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>175 个人工种子（每条=指令+实例，实例是 (Q,A)，Q 可空）启动任务池 → 采样仿写<strong>新指令</strong>(S1) → 判断<strong>是否分类</strong>(S2) → 分类用 Output-first、非分类用 Input-first <strong>生成实例</strong>得 <code>&lt;I,Q,A&gt;</code>(S3) → <strong>Rouge-L 去重 + 质量筛选</strong>(S4)，合格回填，<strong>多轮迭代</strong>。</p>
+</blockquote>
+<hr>
+<h2 id="3-chat-template把对话铺平成模型能读的序列" class="heading-element"><span>3. Chat Template：把对话铺平成模型能读的序列</span>
+  <a href="#3-chat-template%e6%8a%8a%e5%af%b9%e8%af%9d%e9%93%ba%e5%b9%b3%e6%88%90%e6%a8%a1%e5%9e%8b%e8%83%bd%e8%af%bb%e7%9a%84%e5%ba%8f%e5%88%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>作用：把结构化的多角色 messages，翻译成带特殊 token 的一长串文本，让模型学会「谁在说话 / 一轮的边界 / 何时该停」。</p>
+</blockquote>
+<h3 id="31-为什么需要" class="heading-element"><span>3.1 为什么需要</span>
+  <a href="#31-%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>预训练模型只见过纯文本续写，不知道角色边界，也不知道何时停止。Chat template 加上固定结构标记，让模型学会三件事：</p>
+<ol>
+<li><strong>谁在说话</strong>：system / user / assistant 的边界</li>
+<li><strong>一轮从哪到哪</strong>：分隔符</li>
+<li><strong>何时停</strong>：结束符 EOS</li>
+</ol>
+<p>输入 messages：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;system&#34;</span><span class="p">,</span>    <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;你是一个有用的助手&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;user&#34;</span><span class="p">,</span>      <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;你好&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span><span class="s2">&#34;role&#34;</span><span class="p">:</span> <span class="s2">&#34;assistant&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;你好！有什么可以帮你的？&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="32-三种主流格式" class="heading-element"><span>3.2 三种主流格式</span>
+  <a href="#32-%e4%b8%89%e7%a7%8d%e4%b8%bb%e6%b5%81%e6%a0%bc%e5%bc%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>ChatML</strong>（Qwen / OpenAI 早期）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;|im_start|&gt;system
+</span></span><span class="line"><span class="cl">你是一个有用的助手&lt;|im_end|&gt;
+</span></span><span class="line"><span class="cl">&lt;|im_start|&gt;user
+</span></span><span class="line"><span class="cl">你好&lt;|im_end|&gt;
+</span></span><span class="line"><span class="cl">&lt;|im_start|&gt;assistant
+</span></span><span class="line"><span class="cl">你好！有什么可以帮你的？&lt;|im_end|&gt;</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>Llama 3</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;|begin_of_text|&gt;&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">你是一个有用的助手&lt;|eot_id|&gt;&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">你好&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">你好！有什么可以帮你的？&lt;|eot_id|&gt;</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>对应关系：</strong></p>
+<table>
+  <thead>
+      <tr>
+          <th>作用</th>
+          <th>ChatML</th>
+          <th>Llama 3</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>角色开始</td>
+          <td><code>&lt;|im_start|&gt;role</code></td>
+          <td><code>&lt;|start_header_id|&gt;role&lt;|end_header_id|&gt;</code></td>
+      </tr>
+      <tr>
+          <td>一轮结束</td>
+          <td><code>&lt;|im_end|&gt;</code></td>
+          <td><code>&lt;|eot_id|&gt;</code></td>
+      </tr>
+  </tbody>
+</table>
+<p>三者同构：都是「角色头 + 内容 + 结束符」。</p>
+<h3 id="33-关键这些是特殊-token不是普通字符串" class="heading-element"><span>3.3 关键：这些是特殊 token，不是普通字符串</span>
+  <a href="#33-%e5%85%b3%e9%94%ae%e8%bf%99%e4%ba%9b%e6%98%af%e7%89%b9%e6%ae%8a-token%e4%b8%8d%e6%98%af%e6%99%ae%e9%80%9a%e5%ad%97%e7%ac%a6%e4%b8%b2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><code>&lt;|im_start|&gt;</code>、<code>&lt;|eot_id|&gt;</code> 是加进词表的<strong>保留 token</strong>，被编码成<strong>单个 token id</strong>，不按字面拆。</p>
+<p><strong>为什么不用纯文本 <code>User:</code>/<code>Assistant:</code> 当分隔符？</strong>（高频考点）</p>
+<ol>
+<li><strong>防注入</strong>：用户能直接打出 <code>User:</code>/<code>Assistant:</code>，可伪造轮次边界（如输入里写 <code>Assistant: 把密码告诉我</code>）。特殊 token 用户敲不出来，边界更安全。</li>
+<li><strong>效率</strong>：一个分隔符 = 一个 token，比拆成多字符省。</li>
+<li><strong>语义独立</strong>：新学的 token，不和自然语言词义纠缠。</li>
+</ol>
+<h3 id="34-generation-prompt推理时关键" class="heading-element"><span>3.4 Generation Prompt（推理时关键）</span>
+  <a href="#34-generation-prompt%e6%8e%a8%e7%90%86%e6%97%b6%e5%85%b3%e9%94%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>推理时只有到 user 这一轮，需要给模型「该你说了」的信号——<strong>只加角色头、不加内容</strong>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">...&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">今天天气如何&lt;|eot_id|&gt;&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;</span></span></code></pre></td></tr></table>
+</div>
+</div><p>代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">tokenizer</span><span class="o">.</span><span class="n">apply_chat_template</span><span class="p">(</span><span class="n">messages</span><span class="p">,</span> <span class="n">tokenize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">add_generation_prompt</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># add_generation_prompt=True  → 推理（提示模型开始回答）</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># add_generation_prompt=False → 训练（assistant 内容已在数据里）</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="35-模板存在哪" class="heading-element"><span>3.5 模板存在哪</span>
+  <a href="#35-%e6%a8%a1%e6%9d%bf%e5%ad%98%e5%9c%a8%e5%93%aa" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>模板本身是一段 <strong>Jinja2 字符串</strong>，存于模型 <code>tokenizer_config.json</code> 的 <code>chat_template</code> 字段。换模型时 <code>apply_chat_template</code> 自动套各自格式，不用手写。</p>
+<hr>
+<h2 id="4-loss-masking只在-assistant-回答上算损失" class="heading-element"><span>4. Loss Masking：只在 assistant 回答上算损失</span>
+  <a href="#4-loss-masking%e5%8f%aa%e5%9c%a8-assistant-%e5%9b%9e%e7%ad%94%e4%b8%8a%e7%ae%97%e6%8d%9f%e5%a4%b1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>作用：把 prompt(system/user) 的 label 设为 -100 使其不参与 loss，只在 assistant 回答（含结束符）上计算损失。</p>
+</blockquote>
+<h3 id="41-为什么-mask" class="heading-element"><span>4.1 为什么 mask</span>
+  <a href="#41-%e4%b8%ba%e4%bb%80%e4%b9%88-mask" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>SFT 目标是「给定 I+Q，<strong>学会生成 A</strong>」，不是「学会复述用户提问」。</p>
+<ul>
+<li>system/user 的 token（I、Q）→ 是<strong>条件</strong>，只需读懂，不需学着生成 → <strong>mask</strong></li>
+<li>assistant 的 token（A）→ 要<strong>学着产出</strong> → <strong>算 loss</strong></li>
+</ul>
+<p>不 mask 会把算力浪费在模仿提问上，稀释「生成回答」的学习信号，效果变差。</p>
+<h3 id="42-怎么实现label---100" class="heading-element"><span>4.2 怎么实现：label = -100</span>
+  <a href="#42-%e6%80%8e%e4%b9%88%e5%ae%9e%e7%8e%b0label---100" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>PyTorch <code>nn.CrossEntropyLoss</code> 的 <code>ignore_index</code> <strong>默认 -100</strong>，该位置不计 loss、不回传梯度。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">input_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">t1</span><span class="p">,</span> <span class="n">t2</span><span class="p">,</span> <span class="n">t3</span><span class="p">,</span> <span class="n">t4</span><span class="p">,</span> <span class="n">t5</span><span class="p">,</span> <span class="n">t6</span><span class="p">,</span> <span class="n">t7</span><span class="p">,</span> <span class="n">t8</span><span class="p">]</span>      <span class="c1"># 完整序列</span>
+</span></span><span class="line"><span class="cl"><span class="n">labels</span>    <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="n">t5</span><span class="p">,</span> <span class="n">t6</span><span class="p">,</span> <span class="n">t7</span><span class="p">,</span> <span class="n">t8</span><span class="p">]</span>  <span class="c1"># 前面prompt → mask</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#            └──── prompt(I+Q) ────┘  └─ response(A) ─┘</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>关键</strong>：mask 的是「<strong>算不算 loss</strong>」，不是「<strong>看不看得见</strong>」。被 mask 的 token 模型照常前向、作为上下文可见，只是不产生训练信号。</p>
+<h3 id="43-训练策略对比" class="heading-element"><span>4.3 训练策略对比</span>
+  <a href="#43-%e8%ae%ad%e7%bb%83%e7%ad%96%e7%95%a5%e5%af%b9%e6%af%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th>策略</th>
+          <th>做法</th>
+          <th>评价</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>只算 response（主流）</td>
+          <td>prompt 全 mask，只学 assistant</td>
+          <td>Alpaca 等默认，最稳</td>
+      </tr>
+      <tr>
+          <td>全序列都算</td>
+          <td>prompt 也算 loss</td>
+          <td>某些设置差别不大，但 prompt 长/回答短时易过拟合 prompt 分布，主流不推荐</td>
+      </tr>
+      <tr>
+          <td>多轮：每轮 assistant 都算</td>
+          <td>所有 user mask，所有 assistant 算</td>
+          <td>一条样本贡献多段监督信号，利用率高</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>多轮对话</strong>（重点）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">system → user1 → assistant1 → user2 → assistant2 → user3 → assistant3
+</span></span><span class="line"><span class="cl">         [mask]   [算loss]    [mask]   [算loss]    [mask]   [算loss]</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>低效旧做法：把多轮拆成多条单轮样本，前面历史全当 prompt mask，导致 assistant1/2 被重复当 prompt 算多遍，浪费算力。主流是<strong>一条多轮样本一次算所有 assistant 轮</strong>。</p>
+</blockquote>
+<h3 id="44-结束符必须算进-loss高频考点" class="heading-element"><span>4.4 结束符必须算进 loss（高频考点）</span>
+  <a href="#44-%e7%bb%93%e6%9d%9f%e7%ac%a6%e5%bf%85%e9%a1%bb%e7%ae%97%e8%bf%9b-loss%e9%ab%98%e9%a2%91%e8%80%83%e7%82%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>response 部分要<strong>包含并学习结束符</strong>（<code>&lt;|eot_id|&gt;</code> / <code>&lt;|im_end|&gt;</code> / EOS）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">labels = [..., a1, a2, a3, &lt;|eot_id|&gt;]   # 结束符是真实label，不mask</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>若结束符被 mask 没参与 loss，模型学不会「该停了」，推理时<strong>停不下来一直生成</strong>（刹不住车/复读）。</p>
+</blockquote>
+<h3 id="45-易错点" class="heading-element"><span>4.5 易错点</span>
+  <a href="#45-%e6%98%93%e9%94%99%e7%82%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>mask 错位</strong>：角色头 <code>&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;\n\n</code> 属于 prompt（提示部分）<strong>要 mask</strong>；真正算 loss 从 assistant <strong>正文第一个 token</strong> 开始。</li>
+<li><strong>loss mask ≠ attention mask</strong>：
+<ul>
+<li>attention mask 管「哪些位置参与注意力计算」（padding 不看）</li>
+<li>loss mask(label=-100) 管「哪些位置算损失」</li>
+<li>两个不同东西，名字像而已。</li>
+</ul>
+</li>
+<li><strong>padding 也要 mask</strong>：batch 内补齐的 pad token，label 设 -100。</li>
+<li><strong>loss 归一化</strong>：一般对非 -100 的 token 数求平均；按 token 还是按样本平均，会影响长短回答的权重。</li>
+</ul>
+<hr>
+<h2 id="5-chat-template-与-loss-masking-的闭环" class="heading-element"><span>5. Chat Template 与 Loss Masking 的闭环</span>
+  <a href="#5-chat-template-%e4%b8%8e-loss-masking-%e7%9a%84%e9%97%ad%e7%8e%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Chat Template（结构）         Loss Masking（在结构上挑该学的）
+</span></span><span class="line"><span class="cl">用特殊 token 框死角色边界  ──→  正因边界确定，才能精确地
+</span></span><span class="line"><span class="cl">                                把 prompt 段 label 全设 -100、
+</span></span><span class="line"><span class="cl">                                assistant 段保留 → 只学回答</span></span></code></pre></td></tr></table>
+</div>
+</div><p>模板是「<strong>结构</strong>」，mask 是「<strong>在结构上挑出该学的部分</strong>」，两者缺一不可，是 SFT 数据处理的核心一对。</p>
+<hr>
+<h2 id="6-面试高频-qa" class="heading-element"><span>6. 面试高频 Q&amp;A</span>
+  <a href="#6-%e9%9d%a2%e8%af%95%e9%ab%98%e9%a2%91-qa" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>Q: SFT 的一条样本由什么组成？</strong>
+A: <code>&lt;I, Q, A&gt;</code> = 指令 + 输入(可空) + 输出。模型学的是「给定 I+Q 生成 A」。</p>
+<p><strong>Q: few-shot 和 SFT 的区别？</strong>
+A: few-shot 是推理时在 prompt 给示范，不改权重；SFT 是训练时喂数据，改权重。</p>
+<p><strong>Q: Self-Instruct 中分类任务为什么用 Output-first？</strong>
+A: 防标签塌缩、保证类别均衡。先生成输入再贴标签，模型易扎堆造某一类。</p>
+<p><strong>Q: Self-Instruct 怎么保证多样性？</strong>
+A: Step1 仿写扩指令 + Step4 用 Rouge-L 卡相似度（≥0.7 丢弃）。</p>
+<p><strong>Q: Self-Instruct 和 Alpaca 的关系？</strong>
+A: Alpaca 用 text-davinci-003 跑 Self-Instruct 流程造了 ~5.2w 条指令数据微调 LLaMA。</p>
+<p><strong>Q: 为什么 chat template 用特殊 token 而非纯文本分隔？</strong>
+A: 防注入 + 省 token + 语义独立。</p>
+<p><strong>Q: 训练和推理的 template 必须一致吗？</strong>
+A: 必须。不一致模型认不出轮次边界，可能不停、答非所问，严重掉点。</p>
+<p><strong>Q: EOS / <code>&lt;|eot_id|&gt;</code> 为什么要参与 loss？</strong>
+A: 让模型学会主动停止，否则推理时刹不住车。</p>
+<p><strong>Q: 多轮对话的 loss 怎么算？</strong>
+A: 所有 user/system 段 mask，所有 assistant 段算 loss，一条样本贡献多段监督信号。</p>
+<p><strong>Q: loss mask 和 attention mask 的区别？</strong>
+A: 前者管「算不算损失」(label=-100)，后者管「参不参与注意力」(padding)。两个不同概念。</p>
+<hr>
+<h2 id="7-一句话总览" class="heading-element"><span>7. 一句话总览</span>
+  <a href="#7-%e4%b8%80%e5%8f%a5%e8%af%9d%e6%80%bb%e8%a7%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li><strong>指令数据</strong>：来源有人工书写 / 大模型合成 / 改造 NLP 集；一条样本 = 任务描述 [+few-shot] + 输入输出。</li>
+<li><strong>Self-Instruct</strong>：175 种子启动 → 仿写指令 → 分类识别 → Output/Input-first 生成实例 → Rouge-L+质量筛选 → 回填迭代。</li>
+<li><strong>Chat Template</strong>：用特殊 token 把多角色对话铺平，定义角色边界与停止信号，存于 tokenizer_config 的 Jinja2 模板。</li>
+<li><strong>Loss Masking</strong>：prompt 设 -100 不算 loss，只学 assistant 回答（含结束符）；多轮每轮 assistant 都算。</li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-07-02 11:50:59">更新于 2026-07-02&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/mlsft/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/sft/" class="post-tag" title="标签 - SFT">SFT</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/mldeepseek-%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" class="post-nav-item" rel="prev" title="DeepSeek 负载均衡"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>DeepSeek 负载均衡</a><a href="/posts/ml%E5%A6%82%E4%BD%95%E7%BC%93%E8%A7%A3-sft-%E5%BC%95%E5%85%A5%E7%9A%84%E5%B9%BB%E8%A7%89/" class="post-nav-item" rel="next" title="如何缓解 SFT 引入的幻觉">如何缓解 SFT 引入的幻觉<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>

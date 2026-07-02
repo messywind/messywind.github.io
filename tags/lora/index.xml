@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>LoRA - 标签 - 凌乱之风的博客</title>
+    <link>https://blog.messywind.top/tags/lora/</link>
+    <description>凌乱之风的博客</description>
+    <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 02 Jul 2026 11:50:59 +0000</lastBuildDate>
+    <atom:link href="https://blog.messywind.top/tags/lora/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>LoRA</title>
+      <link>https://blog.messywind.top/posts/mllora/</link>
+      <pubDate>Thu, 02 Jul 2026 14:21:00 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/mllora/</guid>
+      <category domain="https://blog.messywind.top/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</category>
+      <description>&lt;h2 id=&#34;大模型有监督微调-sft-lora-笔记&#34; class=&#34;heading-element&#34;&gt;&lt;span&gt;大模型有监督微调 SFT-LoRA 笔记&lt;/span&gt;&#xA;  &lt;a href=&#34;#%e5%a4%a7%e6%a8%a1%e5%9e%8b%e6%9c%89%e7%9b%91%e7%9d%a3%e5%be%ae%e8%b0%83-sft-lora-%e7%ac%94%e8%ae%b0&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;blockquote&gt;&#xA;&lt;p&gt;面试导向 · 参数高效微调（PEFT）&#xA;结合结构图 + 概念追问整理，覆盖：结构/公式、为什么用加法、SFT 训练循环与损失、Self-Instruct 是否改 $W$、LoRA 与全参微调的关系。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

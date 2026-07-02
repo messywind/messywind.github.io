@@ -25,7 +25,7 @@ $(1 \le n \le 10 ^ 5, 1 \le P_i \le n)$
 $$ f(k) = 1 &#43; \binom{k}{1}x &#43; \binom{k}{2}x ^ 2 &#43; \binom{k}{3}x ^ 3 &#43; \cdots &#43; \binom{k}{k - 1}x ^ {k - 1} $$ $x$ 项的系数 $m$ 表示 $k$ 元环中选了 $m$ 条不存在的边，那么系数显然是 $\dbinom{k}{m}$
 所以只需找出排列 $P$ 的所有环及其环的大小，假设有 $t$ 个 $a_1,a_2,\cdots,a_t$ ，$a_i$ 表示第 $i$ 个环的大小。">
   <meta itemprop="datePublished" content="2022-03-26T12:58:58+00:00">
-  <meta itemprop="dateModified" content="2026-06-25T08:26:02+00:00">
+  <meta itemprop="dateModified" content="2026-07-02T11:50:59+00:00">
   <meta itemprop="wordCount" content="1966">
   <meta itemprop="keywords" content="容斥原理,分治 NTT"><meta property="og:url" content="https://blog.messywind.top/posts/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations/">
   <meta property="og:site_name" content="凌乱之风的博客">
@@ -42,7 +42,7 @@ $$ f(k) = 1 &#43; \binom{k}{1}x &#43; \binom{k}{2}x ^ 2 &#43; \binom{k}{3}x ^ 3 
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2022-03-26T12:58:58+00:00">
-    <meta property="article:modified_time" content="2026-06-25T08:26:02+00:00">
+    <meta property="article:modified_time" content="2026-07-02T11:50:59+00:00">
     <meta property="article:tag" content="容斥原理">
     <meta property="article:tag" content="分治 NTT">
 
@@ -69,7 +69,7 @@ $$ f(k) = 1 &#43; \binom{k}{1}x &#43; \binom{k}{2}x ^ 2 &#43; \binom{k}{3}x ^ 3 
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations\/"
     },"genre": "posts","keywords": "容斥原理, 分治 NTT","wordcount":  1966 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations\/","datePublished": "2022-03-26T12:58:58+00:00","dateModified": "2026-06-25T08:26:02+00:00","publisher": {
+    "url": "https:\/\/blog.messywind.top\/posts\/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations\/","datePublished": "2022-03-26T12:58:58+00:00","dateModified": "2026-07-02T11:50:59+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -177,7 +177,7 @@ $$ f(k) = 1 &#43; \binom{k}{1}x &#43; \binom{k}{2}x ^ 2 &#43; \binom{k}{3}x ^ 3 
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[2021ICPC上海 B] Strange Permutations</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-03-26 12:58:58"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-03-26">2022-03-26</time></span>&nbsp;<span title="更新于 2026-06-25 08:26:02"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-25">2026-06-25</time></span>&nbsp;<span title="1966 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="[2021ICPC上海 B] Strange Permutations"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-03-26 12:58:58"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-03-26">2022-03-26</time></span>&nbsp;<span title="更新于 2026-07-02 11:50:59"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-02">2026-07-02</time></span>&nbsp;<span title="1966 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="[2021ICPC上海 B] Strange Permutations"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -917,7 +917,7 @@ $$<p>
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-06-25 08:26:02">更新于 2026-06-25&nbsp;</span>
+        <span title="更新于 2026-07-02 11:50:59">更新于 2026-07-02&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/cp2021icpc%E4%B8%8A%E6%B5%B7-b-strange-permutations/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

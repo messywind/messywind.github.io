@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>LoRA - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="大模型有监督微调 SFT-LoRA 笔记 面试导向 · 参数高效微调（PEFT） 结合结构图 &#43; 概念追问整理，覆盖：结构/公式、为什么用加法、SFT 训练循环与损失、Self-Instruct 是否改 $W$、LoRA 与全参微调的关系。
+"><meta name="keywords" content='LoRA'>
+  <meta itemprop="name" content="LoRA">
+  <meta itemprop="description" content="大模型有监督微调 SFT-LoRA 笔记 面试导向 · 参数高效微调（PEFT） 结合结构图 &#43; 概念追问整理，覆盖：结构/公式、为什么用加法、SFT 训练循环与损失、Self-Instruct 是否改 $W$、LoRA 与全参微调的关系。">
+  <meta itemprop="datePublished" content="2026-07-02T14:21:00+00:00">
+  <meta itemprop="dateModified" content="2026-07-02T11:50:59+00:00">
+  <meta itemprop="wordCount" content="6619">
+  <meta itemprop="keywords" content="LoRA"><meta property="og:url" content="https://blog.messywind.top/posts/mllora/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="LoRA">
+  <meta property="og:description" content="大模型有监督微调 SFT-LoRA 笔记 面试导向 · 参数高效微调（PEFT） 结合结构图 &#43; 概念追问整理，覆盖：结构/公式、为什么用加法、SFT 训练循环与损失、Self-Instruct 是否改 $W$、LoRA 与全参微调的关系。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-07-02T14:21:00+00:00">
+    <meta property="article:modified_time" content="2026-07-02T11:50:59+00:00">
+    <meta property="article:tag" content="LoRA">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="LoRA">
+  <meta name="twitter:description" content="大模型有监督微调 SFT-LoRA 笔记 面试导向 · 参数高效微调（PEFT） 结合结构图 &#43; 概念追问整理，覆盖：结构/公式、为什么用加法、SFT 训练循环与损失、Self-Instruct 是否改 $W$、LoRA 与全参微调的关系。">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mllora/" title="LoRA - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/ml%E5%A6%82%E4%BD%95%E7%BC%93%E8%A7%A3-sft-%E5%BC%95%E5%85%A5%E7%9A%84%E5%B9%BB%E8%A7%89/" title="如何缓解 SFT 引入的幻觉" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/mlqlora/" title="QLoRA" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mllora/index.md" title="LoRA - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "LoRA",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/mllora\/"
+    },"genre": "posts","keywords": "LoRA","wordcount":  6619 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mllora\/","datePublished": "2026-07-02T14:21:00+00:00","dateModified": "2026-07-02T11:50:59+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>LoRA</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-07-02 14:21:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-02">2026-07-02</time></span>&nbsp;<span title="更新于 2026-07-02 11:50:59"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-02">2026-07-02</time></span>&nbsp;<span title="6619 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 6700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 14 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="LoRA"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0-一句话本质">0. 一句话本质</a></li>
+    <li><a href="#1-为什么需要-lora三个动机">1. 为什么需要 LoRA（三个动机）</a></li>
+    <li><a href="#2-核心思想低秩性low-rank">2. 核心思想：低秩性（low-rank）</a></li>
+    <li><a href="#3-公式逐步拆解">3. 公式逐步拆解</a></li>
+    <li><a href="#4-结构与初始化面试高频">4. 结构与初始化（面试高频）</a></li>
+    <li><a href="#5-到底省多少算一遍">5. 到底省多少？（算一遍）</a></li>
+    <li><a href="#6-alphar-缩放因子">6. $\alpha/r$ 缩放因子</a></li>
+    <li><a href="#7-推理合并零延迟">7. 推理合并：零延迟</a></li>
+    <li><a href="#8-易混淆点为什么微调是-w--delta-w加法凭什么成立">8. 易混淆点：为什么微调是 $W + \Delta W$？加法凭什么成立？</a>
+      <ul>
+        <li><a href="#81-delta-w-是被定义出来的不是加上去的">8.1 $\Delta W$ 是被「定义」出来的，不是「加」上去的</a></li>
+        <li><a href="#82-输出能拆成两项相加靠分配律">8.2 输出能拆成两项相加：靠分配律</a></li>
+        <li><a href="#83-知识真的能直接相加吗分两个尺度">8.3 知识真的能直接相加吗？分两个尺度</a></li>
+        <li><a href="#84-补充task-arithmetic任务向量">8.4 补充：Task Arithmetic（任务向量）</a></li>
+      </ul>
+    </li>
+    <li><a href="#9-sft-训练循环微调什么输入是什么损失跟谁比">9. SFT 训练循环：微调什么？输入是什么？损失跟谁比？</a>
+      <ul>
+        <li><a href="#91-线性位移-从预训练-checkpoint-继续做-t-步梯度下降">9.1 「线性位移」= 从预训练 checkpoint 继续做 $T$ 步梯度下降</a></li>
+        <li><a href="#92-微调什么">9.2 微调「什么」</a></li>
+        <li><a href="#93-输入套了-chat-template-的指令对teacher-forcing">9.3 输入：套了 chat template 的指令对（teacher forcing）</a></li>
+        <li><a href="#94-损失跟谁对比-数据自己的真实下一个-token">9.4 损失跟谁对比？—— 数据自己的真实下一个 token</a></li>
+        <li><a href="#95-loss-masking只在答案部分算-loss">9.5 Loss Masking：只在「答案」部分算 loss</a></li>
+        <li><a href="#96-一个-sft-step-全流程">9.6 一个 SFT step 全流程</a></li>
+        <li><a href="#97-边界sft--蒸馏">9.7 边界：SFT ≠ 蒸馏</a></li>
+      </ul>
+    </li>
+    <li><a href="#10-self-instruct-会改-w-吗">10. Self-Instruct 会改 $W$ 吗？</a>
+      <ul>
+        <li><a href="#101-self-instruct-是数据生产线不是训练算法">10.1 Self-Instruct 是数据生产线，不是训练算法</a></li>
+        <li><a href="#102-w-在哪一步被改-sft-训练那一步">10.2 $W$ 在哪一步被改？—— SFT 训练那一步</a></li>
+        <li><a href="#103-生成数据的模型--被训练的模型">10.3 生成数据的模型 ≠ 被训练的模型</a></li>
+        <li><a href="#104-哪一步才改-w对照表">10.4 「哪一步才改 $W$」对照表</a></li>
+      </ul>
+    </li>
+    <li><a href="#11-手撕版-lora-linear面试可能让你写">11. 手撕版 LoRA Linear（面试可能让你写）</a></li>
+    <li><a href="#12-面试速记总">12. 面试速记（总）</a></li>
+    <li><a href="#13-lora-初始化为什么-b0a随机不能反过来">13. LoRA 初始化:为什么 B=0、A=随机,不能反过来?</a>
+      <ul>
+        <li><a href="#1-问题设定">1. 问题设定</a></li>
+        <li><a href="#2-为什么不能-ab-都为-0鞍点问题">2. 为什么不能 A、B 都为 0:鞍点问题</a></li>
+        <li><a href="#3-为什么是-b0a随机而不是反过来">3. 为什么是 B=0、A=随机,而不是反过来?</a></li>
+        <li><a href="#4-相关延伸scaling-系数与初始化的关系">4. 相关延伸:scaling 系数与初始化的关系</a></li>
+        <li><a href="#5-面试-qa">5. 面试 Q&amp;A</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="大模型有监督微调-sft-lora-笔记" class="heading-element"><span>大模型有监督微调 SFT-LoRA 笔记</span>
+  <a href="#%e5%a4%a7%e6%a8%a1%e5%9e%8b%e6%9c%89%e7%9b%91%e7%9d%a3%e5%be%ae%e8%b0%83-sft-lora-%e7%ac%94%e8%ae%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>面试导向 · 参数高效微调（PEFT）
+结合结构图 + 概念追问整理，覆盖：结构/公式、为什么用加法、SFT 训练循环与损失、Self-Instruct 是否改 $W$、LoRA 与全参微调的关系。</p>
+</blockquote>
+<hr>
+<h2 id="0-一句话本质" class="heading-element"><span>0. 一句话本质</span>
+  <a href="#0-%e4%b8%80%e5%8f%a5%e8%af%9d%e6%9c%ac%e8%b4%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>LoRA 不去改原来那个巨大的权重 $W$，而是在旁边并联一条「小旁路」，用两个小矩阵 $B$、$A$ 的乘积去拟合微调带来的<strong>增量</strong> $\Delta W$。原权重冻结，只训练这两个小矩阵。</p>
+<hr>
+<h2 id="1-为什么需要-lora三个动机" class="heading-element"><span>1. 为什么需要 LoRA（三个动机）</span>
+  <a href="#1-%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81-lora%e4%b8%89%e4%b8%aa%e5%8a%a8%e6%9c%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>以 Qwen3-8b（80 亿参数）为例，全参数微调要更新全部 80 亿参数，且优化器还要为每个参数额外存动量，显存动辄几十上百 G。LoRA 解决三类痛点：</p>
+<ol>
+<li><strong>显存小</strong> —— 只训练百万级参数，消费级显卡能跑。</li>
+<li><strong>防过拟合</strong> —— 可训练参数大幅减少，等于加了强约束，小数据上不易过拟合。</li>
+<li><strong>样本足够少</strong> —— 下游数据不多时，不需要也不应该动整个大模型。</li>
+</ol>
+<hr>
+<h2 id="2-核心思想低秩性low-rank" class="heading-element"><span>2. 核心思想：低秩性（low-rank）</span>
+  <a href="#2-%e6%a0%b8%e5%bf%83%e6%80%9d%e6%83%b3%e4%bd%8e%e7%a7%a9%e6%80%a7low-rank" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>记微调前权重 $W$（图里写 $W_{old}$），微调后是 $W + \Delta W$。LoRA 的关键假设：</p>
+<blockquote>
+<p><strong>$\Delta W$ 是低秩的（low-rank）。</strong></p>
+</blockquote>
+<p>直觉：适应一个下游任务，真正「有用的变化方向」很少，大部分维度是冗余的。这与 <strong>PCA / SVD</strong> 的思想一脉相承——一个看起来很大的矩阵，信息集中在少数主方向上，可用低秩近似。</p>
+<p>既然 $\Delta W$（满秩时是 $d \times d$）信息量低，就用秩为 $k$ 的乘积表示：</p>
+$$\Delta W_q = B A, \qquad B \in \mathbb{R}^{d \times k}, \quad A \in \mathbb{R}^{k \times d}, \quad k \ll d$$<blockquote>
+<p>注意：公式里的 $r$ 和图里的 $k$ 是同一个东西 —— <strong>秩 rank</strong>。</p>
+</blockquote>
+<hr>
+<h2 id="3-公式逐步拆解" class="heading-element"><span>3. 公式逐步拆解</span>
+  <a href="#3-%e5%85%ac%e5%bc%8f%e9%80%90%e6%ad%a5%e6%8b%86%e8%a7%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2>$$
+\begin{aligned}
+Q = Q_1 + Q_2
+&= W_q X + \frac{\alpha}{r}\,\Delta W_q\, X \\
+&= W_q X + \frac{\alpha}{r}\,B A\, X \\
+&= \left(W_q + \frac{\alpha}{r}\,B A\right) X \\
+&= W_q^{\text{Merged}}\, X
+\end{aligned}
+$$<p>逐项看：</p>
+<ul>
+<li><strong>$Q_1 = W_q X$</strong>：主干路径，用<strong>冻结</strong>的原始权重（基座参数 $W_q$）。</li>
+<li><strong>$Q_2 = \dfrac{\alpha}{r} B A X$</strong>：LoRA 旁路，是<strong>唯一</strong>参与梯度更新的部分。</li>
+<li>两条路相加（图中 $\oplus$）得到最终的 $Q$。</li>
+<li>训练完可合并为 $W_q^{\text{Merged}} = W_q + \dfrac{\alpha}{r} B A$，推理时就是普通矩阵，<strong>零额外延迟</strong>。</li>
+</ul>
+<hr>
+<h2 id="4-结构与初始化面试高频" class="heading-element"><span>4. 结构与初始化（面试高频）</span>
+  <a href="#4-%e7%bb%93%e6%9e%84%e4%b8%8e%e5%88%9d%e5%a7%8b%e5%8c%96%e9%9d%a2%e8%af%95%e9%ab%98%e9%a2%91" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>矩阵</th>
+          <th>形状</th>
+          <th>初始化</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>$A$</td>
+          <td>$k \times d$</td>
+          <td><strong>高斯随机初始化</strong></td>
+      </tr>
+      <tr>
+          <td>$B$</td>
+          <td>$d \times k$</td>
+          <td><strong>全 0 初始化</strong></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>为什么一个随机、一个全 0？</strong> 关键在训练<strong>起点</strong>：</p>
+<ul>
+<li>$B = 0 ;\Rightarrow; \Delta W = B A = 0 ;\Rightarrow; Q_2 = 0 ;\Rightarrow;$ 整个模型<strong>完全等价于原始预训练模型</strong>。微调从「原模型」平滑出发，不破坏预训练知识，训练稳。</li>
+<li>$A$ 用高斯而非也置 0：若 $A$、$B$ 同时为 0，梯度无法打破对称，$B$ 永远学不动。$A$ 给随机值是为了<strong>让梯度能流起来</strong>。</li>
+</ul>
+<blockquote>
+<p>核心记忆点：<strong>基座 $W_q$ 冻结，只训练 $A$、$B$。</strong> 这是 LoRA 省的根本原因，面试别说反。</p>
+</blockquote>
+<hr>
+<h2 id="5-到底省多少算一遍" class="heading-element"><span>5. 到底省多少？（算一遍）</span>
+  <a href="#5-%e5%88%b0%e5%ba%95%e7%9c%81%e5%a4%9a%e5%b0%91%e7%ae%97%e4%b8%80%e9%81%8d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>假设某个权重：</p>
+<ul>
+<li>$\Delta W \in \mathbb{R}^{1万 \times 2万}$ → 参数量 $= 2 \text{ 亿}$</li>
+<li>取秩 $k = 8$：
+<ul>
+<li>$A \in \mathbb{R}^{8 \times 2万} = 8 \times 20000 =$ <strong>16 万</strong></li>
+<li>$B \in \mathbb{R}^{1万 \times 8} = 10000 \times 8 =$ <strong>8 万</strong></li>
+<li>合计 $=$ <strong>24 万</strong></li>
+</ul>
+</li>
+<li>压缩比：$\dfrac{2\text{亿}}{24\text{万}} \approx 833 \approx 830 \text{ 倍}$</li>
+</ul>
+<p>本来要训 2 亿个参数，现在只训 24 万，<strong>少约 830 倍</strong>。这就是「参数高效」中「高效」的来源。</p>
+<hr>
+<h2 id="6-alphar-缩放因子" class="heading-element"><span>6. $\alpha/r$ 缩放因子</span>
+  <a href="#6-alphar-%e7%bc%a9%e6%94%be%e5%9b%a0%e5%ad%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>$\dfrac{\alpha}{r}$ 是对 LoRA 旁路输出的标量缩放：</p>
+<ul>
+<li>$r$ 是秩，$\alpha$ 是超参。比值 $\dfrac{\alpha}{r}$ 控制旁路 $BA$ 对输出的<strong>影响强度</strong>。</li>
+<li>工程上常把 $\alpha$ 设为 $r$ 的固定倍数（如 $r=8,\ \alpha=16$），好处：<strong>调整 $r$ 时不用重新大幅调学习率</strong>，因为 $\dfrac{\alpha}{r}$ 大致稳定，LoRA 贡献的尺度不随 $r$ 剧烈漂移。</li>
+</ul>
+<hr>
+<h2 id="7-推理合并零延迟" class="heading-element"><span>7. 推理合并：零延迟</span>
+  <a href="#7-%e6%8e%a8%e7%90%86%e5%90%88%e5%b9%b6%e9%9b%b6%e5%bb%b6%e8%bf%9f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>训练阶段是「主干 + 旁路」两条路，有额外计算。推理时提前算好：</p>
+$$W_q^{\text{Merged}} = W_q + \frac{\alpha}{r} B A$$<p>直接当普通权重用，<strong>推理速度与原模型完全一样</strong>，无额外开销。这是 LoRA 相比 Adapter 类方法的一大优势（Adapter 串在网络里，推理甩不掉）。</p>
+<blockquote>
+<p>因为能合并，可为不同任务训不同 $BA$，推理时按需「挂载 / 卸载」——一个底座配多套 LoRA。</p>
+</blockquote>
+<hr>
+<h2 id="8-易混淆点为什么微调是-w--delta-w加法凭什么成立" class="heading-element"><span>8. 易混淆点：为什么微调是 $W + \Delta W$？加法凭什么成立？</span>
+  <a href="#8-%e6%98%93%e6%b7%b7%e6%b7%86%e7%82%b9%e4%b8%ba%e4%bb%80%e4%b9%88%e5%be%ae%e8%b0%83%e6%98%af-w--delta-w%e5%8a%a0%e6%b3%95%e5%87%ad%e4%bb%80%e4%b9%88%e6%88%90%e7%ab%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>结论：加法不是设计选择，也不是「把两份知识倒进一个桶」，而是数学恒等式 + 线性层的分配律。</strong></p>
+<h3 id="81-delta-w-是被定义出来的不是加上去的" class="heading-element"><span>8.1 $\Delta W$ 是被「定义」出来的，不是「加」上去的</span>
+  <a href="#81-delta-w-%e6%98%af%e8%a2%ab%e5%ae%9a%e4%b9%89%e5%87%ba%e6%9d%a5%e7%9a%84%e4%b8%8d%e6%98%af%e5%8a%a0%e4%b8%8a%e5%8e%bb%e7%9a%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>梯度下降训练 $T$ 步后：</p>
+$$W_{final} = W_{init} - \eta \sum_{t=0}^{T-1} \nabla L(W_t)$$<p>把「训练带来的总改变量」记作：</p>
+$$\Delta W \triangleq W_{final} - W_{init}$$<p>所以 $W_{final} = W_{init} + \Delta W$ <strong>恒等成立</strong>，不含任何假设。任何一次微调（含全参微调）都满足。$\Delta W$ 不是独立的「知识矩阵」，只是权重在参数空间里<strong>移动的位移量</strong>。</p>
+<blockquote>
+<p>不是「先有 $W$，再造 $\Delta W$ 加上去」，而是「$W$ 动了一下，把动的那部分起名叫 $\Delta W$」。全参微调与 LoRA 一样，区别仅在：全参让 $\Delta W$ 自由（满秩），LoRA 规定 $\Delta W = BA$（低秩）。</p>
+</blockquote>
+<h3 id="82-输出能拆成两项相加靠分配律" class="heading-element"><span>8.2 输出能拆成两项相加：靠分配律</span>
+  <a href="#82-%e8%be%93%e5%87%ba%e8%83%bd%e6%8b%86%e6%88%90%e4%b8%a4%e9%a1%b9%e7%9b%b8%e5%8a%a0%e9%9d%a0%e5%88%86%e9%85%8d%e5%be%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3>$$(W + \Delta W) X = W X + \Delta W X$$<p>因为单层做的是<strong>线性变换</strong>（$y = Wx$），天然可拆。所以 $W X =$ 原始响应，$\Delta W X =$ 微调修正量。<strong>这里加的是「对输出的修正向量」，不是「知识」。</strong></p>
+<h3 id="83-知识真的能直接相加吗分两个尺度" class="heading-element"><span>8.3 知识真的能直接相加吗？分两个尺度</span>
+  <a href="#83-%e7%9f%a5%e8%af%86%e7%9c%9f%e7%9a%84%e8%83%bd%e7%9b%b4%e6%8e%a5%e7%9b%b8%e5%8a%a0%e5%90%97%e5%88%86%e4%b8%a4%e4%b8%aa%e5%b0%ba%e5%ba%a6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>单个权重矩阵这一层</strong>：严格线性可加（分配律），数学上精确，无近似。</li>
+<li><strong>整个网络这一层</strong>：<strong>不是简单相加，而是高度非线性的。</strong> LLM 是「线性层 + 非线性激活（SwiGLU、Softmax）」层层堆叠，每层给 $W$ 加的微小位移 $\Delta W$，会被逐层非线性<strong>放大、耦合</strong>，最终行为改变绝非各层 $\Delta W$ 的简单求和。</li>
+</ul>
+<blockquote>
+<p>正确心智模型：不是「相加两份知识」，而是<strong>在每个权重上加一个很小的线性位移，再让模型自身的非线性机器把这些位移翻译成行为/知识变化。</strong> 知识在权重里的存储本就是分布式 + 非线性的，没有「一个矩阵 = 一份知识」的对应。</p>
+</blockquote>
+<h3 id="84-补充task-arithmetic任务向量" class="heading-element"><span>8.4 补充：Task Arithmetic（任务向量）</span>
+  <a href="#84-%e8%a1%a5%e5%85%85task-arithmetic%e4%bb%bb%e5%8a%a1%e5%90%91%e9%87%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>学术界有一条线：把「微调后参数 $-$ 原始参数」当成任务向量 $\tau$，做 $\theta + \tau_1 + \tau_2$ 获得多任务能力，甚至 $\theta - \tau$ 遗忘某能力，实验上居然能 work。但这是<strong>经验性涌现现象</strong>，不是 LoRA 用加法的原因；只在「同底座、参数空间对齐」前提下大致成立，且有干扰。它侧面说明「微调位移方向」一定程度可组合——这也是「一底座多 LoRA」「LoRA 合并」的理论基础。</p>
+<hr>
+<h2 id="9-sft-训练循环微调什么输入是什么损失跟谁比" class="heading-element"><span>9. SFT 训练循环：微调什么？输入是什么？损失跟谁比？</span>
+  <a href="#9-sft-%e8%ae%ad%e7%bb%83%e5%be%aa%e7%8e%af%e5%be%ae%e8%b0%83%e4%bb%80%e4%b9%88%e8%be%93%e5%85%a5%e6%98%af%e4%bb%80%e4%b9%88%e6%8d%9f%e5%a4%b1%e8%b7%9f%e8%b0%81%e6%af%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>关键澄清：SFT 没有新的损失函数，也没有「老师模型」对比。目标与预训练一致——预测下一个 token。</strong></p>
+<h3 id="91-线性位移-从预训练-checkpoint-继续做-t-步梯度下降" class="heading-element"><span>9.1 「线性位移」= 从预训练 checkpoint 继续做 $T$ 步梯度下降</span>
+  <a href="#91-%e7%ba%bf%e6%80%a7%e4%bd%8d%e7%a7%bb-%e4%bb%8e%e9%a2%84%e8%ae%ad%e7%bb%83-checkpoint-%e7%bb%a7%e7%bb%ad%e5%81%9a-t-%e6%ad%a5%e6%a2%af%e5%ba%a6%e4%b8%8b%e9%99%8d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>全参微调：直接对 $W$ 做梯度下降，$\Delta W = W_{final} - W_{init}$。</li>
+<li>LoRA：$W$ 冻结，梯度下降只更新 $A$、$B$：</li>
+</ul>
+$$A \leftarrow A - \eta\,\frac{\partial L}{\partial A}, \qquad B \leftarrow B - \eta\,\frac{\partial L}{\partial B}$$<p>$T$ 步后 $A$、$B$ 累积位移，于是 $\Delta W = \dfrac{\alpha}{r} B A \neq 0$。LoRA 的约束是：<strong>强迫位移只能活在低秩子空间 $BA$ 里。</strong></p>
+<h3 id="92-微调什么" class="heading-element"><span>9.2 微调「什么」</span>
+  <a href="#92-%e5%be%ae%e8%b0%83%e4%bb%80%e4%b9%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>架构、目标函数、forward 全不变，唯一变的是这个条件概率分布：</p>
+$$P_\theta(\text{下一个 token} \mid \text{上文})$$<p>预训练让它「会接龙、懂世界知识」；SFT 把它推成「会按 chat 模板对话、服从指令、风格贴合数据」。</p>
+<h3 id="93-输入套了-chat-template-的指令对teacher-forcing" class="heading-element"><span>9.3 输入：套了 chat template 的指令对（teacher forcing）</span>
+  <a href="#93-%e8%be%93%e5%85%a5%e5%a5%97%e4%ba%86-chat-template-%e7%9a%84%e6%8c%87%e4%bb%a4%e5%af%b9teacher-forcing" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>$(\text{prompt}, \text{response})$ 套进 chat template 拼成一整条序列，一次 forward 走完，causal mask 保证每位置只看左边。<strong>teacher forcing</strong>：输入永远是数据里的真实 token。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;|im_start|&gt;user
+</span></span><span class="line"><span class="cl">把这句话翻译成英文：今天天气很好&lt;|im_end|&gt;
+</span></span><span class="line"><span class="cl">&lt;|im_start|&gt;assistant
+</span></span><span class="line"><span class="cl">The weather is nice today.&lt;|im_end|&gt;</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="94-损失跟谁对比-数据自己的真实下一个-token" class="heading-element"><span>9.4 损失跟谁对比？—— 数据自己的真实下一个 token</span>
+  <a href="#94-%e6%8d%9f%e5%a4%b1%e8%b7%9f%e8%b0%81%e5%af%b9%e6%af%94-%e6%95%b0%e6%8d%ae%e8%87%aa%e5%b7%b1%e7%9a%84%e7%9c%9f%e5%ae%9e%e4%b8%8b%e4%b8%80%e4%b8%aa-token" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3>$$L = -\sum_{i} \log P_\theta\big(\text{token}_{i+1} \mid \text{token}_{\le i}\big)$$<p><strong>模型预测的分布 $\leftrightarrow$ 数据里真实写着的那个 token</strong>，算交叉熵。与预训练损失完全一致，无新东西。<strong>不是跟另一个模型比，也不是跟原始模型比。</strong></p>
+<h3 id="95-loss-masking只在答案部分算-loss" class="heading-element"><span>9.5 Loss Masking：只在「答案」部分算 loss</span>
+  <a href="#95-loss-masking%e5%8f%aa%e5%9c%a8%e7%ad%94%e6%a1%88%e9%83%a8%e5%88%86%e7%ae%97-loss" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>整条序列都喂进去，但损失<strong>只在 response（assistant 答案）段算</strong>，prompt 段 label 全设 $-100$（交叉熵忽略）：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">位置:  [user 指令 tokens .......][assistant 答案 tokens .....]
+</span></span><span class="line"><span class="cl">label:  -100 -100 ... -100         t1  t2  t3 ...  tn
+</span></span><span class="line"><span class="cl">        ↑ 不算 loss                ↑ 只有这部分跟模型预测对比</span></span></code></pre></td></tr></table>
+</div>
+</div><p>原因：要教模型「给定问题该怎么答」，而非复述用户问题。</p>
+<h3 id="96-一个-sft-step-全流程" class="heading-element"><span>9.6 一个 SFT step 全流程</span>
+  <a href="#96-%e4%b8%80%e4%b8%aa-sft-step-%e5%85%a8%e6%b5%81%e7%a8%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ol>
+<li><strong>取数据</strong>：一条 $(\text{prompt}, \text{response})$ → 套 chat template → 一整条 token 序列。</li>
+<li><strong>Forward</strong>（teacher forcing）：整条喂入，每位置吐 next-token 分布。</li>
+<li><strong>算 loss</strong>：答案区每位置预测 vs 真实下一个 token，交叉熵；问题区 $-100$ 跳过。</li>
+<li><strong>Backward</strong>：梯度只流到 $A$、$B$（LoRA），$W$ 冻结。</li>
+<li><strong>Update</strong>：AdamW 更新 $A$、$B$。</li>
+<li><strong>重复 $T$ 步</strong> → $A$、$B$ 累积位移 → $\Delta W = \dfrac{\alpha}{r} B A$ 长出来。</li>
+</ol>
+<h3 id="97-边界sft--蒸馏" class="heading-element"><span>9.7 边界：SFT ≠ 蒸馏</span>
+  <a href="#97-%e8%be%b9%e7%95%8csft--%e8%92%b8%e9%a6%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th></th>
+          <th>损失对比对象</th>
+          <th>有老师模型吗</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>SFT</strong></td>
+          <td>数据里硬写死的真实 token（one-hot 交叉熵）</td>
+          <td>❌ 无</td>
+      </tr>
+      <tr>
+          <td><strong>知识蒸馏</strong></td>
+          <td>另一个「老师模型」输出的软分布 logits（KL 散度）</td>
+          <td>✅ 有</td>
+      </tr>
+  </tbody>
+</table>
+<p>看到「对比 logits / KL 散度 / teacher model」是蒸馏，不是 SFT，别串。</p>
+<hr>
+<h2 id="10-self-instruct-会改-w-吗" class="heading-element"><span>10. Self-Instruct 会改 $W$ 吗？</span>
+  <a href="#10-self-instruct-%e4%bc%9a%e6%94%b9-w-%e5%90%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>不会。Self-Instruct 只是「造数据」的方法；真正改 $W$ 的是拿这批数据去跑 SFT 的那一步。</strong></p>
+<h3 id="101-self-instruct-是数据生产线不是训练算法" class="heading-element"><span>10.1 Self-Instruct 是数据生产线，不是训练算法</span>
+  <a href="#101-self-instruct-%e6%98%af%e6%95%b0%e6%8d%ae%e7%94%9f%e4%ba%a7%e7%ba%bf%e4%b8%8d%e6%98%af%e8%ae%ad%e7%bb%83%e7%ae%97%e6%b3%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>流程：种子指令 → LLM 自动生成新指令 → LLM 生成对应答案 → 过滤去重 → 产出大规模 $(\text{instruction}, \text{response})$ 数据集。全程是<strong>推理（inference / forward）</strong>，<strong>无反向传播、无梯度、无参数更新</strong>，$W$ 一点没动。</p>
+<h3 id="102-w-在哪一步被改-sft-训练那一步" class="heading-element"><span>10.2 $W$ 在哪一步被改？—— SFT 训练那一步</span>
+  <a href="#102-w-%e5%9c%a8%e5%93%aa%e4%b8%80%e6%ad%a5%e8%a2%ab%e6%94%b9-sft-%e8%ae%ad%e7%bb%83%e9%82%a3%e4%b8%80%e6%ad%a5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">Self-Instruct（造数据，纯推理，不改 W）
+</span></span><span class="line"><span class="cl">        │ 产出 (instruction, response) 数据集
+</span></span><span class="line"><span class="cl">        ▼
+</span></span><span class="line"><span class="cl">   SFT 训练（吃这批数据，backward，改 W / 改 A,B）</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Self-Instruct 对 $W$ 的影响是<strong>间接的</strong>（决定数据长什么样），程序本身从不碰梯度。</p>
+<h3 id="103-生成数据的模型--被训练的模型" class="heading-element"><span>10.3 生成数据的模型 ≠ 被训练的模型</span>
+  <a href="#103-%e7%94%9f%e6%88%90%e6%95%b0%e6%8d%ae%e7%9a%84%e6%a8%a1%e5%9e%8b--%e8%a2%ab%e8%ae%ad%e7%bb%83%e7%9a%84%e6%a8%a1%e5%9e%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>生成器</strong>（造数据的强模型）：只推理，$W$ 不变。</li>
+<li><strong>被训练的目标模型</strong>：$W$ 在 SFT 阶段被改。</li>
+<li>即使同一个模型既当生成器又当被训对象，也是<strong>先「生成数据」一遍不更新参数，后「训练」一遍才更新</strong>，两阶段时间上分离。</li>
+</ul>
+<h3 id="104-哪一步才改-w对照表" class="heading-element"><span>10.4 「哪一步才改 $W$」对照表</span>
+  <a href="#104-%e5%93%aa%e4%b8%80%e6%ad%a5%e6%89%8d%e6%94%b9-w%e5%af%b9%e7%85%a7%e8%a1%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th>概念</th>
+          <th>是什么</th>
+          <th>改 $W$ 吗</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><strong>Self-Instruct</strong></td>
+          <td>自动<strong>造</strong>指令数据</td>
+          <td>❌ 不改（纯推理）</td>
+      </tr>
+      <tr>
+          <td><strong>Chat Template</strong></td>
+          <td>把数据拼成对话格式</td>
+          <td>❌ 不改（数据格式化）</td>
+      </tr>
+      <tr>
+          <td><strong>Loss Masking</strong></td>
+          <td>只在答案区算 loss</td>
+          <td>—（规则，影响梯度怎么算）</td>
+      </tr>
+      <tr>
+          <td><strong>SFT 训练</strong></td>
+          <td>吃数据跑梯度下降</td>
+          <td>✅ 改 $W$（LoRA 时改 $A$、$B$）</td>
+      </tr>
+  </tbody>
+</table>
+<blockquote>
+<p>记法：带「instruct / template / 数据」字样的基本都在<strong>数据侧</strong>，不改 $W$；真正改 $W$ 的永远是那个有 <strong>backward</strong> 的训练 step。</p>
+</blockquote>
+<hr>
+<h2 id="11-手撕版-lora-linear面试可能让你写" class="heading-element"><span>11. 手撕版 LoRA Linear（面试可能让你写）</span>
+  <a href="#11-%e6%89%8b%e6%92%95%e7%89%88-lora-linear%e9%9d%a2%e8%af%95%e5%8f%af%e8%83%bd%e8%ae%a9%e4%bd%a0%e5%86%99" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torch</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">LoRALinear</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">in_dim</span><span class="p">,</span> <span class="n">out_dim</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">16</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 基座权重：冻结</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">W</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_dim</span><span class="p">,</span> <span class="n">out_dim</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">False</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">r</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">scaling</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">/</span> <span class="n">r</span>                          <span class="c1"># α/r 缩放</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># A: 高斯初始化;B: 全 0 初始化</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">in_dim</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">)</span>  <span class="c1"># [k, d]</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">out_dim</span><span class="p">,</span> <span class="n">r</span><span class="p">))</span>        <span class="c1"># [d, k]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># Q1 主干 + Q2 旁路</span>
+</span></span><span class="line"><span class="cl">        <span class="n">base</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>                                       <span class="c1"># W_q · X</span>
+</span></span><span class="line"><span class="cl">        <span class="n">lora</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">B</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling</span>        <span class="c1"># (α/r)·BA·X</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">base</span> <span class="o">+</span> <span class="n">lora</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="nd">@torch.no_grad</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">merge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># 推理前合并:W_merged = W + (α/r)·BA</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">W</span><span class="o">.</span><span class="n">weight</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scaling</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">B</span> <span class="o">@</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="12-面试速记总" class="heading-element"><span>12. 面试速记（总）</span>
+  <a href="#12-%e9%9d%a2%e8%af%95%e9%80%9f%e8%ae%b0%e6%80%bb" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li><strong>本质</strong>：冻结 $W$，用低秩 $BA$ 近似增量 $\Delta W$。</li>
+<li><strong>假设</strong>：$\Delta W$ 低秩（任务适应的有效方向很少），思想同 PCA/SVD。</li>
+<li><strong>初始化</strong>：$A$ 高斯、$B$ 全 0 $\Rightarrow$ 起点等于原模型，训练稳。</li>
+<li><strong>缩放</strong>：$\dfrac{\alpha}{r}$，解耦秩与学习率。</li>
+<li><strong>省多少</strong>：$\Delta W$ 2 亿 → $A+B$ 24 万 $\approx 830$ 倍。</li>
+<li><strong>推理</strong>：可合并 $W^{\text{Merged}}$，零额外延迟，一底座多 LoRA。</li>
+<li><strong>为什么加法</strong>：$\Delta W \triangleq W_{new} - W_{old}$ 是恒等定义 + 线性层分配律；单层可加，整网非线性；知识不是直接相加。</li>
+<li><strong>SFT 损失</strong>：next-token 交叉熵，对比<strong>数据自己的真实下一个 token</strong>，经 loss masking 只算答案区；无老师模型（有老师的是蒸馏）。</li>
+<li><strong>Self-Instruct</strong>：只造数据、纯推理、<strong>不改 $W$</strong>；改 $W$ 的是随后的 SFT step。</li>
+<li><strong>SFT 改 $W$ 范围</strong>：只有<strong>全参微调</strong>全量改；LoRA 冻结 $W$，只训 $A$、$B$。</li>
+<li><strong>LoRA 定位</strong>：属 <strong>PEFT</strong>，是低秩<strong>约束</strong>（非加速），有损近似，效果上限略低于全参微调；效果对 $r$、$\alpha$、插在哪些层敏感。</li>
+</ul>
+<h2 id="13-lora-初始化为什么-b0a随机不能反过来" class="heading-element"><span>13. LoRA 初始化:为什么 B=0、A=随机,不能反过来?</span>
+  <a href="#13-lora-%e5%88%9d%e5%a7%8b%e5%8c%96%e4%b8%ba%e4%bb%80%e4%b9%88-b0a%e9%9a%8f%e6%9c%ba%e4%b8%8d%e8%83%bd%e5%8f%8d%e8%bf%87%e6%9d%a5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="1-问题设定" class="heading-element"><span>1. 问题设定</span>
+  <a href="#1-%e9%97%ae%e9%a2%98%e8%ae%be%e5%ae%9a" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>LoRA(Hu et al., 2021, <em>LoRA: Low-Rank Adaptation of Large Language Models</em>)的前向形式:</p>
+$$h = W_0 x + \Delta W x = W_0 x + \frac{\alpha}{r} BAx$$<p>其中 $A \in \mathbb{R}^{r \times d}$(高斯随机初始化),$B \in \mathbb{R}^{d&rsquo; \times r}$(全 0 初始化),$r \ll \min(d, d&rsquo;)$。</p>
+<p><strong>初始化的核心原则:训练起点必须满足 $\Delta W = BA = 0$</strong>,即第 0 步模型输出与预训练模型逐位一致,微调从原模型平滑出发,不向输出注入随机噪声、不破坏预训练能力。</p>
+<p>要让 $BA = 0$,只需 A、B 之一为 0,于是有三种候选方案:</p>
+<table>
+  <thead>
+      <tr>
+          <th>方案</th>
+          <th>A</th>
+          <th>B</th>
+          <th>$BA=0$?</th>
+          <th>可训练?</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>① LoRA 采用</td>
+          <td>随机高斯</td>
+          <td>全 0</td>
+          <td>✅</td>
+          <td>✅,效果好</td>
+      </tr>
+      <tr>
+          <td>② 反向初始化</td>
+          <td>全 0</td>
+          <td>随机高斯</td>
+          <td>✅</td>
+          <td>✅,但动力学更差</td>
+      </tr>
+      <tr>
+          <td>③ 双零</td>
+          <td>全 0</td>
+          <td>全 0</td>
+          <td>✅</td>
+          <td>❌ 鞍点,训不动</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="2-为什么不能-ab-都为-0鞍点问题" class="heading-element"><span>2. 为什么不能 A、B 都为 0:鞍点问题</span>
+  <a href="#2-%e4%b8%ba%e4%bb%80%e4%b9%88%e4%b8%8d%e8%83%bd-ab-%e9%83%bd%e4%b8%ba-0%e9%9e%8d%e7%82%b9%e9%97%ae%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>记 $G = \dfrac{\partial L}{\partial (\Delta W)}$,由链式法则:</p>
+$$\frac{\partial L}{\partial B} = G A^\top, \qquad \frac{\partial L}{\partial A} = B^\top G$$<p>若 A = B = 0:</p>
+<ul>
+<li>$\partial L / \partial B = G \cdot 0 = 0$</li>
+<li>$\partial L / \partial A = 0 \cdot G = 0$</li>
+</ul>
+<p>两个梯度恒为 0,初始点是一个<strong>鞍点(saddle point)</strong>,梯度下降永远无法离开,LoRA 分支完全学不到东西。这与普通神经网络不能全零初始化是同一个道理:必须有一方非零来<strong>打破对称性</strong>,让另一方获得非零梯度启动训练。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">B=0, A=随机 时的启动过程:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">step 0:  ∂L/∂B = G·Aᵀ ≠ 0  →  B 获得有效梯度,更新后 B ≠ 0
+</span></span><span class="line"><span class="cl">         ∂L/∂A = Bᵀ·G = 0   →  A 第一步不动(其随机值充当投影方向)
+</span></span><span class="line"><span class="cl">step 1+: B ≠ 0  →  A 也开始获得梯度,双方正常协同更新</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3-为什么是-b0a随机而不是反过来" class="heading-element"><span>3. 为什么是 B=0、A=随机,而不是反过来?</span>
+  <a href="#3-%e4%b8%ba%e4%bb%80%e4%b9%88%e6%98%af-b0a%e9%9a%8f%e6%9c%ba%e8%80%8c%e4%b8%8d%e6%98%af%e5%8f%8d%e8%bf%87%e6%9d%a5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>反向初始化(A=0、B=随机)同样能打破鞍点、同样可训练,所以这不是&quot;能不能&quot;的问题,而是<strong>训练动力学好不好</strong>的问题。三个层面的理由:</p>
+<p><strong>(1) 输入侧 / 输出侧的角色不对称(直觉)</strong></p>
+<ul>
+<li>A 在<strong>输入侧</strong>:$Ax$ 把 d 维输入压缩到 r 维。随机 A 等价于一个随机投影(random projection),由 Johnson–Lindenstrauss 引理,随机投影能较好保留高维输入的信息多样性,为 B 提供有信息量的&quot;特征基&quot;。</li>
+<li>B 在<strong>输出侧</strong>:直接决定往残差流里加什么。B=0 意味着输出方向从零开始、完全由梯度学出,更新&quot;干净&quot;。</li>
+</ul>
+<p>若反过来 B 随机:A 一旦更新为非零,r 维信号就会被<strong>未经训练的随机方向</strong>混合后注入输出,早期训练噪声大、方向由随机初始化主导。</p>
+<p><strong>(2) 理论分析:两种初始化的动力学不对称</strong></p>
+<p>Hayou, Ghosh &amp; Yu, 2024, <em>The Impact of Initialization on LoRA Finetuning Dynamics</em>(NeurIPS 2024)在大宽度极限下系统分析了两种方案(记 Init[A]:A 随机 B=0;Init[B]:B 随机 A=0),结论:</p>
+<ul>
+<li><strong>Init[A] 允许使用更大的稳定学习率</strong>,特征学习(feature learning)更充分,但可能伴随一定&quot;内部不稳定&quot;;总体上最终效果更好,实验(GLUE、LLM 微调)验证了这一点。</li>
+<li><strong>Init[B]</strong> 稳定训练所允许的学习率更小,B 的随机方向主导更新、A 学习不充分,效率较低。</li>
+<li>直觉:A 在窄边($r \times d$,承接高维输入),B 在宽边($d&rsquo; \times r$)。让高维输入侧先有固定的随机压缩、输出侧从零生长,数值上更稳。</li>
+</ul>
+<p><strong>(3) 工程一致性</strong></p>
+<p>B=0 保证一个<strong>未训练的 adapter 加载后模型行为严格不变</strong>,这带来:</p>
+<ul>
+<li>sanity check 方便:step 0 输出必须与原模型逐位一致,可直接验证接入正确性;</li>
+<li>多任务 adapter 热插拔安全:挂载空 adapter 零副作用,适合 Agent/服务化场景中按需切换 LoRA 权重。</li>
+</ul>
+<h3 id="4-相关延伸scaling-系数与初始化的关系" class="heading-element"><span>4. 相关延伸:scaling 系数与初始化的关系</span>
+  <a href="#4-%e7%9b%b8%e5%85%b3%e5%bb%b6%e4%bc%b8scaling-%e7%b3%bb%e6%95%b0%e4%b8%8e%e5%88%9d%e5%a7%8b%e5%8c%96%e7%9a%84%e5%85%b3%e7%b3%bb" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>原始 LoRA 用 $\frac{\alpha}{r}$ 缩放,目的之一是调 r 时不必重调学习率;</li>
+<li><strong>rsLoRA</strong>(Kalajdzievski, 2023, <em>A Rank Stabilization Scaling Factor for Fine-Tuning with LoRA</em>)指出 $\frac{\alpha}{r}$ 在大 r 下会过度抑制更新,导致大 rank 学不动,应改为 $\frac{\alpha}{\sqrt{r}}$ 才能保持各 rank 下梯度尺度稳定;</li>
+<li><strong>PiSSA</strong>(Meng et al., 2024, <em>PiSSA: Principal Singular Values and Singular Vectors Adaptation</em>)是另一条初始化改进路线:用 $W_0$ 的主奇异值/奇异向量初始化 A、B(同时从 $W_0$ 中减去该部分保持起点等价),让 LoRA 一开始就沿主方向更新,收敛更快——说明&quot;起点等价于原模型&quot;这个原则不变,但<strong>如何分配初始信息</strong>仍有优化空间。</li>
+</ul>
+<h3 id="5-面试-qa" class="heading-element"><span>5. 面试 Q&amp;A</span>
+  <a href="#5-%e9%9d%a2%e8%af%95-qa" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>Q1:LoRA 为什么 B 初始化为 0、A 随机初始化?</strong></p>
+<blockquote>
+<p>初始化要保证 $BA=0$,第 0 步输出与预训练模型一致,不注入噪声。因此 A、B 至少一个为 0;但不能都为 0,否则 $\partial L/\partial B = GA^\top = 0$、$\partial L/\partial A = B^\top G = 0$,陷入鞍点训不动。选 A 随机、B=0:随机 A 相当于对高维输入做随机投影,保留信息、给 B 提供有效梯度;B=0 保证输出方向完全由梯度学出,不被随机初始化污染。</p>
+</blockquote>
+<p><strong>Q2:反过来(A=0、B 随机)真的不能训吗?</strong></p>
+<blockquote>
+<p>能训——只要打破鞍点就能训。但动力学不对称:输出侧被随机 B 的方向主导,理论分析(Hayou et al., NeurIPS 2024)表明该方案允许的稳定学习率更小、特征学习不充分,实验效果更差。所以是&quot;次优&quot;而非&quot;不可行&quot;。</p>
+</blockquote>
+<p><strong>Q3:这和普通网络不能全零初始化是一个道理吗?</strong></p>
+<blockquote>
+<p>本质相同:都是零梯度/对称性问题。LoRA 中体现为 B、A 互相把对方梯度乘成 0;普通网络中体现为同层神经元对称、更新完全相同。</p>
+</blockquote>
+<p><strong>Q4:B=0 在工程上有什么额外好处?(Agent 岗加分)</strong></p>
+<blockquote>
+<p>未训练 adapter 加载后模型行为严格不变——便于 step-0 sanity check,也让多任务场景下 LoRA adapter 的热插拔零副作用,适合按需切换任务 adapter 的 Agent 服务化部署。</p>
+</blockquote>
+<p><strong>参考文献</strong></p>
+<ol>
+<li>Hu et al., 2021. <em>LoRA: Low-Rank Adaptation of Large Language Models.</em> arXiv:2106.09685</li>
+<li>Hayou, Ghosh &amp; Yu, 2024. <em>The Impact of Initialization on LoRA Finetuning Dynamics.</em> NeurIPS 2024. arXiv:2406.08447</li>
+<li>Kalajdzievski, 2023. <em>A Rank Stabilization Scaling Factor for Fine-Tuning with LoRA.</em> arXiv:2312.03732</li>
+<li>Meng et al., 2024. <em>PiSSA: Principal Singular Values and Singular Vectors Adaptation of Large Language Models.</em> arXiv:2404.02948</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-07-02 11:50:59">更新于 2026-07-02&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/mllora/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/lora/" class="post-tag" title="标签 - LoRA">LoRA</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/ml%E5%A6%82%E4%BD%95%E7%BC%93%E8%A7%A3-sft-%E5%BC%95%E5%85%A5%E7%9A%84%E5%B9%BB%E8%A7%89/" class="post-nav-item" rel="prev" title="如何缓解 SFT 引入的幻觉"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>如何缓解 SFT 引入的幻觉</a><a href="/posts/mlqlora/" class="post-nav-item" rel="next" title="QLoRA">QLoRA<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>

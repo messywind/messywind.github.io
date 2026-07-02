@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>QLoRA - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="量化与 QLoRA（Agent 岗面试向笔记） 定位:Agent 工程岗考察深度 = 概念准确 &#43; 数字张口就来 &#43; trade-off 说得清 &#43; 有实操细节。不需要论文级推导。 配套阅读:与《LoRA数学结构》笔记形成「LoRA → QLoRA」递进。
+"><meta name="keywords" content='QLoRA'>
+  <meta itemprop="name" content="QLoRA">
+  <meta itemprop="description" content="量化与 QLoRA（Agent 岗面试向笔记） 定位:Agent 工程岗考察深度 = 概念准确 &#43; 数字张口就来 &#43; trade-off 说得清 &#43; 有实操细节。不需要论文级推导。 配套阅读:与《LoRA数学结构》笔记形成「LoRA → QLoRA」递进。">
+  <meta itemprop="datePublished" content="2026-07-02T19:32:00+00:00">
+  <meta itemprop="dateModified" content="2026-07-02T11:50:59+00:00">
+  <meta itemprop="wordCount" content="3206">
+  <meta itemprop="keywords" content="QLoRA"><meta property="og:url" content="https://blog.messywind.top/posts/mlqlora/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="QLoRA">
+  <meta property="og:description" content="量化与 QLoRA（Agent 岗面试向笔记） 定位:Agent 工程岗考察深度 = 概念准确 &#43; 数字张口就来 &#43; trade-off 说得清 &#43; 有实操细节。不需要论文级推导。 配套阅读:与《LoRA数学结构》笔记形成「LoRA → QLoRA」递进。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-07-02T19:32:00+00:00">
+    <meta property="article:modified_time" content="2026-07-02T11:50:59+00:00">
+    <meta property="article:tag" content="QLoRA">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="QLoRA">
+  <meta name="twitter:description" content="量化与 QLoRA（Agent 岗面试向笔记） 定位:Agent 工程岗考察深度 = 概念准确 &#43; 数字张口就来 &#43; trade-off 说得清 &#43; 有实操细节。不需要论文级推导。 配套阅读:与《LoRA数学结构》笔记形成「LoRA → QLoRA」递进。">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mlqlora/" title="QLoRA - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/mllora/" title="LoRA" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mlqlora/index.md" title="QLoRA - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "QLoRA",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/mlqlora\/"
+    },"genre": "posts","keywords": "QLoRA","wordcount":  3206 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlqlora\/","datePublished": "2026-07-02T19:32:00+00:00","dateModified": "2026-07-02T11:50:59+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>QLoRA</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-07-02 19:32:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-02">2026-07-02</time></span>&nbsp;<span title="更新于 2026-07-02 11:50:59"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-02">2026-07-02</time></span>&nbsp;<span title="3206 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 3300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 7 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="QLoRA"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0-面试官为什么问这个话题agent-岗视角">0. 面试官为什么问这个话题(Agent 岗视角)</a></li>
+    <li><a href="#1-量化基础">1. 量化基础</a>
+      <ul>
+        <li><a href="#11-定义与收益">1.1 定义与收益</a></li>
+        <li><a href="#12-基本原理absmax-对称量化">1.2 基本原理:absmax 对称量化</a></li>
+        <li><a href="#13-核心痛点离群值outliers-分块量化">1.3 核心痛点:离群值(Outliers)→ 分块量化</a></li>
+        <li><a href="#14-ptq-vs-qat">1.4 PTQ vs QAT</a></li>
+        <li><a href="#15-部署侧加分知识agent-工程岗差异化">1.5 部署侧加分知识(Agent 工程岗差异化)</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-qlora">2. QLoRA</a>
+      <ul>
+        <li><a href="#21-动机lora-和-qlora-各省哪块显存易混淆必分清">2.1 动机:LoRA 和 QLoRA 各省哪块显存(易混淆,必分清)</a></li>
+        <li><a href="#22-三大核心技术30-秒必答版">2.2 三大核心技术(30 秒必答版)</a>
+          <ul>
+            <li><a href="#-nf44-bit-normalfloat">① NF4(4-bit NormalFloat)</a></li>
+            <li><a href="#-双重量化double-quantization">② 双重量化(Double Quantization)</a></li>
+            <li><a href="#-分页优化器paged-optimizers">③ 分页优化器(Paged Optimizers)</a></li>
+          </ul>
+        </li>
+        <li><a href="#23-计算流程高频区分度最大">2.3 计算流程(高频、区分度最大)</a></li>
+        <li><a href="#24-部署路径agent-岗特色问法">2.4 部署路径(Agent 岗特色问法)</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-实操细节证明真训过">3. 实操细节(证明真训过)</a></li>
+    <li><a href="#4-面试速查表全部能脱口而出--达标">4. 面试速查表(全部能脱口而出 = 达标)</a></li>
+    <li><a href="#5-面试问答链按真实追问顺序">5. 面试问答链(按真实追问顺序)</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="量化与-qloraagent-岗面试向笔记" class="heading-element"><span>量化与 QLoRA（Agent 岗面试向笔记）</span>
+  <a href="#%e9%87%8f%e5%8c%96%e4%b8%8e-qloraagent-%e5%b2%97%e9%9d%a2%e8%af%95%e5%90%91%e7%ac%94%e8%ae%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>定位:Agent 工程岗考察深度 = 概念准确 + 数字张口就来 + trade-off 说得清 + 有实操细节。不需要论文级推导。
+配套阅读:与《LoRA数学结构》笔记形成「LoRA → QLoRA」递进。</p>
+</blockquote>
+<hr>
+<h2 id="0-面试官为什么问这个话题agent-岗视角" class="heading-element"><span>0. 面试官为什么问这个话题(Agent 岗视角)</span>
+  <a href="#0-%e9%9d%a2%e8%af%95%e5%ae%98%e4%b8%ba%e4%bb%80%e4%b9%88%e9%97%ae%e8%bf%99%e4%b8%aa%e8%af%9d%e9%a2%98agent-%e5%b2%97%e8%a7%86%e8%a7%92" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ol>
+<li><strong>模型落地能力</strong>:Agent 底座是 LLM,部署时量化几乎必选(成本、延迟)</li>
+<li><strong>微调实操验证</strong>:领域 SFT / function calling 微调,QLoRA 是资源受限下的标准方案</li>
+<li><strong>通用八股基本功</strong>:LoRA/QLoRA 是大模型岗必答题</li>
+</ol>
+<hr>
+<h2 id="1-量化基础" class="heading-element"><span>1. 量化基础</span>
+  <a href="#1-%e9%87%8f%e5%8c%96%e5%9f%ba%e7%a1%80" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="11-定义与收益" class="heading-element"><span>1.1 定义与收益</span>
+  <a href="#11-%e5%ae%9a%e4%b9%89%e4%b8%8e%e6%94%b6%e7%9b%8a" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>量化 = 用低比特数据类型近似表示高精度数值。</p>
+<table>
+  <thead>
+      <tr>
+          <th>精度</th>
+          <th>每参数字节</th>
+          <th>7B 权重显存</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>FP32</td>
+          <td>4 B</td>
+          <td>28 GB</td>
+      </tr>
+      <tr>
+          <td>FP16 / BF16</td>
+          <td>2 B</td>
+          <td>14 GB</td>
+      </tr>
+      <tr>
+          <td>INT8</td>
+          <td>1 B</td>
+          <td>7 GB</td>
+      </tr>
+      <tr>
+          <td>INT4 / NF4</td>
+          <td>0.5 B</td>
+          <td>3.5 GB</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>两大收益(面试必答第二点是加分项):</strong></p>
+<ol>
+<li>显存:4-bit 是 FP16 的 1/4</li>
+<li>推理速度:LLM decode 阶段是 <strong>memory-bound</strong>,权重读取带宽是瓶颈,量化直接提升 tokens/s</li>
+</ol>
+<blockquote>
+<p>💡 Agent 岗关联话术:Agent 场景 token 消耗巨大(多轮工具调用、长上下文、多 Agent 通信),推理成本敏感度远高于普通对话产品,量化是降本增效的核心手段。</p>
+</blockquote>
+<h3 id="12-基本原理absmax-对称量化" class="heading-element"><span>1.2 基本原理:absmax 对称量化</span>
+  <a href="#12-%e5%9f%ba%e6%9c%ac%e5%8e%9f%e7%90%86absmax-%e5%af%b9%e7%a7%b0%e9%87%8f%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>以 FP32 → INT8 为例,INT8 范围 [-127, 127]:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">量化:   X_int8 = round( (127 / absmax(X)) · X )
+</span></span><span class="line"><span class="cl">反量化: X_fp32 ≈ X_int8 / c ,其中 c = 127 / absmax(X) 为量化常数(scale)</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>手算示例</strong>:张量 <code>[0.1, -0.5, 2.0, 0.3]</code>,absmax=2.0,c=63.5</p>
+<table>
+  <thead>
+      <tr>
+          <th>原值</th>
+          <th>量化</th>
+          <th>反量化</th>
+          <th>误差</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>0.1</td>
+          <td>6</td>
+          <td>0.094</td>
+          <td>有</td>
+      </tr>
+      <tr>
+          <td>-0.5</td>
+          <td>-32</td>
+          <td>-0.504</td>
+          <td>有</td>
+      </tr>
+      <tr>
+          <td>2.0</td>
+          <td>127</td>
+          <td>2.000</td>
+          <td>无</td>
+      </tr>
+      <tr>
+          <td>0.3</td>
+          <td>19</td>
+          <td>0.299</td>
+          <td>有</td>
+      </tr>
+  </tbody>
+</table>
+<p>另有<strong>零点非对称量化(zero-point)</strong>:引入偏移量,适合非对称分布(如 ReLU 后全正),区间利用率更高。</p>
+<h3 id="13-核心痛点离群值outliers-分块量化" class="heading-element"><span>1.3 核心痛点:离群值(Outliers)→ 分块量化</span>
+  <a href="#13-%e6%a0%b8%e5%bf%83%e7%97%9b%e7%82%b9%e7%a6%bb%e7%be%a4%e5%80%bcoutliers-%e5%88%86%e5%9d%97%e9%87%8f%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>逻辑链(必须顺,是双重量化的引子):</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">离群值 (如 [0.1, -0.5, 100.0, 0.3])
+</span></span><span class="line"><span class="cl">   ↓ absmax 被撑大 → c = 127/100 = 1.27
+</span></span><span class="line"><span class="cl">小数值被压成 0 (0.1→0, 0.3→0),信息大量丢失
+</span></span><span class="line"><span class="cl">   ↓ 解决方案
+</span></span><span class="line"><span class="cl">分块量化 (Block-wise): 每 64 个数一块,各块独立量化常数
+</span></span><span class="line"><span class="cl">   ↓ 一个离群值只污染所在块
+</span></span><span class="line"><span class="cl">   ↓ 代价
+</span></span><span class="line"><span class="cl">每块要额外存一个量化常数 → block 越小越精细,但常数开销越大
+</span></span><span class="line"><span class="cl">   ↓ 这个 trade-off 正是 QLoRA「双重量化」的动机</span></span></code></pre></td></tr></table>
+</div>
+</div><p>LLM 权重/激活中确实存在离群值(LLM.int8() 论文专门研究)。</p>
+<h3 id="14-ptq-vs-qat" class="heading-element"><span>1.4 PTQ vs QAT</span>
+  <a href="#14-ptq-vs-qat" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th></th>
+          <th>PTQ 训练后量化</th>
+          <th>QAT 量化感知训练</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>时机</td>
+          <td>训练完直接量化</td>
+          <td>训练中模拟量化误差</td>
+      </tr>
+      <tr>
+          <td>成本</td>
+          <td>低、快</td>
+          <td>高</td>
+      </tr>
+      <tr>
+          <td>效果</td>
+          <td>够用</td>
+          <td>更好</td>
+      </tr>
+      <tr>
+          <td>代表</td>
+          <td>GPTQ、AWQ</td>
+          <td>—</td>
+      </tr>
+      <tr>
+          <td>工业界</td>
+          <td><strong>LLM 部署主流</strong></td>
+          <td>少用</td>
+      </tr>
+  </tbody>
+</table>
+<p>QLoRA 定位:基座是 PTQ(冻结 4-bit),但通过全精度 LoRA adapter 训练来补偿量化损失。</p>
+<h3 id="15-部署侧加分知识agent-工程岗差异化" class="heading-element"><span>1.5 部署侧加分知识(Agent 工程岗差异化)</span>
+  <a href="#15-%e9%83%a8%e7%bd%b2%e4%be%a7%e5%8a%a0%e5%88%86%e7%9f%a5%e8%af%86agent-%e5%b7%a5%e7%a8%8b%e5%b2%97%e5%b7%ae%e5%bc%82%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>GPTQ</strong>:基于二阶信息(Hessian)逐层最小化量化误差</li>
+<li><strong>AWQ</strong>:激活感知——少数「显著权重」对应大激活值,按激活分布做 per-channel 缩放保护它们;无需反向传播,量化快;vLLM 等框架支持好,部署主流之一</li>
+<li><strong>W4A16 记号</strong>:权重 4-bit、激活 16-bit;只量化权重是主流;激活量化(W8A8,如 SmoothQuant)难在激活离群值更严重</li>
+<li><strong>KV Cache 量化</strong>:Agent 长上下文场景 KV Cache 是显存大头,可量化到 INT8/FP8(vLLM 支持)——贴合 Agent 痛点的加分点</li>
+</ul>
+<p>可以不深究:分位数量化数学推导、QAT 的 STE、kernel 实现。坦承「没深入 kernel 层」比硬编好。</p>
+<hr>
+<h2 id="2-qlora" class="heading-element"><span>2. QLoRA</span>
+  <a href="#2-qlora" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="21-动机lora-和-qlora-各省哪块显存易混淆必分清" class="heading-element"><span>2.1 动机:LoRA 和 QLoRA 各省哪块显存(易混淆,必分清)</span>
+  <a href="#21-%e5%8a%a8%e6%9c%balora-%e5%92%8c-qlora-%e5%90%84%e7%9c%81%e5%93%aa%e5%9d%97%e6%98%be%e5%ad%98%e6%98%93%e6%b7%b7%e6%b7%86%e5%bf%85%e5%88%86%e6%b8%85" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th>显存组成</th>
+          <th>LoRA 省了吗</th>
+          <th>QLoRA 额外省了吗</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>可训练参数</td>
+          <td>✅(只有 A、B)</td>
+          <td>相同</td>
+      </tr>
+      <tr>
+          <td>梯度</td>
+          <td>✅</td>
+          <td>相同</td>
+      </tr>
+      <tr>
+          <td>优化器状态</td>
+          <td>✅</td>
+          <td>相同(+分页防尖峰)</td>
+      </tr>
+      <tr>
+          <td><strong>基座权重</strong></td>
+          <td>❌ 仍需 FP16 全量加载</td>
+          <td>✅ <strong>NF4 存储,降到 1/4</strong></td>
+      </tr>
+      <tr>
+          <td>激活值</td>
+          <td>❌</td>
+          <td>❌(相同)</td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>标准话术</strong>:LoRA 省的是可训练参数、梯度、优化器状态;基座权重仍要 FP16 加载(7B=14GB)。QLoRA 把冻结基座量化到 4-bit 存储(7B≈3.5GB),BF16 只训 LoRA adapter,单张 24G 卡可微调 7B~13B。论文成果:单张 48G 卡微调 65B(Guanaco)。</p>
+<h3 id="22-三大核心技术30-秒必答版" class="heading-element"><span>2.2 三大核心技术(30 秒必答版)</span>
+  <a href="#22-%e4%b8%89%e5%a4%a7%e6%a0%b8%e5%bf%83%e6%8a%80%e6%9c%af30-%e7%a7%92%e5%bf%85%e7%ad%94%e7%89%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="-nf44-bit-normalfloat" class="heading-element"><span>① NF4(4-bit NormalFloat)</span>
+  <a href="#-nf44-bit-normalfloat" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>问题:INT4 均匀格点,隐含假设数据均匀分布;但预训练权重近似<strong>零均值正态分布</strong> N(0, σ)</li>
+<li>方案:<strong>分位数量化</strong>——按标准正态分布分位数放置 16 个格点,归一化到 [-1, 1]</li>
+<li>效果:0 附近格点密、两端疏,匹配权重分布;论文证明对正态数据是<strong>信息论最优</strong>的 4-bit 类型</li>
+<li>细节:格点非对称设计,保证 <strong>0 能被精确表示</strong></li>
+<li>使用:每 block 权重先除以块内 absmax 归一化到 [-1,1],再映射到最近 NF4 格点</li>
+</ul>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">INT4 (均匀):  |--|--|--|--|--|--|--|--|--|--|--|--|--|--|--|
+</span></span><span class="line"><span class="cl">NF4 (分位数): |----|---|--|-|-|||.|||-|-|--|---|----|
+</span></span><span class="line"><span class="cl">                            ↑ 0 附近密集</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="-双重量化double-quantization" class="heading-element"><span>② 双重量化(Double Quantization)</span>
+  <a href="#-%e5%8f%8c%e9%87%8d%e9%87%8f%e5%8c%96double-quantization" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">第一层: 权重 → NF4, block=64, 每块产生 FP32 量化常数 c₂
+</span></span><span class="line"><span class="cl">        开销 = 32 bit / 64 = 0.5 bit/参数 (相对 4-bit 是 12.5%,不小)
+</span></span><span class="line"><span class="cl">第二层: c₂ (FP32) → FP8, block=256, 产生二级常数 c₁ (FP32)
+</span></span><span class="line"><span class="cl">        开销 = 8/64 + 32/(64×256) ≈ 0.125 + 0.002 ≈ 0.127 bit/参数</span></span></code></pre></td></tr></table>
+</div>
+</div><p>每参数省约 0.373 bit,65B 模型省约 3GB。</p>
+<h4 id="-分页优化器paged-optimizers" class="heading-element"><span>③ 分页优化器(Paged Optimizers)</span>
+  <a href="#-%e5%88%86%e9%a1%b5%e4%bc%98%e5%8c%96%e5%99%a8paged-optimizers" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>机制:NVIDIA 统一内存(Unified Memory),优化器状态分配在分页内存;显存尖峰(如长序列激活暴涨)时自动换页到 CPU,类似 OS 虚拟内存</li>
+<li>⚠️ 话术要点:是<strong>防尖峰 OOM 崩溃</strong>,不是降低平均显存占用</li>
+</ul>
+<h3 id="23-计算流程高频区分度最大" class="heading-element"><span>2.3 计算流程(高频、区分度最大)</span>
+  <a href="#23-%e8%ae%a1%e7%ae%97%e6%b5%81%e7%a8%8b%e9%ab%98%e9%a2%91%e5%8c%ba%e5%88%86%e5%ba%a6%e6%9c%80%e5%a4%a7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><strong>核心:存储用 NF4,计算用 BF16(存储与计算解耦,GPU 无 4-bit 矩阵乘硬件)</strong></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">前向 (逐层):
+</span></span><span class="line"><span class="cl">  Y = X · dequant(W_NF4) + X · A · B
+</span></span><span class="line"><span class="cl">        ↑ 两级反量化: c₁ 恢复 c₂ → c₂ 恢复权重 → BF16
+</span></span><span class="line"><span class="cl">        ↑ 算完即丢,BF16 权重不驻留显存
+</span></span><span class="line"><span class="cl">        LoRA 分支 A、B 本身 BF16,正常计算
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">反向:
+</span></span><span class="line"><span class="cl">  梯度需穿过冻结量化权重传给 LoRA (链式法则含 Wᵀ 项)
+</span></span><span class="line"><span class="cl">  → 反向传播也要反量化 (⭐主动说出这点基本赢下这一问)
+</span></span><span class="line"><span class="cl">  基座权重梯度不计算、不存储,只有 A、B 更新</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>Q: QLoRA 比 LoRA 快还是慢?</strong>
+慢。动态反量化是纯增计算开销,训练慢约 20%~30%,换显存降到约 1/3。<strong>时间换空间</strong>。</p>
+<p><strong>Q: 为什么计算用 BF16 不用 FP16?</strong>
+BF16 指数位与 FP32 相同(8 位),动态范围大,不易上/下溢,无需 loss scaling,训练稳定;代价是尾数精度低但对 DL 足够。</p>
+<h3 id="24-部署路径agent-岗特色问法" class="heading-element"><span>2.4 部署路径(Agent 岗特色问法)</span>
+  <a href="#24-%e9%83%a8%e7%bd%b2%e8%b7%af%e5%be%84agent-%e5%b2%97%e7%89%b9%e8%89%b2%e9%97%ae%e6%b3%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>⚠️ 不能把 BF16 的 ΔW=BA 直接加到 NF4 权重上(精度不匹配)。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">路径 A (merge 部署):
+</span></span><span class="line"><span class="cl">  NF4 基座 → 反量化回 BF16 → merge (W + BA) → 全精度模型
+</span></span><span class="line"><span class="cl">  → 按需再做一次推理量化 (AWQ/GPTQ) → vLLM/SGLang 服务化
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">路径 B (不 merge, multi-LoRA serving): ⭐强加分项
+</span></span><span class="line"><span class="cl">  推理框架直接挂载 adapter (vLLM 支持 multi-LoRA)
+</span></span><span class="line"><span class="cl">  → 一个基座配多个领域 adapter,共享基座省显存
+</span></span><span class="line"><span class="cl">  → Agent 平台实用场景: 不同工具域各训一个 adapter</span></span></code></pre></td></tr></table>
+</div>
+</div><p><strong>Q: 量化有损,为何 QLoRA 能追平 16-bit 全量微调?</strong>
+LoRA adapter 全精度训练,可学到对量化误差的补偿。论文关键实验条件:adapter 加到<strong>所有线性层</strong>而非只加 attention 的 Q/V——这也是实操默认配置(<code>target_modules=&quot;all-linear&quot;</code>)。</p>
+<hr>
+<h2 id="3-实操细节证明真训过" class="heading-element"><span>3. 实操细节(证明真训过)</span>
+  <a href="#3-%e5%ae%9e%e6%93%8d%e7%bb%86%e8%8a%82%e8%af%81%e6%98%8e%e7%9c%9f%e8%ae%ad%e8%bf%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">BitsAndBytesConfig</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torch</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">bnb_config</span> <span class="o">=</span> <span class="n">BitsAndBytesConfig</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">load_in_4bit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bnb_4bit_quant_type</span><span class="o">=</span><span class="s2">&#34;nf4&#34;</span><span class="p">,</span>              <span class="c1"># NF4 而非 fp4</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bnb_4bit_use_double_quant</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>          <span class="c1"># 双重量化</span>
+</span></span><span class="line"><span class="cl">    <span class="n">bnb_4bit_compute_dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bfloat16</span><span class="p">,</span>   <span class="c1"># 计算精度 (忘设默认 fp32, 又慢又易出问题)</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>配套要点:</p>
+<ul>
+<li>加载后调用 <code>prepare_model_for_kbit_training()</code>(处理 layernorm 精度、embedding 梯度等)</li>
+<li>LoRA 超参:r=16~64 常用,alpha 一般取 r 的 2 倍</li>
+<li>学习率:QLoRA 不算敏感,2e-4 常见起点</li>
+<li>踩坑话术:梯度检查点需配合 <code>use_reentrant=False</code>;bf16 下 loss 不降先查 <code>compute_dtype</code> 是否忘设</li>
+</ul>
+<hr>
+<h2 id="4-面试速查表全部能脱口而出--达标" class="heading-element"><span>4. 面试速查表(全部能脱口而出 = 达标)</span>
+  <a href="#4-%e9%9d%a2%e8%af%95%e9%80%9f%e6%9f%a5%e8%a1%a8%e5%85%a8%e9%83%a8%e8%83%bd%e8%84%b1%e5%8f%a3%e8%80%8c%e5%87%ba--%e8%be%be%e6%a0%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>检查项</th>
+          <th>关键词</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>量化收益</td>
+          <td>显存 1/4、memory-bound、decode 提速</td>
+      </tr>
+      <tr>
+          <td>离群值问题</td>
+          <td>absmax 被撑大 → 分块量化 → 每块存常数</td>
+      </tr>
+      <tr>
+          <td>NF4</td>
+          <td>正态分位数格点、0 附近密、0 可精确表示、信息论最优</td>
+      </tr>
+      <tr>
+          <td>双重量化</td>
+          <td>0.5 bit → 0.127 bit/参数,65B 省约 3GB</td>
+      </tr>
+      <tr>
+          <td>分页优化器</td>
+          <td>防显存尖峰 OOM,非降平均</td>
+      </tr>
+      <tr>
+          <td>计算流程</td>
+          <td>存 NF4 算 BF16、动态反量化、算完即丢、<strong>反向也要反量化</strong></td>
+      </tr>
+      <tr>
+          <td>速度</td>
+          <td>比 LoRA 慢 20~30%,时间换空间</td>
+      </tr>
+      <tr>
+          <td>LoRA vs QLoRA 省什么</td>
+          <td>LoRA 省参数/梯度/优化器,QLoRA 额外省基座权重</td>
+      </tr>
+      <tr>
+          <td>部署</td>
+          <td>反量化 merge → 再 PTQ;或 multi-LoRA serving</td>
+      </tr>
+      <tr>
+          <td>部署量化</td>
+          <td>GPTQ(Hessian)、AWQ(激活感知缩放)、W4A16、KV Cache 量化</td>
+      </tr>
+      <tr>
+          <td>BF16 原因</td>
+          <td>指数位同 FP32、动态范围大、无需 loss scaling</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="5-面试问答链按真实追问顺序" class="heading-element"><span>5. 面试问答链(按真实追问顺序)</span>
+  <a href="#5-%e9%9d%a2%e8%af%95%e9%97%ae%e7%ad%94%e9%93%be%e6%8c%89%e7%9c%9f%e5%ae%9e%e8%bf%bd%e9%97%ae%e9%a1%ba%e5%ba%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>Q1: LoRA 已经很省了,为什么还需要 QLoRA?</strong>
+→ 分清各省哪块显存(见 2.1 表格),QLoRA 补上基座权重这块最大的。</p>
+<p><strong>Q2: QLoRA 三大核心技术?</strong>
+→ NF4 / 双重量化 / 分页优化器,各一句话(见 2.2)。</p>
+<p><strong>Q3: 4-bit 权重怎么参与计算?</strong>
+→ 存算解耦、动态反量化、算完即丢、反向也要反量化(见 2.3)。</p>
+<p><strong>Q4: 比 LoRA 快还是慢?</strong>
+→ 慢 20~30%,时间换空间。</p>
+<p><strong>Q5: 训完怎么部署?</strong>
+→ 路径 A merge + 再量化;路径 B multi-LoRA serving(Agent 平台场景加分)。</p>
+<p><strong>Q6: 量化有损为何能追平全量微调?</strong>
+→ 全精度 adapter 补偿量化误差 + all-linear 加 adapter。</p>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-07-02 11:50:59">更新于 2026-07-02&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/mlqlora/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/qlora/" class="post-tag" title="标签 - QLoRA">QLoRA</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/mllora/" class="post-nav-item" rel="prev" title="LoRA"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>LoRA</a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>
