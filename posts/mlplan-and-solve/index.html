@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Plan-and-Solve - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="1. 一句话理解 Plan-and-Solve Plan-and-Solve 是一种把复杂任务拆成两个阶段的 Agent 范式：
+规划阶段：把原始问题分解成有顺序、可执行的子任务； 执行阶段：逐步执行子任务，并把前序结果作为后续步骤的上下文； 可选的重规划阶段：当计划不可执行、外部环境变化或中间结果与预期不一致时，调整剩余计划。 1 2 3 4 5 直接问答： Question ───────────────→ Answer Plan-and-Solve：Question → Plan → Step 1 → Step 2 → ... → Final Answer ↑ │ └──── Replan ─────┘ 它解决的核心问题不是“让模型输出更长的思维过程”，而是：
+"><meta name="keywords" content='Agent, Plan-And-Solve'>
+  <meta itemprop="name" content="Plan-And-Solve">
+  <meta itemprop="description" content="1. 一句话理解 Plan-and-Solve Plan-and-Solve 是一种把复杂任务拆成两个阶段的 Agent 范式：
+规划阶段：把原始问题分解成有顺序、可执行的子任务； 执行阶段：逐步执行子任务，并把前序结果作为后续步骤的上下文； 可选的重规划阶段：当计划不可执行、外部环境变化或中间结果与预期不一致时，调整剩余计划。 1 2 3 4 5 直接问答： Question ───────────────→ Answer Plan-and-Solve：Question → Plan → Step 1 → Step 2 → ... → Final Answer ↑ │ └──── Replan ─────┘ 它解决的核心问题不是“让模型输出更长的思维过程”，而是：">
+  <meta itemprop="datePublished" content="2026-07-22T15:53:00+00:00">
+  <meta itemprop="dateModified" content="2026-07-23T08:36:00+00:00">
+  <meta itemprop="wordCount" content="8575">
+  <meta itemprop="keywords" content="Agent,Plan-and-Solve"><meta property="og:url" content="https://blog.messywind.top/posts/mlplan-and-solve/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="Plan-And-Solve">
+  <meta property="og:description" content="1. 一句话理解 Plan-and-Solve Plan-and-Solve 是一种把复杂任务拆成两个阶段的 Agent 范式：
+规划阶段：把原始问题分解成有顺序、可执行的子任务； 执行阶段：逐步执行子任务，并把前序结果作为后续步骤的上下文； 可选的重规划阶段：当计划不可执行、外部环境变化或中间结果与预期不一致时，调整剩余计划。 1 2 3 4 5 直接问答： Question ───────────────→ Answer Plan-and-Solve：Question → Plan → Step 1 → Step 2 → ... → Final Answer ↑ │ └──── Replan ─────┘ 它解决的核心问题不是“让模型输出更长的思维过程”，而是：">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-07-22T15:53:00+00:00">
+    <meta property="article:modified_time" content="2026-07-23T08:36:00+00:00">
+    <meta property="article:tag" content="Agent">
+    <meta property="article:tag" content="Plan-and-Solve">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Plan-And-Solve">
+  <meta name="twitter:description" content="1. 一句话理解 Plan-and-Solve Plan-and-Solve 是一种把复杂任务拆成两个阶段的 Agent 范式：
+规划阶段：把原始问题分解成有顺序、可执行的子任务； 执行阶段：逐步执行子任务，并把前序结果作为后续步骤的上下文； 可选的重规划阶段：当计划不可执行、外部环境变化或中间结果与预期不一致时，调整剩余计划。 1 2 3 4 5 直接问答： Question ───────────────→ Answer Plan-and-Solve：Question → Plan → Step 1 → Step 2 → ... → Final Answer ↑ │ └──── Replan ─────┘ 它解决的核心问题不是“让模型输出更长的思维过程”，而是：">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mlplan-and-solve/" title="Plan-And-Solve - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/mlreflection/" title="Reflection" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/mlai-agent-%E6%A1%86%E6%9E%B6%E4%B8%8E%E8%8C%83%E5%BC%8F/" title="AI Agent 框架与范式" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mlplan-and-solve/index.md" title="Plan-And-Solve - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Plan-And-Solve",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/mlplan-and-solve\/"
+    },"genre": "posts","keywords": "Agent, Plan-And-Solve","wordcount":  8575 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlplan-and-solve\/","datePublished": "2026-07-22T15:53:00+00:00","dateModified": "2026-07-23T08:36:00+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Plan-and-Solve</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-07-22 15:53:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-22">2026-07-22</time></span>&nbsp;<span title="更新于 2026-07-23 08:36:00"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-23">2026-07-23</time></span>&nbsp;<span title="8575 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 8600 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 18 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="Plan-and-Solve"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-一句话理解-plan-and-solve">1. 一句话理解 Plan-and-Solve</a></li>
+    <li><a href="#2-抽象模型与架构">2. 抽象模型与架构</a>
+      <ul>
+        <li><a href="#21-规划阶段">2.1 规划阶段</a></li>
+        <li><a href="#22-执行阶段">2.2 执行阶段</a></li>
+        <li><a href="#23-完整的工程化结构">2.3 完整的工程化结构</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-notebook-整体结构">3. Notebook 整体结构</a></li>
+    <li><a href="#4-llmproxy模型访问层">4. <code>LLMProxy</code>：模型访问层</a>
+      <ul>
+        <li><a href="#面试中的工程追问">面试中的工程追问</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-planner-源码拆解">5. Planner 源码拆解</a>
+      <ul>
+        <li><a href="#51-planner-prompt">5.1 Planner Prompt</a></li>
+        <li><a href="#52-输出解析">5.2 输出解析</a></li>
+        <li><a href="#53-更适合生产环境的计划结构">5.3 更适合生产环境的计划结构</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-executor-源码拆解">6. Executor 源码拆解</a>
+      <ul>
+        <li><a href="#61-执行器获得的上下文">6.1 执行器获得的上下文</a></li>
+        <li><a href="#62-串行执行与状态累积">6.2 串行执行与状态累积</a></li>
+        <li><a href="#63-最后一步结果不一定等于最终答案">6.3 “最后一步结果”不一定等于“最终答案”</a></li>
+        <li><a href="#64-历史状态的局限">6.4 历史状态的局限</a></li>
+      </ul>
+    </li>
+    <li><a href="#7-agent-编排逻辑">7. Agent 编排逻辑</a></li>
+    <li><a href="#8-示例运行全过程">8. 示例运行全过程</a></li>
+    <li><a href="#9-plan-and-solve-的优势">9. Plan-and-Solve 的优势</a>
+      <ul>
+        <li><a href="#91-提升复杂任务的可靠性">9.1 提升复杂任务的可靠性</a></li>
+        <li><a href="#92-更强的任务分解能力">9.2 更强的任务分解能力</a></li>
+        <li><a href="#93-更好的可观察性与可调试性">9.3 更好的可观察性与可调试性</a></li>
+        <li><a href="#94-更灵活的资源分配">9.4 更灵活的资源分配</a></li>
+      </ul>
+    </li>
+    <li><a href="#10-劣势与风险">10. 劣势与风险</a>
+      <ul>
+        <li><a href="#101-高度依赖规划质量">10.1 高度依赖规划质量</a></li>
+        <li><a href="#102-状态管理复杂">10.2 状态管理复杂</a></li>
+        <li><a href="#103-成本和延迟增加">10.3 成本和延迟增加</a></li>
+        <li><a href="#104-计划可能在执行前就已过时">10.4 计划可能在执行前就已过时</a></li>
+      </ul>
+    </li>
+    <li><a href="#11-适用与不适用场景">11. 适用与不适用场景</a>
+      <ul>
+        <li><a href="#111-适用场景">11.1 适用场景</a></li>
+        <li><a href="#112-不适用或收益较低的场景">11.2 不适用或收益较低的场景</a></li>
+      </ul>
+    </li>
+    <li><a href="#12-plan-and-solvereactreflection-的区别">12. Plan-and-Solve、ReAct、Reflection 的区别</a></li>
+    <li><a href="#13-当前实现与完整-plan-and-solve的差距">13. 当前实现与“完整 Plan-and-Solve”的差距</a></li>
+    <li><a href="#14-replan-应该如何设计">14. Replan 应该如何设计</a>
+      <ul>
+        <li><a href="#141-触发条件">14.1 触发条件</a></li>
+        <li><a href="#142-重规划原则">14.2 重规划原则</a></li>
+        <li><a href="#143-简化伪代码">14.3 简化伪代码</a></li>
+      </ul>
+    </li>
+    <li><a href="#15-如何把-notebook-改造成更可靠的-agent">15. 如何把 Notebook 改造成更可靠的 Agent</a>
+      <ul>
+        <li><a href="#第一阶段让接口可测试">第一阶段：让接口可测试</a></li>
+        <li><a href="#第二阶段结构化协议">第二阶段：结构化协议</a></li>
+        <li><a href="#第三阶段闭环控制">第三阶段：闭环控制</a></li>
+        <li><a href="#第四阶段生产治理">第四阶段：生产治理</a></li>
+      </ul>
+    </li>
+    <li><a href="#16-测试与评估指标">16. 测试与评估指标</a>
+      <ul>
+        <li><a href="#161-不要只看最终答案准确率">16.1 不要只看最终答案准确率</a></li>
+        <li><a href="#162-测试集应覆盖">16.2 测试集应覆盖</a></li>
+      </ul>
+    </li>
+    <li><a href="#17-高频面试题与参考回答">17. 高频面试题与参考回答</a>
+      <ul>
+        <li><a href="#q1plan-and-solve-和-chain-of-thought-有什么区别">Q1：Plan-and-Solve 和 Chain-of-Thought 有什么区别？</a></li>
+        <li><a href="#q2plan-and-solve-为什么可能比直接回答更可靠">Q2：Plan-and-Solve 为什么可能比直接回答更可靠？</a></li>
+        <li><a href="#q3为什么不能把所有任务都先规划">Q3：为什么不能把所有任务都先规划？</a></li>
+        <li><a href="#q4什么时候用-plan-and-solve什么时候用-react">Q4：什么时候用 Plan-and-Solve，什么时候用 ReAct？</a></li>
+        <li><a href="#q5如何防止错误计划一路执行到底">Q5：如何防止错误计划一路执行到底？</a></li>
+        <li><a href="#q6如何处理上下文越来越长">Q6：如何处理上下文越来越长？</a></li>
+        <li><a href="#q7如何支持并行执行">Q7：如何支持并行执行？</a></li>
+        <li><a href="#q8planner-和-executor-应该用同一个模型吗">Q8：Planner 和 Executor 应该用同一个模型吗？</a></li>
+        <li><a href="#q9为什么当前代码的-astliteral_eval-仍不够好">Q9：为什么当前代码的 <code>ast.literal_eval</code> 仍不够好？</a></li>
+        <li><a href="#q10如何保证失败重试不会重复产生副作用">Q10：如何保证失败重试不会重复产生副作用？</a></li>
+        <li><a href="#q11如何判断该触发-replan-还是重试">Q11：如何判断该触发 Replan 还是重试？</a></li>
+        <li><a href="#q12这份-notebook-最大的三个问题是什么">Q12：这份 Notebook 最大的三个问题是什么？</a></li>
+      </ul>
+    </li>
+    <li><a href="#18-面试中的-30-秒回答模板">18. 面试中的 30 秒回答模板</a></li>
+    <li><a href="#19-面试时可以主动指出的代码亮点与不足">19. 面试时可以主动指出的代码亮点与不足</a>
+      <ul>
+        <li><a href="#亮点">亮点</a></li>
+        <li><a href="#不足">不足</a></li>
+      </ul>
+    </li>
+    <li><a href="#20-最终记忆框架">20. 最终记忆框架</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="1-一句话理解-plan-and-solve" class="heading-element"><span>1. 一句话理解 Plan-and-Solve</span>
+  <a href="#1-%e4%b8%80%e5%8f%a5%e8%af%9d%e7%90%86%e8%a7%a3-plan-and-solve" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Plan-and-Solve 是一种把复杂任务拆成两个阶段的 Agent 范式：</p>
+<ol>
+<li><strong>规划阶段</strong>：把原始问题分解成有顺序、可执行的子任务；</li>
+<li><strong>执行阶段</strong>：逐步执行子任务，并把前序结果作为后续步骤的上下文；</li>
+<li><strong>可选的重规划阶段</strong>：当计划不可执行、外部环境变化或中间结果与预期不一致时，调整剩余计划。</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">直接问答：      Question ───────────────→ Answer
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Plan-and-Solve：Question → Plan → Step 1 → Step 2 → ... → Final Answer
+</span></span><span class="line"><span class="cl">                              ↑                 │
+</span></span><span class="line"><span class="cl">                              └──── Replan ─────┘</span></span></code></pre></td></tr></table>
+</div>
+</div><p>它解决的核心问题不是“让模型输出更长的思维过程”，而是：</p>
+<blockquote>
+<p>将复杂问题显式分解，降低单次推理负担，让执行过程更可控、可观察、可纠错。</p>
+</blockquote>
+<hr>
+<h2 id="2-抽象模型与架构" class="heading-element"><span>2. 抽象模型与架构</span>
+  <a href="#2-%e6%8a%bd%e8%b1%a1%e6%a8%a1%e5%9e%8b%e4%b8%8e%e6%9e%b6%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="21-规划阶段" class="heading-element"><span>2.1 规划阶段</span>
+  <a href="#21-%e8%a7%84%e5%88%92%e9%98%b6%e6%ae%b5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>设用户问题为 <code>q</code>，规划器 <code>π</code> 生成包含 <code>n</code> 个子任务的计划：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">P = π(q) = [p₁, p₂, ..., pₙ]</span></span></code></pre></td></tr></table>
+</div>
+</div><p>好的子任务通常满足：</p>
+<ul>
+<li><strong>可执行</strong>：不是“分析一下”，而是能产生明确结果；</li>
+<li><strong>顺序正确</strong>：后续步骤依赖的数据必须已经生成；</li>
+<li><strong>粒度适中</strong>：不能粗到仍然无法执行，也不能细到造成大量无意义调用；</li>
+<li><strong>覆盖完整</strong>：所有步骤组合起来能够回答原始问题；</li>
+<li><strong>终止明确</strong>：最后需要有汇总、验证或交付步骤。</li>
+</ul>
+<h3 id="22-执行阶段" class="heading-element"><span>2.2 执行阶段</span>
+  <a href="#22-%e6%89%a7%e8%a1%8c%e9%98%b6%e6%ae%b5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>第 <code>i</code> 步的执行结果不仅依赖当前子任务，还可能依赖原始问题、完整计划和历史结果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">sᵢ = τ(q, P, pᵢ, s₁, s₂, ..., sᵢ₋₁)</span></span></code></pre></td></tr></table>
+</div>
+</div><p>其中：</p>
+<ul>
+<li><code>τ</code> 是执行器；</li>
+<li><code>pᵢ</code> 是当前步骤；</li>
+<li><code>s₁ ... sᵢ₋₁</code> 是已完成步骤的结果。</li>
+</ul>
+<p>Notebook 中正是通过 <code>history</code> 字符串，把前序结果传给下一次模型调用。</p>
+<h3 id="23-完整的工程化结构" class="heading-element"><span>2.3 完整的工程化结构</span>
+  <a href="#23-%e5%ae%8c%e6%95%b4%e7%9a%84%e5%b7%a5%e7%a8%8b%e5%8c%96%e7%bb%93%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><pre class="mermaid">flowchart LR
+    U["User Request"] --> P["Planner"]
+    P --> PL["Structured Plan"]
+    PL --> E["Task Executor"]
+    E --> T["Tools / External Environment"]
+    T --> E
+    E --> V["Verifier / Evaluator"]
+    V -->|"通过"| F["Finalizer"]
+    V -->|"失败、信息不足或环境变化"| R["Replanner"]
+    R --> PL
+    F --> A["Final Answer"]</pre>
+<template>flowchart LR
+    U["User Request"] --> P["Planner"]
+    P --> PL["Structured Plan"]
+    PL --> E["Task Executor"]
+    E --> T["Tools / External Environment"]
+    T --> E
+    E --> V["Verifier / Evaluator"]
+    V -->|"通过"| F["Finalizer"]
+    V -->|"失败、信息不足或环境变化"| R["Replanner"]
+    R --> PL
+    F --> A["Final Answer"]</template><p>课程图片展示的是带 <code>Replan</code> 的完整 Plan-and-Solve 闭环；当前 Notebook 实际实现的是简化版：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Planner → Executor（串行执行）→ 返回最后一步结果</span></span></code></pre></td></tr></table>
+</div>
+</div><p>它<strong>没有真正实现 Replanner、工具调用、结果校验和最终答案合成器</strong>。这是理解代码时最重要的边界。</p>
+<hr>
+<h2 id="3-notebook-整体结构" class="heading-element"><span>3. Notebook 整体结构</span>
+  <a href="#3-notebook-%e6%95%b4%e4%bd%93%e7%bb%93%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>模块</th>
+          <th>主要职责</th>
+          <th>输入</th>
+          <th>输出</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>LLMProxy</code></td>
+          <td>封装兼容 OpenAI 接口的模型调用</td>
+          <td><code>messages</code></td>
+          <td>模型文本</td>
+      </tr>
+      <tr>
+          <td><code>Planner</code></td>
+          <td>将复杂问题拆成步骤列表</td>
+          <td>原始问题</td>
+          <td><code>list[str]</code></td>
+      </tr>
+      <tr>
+          <td><code>Executor</code></td>
+          <td>串行执行每个步骤</td>
+          <td>问题、计划、历史</td>
+          <td>最后一步文本</td>
+      </tr>
+      <tr>
+          <td><code>PlanAndSolveAgent</code></td>
+          <td>编排规划和执行流程</td>
+          <td>原始问题</td>
+          <td>打印最终结果</td>
+      </tr>
+  </tbody>
+</table>
+<p>调用链如下：</p>
+<pre class="mermaid">sequenceDiagram
+    participant U as User
+    participant A as PlanAndSolveAgent
+    participant P as Planner
+    participant E as Executor
+    participant L as LLMProxy
+
+    U->>A: run(question)
+    A->>P: plan(question)
+    P->>L: think(planner_messages)
+    L-->>P: Python 列表文本
+    P-->>A: plan: list[str]
+
+    loop 对每个步骤
+        A->>E: execute(question, plan)
+        E->>L: think(question + plan + history + current_step)
+        L-->>E: 当前步骤结果
+        E->>E: 追加到 history
+    end
+
+    E-->>A: final_answer
+    A-->>U: 打印最终答案</pre>
+<template>sequenceDiagram
+    participant U as User
+    participant A as PlanAndSolveAgent
+    participant P as Planner
+    participant E as Executor
+    participant L as LLMProxy
+
+    U->>A: run(question)
+    A->>P: plan(question)
+    P->>L: think(planner_messages)
+    L-->>P: Python 列表文本
+    P-->>A: plan: list[str]
+
+    loop 对每个步骤
+        A->>E: execute(question, plan)
+        E->>L: think(question + plan + history + current_step)
+        L-->>E: 当前步骤结果
+        E->>E: 追加到 history
+    end
+
+    E-->>A: final_answer
+    A-->>U: 打印最终答案</template><hr>
+<h2 id="4-llmproxy模型访问层" class="heading-element"><span>4. <code>LLMProxy</code>：模型访问层</span>
+  <a href="#4-llmproxy%e6%a8%a1%e5%9e%8b%e8%ae%bf%e9%97%ae%e5%b1%82" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><code>llm_client.py</code> 负责把底层模型服务封装为统一接口：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">chat</span><span class="o">.</span><span class="n">completions</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>主要特点：</p>
+<ul>
+<li>从参数或 <code>.env</code> 加载 <code>MODEL_ID</code>、<code>API_KEY</code>、<code>BASE_URL</code> 和 <code>TIMEOUT</code>；</li>
+<li>使用兼容 OpenAI Chat Completions 的接口；</li>
+<li>默认 <code>temperature=0</code>，减少计划格式和答案的随机漂移；</li>
+<li>使用流式响应，同时收集完整文本；</li>
+<li>模型调用失败时捕获异常并返回 <code>None</code>。</li>
+</ul>
+<p>这一层只负责“请求模型”，并不知道 Planner、Executor 或 Agent 的业务语义，符合基础的分层思想。</p>
+<h3 id="面试中的工程追问" class="heading-element"><span>面试中的工程追问</span>
+  <a href="#%e9%9d%a2%e8%af%95%e4%b8%ad%e7%9a%84%e5%b7%a5%e7%a8%8b%e8%bf%bd%e9%97%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>当前异常处理策略偏弱：<code>think()</code> 失败后返回 <code>None</code>，上层通过 <code>or &quot;&quot;</code> 把它变成空字符串。Planner 会解析失败并终止，但 Executor 会把空结果写入历史并继续执行。</p>
+<p>生产环境更合理的做法是：</p>
+<ul>
+<li>区分超时、限流、服务端错误和不可重试错误；</li>
+<li>对可重试错误使用指数退避与抖动；</li>
+<li>为每次调用设置 request ID、耗时、Token 数和模型版本；</li>
+<li>达到重试上限后把步骤标记为 <code>FAILED</code>，交给 Replanner 决定重试、替代或终止；</li>
+<li>不要用空字符串掩盖底层失败。</li>
+</ul>
+<hr>
+<h2 id="5-planner-源码拆解" class="heading-element"><span>5. Planner 源码拆解</span>
+  <a href="#5-planner-%e6%ba%90%e7%a0%81%e6%8b%86%e8%a7%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="51-planner-prompt" class="heading-element"><span>5.1 Planner Prompt</span>
+  <a href="#51-planner-prompt" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Planner 的任务约束是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">复杂问题
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">多个简单、独立、可执行、按逻辑顺序排列的子任务
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">Python list[str]</span></span></code></pre></td></tr></table>
+</div>
+</div><p>关键提示词包括：</p>
+<ul>
+<li>设定“AI 规划专家”角色；</li>
+<li>要求子任务简单且可执行；</li>
+<li>要求严格按逻辑顺序；</li>
+<li>强制输出被 <code>```python</code> 包裹的 Python 列表。</li>
+</ul>
+<p>示例问题生成的计划为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;计算周二卖出的苹果数量：15 * 2&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;根据周二的结果，计算周三卖出的苹果数量：周二的数量 - 5&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;将周一、周二和周三卖出的苹果数量相加得到总销售量&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这份计划体现出显式依赖关系：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">周一数量 15
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">计算周二 30
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">计算周三 25
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">汇总 15 + 30 + 25 = 70</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="52-输出解析" class="heading-element"><span>5.2 输出解析</span>
+  <a href="#52-%e8%be%93%e5%87%ba%e8%a7%a3%e6%9e%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">plan_str</span> <span class="o">=</span> <span class="n">response_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;```python&#34;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;```&#34;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">plan</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="n">plan_str</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>ast.literal_eval</code> 相比直接使用 <code>eval</code> 安全得多，因为它只解析 Python 字面量，不会执行任意代码。</p>
+<p>但这套解析仍然脆弱：</p>
+<ul>
+<li>模型漏写 Markdown 代码块会触发 <code>IndexError</code>；</li>
+<li>输出 <code>json</code> 代码块而非 <code>python</code> 代码块会失败；</li>
+<li>列表前后多输出一个代码块，可能截取错误；</li>
+<li>只检查“是不是列表”，没有检查元素是否都是非空字符串；</li>
+<li>没有限制最大步骤数；</li>
+<li>没有表达步骤 ID、依赖关系、工具、完成标准或执行状态。</li>
+</ul>
+<h3 id="53-更适合生产环境的计划结构" class="heading-element"><span>5.3 更适合生产环境的计划结构</span>
+  <a href="#53-%e6%9b%b4%e9%80%82%e5%90%88%e7%94%9f%e4%ba%a7%e7%8e%af%e5%a2%83%e7%9a%84%e8%ae%a1%e5%88%92%e7%bb%93%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不要把协议建立在 Markdown 文本切割上。优先使用原生 Structured Output / JSON Schema：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;goal&#34;</span><span class="p">:</span> <span class="s2">&#34;计算三天苹果总销量&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;steps&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;step_1&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;计算周二销量&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;dependencies&#34;</span><span class="p">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;tool&#34;</span><span class="p">:</span> <span class="s2">&#34;calculator&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;success_criteria&#34;</span><span class="p">:</span> <span class="s2">&#34;得到一个非负整数&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="s2">&#34;pending&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl">    <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;id&#34;</span><span class="p">:</span> <span class="s2">&#34;step_2&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;计算周三销量&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;dependencies&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;step_1&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;tool&#34;</span><span class="p">:</span> <span class="s2">&#34;calculator&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;success_criteria&#34;</span><span class="p">:</span> <span class="s2">&#34;得到一个非负整数&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">      <span class="nt">&#34;status&#34;</span><span class="p">:</span> <span class="s2">&#34;pending&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>结构化计划的价值：</p>
+<ul>
+<li>可以校验字段和类型；</li>
+<li>可以表示 DAG 依赖和并行执行；</li>
+<li>可以单独重试失败步骤；</li>
+<li>可以持久化、恢复和审计；</li>
+<li>可以计算步骤级成功率与成本；</li>
+<li>更容易接入工作流引擎。</li>
+</ul>
+<hr>
+<h2 id="6-executor-源码拆解" class="heading-element"><span>6. Executor 源码拆解</span>
+  <a href="#6-executor-%e6%ba%90%e7%a0%81%e6%8b%86%e8%a7%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="61-执行器获得的上下文" class="heading-element"><span>6.1 执行器获得的上下文</span>
+  <a href="#61-%e6%89%a7%e8%a1%8c%e5%99%a8%e8%8e%b7%e5%be%97%e7%9a%84%e4%b8%8a%e4%b8%8b%e6%96%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>每一步 Prompt 包含：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">原始问题 + 完整计划 + 历史步骤与结果 + 当前步骤</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对应代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">prompt</span> <span class="o">=</span> <span class="n">EXECUTOR_PROMPT_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">question</span><span class="o">=</span><span class="n">question</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">plan</span><span class="o">=</span><span class="n">plan</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">history</span><span class="o">=</span><span class="n">history</span> <span class="k">if</span> <span class="n">history</span> <span class="k">else</span> <span class="s2">&#34;无&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">current_step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这使模型在执行当前步骤时仍能看到全局目标，也能消费前序结果。</p>
+<h3 id="62-串行执行与状态累积" class="heading-element"><span>6.2 串行执行与状态累积</span>
+  <a href="#62-%e4%b8%b2%e8%a1%8c%e6%89%a7%e8%a1%8c%e4%b8%8e%e7%8a%b6%e6%80%81%e7%b4%af%e7%a7%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">plan</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">response_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_client</span><span class="o">.</span><span class="n">think</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">history</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&#34;步骤 </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="se">\n</span><span class="s2">结果: </span><span class="si">{</span><span class="n">response_text</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">final_answer</span> <span class="o">=</span> <span class="n">response_text</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>当前实现有三个重要特征：</p>
+<ol>
+<li><strong>严格串行</strong>：每一步完成后才执行下一步；</li>
+<li><strong>全量历史回填</strong>：之前所有步骤和结果都进入下一步 Prompt；</li>
+<li><strong>最后一步即最终答案</strong>：循环结束时直接返回最后一次模型输出。</li>
+</ol>
+<h3 id="63-最后一步结果不一定等于最终答案" class="heading-element"><span>6.3 “最后一步结果”不一定等于“最终答案”</span>
+  <a href="#63-%e6%9c%80%e5%90%8e%e4%b8%80%e6%ad%a5%e7%bb%93%e6%9e%9c%e4%b8%8d%e4%b8%80%e5%ae%9a%e7%ad%89%e4%ba%8e%e6%9c%80%e7%bb%88%e7%ad%94%e6%a1%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>当前代码隐含了一个很强的假设：Planner 一定会把最后一步设计为最终汇总。</p>
+<p>如果计划是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="p">[</span><span class="s2">&#34;搜索资料 A&#34;</span><span class="p">,</span> <span class="s2">&#34;搜索资料 B&#34;</span><span class="p">,</span> <span class="s2">&#34;比较 A 和 B&#34;</span><span class="p">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>最后一步可能只给出比较结果，却未按用户要求形成完整报告、附带来源或遵守输出格式。</p>
+<p>更稳健的架构应增加 <code>Finalizer</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">步骤执行结果集合
+</span></span><span class="line"><span class="cl">    ↓
+</span></span><span class="line"><span class="cl">Finalizer：重新对齐原始问题、证据和交付格式
+</span></span><span class="line"><span class="cl">    ↓
+</span></span><span class="line"><span class="cl">最终答案</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Finalizer 至少需要检查：</p>
+<ul>
+<li>是否覆盖用户的所有子问题；</li>
+<li>是否引用了必要证据；</li>
+<li>是否满足格式、语言和长度要求；</li>
+<li>是否存在中间结论互相冲突；</li>
+<li>是否把未验证内容误写成事实。</li>
+</ul>
+<h3 id="64-历史状态的局限" class="heading-element"><span>6.4 历史状态的局限</span>
+  <a href="#64-%e5%8e%86%e5%8f%b2%e7%8a%b6%e6%80%81%e7%9a%84%e5%b1%80%e9%99%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>当前 <code>history</code> 是普通字符串，适合教学，但不适合复杂任务：</p>
+<ul>
+<li>无法可靠查询某一步的状态；</li>
+<li>无法区分模型答案、工具观察、错误信息和人工反馈；</li>
+<li>上下文会随步骤数线性增长；</li>
+<li>某一步输出过长时容易超过上下文窗口；</li>
+<li>外部网页内容直接拼接时会引入 Prompt Injection 风险；</li>
+<li>失败后无法从检查点恢复。</li>
+</ul>
+<p>更合理的状态可以定义为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">StepResult</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">step_id</span><span class="p">:</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl">    <span class="n">status</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&#34;pending&#34;</span><span class="p">,</span> <span class="s2">&#34;running&#34;</span><span class="p">,</span> <span class="s2">&#34;succeeded&#34;</span><span class="p">,</span> <span class="s2">&#34;failed&#34;</span><span class="p">,</span> <span class="s2">&#34;skipped&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">output</span><span class="p">:</span> <span class="n">Any</span> <span class="o">|</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">    <span class="n">error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">    <span class="n">evidence</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">started_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">    <span class="n">finished_at</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">    <span class="n">retry_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="7-agent-编排逻辑" class="heading-element"><span>7. Agent 编排逻辑</span>
+  <a href="#7-agent-%e7%bc%96%e6%8e%92%e9%80%bb%e8%be%91" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><code>PlanAndSolveAgent</code> 负责组合 Planner 和 Executor：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">plan</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">planner</span><span class="o">.</span><span class="n">plan</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="ow">not</span> <span class="n">plan</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span>
+</span></span><span class="line"><span class="cl"><span class="n">final_answer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">executor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">plan</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>它体现了最基础的 Agent Runtime 思想：</p>
+<ul>
+<li>LLM 不是完整的 Agent；</li>
+<li>Planner 和 Executor 是由 LLM 驱动的能力模块；</li>
+<li>Python 宿主程序负责状态、控制流、错误处理和终止条件；</li>
+<li>真正的 Agent 是“模型 + Prompt + 状态 + 工具 + 控制循环”的组合。</li>
+</ul>
+<p>当前 <code>run()</code> 只打印结果，没有返回值。这会降低可组合性和可测试性。工程中通常应返回结构化运行结果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">AgentResult</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">run_id</span><span class="p">:</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl">    <span class="n">status</span><span class="p">:</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl">    <span class="n">plan</span><span class="p">:</span> <span class="n">Plan</span>
+</span></span><span class="line"><span class="cl">    <span class="n">step_results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">StepResult</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">final_answer</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">    <span class="n">usage</span><span class="p">:</span> <span class="n">Usage</span></span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="8-示例运行全过程" class="heading-element"><span>8. 示例运行全过程</span>
+  <a href="#8-%e7%a4%ba%e4%be%8b%e8%bf%90%e8%a1%8c%e5%85%a8%e8%bf%87%e7%a8%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>原始问题：</p>
+<blockquote>
+<p>周一卖出 15 个苹果；周二是周一的两倍；周三比周二少 5 个。三天共卖出多少？</p>
+</blockquote>
+<p>执行轨迹：</p>
+<table>
+  <thead>
+      <tr>
+          <th>阶段</th>
+          <th>当前任务</th>
+          <th>可用历史</th>
+          <th>输出</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Plan</td>
+          <td>拆解问题</td>
+          <td>原始问题</td>
+          <td>3 个步骤</td>
+      </tr>
+      <tr>
+          <td>Step 1</td>
+          <td><code>15 × 2</code></td>
+          <td>无</td>
+          <td>周二 <code>30</code></td>
+      </tr>
+      <tr>
+          <td>Step 2</td>
+          <td><code>周二 - 5</code></td>
+          <td>Step 1 = 30</td>
+          <td>周三 <code>25</code></td>
+      </tr>
+      <tr>
+          <td>Step 3</td>
+          <td>汇总三天销量</td>
+          <td>Step 1 = 30，Step 2 = 25</td>
+          <td><code>70</code></td>
+      </tr>
+  </tbody>
+</table>
+<p>最终结果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">15 + 30 + 25 = 70</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个例子可以验证控制流，但不足以证明 Agent 已经具备生产能力：它没有调用计算器工具、没有校验结果，也没有触发动态重规划。对于如此简单的问题，三次执行调用加一次规划调用还会明显增加成本和延迟。</p>
+<hr>
+<h2 id="9-plan-and-solve-的优势" class="heading-element"><span>9. Plan-and-Solve 的优势</span>
+  <a href="#9-plan-and-solve-%e7%9a%84%e4%bc%98%e5%8a%bf" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>结合课程图片与当前代码，可以把优势总结为四点。</p>
+<h3 id="91-提升复杂任务的可靠性" class="heading-element"><span>9.1 提升复杂任务的可靠性</span>
+  <a href="#91-%e6%8f%90%e5%8d%87%e5%a4%8d%e6%9d%82%e4%bb%bb%e5%8a%a1%e7%9a%84%e5%8f%af%e9%9d%a0%e6%80%a7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>复杂问题被拆成小步骤后，每次模型只处理局部目标，能够减少：</p>
+<ul>
+<li>漏掉中间条件；</li>
+<li>计算步骤跳跃；</li>
+<li>长任务中目标漂移；</li>
+<li>一次性生成导致的前后矛盾。</li>
+</ul>
+<p>但要注意：<strong>分解只是在统计上提升可靠性，不代表必然正确</strong>。错误计划仍可能被执行器“忠实地执行到底”。</p>
+<h3 id="92-更强的任务分解能力" class="heading-element"><span>9.2 更强的任务分解能力</span>
+  <a href="#92-%e6%9b%b4%e5%bc%ba%e7%9a%84%e4%bb%bb%e5%8a%a1%e5%88%86%e8%a7%a3%e8%83%bd%e5%8a%9b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>规划器可以把大任务映射成子任务序列或 DAG，符合工程领域的分治思想：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">复杂目标 → 子目标 → 可执行动作 → 局部结果 → 最终交付</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果步骤之间没有依赖，还可以并行执行，提高吞吐量。</p>
+<h3 id="93-更好的可观察性与可调试性" class="heading-element"><span>9.3 更好的可观察性与可调试性</span>
+  <a href="#93-%e6%9b%b4%e5%a5%bd%e7%9a%84%e5%8f%af%e8%a7%82%e5%af%9f%e6%80%a7%e4%b8%8e%e5%8f%af%e8%b0%83%e8%af%95%e6%80%a7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>相比直接问答，Plan-and-Solve 能记录：</p>
+<ul>
+<li>生成了什么计划；</li>
+<li>当前执行到哪一步；</li>
+<li>每一步产生了什么结果；</li>
+<li>哪一步失败；</li>
+<li>是否发生重试或重规划；</li>
+<li>每一步消耗了多少 Token 和时间。</li>
+</ul>
+<p>这使开发者可以定位问题究竟来自 Planner、Executor、Tool，还是 Finalizer。</p>
+<h3 id="94-更灵活的资源分配" class="heading-element"><span>9.4 更灵活的资源分配</span>
+  <a href="#94-%e6%9b%b4%e7%81%b5%e6%b4%bb%e7%9a%84%e8%b5%84%e6%ba%90%e5%88%86%e9%85%8d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不同阶段可以使用不同模型和工具：</p>
+<ul>
+<li>Planner：使用推理能力更强的模型；</li>
+<li>简单步骤：使用更便宜、更快的模型；</li>
+<li>数学问题：调用计算器或代码执行器；</li>
+<li>检索步骤：调用搜索、数据库或 RAG；</li>
+<li>Finalizer：使用擅长长文本组织的模型。</li>
+</ul>
+<p>这是一种典型的模型路由与成本优化方式。</p>
+<hr>
+<h2 id="10-劣势与风险" class="heading-element"><span>10. 劣势与风险</span>
+  <a href="#10-%e5%8a%a3%e5%8a%bf%e4%b8%8e%e9%a3%8e%e9%99%a9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="101-高度依赖规划质量" class="heading-element"><span>10.1 高度依赖规划质量</span>
+  <a href="#101-%e9%ab%98%e5%ba%a6%e4%be%9d%e8%b5%96%e8%a7%84%e5%88%92%e8%b4%a8%e9%87%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Plan-and-Solve 的典型风险是级联错误：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">错误理解问题
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">生成错误或不完整计划
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">执行器逐步放大错误
+</span></span><span class="line"><span class="cl">   ↓
+</span></span><span class="line"><span class="cl">得到看似完整但方向错误的答案</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因此不能只评估最终答案，还要评估：计划覆盖率、依赖正确率和步骤可执行率。</p>
+<h3 id="102-状态管理复杂" class="heading-element"><span>10.2 状态管理复杂</span>
+  <a href="#102-%e7%8a%b6%e6%80%81%e7%ae%a1%e7%90%86%e5%a4%8d%e6%9d%82" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>引入 Replan 后，需要管理：</p>
+<ul>
+<li>已完成、进行中、失败和跳过的步骤；</li>
+<li>新旧计划之间的映射；</li>
+<li>已产生结果是否仍然有效；</li>
+<li>是否需要回滚有副作用的操作；</li>
+<li>多个并行步骤之间的数据一致性；</li>
+<li>断点恢复、幂等和重复执行。</li>
+</ul>
+<p>对于“发邮件、退款、改数据库”等有副作用的动作，重试绝不能只是再次调用一次，必须有幂等键、审批或补偿机制。</p>
+<h3 id="103-成本和延迟增加" class="heading-element"><span>10.3 成本和延迟增加</span>
+  <a href="#103-%e6%88%90%e6%9c%ac%e5%92%8c%e5%bb%b6%e8%bf%9f%e5%a2%9e%e5%8a%a0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>假设规划调用一次，执行 <code>n</code> 个步骤，最终合成一次，则至少需要：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">模型调用次数 ≈ 1 + n + 1</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果加入验证、失败重试和重规划，调用次数会继续增长。因此应设置：</p>
+<ul>
+<li>最大步骤数；</li>
+<li>最大重规划次数；</li>
+<li>最大 Token / 金额预算；</li>
+<li>单步骤和全局超时；</li>
+<li>简单问题跳过规划的路由策略。</li>
+</ul>
+<h3 id="104-计划可能在执行前就已过时" class="heading-element"><span>10.4 计划可能在执行前就已过时</span>
+  <a href="#104-%e8%ae%a1%e5%88%92%e5%8f%af%e8%83%bd%e5%9c%a8%e6%89%a7%e8%a1%8c%e5%89%8d%e5%b0%b1%e5%b7%b2%e8%bf%87%e6%97%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>对于动态环境，一次性生成完整计划可能不现实。例如网页结构变化、库存变化、搜索结果不足、工具权限受限。此时纯开环的 Plan-and-Solve 不如带观察反馈的闭环 Agent。</p>
+<hr>
+<h2 id="11-适用与不适用场景" class="heading-element"><span>11. 适用与不适用场景</span>
+  <a href="#11-%e9%80%82%e7%94%a8%e4%b8%8e%e4%b8%8d%e9%80%82%e7%94%a8%e5%9c%ba%e6%99%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="111-适用场景" class="heading-element"><span>11.1 适用场景</span>
+  <a href="#111-%e9%80%82%e7%94%a8%e5%9c%ba%e6%99%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>课程图片强调了两类典型任务：</p>
+<ol>
+<li><strong>多步数学或逻辑应用题</strong>：步骤依赖清晰，适合先分解再计算；</li>
+<li><strong>整合多个信息源的报告撰写</strong>：先规划调研维度，再分别检索、比较和汇总。</li>
+</ol>
+<p>还包括：</p>
+<ul>
+<li>Deep Research；</li>
+<li>代码仓库分析与分阶段修改；</li>
+<li>数据分析报告；</li>
+<li>旅行或项目方案制定；</li>
+<li>多系统业务流程；</li>
+<li>有明确阶段和验收标准的长任务。</li>
+</ul>
+<h3 id="112-不适用或收益较低的场景" class="heading-element"><span>11.2 不适用或收益较低的场景</span>
+  <a href="#112-%e4%b8%8d%e9%80%82%e7%94%a8%e6%88%96%e6%94%b6%e7%9b%8a%e8%be%83%e4%bd%8e%e7%9a%84%e5%9c%ba%e6%99%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>简单事实问答；</li>
+<li>一步即可完成的格式转换；</li>
+<li>极低延迟对话；</li>
+<li>环境高度动态、每一步都必须立即观察后再决定下一步；</li>
+<li>高风险且不可逆、但系统又缺少审批和事务保障的操作。</li>
+</ul>
+<p>面试中可以回答：</p>
+<blockquote>
+<p>我不会默认所有请求都走 Plan-and-Solve。工程上应先做复杂度路由：简单请求直接回答，需要频繁环境反馈的任务走 ReAct，结构清晰的长任务走 Plan-and-Solve，高风险写操作再叠加审批、幂等和补偿机制。</p>
+</blockquote>
+<hr>
+<h2 id="12-plan-and-solvereactreflection-的区别" class="heading-element"><span>12. Plan-and-Solve、ReAct、Reflection 的区别</span>
+  <a href="#12-plan-and-solvereactreflection-%e7%9a%84%e5%8c%ba%e5%88%ab" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>范式</th>
+          <th>核心机制</th>
+          <th>计划生成时机</th>
+          <th>环境反馈</th>
+          <th>主要优势</th>
+          <th>典型场景</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Direct / CoT</td>
+          <td>一次性回答或内部逐步推理</td>
+          <td>无显式计划</td>
+          <td>通常没有</td>
+          <td>快、成本低</td>
+          <td>简单问答、短推理</td>
+      </tr>
+      <tr>
+          <td>Plan-and-Solve</td>
+          <td>先规划，再逐步执行</td>
+          <td>执行前生成较完整计划</td>
+          <td>可选</td>
+          <td>全局结构强、可观察</td>
+          <td>长流程、报告、多步计算</td>
+      </tr>
+      <tr>
+          <td>ReAct</td>
+          <td>Thought → Action → Observation 循环</td>
+          <td>每轮决定下一步</td>
+          <td>强</td>
+          <td>适应动态环境</td>
+          <td>搜索、网页操作、工具交互</td>
+      </tr>
+      <tr>
+          <td>Reflection</td>
+          <td>生成后自我批评与修正</td>
+          <td>可在执行后追加</td>
+          <td>可选</td>
+          <td>改善答案质量</td>
+          <td>代码审查、写作、结果纠错</td>
+      </tr>
+  </tbody>
+</table>
+<p>三者并不互斥，一个成熟 Agent 可以组合为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Plan
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">每个步骤内部使用 ReAct 调工具
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">Verifier / Reflection 检查结果
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">必要时 Replan
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">Finalizer</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="13-当前实现与完整-plan-and-solve的差距" class="heading-element"><span>13. 当前实现与“完整 Plan-and-Solve”的差距</span>
+  <a href="#13-%e5%bd%93%e5%89%8d%e5%ae%9e%e7%8e%b0%e4%b8%8e%e5%ae%8c%e6%95%b4-plan-and-solve%e7%9a%84%e5%b7%ae%e8%b7%9d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>能力</th>
+          <th>当前 Notebook</th>
+          <th>生产级方向</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>计划格式</td>
+          <td>Markdown 中的 Python 列表</td>
+          <td>JSON Schema / Typed Plan</td>
+      </tr>
+      <tr>
+          <td>步骤依赖</td>
+          <td>依赖列表顺序隐式表达</td>
+          <td>显式 DAG dependencies</td>
+      </tr>
+      <tr>
+          <td>执行方式</td>
+          <td>全部串行</td>
+          <td>按依赖并行 + 并发限制</td>
+      </tr>
+      <tr>
+          <td>工具调用</td>
+          <td>无</td>
+          <td>原生 Tool Calling + 权限控制</td>
+      </tr>
+      <tr>
+          <td>重规划</td>
+          <td>无</td>
+          <td>基于明确触发条件修改剩余计划</td>
+      </tr>
+      <tr>
+          <td>步骤校验</td>
+          <td>无</td>
+          <td>success criteria + verifier</td>
+      </tr>
+      <tr>
+          <td>失败处理</td>
+          <td>空字符串或终止</td>
+          <td>分类重试、降级、替代、人工介入</td>
+      </tr>
+      <tr>
+          <td>最终答案</td>
+          <td>最后一步输出</td>
+          <td>独立 Finalizer 汇总</td>
+      </tr>
+      <tr>
+          <td>状态</td>
+          <td>普通字符串</td>
+          <td>类型化状态 + 持久化 checkpoint</td>
+      </tr>
+      <tr>
+          <td>可观测性</td>
+          <td><code>print</code></td>
+          <td>trace、日志、指标、Token 与成本</td>
+      </tr>
+      <tr>
+          <td>安全</td>
+          <td>无专门设计</td>
+          <td>工具白名单、参数校验、审批、沙箱</td>
+      </tr>
+      <tr>
+          <td>预算控制</td>
+          <td>无</td>
+          <td>步骤、Token、时间、金额上限</td>
+      </tr>
+  </tbody>
+</table>
+<p>如果面试官问“这份代码算不算 Agent”，可以回答：</p>
+<blockquote>
+<p>它是一个最小化的 Agent 编排示例，已经包含目标分解、状态传递和控制流，但更准确地说是一个 LLM 驱动的串行工作流。因为它缺少工具—环境交互、动态决策、重规划、验证和持久化状态，自主性与鲁棒性仍然有限。</p>
+</blockquote>
+<hr>
+<h2 id="14-replan-应该如何设计" class="heading-element"><span>14. Replan 应该如何设计</span>
+  <a href="#14-replan-%e5%ba%94%e8%af%a5%e5%a6%82%e4%bd%95%e8%ae%be%e8%ae%a1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="141-触发条件" class="heading-element"><span>14.1 触发条件</span>
+  <a href="#141-%e8%a7%a6%e5%8f%91%e6%9d%a1%e4%bb%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不要让模型每一步都随意重规划，否则计划会频繁漂移。可以在以下条件触发：</p>
+<ul>
+<li>当前步骤调用工具失败且重试耗尽；</li>
+<li>当前步骤的前置条件不成立；</li>
+<li>Verifier 判断结果未达到 <code>success_criteria</code>；</li>
+<li>获得的新信息推翻了计划假设；</li>
+<li>用户中途修改目标；</li>
+<li>剩余预算不足，需要缩减任务；</li>
+<li>检测到计划循环、重复或不可执行。</li>
+</ul>
+<h3 id="142-重规划原则" class="heading-element"><span>14.2 重规划原则</span>
+  <a href="#142-%e9%87%8d%e8%a7%84%e5%88%92%e5%8e%9f%e5%88%99" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>已验证且仍有效的步骤结果尽量复用；</li>
+<li>默认只修改未完成的计划后缀；</li>
+<li>记录修改原因和新旧步骤映射；</li>
+<li>限制最大重规划次数；</li>
+<li>有副作用的已执行步骤不能简单“删除”，需要补偿或人工审批；</li>
+<li>重规划后再次进行结构和依赖校验。</li>
+</ul>
+<h3 id="143-简化伪代码" class="heading-element"><span>14.3 简化伪代码</span>
+  <a href="#143-%e7%ae%80%e5%8c%96%e4%bc%aa%e4%bb%a3%e7%a0%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">state</span> <span class="o">=</span> <span class="n">create_initial_state</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">state</span><span class="o">.</span><span class="n">plan</span> <span class="o">=</span> <span class="n">planner</span><span class="o">.</span><span class="n">create_plan</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">while</span> <span class="ow">not</span> <span class="n">state</span><span class="o">.</span><span class="n">finished</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">step</span> <span class="o">=</span> <span class="n">scheduler</span><span class="o">.</span><span class="n">next_ready_step</span><span class="p">(</span><span class="n">state</span><span class="o">.</span><span class="n">plan</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">step</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">result</span> <span class="o">=</span> <span class="n">executor</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">verdict</span> <span class="o">=</span> <span class="n">verifier</span><span class="o">.</span><span class="n">check</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">verdict</span><span class="o">.</span><span class="n">passed</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">state</span><span class="o">.</span><span class="n">mark_succeeded</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">elif</span> <span class="n">verdict</span><span class="o">.</span><span class="n">retryable</span> <span class="ow">and</span> <span class="n">step</span><span class="o">.</span><span class="n">retry_count</span> <span class="o">&lt;</span> <span class="n">MAX_RETRIES</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">state</span><span class="o">.</span><span class="n">mark_for_retry</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">verdict</span><span class="o">.</span><span class="n">reason</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">state</span><span class="o">.</span><span class="n">plan</span> <span class="o">=</span> <span class="n">replanner</span><span class="o">.</span><span class="n">revise_remaining_plan</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">state</span><span class="o">=</span><span class="n">state</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">failed_step</span><span class="o">=</span><span class="n">step</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">reason</span><span class="o">=</span><span class="n">verdict</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">return</span> <span class="n">finalizer</span><span class="o">.</span><span class="n">compose</span><span class="p">(</span><span class="n">state</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="15-如何把-notebook-改造成更可靠的-agent" class="heading-element"><span>15. 如何把 Notebook 改造成更可靠的 Agent</span>
+  <a href="#15-%e5%a6%82%e4%bd%95%e6%8a%8a-notebook-%e6%94%b9%e9%80%a0%e6%88%90%e6%9b%b4%e5%8f%af%e9%9d%a0%e7%9a%84-agent" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>建议按以下优先级演进。</p>
+<h3 id="第一阶段让接口可测试" class="heading-element"><span>第一阶段：让接口可测试</span>
+  <a href="#%e7%ac%ac%e4%b8%80%e9%98%b6%e6%ae%b5%e8%ae%a9%e6%8e%a5%e5%8f%a3%e5%8f%af%e6%b5%8b%e8%af%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><code>run()</code> 返回 <code>AgentResult</code>，不要只 <code>print</code>；</li>
+<li>将日志和业务结果分离；</li>
+<li>为 Planner 和 Executor 注入可替换的模型客户端；</li>
+<li>使用固定假模型编写单元测试；</li>
+<li>校验空计划、超长计划、非法步骤和模型超时。</li>
+</ul>
+<h3 id="第二阶段结构化协议" class="heading-element"><span>第二阶段：结构化协议</span>
+  <a href="#%e7%ac%ac%e4%ba%8c%e9%98%b6%e6%ae%b5%e7%bb%93%e6%9e%84%e5%8c%96%e5%8d%8f%e8%ae%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>使用 JSON Schema / Pydantic 定义计划和步骤结果；</li>
+<li>给每个步骤增加 ID、依赖、状态和完成标准；</li>
+<li>限制最大步骤数与每步输出长度；</li>
+<li>使用原生 Tool Calling，避免自由文本解析动作。</li>
+</ul>
+<h3 id="第三阶段闭环控制" class="heading-element"><span>第三阶段：闭环控制</span>
+  <a href="#%e7%ac%ac%e4%b8%89%e9%98%b6%e6%ae%b5%e9%97%ad%e7%8e%af%e6%8e%a7%e5%88%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>增加 Verifier；</li>
+<li>增加 Replanner；</li>
+<li>增加独立 Finalizer；</li>
+<li>对失败分类处理：retry、fallback、replan、human-in-the-loop、abort；</li>
+<li>对简单任务增加 fast path，跳过规划。</li>
+</ul>
+<h3 id="第四阶段生产治理" class="heading-element"><span>第四阶段：生产治理</span>
+  <a href="#%e7%ac%ac%e5%9b%9b%e9%98%b6%e6%ae%b5%e7%94%9f%e4%ba%a7%e6%b2%bb%e7%90%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>持久化 checkpoint，支持断点恢复；</li>
+<li>增加全链路 trace 和步骤级指标；</li>
+<li>对工具设置权限、超时、沙箱和审批；</li>
+<li>为外部写操作提供幂等键与补偿机制；</li>
+<li>设置 Token、时间、调用次数和金额预算；</li>
+<li>做 Prompt Injection、越权调用和敏感信息泄漏防护。</li>
+</ul>
+<hr>
+<h2 id="16-测试与评估指标" class="heading-element"><span>16. 测试与评估指标</span>
+  <a href="#16-%e6%b5%8b%e8%af%95%e4%b8%8e%e8%af%84%e4%bc%b0%e6%8c%87%e6%a0%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="161-不要只看最终答案准确率" class="heading-element"><span>16.1 不要只看最终答案准确率</span>
+  <a href="#161-%e4%b8%8d%e8%a6%81%e5%8f%aa%e7%9c%8b%e6%9c%80%e7%bb%88%e7%ad%94%e6%a1%88%e5%87%86%e7%a1%ae%e7%8e%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Plan-and-Solve 至少要分层评估：</p>
+<table>
+  <thead>
+      <tr>
+          <th>层级</th>
+          <th>指标示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Planner</td>
+          <td>计划覆盖率、步骤可执行率、依赖正确率、冗余步骤率</td>
+      </tr>
+      <tr>
+          <td>Executor</td>
+          <td>单步骤成功率、工具调用成功率、重试率、平均延迟</td>
+      </tr>
+      <tr>
+          <td>Replanner</td>
+          <td>重规划成功率、无效重规划率、平均重规划次数</td>
+      </tr>
+      <tr>
+          <td>Finalizer</td>
+          <td>需求覆盖率、事实一致性、引用完整率、格式遵循率</td>
+      </tr>
+      <tr>
+          <td>系统整体</td>
+          <td>任务完成率、端到端延迟、Token/成本、人工接管率</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="162-测试集应覆盖" class="heading-element"><span>16.2 测试集应覆盖</span>
+  <a href="#162-%e6%b5%8b%e8%af%95%e9%9b%86%e5%ba%94%e8%a6%86%e7%9b%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>简单任务：验证是否能走 fast path；</li>
+<li>顺序依赖任务：前一步输出是后一步输入；</li>
+<li>可并行任务：验证 DAG 调度；</li>
+<li>工具超时、空结果和错误结果；</li>
+<li>计划缺步骤、重复步骤或循环依赖；</li>
+<li>中途修改用户目标；</li>
+<li>上下文超长；</li>
+<li>外部内容包含恶意指令；</li>
+<li>有副作用动作的重复执行；</li>
+<li>Agent 在预算耗尽前能否安全终止。</li>
+</ul>
+<hr>
+<h2 id="17-高频面试题与参考回答" class="heading-element"><span>17. 高频面试题与参考回答</span>
+  <a href="#17-%e9%ab%98%e9%a2%91%e9%9d%a2%e8%af%95%e9%a2%98%e4%b8%8e%e5%8f%82%e8%80%83%e5%9b%9e%e7%ad%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="q1plan-and-solve-和-chain-of-thought-有什么区别" class="heading-element"><span>Q1：Plan-and-Solve 和 Chain-of-Thought 有什么区别？</span>
+  <a href="#q1plan-and-solve-%e5%92%8c-chain-of-thought-%e6%9c%89%e4%bb%80%e4%b9%88%e5%8c%ba%e5%88%ab" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>CoT 主要通过中间推理改善单次回答；Plan-and-Solve 把“规划”和“执行”拆成显式阶段，并由宿主程序维护步骤、历史和控制流。后者更容易加入工具、重试、并行、状态持久化和可观测性，更接近 Agent Runtime。</p>
+<h3 id="q2plan-and-solve-为什么可能比直接回答更可靠" class="heading-element"><span>Q2：Plan-and-Solve 为什么可能比直接回答更可靠？</span>
+  <a href="#q2plan-and-solve-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%8f%af%e8%83%bd%e6%af%94%e7%9b%b4%e6%8e%a5%e5%9b%9e%e7%ad%94%e6%9b%b4%e5%8f%af%e9%9d%a0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>它降低了单次推理复杂度，并让每个局部结果可检查。但可靠性提升不是无条件的：如果 Planner 漏步骤或依赖错误，执行器会产生级联错误，所以还需要计划校验、步骤验证和 Replan。</p>
+<h3 id="q3为什么不能把所有任务都先规划" class="heading-element"><span>Q3：为什么不能把所有任务都先规划？</span>
+  <a href="#q3%e4%b8%ba%e4%bb%80%e4%b9%88%e4%b8%8d%e8%83%bd%e6%8a%8a%e6%89%80%e6%9c%89%e4%bb%bb%e5%8a%a1%e9%83%bd%e5%85%88%e8%a7%84%e5%88%92" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>规划会增加一次模型调用，分步执行还会增加延迟和 Token。对于简单问答，规划收益可能小于成本，因此需要复杂度分类和 fast path。</p>
+<h3 id="q4什么时候用-plan-and-solve什么时候用-react" class="heading-element"><span>Q4：什么时候用 Plan-and-Solve，什么时候用 ReAct？</span>
+  <a href="#q4%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e7%94%a8-plan-and-solve%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e7%94%a8-react" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>任务结构相对稳定、可以提前拆解时使用 Plan-and-Solve；环境不确定、下一步强依赖实时 Observation 时使用 ReAct。工程上常把二者结合：先生成高层计划，每个步骤内部用 ReAct 完成工具交互。</p>
+<h3 id="q5如何防止错误计划一路执行到底" class="heading-element"><span>Q5：如何防止错误计划一路执行到底？</span>
+  <a href="#q5%e5%a6%82%e4%bd%95%e9%98%b2%e6%ad%a2%e9%94%99%e8%af%af%e8%ae%a1%e5%88%92%e4%b8%80%e8%b7%af%e6%89%a7%e8%a1%8c%e5%88%b0%e5%ba%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>在执行前做计划结构校验；为每个步骤定义完成标准；执行后使用程序规则或独立 Verifier 验证；失败时按策略重试、替代工具或 Replan；最终由 Finalizer 重新对齐原始问题。</p>
+<h3 id="q6如何处理上下文越来越长" class="heading-element"><span>Q6：如何处理上下文越来越长？</span>
+  <a href="#q6%e5%a6%82%e4%bd%95%e5%a4%84%e7%90%86%e4%b8%8a%e4%b8%8b%e6%96%87%e8%b6%8a%e6%9d%a5%e8%b6%8a%e9%95%bf" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不要无限拼接字符串。使用结构化状态保存完整记录，只向模型选择性提供当前步骤所需的依赖结果；对长结果做摘要或存入外部存储，通过引用检索；设置上下文和输出预算。</p>
+<h3 id="q7如何支持并行执行" class="heading-element"><span>Q7：如何支持并行执行？</span>
+  <a href="#q7%e5%a6%82%e4%bd%95%e6%94%af%e6%8c%81%e5%b9%b6%e8%a1%8c%e6%89%a7%e8%a1%8c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>把计划从线性列表升级为 DAG。调度器选择所有依赖已完成的 ready steps，在并发上限内执行；汇总结果后再解锁后继节点。并行前要检查工具限流、共享资源和写操作冲突。</p>
+<h3 id="q8planner-和-executor-应该用同一个模型吗" class="heading-element"><span>Q8：Planner 和 Executor 应该用同一个模型吗？</span>
+  <a href="#q8planner-%e5%92%8c-executor-%e5%ba%94%e8%af%a5%e7%94%a8%e5%90%8c%e4%b8%80%e4%b8%aa%e6%a8%a1%e5%9e%8b%e5%90%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不一定。Planner 更需要全局推理和任务分解能力，Executor 可能只需完成局部任务。可以用强模型规划、便宜模型执行简单步骤，并按任务难度动态路由。最终选择要通过质量、延迟和成本评测确定。</p>
+<h3 id="q9为什么当前代码的-astliteral_eval-仍不够好" class="heading-element"><span>Q9：为什么当前代码的 <code>ast.literal_eval</code> 仍不够好？</span>
+  <a href="#q9%e4%b8%ba%e4%bb%80%e4%b9%88%e5%bd%93%e5%89%8d%e4%bb%a3%e7%a0%81%e7%9a%84-astliteral_eval-%e4%bb%8d%e4%b8%8d%e5%a4%9f%e5%a5%bd" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>它解决了直接 <code>eval</code> 的代码执行风险，但没有解决输出协议脆弱、字段缺失、类型约束不足和格式漂移。生产环境应优先使用模型原生的 Structured Output / JSON Schema，并在宿主程序中做严格校验。</p>
+<h3 id="q10如何保证失败重试不会重复产生副作用" class="heading-element"><span>Q10：如何保证失败重试不会重复产生副作用？</span>
+  <a href="#q10%e5%a6%82%e4%bd%95%e4%bf%9d%e8%af%81%e5%a4%b1%e8%b4%a5%e9%87%8d%e8%af%95%e4%b8%8d%e4%bc%9a%e9%87%8d%e5%a4%8d%e4%ba%a7%e7%94%9f%e5%89%af%e4%bd%9c%e7%94%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>读操作可以相对安全地重试；写操作必须使用幂等键、执行前状态检查、事务或补偿机制。高风险操作还应在真正提交前加入人工审批，不能仅依赖 LLM 判断。</p>
+<h3 id="q11如何判断该触发-replan-还是重试" class="heading-element"><span>Q11：如何判断该触发 Replan 还是重试？</span>
+  <a href="#q11%e5%a6%82%e4%bd%95%e5%88%a4%e6%96%ad%e8%af%a5%e8%a7%a6%e5%8f%91-replan-%e8%bf%98%e6%98%af%e9%87%8d%e8%af%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>暂时性基础设施错误，如超时、限流，优先重试；当前工具不可用但目标仍有效，可以切换工具；前提被推翻、步骤不可执行或目标变化时才重规划。需要把错误分类交给确定性策略，而不是完全让模型自由决定。</p>
+<h3 id="q12这份-notebook-最大的三个问题是什么" class="heading-element"><span>Q12：这份 Notebook 最大的三个问题是什么？</span>
+  <a href="#q12%e8%bf%99%e4%bb%bd-notebook-%e6%9c%80%e5%a4%a7%e7%9a%84%e4%b8%89%e4%b8%aa%e9%97%ae%e9%a2%98%e6%98%af%e4%bb%80%e4%b9%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ol>
+<li>计划解析依赖 Markdown 文本切割，协议脆弱；</li>
+<li>没有 Verifier 和 Replanner，执行过程是开环的；</li>
+<li>直接把最后一步当最终答案，缺少独立的结果合成与需求对齐。</li>
+</ol>
+<hr>
+<h2 id="18-面试中的-30-秒回答模板" class="heading-element"><span>18. 面试中的 30 秒回答模板</span>
+  <a href="#18-%e9%9d%a2%e8%af%95%e4%b8%ad%e7%9a%84-30-%e7%a7%92%e5%9b%9e%e7%ad%94%e6%a8%a1%e6%9d%bf" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>Plan-and-Solve 是一种先规划、后执行的 Agent 范式。Planner 先把复杂目标拆成有依赖的可执行步骤，Executor 再结合原始问题、完整计划和历史结果逐步完成任务。它相比直接问答更适合长任务，优势是任务分解、可观察性和资源调度能力更强；主要风险是规划错误会级联传播，状态、成本和延迟也更复杂。生产实现中我会用结构化计划代替文本列表，引入步骤级验证、失败分类、Replan、Finalizer、预算控制和 checkpoint；对于动态环境，还会让每个步骤内部使用 ReAct 调工具。</p>
+</blockquote>
+<hr>
+<h2 id="19-面试时可以主动指出的代码亮点与不足" class="heading-element"><span>19. 面试时可以主动指出的代码亮点与不足</span>
+  <a href="#19-%e9%9d%a2%e8%af%95%e6%97%b6%e5%8f%af%e4%bb%a5%e4%b8%bb%e5%8a%a8%e6%8c%87%e5%87%ba%e7%9a%84%e4%bb%a3%e7%a0%81%e4%ba%ae%e7%82%b9%e4%b8%8e%e4%b8%8d%e8%b6%b3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="亮点" class="heading-element"><span>亮点</span>
+  <a href="#%e4%ba%ae%e7%82%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>Planner 与 Executor 职责分离，结构清晰；</li>
+<li><code>temperature=0</code> 有利于协议稳定；</li>
+<li><code>ast.literal_eval</code> 避免了直接 <code>eval</code>；</li>
+<li>Executor 始终保留原始问题和完整计划，能减少局部执行时的目标漂移；</li>
+<li>用历史结果建立了最小的步骤依赖传递机制。</li>
+</ul>
+<h3 id="不足" class="heading-element"><span>不足</span>
+  <a href="#%e4%b8%8d%e8%b6%b3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><code>List</code>、<code>Dict</code> 等导入未充分使用，接口类型仍较松散；</li>
+<li>Planner 只返回 <code>list[str]</code>，无法表达依赖、状态和完成标准；</li>
+<li>Prompt 全部放在单条 <code>user</code> 消息中，固定规则更适合放在 <code>system</code>；</li>
+<li>Executor 没有工具，数学计算仍由语言模型生成；</li>
+<li>调用失败后可能把空字符串当作步骤结果继续执行；</li>
+<li>没有最大步骤数、重试次数、Token 与时间预算；</li>
+<li>没有 Replan，与课程图片中的完整架构存在差距；</li>
+<li>没有 Finalizer，最后一步输出被直接当成最终答案；</li>
+<li><code>run()</code> 只打印不返回，不利于测试和复用；</li>
+<li>全量历史重复进入 Prompt，任务变长后成本较高。</li>
+</ul>
+<hr>
+<h2 id="20-最终记忆框架" class="heading-element"><span>20. 最终记忆框架</span>
+  <a href="#20-%e6%9c%80%e7%bb%88%e8%ae%b0%e5%bf%86%e6%a1%86%e6%9e%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>可以用下面的“六件套”记住 Plan-and-Solve：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">1. Plan       —— 如何分解目标？
+</span></span><span class="line"><span class="cl">2. State      —— 如何保存步骤、依赖和结果？
+</span></span><span class="line"><span class="cl">3. Execute    —— 如何调用模型、工具或外部系统？
+</span></span><span class="line"><span class="cl">4. Verify     —— 如何判断当前步骤真的完成了？
+</span></span><span class="line"><span class="cl">5. Replan     —— 失败或环境变化后如何调整？
+</span></span><span class="line"><span class="cl">6. Finalize   —— 如何重新对齐用户需求并生成最终交付？</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对应大厂面试最常考的四个工程维度：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">可靠性：结构化输出、验证、重试、Replan
+</span></span><span class="line"><span class="cl">效率：任务路由、模型路由、并行、上下文压缩
+</span></span><span class="line"><span class="cl">安全性：工具权限、参数校验、幂等、审批、沙箱
+</span></span><span class="line"><span class="cl">可运营：Trace、指标、评测、成本、人工接管</span></span></code></pre></td></tr></table>
+</div>
+</div><p>一句话收尾：</p>
+<blockquote>
+<p>Plan-and-Solve 的重点不只是“先列计划再回答”，而是把复杂任务变成一个可调度、可验证、可恢复、可治理的执行过程。</p>
+</blockquote>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-07-23 08:36:00">更新于 2026-07-23&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/mlplan-and-solve/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/agent/" class="post-tag" title="标签 - Agent">Agent</a><a href="/tags/plan-and-solve/" class="post-tag" title="标签 - Plan-and-Solve">Plan-and-Solve</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/mlreflection/" class="post-nav-item" rel="prev" title="Reflection"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Reflection</a><a href="/posts/mlai-agent-%E6%A1%86%E6%9E%B6%E4%B8%8E%E8%8C%83%E5%BC%8F/" class="post-nav-item" rel="next" title="AI Agent 框架与范式">AI Agent 框架与范式<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.3.0/dist/mermaid.esm.min.mjs';
+    
+    
+    
+    window.mermaid = mermaid;
+  </script><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"mermaid":{"themes":["default","dark"]},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>

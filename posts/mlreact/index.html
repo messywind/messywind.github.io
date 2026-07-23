@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>ReAct - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="1. 一句话理解 ReAct ReAct = Reasoning（推理/规划）&#43; Acting（调用工具与环境交互）。
+模型不是收到问题后直接生成最终答案，而是在一个循环中交替完成：
+"><meta name="keywords" content='Agent, ReAct'>
+  <meta itemprop="name" content="ReAct">
+  <meta itemprop="description" content="1. 一句话理解 ReAct ReAct = Reasoning（推理/规划）&#43; Acting（调用工具与环境交互）。
+模型不是收到问题后直接生成最终答案，而是在一个循环中交替完成：">
+  <meta itemprop="datePublished" content="2026-07-22T15:22:00+00:00">
+  <meta itemprop="dateModified" content="2026-07-23T08:36:00+00:00">
+  <meta itemprop="wordCount" content="8605">
+  <meta itemprop="keywords" content="Agent,ReAct"><meta property="og:url" content="https://blog.messywind.top/posts/mlreact/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="ReAct">
+  <meta property="og:description" content="1. 一句话理解 ReAct ReAct = Reasoning（推理/规划）&#43; Acting（调用工具与环境交互）。
+模型不是收到问题后直接生成最终答案，而是在一个循环中交替完成：">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-07-22T15:22:00+00:00">
+    <meta property="article:modified_time" content="2026-07-23T08:36:00+00:00">
+    <meta property="article:tag" content="Agent">
+    <meta property="article:tag" content="ReAct">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="ReAct">
+  <meta name="twitter:description" content="1. 一句话理解 ReAct ReAct = Reasoning（推理/规划）&#43; Acting（调用工具与环境交互）。
+模型不是收到问题后直接生成最终答案，而是在一个循环中交替完成：">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mlreact/" title="ReAct - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/misc2026.7.11-%E4%B8%8A%E6%B5%B7%E6%B8%B8%E8%AE%B0/" title="上海游记 Ⅱ" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/mlreflection/" title="Reflection" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mlreact/index.md" title="ReAct - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "ReAct",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/mlreact\/"
+    },"genre": "posts","keywords": "Agent, ReAct","wordcount":  8605 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlreact\/","datePublished": "2026-07-22T15:22:00+00:00","dateModified": "2026-07-23T08:36:00+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>ReAct</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-07-22 15:22:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-22">2026-07-22</time></span>&nbsp;<span title="更新于 2026-07-23 08:36:00"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-23">2026-07-23</time></span>&nbsp;<span title="8605 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 8700 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 18 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="ReAct"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-一句话理解-react">1. 一句话理解 ReAct</a></li>
+    <li><a href="#2-react-解决了什么问题">2. ReAct 解决了什么问题</a></li>
+    <li><a href="#3-react-与几个相近概念的区别">3. ReAct 与几个相近概念的区别</a>
+      <ul>
+        <li><a href="#31-react-vs-直接问答">3.1 ReAct vs. 直接问答</a></li>
+        <li><a href="#32-react-vs-chain-of-thoughtcot">3.2 ReAct vs. Chain-of-Thought（CoT）</a></li>
+        <li><a href="#33-react-vs-function-calling--tool-calling">3.3 ReAct vs. Function Calling / Tool Calling</a></li>
+        <li><a href="#34-react-vs-plan-and-solve">3.4 ReAct vs. Plan-and-Solve</a></li>
+        <li><a href="#35-react-vs-reflection">3.5 ReAct vs. Reflection</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-notebook-的整体架构">4. Notebook 的整体架构</a>
+      <ul>
+        <li><a href="#41-llmproxy模型访问层">4.1 <code>LLMProxy</code>：模型访问层</a></li>
+        <li><a href="#42-toolexecutor工具注册表">4.2 <code>ToolExecutor</code>：工具注册表</a></li>
+        <li><a href="#43-search外部环境">4.3 <code>search</code>：外部环境</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-prompt-设计拆解">5. Prompt 设计拆解</a>
+      <ul>
+        <li><a href="#prompt-为什么必须明确规定格式">Prompt 为什么必须明确规定格式</a></li>
+        <li><a href="#本例-prompt-的优点">本例 Prompt 的优点</a></li>
+        <li><a href="#本例-prompt-可改进之处">本例 Prompt 可改进之处</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-reactagentrun-执行流程">6. <code>ReActAgent.run()</code> 执行流程</a>
+      <ul>
+        <li><a href="#61-初始化状态">6.1 初始化状态</a></li>
+        <li><a href="#62-进入有界循环">6.2 进入有界循环</a></li>
+        <li><a href="#63-构造当前-prompt">6.3 构造当前 Prompt</a></li>
+        <li><a href="#64-请求模型决策">6.4 请求模型决策</a></li>
+        <li><a href="#65-解析模型输出">6.5 解析模型输出</a></li>
+        <li><a href="#66-判断是否结束">6.6 判断是否结束</a></li>
+        <li><a href="#67-执行工具并记录-observation">6.7 执行工具并记录 Observation</a></li>
+      </ul>
+    </li>
+    <li><a href="#7-运行案例复盘">7. 运行案例复盘</a>
+      <ul>
+        <li><a href="#第-1-轮">第 1 轮</a></li>
+        <li><a href="#第-2-轮">第 2 轮</a></li>
+        <li><a href="#第-3-轮">第 3 轮</a></li>
+      </ul>
+    </li>
+    <li><a href="#8-实践经验总结">8. 实践经验总结</a>
+      <ul>
+        <li><a href="#81-优势">8.1 优势</a>
+          <ul>
+            <li><a href="#高可解释性--高可观测性">高可解释性 / 高可观测性</a></li>
+            <li><a href="#动态规划和纠错能力">动态规划和纠错能力</a></li>
+          </ul>
+        </li>
+        <li><a href="#82-局限">8.2 局限</a>
+          <ul>
+            <li><a href="#强依赖-llm-能力">强依赖 LLM 能力</a></li>
+            <li><a href="#执行效率不高">执行效率不高</a></li>
+            <li><a href="#可能陷入局部最优">可能陷入局部最优</a></li>
+            <li><a href="#其他工程风险">其他工程风险</a></li>
+          </ul>
+        </li>
+        <li><a href="#83-调试技巧">8.3 调试技巧</a>
+          <ul>
+            <li><a href="#检查完整-prompt">检查完整 Prompt</a></li>
+            <li><a href="#分析原始模型输出和工具-io">分析原始模型输出和工具 I/O</a></li>
+            <li><a href="#调整-prompt-中的示例">调整 Prompt 中的示例</a></li>
+            <li><a href="#尝试不同模型或参数">尝试不同模型或参数</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#9-对当前代码的-code-review">9. 对当前代码的 Code Review</a>
+      <ul>
+        <li><a href="#91-做得好的地方">9.1 做得好的地方</a></li>
+        <li><a href="#92-解析协议不够健壮">9.2 解析协议不够健壮</a></li>
+        <li><a href="#93-缺少工具执行安全边界">9.3 缺少工具执行安全边界</a></li>
+        <li><a href="#94-history-管理过于简单">9.4 History 管理过于简单</a></li>
+        <li><a href="#95-终止机制不足">9.5 终止机制不足</a></li>
+        <li><a href="#96-搜索质量和答案可信度不足">9.6 搜索质量和答案可信度不足</a></li>
+      </ul>
+    </li>
+    <li><a href="#10-生产级-react-的推荐设计">10. 生产级 ReAct 的推荐设计</a>
+      <ul>
+        <li><a href="#101-控制面与数据面分离">10.1 控制面与数据面分离</a></li>
+        <li><a href="#102-使用结构化输出">10.2 使用结构化输出</a></li>
+        <li><a href="#103-建立明确的状态机">10.3 建立明确的状态机</a></li>
+        <li><a href="#104-工具返回值标准化">10.4 工具返回值标准化</a></li>
+        <li><a href="#105-安全设计">10.5 安全设计</a></li>
+        <li><a href="#106-可观测性与评测">10.6 可观测性与评测</a></li>
+      </ul>
+    </li>
+    <li><a href="#11-降低延迟和-token-成本的方法">11. 降低延迟和 Token 成本的方法</a></li>
+    <li><a href="#12-常见失败模式及解决方案">12. 常见失败模式及解决方案</a></li>
+    <li><a href="#13-高频面试题与参考回答">13. 高频面试题与参考回答</a>
+      <ul>
+        <li><a href="#q1什么是-react">Q1：什么是 ReAct？</a></li>
+        <li><a href="#q2react-为什么能减少幻觉能彻底消除吗">Q2：ReAct 为什么能减少幻觉？能彻底消除吗？</a></li>
+        <li><a href="#q3react-的核心组件有哪些">Q3：ReAct 的核心组件有哪些？</a></li>
+        <li><a href="#q4为什么需要-max_steps">Q4：为什么需要 <code>max_steps</code>？</a></li>
+        <li><a href="#q5文本版-action-toolinput-有什么问题">Q5：文本版 <code>Action: Tool[input]</code> 有什么问题？</a></li>
+        <li><a href="#q6如何避免-agent-死循环">Q6：如何避免 Agent 死循环？</a></li>
+        <li><a href="#q7如何评测-react-agent">Q7：如何评测 ReAct Agent？</a></li>
+        <li><a href="#q8如何设计工具描述">Q8：如何设计工具描述？</a></li>
+        <li><a href="#q9react-如何处理-prompt-injection">Q9：ReAct 如何处理 Prompt Injection？</a></li>
+        <li><a href="#q10什么时候不适合使用-react">Q10：什么时候不适合使用 ReAct？</a></li>
+        <li><a href="#q11如何把当前-demo-改造成生产版本">Q11：如何把当前 Demo 改造成生产版本？</a></li>
+        <li><a href="#q12react-的可解释性应该如何理解">Q12：ReAct 的“可解释性”应该如何理解？</a></li>
+      </ul>
+    </li>
+    <li><a href="#14-手写一个最小-react-的伪代码">14. 手写一个最小 ReAct 的伪代码</a></li>
+    <li><a href="#15-一页速记">15. 一页速记</a>
+      <ul>
+        <li><a href="#核心公式">核心公式</a></li>
+        <li><a href="#基本循环">基本循环</a></li>
+        <li><a href="#两个核心优点">两个核心优点</a></li>
+        <li><a href="#三个主要局限">三个主要局限</a></li>
+        <li><a href="#四个调试抓手">四个调试抓手</a></li>
+        <li><a href="#五个生产化关键词">五个生产化关键词</a></li>
+        <li><a href="#面试收尾金句">面试收尾金句</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="1-一句话理解-react" class="heading-element"><span>1. 一句话理解 ReAct</span>
+  <a href="#1-%e4%b8%80%e5%8f%a5%e8%af%9d%e7%90%86%e8%a7%a3-react" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>ReAct = Reasoning（推理/规划）+ Acting（调用工具与环境交互）</strong>。</p>
+<p>模型不是收到问题后直接生成最终答案，而是在一个循环中交替完成：</p>
+<ol>
+<li>根据问题和历史信息判断下一步；</li>
+<li>选择并调用工具；</li>
+<li>读取工具返回的观察结果；</li>
+<li>基于新证据继续规划、纠错或结束任务。</li>
+</ol>
+<p>典型轨迹为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Question
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">Thought → Action → Observation
+</span></span><span class="line"><span class="cl">             ↑          ↓
+</span></span><span class="line"><span class="cl">             └── Thought → Action → Observation
+</span></span><span class="line"><span class="cl">                                ↓
+</span></span><span class="line"><span class="cl">                         Finish[Final Answer]</span></span></code></pre></td></tr></table>
+</div>
+</div><p>ReAct 的关键价值不是“让模型多想几步”，而是让模型能够将生成式推理和外部世界中的真实行动结合起来，通过环境反馈修正后续决策。</p>
+<p>ReAct 来自 Shunyu Yao 等人的论文 <strong>ReAct: Synergizing Reasoning and Acting in Language Models</strong>（ICLR 2023）。论文中的核心观察是：推理轨迹有助于模型规划和更新行动，外部行动获得的真实反馈又能反过来约束推理，二者交替比单独推理或单独行动更适合交互式任务。</p>
+<hr>
+<h2 id="2-react-解决了什么问题" class="heading-element"><span>2. ReAct 解决了什么问题</span>
+  <a href="#2-react-%e8%a7%a3%e5%86%b3%e4%ba%86%e4%bb%80%e4%b9%88%e9%97%ae%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>单纯依赖 LLM 参数知识直接作答，会遇到以下问题：</p>
+<ul>
+<li>知识可能过时，例如“最新手机是什么”；</li>
+<li>模型可能不知道某个企业内部数据；</li>
+<li>数学计算、数据库查询等任务仅靠语言生成不够可靠；</li>
+<li>一次性生成缺少环境反馈，出错后无法动态调整；</li>
+<li>复杂任务需要多步执行，不能只输出一段文本。</li>
+</ul>
+<p>ReAct 将 Agent 拆成两个相互促进的部分：</p>
+<table>
+  <thead>
+      <tr>
+          <th>部分</th>
+          <th>作用</th>
+          <th>本例对应内容</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Reasoning</td>
+          <td>分析当前状态、规划下一步、判断是否结束</td>
+          <td><code>Thought:</code></td>
+      </tr>
+      <tr>
+          <td>Acting</td>
+          <td>选择工具并传入参数，或者输出最终答案</td>
+          <td><code>Action: Search[...]</code> / <code>Finish[...]</code></td>
+      </tr>
+      <tr>
+          <td>Environment Feedback</td>
+          <td>工具或外部环境返回的结果</td>
+          <td><code>Observation:</code></td>
+      </tr>
+  </tbody>
+</table>
+<p>因此，ReAct 本质上可以看作一个由 LLM 驱动的闭环控制系统：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">状态 = 用户问题 + 历史动作 + 环境观察
+</span></span><span class="line"><span class="cl">策略 = LLM
+</span></span><span class="line"><span class="cl">动作 = 工具调用或结束任务
+</span></span><span class="line"><span class="cl">环境 = 搜索引擎、数据库、代码执行器、业务 API 等</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="3-react-与几个相近概念的区别" class="heading-element"><span>3. ReAct 与几个相近概念的区别</span>
+  <a href="#3-react-%e4%b8%8e%e5%87%a0%e4%b8%aa%e7%9b%b8%e8%bf%91%e6%a6%82%e5%bf%b5%e7%9a%84%e5%8c%ba%e5%88%ab" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="31-react-vs-直接问答" class="heading-element"><span>3.1 ReAct vs. 直接问答</span>
+  <a href="#31-react-vs-%e7%9b%b4%e6%8e%a5%e9%97%ae%e7%ad%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">直接问答：Question → LLM → Answer
+</span></span><span class="line"><span class="cl">ReAct：   Question → LLM → Tool → Observation → LLM → ... → Answer</span></span></code></pre></td></tr></table>
+</div>
+</div><p>直接问答速度快、成本低，但无法主动获取外部信息；ReAct 成本更高，却能处理实时知识和多步任务。</p>
+<h3 id="32-react-vs-chain-of-thoughtcot" class="heading-element"><span>3.2 ReAct vs. Chain-of-Thought（CoT）</span>
+  <a href="#32-react-vs-chain-of-thoughtcot" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>CoT 重点是“推理”，通常没有外部工具反馈；</li>
+<li>ReAct 同时包含推理和行动，模型能用真实 Observation 修正判断；</li>
+<li>CoT 可能在错误前提上越想越远，ReAct 至少有机会借助外部证据纠错。</li>
+</ul>
+<p>面试中可以概括为：</p>
+<blockquote>
+<p>CoT 改善模型内部的推理过程，ReAct 则把推理过程接入环境，使 Agent 形成“决策—执行—反馈”的闭环。</p>
+</blockquote>
+<h3 id="33-react-vs-function-calling--tool-calling" class="heading-element"><span>3.3 ReAct vs. Function Calling / Tool Calling</span>
+  <a href="#33-react-vs-function-calling--tool-calling" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>Function Calling 是模型输出结构化工具调用的一种接口能力；</li>
+<li>ReAct 是组织多轮推理、行动和观察的一种 Agent 范式；</li>
+<li>ReAct 可以用文本协议实现，也可以用原生 Function Calling 实现；</li>
+<li>工程中通常用原生 Tool Calling 替代手写正则解析，但外层仍然可以是 ReAct 循环。</li>
+</ul>
+<h3 id="34-react-vs-plan-and-solve" class="heading-element"><span>3.4 ReAct vs. Plan-and-Solve</span>
+  <a href="#34-react-vs-plan-and-solve" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>ReAct 倾向于边执行、边观察、边调整；</li>
+<li>Plan-and-Solve 通常先生成较完整的计划，再依次执行；</li>
+<li>ReAct 适合环境不确定、需要频繁反馈的任务；</li>
+<li>固定长流程可采用“先规划 + 分步执行”，并在每一步引入 ReAct 式纠错。</li>
+</ul>
+<h3 id="35-react-vs-reflection" class="heading-element"><span>3.5 ReAct vs. Reflection</span>
+  <a href="#35-react-vs-reflection" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>ReAct 通过工具结果即时纠错；</li>
+<li>Reflection 强调对已经生成的答案或执行轨迹进行复盘、批评和重写；</li>
+<li>二者可以组合：ReAct 完成任务后，再由 Reflection 检查证据完整性和答案质量。</li>
+</ul>
+<hr>
+<h2 id="4-notebook-的整体架构" class="heading-element"><span>4. Notebook 的整体架构</span>
+  <a href="#4-notebook-%e7%9a%84%e6%95%b4%e4%bd%93%e6%9e%b6%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>本仓库示例包含三个主要组件：</p>
+<pre class="mermaid">flowchart LR
+    U["用户问题"] --> A["ReActAgent.run"]
+    A --> P["构造 ReAct Prompt"]
+    P --> L["LLMProxy.think"]
+    L --> R["解析 Thought / Action"]
+    R -->|"Search[input]"| T["ToolExecutor"]
+    T --> S["SerpApi Search"]
+    S --> O["Observation"]
+    O --> H["写入 history"]
+    H --> P
+    R -->|"Finish[answer]"| F["返回最终答案"]</pre>
+<template>flowchart LR
+    U["用户问题"] --> A["ReActAgent.run"]
+    A --> P["构造 ReAct Prompt"]
+    P --> L["LLMProxy.think"]
+    L --> R["解析 Thought / Action"]
+    R -->|"Search[input]"| T["ToolExecutor"]
+    T --> S["SerpApi Search"]
+    S --> O["Observation"]
+    O --> H["写入 history"]
+    H --> P
+    R -->|"Finish[answer]"| F["返回最终答案"]</template><h3 id="41-llmproxy模型访问层" class="heading-element"><span>4.1 <code>LLMProxy</code>：模型访问层</span>
+  <a href="#41-llmproxy%e6%a8%a1%e5%9e%8b%e8%ae%bf%e9%97%ae%e5%b1%82" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><code>llm_client.py</code> 封装了兼容 OpenAI Chat Completions 接口的模型服务：</p>
+<ul>
+<li>从参数或 <code>.env</code> 读取 <code>MODEL_ID</code>、<code>API_KEY</code>、<code>BASE_URL</code> 和超时时间；</li>
+<li>默认 <code>temperature=0</code>，减少格式漂移和随机性；</li>
+<li>使用流式输出；</li>
+<li>异常时返回 <code>None</code>。</li>
+</ul>
+<p>它只负责“调用模型并返回文本”，并不知道什么是 Agent 或工具。</p>
+<h3 id="42-toolexecutor工具注册表" class="heading-element"><span>4.2 <code>ToolExecutor</code>：工具注册表</span>
+  <a href="#42-toolexecutor%e5%b7%a5%e5%85%b7%e6%b3%a8%e5%86%8c%e8%a1%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><code>tools.py</code> 中的 <code>ToolExecutor</code> 维护如下结构：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="bp">self</span><span class="o">.</span><span class="n">tools</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;Search&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;工具用途说明&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;func&#34;</span><span class="p">:</span> <span class="n">search</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>三个关键方法：</p>
+<ul>
+<li><code>registerTool(name, description, func)</code>：注册工具；</li>
+<li><code>getAvailableTools()</code>：把工具名称和描述提供给模型；</li>
+<li><code>getTool(name)</code>：根据模型选择的名称取得真正的 Python 函数。</li>
+</ul>
+<p>这里体现了 Agent 工程中的一个重要原则：</p>
+<blockquote>
+<p>LLM 只负责选择“调用哪个工具、传什么参数”，宿主程序负责权限校验和真正执行，不能让模型直接执行任意代码。</p>
+</blockquote>
+<h3 id="43-search外部环境" class="heading-element"><span>4.3 <code>search</code>：外部环境</span>
+  <a href="#43-search%e5%a4%96%e9%83%a8%e7%8e%af%e5%a2%83" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>示例工具通过 SerpApi 搜索网页，按以下优先级提取结果：</p>
+<ol>
+<li><code>answer_box_list</code>；</li>
+<li><code>answer_box.answer</code>；</li>
+<li><code>knowledge_graph.description</code>；</li>
+<li>前三条自然搜索结果的标题和摘要。</li>
+</ol>
+<p>搜索工具让模型获得参数之外的实时信息，但“搜到了内容”不等于“内容真实可信”。Agent 仍需处理来源质量、时效性、冲突信息和引用问题。</p>
+<hr>
+<h2 id="5-prompt-设计拆解" class="heading-element"><span>5. Prompt 设计拆解</span>
+  <a href="#5-prompt-%e8%ae%be%e8%ae%a1%e6%8b%86%e8%a7%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Notebook 中的 Prompt 主要包含四部分：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">角色：你是能够调用外部工具的智能助手
+</span></span><span class="line"><span class="cl">工具：{tools}
+</span></span><span class="line"><span class="cl">协议：Thought + Action，Action 只能是工具调用或 Finish
+</span></span><span class="line"><span class="cl">上下文：Question + History</span></span></code></pre></td></tr></table>
+</div>
+</div><p>核心输出协议：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Thought: 对当前问题和下一步的分析
+</span></span><span class="line"><span class="cl">Action: Search[查询词]</span></span></code></pre></td></tr></table>
+</div>
+</div><p>或者：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Thought: 已获得足够证据
+</span></span><span class="line"><span class="cl">Action: Finish[最终答案]</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="prompt-为什么必须明确规定格式" class="heading-element"><span>Prompt 为什么必须明确规定格式</span>
+  <a href="#prompt-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%bf%85%e9%a1%bb%e6%98%8e%e7%a1%ae%e8%a7%84%e5%ae%9a%e6%a0%bc%e5%bc%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>宿主程序需要把自然语言输出转换成可执行动作。如果格式不稳定，就可能出现：</p>
+<ul>
+<li>找不到 <code>Action:</code>；</li>
+<li>工具名称拼错；</li>
+<li>参数括号不完整；</li>
+<li>模型直接给答案，却没有输出 <code>Finish[...]</code>；</li>
+<li>一次输出多个 Action，解析器不知道执行哪个；</li>
+<li>工具返回文本被模型误当成新指令。</li>
+</ul>
+<p>因此，ReAct Prompt 不只是“提示模型思考”，它还是 LLM 与 Agent Runtime 之间的一份通信协议。</p>
+<h3 id="本例-prompt-的优点" class="heading-element"><span>本例 Prompt 的优点</span>
+  <a href="#%e6%9c%ac%e4%be%8b-prompt-%e7%9a%84%e4%bc%98%e7%82%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>提供了可用工具列表；</li>
+<li>限定了工具调用语法；</li>
+<li>明确给出终止指令；</li>
+<li>将历史 Observation 反馈给模型；</li>
+<li>使用 <code>temperature=0</code>，有利于稳定遵循格式。</li>
+</ul>
+<h3 id="本例-prompt-可改进之处" class="heading-element"><span>本例 Prompt 可改进之处</span>
+  <a href="#%e6%9c%ac%e4%be%8b-prompt-%e5%8f%af%e6%94%b9%e8%bf%9b%e4%b9%8b%e5%a4%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>没有给出完整 few-shot 示例；</li>
+<li>没有规定每轮只能调用一个工具；</li>
+<li>没有明确要求答案必须被 Observation 支撑；</li>
+<li>没有处理搜索结果中的 Prompt Injection；</li>
+<li>没有说明工具失败、结果为空、信息冲突时怎么办；</li>
+<li>没有要求引用来源、发布日期或置信度；</li>
+<li>工具参数只是自由文本，没有 JSON Schema；</li>
+<li>把整个 Prompt 每轮作为单条 <code>user</code> 消息发送，角色边界不够清晰。</li>
+</ul>
+<p>一个更稳健的策略是：固定规则放在 <code>system</code> 消息，原始问题放在 <code>user</code> 消息，动作与 Observation 作为结构化历史消息保存。</p>
+<hr>
+<h2 id="6-reactagentrun-执行流程" class="heading-element"><span>6. <code>ReActAgent.run()</code> 执行流程</span>
+  <a href="#6-reactagentrun-%e6%89%a7%e8%a1%8c%e6%b5%81%e7%a8%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="61-初始化状态" class="heading-element"><span>6.1 初始化状态</span>
+  <a href="#61-%e5%88%9d%e5%a7%8b%e5%8c%96%e7%8a%b6%e6%80%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="bp">self</span><span class="o">.</span><span class="n">history</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl"><span class="n">current_step</span> <span class="o">=</span> <span class="mi">0</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>每次运行前清空历史，防止不同用户问题之间发生上下文污染。</p>
+<h3 id="62-进入有界循环" class="heading-element"><span>6.2 进入有界循环</span>
+  <a href="#62-%e8%bf%9b%e5%85%a5%e6%9c%89%e7%95%8c%e5%be%aa%e7%8e%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">while</span> <span class="n">current_step</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_steps</span><span class="p">:</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>max_steps</code> 是重要的安全阀，防止模型无限搜索或在错误动作间循环。示例默认最多执行 5 轮。</p>
+<h3 id="63-构造当前-prompt" class="heading-element"><span>6.3 构造当前 Prompt</span>
+  <a href="#63-%e6%9e%84%e9%80%a0%e5%bd%93%e5%89%8d-prompt" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">tools_desc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tool_executor</span><span class="o">.</span><span class="n">getAvailableTools</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">history_str</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">history</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">prompt</span> <span class="o">=</span> <span class="n">REACT_PROMPT_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tools</span><span class="o">=</span><span class="n">tools_desc</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">question</span><span class="o">=</span><span class="n">question</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">history</span><span class="o">=</span><span class="n">history_str</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>当前决策依赖三类上下文：</p>
+<ul>
+<li>原始问题；</li>
+<li>当前可用工具；</li>
+<li>之前的 Action 和 Observation。</li>
+</ul>
+<p>注意：本实现没有把 <code>Thought</code> 写入历史，只保留动作和观察。这能减少部分 Token，但也使后续模型看不到自己先前显式表达的计划。</p>
+<h3 id="64-请求模型决策" class="heading-element"><span>6.4 请求模型决策</span>
+  <a href="#64-%e8%af%b7%e6%b1%82%e6%a8%a1%e5%9e%8b%e5%86%b3%e7%ad%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">response_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">llm_client</span><span class="o">.</span><span class="n">think</span><span class="p">(</span><span class="n">messages</span><span class="o">=</span><span class="n">messages</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>模型的角色相当于策略函数：输入当前状态，输出下一步动作。</p>
+<h3 id="65-解析模型输出" class="heading-element"><span>6.5 解析模型输出</span>
+  <a href="#65-%e8%a7%a3%e6%9e%90%e6%a8%a1%e5%9e%8b%e8%be%93%e5%87%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">thought</span><span class="p">,</span> <span class="n">action</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_output</span><span class="p">(</span><span class="n">response_text</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>_parse_output()</code> 使用正则分别提取：</p>
+<ul>
+<li><code>Thought:</code> 到 <code>Action:</code> 之前的文本；</li>
+<li><code>Action:</code> 到响应末尾的文本。</li>
+</ul>
+<p>这是一种教学友好的实现，但正则解析对格式非常敏感。</p>
+<h3 id="66-判断是否结束" class="heading-element"><span>6.6 判断是否结束</span>
+  <a href="#66-%e5%88%a4%e6%96%ad%e6%98%af%e5%90%a6%e7%bb%93%e6%9d%9f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">if</span> <span class="n">action</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&#34;Finish&#34;</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">final_answer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_action_input</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">final_answer</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>模型主动决定何时信息已经足够。<code>Finish</code> 是终止动作，而不是工具。</p>
+<h3 id="67-执行工具并记录-observation" class="heading-element"><span>6.7 执行工具并记录 Observation</span>
+  <a href="#67-%e6%89%a7%e8%a1%8c%e5%b7%a5%e5%85%b7%e5%b9%b6%e8%ae%b0%e5%bd%95-observation" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">tool_name</span><span class="p">,</span> <span class="n">tool_input</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_action</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">tool_function</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tool_executor</span><span class="o">.</span><span class="n">getTool</span><span class="p">(</span><span class="n">tool_name</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">observation</span> <span class="o">=</span> <span class="n">tool_function</span><span class="p">(</span><span class="n">tool_input</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="bp">self</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Action: </span><span class="si">{</span><span class="n">action</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="bp">self</span><span class="o">.</span><span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Observation: </span><span class="si">{</span><span class="n">observation</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Observation 会进入下一轮 Prompt，从而形成闭环：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">第 t 轮 Observation
+</span></span><span class="line"><span class="cl">        ↓
+</span></span><span class="line"><span class="cl">第 t+1 轮 Thought / Action</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这正是 ReAct 与普通单轮工具调用的核心差异。</p>
+<hr>
+<h2 id="7-运行案例复盘" class="heading-element"><span>7. 运行案例复盘</span>
+  <a href="#7-%e8%bf%90%e8%a1%8c%e6%a1%88%e4%be%8b%e5%a4%8d%e7%9b%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>示例问题：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">华为最新的手机是哪一款？它的主要卖点是什么？</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="第-1-轮" class="heading-element"><span>第 1 轮</span>
+  <a href="#%e7%ac%ac-1-%e8%bd%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>模型认识到“最新”具有时效性，因此没有只依赖参数知识，而是调用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Search[华为 最新 手机 型号 主要 卖点]</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这是合理的工具选择。</p>
+<h3 id="第-2-轮" class="heading-element"><span>第 2 轮</span>
+  <a href="#%e7%ac%ac-2-%e8%bd%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>模型发现第一次结果混有不同年份和不同产品线的信息，于是再次搜索确认：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Search[华为 最新发布 手机 型号 及其 主要 特性]</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这体现了图片中所说的“动态规划和纠错能力”：下一步行动不是预先写死的，而是由上一轮 Observation 决定。</p>
+<h3 id="第-3-轮" class="heading-element"><span>第 3 轮</span>
+  <a href="#%e7%ac%ac-3-%e8%bd%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>模型根据两次搜索结果执行 <code>Finish[...]</code>。</p>
+<p>不过，这次最终答案仍存在明显质量风险：</p>
+<ul>
+<li>搜索摘要包含未来年份或可疑信息，模型没有核验发布日期；</li>
+<li>将“官网页面中出现”近似推断为“最新发布”，证据链不充分；</li>
+<li>同时列出两个候选型号，没有严格回答“哪一款”；</li>
+<li>“影像、设计美学”等卖点缺少对应来源；</li>
+<li>没有提供链接和发布日期；</li>
+<li>使用了“可能包括”等模糊措辞，说明 Agent 并未真正解决歧义。</li>
+</ul>
+<p>这个案例说明：</p>
+<blockquote>
+<p>ReAct 能降低闭门造车式幻觉，但不会自动保证事实正确。工具质量、检索策略、证据校验和停止条件同样决定最终效果。</p>
+</blockquote>
+<p>更合理的后续动作应包括：</p>
+<ol>
+<li>限定搜索华为官方网站；</li>
+<li>查询官网新闻或发布会页面，而非只看商品聚合页；</li>
+<li>比较产品发布日期；</li>
+<li>至少用第二个可信来源交叉验证；</li>
+<li>在答案中说明“最新发布”采用的判断口径。</li>
+</ol>
+<hr>
+<h2 id="8-实践经验总结" class="heading-element"><span>8. 实践经验总结</span>
+  <a href="#8-%e5%ae%9e%e8%b7%b5%e7%bb%8f%e9%aa%8c%e6%80%bb%e7%bb%93" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="81-优势" class="heading-element"><span>8.1 优势</span>
+  <a href="#81-%e4%bc%98%e5%8a%bf" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="高可解释性--高可观测性" class="heading-element"><span>高可解释性 / 高可观测性</span>
+  <a href="#%e9%ab%98%e5%8f%af%e8%a7%a3%e9%87%8a%e6%80%a7--%e9%ab%98%e5%8f%af%e8%a7%82%e6%b5%8b%e6%80%a7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>开发者能够看到：</p>
+<ul>
+<li>Agent 选择了哪个工具；</li>
+<li>给工具传入了什么参数；</li>
+<li>工具返回了什么结果；</li>
+<li>Agent 在哪一步结束；</li>
+<li>失败发生在模型、解析器还是工具层。</li>
+</ul>
+<p>工程面试中最好补充一句：生产系统的可解释性应主要依靠<strong>结构化决策摘要、Action、Observation、引用和状态日志</strong>，而不是依赖向用户展示模型的完整内部思维过程。</p>
+<h4 id="动态规划和纠错能力" class="heading-element"><span>动态规划和纠错能力</span>
+  <a href="#%e5%8a%a8%e6%80%81%e8%a7%84%e5%88%92%e5%92%8c%e7%ba%a0%e9%94%99%e8%83%bd%e5%8a%9b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>ReAct 不要求开始时就生成完美计划。它可以根据环境反馈：</p>
+<ul>
+<li>修改搜索关键词；</li>
+<li>更换工具；</li>
+<li>补充缺失证据；</li>
+<li>发现错误后重试；</li>
+<li>在达到目标后提前终止。</li>
+</ul>
+<p>这使它适合开放环境和信息不完整的任务。</p>
+<h3 id="82-局限" class="heading-element"><span>8.2 局限</span>
+  <a href="#82-%e5%b1%80%e9%99%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="强依赖-llm-能力" class="heading-element"><span>强依赖 LLM 能力</span>
+  <a href="#%e5%bc%ba%e4%be%9d%e8%b5%96-llm-%e8%83%bd%e5%8a%9b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>模型需要同时完成：</p>
+<ul>
+<li>理解问题；</li>
+<li>选择正确工具；</li>
+<li>生成合法参数；</li>
+<li>理解 Observation；</li>
+<li>判断信息是否充足；</li>
+<li>组织最终答案。</li>
+</ul>
+<p>小模型可能在格式遵循、长上下文、工具选择和停止判断上表现不稳定。</p>
+<h4 id="执行效率不高" class="heading-element"><span>执行效率不高</span>
+  <a href="#%e6%89%a7%e8%a1%8c%e6%95%88%e7%8e%87%e4%b8%8d%e9%ab%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>每一轮通常都需要一次模型推理，可能还伴随一次外部工具请求，因此会增加：</p>
+<ul>
+<li>端到端延迟；</li>
+<li>输入和输出 Token；</li>
+<li>模型调用费用；</li>
+<li>外部 API 成本；</li>
+<li>超时和失败概率。</li>
+</ul>
+<p>粗略估算：若执行 <code>n</code> 轮，每轮都重新携带历史，则总输入 Token 往往不是线性常数开销，而会随着历史增长而持续增加。</p>
+<h4 id="可能陷入局部最优" class="heading-element"><span>可能陷入局部最优</span>
+  <a href="#%e5%8f%af%e8%83%bd%e9%99%b7%e5%85%a5%e5%b1%80%e9%83%a8%e6%9c%80%e4%bc%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>典型表现包括：</p>
+<ul>
+<li>反复使用同一个近似搜索词；</li>
+<li>过早相信第一个看似合理的结果；</li>
+<li>一直修补当前方案，不尝试替代路径；</li>
+<li>已经无法取得新信息，却继续调用工具；</li>
+<li>过早 <code>Finish</code>，输出证据不足的答案。</li>
+</ul>
+<h4 id="其他工程风险" class="heading-element"><span>其他工程风险</span>
+  <a href="#%e5%85%b6%e4%bb%96%e5%b7%a5%e7%a8%8b%e9%a3%8e%e9%99%a9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>工具返回恶意指令导致间接 Prompt Injection；</li>
+<li>工具权限过大导致误操作；</li>
+<li>Observation 太长造成上下文膨胀；</li>
+<li>外部 API 限流、超时或返回脏数据；</li>
+<li>多工具重名或描述不清，导致路由错误；</li>
+<li>没有幂等设计，重试可能重复下单、发消息或写数据。</li>
+</ul>
+<h3 id="83-调试技巧" class="heading-element"><span>8.3 调试技巧</span>
+  <a href="#83-%e8%b0%83%e8%af%95%e6%8a%80%e5%b7%a7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="检查完整-prompt" class="heading-element"><span>检查完整 Prompt</span>
+  <a href="#%e6%a3%80%e6%9f%a5%e5%ae%8c%e6%95%b4-prompt" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>确认每轮实际送入模型的内容，包括：</p>
+<ul>
+<li>system 规则是否完整；</li>
+<li>工具名称、描述、参数约束是否准确；</li>
+<li>Question 是否被错误改写；</li>
+<li>History 是否丢失、重复或顺序错乱；</li>
+<li>Observation 是否过长；</li>
+<li>是否混入了不可信网页指令。</li>
+</ul>
+<h4 id="分析原始模型输出和工具-io" class="heading-element"><span>分析原始模型输出和工具 I/O</span>
+  <a href="#%e5%88%86%e6%9e%90%e5%8e%9f%e5%a7%8b%e6%a8%a1%e5%9e%8b%e8%be%93%e5%87%ba%e5%92%8c%e5%b7%a5%e5%85%b7-io" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>至少记录：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">trace_id
+</span></span><span class="line"><span class="cl">step_id
+</span></span><span class="line"><span class="cl">model_name
+</span></span><span class="line"><span class="cl">prompt/version
+</span></span><span class="line"><span class="cl">raw_model_output
+</span></span><span class="line"><span class="cl">parsed_action
+</span></span><span class="line"><span class="cl">tool_name
+</span></span><span class="line"><span class="cl">tool_input
+</span></span><span class="line"><span class="cl">tool_output
+</span></span><span class="line"><span class="cl">latency
+</span></span><span class="line"><span class="cl">token_usage
+</span></span><span class="line"><span class="cl">error_type</span></span></code></pre></td></tr></table>
+</div>
+</div><p>调试时要区分：</p>
+<ul>
+<li>模型没有选择正确工具；</li>
+<li>模型选对了工具，但参数错误；</li>
+<li>解析器没有正确解析模型输出；</li>
+<li>工具本身失败；</li>
+<li>工具返回正常，但模型误读结果；</li>
+<li>停止条件设计不合理。</li>
+</ul>
+<h4 id="调整-prompt-中的示例" class="heading-element"><span>调整 Prompt 中的示例</span>
+  <a href="#%e8%b0%83%e6%95%b4-prompt-%e4%b8%ad%e7%9a%84%e7%a4%ba%e4%be%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>Few-shot 示例最好覆盖：</p>
+<ul>
+<li>正常调用工具；</li>
+<li>工具无结果后的重试；</li>
+<li>工具报错后的降级；</li>
+<li>多来源冲突时的核验；</li>
+<li>信息充足后及时 <code>Finish</code>；</li>
+<li>不需要工具时直接结束。</li>
+</ul>
+<h4 id="尝试不同模型或参数" class="heading-element"><span>尝试不同模型或参数</span>
+  <a href="#%e5%b0%9d%e8%af%95%e4%b8%8d%e5%90%8c%e6%a8%a1%e5%9e%8b%e6%88%96%e5%8f%82%e6%95%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li><code>temperature</code>：工具选择型任务通常设低；</li>
+<li>最大输出长度：必须容纳完整结构化动作；</li>
+<li>模型能力：关注指令遵循、工具调用和长上下文能力；</li>
+<li>超时和重试：区分模型超时与工具超时；</li>
+<li>并发与缓存：降低重复查询的延迟和费用。</li>
+</ul>
+<hr>
+<h2 id="9-对当前代码的-code-review" class="heading-element"><span>9. 对当前代码的 Code Review</span>
+  <a href="#9-%e5%af%b9%e5%bd%93%e5%89%8d%e4%bb%a3%e7%a0%81%e7%9a%84-code-review" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="91-做得好的地方" class="heading-element"><span>9.1 做得好的地方</span>
+  <a href="#91-%e5%81%9a%e5%be%97%e5%a5%bd%e7%9a%84%e5%9c%b0%e6%96%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>Agent、模型客户端、工具管理器职责分离；</li>
+<li>使用 <code>max_steps</code> 限制循环；</li>
+<li>工具由宿主注册，不允许模型任意执行函数；</li>
+<li><code>temperature=0</code> 有利于稳定输出；</li>
+<li>每次 <code>run()</code> 清空历史；</li>
+<li>搜索异常转换为文本 Observation，Agent 有机会继续处理；</li>
+<li>教学代码短小，清晰展示 ReAct 的最小闭环。</li>
+</ul>
+<h3 id="92-解析协议不够健壮" class="heading-element"><span>9.2 解析协议不够健壮</span>
+  <a href="#92-%e8%a7%a3%e6%9e%90%e5%8d%8f%e8%ae%ae%e4%b8%8d%e5%a4%9f%e5%81%a5%e5%a3%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>当前正则：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">re</span><span class="o">.</span><span class="k">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;(\w+)\[(.*)\]&#34;</span><span class="p">,</span> <span class="n">action_text</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>存在的问题：</p>
+<ul>
+<li><code>\w+</code> 不支持带连字符或命名空间的工具名；</li>
+<li>贪婪匹配可能吞入多余文本；</li>
+<li>没有要求匹配到字符串末尾；</li>
+<li>参数包含复杂括号时容易歧义；</li>
+<li>无法表达多个具名参数和参数类型；</li>
+<li><code>action.startswith(&quot;Finish&quot;)</code> 会把 <code>FinishWrong[...]</code> 也当作结束；</li>
+<li>空字符串参数会被当成非法，但某些工具可能不需要参数。</li>
+</ul>
+<p>工程上应优先使用模型原生 Tool Calling 和 JSON Schema，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;search&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;arguments&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;query&#34;</span><span class="p">:</span> <span class="s2">&#34;华为官网 最新手机 发布日期&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>并使用数据模型对参数进行类型校验。</p>
+<h3 id="93-缺少工具执行安全边界" class="heading-element"><span>9.3 缺少工具执行安全边界</span>
+  <a href="#93-%e7%bc%ba%e5%b0%91%e5%b7%a5%e5%85%b7%e6%89%a7%e8%a1%8c%e5%ae%89%e5%85%a8%e8%be%b9%e7%95%8c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>当前代码直接执行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">observation</span> <span class="o">=</span> <span class="n">tool_function</span><span class="p">(</span><span class="n">tool_input</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>生产环境至少需要：</p>
+<ul>
+<li>参数 Schema 校验；</li>
+<li>工具白名单与用户权限校验；</li>
+<li>单工具超时；</li>
+<li>异常捕获与标准错误码；</li>
+<li>重试和指数退避；</li>
+<li>限流与熔断；</li>
+<li>高风险操作二次确认；</li>
+<li>幂等键；</li>
+<li>沙箱隔离；</li>
+<li>输出长度限制和敏感信息脱敏。</li>
+</ul>
+<h3 id="94-history-管理过于简单" class="heading-element"><span>9.4 History 管理过于简单</span>
+  <a href="#94-history-%e7%ae%a1%e7%90%86%e8%bf%87%e4%ba%8e%e7%ae%80%e5%8d%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>当前 History 是字符串列表，会带来：</p>
+<ul>
+<li>角色信息丢失；</li>
+<li>长任务中上下文无限增长；</li>
+<li>不能方便地统计单步状态；</li>
+<li>难以支持并行工具调用；</li>
+<li>不利于持久化、恢复和回放。</li>
+</ul>
+<p>更合理的状态结构：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;question&#34;</span><span class="p">:</span> <span class="s2">&#34;...&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;steps&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">        <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;step_id&#34;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;action&#34;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&#34;tool&#34;</span><span class="p">:</span> <span class="s2">&#34;search&#34;</span><span class="p">,</span> <span class="s2">&#34;args&#34;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&#34;query&#34;</span><span class="p">:</span> <span class="s2">&#34;...&#34;</span><span class="p">}},</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;observation&#34;</span><span class="p">:</span> <span class="s2">&#34;...&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;status&#34;</span><span class="p">:</span> <span class="s2">&#34;success&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;latency_ms&#34;</span><span class="p">:</span> <span class="mi">320</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;budget&#34;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&#34;remaining_steps&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>长上下文下还需要 Observation 截断、摘要、检索式记忆或状态压缩。</p>
+<h3 id="95-终止机制不足" class="heading-element"><span>9.5 终止机制不足</span>
+  <a href="#95-%e7%bb%88%e6%ad%a2%e6%9c%ba%e5%88%b6%e4%b8%8d%e8%b6%b3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>当前只有两种终止方式：</p>
+<ul>
+<li>模型输出 <code>Finish[...]</code>；</li>
+<li>达到 <code>max_steps</code> 后返回 <code>None</code>。</li>
+</ul>
+<p>生产系统还应支持：</p>
+<ul>
+<li>总 Token 预算；</li>
+<li>总费用预算；</li>
+<li>总时间预算；</li>
+<li>单工具调用次数限制；</li>
+<li>重复动作检测；</li>
+<li>无新增信息检测；</li>
+<li>用户取消；</li>
+<li>达到最大步数时生成一份“基于已有证据的受限答案”，而非直接 <code>None</code>。</li>
+</ul>
+<h3 id="96-搜索质量和答案可信度不足" class="heading-element"><span>9.6 搜索质量和答案可信度不足</span>
+  <a href="#96-%e6%90%9c%e7%b4%a2%e8%b4%a8%e9%87%8f%e5%92%8c%e7%ad%94%e6%a1%88%e5%8f%af%e4%bf%a1%e5%ba%a6%e4%b8%8d%e8%b6%b3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>搜索工具只返回前三条摘要，没有：</p>
+<ul>
+<li>URL；</li>
+<li>发布时间；</li>
+<li>来源类型；</li>
+<li>网页正文；</li>
+<li>来源可信度；</li>
+<li>多来源一致性检查。</li>
+</ul>
+<p>对于“最新”“第一”“最高”等问题，应把时间和排序口径作为显式约束，并优先检索官方一手来源。</p>
+<hr>
+<h2 id="10-生产级-react-的推荐设计" class="heading-element"><span>10. 生产级 ReAct 的推荐设计</span>
+  <a href="#10-%e7%94%9f%e4%ba%a7%e7%ba%a7-react-%e7%9a%84%e6%8e%a8%e8%8d%90%e8%ae%be%e8%ae%a1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="101-控制面与数据面分离" class="heading-element"><span>10.1 控制面与数据面分离</span>
+  <a href="#101-%e6%8e%a7%e5%88%b6%e9%9d%a2%e4%b8%8e%e6%95%b0%e6%8d%ae%e9%9d%a2%e5%88%86%e7%a6%bb" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">控制面：LLM 决策、状态机、预算、权限、重试、终止条件
+</span></span><span class="line"><span class="cl">数据面：Search、SQL、RAG、代码执行、业务 API 等具体工具</span></span></code></pre></td></tr></table>
+</div>
+</div><p>不要把所有逻辑都写进 Prompt。确定性的约束应由代码执行，例如权限、预算、参数类型和幂等性。</p>
+<h3 id="102-使用结构化输出" class="heading-element"><span>10.2 使用结构化输出</span>
+  <a href="#102-%e4%bd%bf%e7%94%a8%e7%bb%93%e6%9e%84%e5%8c%96%e8%be%93%e5%87%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>推荐动作协议：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;tool_call&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;tool&#34;</span><span class="p">:</span> <span class="s2">&#34;search&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;arguments&#34;</span><span class="p">:</span> <span class="p">{</span><span class="nt">&#34;query&#34;</span><span class="p">:</span> <span class="s2">&#34;...&#34;</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;decision_summary&#34;</span><span class="p">:</span> <span class="s2">&#34;需要核验官方发布日期&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>最终响应协议：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;final&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;answer&#34;</span><span class="p">:</span> <span class="s2">&#34;...&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;citations&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;...&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;confidence&#34;</span><span class="p">:</span> <span class="s2">&#34;medium&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>结构化输出能减少正则解析错误，也便于监控和评测。</p>
+<h3 id="103-建立明确的状态机" class="heading-element"><span>10.3 建立明确的状态机</span>
+  <a href="#103-%e5%bb%ba%e7%ab%8b%e6%98%8e%e7%a1%ae%e7%9a%84%e7%8a%b6%e6%80%81%e6%9c%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><pre class="mermaid">stateDiagram-v2
+    [*] --> Decide
+    Decide --> Validate: tool_call
+    Validate --> Execute: 参数及权限合法
+    Validate --> Repair: 参数或权限非法
+    Repair --> Decide
+    Execute --> Observe
+    Observe --> Decide: 尚未完成且预算充足
+    Decide --> Finalize: final
+    Observe --> Finalize: 预算耗尽/无法继续
+    Finalize --> [*]</pre>
+<template>stateDiagram-v2
+    [*] --> Decide
+    Decide --> Validate: tool_call
+    Validate --> Execute: 参数及权限合法
+    Validate --> Repair: 参数或权限非法
+    Repair --> Decide
+    Execute --> Observe
+    Observe --> Decide: 尚未完成且预算充足
+    Decide --> Finalize: final
+    Observe --> Finalize: 预算耗尽/无法继续
+    Finalize --> [*]</template><h3 id="104-工具返回值标准化" class="heading-element"><span>10.4 工具返回值标准化</span>
+  <a href="#104-%e5%b7%a5%e5%85%b7%e8%bf%94%e5%9b%9e%e5%80%bc%e6%a0%87%e5%87%86%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不要只返回一段自然语言，建议统一为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;ok&#34;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;data&#34;</span><span class="p">:</span> <span class="p">{},</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;error&#34;</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;metadata&#34;</span><span class="p">:</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;...&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;timestamp&#34;</span><span class="p">:</span> <span class="s2">&#34;...&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="nt">&#34;latency_ms&#34;</span><span class="p">:</span> <span class="mi">123</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样模型和 Runtime 都更容易判断工具成功、失败或部分成功。</p>
+<h3 id="105-安全设计" class="heading-element"><span>10.5 安全设计</span>
+  <a href="#105-%e5%ae%89%e5%85%a8%e8%ae%be%e8%ae%a1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>将工具输出视为不可信数据，而不是高优先级指令；</li>
+<li>网页中的“忽略之前要求”等文本不能改变系统规则；</li>
+<li>数据库工具默认只读，限制表、字段和返回行数；</li>
+<li>写操作采用审批、人机确认和幂等机制；</li>
+<li>对外发消息、支付、删除等动作设置更高权限等级；</li>
+<li>对日志中的密钥、手机号、身份证等敏感信息脱敏。</li>
+</ul>
+<h3 id="106-可观测性与评测" class="heading-element"><span>10.6 可观测性与评测</span>
+  <a href="#106-%e5%8f%af%e8%a7%82%e6%b5%8b%e6%80%a7%e4%b8%8e%e8%af%84%e6%b5%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>线上指标至少包括：</p>
+<table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>指标示例</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>任务效果</td>
+          <td>task success rate、答案正确率、引用准确率</td>
+      </tr>
+      <tr>
+          <td>工具调用</td>
+          <td>工具选择准确率、参数正确率、调用成功率</td>
+      </tr>
+      <tr>
+          <td>效率</td>
+          <td>平均步骤数、Token、费用、P50/P95 延迟</td>
+      </tr>
+      <tr>
+          <td>稳定性</td>
+          <td>格式错误率、超时率、重试率、死循环率</td>
+      </tr>
+      <tr>
+          <td>安全</td>
+          <td>越权调用率、危险动作拦截率、注入攻击成功率</td>
+      </tr>
+  </tbody>
+</table>
+<p>评测集不能只看最终答案，还应检查整条轨迹：是否选择了正确工具、是否使用了必要证据、是否有冗余调用、是否在合理时间停止。</p>
+<hr>
+<h2 id="11-降低延迟和-token-成本的方法" class="heading-element"><span>11. 降低延迟和 Token 成本的方法</span>
+  <a href="#11-%e9%99%8d%e4%bd%8e%e5%bb%b6%e8%bf%9f%e5%92%8c-token-%e6%88%90%e6%9c%ac%e7%9a%84%e6%96%b9%e6%b3%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li>简单问题先做路由，不需要工具时直接回答；</li>
+<li>用小模型完成工具路由，大模型负责复杂综合；</li>
+<li>缓存相同或相近查询；</li>
+<li>对 Observation 去噪、截断和摘要；</li>
+<li>避免每轮重复注入不变的大段说明；</li>
+<li>对互不依赖的只读工具进行并行调用；</li>
+<li>设置重复动作检测和早停；</li>
+<li>限制工具结果数量，只保留与任务相关的字段；</li>
+<li>对高频固定流程采用工作流，对不确定节点局部使用 ReAct；</li>
+<li>通过离线评测选择满足效果要求的最小模型。</li>
+</ul>
+<p>面试中的一个成熟判断是：</p>
+<blockquote>
+<p>不是所有问题都应该交给自由循环 Agent。能用确定性工作流解决的部分，应优先使用工作流；只在需要动态决策和环境反馈的节点使用 ReAct。</p>
+</blockquote>
+<hr>
+<h2 id="12-常见失败模式及解决方案" class="heading-element"><span>12. 常见失败模式及解决方案</span>
+  <a href="#12-%e5%b8%b8%e8%a7%81%e5%a4%b1%e8%b4%a5%e6%a8%a1%e5%bc%8f%e5%8f%8a%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>失败模式</th>
+          <th>可能原因</th>
+          <th>解决方案</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>不调用应该调用的工具</td>
+          <td>工具描述不清、模型能力不足</td>
+          <td>优化描述和示例，增加路由器或强制规则</td>
+      </tr>
+      <tr>
+          <td>调错工具</td>
+          <td>工具功能重叠、名称含糊</td>
+          <td>减少重叠，说明适用/不适用场景</td>
+      </tr>
+      <tr>
+          <td>参数格式错误</td>
+          <td>文本协议脆弱</td>
+          <td>原生 Tool Calling + JSON Schema + 校验/修复</td>
+      </tr>
+      <tr>
+          <td>重复调用同一工具</td>
+          <td>Observation 无增量、无重复检测</td>
+          <td>动作去重，记录信息增益，设置调用上限</td>
+      </tr>
+      <tr>
+          <td>过早结束</td>
+          <td>停止条件模糊</td>
+          <td>定义证据充分性，要求引用和交叉验证</td>
+      </tr>
+      <tr>
+          <td>一直不结束</td>
+          <td>模型停止判断差</td>
+          <td>步数、时间、费用预算与强制 Finalize</td>
+      </tr>
+      <tr>
+          <td>工具结果被错误理解</td>
+          <td>返回文本冗长或结构不清</td>
+          <td>标准化结构、字段裁剪、结果摘要</td>
+      </tr>
+      <tr>
+          <td>搜索答案仍然幻觉</td>
+          <td>来源不可信或证据不足</td>
+          <td>官方源优先、多源校验、发布日期过滤</td>
+      </tr>
+      <tr>
+          <td>工具被网页提示词劫持</td>
+          <td>间接 Prompt Injection</td>
+          <td>数据/指令隔离、内容清洗、权限控制</td>
+      </tr>
+      <tr>
+          <td>重试造成重复副作用</td>
+          <td>工具非幂等</td>
+          <td>幂等键、事务、执行前检查、人工确认</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="13-高频面试题与参考回答" class="heading-element"><span>13. 高频面试题与参考回答</span>
+  <a href="#13-%e9%ab%98%e9%a2%91%e9%9d%a2%e8%af%95%e9%a2%98%e4%b8%8e%e5%8f%82%e8%80%83%e5%9b%9e%e7%ad%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="q1什么是-react" class="heading-element"><span>Q1：什么是 ReAct？</span>
+  <a href="#q1%e4%bb%80%e4%b9%88%e6%98%af-react" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>ReAct 是一种把语言模型推理和外部行动交替组织起来的 Agent 范式。模型根据问题与历史 Observation 决定下一步工具调用，环境执行后把结果反馈给模型，循环直到生成最终答案。它的核心是通过真实环境反馈形成闭环，而不是只依赖模型参数知识一次性作答。</p>
+<h3 id="q2react-为什么能减少幻觉能彻底消除吗" class="heading-element"><span>Q2：ReAct 为什么能减少幻觉？能彻底消除吗？</span>
+  <a href="#q2react-%e4%b8%ba%e4%bb%80%e4%b9%88%e8%83%bd%e5%87%8f%e5%b0%91%e5%b9%bb%e8%a7%89%e8%83%bd%e5%bd%bb%e5%ba%95%e6%b6%88%e9%99%a4%e5%90%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>它能通过搜索、数据库或业务 API 获取外部证据，降低仅凭参数知识编造答案的概率；同时模型可以根据 Observation 修正计划。但它不能彻底消除幻觉，因为工具结果可能错误，模型也可能选错工具、误读结果、虚构未被证据支持的结论或过早停止。</p>
+<h3 id="q3react-的核心组件有哪些" class="heading-element"><span>Q3：ReAct 的核心组件有哪些？</span>
+  <a href="#q3react-%e7%9a%84%e6%a0%b8%e5%bf%83%e7%bb%84%e4%bb%b6%e6%9c%89%e5%93%aa%e4%ba%9b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>至少包括：LLM 决策器、Prompt/工具描述、工具注册与执行层、状态或轨迹存储、输出解析/结构化调用、终止条件，以及生产环境中的权限、预算、重试、日志和评测模块。</p>
+<h3 id="q4为什么需要-max_steps" class="heading-element"><span>Q4：为什么需要 <code>max_steps</code>？</span>
+  <a href="#q4%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81-max_steps" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>它用于限制死循环、异常重试、Token 和费用失控。但只设置最大步数不够，还应增加时间、费用、单工具次数和重复动作等预算，并在预算耗尽时提供可解释的降级结果。</p>
+<h3 id="q5文本版-action-toolinput-有什么问题" class="heading-element"><span>Q5：文本版 <code>Action: Tool[input]</code> 有什么问题？</span>
+  <a href="#q5%e6%96%87%e6%9c%ac%e7%89%88-action-toolinput-%e6%9c%89%e4%bb%80%e4%b9%88%e9%97%ae%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>它依赖模型严格遵循格式，正则解析对换行、括号、额外文本和复杂参数都很敏感。生产中更适合使用原生 Tool Calling、JSON Schema 和严格参数校验。</p>
+<h3 id="q6如何避免-agent-死循环" class="heading-element"><span>Q6：如何避免 Agent 死循环？</span>
+  <a href="#q6%e5%a6%82%e4%bd%95%e9%81%bf%e5%85%8d-agent-%e6%ad%bb%e5%be%aa%e7%8e%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>设置步数/时间/费用预算；检测完全相同或语义相近的重复动作；判断 Observation 是否带来新信息；限制单工具调用次数；在多次失败后切换策略或降级；必要时由状态机强制进入 Finalize。</p>
+<h3 id="q7如何评测-react-agent" class="heading-element"><span>Q7：如何评测 ReAct Agent？</span>
+  <a href="#q7%e5%a6%82%e4%bd%95%e8%af%84%e6%b5%8b-react-agent" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不能只看最终答案。应同时评测任务成功率、工具选择、参数正确性、证据引用、轨迹效率、步骤数、延迟、费用、格式错误、恢复能力和安全性。测试集还应覆盖工具超时、空结果、冲突结果、恶意工具输出等异常场景。</p>
+<h3 id="q8如何设计工具描述" class="heading-element"><span>Q8：如何设计工具描述？</span>
+  <a href="#q8%e5%a6%82%e4%bd%95%e8%ae%be%e8%ae%a1%e5%b7%a5%e5%85%b7%e6%8f%8f%e8%bf%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>需要写清工具用途、适用和不适用场景、参数含义与类型、返回值、限制、成本及副作用。功能重叠的工具应明确选择边界；高风险工具还要说明权限和确认要求。</p>
+<h3 id="q9react-如何处理-prompt-injection" class="heading-element"><span>Q9：ReAct 如何处理 Prompt Injection？</span>
+  <a href="#q9react-%e5%a6%82%e4%bd%95%e5%a4%84%e7%90%86-prompt-injection" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>工具内容全部视为不可信数据；系统指令与工具结果分层；明确禁止把网页文字当作系统命令；执行前由 Runtime 做权限和参数校验；高风险动作必须人工确认；使用攻击样本持续做红队评测。</p>
+<h3 id="q10什么时候不适合使用-react" class="heading-element"><span>Q10：什么时候不适合使用 ReAct？</span>
+  <a href="#q10%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e4%b8%8d%e9%80%82%e5%90%88%e4%bd%bf%e7%94%a8-react" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>流程完全确定、追求极低延迟、操作风险很高且必须严格可控、或者简单问答不需要工具时，不应使用自由循环 ReAct。可以改用确定性工作流、规则引擎、单次工具调用或人工审批流程。</p>
+<h3 id="q11如何把当前-demo-改造成生产版本" class="heading-element"><span>Q11：如何把当前 Demo 改造成生产版本？</span>
+  <a href="#q11%e5%a6%82%e4%bd%95%e6%8a%8a%e5%bd%93%e5%89%8d-demo-%e6%94%b9%e9%80%a0%e6%88%90%e7%94%9f%e4%ba%a7%e7%89%88%e6%9c%ac" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>用原生 Tool Calling 替代正则；用结构化状态保存轨迹；给工具增加 Schema、权限、超时、重试和幂等；增加多维预算与重复检测；对搜索结果保留 URL、日期和来源；加入日志、Tracing、离线评测与线上指标；对危险操作增加审批；最后再根据效果和成本优化模型路由、缓存与并行调用。</p>
+<h3 id="q12react-的可解释性应该如何理解" class="heading-element"><span>Q12：ReAct 的“可解释性”应该如何理解？</span>
+  <a href="#q12react-%e7%9a%84%e5%8f%af%e8%a7%a3%e9%87%8a%e6%80%a7%e5%ba%94%e8%af%a5%e5%a6%82%e4%bd%95%e7%90%86%e8%a7%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>它主要提供过程可观测性：能看到工具选择、参数、返回值、引用和状态变化，这有助于调试和审计。但自然语言 Thought 不一定忠实反映模型真实计算过程，也不应默认向终端用户暴露。生产系统应优先记录结构化的决策摘要和执行证据。</p>
+<hr>
+<h2 id="14-手写一个最小-react-的伪代码" class="heading-element"><span>14. 手写一个最小 ReAct 的伪代码</span>
+  <a href="#14-%e6%89%8b%e5%86%99%e4%b8%80%e4%b8%aa%e6%9c%80%e5%b0%8f-react-%e7%9a%84%e4%bc%aa%e4%bb%a3%e7%a0%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">max_steps</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">state</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&#34;question&#34;</span><span class="p">:</span> <span class="n">question</span><span class="p">,</span> <span class="s2">&#34;steps&#34;</span><span class="p">:</span> <span class="p">[]}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_steps</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">decision</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">decide</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="n">question</span><span class="o">=</span><span class="n">state</span><span class="p">[</span><span class="s2">&#34;question&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">            <span class="n">tools</span><span class="o">=</span><span class="n">tool_schemas</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="n">history</span><span class="o">=</span><span class="n">state</span><span class="p">[</span><span class="s2">&#34;steps&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">decision</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&#34;final&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="k">return</span> <span class="n">decision</span><span class="o">.</span><span class="n">answer</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">validate_tool_call</span><span class="p">(</span><span class="n">decision</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">observation</span> <span class="o">=</span> <span class="n">execute_with_timeout_and_permission</span><span class="p">(</span><span class="n">decision</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">state</span><span class="p">[</span><span class="s2">&#34;steps&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;action&#34;</span><span class="p">:</span> <span class="n">decision</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">            <span class="s2">&#34;observation&#34;</span><span class="p">:</span> <span class="n">observation</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">is_repeated_without_new_information</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">break</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">finalize_from_existing_evidence</span><span class="p">(</span><span class="n">state</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>面试手写时要主动说明：真实系统还需要异常处理、权限控制、预算、可观测性、持久化和安全防护。</p>
+<hr>
+<h2 id="15-一页速记" class="heading-element"><span>15. 一页速记</span>
+  <a href="#15-%e4%b8%80%e9%a1%b5%e9%80%9f%e8%ae%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="核心公式" class="heading-element"><span>核心公式</span>
+  <a href="#%e6%a0%b8%e5%bf%83%e5%85%ac%e5%bc%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ReAct = Reasoning + Acting + Environment Feedback</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="基本循环" class="heading-element"><span>基本循环</span>
+  <a href="#%e5%9f%ba%e6%9c%ac%e5%be%aa%e7%8e%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Question → Thought → Action → Observation → ... → Finish</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="两个核心优点" class="heading-element"><span>两个核心优点</span>
+  <a href="#%e4%b8%a4%e4%b8%aa%e6%a0%b8%e5%bf%83%e4%bc%98%e7%82%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>动作和环境反馈可观测，便于调试、审计和定位故障；</li>
+<li>能根据 Observation 动态规划与纠错。</li>
+</ul>
+<h3 id="三个主要局限" class="heading-element"><span>三个主要局限</span>
+  <a href="#%e4%b8%89%e4%b8%aa%e4%b8%bb%e8%a6%81%e5%b1%80%e9%99%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>依赖模型的工具选择、参数生成和停止判断能力；</li>
+<li>多轮 LLM + 工具调用造成延迟、Token 和费用增加；</li>
+<li>可能重复探索、过早结束或陷入局部最优。</li>
+</ul>
+<h3 id="四个调试抓手" class="heading-element"><span>四个调试抓手</span>
+  <a href="#%e5%9b%9b%e4%b8%aa%e8%b0%83%e8%af%95%e6%8a%93%e6%89%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>检查完整 Prompt；</li>
+<li>查看原始模型输出、解析结果和工具 I/O；</li>
+<li>补充覆盖异常路径的 few-shot 示例；</li>
+<li>对比模型、温度、预算和工具描述。</li>
+</ul>
+<h3 id="五个生产化关键词" class="heading-element"><span>五个生产化关键词</span>
+  <a href="#%e4%ba%94%e4%b8%aa%e7%94%9f%e4%ba%a7%e5%8c%96%e5%85%b3%e9%94%ae%e8%af%8d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">结构化 Tool Calling
+</span></span><span class="line"><span class="cl">状态机与预算
+</span></span><span class="line"><span class="cl">权限、幂等和沙箱
+</span></span><span class="line"><span class="cl">Tracing 与轨迹评测
+</span></span><span class="line"><span class="cl">Prompt Injection 防护</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="面试收尾金句" class="heading-element"><span>面试收尾金句</span>
+  <a href="#%e9%9d%a2%e8%af%95%e6%94%b6%e5%b0%be%e9%87%91%e5%8f%a5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>ReAct 的本质不是让模型无限自主，而是在受控 Runtime 中，让模型根据环境反馈做有限、可观测、可评测的动态决策。生产落地的关键不只是 Prompt，而是工具协议、状态管理、安全边界、停止条件和评测体系。</p>
+</blockquote>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-07-23 08:36:00">更新于 2026-07-23&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/mlreact/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/agent/" class="post-tag" title="标签 - Agent">Agent</a><a href="/tags/react/" class="post-tag" title="标签 - ReAct">ReAct</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/misc2026.7.11-%E4%B8%8A%E6%B5%B7%E6%B8%B8%E8%AE%B0/" class="post-nav-item" rel="prev" title="上海游记 Ⅱ"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>上海游记 Ⅱ</a><a href="/posts/mlreflection/" class="post-nav-item" rel="next" title="Reflection">Reflection<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.3.0/dist/mermaid.esm.min.mjs';
+    
+    
+    
+    window.mermaid = mermaid;
+  </script><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"mermaid":{"themes":["default","dark"]},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>

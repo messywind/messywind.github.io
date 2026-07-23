@@ -1,0 +1,2073 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Reflection - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="1. 一句话理解 Reflection Reflection 是让 Agent 对自己上一轮的输出或执行轨迹进行评估，把失败原因和改进建议转化为语言反馈，再用反馈指导下一轮生成。
+"><meta name="keywords" content='Agent, Reflection'>
+  <meta itemprop="name" content="Reflection">
+  <meta itemprop="description" content="1. 一句话理解 Reflection Reflection 是让 Agent 对自己上一轮的输出或执行轨迹进行评估，把失败原因和改进建议转化为语言反馈，再用反馈指导下一轮生成。">
+  <meta itemprop="datePublished" content="2026-07-22T15:53:00+00:00">
+  <meta itemprop="dateModified" content="2026-07-23T08:36:00+00:00">
+  <meta itemprop="wordCount" content="11728">
+  <meta itemprop="keywords" content="Agent,Reflection"><meta property="og:url" content="https://blog.messywind.top/posts/mlreflection/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="Reflection">
+  <meta property="og:description" content="1. 一句话理解 Reflection Reflection 是让 Agent 对自己上一轮的输出或执行轨迹进行评估，把失败原因和改进建议转化为语言反馈，再用反馈指导下一轮生成。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-07-22T15:53:00+00:00">
+    <meta property="article:modified_time" content="2026-07-23T08:36:00+00:00">
+    <meta property="article:tag" content="Agent">
+    <meta property="article:tag" content="Reflection">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Reflection">
+  <meta name="twitter:description" content="1. 一句话理解 Reflection Reflection 是让 Agent 对自己上一轮的输出或执行轨迹进行评估，把失败原因和改进建议转化为语言反馈，再用反馈指导下一轮生成。">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mlreflection/" title="Reflection - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/mlreact/" title="ReAct" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/mlplan-and-solve/" title="Plan-And-Solve" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mlreflection/index.md" title="Reflection - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Reflection",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/mlreflection\/"
+    },"genre": "posts","keywords": "Agent, Reflection","wordcount":  11728 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlreflection\/","datePublished": "2026-07-22T15:53:00+00:00","dateModified": "2026-07-23T08:36:00+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Reflection</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-07-22 15:53:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-22">2026-07-22</time></span>&nbsp;<span title="更新于 2026-07-23 08:36:00"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-23">2026-07-23</time></span>&nbsp;<span title="11728 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 11800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 24 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="Reflection"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-一句话理解-reflection">1. 一句话理解 Reflection</a></li>
+    <li><a href="#2-reflectionself-reflection-与-reflexion">2. Reflection、Self-Reflection 与 Reflexion</a>
+      <ul>
+        <li><a href="#21-reflection">2.1 Reflection</a></li>
+        <li><a href="#22-self-reflection">2.2 Self-Reflection</a></li>
+        <li><a href="#23-reflexion">2.3 Reflexion</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-图片中的完整-reflection-架构">3. 图片中的完整 Reflection 架构</a>
+      <ul>
+        <li><a href="#31-actor执行者">3.1 Actor：执行者</a></li>
+        <li><a href="#32-trajectory短期轨迹">3.2 Trajectory：短期轨迹</a></li>
+        <li><a href="#33-evaluator评估器">3.3 Evaluator：评估器</a></li>
+        <li><a href="#34-self-reflection形成可复用的语言经验">3.4 Self-reflection：形成可复用的语言经验</a></li>
+        <li><a href="#35-experience长期经验">3.5 Experience：长期经验</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-用数学形式描述-reflection">4. 用数学形式描述 Reflection</a></li>
+    <li><a href="#5-notebook-整体结构">5. Notebook 整体结构</a></li>
+    <li><a href="#6-memory-源码拆解">6. <code>Memory</code> 源码拆解</a>
+      <ul>
+        <li><a href="#61-数据结构">6.1 数据结构</a></li>
+        <li><a href="#62-add_record">6.2 <code>add_record()</code></a></li>
+        <li><a href="#63-get_trajectory">6.3 <code>get_trajectory()</code></a></li>
+        <li><a href="#64-get_last_execution">6.4 <code>get_last_execution()</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#7-三类-prompt-的职责">7. 三类 Prompt 的职责</a>
+      <ul>
+        <li><a href="#71-initial-prompt建立初始解">7.1 Initial Prompt：建立初始解</a></li>
+        <li><a href="#72-reflect-prompt聚焦算法效率">7.2 Reflect Prompt：聚焦算法效率</a></li>
+        <li><a href="#73-refine-prompt把反馈变成新解">7.3 Refine Prompt：把反馈变成新解</a></li>
+      </ul>
+    </li>
+    <li><a href="#8-reflectionagentrun-执行流程">8. <code>ReflectionAgent.run()</code> 执行流程</a>
+      <ul>
+        <li><a href="#81-初始执行">8.1 初始执行</a></li>
+        <li><a href="#82-反思循环">8.2 反思循环</a></li>
+        <li><a href="#83-停止机制">8.3 停止机制</a></li>
+        <li><a href="#84-模型调用次数与成本">8.4 模型调用次数与成本</a></li>
+      </ul>
+    </li>
+    <li><a href="#9-notebook-运行结果分析">9. Notebook 运行结果分析</a>
+      <ul>
+        <li><a href="#91-初始方案逐数试除">9.1 初始方案：逐数试除</a></li>
+        <li><a href="#92-第一轮反思改用埃拉托斯特尼筛法">9.2 第一轮反思：改用埃拉托斯特尼筛法</a></li>
+        <li><a href="#93-第二轮反思只存储奇数">9.3 第二轮反思：只存储奇数</a></li>
+        <li><a href="#94-最后一版为什么仍不能直接称为已验证最优">9.4 最后一版为什么仍不能直接称为“已验证最优”</a></li>
+      </ul>
+    </li>
+    <li><a href="#10-图片中的成本收益与适用场景">10. 图片中的成本、收益与适用场景</a>
+      <ul>
+        <li><a href="#101-核心收益">10.1 核心收益</a>
+          <ul>
+            <li><a href="#解决方案质量跃迁">解决方案质量跃迁</a></li>
+            <li><a href="#鲁棒性与可靠性增强">鲁棒性与可靠性增强</a></li>
+          </ul>
+        </li>
+        <li><a href="#102-主要成本">10.2 主要成本</a>
+          <ul>
+            <li><a href="#模型调用开销增加">模型调用开销增加</a></li>
+            <li><a href="#端到端延迟显著提高">端到端延迟显著提高</a></li>
+            <li><a href="#prompt-工程和流程复杂度上升">Prompt 工程和流程复杂度上升</a></li>
+          </ul>
+        </li>
+        <li><a href="#103-适用场景">10.3 适用场景</a></li>
+        <li><a href="#104-不适用或需要谨慎的场景">10.4 不适用或需要谨慎的场景</a></li>
+      </ul>
+    </li>
+    <li><a href="#11-当前-notebook-与完整架构的对应关系">11. 当前 Notebook 与完整架构的对应关系</a></li>
+    <li><a href="#12-当前实现的优点">12. 当前实现的优点</a></li>
+    <li><a href="#13-当前实现的关键问题">13. 当前实现的关键问题</a>
+      <ul>
+        <li><a href="#131-没有真实执行reflection-缺少事实基础">13.1 没有真实执行，Reflection 缺少事实基础</a></li>
+        <li><a href="#132-actor-和-evaluator-共享模型盲区">13.2 Actor 和 Evaluator 共享模型盲区</a></li>
+        <li><a href="#133-反馈是自由文本机器难以可靠消费">13.3 反馈是自由文本，机器难以可靠消费</a></li>
+        <li><a href="#134-停止条件脆弱">13.4 停止条件脆弱</a></li>
+        <li><a href="#135-get_trajectory-没有进入主流程">13.5 <code>get_trajectory()</code> 没有进入主流程</a></li>
+        <li><a href="#136-最后一轮优化没有再验证">13.6 最后一轮优化没有再验证</a></li>
+        <li><a href="#137-错误处理不足">13.7 错误处理不足</a></li>
+        <li><a href="#138-prompt-injection-与代码安全">13.8 Prompt Injection 与代码安全</a></li>
+      </ul>
+    </li>
+    <li><a href="#14-生产级-reflection-agent-如何升级">14. 生产级 Reflection Agent 如何升级</a>
+      <ul>
+        <li><a href="#141-推荐架构">14.1 推荐架构</a></li>
+        <li><a href="#142-把生成代码升级为生成执行观察">14.2 把“生成代码”升级为“生成—执行—观察”</a></li>
+        <li><a href="#143-多维-evaluator">14.3 多维 Evaluator</a></li>
+        <li><a href="#144-结构化-reflection">14.4 结构化 Reflection</a></li>
+        <li><a href="#145-更合理的终止策略">14.5 更合理的终止策略</a></li>
+        <li><a href="#146-候选集与回滚">14.6 候选集与回滚</a></li>
+        <li><a href="#147-长期经验的写入与检索">14.7 长期经验的写入与检索</a></li>
+      </ul>
+    </li>
+    <li><a href="#15-reflection-与其他-agent-范式的区别">15. Reflection 与其他 Agent 范式的区别</a>
+      <ul>
+        <li><a href="#151-reflection-vs-chain-of-thought">15.1 Reflection vs. Chain-of-Thought</a></li>
+        <li><a href="#152-reflection-vs-react">15.2 Reflection vs. ReAct</a></li>
+        <li><a href="#153-reflection-vs-plan-and-solve">15.3 Reflection vs. Plan-and-Solve</a></li>
+        <li><a href="#154-reflection-vs-多-agent-debate">15.4 Reflection vs. 多 Agent Debate</a></li>
+        <li><a href="#155-reflection-vs-强化学习">15.5 Reflection vs. 强化学习</a></li>
+      </ul>
+    </li>
+    <li><a href="#16-如何评价-reflection-是否真的有效">16. 如何评价 Reflection 是否真的有效</a>
+      <ul>
+        <li><a href="#161-基线组">16.1 基线组</a></li>
+        <li><a href="#162-核心指标">16.2 核心指标</a></li>
+        <li><a href="#163-消融实验">16.3 消融实验</a></li>
+        <li><a href="#164-防止评测污染">16.4 防止评测污染</a></li>
+      </ul>
+    </li>
+    <li><a href="#17-面试高频问题与参考回答">17. 面试高频问题与参考回答</a>
+      <ul>
+        <li><a href="#q1reflection-agent-的本质是什么">Q1：Reflection Agent 的本质是什么？</a></li>
+        <li><a href="#q2为什么-reflection-能提升效果">Q2：为什么 Reflection 能提升效果？</a></li>
+        <li><a href="#q3actor-和-evaluator-可以是同一个模型吗">Q3：Actor 和 Evaluator 可以是同一个模型吗？</a></li>
+        <li><a href="#q4reflection-和让模型再想一想有什么区别">Q4：Reflection 和让模型“再想一想”有什么区别？</a></li>
+        <li><a href="#q5如何防止无限反思">Q5：如何防止无限反思？</a></li>
+        <li><a href="#q6reflection-最大的问题是什么">Q6：Reflection 最大的问题是什么？</a></li>
+        <li><a href="#q7如何将-notebook-改造成生产系统">Q7：如何将 Notebook 改造成生产系统？</a></li>
+        <li><a href="#q8为什么-get_trajectory-没有被使用是一个问题">Q8：为什么 <code>get_trajectory()</code> 没有被使用是一个问题？</a></li>
+        <li><a href="#q9如何设计评估器">Q9：如何设计评估器？</a></li>
+        <li><a href="#q10为什么最后一轮必须再验证">Q10：为什么最后一轮必须再验证？</a></li>
+        <li><a href="#q11长期记忆应该保存什么">Q11：长期记忆应该保存什么？</a></li>
+        <li><a href="#q12如何处理越改越差">Q12：如何处理“越改越差”？</a></li>
+      </ul>
+    </li>
+    <li><a href="#18-面试中的项目讲述模板">18. 面试中的项目讲述模板</a></li>
+    <li><a href="#19-一页速记">19. 一页速记</a>
+      <ul>
+        <li><a href="#核心闭环">核心闭环</a></li>
+        <li><a href="#五个关键角色">五个关键角色</a></li>
+        <li><a href="#notebook-的实现">Notebook 的实现</a></li>
+        <li><a href="#示例中的质量提升">示例中的质量提升</a></li>
+        <li><a href="#三个最大收益">三个最大收益</a></li>
+        <li><a href="#三个主要成本">三个主要成本</a></li>
+        <li><a href="#当前代码的五个关键缺口">当前代码的五个关键缺口</a></li>
+        <li><a href="#面试收尾句">面试收尾句</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="1-一句话理解-reflection" class="heading-element"><span>1. 一句话理解 Reflection</span>
+  <a href="#1-%e4%b8%80%e5%8f%a5%e8%af%9d%e7%90%86%e8%a7%a3-reflection" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><strong>Reflection 是让 Agent 对自己上一轮的输出或执行轨迹进行评估，把失败原因和改进建议转化为语言反馈，再用反馈指导下一轮生成。</strong></p>
+<p>普通的一次性生成是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Task → LLM → Answer</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Reflection 增加了一个质量改进闭环：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Task → Actor 生成候选结果
+</span></span><span class="line"><span class="cl">            ↓
+</span></span><span class="line"><span class="cl">       Evaluator 评审
+</span></span><span class="line"><span class="cl">            ↓
+</span></span><span class="line"><span class="cl">     Reflection 形成反馈
+</span></span><span class="line"><span class="cl">            ↓
+</span></span><span class="line"><span class="cl">       Actor 根据反馈重写
+</span></span><span class="line"><span class="cl">            ↓
+</span></span><span class="line"><span class="cl">       满足标准或达到迭代上限</span></span></code></pre></td></tr></table>
+</div>
+</div><p>它的关键不只是“多调用几次模型”，而是让每次额外调用承担明确职责：</p>
+<ul>
+<li><strong>Actor</strong>：产生或修改解决方案；</li>
+<li><strong>Evaluator</strong>：判断当前方案有什么问题；</li>
+<li><strong>Self-reflection</strong>：把评估结果提炼成可执行的改进建议；</li>
+<li><strong>Memory</strong>：保存历史尝试、失败经验和反馈；</li>
+<li><strong>Stop condition</strong>：判断何时结束迭代。</li>
+</ul>
+<p>面试时可以用下面这句话概括：</p>
+<blockquote>
+<p>Reflection 用测试、规则、环境结果或模型评审构造反馈信号，并通过“生成—评估—修正”的闭环提升复杂任务的最终成功率。它主要优化的是推理时的搜索与纠错过程，通常不修改模型参数。</p>
+</blockquote>
+<hr>
+<h2 id="2-reflectionself-reflection-与-reflexion" class="heading-element"><span>2. Reflection、Self-Reflection 与 Reflexion</span>
+  <a href="#2-reflectionself-reflection-%e4%b8%8e-reflexion" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>这些词在课程、论文和工程项目中经常混用，面试中最好主动区分。</p>
+<h3 id="21-reflection" class="heading-element"><span>2.1 Reflection</span>
+  <a href="#21-reflection" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Reflection 是一个宽泛的 Agent 设计范式：对当前答案或执行过程进行复盘，再迭代改进。</p>
+<p>反馈可以来自：</p>
+<ul>
+<li>同一个 LLM 的自我批评；</li>
+<li>另一个 LLM Judge；</li>
+<li>单元测试、编译器、静态分析器；</li>
+<li>搜索、数据库或其他工具的返回结果；</li>
+<li>人类反馈；</li>
+<li>业务规则和奖励函数。</li>
+</ul>
+<h3 id="22-self-reflection" class="heading-element"><span>2.2 Self-Reflection</span>
+  <a href="#22-self-reflection" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Self-Reflection 强调由模型阅读自己的输出并生成反思内容。Actor 和 Evaluator 可以复用同一个底座模型，只是使用不同 Prompt，也可以使用两个独立模型。</p>
+<h3 id="23-reflexion" class="heading-element"><span>2.3 Reflexion</span>
+  <a href="#23-reflexion" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Reflexion 通常特指一种更具体的思路：把环境奖励、执行轨迹和评估反馈转化为<strong>自然语言反思</strong>，再将反思保存到情景记忆中，供后续尝试使用。</p>
+<p>因此，图片中的 <code>Trajectory（短期记忆）</code>、<code>Evaluator</code>、<code>Self-reflection</code>、<code>Experience（长期记忆）</code> 更接近完整的 Reflexion 式架构；本 Notebook 的名称虽然是 Reflection，但实现的是一个简化版的语言反馈循环。</p>
+<blockquote>
+<p>不必在面试中纠结名词边界。更重要的是讲清楚：反馈从哪里来、如何进入下一轮上下文、记忆保留多久、怎样判断真的变好了。</p>
+</blockquote>
+<hr>
+<h2 id="3-图片中的完整-reflection-架构" class="heading-element"><span>3. 图片中的完整 Reflection 架构</span>
+  <a href="#3-%e5%9b%be%e7%89%87%e4%b8%ad%e7%9a%84%e5%ae%8c%e6%95%b4-reflection-%e6%9e%b6%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>第一张图可以抽象为以下闭环：</p>
+<pre class="mermaid">flowchart LR
+    T["Task / 当前任务"] --> A["Actor"]
+    X["Experience<br/>长期经验"] --> A
+    M["Trajectory<br/>短期轨迹"] --> A
+    A --> AC["Action"]
+    AC --> ENV["Environment"]
+    ENV --> OB["Observation"]
+    OB --> M
+    M --> E["Evaluator"]
+    OB --> E
+    E -->|"内部 Feedback"| R["Self-reflection"]
+    H["外部 Feedback<br/>测试 / 人类 / 环境奖励"] --> R
+    R --> X
+    X --> A</pre>
+<template>flowchart LR
+    T["Task / 当前任务"] --> A["Actor"]
+    X["Experience<br/>长期经验"] --> A
+    M["Trajectory<br/>短期轨迹"] --> A
+    A --> AC["Action"]
+    AC --> ENV["Environment"]
+    ENV --> OB["Observation"]
+    OB --> M
+    M --> E["Evaluator"]
+    OB --> E
+    E -->|"内部 Feedback"| R["Self-reflection"]
+    H["外部 Feedback<br/>测试 / 人类 / 环境奖励"] --> R
+    R --> X
+    X --> A</template><h3 id="31-actor执行者" class="heading-element"><span>3.1 Actor：执行者</span>
+  <a href="#31-actor%e6%89%a7%e8%a1%8c%e8%80%85" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Actor 根据任务、当前轨迹和历史经验决定下一步动作。动作可以是：</p>
+<ul>
+<li>生成或修改代码；</li>
+<li>调用工具；</li>
+<li>查询资料；</li>
+<li>与环境交互；</li>
+<li>输出最终答案。</li>
+</ul>
+<p>在 Notebook 中，Actor 不是一个单独的 Python 类，而是同一个 LLM 在两类 Prompt 下扮演的角色：</p>
+<ul>
+<li><code>INITIAL_PROMPT_TEMPLATE</code>：生成初始代码；</li>
+<li><code>REFINE_PROMPT_TEMPLATE</code>：根据反馈重写代码。</li>
+</ul>
+<h3 id="32-trajectory短期轨迹" class="heading-element"><span>3.2 Trajectory：短期轨迹</span>
+  <a href="#32-trajectory%e7%9f%ad%e6%9c%9f%e8%bd%a8%e8%bf%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Trajectory 保存当前任务中的中间过程，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">第 0 轮代码
+</span></span><span class="line"><span class="cl">→ 第 1 轮评审反馈
+</span></span><span class="line"><span class="cl">→ 第 1 轮优化代码
+</span></span><span class="line"><span class="cl">→ 第 2 轮评审反馈
+</span></span><span class="line"><span class="cl">→ 第 2 轮优化代码</span></span></code></pre></td></tr></table>
+</div>
+</div><p>它解决的是当前一次运行中的上下文连续性问题，通常随着任务结束而清空。</p>
+<p>Notebook 中的 <code>Memory.records</code> 承担了这一角色，但主流程实际上只读取了：</p>
+<ul>
+<li>最近一次执行结果：<code>get_last_execution()</code>；</li>
+<li>最新一轮评审反馈：局部变量 <code>feedback</code>。</li>
+</ul>
+<p>虽然类中实现了 <code>get_trajectory()</code>，但 <code>ReflectionAgent.run()</code> 并没有调用它，因此完整历史轨迹没有真正进入后续 Prompt。</p>
+<h3 id="33-evaluator评估器" class="heading-element"><span>3.3 Evaluator：评估器</span>
+  <a href="#33-evaluator%e8%af%84%e4%bc%b0%e5%99%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Evaluator 判断当前方案的正确性、效率、安全性或任务完成度。图片同时展示了两类反馈：</p>
+<ul>
+<li><strong>内部反馈</strong>：LLM Judge、规则判断、模型自评；</li>
+<li><strong>外部反馈</strong>：环境奖励、单元测试、人类评审、线上指标。</li>
+</ul>
+<p>Notebook 的 Evaluator 是 <code>REFLECT_PROMPT_TEMPLATE</code> 驱动的同一个 LLM，评估维度被限定为<strong>算法效率</strong>。</p>
+<h3 id="34-self-reflection形成可复用的语言经验" class="heading-element"><span>3.4 Self-reflection：形成可复用的语言经验</span>
+  <a href="#34-self-reflection%e5%bd%a2%e6%88%90%e5%8f%af%e5%a4%8d%e7%94%a8%e7%9a%84%e8%af%ad%e8%a8%80%e7%bb%8f%e9%aa%8c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Evaluator 的原始信号不一定能直接帮助 Actor。例如，测试只会告诉我们：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">test_large_input: timeout</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Self-reflection 需要进一步将它转化为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">当前实现对每个整数使用试除法，整体约为 O(n√n)，大输入超时。
+</span></span><span class="line"><span class="cl">下一轮应改用埃拉托斯特尼筛法，将时间复杂度降到 O(n log log n)。</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Notebook 中“评估”和“形成反思”没有拆成两个步骤，<code>REFLECT_PROMPT_TEMPLATE</code> 一次完成了问题诊断与改进建议生成。</p>
+<h3 id="35-experience长期经验" class="heading-element"><span>3.5 Experience：长期经验</span>
+  <a href="#35-experience%e9%95%bf%e6%9c%9f%e7%bb%8f%e9%aa%8c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>长期经验应跨任务或跨会话保存，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">经验：涉及区间素数枚举时，先根据 n 的规模比较试除法、普通筛和分段筛。
+</span></span><span class="line"><span class="cl">经验：代码生成后必须去除 Markdown 围栏再编译和测试。</span></span></code></pre></td></tr></table>
+</div>
+</div><p>完整系统通常会将经验持久化到数据库、向量库或结构化经验表中，并在新任务开始时检索相关经验。</p>
+<p>Notebook 中的 <code>Memory</code> 只存在于单个 <code>ReflectionAgent</code> 实例的内存中，也没有检索和持久化，所以它更准确地说是<strong>短期情景记忆</strong>，不是图片中的长期 Experience。</p>
+<hr>
+<h2 id="4-用数学形式描述-reflection" class="heading-element"><span>4. 用数学形式描述 Reflection</span>
+  <a href="#4-%e7%94%a8%e6%95%b0%e5%ad%a6%e5%bd%a2%e5%bc%8f%e6%8f%8f%e8%bf%b0-reflection" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>设：</p>
+<ul>
+<li>任务为 <code>x</code>；</li>
+<li>第 <code>t</code> 轮候选答案为 <code>y_t</code>；</li>
+<li>执行轨迹为 <code>τ_t</code>；</li>
+<li>第 <code>t</code> 轮评估反馈为 <code>f_t</code>；</li>
+<li>可检索经验为 <code>m_t</code>。</li>
+</ul>
+<p>初始生成：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">y₀ = Actor(x, m₀)</span></span></code></pre></td></tr></table>
+</div>
+</div><p>评估与反思：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">fₜ = Evaluator(x, yₜ, τₜ, external_feedbackₜ)</span></span></code></pre></td></tr></table>
+</div>
+</div><p>经验更新：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">mₜ₊₁ = MemoryUpdate(mₜ, fₜ, τₜ)</span></span></code></pre></td></tr></table>
+</div>
+</div><p>下一轮优化：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">yₜ₊₁ = Actor(x, yₜ, fₜ, mₜ₊₁)</span></span></code></pre></td></tr></table>
+</div>
+</div><p>终止条件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">stop = pass(yₜ) or t &gt;= max_iterations or budget_exhausted</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Notebook 实际实现得更简单：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">y₀ = LLM(initial_prompt(task))
+</span></span><span class="line"><span class="cl">fₜ = LLM(reflect_prompt(task, yₜ))
+</span></span><span class="line"><span class="cl">yₜ₊₁ = LLM(refine_prompt(task, yₜ, fₜ))</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果反馈文本包含“无需改进”，则提前停止。</p>
+<hr>
+<h2 id="5-notebook-整体结构" class="heading-element"><span>5. Notebook 整体结构</span>
+  <a href="#5-notebook-%e6%95%b4%e4%bd%93%e7%bb%93%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>代码由三个部分组成：</p>
+<pre class="mermaid">flowchart TD
+    C["LLMProxy<br/>模型调用层"] --> RA["ReflectionAgent<br/>循环编排层"]
+    RA --> MEM["Memory<br/>轨迹存储层"]
+    RA --> P1["Initial Prompt<br/>初始生成"]
+    RA --> P2["Reflect Prompt<br/>算法评审"]
+    RA --> P3["Refine Prompt<br/>根据反馈重写"]
+    P1 --> C
+    P2 --> C
+    P3 --> C</pre>
+<template>flowchart TD
+    C["LLMProxy<br/>模型调用层"] --> RA["ReflectionAgent<br/>循环编排层"]
+    RA --> MEM["Memory<br/>轨迹存储层"]
+    RA --> P1["Initial Prompt<br/>初始生成"]
+    RA --> P2["Reflect Prompt<br/>算法评审"]
+    RA --> P3["Refine Prompt<br/>根据反馈重写"]
+    P1 --> C
+    P2 --> C
+    P3 --> C</template><table>
+  <thead>
+      <tr>
+          <th>组件</th>
+          <th>职责</th>
+          <th>Notebook 对应代码</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>模型访问层</td>
+          <td>调用兼容 OpenAI 接口的模型并收集流式响应</td>
+          <td><code>LLMProxy.think()</code></td>
+      </tr>
+      <tr>
+          <td>记忆层</td>
+          <td>保存每一轮代码和评审反馈</td>
+          <td><code>Memory</code></td>
+      </tr>
+      <tr>
+          <td>Actor</td>
+          <td>初始生成与优化代码</td>
+          <td>Initial / Refine Prompt</td>
+      </tr>
+      <tr>
+          <td>Evaluator</td>
+          <td>分析算法复杂度并给出改进建议</td>
+          <td>Reflect Prompt</td>
+      </tr>
+      <tr>
+          <td>Orchestrator</td>
+          <td>控制迭代、停止和返回结果</td>
+          <td><code>ReflectionAgent.run()</code></td>
+      </tr>
+  </tbody>
+</table>
+<p>这里体现了一种常见的 Agent 工程分层：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">模型能力（LLM）
+</span></span><span class="line"><span class="cl">    ↑
+</span></span><span class="line"><span class="cl">角色与协议（Prompt）
+</span></span><span class="line"><span class="cl">    ↑
+</span></span><span class="line"><span class="cl">状态与记忆（Memory）
+</span></span><span class="line"><span class="cl">    ↑
+</span></span><span class="line"><span class="cl">流程编排（Agent Loop）</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="6-memory-源码拆解" class="heading-element"><span>6. <code>Memory</code> 源码拆解</span>
+  <a href="#6-memory-%e6%ba%90%e7%a0%81%e6%8b%86%e8%a7%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="61-数据结构" class="heading-element"><span>6.1 数据结构</span>
+  <a href="#61-%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="bp">self</span><span class="o">.</span><span class="n">records</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>每条记录形如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;execution&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;生成的代码&#34;</span><span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span><span class="s2">&#34;type&#34;</span><span class="p">:</span> <span class="s2">&#34;reflection&#34;</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="s2">&#34;评审反馈&#34;</span><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>优点是实现简单，能够按产生顺序保存多轮结果。缺点是结构太弱：</p>
+<ul>
+<li><code>record_type</code> 只是自由字符串，容易拼错；</li>
+<li>没有轮次、时间、任务 ID、模型、Token、得分等元数据；</li>
+<li><code>content</code> 全是自由文本，难以做结构化统计；</li>
+<li>没有容量限制和上下文压缩；</li>
+<li>没有持久化、索引、召回和去重机制。</li>
+</ul>
+<p>生产环境更适合使用 <code>dataclass</code> 或 Pydantic Model：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">ReflectionRecord</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">task_id</span><span class="p">:</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl">    <span class="n">iteration</span><span class="p">:</span> <span class="nb">int</span>
+</span></span><span class="line"><span class="cl">    <span class="n">record_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&#34;execution&#34;</span><span class="p">,</span> <span class="s2">&#34;evaluation&#34;</span><span class="p">,</span> <span class="s2">&#34;reflection&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">    <span class="n">content</span><span class="p">:</span> <span class="nb">str</span>
+</span></span><span class="line"><span class="cl">    <span class="n">score</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span></span><span class="line"><span class="cl">    <span class="n">created_at</span><span class="p">:</span> <span class="n">datetime</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="62-add_record" class="heading-element"><span>6.2 <code>add_record()</code></span>
+  <a href="#62-add_record" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">add_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">record_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="bp">self</span><span class="o">.</span><span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&#34;type&#34;</span><span class="p">:</span> <span class="n">record_type</span><span class="p">,</span> <span class="s2">&#34;content&#34;</span><span class="p">:</span> <span class="n">content</span><span class="p">})</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>作用是将本轮代码或反馈追加到轨迹末尾，时间复杂度通常是 <code>O(1)</code>。</p>
+<p>可改进点：</p>
+<ul>
+<li>校验 <code>record_type</code>；</li>
+<li>禁止空内容；</li>
+<li>写入轮次与质量评分；</li>
+<li>对敏感信息做脱敏；</li>
+<li>设置最大保留轮数；</li>
+<li>支持数据库持久化。</li>
+</ul>
+<h3 id="63-get_trajectory" class="heading-element"><span>6.3 <code>get_trajectory()</code></span>
+  <a href="#63-get_trajectory" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>该方法把全部记录拼成一段 Prompt 上下文：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">--- 上一轮尝试（代码）---
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">--- 评审员反馈 ---
+</span></span><span class="line"><span class="cl">...</span></span></code></pre></td></tr></table>
+</div>
+</div><p>但当前主流程没有调用它，这是理解本例时最容易忽略的一点。</p>
+<p>如果直接将完整轨迹注入 Prompt，会获得更多上下文，但也会带来：</p>
+<ul>
+<li>Token 成本随轮次增长；</li>
+<li>早期错误持续污染上下文；</li>
+<li>模型可能重复已失败方案；</li>
+<li>长上下文中关键信息被淹没。</li>
+</ul>
+<p>更好的做法通常是保留最近若干轮原文，并把更早轨迹压缩成结构化摘要。</p>
+<h3 id="64-get_last_execution" class="heading-element"><span>6.4 <code>get_last_execution()</code></span>
+  <a href="#64-get_last_execution" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">records</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">record</span><span class="p">[</span><span class="s2">&#34;type&#34;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;execution&#34;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">record</span><span class="p">[</span><span class="s2">&#34;content&#34;</span><span class="p">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>从后向前找到最近一次代码。在最坏情况下时间复杂度是 <code>O(r)</code>，<code>r</code> 为记录数；本例记录很少，可以忽略。</p>
+<p>返回值注解写成 <code>str</code>，但找不到记录时会返回 <code>None</code>，更严谨的类型应是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_last_execution</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span></span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="7-三类-prompt-的职责" class="heading-element"><span>7. 三类 Prompt 的职责</span>
+  <a href="#7-%e4%b8%89%e7%b1%bb-prompt-%e7%9a%84%e8%81%8c%e8%b4%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="71-initial-prompt建立初始解" class="heading-element"><span>7.1 Initial Prompt：建立初始解</span>
+  <a href="#71-initial-prompt%e5%bb%ba%e7%ab%8b%e5%88%9d%e5%a7%8b%e8%a7%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">角色：资深 Python 程序员
+</span></span><span class="line"><span class="cl">任务：根据要求编写函数
+</span></span><span class="line"><span class="cl">约束：完整签名、文档字符串、PEP 8
+</span></span><span class="line"><span class="cl">输出协议：只输出代码</span></span></code></pre></td></tr></table>
+</div>
+</div><p>它的优点是任务边界清晰，缺点是“只输出代码”仍然无法保证模型不添加 Markdown 代码围栏。Notebook 的真实输出确实包含了：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">```python
+</span></span><span class="line"><span class="cl">...
+</span></span><span class="line"><span class="cl">```</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果后面要把输出交给编译器，必须先解析代码块或使用结构化输出，而不能直接 <code>exec()</code> 原始文本。</p>
+<h3 id="72-reflect-prompt聚焦算法效率" class="heading-element"><span>7.2 Reflect Prompt：聚焦算法效率</span>
+  <a href="#72-reflect-prompt%e8%81%9a%e7%84%a6%e7%ae%97%e6%b3%95%e6%95%88%e7%8e%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>反思 Prompt 明确要求：</p>
+<ul>
+<li>分析时间复杂度；</li>
+<li>找到算法瓶颈；</li>
+<li>判断是否有算法层面的更优方案；</li>
+<li>给出具体可执行的建议；</li>
+<li>只有达到算法最优时才能回答“无需改进”。</li>
+</ul>
+<p>这种写法比泛泛地说“请检查代码”更有效，因为它指定了评估维度和输出目标。</p>
+<p>但评估范围过窄，只关注性能，可能遗漏：</p>
+<ul>
+<li>功能正确性；</li>
+<li>边界条件；</li>
+<li>安全风险；</li>
+<li>可读性和可维护性；</li>
+<li>API 契约；</li>
+<li>测试覆盖率；</li>
+<li>资源限制；</li>
+<li>是否真正落实上一轮建议。</li>
+</ul>
+<h3 id="73-refine-prompt把反馈变成新解" class="heading-element"><span>7.3 Refine Prompt：把反馈变成新解</span>
+  <a href="#73-refine-prompt%e6%8a%8a%e5%8f%8d%e9%a6%88%e5%8f%98%e6%88%90%e6%96%b0%e8%a7%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Refine Prompt 同时提供：</p>
+<ul>
+<li>原始任务；</li>
+<li>上一轮代码；</li>
+<li>评审反馈；</li>
+<li>新代码的格式约束。</li>
+</ul>
+<p>这使 Actor 不必重新从零推理，而是围绕明确问题做定向修改。</p>
+<p>不过它没有要求：</p>
+<ul>
+<li>逐条落实反馈；</li>
+<li>保持已有正确行为不回退；</li>
+<li>输出修改说明或变更清单；</li>
+<li>通过测试后才能返回；</li>
+<li>当反馈本身错误时进行质疑。</li>
+</ul>
+<p>生产系统可让 Actor 返回结构化结果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;code&#34;</span><span class="p">:</span> <span class="s2">&#34;...&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;changes&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;使用筛法替代逐数试除&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;unresolved_risks&#34;</span><span class="p">:</span> <span class="p">[],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;expected_complexity&#34;</span><span class="p">:</span> <span class="s2">&#34;O(n log log n)&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="8-reflectionagentrun-执行流程" class="heading-element"><span>8. <code>ReflectionAgent.run()</code> 执行流程</span>
+  <a href="#8-reflectionagentrun-%e6%89%a7%e8%a1%8c%e6%b5%81%e7%a8%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="81-初始执行" class="heading-element"><span>8.1 初始执行</span>
+  <a href="#81-%e5%88%9d%e5%a7%8b%e6%89%a7%e8%a1%8c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">initial_prompt</span> <span class="o">=</span> <span class="n">INITIAL_PROMPT_TEMPLATE</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">task</span><span class="o">=</span><span class="n">task</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">initial_code</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_llm_response</span><span class="p">(</span><span class="n">initial_prompt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="bp">self</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">add_record</span><span class="p">(</span><span class="s2">&#34;execution&#34;</span><span class="p">,</span> <span class="n">initial_code</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>此时模型扮演 Actor，生成第一版代码并写入短期记忆。</p>
+<h3 id="82-反思循环" class="heading-element"><span>8.2 反思循环</span>
+  <a href="#82-%e5%8f%8d%e6%80%9d%e5%be%aa%e7%8e%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>每轮依次执行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">取最近代码
+</span></span><span class="line"><span class="cl">→ 调用 Evaluator 生成反馈
+</span></span><span class="line"><span class="cl">→ 保存反馈
+</span></span><span class="line"><span class="cl">→ 检查是否提前停止
+</span></span><span class="line"><span class="cl">→ 根据反馈生成新代码
+</span></span><span class="line"><span class="cl">→ 保存新代码</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对应伪代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">candidate</span> <span class="o">=</span> <span class="n">actor</span><span class="o">.</span><span class="n">initial</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">iteration</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_iterations</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">feedback</span> <span class="o">=</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">review</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">candidate</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">should_stop</span><span class="p">(</span><span class="n">feedback</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">break</span>
+</span></span><span class="line"><span class="cl">    <span class="n">candidate</span> <span class="o">=</span> <span class="n">actor</span><span class="o">.</span><span class="n">refine</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">candidate</span><span class="p">,</span> <span class="n">feedback</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">return</span> <span class="n">candidate</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="83-停止机制" class="heading-element"><span>8.3 停止机制</span>
+  <a href="#83-%e5%81%9c%e6%ad%a2%e6%9c%ba%e5%88%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Notebook 使用字符串匹配：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">if</span> <span class="s2">&#34;无需改进&#34;</span> <span class="ow">in</span> <span class="n">feedback</span> <span class="ow">or</span> <span class="s2">&#34;no need for improvement&#34;</span> <span class="ow">in</span> <span class="n">feedback</span><span class="o">.</span><span class="n">lower</span><span class="p">():</span>
+</span></span><span class="line"><span class="cl">    <span class="k">break</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这是一个适合教学但不稳健的实现：</p>
+<ul>
+<li>反馈可能说“并非无需改进”，仍包含目标短语；</li>
+<li>模型可能用“已经最优”“可以停止”等其他表达；</li>
+<li>模型可能一边说“无需改进”，一边又列出严重问题；</li>
+<li>没有客观验证当前代码是否正确；</li>
+<li>停止权完全交给生成式模型，结果不够可控。</li>
+</ul>
+<p>更稳健的做法是让评估器返回结构化字段：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;passed&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;score&#34;</span><span class="p">:</span> <span class="mf">0.72</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;issues&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;大输入性能不足&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;suggestions&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;改用埃拉托斯特尼筛法&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后由宿主程序基于 <code>passed</code>、测试结果、质量阈值和预算共同决定是否停止。</p>
+<h3 id="84-模型调用次数与成本" class="heading-element"><span>8.4 模型调用次数与成本</span>
+  <a href="#84-%e6%a8%a1%e5%9e%8b%e8%b0%83%e7%94%a8%e6%ac%a1%e6%95%b0%e4%b8%8e%e6%88%90%e6%9c%ac" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>设最大迭代轮数为 <code>k</code>。</p>
+<p>如果每轮都反思并优化，调用次数为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">1 次初始生成 + k 次反思 + k 次优化 = 1 + 2k</span></span></code></pre></td></tr></table>
+</div>
+</div><p>本例 <code>max_iterations=2</code>，最多调用模型 <code>5</code> 次。</p>
+<p>如果第 <code>r</code> 次反思后判断停止，则调用次数为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">1 次初始生成 + r 次反思 + (r - 1) 次优化 = 2r</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因此 Reflection 的收益必须与模型成本、端到端延迟和上下文长度一起评估。</p>
+<hr>
+<h2 id="9-notebook-运行结果分析" class="heading-element"><span>9. Notebook 运行结果分析</span>
+  <a href="#9-notebook-%e8%bf%90%e8%a1%8c%e7%bb%93%e6%9e%9c%e5%88%86%e6%9e%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>示例任务是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">编写一个 Python 函数，找出 1 到 n 之间所有的素数。</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="91-初始方案逐数试除" class="heading-element"><span>9.1 初始方案：逐数试除</span>
+  <a href="#91-%e5%88%9d%e5%a7%8b%e6%96%b9%e6%a1%88%e9%80%90%e6%95%b0%e8%af%95%e9%99%a4" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>初始代码对 <code>2...n</code> 中的每个整数，都尝试除到它的平方根：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span> <span class="o">**</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="o">...</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>粗略时间复杂度为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">O(n√n)</span></span></code></pre></td></tr></table>
+</div>
+</div><p>空间复杂度除结果列表外约为 <code>O(1)</code>。</p>
+<h3 id="92-第一轮反思改用埃拉托斯特尼筛法" class="heading-element"><span>9.2 第一轮反思：改用埃拉托斯特尼筛法</span>
+  <a href="#92-%e7%ac%ac%e4%b8%80%e8%bd%ae%e5%8f%8d%e6%80%9d%e6%94%b9%e7%94%a8%e5%9f%83%e6%8b%89%e6%89%98%e6%96%af%e7%89%b9%e5%b0%bc%e7%ad%9b%e6%b3%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Evaluator 指出逐个试除存在重复计算，并建议一次性标记合数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">初始状态：2...n 都可能是素数
+</span></span><span class="line"><span class="cl">从 2 开始，将其倍数标为合数
+</span></span><span class="line"><span class="cl">再处理下一个仍为素数的数
+</span></span><span class="line"><span class="cl">只需筛到 √n</span></span></code></pre></td></tr></table>
+</div>
+</div><p>改进后的复杂度：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">时间复杂度：O(n log log n)
+</span></span><span class="line"><span class="cl">空间复杂度：O(n)</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这是一次有效的<strong>算法级优化</strong>，不是常数级代码微调。</p>
+<h3 id="93-第二轮反思只存储奇数" class="heading-element"><span>9.3 第二轮反思：只存储奇数</span>
+  <a href="#93-%e7%ac%ac%e4%ba%8c%e8%bd%ae%e5%8f%8d%e6%80%9d%e5%8f%aa%e5%ad%98%e5%82%a8%e5%a5%87%e6%95%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>第二轮 Evaluator 又指出：</p>
+<ul>
+<li>普通筛需要 <code>O(n)</code> 布尔空间；</li>
+<li>偶数除了 <code>2</code> 外都不可能是素数；</li>
+<li>可以只存储奇数，减少约一半空间和标记工作；</li>
+<li>超大范围还可进一步考虑分段筛，提高缓存局部性并降低内存峰值。</li>
+</ul>
+<p>最终生成代码实现了“只处理奇数”的筛法，但<strong>没有真正实现反馈中提到的分段筛法</strong>。</p>
+<p>这个现象非常适合在面试中说明：</p>
+<blockquote>
+<p>LLM 给出改进建议不等于 Actor 已完整落实建议。系统必须在优化后重新执行测试和评估，检查建议覆盖率与质量是否真的提升。</p>
+</blockquote>
+<h3 id="94-最后一版为什么仍不能直接称为已验证最优" class="heading-element"><span>9.4 最后一版为什么仍不能直接称为“已验证最优”</span>
+  <a href="#94-%e6%9c%80%e5%90%8e%e4%b8%80%e7%89%88%e4%b8%ba%e4%bb%80%e4%b9%88%e4%bb%8d%e4%b8%8d%e8%83%bd%e7%9b%b4%e6%8e%a5%e7%a7%b0%e4%b8%ba%e5%b7%b2%e9%aa%8c%e8%af%81%e6%9c%80%e4%bc%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Notebook 在第二轮 Refine 后直接返回代码，没有再评审最终版本。也就是说：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">第 2 轮反馈 → 第 2 轮重写 → 直接返回</span></span></code></pre></td></tr></table>
+</div>
+</div><p>缺少：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">编译 → 单元测试 → 性能测试 → 最终评估</span></span></code></pre></td></tr></table>
+</div>
+</div><p>因此它只能说明“模型根据反馈生成了看起来更好的代码”，不能证明：</p>
+<ul>
+<li>所有边界条件正确；</li>
+<li>没有引入回归；</li>
+<li>性能确实优于上一版；</li>
+<li>分段筛建议已落实；</li>
+<li>输出可以被 Python 直接执行。</li>
+</ul>
+<hr>
+<h2 id="10-图片中的成本收益与适用场景" class="heading-element"><span>10. 图片中的成本、收益与适用场景</span>
+  <a href="#10-%e5%9b%be%e7%89%87%e4%b8%ad%e7%9a%84%e6%88%90%e6%9c%ac%e6%94%b6%e7%9b%8a%e4%b8%8e%e9%80%82%e7%94%a8%e5%9c%ba%e6%99%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>第二张图总结了 Reflection 的主要工程权衡。</p>
+<h3 id="101-核心收益" class="heading-element"><span>10.1 核心收益</span>
+  <a href="#101-%e6%a0%b8%e5%bf%83%e6%94%b6%e7%9b%8a" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="解决方案质量跃迁" class="heading-element"><span>解决方案质量跃迁</span>
+  <a href="#%e8%a7%a3%e5%86%b3%e6%96%b9%e6%a1%88%e8%b4%a8%e9%87%8f%e8%b7%83%e8%bf%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>对于存在明确改进空间的任务，Reflection 能从“可用解”逐步搜索到“更优解”。Notebook 中从 <code>O(n√n)</code> 的逐数试除改进到 <code>O(n log log n)</code> 的筛法，就是典型案例。</p>
+<h4 id="鲁棒性与可靠性增强" class="heading-element"><span>鲁棒性与可靠性增强</span>
+  <a href="#%e9%b2%81%e6%a3%92%e6%80%a7%e4%b8%8e%e5%8f%af%e9%9d%a0%e6%80%a7%e5%a2%9e%e5%bc%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>当反馈来自可执行测试、编译器或业务规则时，Agent 可以发现一次生成中的错误并定向修复，降低随机失败概率。</p>
+<p>但需要注意：如果只有同一个模型自评，没有客观验证，Actor 与 Evaluator 可能共享盲区，可靠性提升有限。</p>
+<h3 id="102-主要成本" class="heading-element"><span>10.2 主要成本</span>
+  <a href="#102-%e4%b8%bb%e8%a6%81%e6%88%90%e6%9c%ac" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="模型调用开销增加" class="heading-element"><span>模型调用开销增加</span>
+  <a href="#%e6%a8%a1%e5%9e%8b%e8%b0%83%e7%94%a8%e5%bc%80%e9%94%80%e5%a2%9e%e5%8a%a0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>每轮通常至少增加一次评估调用和一次重写调用。本例两轮最多从一次模型调用上升到五次。</p>
+<h4 id="端到端延迟显著提高" class="heading-element"><span>端到端延迟显著提高</span>
+  <a href="#%e7%ab%af%e5%88%b0%e7%ab%af%e5%bb%b6%e8%bf%9f%e6%98%be%e8%91%97%e6%8f%90%e9%ab%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>Reflection 是串行依赖链：必须等当前候选结果产生后才能评审，再等反馈产生后才能重写。即使单次模型很快，多轮累计也会显著提高 P95/P99 延迟。</p>
+<h4 id="prompt-工程和流程复杂度上升" class="heading-element"><span>Prompt 工程和流程复杂度上升</span>
+  <a href="#prompt-%e5%b7%a5%e7%a8%8b%e5%92%8c%e6%b5%81%e7%a8%8b%e5%a4%8d%e6%9d%82%e5%ba%a6%e4%b8%8a%e5%8d%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>系统需要额外设计：</p>
+<ul>
+<li>评估标准；</li>
+<li>反馈格式；</li>
+<li>终止条件；</li>
+<li>记忆管理；</li>
+<li>回归检测；</li>
+<li>Token 与时间预算；</li>
+<li>失败恢复与观测指标。</li>
+</ul>
+<h3 id="103-适用场景" class="heading-element"><span>10.3 适用场景</span>
+  <a href="#103-%e9%80%82%e7%94%a8%e5%9c%ba%e6%99%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>关键业务代码、SQL、配置或技术报告生成；</li>
+<li>数学、算法、科研等复杂逻辑推演；</li>
+<li>需要深度分析与多步规划的决策系统；</li>
+<li>有编译器、测试集、模拟器或规则引擎提供客观反馈的任务；</li>
+<li>单次错误成本高于额外推理成本的任务。</li>
+</ul>
+<h3 id="104-不适用或需要谨慎的场景" class="heading-element"><span>10.4 不适用或需要谨慎的场景</span>
+  <a href="#104-%e4%b8%8d%e9%80%82%e7%94%a8%e6%88%96%e9%9c%80%e8%a6%81%e8%b0%a8%e6%85%8e%e7%9a%84%e5%9c%ba%e6%99%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>极低延迟的在线请求；</li>
+<li>简单、确定、一次生成已足够的任务；</li>
+<li>调用成本严格受限的高 QPS 场景；</li>
+<li>没有可验证标准，Evaluator 只能凭主观语言打分的任务；</li>
+<li>错误反馈可能把正确结果“改坏”的场景。</li>
+</ul>
+<p>一个实用决策原则是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">预期质量收益 × 错误成本
+</span></span><span class="line"><span class="cl">是否大于
+</span></span><span class="line"><span class="cl">额外模型成本 + 延迟成本 + 系统复杂度</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="11-当前-notebook-与完整架构的对应关系" class="heading-element"><span>11. 当前 Notebook 与完整架构的对应关系</span>
+  <a href="#11-%e5%bd%93%e5%89%8d-notebook-%e4%b8%8e%e5%ae%8c%e6%95%b4%e6%9e%b6%e6%9e%84%e7%9a%84%e5%af%b9%e5%ba%94%e5%85%b3%e7%b3%bb" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>图片中的组件</th>
+          <th style="text-align: right">Notebook 是否实现</th>
+          <th>代码对应</th>
+          <th>说明</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Actor</td>
+          <td style="text-align: right">是</td>
+          <td>Initial / Refine Prompt</td>
+          <td>同一个 LLM 扮演生成者</td>
+      </tr>
+      <tr>
+          <td>Evaluator</td>
+          <td style="text-align: right">部分</td>
+          <td>Reflect Prompt</td>
+          <td>只做语言层面的算法评审</td>
+      </tr>
+      <tr>
+          <td>Self-reflection</td>
+          <td style="text-align: right">部分</td>
+          <td>Reflect Prompt 输出</td>
+          <td>评估与反思未拆分</td>
+      </tr>
+      <tr>
+          <td>Trajectory 短期记忆</td>
+          <td style="text-align: right">部分</td>
+          <td><code>Memory.records</code></td>
+          <td>保存了记录，但完整轨迹未注入 Prompt</td>
+      </tr>
+      <tr>
+          <td>Experience 长期记忆</td>
+          <td style="text-align: right">否</td>
+          <td>无</td>
+          <td>不持久化，也不跨任务检索</td>
+      </tr>
+      <tr>
+          <td>Action</td>
+          <td style="text-align: right">弱实现</td>
+          <td>输出代码</td>
+          <td>只是生成文本，没有真正执行</td>
+      </tr>
+      <tr>
+          <td>Environment</td>
+          <td style="text-align: right">否</td>
+          <td>无</td>
+          <td>没有 Python 沙箱、测试框架或工具环境</td>
+      </tr>
+      <tr>
+          <td>Observation</td>
+          <td style="text-align: right">否</td>
+          <td>无</td>
+          <td>没有编译、测试、性能数据等观察结果</td>
+      </tr>
+      <tr>
+          <td>外部 Feedback</td>
+          <td style="text-align: right">否</td>
+          <td>无</td>
+          <td>没有测试、人类或业务规则反馈</td>
+      </tr>
+      <tr>
+          <td>终止策略</td>
+          <td style="text-align: right">简化实现</td>
+          <td>关键词匹配 + 最大轮数</td>
+          <td>缺少结构化评分和预算控制</td>
+      </tr>
+  </tbody>
+</table>
+<p>因此，更准确的评价是：</p>
+<blockquote>
+<p>该 Notebook 展示了 Reflection 的最小语言闭环，适合理解 Prompt 角色分工和迭代控制，但还不是一个具备真实环境反馈、长期经验和可靠验证的生产级 Reflection Agent。</p>
+</blockquote>
+<hr>
+<h2 id="12-当前实现的优点" class="heading-element"><span>12. 当前实现的优点</span>
+  <a href="#12-%e5%bd%93%e5%89%8d%e5%ae%9e%e7%8e%b0%e7%9a%84%e4%bc%98%e7%82%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li>结构简单，执行、反思、优化三阶段清晰；</li>
+<li>Actor 与 Evaluator 的角色约束明确；</li>
+<li>Reflection Prompt 聚焦算法复杂度，反馈目标具体；</li>
+<li>Memory 把执行结果与反馈分类型保存；</li>
+<li>支持 <code>max_iterations</code>，避免无限循环；</li>
+<li>支持“无需改进”提前退出；</li>
+<li>模型访问层与 Agent 编排层分离；</li>
+<li><code>temperature=0</code> 有助于降低格式和结论漂移；</li>
+<li>示例任务能直观展示算法质量从试除法到筛法的提升。</li>
+</ul>
+<hr>
+<h2 id="13-当前实现的关键问题" class="heading-element"><span>13. 当前实现的关键问题</span>
+  <a href="#13-%e5%bd%93%e5%89%8d%e5%ae%9e%e7%8e%b0%e7%9a%84%e5%85%b3%e9%94%ae%e9%97%ae%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="131-没有真实执行reflection-缺少事实基础" class="heading-element"><span>13.1 没有真实执行，Reflection 缺少事实基础</span>
+  <a href="#131-%e6%b2%a1%e6%9c%89%e7%9c%9f%e5%ae%9e%e6%89%a7%e8%a1%8creflection-%e7%bc%ba%e5%b0%91%e4%ba%8b%e5%ae%9e%e5%9f%ba%e7%a1%80" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>代码被生成后没有：</p>
+<ul>
+<li>去除 Markdown 代码围栏；</li>
+<li>AST 解析或编译；</li>
+<li>单元测试；</li>
+<li>随机测试或性质测试；</li>
+<li>性能基准；</li>
+<li>资源限制；</li>
+<li>安全沙箱。</li>
+</ul>
+<p>Evaluator 只能阅读代码并“猜测”它是否正确，容易出现自信但错误的反馈。</p>
+<h3 id="132-actor-和-evaluator-共享模型盲区" class="heading-element"><span>13.2 Actor 和 Evaluator 共享模型盲区</span>
+  <a href="#132-actor-%e5%92%8c-evaluator-%e5%85%b1%e4%ba%ab%e6%a8%a1%e5%9e%8b%e7%9b%b2%e5%8c%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Notebook 使用同一个 <code>llm_client</code> 完成生成和评审。这样成本和实现复杂度较低，但可能产生相关性偏差：生成者没发现的问题，评审者也可能继续忽略。</p>
+<p>改进方向：</p>
+<ul>
+<li>Actor 与 Critic 使用不同 Prompt；</li>
+<li>使用不同模型或不同采样结果；</li>
+<li>引入确定性测试和规则；</li>
+<li>多个 Evaluator 分别检查正确性、性能、安全性；</li>
+<li>通过加权或投票聚合结论。</li>
+</ul>
+<h3 id="133-反馈是自由文本机器难以可靠消费" class="heading-element"><span>13.3 反馈是自由文本，机器难以可靠消费</span>
+  <a href="#133-%e5%8f%8d%e9%a6%88%e6%98%af%e8%87%aa%e7%94%b1%e6%96%87%e6%9c%ac%e6%9c%ba%e5%99%a8%e9%9a%be%e4%bb%a5%e5%8f%af%e9%9d%a0%e6%b6%88%e8%b4%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>自由文本难以稳定判断：</p>
+<ul>
+<li>是否通过；</li>
+<li>问题严重度；</li>
+<li>需要修改哪些位置；</li>
+<li>评分是否提升；</li>
+<li>是否已经收敛。</li>
+</ul>
+<p>应优先使用 JSON Schema、Pydantic 或原生 Structured Outputs。</p>
+<h3 id="134-停止条件脆弱" class="heading-element"><span>13.4 停止条件脆弱</span>
+  <a href="#134-%e5%81%9c%e6%ad%a2%e6%9d%a1%e4%bb%b6%e8%84%86%e5%bc%b1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>通过关键词判断“无需改进”容易误触发，也没有：</p>
+<ul>
+<li>分数阈值；</li>
+<li>连续无提升检测；</li>
+<li>Token 预算；</li>
+<li>时间预算；</li>
+<li>成本预算；</li>
+<li>重复方案检测；</li>
+<li>最终强制验证。</li>
+</ul>
+<h3 id="135-get_trajectory-没有进入主流程" class="heading-element"><span>13.5 <code>get_trajectory()</code> 没有进入主流程</span>
+  <a href="#135-get_trajectory-%e6%b2%a1%e6%9c%89%e8%bf%9b%e5%85%a5%e4%b8%bb%e6%b5%81%e7%a8%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Memory 保存了全轨迹，但 Actor 和 Evaluator 只看到最近代码和最新反馈，早期失败经验没有发挥作用。</p>
+<p>另一方面，简单地把全部历史塞回 Prompt 也不是最佳方案。合理设计应是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">最近 1～2 轮原始内容
+</span></span><span class="line"><span class="cl">+ 更早历史的压缩摘要
+</span></span><span class="line"><span class="cl">+ 与当前任务相关的长期经验检索结果</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="136-最后一轮优化没有再验证" class="heading-element"><span>13.6 最后一轮优化没有再验证</span>
+  <a href="#136-%e6%9c%80%e5%90%8e%e4%b8%80%e8%bd%ae%e4%bc%98%e5%8c%96%e6%b2%a1%e6%9c%89%e5%86%8d%e9%aa%8c%e8%af%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>循环耗尽时，最后动作总是 Refine，之后直接返回。这会导致最终答案没有经过 Evaluator 检查。</p>
+<p>更合理的状态机应确保结束前至少执行一次最终验证：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">GENERATE → EXECUTE → EVALUATE
+</span></span><span class="line"><span class="cl">                    ├─ PASS → FINISH
+</span></span><span class="line"><span class="cl">                    └─ FAIL → REFLECT → REFINE → EXECUTE</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="137-错误处理不足" class="heading-element"><span>13.7 错误处理不足</span>
+  <a href="#137-%e9%94%99%e8%af%af%e5%a4%84%e7%90%86%e4%b8%8d%e8%b6%b3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><code>LLMProxy.think()</code> 异常时返回 <code>None</code>，<code>_get_llm_response()</code> 将其变成空字符串。后续流程仍可能继续评审和优化空内容，使真正错误被掩盖。</p>
+<p>生产环境应区分：</p>
+<ul>
+<li>可重试的限流和网络错误；</li>
+<li>不可重试的鉴权错误；</li>
+<li>内容为空；</li>
+<li>格式解析失败；</li>
+<li>上下文超限；</li>
+<li>模型拒答。</li>
+</ul>
+<p>并配套指数退避、最大重试次数、降级模型和错误状态记录。</p>
+<h3 id="138-prompt-injection-与代码安全" class="heading-element"><span>13.8 Prompt Injection 与代码安全</span>
+  <a href="#138-prompt-injection-%e4%b8%8e%e4%bb%a3%e7%a0%81%e5%ae%89%e5%85%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>如果任务描述来自不可信用户，恶意内容可能诱导 Evaluator 忽略规则；如果自动执行生成代码，还可能访问文件、网络、环境变量或启动子进程。</p>
+<p>必须将生成代码放入隔离环境，并限制：</p>
+<ul>
+<li>CPU、内存和运行时间；</li>
+<li>文件系统访问；</li>
+<li>网络访问；</li>
+<li>系统调用；</li>
+<li>可导入模块；</li>
+<li>输出大小。</li>
+</ul>
+<hr>
+<h2 id="14-生产级-reflection-agent-如何升级" class="heading-element"><span>14. 生产级 Reflection Agent 如何升级</span>
+  <a href="#14-%e7%94%9f%e4%ba%a7%e7%ba%a7-reflection-agent-%e5%a6%82%e4%bd%95%e5%8d%87%e7%ba%a7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="141-推荐架构" class="heading-element"><span>14.1 推荐架构</span>
+  <a href="#141-%e6%8e%a8%e8%8d%90%e6%9e%b6%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><pre class="mermaid">flowchart TD
+    U["Task"] --> OR["Orchestrator"]
+    OR --> MR["检索相关经验"]
+    MR --> A["Actor 生成候选方案"]
+    A --> PARSE["结构化解析 / 代码提取"]
+    PARSE --> SB["Sandbox 执行"]
+    SB --> TEST["单元测试 / 静态检查 / Benchmark"]
+    TEST --> EV["Evaluator 聚合评分"]
+    EV -->|"达到阈值"| FIN["最终验证并返回"]
+    EV -->|"未达到阈值"| REF["Reflection 生成改进计划"]
+    REF --> MW["写入短期轨迹 / 可选长期经验"]
+    MW --> A
+    OR --> BUDGET["轮次 / Token / 时间 / 成本预算"]
+    BUDGET --> EV</pre>
+<template>flowchart TD
+    U["Task"] --> OR["Orchestrator"]
+    OR --> MR["检索相关经验"]
+    MR --> A["Actor 生成候选方案"]
+    A --> PARSE["结构化解析 / 代码提取"]
+    PARSE --> SB["Sandbox 执行"]
+    SB --> TEST["单元测试 / 静态检查 / Benchmark"]
+    TEST --> EV["Evaluator 聚合评分"]
+    EV -->|"达到阈值"| FIN["最终验证并返回"]
+    EV -->|"未达到阈值"| REF["Reflection 生成改进计划"]
+    REF --> MW["写入短期轨迹 / 可选长期经验"]
+    MW --> A
+    OR --> BUDGET["轮次 / Token / 时间 / 成本预算"]
+    BUDGET --> EV</template><h3 id="142-把生成代码升级为生成执行观察" class="heading-element"><span>14.2 把“生成代码”升级为“生成—执行—观察”</span>
+  <a href="#142-%e6%8a%8a%e7%94%9f%e6%88%90%e4%bb%a3%e7%a0%81%e5%8d%87%e7%ba%a7%e4%b8%ba%e7%94%9f%e6%88%90%e6%89%a7%e8%a1%8c%e8%a7%82%e5%af%9f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>代码任务最重要的反馈不是 LLM 的感觉，而是工具结果：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">代码生成
+</span></span><span class="line"><span class="cl">→ AST/compile 检查
+</span></span><span class="line"><span class="cl">→ 单元测试
+</span></span><span class="line"><span class="cl">→ 随机或性质测试
+</span></span><span class="line"><span class="cl">→ 性能基准
+</span></span><span class="line"><span class="cl">→ 将 stdout、stderr、失败用例和耗时反馈给 Reflector</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样图片中的 <code>Action → Environment → Observation</code> 才真正落地。</p>
+<h3 id="143-多维-evaluator" class="heading-element"><span>14.3 多维 Evaluator</span>
+  <a href="#143-%e5%a4%9a%e7%bb%b4-evaluator" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>可以把评估拆成多个维度：</p>
+<table>
+  <thead>
+      <tr>
+          <th>评估器</th>
+          <th>证据</th>
+          <th>示例指标</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Correctness</td>
+          <td>单元测试、性质测试</td>
+          <td>pass rate</td>
+      </tr>
+      <tr>
+          <td>Efficiency</td>
+          <td>Benchmark、复杂度分析</td>
+          <td>latency、memory</td>
+      </tr>
+      <tr>
+          <td>Security</td>
+          <td>SAST、依赖扫描、沙箱日志</td>
+          <td>high-risk issue count</td>
+      </tr>
+      <tr>
+          <td>Style</td>
+          <td>Ruff、Black、类型检查</td>
+          <td>lint error count</td>
+      </tr>
+      <tr>
+          <td>LLM Judge</td>
+          <td>任务满足度、解释质量</td>
+          <td>rubric score</td>
+      </tr>
+  </tbody>
+</table>
+<p>最终分数可表示为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Score = w₁·Correctness + w₂·Efficiency + w₃·Security + w₄·Quality</span></span></code></pre></td></tr></table>
+</div>
+</div><p>代码任务通常应把 Correctness 设为硬门槛，而不是允许其他维度用高分抵消错误结果。</p>
+<h3 id="144-结构化-reflection" class="heading-element"><span>14.4 结构化 Reflection</span>
+  <a href="#144-%e7%bb%93%e6%9e%84%e5%8c%96-reflection" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>推荐输出字段：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;passed&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;score&#34;</span><span class="p">:</span> <span class="mf">0.65</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;root_causes&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;对每个候选数重复进行试除，导致大输入超时&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;evidence&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;benchmark_n_1000000 exceeded 2 seconds&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;repair_plan&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;改用埃拉托斯特尼筛法&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;增加 n &lt; 2 的边界测试&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;must_preserve&#34;</span><span class="p">:</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;返回 1 到 n 的所有素数，包含 n 本身&#34;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>反思应尽量包含“根因—证据—修复方案—不可回退行为”，而不只是宽泛评价。</p>
+<h3 id="145-更合理的终止策略" class="heading-element"><span>14.5 更合理的终止策略</span>
+  <a href="#145-%e6%9b%b4%e5%90%88%e7%90%86%e7%9a%84%e7%bb%88%e6%ad%a2%e7%ad%96%e7%95%a5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>可组合以下条件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">should_stop</span> <span class="o">=</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">all_required_tests_pass</span>
+</span></span><span class="line"><span class="cl">    <span class="ow">and</span> <span class="n">score</span> <span class="o">&gt;=</span> <span class="n">quality_threshold</span>
+</span></span><span class="line"><span class="cl">    <span class="ow">and</span> <span class="n">no_critical_security_issue</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="ow">or</span> <span class="n">iteration</span> <span class="o">&gt;=</span> <span class="n">max_iterations</span> \
+</span></span><span class="line"><span class="cl">  <span class="ow">or</span> <span class="n">token_used</span> <span class="o">&gt;=</span> <span class="n">token_budget</span> \
+</span></span><span class="line"><span class="cl">  <span class="ow">or</span> <span class="n">elapsed_seconds</span> <span class="o">&gt;=</span> <span class="n">time_budget</span> \
+</span></span><span class="line"><span class="cl">  <span class="ow">or</span> <span class="n">no_improvement_rounds</span> <span class="o">&gt;=</span> <span class="n">patience</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>即使因为预算终止，也应明确标注结果是：</p>
+<ul>
+<li><code>SUCCESS</code>：通过所有硬标准；</li>
+<li><code>BEST_EFFORT</code>：达到预算上限，返回当前最好候选；</li>
+<li><code>FAILED</code>：没有安全或可用候选；</li>
+<li><code>NEEDS_HUMAN_REVIEW</code>：存在高风险不确定性。</li>
+</ul>
+<h3 id="146-候选集与回滚" class="heading-element"><span>14.6 候选集与回滚</span>
+  <a href="#146-%e5%80%99%e9%80%89%e9%9b%86%e4%b8%8e%e5%9b%9e%e6%bb%9a" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不能默认新一轮一定优于旧一轮。应保存每一版候选及分数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">v0: score 0.55
+</span></span><span class="line"><span class="cl">v1: score 0.88
+</span></span><span class="line"><span class="cl">v2: score 0.81  ← 发生回退</span></span></code></pre></td></tr></table>
+</div>
+</div><p>最终返回历史最高分且通过硬约束的版本，而不是机械返回最后一版。</p>
+<h3 id="147-长期经验的写入与检索" class="heading-element"><span>14.7 长期经验的写入与检索</span>
+  <a href="#147-%e9%95%bf%e6%9c%9f%e7%bb%8f%e9%aa%8c%e7%9a%84%e5%86%99%e5%85%a5%e4%b8%8e%e6%a3%80%e7%b4%a2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不是每条反思都值得进入长期记忆。可以只保存：</p>
+<ul>
+<li>多次出现的失败模式；</li>
+<li>被客观测试验证有效的修复策略；</li>
+<li>高价值任务中的人工确认经验；</li>
+<li>能被抽象复用、且不包含敏感数据的知识。</li>
+</ul>
+<p>经验记录可以结构化为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">适用条件 + 失败模式 + 根因 + 修复策略 + 验证证据 + 置信度</span></span></code></pre></td></tr></table>
+</div>
+</div><p>检索时同时考虑任务语义、代码语言、错误类型和适用条件，避免把不相关经验强行注入 Prompt。</p>
+<hr>
+<h2 id="15-reflection-与其他-agent-范式的区别" class="heading-element"><span>15. Reflection 与其他 Agent 范式的区别</span>
+  <a href="#15-reflection-%e4%b8%8e%e5%85%b6%e4%bb%96-agent-%e8%8c%83%e5%bc%8f%e7%9a%84%e5%8c%ba%e5%88%ab" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="151-reflection-vs-chain-of-thought" class="heading-element"><span>15.1 Reflection vs. Chain-of-Thought</span>
+  <a href="#151-reflection-vs-chain-of-thought" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>CoT 主要展开单次调用内部的推理步骤；</li>
+<li>Reflection 对已经得到的候选结果进行跨轮复盘和修正；</li>
+<li>CoT 不一定有评估信号，Reflection 强调反馈闭环；</li>
+<li>工程上通常不依赖暴露完整思维链，而使用简洁的结论、证据和结构化改进计划。</li>
+</ul>
+<h3 id="152-reflection-vs-react" class="heading-element"><span>15.2 Reflection vs. ReAct</span>
+  <a href="#152-reflection-vs-react" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>ReAct 强调 <code>Reasoning → Action → Observation</code>，重点是与外部工具和环境交互；</li>
+<li>Reflection 强调 <code>Execute → Evaluate → Reflect → Refine</code>，重点是复盘和提升已有方案；</li>
+<li>ReAct 的 Observation 可以成为 Reflection 的外部反馈；</li>
+<li>两者经常组合：ReAct 完成一轮工具执行，Reflection 再对整段轨迹复盘。</li>
+</ul>
+<p>组合流程：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">ReAct 执行任务
+</span></span><span class="line"><span class="cl">→ 收集 Thought / Action / Observation 轨迹
+</span></span><span class="line"><span class="cl">→ Evaluator 判断失败原因
+</span></span><span class="line"><span class="cl">→ Reflection 总结经验
+</span></span><span class="line"><span class="cl">→ 下一次 ReAct 使用经验重新规划</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="153-reflection-vs-plan-and-solve" class="heading-element"><span>15.3 Reflection vs. Plan-and-Solve</span>
+  <a href="#153-reflection-vs-plan-and-solve" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>Plan-and-Solve 先拆解任务，再按计划执行；</li>
+<li>Reflection 在候选结果产生后评估和修正；</li>
+<li>规划解决“下一步做什么”，反思解决“刚才哪里做错了、下一轮怎样更好”；</li>
+<li>复杂 Agent 可以同时具备规划、执行、反思和重规划。</li>
+</ul>
+<h3 id="154-reflection-vs-多-agent-debate" class="heading-element"><span>15.4 Reflection vs. 多 Agent Debate</span>
+  <a href="#154-reflection-vs-%e5%a4%9a-agent-debate" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>Reflection 常见形态是 Actor—Critic 串行迭代；</li>
+<li>Debate 让多个 Agent 对不同观点进行辩论或互审；</li>
+<li>Debate 能降低单一路径偏差，但成本更高；</li>
+<li>多个 Agent 如果使用同一模型和相似 Prompt，也未必真正具备多样性。</li>
+</ul>
+<h3 id="155-reflection-vs-强化学习" class="heading-element"><span>15.5 Reflection vs. 强化学习</span>
+  <a href="#155-reflection-vs-%e5%bc%ba%e5%8c%96%e5%ad%a6%e4%b9%a0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>Reflection 常在推理时通过语言反馈改变上下文，不更新模型参数；</li>
+<li>强化学习通过奖励优化策略参数；</li>
+<li>Reflection 的“奖励”可以是文本形式，适合快速工程实现；</li>
+<li>它不能替代训练阶段的能力提升，模型能力上限、上下文上限和固有偏差仍然存在。</li>
+</ul>
+<hr>
+<h2 id="16-如何评价-reflection-是否真的有效" class="heading-element"><span>16. 如何评价 Reflection 是否真的有效</span>
+  <a href="#16-%e5%a6%82%e4%bd%95%e8%af%84%e4%bb%b7-reflection-%e6%98%af%e5%90%a6%e7%9c%9f%e7%9a%84%e6%9c%89%e6%95%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>不能只展示一个“优化后看起来更好”的案例。实验设计至少应包含：</p>
+<h3 id="161-基线组" class="heading-element"><span>16.1 基线组</span>
+  <a href="#161-%e5%9f%ba%e7%ba%bf%e7%bb%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>单次直接生成；</li>
+<li>单次生成 + 更强 Prompt；</li>
+<li>Reflection 1 轮、2 轮、3 轮；</li>
+<li>不同 Evaluator 或不同反馈来源。</li>
+</ul>
+<h3 id="162-核心指标" class="heading-element"><span>16.2 核心指标</span>
+  <a href="#162-%e6%a0%b8%e5%bf%83%e6%8c%87%e6%a0%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th>指标</th>
+          <th>含义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Task success rate</td>
+          <td>最终任务成功率</td>
+      </tr>
+      <tr>
+          <td>pass@1 / pass@k</td>
+          <td>代码或推理任务通过率</td>
+      </tr>
+      <tr>
+          <td>Quality delta</td>
+          <td>每轮质量分变化</td>
+      </tr>
+      <tr>
+          <td>Regression rate</td>
+          <td>优化后反而变差的比例</td>
+      </tr>
+      <tr>
+          <td>Average iterations</td>
+          <td>平均收敛轮数</td>
+      </tr>
+      <tr>
+          <td>Token / cost per success</td>
+          <td>每次成功任务的成本</td>
+      </tr>
+      <tr>
+          <td>End-to-end latency</td>
+          <td>端到端延迟及 P95/P99</td>
+      </tr>
+      <tr>
+          <td>Stop precision</td>
+          <td>模型判断“无需改进”时真正通过的比例</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="163-消融实验" class="heading-element"><span>16.3 消融实验</span>
+  <a href="#163-%e6%b6%88%e8%9e%8d%e5%ae%9e%e9%aa%8c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>可以分别去掉：</p>
+<ul>
+<li>外部测试反馈；</li>
+<li>完整轨迹；</li>
+<li>长期经验；</li>
+<li>独立 Evaluator；</li>
+<li>结构化输出；</li>
+<li>最终验证。</li>
+</ul>
+<p>观察每个组件对成功率、成本和延迟的真实贡献。</p>
+<h3 id="164-防止评测污染" class="heading-element"><span>16.4 防止评测污染</span>
+  <a href="#164-%e9%98%b2%e6%ad%a2%e8%af%84%e6%b5%8b%e6%b1%a1%e6%9f%93" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>评测测试集不能原样出现在 Prompt；</li>
+<li>LLM Judge 与生成模型最好不要完全同源；</li>
+<li>主观评价应使用清晰 Rubric；</li>
+<li>关键任务应以确定性规则或真实业务结果为主；</li>
+<li>保存每轮输入、输出、工具结果、模型版本和参数，保证可复现。</li>
+</ul>
+<hr>
+<h2 id="17-面试高频问题与参考回答" class="heading-element"><span>17. 面试高频问题与参考回答</span>
+  <a href="#17-%e9%9d%a2%e8%af%95%e9%ab%98%e9%a2%91%e9%97%ae%e9%a2%98%e4%b8%8e%e5%8f%82%e8%80%83%e5%9b%9e%e7%ad%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="q1reflection-agent-的本质是什么" class="heading-element"><span>Q1：Reflection Agent 的本质是什么？</span>
+  <a href="#q1reflection-agent-%e7%9a%84%e6%9c%ac%e8%b4%a8%e6%98%af%e4%bb%80%e4%b9%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>本质是推理时的闭环优化。Actor 先生成候选方案，Evaluator 根据任务标准和环境反馈定位问题，Reflector 将问题转成可执行的语言经验，Actor 再基于经验重写，直到通过标准或耗尽预算。它通常通过更新上下文而不是更新模型参数来提升结果。</p>
+</blockquote>
+<h3 id="q2为什么-reflection-能提升效果" class="heading-element"><span>Q2：为什么 Reflection 能提升效果？</span>
+  <a href="#q2%e4%b8%ba%e4%bb%80%e4%b9%88-reflection-%e8%83%bd%e6%8f%90%e5%8d%87%e6%95%88%e6%9e%9c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>一次生成容易受采样误差、局部推理错误和遗漏约束影响。Reflection 把最终任务拆成生成与评估两个角色，并将失败信号重新注入上下文，相当于在推理时做迭代搜索。效果提升的前提是反馈足够准确、具体且能够被 Actor 执行。</p>
+</blockquote>
+<h3 id="q3actor-和-evaluator-可以是同一个模型吗" class="heading-element"><span>Q3：Actor 和 Evaluator 可以是同一个模型吗？</span>
+  <a href="#q3actor-%e5%92%8c-evaluator-%e5%8f%af%e4%bb%a5%e6%98%af%e5%90%8c%e4%b8%80%e4%b8%aa%e6%a8%a1%e5%9e%8b%e5%90%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>可以，本 Notebook 就是同一个模型通过不同 Prompt 扮演两个角色，成本低、实现简单。但它们可能共享盲区和偏差。高可靠场景应优先引入测试、规则、工具结果等客观反馈，必要时使用不同模型或多个评估器做交叉验证。</p>
+</blockquote>
+<h3 id="q4reflection-和让模型再想一想有什么区别" class="heading-element"><span>Q4：Reflection 和让模型“再想一想”有什么区别？</span>
+  <a href="#q4reflection-%e5%92%8c%e8%ae%a9%e6%a8%a1%e5%9e%8b%e5%86%8d%e6%83%b3%e4%b8%80%e6%83%b3%e6%9c%89%e4%bb%80%e4%b9%88%e5%8c%ba%e5%88%ab" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>“再想一想”缺少明确协议，往往只是增加输出长度。完整 Reflection 应包含候选结果、可验证评估标准、具体失败证据、结构化改进建议、记忆更新和终止策略，是一个由宿主程序编排的状态循环。</p>
+</blockquote>
+<h3 id="q5如何防止无限反思" class="heading-element"><span>Q5：如何防止无限反思？</span>
+  <a href="#q5%e5%a6%82%e4%bd%95%e9%98%b2%e6%ad%a2%e6%97%a0%e9%99%90%e5%8f%8d%e6%80%9d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>同时设置最大轮数、Token、时间和成本预算；要求质量分达到阈值；检测连续多轮无提升、重复方案和振荡；每轮保留最高分候选；预算耗尽时返回明确状态，而不是继续循环。</p>
+</blockquote>
+<h3 id="q6reflection-最大的问题是什么" class="heading-element"><span>Q6：Reflection 最大的问题是什么？</span>
+  <a href="#q6reflection-%e6%9c%80%e5%a4%a7%e7%9a%84%e9%97%ae%e9%a2%98%e6%98%af%e4%bb%80%e4%b9%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>主要问题是成本和延迟增加，以及自评反馈不一定可靠。如果 Evaluator 没有外部事实依据，Agent 可能把正确答案改错，或在错误方向上反复自洽。因此工程重点不是简单增加轮数，而是设计高质量反馈和可验证的停止条件。</p>
+</blockquote>
+<h3 id="q7如何将-notebook-改造成生产系统" class="heading-element"><span>Q7：如何将 Notebook 改造成生产系统？</span>
+  <a href="#q7%e5%a6%82%e4%bd%95%e5%b0%86-notebook-%e6%94%b9%e9%80%a0%e6%88%90%e7%94%9f%e4%ba%a7%e7%b3%bb%e7%bb%9f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>我会增加代码提取与结构化解析、沙箱执行、单元测试和 Benchmark，把 Observation 交给多维 Evaluator；评估结果采用结构化 Schema；记录每版候选及分数，返回历史最佳版本；增加预算、重试、追踪和安全限制；最后再建设经验证的长期经验库。</p>
+</blockquote>
+<h3 id="q8为什么-get_trajectory-没有被使用是一个问题" class="heading-element"><span>Q8：为什么 <code>get_trajectory()</code> 没有被使用是一个问题？</span>
+  <a href="#q8%e4%b8%ba%e4%bb%80%e4%b9%88-get_trajectory-%e6%b2%a1%e6%9c%89%e8%a2%ab%e4%bd%bf%e7%94%a8%e6%98%af%e4%b8%80%e4%b8%aa%e9%97%ae%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>因为虽然系统保存了多轮记录，但后续模型只看到最近代码与最新反馈，历史失败经验没有真正参与决策。不过直接注入全部轨迹也会造成上下文膨胀，更合理的是近期原文加历史摘要，再检索少量相关长期经验。</p>
+</blockquote>
+<h3 id="q9如何设计评估器" class="heading-element"><span>Q9：如何设计评估器？</span>
+  <a href="#q9%e5%a6%82%e4%bd%95%e8%ae%be%e8%ae%a1%e8%af%84%e4%bc%b0%e5%99%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>先把任务成功标准拆成硬约束和软指标。硬约束用测试、编译器、规则引擎验证；软指标用带 Rubric 的 LLM Judge 评分。评估器输出 <code>passed</code>、分数、失败证据、根因、修复计划和严重度。关键决策不能只依赖一段自由文本。</p>
+</blockquote>
+<h3 id="q10为什么最后一轮必须再验证" class="heading-element"><span>Q10：为什么最后一轮必须再验证？</span>
+  <a href="#q10%e4%b8%ba%e4%bb%80%e4%b9%88%e6%9c%80%e5%90%8e%e4%b8%80%e8%bd%ae%e5%bf%85%e9%a1%bb%e5%86%8d%e9%aa%8c%e8%af%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>因为 Refine 本身也可能引入新错误。如果循环以“重写”结束而没有重新执行和评估，系统无法证明最终版本比上一版更好。正确状态机应该以验证通过结束，而不是以模型生成结束。</p>
+</blockquote>
+<h3 id="q11长期记忆应该保存什么" class="heading-element"><span>Q11：长期记忆应该保存什么？</span>
+  <a href="#q11%e9%95%bf%e6%9c%9f%e8%ae%b0%e5%bf%86%e5%ba%94%e8%af%a5%e4%bf%9d%e5%ad%98%e4%bb%80%e4%b9%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>保存经过客观验证、可跨任务复用的失败模式和修复策略，并附适用条件、证据、置信度和版本信息。不能把每条模型自评都写入长期记忆，否则错误经验会持续污染后续任务。</p>
+</blockquote>
+<h3 id="q12如何处理越改越差" class="heading-element"><span>Q12：如何处理“越改越差”？</span>
+  <a href="#q12%e5%a6%82%e4%bd%95%e5%a4%84%e7%90%86%e8%b6%8a%e6%94%b9%e8%b6%8a%e5%b7%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>对每版候选做相同测试和评分，保存版本历史，设置硬约束与回归测试，最终选择历史最佳可行解；如果连续多轮无提升就提前停止。Actor 还应接收 <code>must_preserve</code> 列表，避免修复一个问题时破坏已有正确行为。</p>
+</blockquote>
+<hr>
+<h2 id="18-面试中的项目讲述模板" class="heading-element"><span>18. 面试中的项目讲述模板</span>
+  <a href="#18-%e9%9d%a2%e8%af%95%e4%b8%ad%e7%9a%84%e9%a1%b9%e7%9b%ae%e8%ae%b2%e8%bf%b0%e6%a8%a1%e6%9d%bf" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>可以按“问题—方案—权衡—改进”四段式回答：</p>
+<blockquote>
+<p>我实现了一个面向代码优化的 Reflection Agent。Actor 首先根据任务生成代码，Evaluator 重点分析算法复杂度并输出改进建议，Memory 保存每轮代码和反馈，Orchestrator 控制最多两轮反思与重写。示例中，模型将素数枚举从约 <code>O(n√n)</code> 的试除法优化为 <code>O(n log log n)</code> 的筛法，并进一步使用奇数压缩降低空间开销。</p>
+<p>这个实现能清楚展示生成—评估—修正闭环，但我不会把它直接称为生产级 Agent。当前反馈完全来自同一个 LLM，没有执行代码或运行测试；<code>get_trajectory()</code> 未进入 Prompt；长期经验没有持久化；停止条件依赖关键词；最后一次重写后也没有最终验证。</p>
+<p>如果工程化，我会接入沙箱、单元测试、静态检查和 Benchmark，用结构化 Evaluator 聚合客观证据；保存每版候选与得分并支持回滚；设置轮次、Token、时间和成本预算；只把经过验证、可复用的反思写入长期经验库。</p>
+<p>这类范式适合错误成本高、结果可验证的复杂任务，但不适合所有请求默认开启。线上应先做任务路由，只对高难度或初次验证失败的请求启动 Reflection，以控制延迟和成本。</p>
+</blockquote>
+<hr>
+<h2 id="19-一页速记" class="heading-element"><span>19. 一页速记</span>
+  <a href="#19-%e4%b8%80%e9%a1%b5%e9%80%9f%e8%ae%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="核心闭环" class="heading-element"><span>核心闭环</span>
+  <a href="#%e6%a0%b8%e5%bf%83%e9%97%ad%e7%8e%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Execute → Evaluate → Reflect → Refine → Verify</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="五个关键角色" class="heading-element"><span>五个关键角色</span>
+  <a href="#%e4%ba%94%e4%b8%aa%e5%85%b3%e9%94%ae%e8%a7%92%e8%89%b2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Actor + Evaluator + Reflection + Memory + Environment</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="notebook-的实现" class="heading-element"><span>Notebook 的实现</span>
+  <a href="#notebook-%e7%9a%84%e5%ae%9e%e7%8e%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Initial Prompt → 初始代码
+</span></span><span class="line"><span class="cl">Reflect Prompt → 算法反馈
+</span></span><span class="line"><span class="cl">Refine Prompt → 优化代码
+</span></span><span class="line"><span class="cl">Memory → 保存 execution / reflection
+</span></span><span class="line"><span class="cl">max_iterations → 限制循环</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="示例中的质量提升" class="heading-element"><span>示例中的质量提升</span>
+  <a href="#%e7%a4%ba%e4%be%8b%e4%b8%ad%e7%9a%84%e8%b4%a8%e9%87%8f%e6%8f%90%e5%8d%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">逐数试除：O(n√n)
+</span></span><span class="line"><span class="cl">→ 埃拉托斯特尼筛：O(n log log n)
+</span></span><span class="line"><span class="cl">→ 只存奇数：复杂度量级不变，常数和空间约减半</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="三个最大收益" class="heading-element"><span>三个最大收益</span>
+  <a href="#%e4%b8%89%e4%b8%aa%e6%9c%80%e5%a4%a7%e6%94%b6%e7%9b%8a" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>复杂任务的解质量可能实现跃迁；</li>
+<li>能基于失败反馈进行定向纠错；</li>
+<li>可把验证过的失败经验用于后续任务。</li>
+</ul>
+<h3 id="三个主要成本" class="heading-element"><span>三个主要成本</span>
+  <a href="#%e4%b8%89%e4%b8%aa%e4%b8%bb%e8%a6%81%e6%88%90%e6%9c%ac" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>模型调用次数和 Token 成本增加；</li>
+<li>串行迭代导致端到端延迟上升；</li>
+<li>评估、记忆、终止和安全机制更复杂。</li>
+</ul>
+<h3 id="当前代码的五个关键缺口" class="heading-element"><span>当前代码的五个关键缺口</span>
+  <a href="#%e5%bd%93%e5%89%8d%e4%bb%a3%e7%a0%81%e7%9a%84%e4%ba%94%e4%b8%aa%e5%85%b3%e9%94%ae%e7%bc%ba%e5%8f%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>没有真实环境执行和 Observation；</li>
+<li>没有单元测试或 Benchmark；</li>
+<li><code>get_trajectory()</code> 没有被使用；</li>
+<li>没有真正的长期 Experience；</li>
+<li>最后一轮 Refine 后没有最终验证。</li>
+</ul>
+<h3 id="面试收尾句" class="heading-element"><span>面试收尾句</span>
+  <a href="#%e9%9d%a2%e8%af%95%e6%94%b6%e5%b0%be%e5%8f%a5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>Reflection 的上限不由“反思轮数”决定，而由反馈质量决定。高质量系统要把模型自评升级为基于测试、工具和业务规则的可验证反馈，并用预算控制、最佳候选保留和最终验证保证收益大于成本。</p>
+</blockquote>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-07-23 08:36:00">更新于 2026-07-23&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/mlreflection/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/agent/" class="post-tag" title="标签 - Agent">Agent</a><a href="/tags/reflection/" class="post-tag" title="标签 - Reflection">Reflection</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/mlreact/" class="post-nav-item" rel="prev" title="ReAct"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>ReAct</a><a href="/posts/mlplan-and-solve/" class="post-nav-item" rel="next" title="Plan-and-Solve">Plan-and-Solve<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.3.0/dist/mermaid.esm.min.mjs';
+    
+    
+    
+    window.mermaid = mermaid;
+  </script><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"mermaid":{"themes":["default","dark"]},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>

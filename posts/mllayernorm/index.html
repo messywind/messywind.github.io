@@ -11,7 +11,7 @@
   <meta itemprop="name" content="LayerNorm">
   <meta itemprop="description" content="深度学习核心组件：LayerNorm (层归一化) 学习笔记 一、 核心概念：什么是 LayerNorm？ 在深度学习中，尤其是处理文本和序列数据（如 Transformer 模型）时，数据分布的剧烈波动会导致模型难以训练。LayerNorm 的核心作用是“抹平样本内部的特征偏差”，把各种千奇百怪的输入数据，强制拉回到一个稳定、统一的分布标准上。">
   <meta itemprop="datePublished" content="2026-06-09T13:12:00+00:00">
-  <meta itemprop="dateModified" content="2026-07-21T08:52:56+00:00">
+  <meta itemprop="dateModified" content="2026-07-23T08:36:00+00:00">
   <meta itemprop="wordCount" content="2103">
   <meta itemprop="keywords" content="LayerNorm"><meta property="og:url" content="https://blog.messywind.top/posts/mllayernorm/">
   <meta property="og:site_name" content="凌乱之风的博客">
@@ -21,7 +21,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2026-06-09T13:12:00+00:00">
-    <meta property="article:modified_time" content="2026-07-21T08:52:56+00:00">
+    <meta property="article:modified_time" content="2026-07-23T08:36:00+00:00">
     <meta property="article:tag" content="LayerNorm">
 
   <meta name="twitter:card" content="summary">
@@ -40,7 +40,7 @@
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/mllayernorm\/"
     },"genre": "posts","keywords": "LayerNorm","wordcount":  2103 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/mllayernorm\/","datePublished": "2026-06-09T13:12:00+00:00","dateModified": "2026-07-21T08:52:56+00:00","publisher": {
+    "url": "https:\/\/blog.messywind.top\/posts\/mllayernorm\/","datePublished": "2026-06-09T13:12:00+00:00","dateModified": "2026-07-23T08:36:00+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -148,7 +148,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>LayerNorm</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-09 13:12:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-09">2026-06-09</time></span>&nbsp;<span title="更新于 2026-07-21 08:52:56"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-21">2026-07-21</time></span>&nbsp;<span title="2103 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="LayerNorm"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-09 13:12:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-09">2026-06-09</time></span>&nbsp;<span title="更新于 2026-07-23 08:36:00"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-23">2026-07-23</time></span>&nbsp;<span title="2103 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 2200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 5 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="LayerNorm"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -454,7 +454,7 @@ $$y = \frac{x - \mu}{\sigma + \epsilon} \odot \gamma + \beta$$<p>结合你的手
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-07-21 08:52:56">更新于 2026-07-21&nbsp;</span>
+        <span title="更新于 2026-07-23 08:36:00">更新于 2026-07-23&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/mllayernorm/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

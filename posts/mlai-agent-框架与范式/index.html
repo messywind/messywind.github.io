@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>AI Agent 框架与范式 - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="1. 先建立正确的概念分层 面试中最容易混淆的是 Agent 范式、系统架构和开发框架。
+层次 回答的问题 典型例子 Agent 范式 Agent 如何思考、行动、纠错 ReAct、Plan-and-Execute、Reflexion、LATS、RAISE 系统架构 多个组件或 Agent 如何分工、通信 Supervisor-Worker、Planner-Executor、Debate、Swarm、状态图 开发框架 用什么工程工具把上述设计实现出来 LangGraph、AutoGen、AgentScope、CAMEL 基础能力 Agent 可以依赖哪些底层能力 Model、Tool、Memory、RAG、Guardrail、Evaluation 一句话概括：
+"><meta name="keywords" content='Agent'>
+  <meta itemprop="name" content="AI Agent 框架与范式">
+  <meta itemprop="description" content="1. 先建立正确的概念分层 面试中最容易混淆的是 Agent 范式、系统架构和开发框架。
+层次 回答的问题 典型例子 Agent 范式 Agent 如何思考、行动、纠错 ReAct、Plan-and-Execute、Reflexion、LATS、RAISE 系统架构 多个组件或 Agent 如何分工、通信 Supervisor-Worker、Planner-Executor、Debate、Swarm、状态图 开发框架 用什么工程工具把上述设计实现出来 LangGraph、AutoGen、AgentScope、CAMEL 基础能力 Agent 可以依赖哪些底层能力 Model、Tool、Memory、RAG、Guardrail、Evaluation 一句话概括：">
+  <meta itemprop="datePublished" content="2026-07-22T16:35:00+00:00">
+  <meta itemprop="dateModified" content="2026-07-23T08:36:00+00:00">
+  <meta itemprop="wordCount" content="8100">
+  <meta itemprop="keywords" content="Agent"><meta property="og:url" content="https://blog.messywind.top/posts/mlai-agent-%E6%A1%86%E6%9E%B6%E4%B8%8E%E8%8C%83%E5%BC%8F/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="AI Agent 框架与范式">
+  <meta property="og:description" content="1. 先建立正确的概念分层 面试中最容易混淆的是 Agent 范式、系统架构和开发框架。
+层次 回答的问题 典型例子 Agent 范式 Agent 如何思考、行动、纠错 ReAct、Plan-and-Execute、Reflexion、LATS、RAISE 系统架构 多个组件或 Agent 如何分工、通信 Supervisor-Worker、Planner-Executor、Debate、Swarm、状态图 开发框架 用什么工程工具把上述设计实现出来 LangGraph、AutoGen、AgentScope、CAMEL 基础能力 Agent 可以依赖哪些底层能力 Model、Tool、Memory、RAG、Guardrail、Evaluation 一句话概括：">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-07-22T16:35:00+00:00">
+    <meta property="article:modified_time" content="2026-07-23T08:36:00+00:00">
+    <meta property="article:tag" content="Agent">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="AI Agent 框架与范式">
+  <meta name="twitter:description" content="1. 先建立正确的概念分层 面试中最容易混淆的是 Agent 范式、系统架构和开发框架。
+层次 回答的问题 典型例子 Agent 范式 Agent 如何思考、行动、纠错 ReAct、Plan-and-Execute、Reflexion、LATS、RAISE 系统架构 多个组件或 Agent 如何分工、通信 Supervisor-Worker、Planner-Executor、Debate、Swarm、状态图 开发框架 用什么工程工具把上述设计实现出来 LangGraph、AutoGen、AgentScope、CAMEL 基础能力 Agent 可以依赖哪些底层能力 Model、Tool、Memory、RAG、Guardrail、Evaluation 一句话概括：">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mlai-agent-%E6%A1%86%E6%9E%B6%E4%B8%8E%E8%8C%83%E5%BC%8F/" title="AI Agent 框架与范式 - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/mlplan-and-solve/" title="Plan-And-Solve" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mlai-agent-%E6%A1%86%E6%9E%B6%E4%B8%8E%E8%8C%83%E5%BC%8F/index.md" title="AI Agent 框架与范式 - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "AI Agent 框架与范式",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/mlai-agent-%E6%A1%86%E6%9E%B6%E4%B8%8E%E8%8C%83%E5%BC%8F\/"
+    },"genre": "posts","keywords": "Agent","wordcount":  8100 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlai-agent-%E6%A1%86%E6%9E%B6%E4%B8%8E%E8%8C%83%E5%BC%8F\/","datePublished": "2026-07-22T16:35:00+00:00","dateModified": "2026-07-23T08:36:00+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>AI Agent 框架与范式</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-07-22 16:35:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-22">2026-07-22</time></span>&nbsp;<span title="更新于 2026-07-23 08:36:00"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-23">2026-07-23</time></span>&nbsp;<span title="8100 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 8200 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 17 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="AI Agent 框架与范式"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-先建立正确的概念分层">1. 先建立正确的概念分层</a></li>
+    <li><a href="#2-为什么需要-agent-框架">2. 为什么需要 Agent 框架</a>
+      <ul>
+        <li><a href="#21-封装与抽象">2.1 封装与抽象</a></li>
+        <li><a href="#22-解耦与可扩展">2.2 解耦与可扩展</a></li>
+        <li><a href="#23-标准化状态管理">2.3 标准化状态管理</a></li>
+        <li><a href="#24-可观测性调试与评测">2.4 可观测性、调试与评测</a></li>
+        <li><a href="#25-面试中的高级补充">2.5 面试中的高级补充</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-图片中的四种-agent-框架">3. 图片中的四种 Agent 框架</a>
+      <ul>
+        <li><a href="#31-总览对比">3.1 总览对比</a></li>
+        <li><a href="#32-autogen以对话组织多智能体协作">3.2 AutoGen：以对话组织多智能体协作</a></li>
+        <li><a href="#33-agentscope面向工程化的消息驱动多-agent">3.3 AgentScope：面向工程化的消息驱动多 Agent</a></li>
+        <li><a href="#34-camel通过角色扮演驱动自主协作">3.4 CAMEL：通过角色扮演驱动自主协作</a></li>
+        <li><a href="#35-langgraph用状态图表达复杂-agent-工作流">3.5 LangGraph：用状态图表达复杂 Agent 工作流</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-四种框架应该怎么选">4. 四种框架应该怎么选</a>
+      <ul>
+        <li><a href="#选型回答模板">选型回答模板</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-除了-react还有哪些-agent-范式">5. 除了 ReAct，还有哪些 Agent 范式</a>
+      <ul>
+        <li><a href="#51-react边推理边行动边观察">5.1 ReAct：边推理、边行动、边观察</a></li>
+        <li><a href="#52-plan-and-execute先规划再执行">5.2 Plan-and-Execute：先规划，再执行</a></li>
+        <li><a href="#53-reflection--reflexion--self-refine生成后复盘纠错">5.3 Reflection / Reflexion / Self-Refine：生成后复盘纠错</a></li>
+        <li><a href="#54-tree-of-thoughts探索多条推理路径">5.4 Tree of Thoughts：探索多条推理路径</a></li>
+        <li><a href="#55-latslanguage-agent-tree-search">5.5 LATS：Language Agent Tree Search</a></li>
+        <li><a href="#56-raise带双层记忆的-react-增强架构">5.6 RAISE：带双层记忆的 ReAct 增强架构</a></li>
+        <li><a href="#57-rag--memory-augmented-agent">5.7 RAG / Memory-Augmented Agent</a></li>
+        <li><a href="#58-workflow--state-machine">5.8 Workflow / State Machine</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-常见多智能体架构">6. 常见多智能体架构</a>
+      <ul>
+        <li><a href="#61-supervisor-worker">6.1 Supervisor-Worker</a></li>
+        <li><a href="#62-planner-executor-critic">6.2 Planner-Executor-Critic</a></li>
+        <li><a href="#63-debate--generator-critic">6.3 Debate / Generator-Critic</a></li>
+        <li><a href="#64-blackboard--shared-memory">6.4 Blackboard / Shared Memory</a></li>
+        <li><a href="#65-handoff--swarm">6.5 Handoff / Swarm</a></li>
+      </ul>
+    </li>
+    <li><a href="#7-面试题除了-react还有什么新范式或者架构">7. 面试题：除了 ReAct，还有什么新范式或者架构</a>
+      <ul>
+        <li><a href="#71-90-秒标准回答">7.1 90 秒标准回答</a></li>
+        <li><a href="#72-追问lats-为什么可能比-react-好">7.2 追问：LATS 为什么可能比 ReAct 好</a></li>
+        <li><a href="#73-追问memory-怎么设计">7.3 追问：Memory 怎么设计</a></li>
+        <li><a href="#74-追问什么时候不应该用多-agent">7.4 追问：什么时候不应该用多 Agent</a></li>
+      </ul>
+    </li>
+    <li><a href="#8-生产级-agent-的核心模块">8. 生产级 Agent 的核心模块</a>
+      <ul>
+        <li><a href="#81-tool-runtime">8.1 Tool Runtime</a></li>
+        <li><a href="#82-状态和持久化">8.2 状态和持久化</a></li>
+        <li><a href="#83-guardrail-与安全">8.3 Guardrail 与安全</a></li>
+        <li><a href="#84-评测体系">8.4 评测体系</a></li>
+      </ul>
+    </li>
+    <li><a href="#9-容易失分的说法">9. 容易失分的说法</a>
+      <ul>
+        <li><a href="#错误-1langgraph-是一种新的推理范式">错误 1：LangGraph 是一种新的推理范式</a></li>
+        <li><a href="#错误-2function-calling-就是-agent">错误 2：Function Calling 就是 Agent</a></li>
+        <li><a href="#错误-3memory-就是向量数据库">错误 3：Memory 就是向量数据库</a></li>
+        <li><a href="#错误-4多-agent-一定比单-agent-强">错误 4：多 Agent 一定比单 Agent 强</a></li>
+        <li><a href="#错误-5框架自动解决了可靠性问题">错误 5：框架自动解决了可靠性问题</a></li>
+        <li><a href="#错误-6把完整思维链作为可解释性">错误 6：把完整思维链作为可解释性</a></li>
+      </ul>
+    </li>
+    <li><a href="#10-一页速记">10. 一页速记</a>
+      <ul>
+        <li><a href="#为什么需要-agent-框架">为什么需要 Agent 框架</a></li>
+        <li><a href="#四个框架关键词">四个框架关键词</a></li>
+        <li><a href="#react-之外的范式">ReAct 之外的范式</a></li>
+        <li><a href="#多-agent-架构">多 Agent 架构</a></li>
+        <li><a href="#生产落地关键词">生产落地关键词</a></li>
+      </ul>
+    </li>
+    <li><a href="#11-参考资料">11. 参考资料</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="1-先建立正确的概念分层" class="heading-element"><span>1. 先建立正确的概念分层</span>
+  <a href="#1-%e5%85%88%e5%bb%ba%e7%ab%8b%e6%ad%a3%e7%a1%ae%e7%9a%84%e6%a6%82%e5%bf%b5%e5%88%86%e5%b1%82" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>面试中最容易混淆的是 <strong>Agent 范式、系统架构和开发框架</strong>。</p>
+<table>
+  <thead>
+      <tr>
+          <th>层次</th>
+          <th>回答的问题</th>
+          <th>典型例子</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Agent 范式</td>
+          <td>Agent 如何思考、行动、纠错</td>
+          <td>ReAct、Plan-and-Execute、Reflexion、LATS、RAISE</td>
+      </tr>
+      <tr>
+          <td>系统架构</td>
+          <td>多个组件或 Agent 如何分工、通信</td>
+          <td>Supervisor-Worker、Planner-Executor、Debate、Swarm、状态图</td>
+      </tr>
+      <tr>
+          <td>开发框架</td>
+          <td>用什么工程工具把上述设计实现出来</td>
+          <td>LangGraph、AutoGen、AgentScope、CAMEL</td>
+      </tr>
+      <tr>
+          <td>基础能力</td>
+          <td>Agent 可以依赖哪些底层能力</td>
+          <td>Model、Tool、Memory、RAG、Guardrail、Evaluation</td>
+      </tr>
+  </tbody>
+</table>
+<p>一句话概括：</p>
+<blockquote>
+<p><strong>ReAct 是决策范式，Supervisor-Worker 是协作架构，LangGraph 是编排框架，Tool Calling 是模型与工具交互的接口能力。</strong></p>
+</blockquote>
+<p>同一种范式可以由不同框架实现，同一个框架也可以实现多种范式。例如，可以使用 LangGraph 实现 ReAct、Plan-and-Execute、Reflection 或多智能体工作流。</p>
+<pre class="mermaid">flowchart TB
+    B["基础能力：Model / Tool / Memory / RAG"] --> P["Agent 范式：ReAct / LATS / RAISE"]
+    P --> A["系统架构：单 Agent / 多 Agent / Workflow"]
+    A --> F["开发框架：LangGraph / AutoGen / AgentScope / CAMEL"]
+    F --> R["生产运行时：状态、持久化、观测、权限、评测"]</pre>
+<template>flowchart TB
+    B["基础能力：Model / Tool / Memory / RAG"] --> P["Agent 范式：ReAct / LATS / RAISE"]
+    P --> A["系统架构：单 Agent / 多 Agent / Workflow"]
+    A --> F["开发框架：LangGraph / AutoGen / AgentScope / CAMEL"]
+    F --> R["生产运行时：状态、持久化、观测、权限、评测"]</template><hr>
+<h2 id="2-为什么需要-agent-框架" class="heading-element"><span>2. 为什么需要 Agent 框架</span>
+  <a href="#2-%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81-agent-%e6%a1%86%e6%9e%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>不用框架也可以手写一个 Agent 循环：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">while</span> <span class="ow">not</span> <span class="n">finished</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">action</span> <span class="o">=</span> <span class="n">llm</span><span class="o">.</span><span class="n">decide</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">tools</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">observation</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">state</span> <span class="o">=</span> <span class="n">update</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="p">,</span> <span class="n">observation</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>但从 Demo 走向生产后，需要解决的远不只是“让模型调用一次工具”。框架的价值主要有以下四点。</p>
+<h3 id="21-封装与抽象" class="heading-element"><span>2.1 封装与抽象</span>
+  <a href="#21-%e5%b0%81%e8%a3%85%e4%b8%8e%e6%8a%bd%e8%b1%a1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>框架通常会抽象出：</p>
+<ul>
+<li>Agent；</li>
+<li>Message；</li>
+<li>Model Client；</li>
+<li>Tool；</li>
+<li>Memory；</li>
+<li>State；</li>
+<li>Node / Edge；</li>
+<li>Runtime。</li>
+</ul>
+<p>开发者不必重复实现消息格式、工具注册、模型适配、循环调度和异常处理。</p>
+<h3 id="22-解耦与可扩展" class="heading-element"><span>2.2 解耦与可扩展</span>
+  <a href="#22-%e8%a7%a3%e8%80%a6%e4%b8%8e%e5%8f%af%e6%89%a9%e5%b1%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>把模型、工具、记忆和编排逻辑解耦后，可以独立替换：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Model：OpenAI / Claude / Qwen / 自建模型
+</span></span><span class="line"><span class="cl">Tool：搜索 / 数据库 / 浏览器 / 业务 API
+</span></span><span class="line"><span class="cl">Memory：对话窗口 / 摘要 / 向量库 / 结构化存储
+</span></span><span class="line"><span class="cl">Workflow：ReAct / DAG / 状态图 / 多智能体协作</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这能够降低模型迁移、工具扩展和业务流程变化的成本。</p>
+<h3 id="23-标准化状态管理" class="heading-element"><span>2.3 标准化状态管理</span>
+  <a href="#23-%e6%a0%87%e5%87%86%e5%8c%96%e7%8a%b6%e6%80%81%e7%ae%a1%e7%90%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>复杂 Agent 不是一个普通聊天接口，而是一个有状态、长生命周期的任务系统。框架需要帮助管理：</p>
+<ul>
+<li>当前任务进行到哪一步；</li>
+<li>已调用过哪些工具；</li>
+<li>哪些中间结果需要保留；</li>
+<li>失败后从哪里恢复；</li>
+<li>人工审批后如何继续；</li>
+<li>多个 Agent 如何共享或隔离状态；</li>
+<li>如何避免并发写入冲突和重复执行。</li>
+</ul>
+<p>生产环境尤其关注 <strong>Checkpoint、持久化、幂等、重试、超时、取消和恢复</strong>。</p>
+<h3 id="24-可观测性调试与评测" class="heading-element"><span>2.4 可观测性、调试与评测</span>
+  <a href="#24-%e5%8f%af%e8%a7%82%e6%b5%8b%e6%80%a7%e8%b0%83%e8%af%95%e4%b8%8e%e8%af%84%e6%b5%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>框架可以统一记录：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">trace_id / step_id
+</span></span><span class="line"><span class="cl">模型及 Prompt 版本
+</span></span><span class="line"><span class="cl">节点输入和输出
+</span></span><span class="line"><span class="cl">工具名称、参数和结果
+</span></span><span class="line"><span class="cl">Token、延迟和费用
+</span></span><span class="line"><span class="cl">错误类型与重试次数
+</span></span><span class="line"><span class="cl">人工介入点
+</span></span><span class="line"><span class="cl">最终答案和引用证据</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这使开发者能够区分：模型决策错误、工具路由错误、参数错误、工具执行失败、状态污染、停止条件错误或答案生成错误。</p>
+<h3 id="25-面试中的高级补充" class="heading-element"><span>2.5 面试中的高级补充</span>
+  <a href="#25-%e9%9d%a2%e8%af%95%e4%b8%ad%e7%9a%84%e9%ab%98%e7%ba%a7%e8%a1%a5%e5%85%85" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>框架的核心价值不是减少几行调用模型的代码，而是把不稳定的模型能力放入一个可控制、可恢复、可观测、可评测的工程运行时中。</p>
+</blockquote>
+<p>同时也要指出，框架不是越重越好：</p>
+<ul>
+<li>单轮问答或固定两三步流程，普通函数和显式代码往往更简单；</li>
+<li>只有当任务存在动态分支、循环、持久化、人工介入或多智能体协作时，才更值得引入完整框架；</li>
+<li>抽象层越多，调试成本、版本迁移成本和供应商绑定风险也越高。</li>
+</ul>
+<hr>
+<h2 id="3-图片中的四种-agent-框架" class="heading-element"><span>3. 图片中的四种 Agent 框架</span>
+  <a href="#3-%e5%9b%be%e7%89%87%e4%b8%ad%e7%9a%84%e5%9b%9b%e7%a7%8d-agent-%e6%a1%86%e6%9e%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>注意：框架迭代较快，具体 API 可能变化。面试中应重点讲设计思想、适用场景和取舍，不要只背 API。</p>
+</blockquote>
+<h3 id="31-总览对比" class="heading-element"><span>3.1 总览对比</span>
+  <a href="#31-%e6%80%bb%e8%a7%88%e5%af%b9%e6%af%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th>框架</th>
+          <th>核心抽象</th>
+          <th>主要优势</th>
+          <th>典型场景</th>
+          <th>主要代价</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>AutoGen</td>
+          <td>会话式 Agent、消息和多 Agent 对话</td>
+          <td>多角色协作自然，适合对话驱动的任务分解</td>
+          <td>代码生成与评审、研究团队、模拟产品开发流程</td>
+          <td>对话轮数易膨胀，终止条件和成本控制较难</td>
+      </tr>
+      <tr>
+          <td>AgentScope</td>
+          <td>消息传递、Agent Runtime、分布式执行</td>
+          <td>工程化和部署能力较强，适合大规模多 Agent 应用</td>
+          <td>企业级多 Agent、分布式任务、复杂业务系统</td>
+          <td>系统概念较多，简单场景可能偏重</td>
+      </tr>
+      <tr>
+          <td>CAMEL</td>
+          <td>Role Playing、Communicative Agents</td>
+          <td>角色设定清晰，较容易构造自主协作和研究实验</td>
+          <td>创意生成、专家协作、任务模拟、合成数据</td>
+          <td>角色可能漂移，协作结果依赖 Prompt 与终止设计</td>
+      </tr>
+      <tr>
+          <td>LangGraph</td>
+          <td>State、Node、Edge、Graph</td>
+          <td>分支、循环、持久化和人工介入表达清晰</td>
+          <td>复杂工作流、Reflection、长任务、Human-in-the-loop</td>
+          <td>需要显式设计状态和图，前期建模成本较高</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="32-autogen以对话组织多智能体协作" class="heading-element"><span>3.2 AutoGen：以对话组织多智能体协作</span>
+  <a href="#32-autogen%e4%bb%a5%e5%af%b9%e8%af%9d%e7%bb%84%e7%bb%87%e5%a4%9a%e6%99%ba%e8%83%bd%e4%bd%93%e5%8d%8f%e4%bd%9c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>核心思想是让不同职责的 Agent 通过消息对话推进任务，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">User Proxy → Planner → Coder → Reviewer → Executor
+</span></span><span class="line"><span class="cl">                     ↑                   ↓
+</span></span><span class="line"><span class="cl">                     └──── 修改反馈 ─────┘</span></span></code></pre></td></tr></table>
+</div>
+</div><p>适合：</p>
+<ul>
+<li>任务天然可以表达成多个角色之间的讨论；</li>
+<li>希望快速构建代码生成、评审、研究和专家协作原型；</li>
+<li>不同 Agent 使用不同模型、工具或系统提示词。</li>
+</ul>
+<p>需要重点治理：</p>
+<ul>
+<li>谁拥有最终决策权；</li>
+<li>消息应该发给谁；</li>
+<li>何时结束对话；</li>
+<li>如何避免两个 Agent 相互附和或无限争论；</li>
+<li>工具执行和危险操作由谁审批。</li>
+</ul>
+<h3 id="33-agentscope面向工程化的消息驱动多-agent" class="heading-element"><span>3.3 AgentScope：面向工程化的消息驱动多 Agent</span>
+  <a href="#33-agentscope%e9%9d%a2%e5%90%91%e5%b7%a5%e7%a8%8b%e5%8c%96%e7%9a%84%e6%b6%88%e6%81%af%e9%a9%b1%e5%8a%a8%e5%a4%9a-agent" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>图片中将其核心概念概括为“消息传递”。更完整地说，它强调 Agent 之间的消息通信、运行时管理和可扩展部署。</p>
+<p>适合：</p>
+<ul>
+<li>需要构建较复杂、可运维的多 Agent 应用；</li>
+<li>Agent 数量较多或存在分布式执行需求；</li>
+<li>对日志、监控、消息路由和工程扩展性要求较高。</li>
+</ul>
+<p>面试时不要只说“支持分布式”，还要说明分布式带来的新问题：</p>
+<ul>
+<li>消息顺序和重复消费；</li>
+<li>超时与部分失败；</li>
+<li>状态一致性；</li>
+<li>任务重试的幂等性；</li>
+<li>跨 Agent Trace 关联；</li>
+<li>共享记忆的并发读写。</li>
+</ul>
+<h3 id="34-camel通过角色扮演驱动自主协作" class="heading-element"><span>3.4 CAMEL：通过角色扮演驱动自主协作</span>
+  <a href="#34-camel%e9%80%9a%e8%bf%87%e8%a7%92%e8%89%b2%e6%89%ae%e6%bc%94%e9%a9%b1%e5%8a%a8%e8%87%aa%e4%b8%bb%e5%8d%8f%e4%bd%9c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>CAMEL 关注 Role Playing。通常先定义多个角色、目标和协作规则，再让 Agent 通过对话完成任务。</p>
+<p>例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">AI 用户：提出需求、约束和验收标准
+</span></span><span class="line"><span class="cl">AI 助手：分解任务、执行并交付
+</span></span><span class="line"><span class="cl">Critic：检查事实、逻辑和格式</span></span></code></pre></td></tr></table>
+</div>
+</div><p>适合：</p>
+<ul>
+<li>探索性问题；</li>
+<li>创意生成；</li>
+<li>模拟某领域的专家协作；</li>
+<li>多 Agent 研究和合成数据生成。</li>
+</ul>
+<p>主要风险是 <strong>Role Confusion / Role Drift</strong>：</p>
+<ul>
+<li>Agent 忘记自己的职责；</li>
+<li>两个角色开始做相同的事；</li>
+<li>角色目标与全局任务冲突；</li>
+<li>对话很热闹，但没有产生可验证的任务进展。</li>
+</ul>
+<p>解决思路包括角色权限约束、结构化交接协议、共享任务板、明确验收标准和最大轮数。</p>
+<h3 id="35-langgraph用状态图表达复杂-agent-工作流" class="heading-element"><span>3.5 LangGraph：用状态图表达复杂 Agent 工作流</span>
+  <a href="#35-langgraph%e7%94%a8%e7%8a%b6%e6%80%81%e5%9b%be%e8%a1%a8%e8%be%be%e5%a4%8d%e6%9d%82-agent-%e5%b7%a5%e4%bd%9c%e6%b5%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>LangGraph 的核心不是“画图”，而是把 Agent 明确建模为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">共享状态 State
+</span></span><span class="line"><span class="cl">+ 执行节点 Node
+</span></span><span class="line"><span class="cl">+ 路由和条件边 Edge
+</span></span><span class="line"><span class="cl">+ Checkpoint / Interrupt</span></span></code></pre></td></tr></table>
+</div>
+</div><p>示例：</p>
+<pre class="mermaid">flowchart LR
+    S["用户请求"] --> P["Planner"]
+    P --> E["Executor"]
+    E --> C["Critic"]
+    C -->|"通过"| F["Final"]
+    C -->|"需修改"| E
+    E -->|"高风险操作"| H["人工审批"]
+    H --> E</pre>
+<template>flowchart LR
+    S["用户请求"] --> P["Planner"]
+    P --> E["Executor"]
+    E --> C["Critic"]
+    C -->|"通过"| F["Final"]
+    C -->|"需修改"| E
+    E -->|"高风险操作"| H["人工审批"]
+    H --> E</template><p>适合：</p>
+<ul>
+<li>存在循环和条件分支；</li>
+<li>需要持久化长任务；</li>
+<li>需要人工审批或暂停恢复；</li>
+<li>需要精确控制每一步，而不是让多 Agent 自由聊天；</li>
+<li>希望显式实现 Reflection、Planner-Executor 或 Supervisor 架构。</li>
+</ul>
+<p>图片中“天然支持循环和条件分支、精准控制复杂工作流”的判断是 LangGraph 最重要的面试关键词。</p>
+<hr>
+<h2 id="4-四种框架应该怎么选" class="heading-element"><span>4. 四种框架应该怎么选</span>
+  <a href="#4-%e5%9b%9b%e7%a7%8d%e6%a1%86%e6%9e%b6%e5%ba%94%e8%af%a5%e6%80%8e%e4%b9%88%e9%80%89" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>不要回答“哪个框架最好”，而要先问任务的主矛盾是什么。</p>
+<table>
+  <thead>
+      <tr>
+          <th>需求</th>
+          <th>优先考虑</th>
+          <th>原因</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>多角色以对话方式协作</td>
+          <td>AutoGen / CAMEL</td>
+          <td>对话与角色是一级抽象</td>
+      </tr>
+      <tr>
+          <td>探索角色扮演、专家协作和模拟</td>
+          <td>CAMEL</td>
+          <td>Role Playing 设计突出</td>
+      </tr>
+      <tr>
+          <td>大规模、多 Agent、强调部署和运行时</td>
+          <td>AgentScope</td>
+          <td>工程化消息机制与扩展性更重要</td>
+      </tr>
+      <tr>
+          <td>强状态、复杂分支、循环、持久化</td>
+          <td>LangGraph</td>
+          <td>状态图更可控、更容易恢复</td>
+      </tr>
+      <tr>
+          <td>固定且简单的业务流程</td>
+          <td>普通代码 / Workflow</td>
+          <td>不一定需要完整 Agent 框架</td>
+      </tr>
+      <tr>
+          <td>高风险生产操作</td>
+          <td>显式 Workflow + 审批</td>
+          <td>确定性和权限边界比自主性更重要</td>
+      </tr>
+  </tbody>
+</table>
+<p>选型时至少评估以下维度：</p>
+<ol>
+<li><strong>控制流</strong>：线性、DAG、循环，还是开放式对话？</li>
+<li><strong>状态</strong>：是否跨轮、跨会话、跨进程持久化？</li>
+<li><strong>通信</strong>：共享状态、点对点消息，还是发布订阅？</li>
+<li><strong>可靠性</strong>：是否需要重试、恢复、幂等、补偿事务？</li>
+<li><strong>人工介入</strong>：哪些动作必须审批？</li>
+<li><strong>观测与评测</strong>：能否获得完整 Trace、Token、延迟与结果指标？</li>
+<li><strong>生态集成</strong>：模型、工具、MCP、数据库和部署环境是否匹配？</li>
+<li><strong>团队成本</strong>：学习曲线、API 稳定性、测试难度和供应商绑定。</li>
+</ol>
+<h3 id="选型回答模板" class="heading-element"><span>选型回答模板</span>
+  <a href="#%e9%80%89%e5%9e%8b%e5%9b%9e%e7%ad%94%e6%a8%a1%e6%9d%bf" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>我不会先按框架热度选型，而会先判断控制流和状态复杂度。如果是开放式多角色对话，我会考虑 AutoGen 或 CAMEL；如果是强状态、分支、循环、人工审批和断点恢复，我更倾向 LangGraph；如果强调大规模多 Agent 的消息通信和部署，会评估 AgentScope。对于固定流程，我会优先使用普通代码或工作流，避免为了 Agent 而 Agent。</p>
+</blockquote>
+<hr>
+<h2 id="5-除了-react还有哪些-agent-范式" class="heading-element"><span>5. 除了 ReAct，还有哪些 Agent 范式</span>
+  <a href="#5-%e9%99%a4%e4%ba%86-react%e8%bf%98%e6%9c%89%e5%93%aa%e4%ba%9b-agent-%e8%8c%83%e5%bc%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="51-react边推理边行动边观察" class="heading-element"><span>5.1 ReAct：边推理、边行动、边观察</span>
+  <a href="#51-react%e8%be%b9%e6%8e%a8%e7%90%86%e8%be%b9%e8%a1%8c%e5%8a%a8%e8%be%b9%e8%a7%82%e5%af%9f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Thought → Action → Observation → Thought → ... → Finish</span></span></code></pre></td></tr></table>
+</div>
+</div><p>优势是实现简单、能动态适应环境；不足是单路径局部决策容易陷入局部最优，且多轮调用的延迟和 Token 成本较高。</p>
+<h3 id="52-plan-and-execute先规划再执行" class="heading-element"><span>5.2 Plan-and-Execute：先规划，再执行</span>
+  <a href="#52-plan-and-execute%e5%85%88%e8%a7%84%e5%88%92%e5%86%8d%e6%89%a7%e8%a1%8c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><pre class="mermaid">flowchart LR
+    Q["目标"] --> P["生成全局计划"]
+    P --> E["逐步执行"]
+    E --> V["检查结果"]
+    V -->|"计划仍有效"| E
+    V -->|"环境变化或失败"| R["重新规划"]
+    R --> E</pre>
+<template>flowchart LR
+    Q["目标"] --> P["生成全局计划"]
+    P --> E["逐步执行"]
+    E --> V["检查结果"]
+    V -->|"计划仍有效"| E
+    V -->|"环境变化或失败"| R["重新规划"]
+    R --> E</template><p>适合长任务、步骤依赖明确的场景。与 ReAct 相比：</p>
+<ul>
+<li>ReAct 更像短视的闭环控制，每一步根据最新观察决定下一步；</li>
+<li>Plan-and-Execute 先建立全局结构，执行器再完成局部步骤；</li>
+<li>生产中经常组合为“Planner 生成计划，Executor 在每一步内部使用 ReAct”。</li>
+</ul>
+<p>风险是初始计划可能基于错误假设，因此需要进度检查和动态重规划。</p>
+<h3 id="53-reflection--reflexion--self-refine生成后复盘纠错" class="heading-element"><span>5.3 Reflection / Reflexion / Self-Refine：生成后复盘纠错</span>
+  <a href="#53-reflection--reflexion--self-refine%e7%94%9f%e6%88%90%e5%90%8e%e5%a4%8d%e7%9b%98%e7%ba%a0%e9%94%99" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>基本流程：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Draft / Trajectory → Critique → Revision → Evaluation
+</span></span><span class="line"><span class="cl">                              ↑              ↓
+</span></span><span class="line"><span class="cl">                              └── 未通过 ────┘</span></span></code></pre></td></tr></table>
+</div>
+</div><p>它不是简单地让模型说一句“请再检查”，而应提供明确的评判标准和可验证反馈，例如：</p>
+<ul>
+<li>单元测试是否通过；</li>
+<li>引用能否支撑结论；</li>
+<li>SQL 是否只读；</li>
+<li>输出是否满足 Schema；</li>
+<li>任务目标是否全部覆盖。</li>
+</ul>
+<p>优点是能提高复杂生成任务的质量；缺点是模型既当运动员又当裁判时可能看不出自己的盲点，还会增加调用成本。</p>
+<h3 id="54-tree-of-thoughts探索多条推理路径" class="heading-element"><span>5.4 Tree of Thoughts：探索多条推理路径</span>
+  <a href="#54-tree-of-thoughts%e6%8e%a2%e7%b4%a2%e5%a4%9a%e6%9d%a1%e6%8e%a8%e7%90%86%e8%b7%af%e5%be%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>CoT 通常沿一条推理路径向前，而 Tree of Thoughts 会生成多个候选思路，并对候选进行评分、剪枝、回溯或继续展开。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">                初始问题
+</span></span><span class="line"><span class="cl">             /     |      \
+</span></span><span class="line"><span class="cl">          思路 A  思路 B   思路 C
+</span></span><span class="line"><span class="cl">           / \      |       / \
+</span></span><span class="line"><span class="cl">         A1  A2     B1     C1  C2</span></span></code></pre></td></tr></table>
+</div>
+</div><p>适合：搜索空间较大、早期选择会显著影响最终结果、存在明确评价标准的任务。</p>
+<p>代价是模型调用次数和搜索成本明显高于单路径 ReAct。</p>
+<h3 id="55-latslanguage-agent-tree-search" class="heading-element"><span>5.5 LATS：Language Agent Tree Search</span>
+  <a href="#55-latslanguage-agent-tree-search" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>LATS 将 <strong>Reasoning、Acting、Planning、环境反馈、价值评估和自我反思</strong> 统一到树搜索中，论文实现借鉴了 Monte Carlo Tree Search。</p>
+<p>与 ReAct 的关键区别：</p>
+<table>
+  <thead>
+      <tr>
+          <th>ReAct</th>
+          <th>LATS</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>通常只维护一条当前轨迹</td>
+          <td>同时探索多条候选轨迹</td>
+      </tr>
+      <tr>
+          <td>当前动作失败后在原路径上修补</td>
+          <td>可以回溯并转向其他分支</td>
+      </tr>
+      <tr>
+          <td>依赖局部下一步判断</td>
+          <td>使用价值评估指导全局搜索</td>
+      </tr>
+      <tr>
+          <td>成本较低、实现简单</td>
+          <td>搜索质量更高，但调用成本大</td>
+      </tr>
+  </tbody>
+</table>
+<p>适合代码生成、交互式问答、网页操作、数学问题等有环境反馈或评价函数的复杂任务。</p>
+<p>面试中的一句话：</p>
+<blockquote>
+<p>ReAct 是单轨迹的在线决策，LATS 则把 Agent 的轨迹当作搜索树，通过环境反馈、价值函数和反思选择更优路径，从而降低单路径决策陷入局部最优的风险。</p>
+</blockquote>
+<h3 id="56-raise带双层记忆的-react-增强架构" class="heading-element"><span>5.6 RAISE：带双层记忆的 ReAct 增强架构</span>
+  <a href="#56-raise%e5%b8%a6%e5%8f%8c%e5%b1%82%e8%ae%b0%e5%bf%86%e7%9a%84-react-%e5%a2%9e%e5%bc%ba%e6%9e%b6%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>RAISE 全称为 <strong>Reasoning and Acting through Scratchpad and Examples</strong>。它面向多轮对话 Agent，在 ReAct 基础上引入类似人类短期记忆和长期记忆的双组件记忆系统。</p>
+<p>可以抽象为：</p>
+<pre class="mermaid">flowchart LR
+    U["当前输入"] --> W["短期记忆 / Scratchpad"]
+    L["长期记忆 / Examples"] --> W
+    W --> D["Reason + Act"]
+    D --> O["回复或行动"]
+    O --> M["筛选、总结、写入记忆"]
+    M --> L</pre>
+<template>flowchart LR
+    U["当前输入"] --> W["短期记忆 / Scratchpad"]
+    L["长期记忆 / Examples"] --> W
+    W --> D["Reason + Act"]
+    D --> O["回复或行动"]
+    O --> M["筛选、总结、写入记忆"]
+    M --> L</template><p>它重点解决的是长对话中的上下文连续性、角色一致性和经验复用。</p>
+<p>需要注意：</p>
+<ul>
+<li>Memory 不等于把全部聊天记录塞回上下文；</li>
+<li>长期记忆需要解决写入、检索、更新、冲突、遗忘和权限问题；</li>
+<li>错误记忆会让 Agent 在未来持续犯错；</li>
+<li>角色设定和检索到的示例冲突时，可能出现 Role Confusion。</li>
+</ul>
+<h3 id="57-rag--memory-augmented-agent" class="heading-element"><span>5.7 RAG / Memory-Augmented Agent</span>
+  <a href="#57-rag--memory-augmented-agent" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>RAG 本身通常不是完整 Agent 范式，而是一种外部知识增强能力。只有当模型能够自主决定“是否检索、检索什么、如何验证、是否继续检索”时，才形成 Agentic RAG。</p>
+<p>典型流程：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Query Analysis
+</span></span><span class="line"><span class="cl">→ Query Rewrite / Decomposition
+</span></span><span class="line"><span class="cl">→ Retrieval
+</span></span><span class="line"><span class="cl">→ Rerank
+</span></span><span class="line"><span class="cl">→ Evidence Check
+</span></span><span class="line"><span class="cl">→ 必要时再次检索
+</span></span><span class="line"><span class="cl">→ Answer with Citations</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="58-workflow--state-machine" class="heading-element"><span>5.8 Workflow / State Machine</span>
+  <a href="#58-workflow--state-machine" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>并不是所有问题都应该交给自由决策的 Agent。对于财务审批、工单流转、订单操作等强约束任务，更适合：</p>
+<ul>
+<li>用确定性状态机定义主流程；</li>
+<li>只在文本理解、信息抽取、候选生成等局部节点使用 LLM；</li>
+<li>关键操作通过规则校验和人工审批。</li>
+</ul>
+<p>这是大厂生产落地中非常重要的观点：</p>
+<blockquote>
+<p>自主性应该按风险逐步开放。能用确定性代码解决的部分，不要全部交给模型决定。</p>
+</blockquote>
+<hr>
+<h2 id="6-常见多智能体架构" class="heading-element"><span>6. 常见多智能体架构</span>
+  <a href="#6-%e5%b8%b8%e8%a7%81%e5%a4%9a%e6%99%ba%e8%83%bd%e4%bd%93%e6%9e%b6%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="61-supervisor-worker" class="heading-element"><span>6.1 Supervisor-Worker</span>
+  <a href="#61-supervisor-worker" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Supervisor 负责拆解任务、分派 Worker、汇总结果和判断结束。</p>
+<pre class="mermaid">flowchart TB
+    S["Supervisor"] --> R["Researcher"]
+    S --> C["Coder"]
+    S --> A["Analyst"]
+    R --> S
+    C --> S
+    A --> S</pre>
+<template>flowchart TB
+    S["Supervisor"] --> R["Researcher"]
+    S --> C["Coder"]
+    S --> A["Analyst"]
+    R --> S
+    C --> S
+    A --> S</template><p>优点是职责和控制权清晰；风险是 Supervisor 成为性能瓶颈和单点故障。</p>
+<h3 id="62-planner-executor-critic" class="heading-element"><span>6.2 Planner-Executor-Critic</span>
+  <a href="#62-planner-executor-critic" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>Planner：分解任务并维护计划；</li>
+<li>Executor：调用工具完成步骤；</li>
+<li>Critic：根据标准检查质量；</li>
+<li>必要时返回 Planner 重规划。</li>
+</ul>
+<p>它适合代码开发、Deep Research、数据分析等需要“计划—执行—验收”的任务。</p>
+<h3 id="63-debate--generator-critic" class="heading-element"><span>6.3 Debate / Generator-Critic</span>
+  <a href="#63-debate--generator-critic" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>多个 Agent 提出不同候选或互相质疑，最后由 Judge 汇总。</p>
+<p>适合高价值决策和复杂推理，但必须防止：</p>
+<ul>
+<li>多个 Agent 使用相同模型和上下文，产生高度相关的错误；</li>
+<li>对话轮数增加却没有新增证据；</li>
+<li>Judge 只偏好表达更自信的答案。</li>
+</ul>
+<h3 id="64-blackboard--shared-memory" class="heading-element"><span>6.4 Blackboard / Shared Memory</span>
+  <a href="#64-blackboard--shared-memory" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>多个 Agent 不直接长时间对话，而是读写共享任务板：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">任务列表 / 当前状态 / 中间证据 / 待验证结论 / 最终产物</span></span></code></pre></td></tr></table>
+</div>
+</div><p>优点是减少点对点通信复杂度；难点是并发修改、冲突解决、数据权限和脏状态清理。</p>
+<h3 id="65-handoff--swarm" class="heading-element"><span>6.5 Handoff / Swarm</span>
+  <a href="#65-handoff--swarm" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>当前 Agent 根据任务类型把控制权移交给更专业的 Agent，例如售前 Agent 将退款问题移交给售后 Agent。</p>
+<p>关键不是“有很多 Agent”，而是明确：</p>
+<ul>
+<li>路由条件；</li>
+<li>交接上下文；</li>
+<li>权限边界；</li>
+<li>控制权归属；</li>
+<li>失败时的回退路径。</li>
+</ul>
+<hr>
+<h2 id="7-面试题除了-react还有什么新范式或者架构" class="heading-element"><span>7. 面试题：除了 ReAct，还有什么新范式或者架构</span>
+  <a href="#7-%e9%9d%a2%e8%af%95%e9%a2%98%e9%99%a4%e4%ba%86-react%e8%bf%98%e6%9c%89%e4%bb%80%e4%b9%88%e6%96%b0%e8%8c%83%e5%bc%8f%e6%88%96%e8%80%85%e6%9e%b6%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="71-90-秒标准回答" class="heading-element"><span>7.1 90 秒标准回答</span>
+  <a href="#71-90-%e7%a7%92%e6%a0%87%e5%87%86%e5%9b%9e%e7%ad%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>我会先区分范式、架构和框架。ReAct 是单 Agent 的推理—行动范式，不是具体开发框架。除了 ReAct，单 Agent 侧常见的有 Plan-and-Execute、Reflection/Reflexion、Tree of Thoughts、LATS 和带长期记忆的 RAISE。Plan-and-Execute 适合长任务，先做全局规划再执行；Reflection 通过 Critic 或环境反馈反复修正；LATS 把多条 Agent 轨迹组织成树搜索，能回溯并减少局部最优；RAISE 在 ReAct 上加入短期和长期记忆，更关注长对话连续性。系统架构侧还有 Supervisor-Worker、Planner-Executor-Critic、Debate、共享黑板和 Handoff。工程实现可以使用 LangGraph、AutoGen、AgentScope 或 CAMEL。生产选型的关键不是范式越新越好，而是根据任务的不确定性、搜索空间、时延成本、风险等级和是否存在可验证反馈来选择。</p>
+</blockquote>
+<h3 id="72-追问lats-为什么可能比-react-好" class="heading-element"><span>7.2 追问：LATS 为什么可能比 ReAct 好</span>
+  <a href="#72-%e8%bf%bd%e9%97%aelats-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%8f%af%e8%83%bd%e6%af%94-react-%e5%a5%bd" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>回答要点：</p>
+<ol>
+<li>ReAct 通常只沿一条路径连续决策；</li>
+<li>一旦早期动作选错，后续容易在错误路径上修补；</li>
+<li>LATS 保留多个候选分支，可以评估、剪枝和回溯；</li>
+<li>它结合环境反馈、价值判断和反思，搜索更全面；</li>
+<li>代价是调用次数、延迟和 Token 显著增加；</li>
+<li>如果没有可信评价函数，树搜索也可能只是昂贵地探索错误方向。</li>
+</ol>
+<h3 id="73-追问memory-怎么设计" class="heading-element"><span>7.3 追问：Memory 怎么设计</span>
+  <a href="#73-%e8%bf%bd%e9%97%aememory-%e6%80%8e%e4%b9%88%e8%ae%be%e8%ae%a1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>可以按以下维度回答：</p>
+<table>
+  <thead>
+      <tr>
+          <th>类型</th>
+          <th>内容</th>
+          <th>生命周期</th>
+          <th>常见实现</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Working Memory</td>
+          <td>当前目标、计划、最近观察、中间变量</td>
+          <td>单次任务</td>
+          <td>State / Context</td>
+      </tr>
+      <tr>
+          <td>Episodic Memory</td>
+          <td>历史任务、成功或失败轨迹</td>
+          <td>跨任务</td>
+          <td>向量库 + 元数据</td>
+      </tr>
+      <tr>
+          <td>Semantic Memory</td>
+          <td>用户事实、业务知识、稳定偏好</td>
+          <td>长期</td>
+          <td>KV / 数据库 / 知识图谱</td>
+      </tr>
+      <tr>
+          <td>Procedural Memory</td>
+          <td>工具使用方式、策略、规则</td>
+          <td>长期</td>
+          <td>Prompt、Skill、Policy</td>
+      </tr>
+  </tbody>
+</table>
+<p>完整的 Memory Pipeline 应包括：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Write → Filter → Summarize → Store → Retrieve → Rerank
+</span></span><span class="line"><span class="cl">      → Conflict Resolution → Update / Forget → Access Control</span></span></code></pre></td></tr></table>
+</div>
+</div><p>高分回答：</p>
+<blockquote>
+<p>记忆系统的难点不是存储，而是决定什么值得写入、什么时候检索、如何解决冲突和过期信息，以及如何防止错误或恶意内容长期污染 Agent。</p>
+</blockquote>
+<h3 id="74-追问什么时候不应该用多-agent" class="heading-element"><span>7.4 追问：什么时候不应该用多 Agent</span>
+  <a href="#74-%e8%bf%bd%e9%97%ae%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e4%b8%8d%e5%ba%94%e8%af%a5%e7%94%a8%e5%a4%9a-agent" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>一个强模型配合工具即可完成；</li>
+<li>任务无法自然分解；</li>
+<li>Agent 之间没有信息或能力差异；</li>
+<li>时延和成本要求严格；</li>
+<li>缺乏可靠的汇总和验收机制；</li>
+<li>多 Agent 只是在重复生成相似文本。</li>
+</ul>
+<p>多 Agent 的价值应来自 <strong>上下文隔离、角色专业化、并行执行、权限隔离或相互验证</strong>，而不是来自 Agent 数量本身。</p>
+<hr>
+<h2 id="8-生产级-agent-的核心模块" class="heading-element"><span>8. 生产级 Agent 的核心模块</span>
+  <a href="#8-%e7%94%9f%e4%ba%a7%e7%ba%a7-agent-%e7%9a%84%e6%a0%b8%e5%bf%83%e6%a8%a1%e5%9d%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>一个真正可上线的 Agent 系统通常包含：</p>
+<pre class="mermaid">flowchart TB
+    U["用户 / 上游系统"] --> G["Gateway：鉴权、限流、会话"]
+    G --> O["Orchestrator：状态与控制流"]
+    O --> M["Model Router"]
+    O --> T["Tool Runtime"]
+    O --> R["Memory / RAG"]
+    T --> P["权限、Schema、沙箱、审批"]
+    O --> C["Checkpoint / Queue"]
+    O --> V["Tracing / Evaluation"]
+    V --> D["数据集、指标、回归测试"]</pre>
+<template>flowchart TB
+    U["用户 / 上游系统"] --> G["Gateway：鉴权、限流、会话"]
+    G --> O["Orchestrator：状态与控制流"]
+    O --> M["Model Router"]
+    O --> T["Tool Runtime"]
+    O --> R["Memory / RAG"]
+    T --> P["权限、Schema、沙箱、审批"]
+    O --> C["Checkpoint / Queue"]
+    O --> V["Tracing / Evaluation"]
+    V --> D["数据集、指标、回归测试"]</template><h3 id="81-tool-runtime" class="heading-element"><span>8.1 Tool Runtime</span>
+  <a href="#81-tool-runtime" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>JSON Schema 参数校验；</li>
+<li>工具权限最小化；</li>
+<li>超时、重试、熔断和限流；</li>
+<li>读写工具分级；</li>
+<li>高风险操作二次确认；</li>
+<li>幂等键与重复执行保护；</li>
+<li>工具结果长度限制和内容清洗。</li>
+</ul>
+<h3 id="82-状态和持久化" class="heading-element"><span>8.2 状态和持久化</span>
+  <a href="#82-%e7%8a%b6%e6%80%81%e5%92%8c%e6%8c%81%e4%b9%85%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>Task State 与 Chat History 分离；</li>
+<li>每个节点执行前后保存 Checkpoint；</li>
+<li>失败后从安全位置恢复；</li>
+<li>长任务支持暂停、取消和人工接管；</li>
+<li>状态迁移需要版本管理。</li>
+</ul>
+<h3 id="83-guardrail-与安全" class="heading-element"><span>8.3 Guardrail 与安全</span>
+  <a href="#83-guardrail-%e4%b8%8e%e5%ae%89%e5%85%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>防止直接和间接 Prompt Injection；</li>
+<li>工具返回内容按不可信数据处理；</li>
+<li>敏感信息脱敏；</li>
+<li>用户、Agent、工具分别做权限校验；</li>
+<li>输出做事实、格式、合规和风险检查；</li>
+<li>删除、付款、发信等动作进入审批流。</li>
+</ul>
+<h3 id="84-评测体系" class="heading-element"><span>8.4 评测体系</span>
+  <a href="#84-%e8%af%84%e6%b5%8b%e4%bd%93%e7%b3%bb" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>至少同时评估：</p>
+<table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>示例指标</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>最终效果</td>
+          <td>Task Success、准确率、人工评分</td>
+      </tr>
+      <tr>
+          <td>过程质量</td>
+          <td>工具选择准确率、参数正确率、步骤完成率</td>
+      </tr>
+      <tr>
+          <td>事实可靠性</td>
+          <td>Citation Correctness、Groundedness</td>
+      </tr>
+      <tr>
+          <td>效率</td>
+          <td>Token、模型调用次数、工具调用次数、P95 延迟、成本</td>
+      </tr>
+      <tr>
+          <td>稳定性</td>
+          <td>超时率、重试率、循环率、恢复成功率</td>
+      </tr>
+      <tr>
+          <td>安全性</td>
+          <td>越权率、危险动作拦截率、注入攻击成功率</td>
+      </tr>
+  </tbody>
+</table>
+<p>只看最终答案会掩盖过程问题。例如 Agent 可能最终答对，但调用了错误工具、泄露了数据或进行了大量无效搜索。</p>
+<hr>
+<h2 id="9-容易失分的说法" class="heading-element"><span>9. 容易失分的说法</span>
+  <a href="#9-%e5%ae%b9%e6%98%93%e5%a4%b1%e5%88%86%e7%9a%84%e8%af%b4%e6%b3%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="错误-1langgraph-是一种新的推理范式" class="heading-element"><span>错误 1：LangGraph 是一种新的推理范式</span>
+  <a href="#%e9%94%99%e8%af%af-1langgraph-%e6%98%af%e4%b8%80%e7%a7%8d%e6%96%b0%e7%9a%84%e6%8e%a8%e7%90%86%e8%8c%83%e5%bc%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>更准确的说法：LangGraph 是状态图编排框架，可以承载多种推理范式和多 Agent 架构。</p>
+<h3 id="错误-2function-calling-就是-agent" class="heading-element"><span>错误 2：Function Calling 就是 Agent</span>
+  <a href="#%e9%94%99%e8%af%af-2function-calling-%e5%b0%b1%e6%98%af-agent" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Function Calling 只是结构化表达工具调用的接口。Agent 还需要状态、循环、规划、反馈、停止条件和运行时治理。</p>
+<h3 id="错误-3memory-就是向量数据库" class="heading-element"><span>错误 3：Memory 就是向量数据库</span>
+  <a href="#%e9%94%99%e8%af%af-3memory-%e5%b0%b1%e6%98%af%e5%90%91%e9%87%8f%e6%95%b0%e6%8d%ae%e5%ba%93" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>向量数据库只是长期记忆的一种检索实现。Memory 还涉及写入策略、摘要、冲突、遗忘、权限和生命周期。</p>
+<h3 id="错误-4多-agent-一定比单-agent-强" class="heading-element"><span>错误 4：多 Agent 一定比单 Agent 强</span>
+  <a href="#%e9%94%99%e8%af%af-4%e5%a4%9a-agent-%e4%b8%80%e5%ae%9a%e6%af%94%e5%8d%95-agent-%e5%bc%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>如果 Agent 之间没有差异化能力和有效协作机制，多 Agent 只会增加延迟、成本和错误传播路径。</p>
+<h3 id="错误-5框架自动解决了可靠性问题" class="heading-element"><span>错误 5：框架自动解决了可靠性问题</span>
+  <a href="#%e9%94%99%e8%af%af-5%e6%a1%86%e6%9e%b6%e8%87%aa%e5%8a%a8%e8%a7%a3%e5%86%b3%e4%ba%86%e5%8f%af%e9%9d%a0%e6%80%a7%e9%97%ae%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>框架提供机制，但重试、幂等、权限、评测、回滚和停止条件仍然需要业务侧明确设计。</p>
+<h3 id="错误-6把完整思维链作为可解释性" class="heading-element"><span>错误 6：把完整思维链作为可解释性</span>
+  <a href="#%e9%94%99%e8%af%af-6%e6%8a%8a%e5%ae%8c%e6%95%b4%e6%80%9d%e7%bb%b4%e9%93%be%e4%bd%9c%e4%b8%ba%e5%8f%af%e8%a7%a3%e9%87%8a%e6%80%a7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>生产系统更应记录结构化的计划摘要、Action、Observation、引用、状态变化和评测结果，而不是依赖展示模型的完整内部推理。</p>
+<hr>
+<h2 id="10-一页速记" class="heading-element"><span>10. 一页速记</span>
+  <a href="#10-%e4%b8%80%e9%a1%b5%e9%80%9f%e8%ae%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="为什么需要-agent-框架" class="heading-element"><span>为什么需要 Agent 框架</span>
+  <a href="#%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81-agent-%e6%a1%86%e6%9e%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">封装抽象
+</span></span><span class="line"><span class="cl">+ Model / Tool / Memory 解耦
+</span></span><span class="line"><span class="cl">+ 状态与流程标准化
+</span></span><span class="line"><span class="cl">+ 可观测、调试、评测
+</span></span><span class="line"><span class="cl">+ 持久化、恢复和人工介入</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="四个框架关键词" class="heading-element"><span>四个框架关键词</span>
+  <a href="#%e5%9b%9b%e4%b8%aa%e6%a1%86%e6%9e%b6%e5%85%b3%e9%94%ae%e8%af%8d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">AutoGen    = 对话式多 Agent
+</span></span><span class="line"><span class="cl">AgentScope = 消息驱动与工程化运行时
+</span></span><span class="line"><span class="cl">CAMEL      = Role Playing
+</span></span><span class="line"><span class="cl">LangGraph  = State Graph + 分支/循环/持久化</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="react-之外的范式" class="heading-element"><span>ReAct 之外的范式</span>
+  <a href="#react-%e4%b9%8b%e5%a4%96%e7%9a%84%e8%8c%83%e5%bc%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Plan-and-Execute = 先全局规划，再执行与重规划
+</span></span><span class="line"><span class="cl">Reflection       = 生成、批评、修改
+</span></span><span class="line"><span class="cl">ToT              = 多候选推理树
+</span></span><span class="line"><span class="cl">LATS             = Agent 轨迹树搜索 + 环境反馈 + 价值评估
+</span></span><span class="line"><span class="cl">RAISE            = ReAct + 短期/长期记忆</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="多-agent-架构" class="heading-element"><span>多 Agent 架构</span>
+  <a href="#%e5%a4%9a-agent-%e6%9e%b6%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Supervisor-Worker
+</span></span><span class="line"><span class="cl">Planner-Executor-Critic
+</span></span><span class="line"><span class="cl">Debate / Generator-Critic
+</span></span><span class="line"><span class="cl">Blackboard / Shared Memory
+</span></span><span class="line"><span class="cl">Handoff / Swarm</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="生产落地关键词" class="heading-element"><span>生产落地关键词</span>
+  <a href="#%e7%94%9f%e4%ba%a7%e8%90%bd%e5%9c%b0%e5%85%b3%e9%94%ae%e8%af%8d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">State / Checkpoint / Idempotency
+</span></span><span class="line"><span class="cl">Timeout / Retry / Circuit Breaker
+</span></span><span class="line"><span class="cl">Permission / Sandbox / Human Approval
+</span></span><span class="line"><span class="cl">Tracing / Evaluation / Regression
+</span></span><span class="line"><span class="cl">Prompt Injection / Memory Poisoning
+</span></span><span class="line"><span class="cl">Latency / Token / Cost</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="11-参考资料" class="heading-element"><span>11. 参考资料</span>
+  <a href="#11-%e5%8f%82%e8%80%83%e8%b5%84%e6%96%99" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li>ReAct: Synergizing Reasoning and Acting in Language Models<br>
+<a href="https://arxiv.org/abs/2210.03629"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2210.03629</a></li>
+<li>Tree of Thoughts: Deliberate Problem Solving with Large Language Models<br>
+<a href="https://arxiv.org/abs/2305.10601"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2305.10601</a></li>
+<li>Reflexion: Language Agents with Verbal Reinforcement Learning<br>
+<a href="https://arxiv.org/abs/2303.11366"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2303.11366</a></li>
+<li>Language Agent Tree Search Unifies Reasoning Acting and Planning in Language Models<br>
+<a href="https://arxiv.org/abs/2310.04406"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2310.04406</a></li>
+<li>From LLM to Conversational Agent: A Memory Enhanced Architecture with Fine-Tuning of Large Language Models（RAISE）<br>
+<a href="https://arxiv.org/abs/2401.02777"target="_blank" rel="external nofollow noopener noreferrer">https://arxiv.org/abs/2401.02777</a></li>
+<li>AutoGen<br>
+<a href="https://github.com/microsoft/autogen"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/microsoft/autogen</a></li>
+<li>AgentScope<br>
+<a href="https://github.com/agentscope-ai/agentscope"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/agentscope-ai/agentscope</a></li>
+<li>CAMEL<br>
+<a href="https://github.com/camel-ai/camel"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/camel-ai/camel</a></li>
+<li>LangGraph<br>
+<a href="https://github.com/langchain-ai/langgraph"target="_blank" rel="external nofollow noopener noreferrer">https://github.com/langchain-ai/langgraph</a></li>
+</ul>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-07-23 08:36:00">更新于 2026-07-23&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/mlai-agent-%E6%A1%86%E6%9E%B6%E4%B8%8E%E8%8C%83%E5%BC%8F/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/agent/" class="post-tag" title="标签 - Agent">Agent</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/mlplan-and-solve/" class="post-nav-item" rel="prev" title="Plan-and-Solve"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>Plan-and-Solve</a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.3.0/dist/mermaid.esm.min.mjs';
+    
+    
+    
+    window.mermaid = mermaid;
+  </script><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"mermaid":{"themes":["default","dark"]},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>
