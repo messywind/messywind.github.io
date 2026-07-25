@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>LangGraph - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="LangGraph 学习笔记：Agent、状态图、中间件、记忆与面试要点 1. LangGraph 解决的核心问题 普通的大模型调用通常是一次性的：输入消息，模型生成答案。Agent 系统则需要在一次任务中反复进行判断、调用工具、读取结果、更新状态，并在合适的时候结束。
+"><meta name="keywords" content='LangGraph, Agent'>
+  <meta itemprop="name" content="LangGraph">
+  <meta itemprop="description" content="LangGraph 学习笔记：Agent、状态图、中间件、记忆与面试要点 1. LangGraph 解决的核心问题 普通的大模型调用通常是一次性的：输入消息，模型生成答案。Agent 系统则需要在一次任务中反复进行判断、调用工具、读取结果、更新状态，并在合适的时候结束。">
+  <meta itemprop="datePublished" content="2026-07-24T10:21:00+00:00">
+  <meta itemprop="dateModified" content="2026-07-25T08:19:29+00:00">
+  <meta itemprop="wordCount" content="11273">
+  <meta itemprop="keywords" content="LangGraph,Agent"><meta property="og:url" content="https://blog.messywind.top/posts/mllanggraph/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="LangGraph">
+  <meta property="og:description" content="LangGraph 学习笔记：Agent、状态图、中间件、记忆与面试要点 1. LangGraph 解决的核心问题 普通的大模型调用通常是一次性的：输入消息，模型生成答案。Agent 系统则需要在一次任务中反复进行判断、调用工具、读取结果、更新状态，并在合适的时候结束。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-07-24T10:21:00+00:00">
+    <meta property="article:modified_time" content="2026-07-25T08:19:29+00:00">
+    <meta property="article:tag" content="LangGraph">
+    <meta property="article:tag" content="Agent">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="LangGraph">
+  <meta name="twitter:description" content="LangGraph 学习笔记：Agent、状态图、中间件、记忆与面试要点 1. LangGraph 解决的核心问题 普通的大模型调用通常是一次性的：输入消息，模型生成答案。Agent 系统则需要在一次任务中反复进行判断、调用工具、读取结果、更新状态，并在合适的时候结束。">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mllanggraph/" title="LangGraph - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/mlai-agent-%E6%A1%86%E6%9E%B6%E4%B8%8E%E8%8C%83%E5%BC%8F/" title="AI Agent 框架与范式" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mllanggraph/index.md" title="LangGraph - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "LangGraph",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/mllanggraph\/"
+    },"genre": "posts","keywords": "LangGraph, Agent","wordcount":  11273 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mllanggraph\/","datePublished": "2026-07-24T10:21:00+00:00","dateModified": "2026-07-25T08:19:29+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>LangGraph</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-07-24 10:21:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-24">2026-07-24</time></span>&nbsp;<span title="更新于 2026-07-25 08:19:29"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-25">2026-07-25</time></span>&nbsp;<span title="11273 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 11300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 23 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="LangGraph"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-langgraph-解决的核心问题">1. LangGraph 解决的核心问题</a></li>
+    <li><a href="#2-四份-notebook-的学习主线">2. 四份 Notebook 的学习主线</a></li>
+    <li><a href="#3-快速入门先理解-agent-的运行闭环">3. 快速入门：先理解 Agent 的运行闭环</a>
+      <ul>
+        <li><a href="#31-create_agent-是高层抽象">3.1 <code>create_agent</code> 是高层抽象</a></li>
+        <li><a href="#32-工具调用的本质">3.2 工具调用的本质</a></li>
+        <li><a href="#33-runtime-context运行上下文不是对话内容">3.3 Runtime Context：运行上下文不是对话内容</a></li>
+        <li><a href="#34-结构化输出">3.4 结构化输出</a></li>
+        <li><a href="#35-流式输出">3.5 流式输出</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-stategraph把-agent-还原成可控工作流">4. StateGraph：把 Agent 还原成可控工作流</a>
+      <ul>
+        <li><a href="#41-为什么需要-stategraph">4.1 为什么需要 StateGraph</a></li>
+        <li><a href="#42-state图中的共享数据">4.2 State：图中的共享数据</a></li>
+        <li><a href="#43-node对状态执行一次转换">4.3 Node：对状态执行一次转换</a></li>
+        <li><a href="#44-edge显式表达流程关系">4.4 Edge：显式表达流程关系</a></li>
+        <li><a href="#45-buildcompile-与-run">4.5 Build、Compile 与 Run</a></li>
+        <li><a href="#46-agent-与-workflow-如何选择">4.6 Agent 与 Workflow 如何选择</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-middleware为-agent-注入横切能力">5. Middleware：为 Agent 注入横切能力</a>
+      <ul>
+        <li><a href="#51-中间件的定位">5.1 中间件的定位</a></li>
+        <li><a href="#52-常见钩子及执行位置">5.2 常见钩子及执行位置</a></li>
+        <li><a href="#53-预算控制动态模型路由">5.3 预算控制：动态模型路由</a></li>
+        <li><a href="#54-消息截断治理上下文窗口">5.4 消息截断：治理上下文窗口</a></li>
+        <li><a href="#55-guardrails在模型外增加确定性约束">5.5 Guardrails：在模型外增加确定性约束</a></li>
+        <li><a href="#56-pii-检测阻断与脱敏">5.6 PII 检测：阻断与脱敏</a></li>
+        <li><a href="#57-设计中间件时的原则">5.7 设计中间件时的原则</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-memory区分状态短期记忆与长期记忆">6. Memory：区分状态、短期记忆与长期记忆</a>
+      <ul>
+        <li><a href="#61-最容易混淆的三个概念">6.1 最容易混淆的三个概念</a></li>
+        <li><a href="#62-短期记忆围绕-thread-保存状态">6.2 短期记忆：围绕 Thread 保存状态</a></li>
+        <li><a href="#63-内存型与数据库型-checkpointer">6.3 内存型与数据库型 Checkpointer</a></li>
+        <li><a href="#64-长期记忆围绕用户或业务实体存储信息">6.4 长期记忆：围绕用户或业务实体存储信息</a></li>
+        <li><a href="#65-精确读取与语义检索">6.5 精确读取与语义检索</a></li>
+        <li><a href="#66-让-agent-读取和写入长期记忆">6.6 让 Agent 读取和写入长期记忆</a></li>
+        <li><a href="#67-短期记忆与长期记忆如何配合">6.7 短期记忆与长期记忆如何配合</a></li>
+      </ul>
+    </li>
+    <li><a href="#7-四个模块组合后的完整运行过程">7. 四个模块组合后的完整运行过程</a></li>
+    <li><a href="#8-常见误区">8. 常见误区</a>
+      <ul>
+        <li><a href="#81-用了-messagesstate-就自动拥有多轮记忆">8.1 “用了 MessagesState 就自动拥有多轮记忆”</a></li>
+        <li><a href="#82-长期记忆就是把全部聊天记录放进向量库">8.2 “长期记忆就是把全部聊天记录放进向量库”</a></li>
+        <li><a href="#83-工具调用由模型决定所以权限也可以交给模型判断">8.3 “工具调用由模型决定，所以权限也可以交给模型判断”</a></li>
+        <li><a href="#84-中间件越多系统能力越强">8.4 “中间件越多，系统能力越强”</a></li>
+        <li><a href="#85-stategraph-只能创建固定工作流">8.5 “StateGraph 只能创建固定工作流”</a></li>
+        <li><a href="#86-结构化输出等于答案可靠">8.6 “结构化输出等于答案可靠”</a></li>
+      </ul>
+    </li>
+    <li><a href="#9-工程选型速查">9. 工程选型速查</a></li>
+    <li><a href="#10-大厂-ai-agent-岗位面试要点">10. 大厂 AI Agent 岗位面试要点</a>
+      <ul>
+        <li><a href="#101-一分钟讲清-langgraph">10.1 一分钟讲清 LangGraph</a></li>
+        <li><a href="#102-langchainlanggraph-与-agent-的关系">10.2 LangChain、LangGraph 与 Agent 的关系</a></li>
+        <li><a href="#103-agent-与-workflow-的边界">10.3 Agent 与 Workflow 的边界</a></li>
+        <li><a href="#104-state-为什么不能只是消息列表">10.4 State 为什么不能只是消息列表</a></li>
+        <li><a href="#105-为什么图中允许循环如何防止死循环">10.5 为什么图中允许循环，如何防止死循环</a></li>
+        <li><a href="#106-checkpointer-与-store-的区别">10.6 Checkpointer 与 Store 的区别</a></li>
+        <li><a href="#107-thread_iduser_id-与-tenant_id">10.7 <code>thread_id</code>、<code>user_id</code> 与 <code>tenant_id</code></a></li>
+        <li><a href="#108-middleware-与普通-node-有什么区别">10.8 Middleware 与普通 Node 有什么区别</a></li>
+        <li><a href="#109-如何设计生产级工具">10.9 如何设计生产级工具</a></li>
+        <li><a href="#1010-长对话如何管理上下文">10.10 长对话如何管理上下文</a></li>
+        <li><a href="#1011-human-in-the-loop-如何设计">10.11 Human-in-the-loop 如何设计</a></li>
+        <li><a href="#1012-如何评估一个-agent-系统">10.12 如何评估一个 Agent 系统</a></li>
+        <li><a href="#1013-项目经历的表达方式">10.13 项目经历的表达方式</a></li>
+        <li><a href="#1014-系统设计题的答题顺序">10.14 系统设计题的答题顺序</a></li>
+        <li><a href="#1015-面试中的加分观点">10.15 面试中的加分观点</a></li>
+      </ul>
+    </li>
+    <li><a href="#11-生产化检查清单">11. 生产化检查清单</a>
+      <ul>
+        <li><a href="#流程控制">流程控制</a></li>
+        <li><a href="#安全">安全</a></li>
+        <li><a href="#记忆">记忆</a></li>
+        <li><a href="#成本与性能">成本与性能</a></li>
+        <li><a href="#可观测性">可观测性</a></li>
+      </ul>
+    </li>
+    <li><a href="#12-总结">12. 总结</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="langgraph-学习笔记agent状态图中间件记忆与面试要点" class="heading-element"><span>LangGraph 学习笔记：Agent、状态图、中间件、记忆与面试要点</span>
+  <a href="#langgraph-%e5%ad%a6%e4%b9%a0%e7%ac%94%e8%ae%b0agent%e7%8a%b6%e6%80%81%e5%9b%be%e4%b8%ad%e9%97%b4%e4%bb%b6%e8%ae%b0%e5%bf%86%e4%b8%8e%e9%9d%a2%e8%af%95%e8%a6%81%e7%82%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h2 id="1-langgraph-解决的核心问题" class="heading-element"><span>1. LangGraph 解决的核心问题</span>
+  <a href="#1-langgraph-%e8%a7%a3%e5%86%b3%e7%9a%84%e6%a0%b8%e5%bf%83%e9%97%ae%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>普通的大模型调用通常是一次性的：输入消息，模型生成答案。Agent 系统则需要在一次任务中反复进行判断、调用工具、读取结果、更新状态，并在合适的时候结束。</p>
+<p>LangGraph 可以理解为一个面向 Agent 的<strong>有状态工作流运行时</strong>。它把 Agent 的执行过程表示成图：</p>
+<ul>
+<li><strong>状态（State）</strong>：流程运行过程中持续传递和更新的数据；</li>
+<li><strong>节点（Node）</strong>：执行模型调用、工具调用或业务逻辑；</li>
+<li><strong>边（Edge）</strong>：规定节点之间的流转关系；</li>
+<li><strong>条件边（Conditional Edge）</strong>：根据当前状态动态选择下一步；</li>
+<li><strong>检查点（Checkpoint）</strong>：保存某个线程的运行状态，使流程可以继续、恢复或接受人工干预；</li>
+<li><strong>存储（Store）</strong>：保存能够跨线程、跨会话复用的长期信息。</li>
+</ul>
+<p>它的价值不只是“把 LLM 接上工具”，而是让模型能力进入一个<strong>可控制、可扩展、可持久化、可观测</strong>的工程流程。</p>
+<hr>
+<h2 id="2-四份-notebook-的学习主线" class="heading-element"><span>2. 四份 Notebook 的学习主线</span>
+  <a href="#2-%e5%9b%9b%e4%bb%bd-notebook-%e7%9a%84%e5%ad%a6%e4%b9%a0%e4%b8%bb%e7%ba%bf" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>四个主题可以看成从核心执行到外围能力逐层扩展：</p>
+<table>
+  <thead>
+      <tr>
+          <th>层次</th>
+          <th>主题</th>
+          <th>解决的问题</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>高层入口</td>
+          <td><code>create_agent</code></td>
+          <td>快速创建一个能推理、调用工具并返回结果的 Agent</td>
+      </tr>
+      <tr>
+          <td>流程内核</td>
+          <td><code>StateGraph</code></td>
+          <td>显式控制节点、分支、循环和结束条件</td>
+      </tr>
+      <tr>
+          <td>横切能力</td>
+          <td>Middleware</td>
+          <td>在不改动核心流程的情况下加入预算、安全、上下文治理等能力</td>
+      </tr>
+      <tr>
+          <td>状态持久化</td>
+          <td>Memory</td>
+          <td>让信息在多轮调用、程序重启或不同会话之间延续</td>
+      </tr>
+  </tbody>
+</table>
+<p>一条完整的理解路径是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">先用 create_agent 快速获得 Agent
+</span></span><span class="line"><span class="cl">        ↓
+</span></span><span class="line"><span class="cl">需要更强流程控制时使用 StateGraph
+</span></span><span class="line"><span class="cl">        ↓
+</span></span><span class="line"><span class="cl">用 Middleware 注入通用治理逻辑
+</span></span><span class="line"><span class="cl">        ↓
+</span></span><span class="line"><span class="cl">用 Checkpointer 和 Store 管理短期、长期记忆</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这四部分不是相互替代的关系。高层 Agent 本身建立在图式运行机制之上，也可以同时使用中间件、短期记忆和长期存储。</p>
+<hr>
+<h2 id="3-快速入门先理解-agent-的运行闭环" class="heading-element"><span>3. 快速入门：先理解 Agent 的运行闭环</span>
+  <a href="#3-%e5%bf%ab%e9%80%9f%e5%85%a5%e9%97%a8%e5%85%88%e7%90%86%e8%a7%a3-agent-%e7%9a%84%e8%bf%90%e8%a1%8c%e9%97%ad%e7%8e%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="31-create_agent-是高层抽象" class="heading-element"><span>3.1 <code>create_agent</code> 是高层抽象</span>
+  <a href="#31-create_agent-%e6%98%af%e9%ab%98%e5%b1%82%e6%8a%bd%e8%b1%a1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><code>create_agent</code> 适合快速构建常见的工具调用型 Agent。开发者主要提供：</p>
+<ul>
+<li>模型；</li>
+<li>系统提示词；</li>
+<li>可调用工具；</li>
+<li>可选的中间件、上下文结构、记忆组件和输出格式。</li>
+</ul>
+<p>框架负责组织模型与工具之间的循环。典型过程如下：</p>
+<pre class="mermaid">flowchart LR
+    U["用户消息"] --> M["模型判断"]
+    M -->|"无需工具"| A["最终回答"]
+    M -->|"生成工具调用"| T["执行工具"]
+    T --> O["工具结果写入消息状态"]
+    O --> M</pre>
+<template>flowchart LR
+    U["用户消息"] --> M["模型判断"]
+    M -->|"无需工具"| A["最终回答"]
+    M -->|"生成工具调用"| T["执行工具"]
+    T --> O["工具结果写入消息状态"]
+    O --> M</template><p>这类循环体现了 ReAct 的基本思想：模型根据当前信息决定行动，外部环境返回观察结果，模型再继续判断，直到完成任务。</p>
+<h3 id="32-工具调用的本质" class="heading-element"><span>3.2 工具调用的本质</span>
+  <a href="#32-%e5%b7%a5%e5%85%b7%e8%b0%83%e7%94%a8%e7%9a%84%e6%9c%ac%e8%b4%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>工具是模型连接外部世界的受控接口，可以对应天气服务、数据库、搜索引擎、计算函数或企业内部 API。</p>
+<p>模型并不直接执行函数，而是根据工具的名称、描述和参数结构生成一条调用请求；真正的执行由 Agent 运行时完成。工具结果随后作为新消息进入状态，供模型继续推理。</p>
+<p>因此，工具的质量主要取决于：</p>
+<ul>
+<li><strong>职责是否单一</strong>：一个工具最好只完成一种清晰任务；</li>
+<li><strong>描述是否准确</strong>：模型依赖描述判断什么时候调用它；</li>
+<li><strong>参数是否结构化</strong>：参数含义和约束越明确，误调用越少；</li>
+<li><strong>结果是否稳定</strong>：返回值应便于模型理解，异常也应有明确语义；</li>
+<li><strong>权限是否受控</strong>：不能因为模型发起了请求就默认允许执行。</li>
+</ul>
+<h3 id="33-runtime-context运行上下文不是对话内容" class="heading-element"><span>3.3 Runtime Context：运行上下文不是对话内容</span>
+  <a href="#33-runtime-context%e8%bf%90%e8%a1%8c%e4%b8%8a%e4%b8%8b%e6%96%87%e4%b8%8d%e6%98%af%e5%af%b9%e8%af%9d%e5%86%85%e5%ae%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Notebook 使用 <code>ToolRuntime</code> 和运行时 <code>context</code> 实现工具权限控制。这里要区分两类信息：</p>
+<table>
+  <thead>
+      <tr>
+          <th>信息</th>
+          <th>示例</th>
+          <th>是否适合直接放入对话消息</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>用户要表达的内容</td>
+          <td>“帮我计算这个结果”</td>
+          <td>是</td>
+      </tr>
+      <tr>
+          <td>系统运行元数据</td>
+          <td>用户 ID、角色、租户、权限、追踪信息</td>
+          <td>通常否</td>
+      </tr>
+  </tbody>
+</table>
+<p>运行上下文由应用程序可信地注入，工具可以读取其中的权限信息，再决定是否执行。这样可以避免仅凭用户在自然语言中声称“我是管理员”就获得权限。</p>
+<p>需要注意：<strong>上下文只是把权限信息传到工具，不等于已经建立完整的安全体系</strong>。生产环境仍应在工具或下游服务中执行强制鉴权、参数校验、审计和最小权限控制。</p>
+<h3 id="34-结构化输出" class="heading-element"><span>3.4 结构化输出</span>
+  <a href="#34-%e7%bb%93%e6%9e%84%e5%8c%96%e8%be%93%e5%87%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>自由文本适合直接展示给人，但不适合作为稳定的程序输入。结构化输出允许预先定义结果字段及其类型，使 Agent 的最终结果能够被后续程序可靠消费。</p>
+<p>适合使用结构化输出的场景包括：</p>
+<ul>
+<li>信息抽取；</li>
+<li>分类和路由；</li>
+<li>计算结果；</li>
+<li>表单填充；</li>
+<li>下游 API 参数生成；</li>
+<li>需要字段校验的业务流程。</li>
+</ul>
+<p>结构化输出约束的是<strong>最终结果的数据契约</strong>，并不能自动保证结果在业务语义上正确。类型校验、事实校验和业务规则校验仍然不可缺少。</p>
+<h3 id="35-流式输出" class="heading-element"><span>3.5 流式输出</span>
+  <a href="#35-%e6%b5%81%e5%bc%8f%e8%be%93%e5%87%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>流式输出不仅能逐字展示模型文本，还可以按图的执行步骤持续返回更新。例如，调用方能够先看到模型发起工具调用，再看到工具节点返回结果，最后看到 Agent 的答案。</p>
+<p>它的主要价值有两点：</p>
+<ol>
+<li>降低用户对长任务的等待感；</li>
+<li>暴露流程进度，便于构建执行状态界面和调试复杂 Agent。</li>
+</ol>
+<p><code>stream_mode=&quot;updates&quot;</code> 更关注节点或步骤产生的状态更新；如果产品需要逐 Token 打字机效果，还需选择相应的消息流模式。两种“流式”表达的粒度并不相同。</p>
+<hr>
+<h2 id="4-stategraph把-agent-还原成可控工作流" class="heading-element"><span>4. StateGraph：把 Agent 还原成可控工作流</span>
+  <a href="#4-stategraph%e6%8a%8a-agent-%e8%bf%98%e5%8e%9f%e6%88%90%e5%8f%af%e6%8e%a7%e5%b7%a5%e4%bd%9c%e6%b5%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="41-为什么需要-stategraph" class="heading-element"><span>4.1 为什么需要 StateGraph</span>
+  <a href="#41-%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81-stategraph" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>高层 Agent 会自主决定是否调用工具以及何时结束，开发简单，但控制权较多地交给了模型。</p>
+<p>当业务要求明确规定以下内容时，更适合使用 <code>StateGraph</code>：</p>
+<ul>
+<li>必须先后执行哪些步骤；</li>
+<li>哪些分支由确定性规则决定；</li>
+<li>哪些工具可以在什么条件下使用；</li>
+<li>失败后如何重试或降级；</li>
+<li>哪一步需要人工审批；</li>
+<li>循环最多执行多少次；</li>
+<li>什么条件下必须终止。</li>
+</ul>
+<p>可以把两种方式概括为：</p>
+<blockquote>
+<p><code>create_agent</code> 偏向“给模型能力，让模型在通用循环中决策”；<code>StateGraph</code> 偏向“由开发者定义流程，只在指定节点使用模型能力”。</p>
+</blockquote>
+<h3 id="42-state图中的共享数据" class="heading-element"><span>4.2 State：图中的共享数据</span>
+  <a href="#42-state%e5%9b%be%e4%b8%ad%e7%9a%84%e5%85%b1%e4%ba%ab%e6%95%b0%e6%8d%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>状态是节点之间传递的数据结构。Notebook 使用 <code>MessagesState</code>，其核心字段是消息列表。</p>
+<p>每个节点通常不需要返回完整状态，而是返回本次产生的状态更新。框架按照字段对应的合并规则，把更新写回当前状态。对消息状态而言，新消息通常会被追加或按消息操作规则更新。</p>
+<p>实际项目中的状态不必只有消息，还可以包含：</p>
+<ul>
+<li>用户意图；</li>
+<li>当前任务阶段；</li>
+<li>检索结果；</li>
+<li>审批状态；</li>
+<li>重试次数；</li>
+<li>错误信息；</li>
+<li>最终结构化结果。</li>
+</ul>
+<p>状态设计应尽量业务化。不要把所有中间信息都塞进 Prompt 或消息历史，否则流程会变得难以验证和维护。</p>
+<h3 id="43-node对状态执行一次转换" class="heading-element"><span>4.3 Node：对状态执行一次转换</span>
+  <a href="#43-node%e5%af%b9%e7%8a%b6%e6%80%81%e6%89%a7%e8%a1%8c%e4%b8%80%e6%ac%a1%e8%bd%ac%e6%8d%a2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>节点可以看成一个状态转换器：读取当前状态，完成一项职责，返回状态增量。</p>
+<p>Notebook 中包含两类典型节点：</p>
+<ul>
+<li><strong>助手节点</strong>：调用绑定了工具的模型，让模型生成回答或工具调用请求；</li>
+<li><strong>工具节点</strong>：执行模型请求的工具，并把工具结果写回消息状态。</li>
+</ul>
+<p><code>ToolNode</code> 是一个预构建节点，封装了工具调用解析、执行和结果消息生成等通用逻辑。</p>
+<p>节点应保持职责清晰。模型推理、数据库写入、权限审批、结果验证如果混在一个节点中，将很难单独测试、重试和观测。</p>
+<h3 id="44-edge显式表达流程关系" class="heading-element"><span>4.4 Edge：显式表达流程关系</span>
+  <a href="#44-edge%e6%98%be%e5%bc%8f%e8%a1%a8%e8%be%be%e6%b5%81%e7%a8%8b%e5%85%b3%e7%b3%bb" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>普通边表示无条件流转，条件边表示根据状态选择下一节点。图还使用两个特殊标识：</p>
+<ul>
+<li><code>START</code>：流程入口；</li>
+<li><code>END</code>：流程结束。</li>
+</ul>
+<p>Notebook 中的条件判断读取模型最后一条消息：</p>
+<ul>
+<li>如果存在工具调用请求，则进入工具节点；</li>
+<li>如果不存在，则进入 <code>END</code>；</li>
+<li>工具执行完成后，再回到助手节点。</li>
+</ul>
+<p>因此，该图不是有向无环图，而是一个包含循环的有向图：</p>
+<pre class="mermaid">flowchart TD
+    S["START"] --> A["assistant：模型判断"]
+    A -->|"存在 tool_calls"| T["tool：执行工具"]
+    T --> A
+    A -->|"无需工具"| E["END"]</pre>
+<template>flowchart TD
+    S["START"] --> A["assistant：模型判断"]
+    A -->|"存在 tool_calls"| T["tool：执行工具"]
+    T --> A
+    A -->|"无需工具"| E["END"]</template><p>循环非常适合 Agent 的“判断—行动—观察—再判断”过程，但也带来无限循环风险。生产系统应设置最大步数、超时、重复调用检测或明确的失败出口。</p>
+<h3 id="45-buildcompile-与-run" class="heading-element"><span>4.5 Build、Compile 与 Run</span>
+  <a href="#45-buildcompile-%e4%b8%8e-run" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>理解 StateGraph 可以分成三个阶段：</p>
+<ol>
+<li><strong>构建</strong>：声明状态结构、节点和边；</li>
+<li><strong>编译</strong>：检查并生成可运行图，同时注入 checkpointer、store 等运行能力；</li>
+<li><strong>运行</strong>：通过 invoke 或 stream 向图提供输入和运行配置。</li>
+</ol>
+<p>图的定义是相对静态的，状态则会随着每次运行动态变化。编译后的图才是实际被调用的 Runnable。</p>
+<h3 id="46-agent-与-workflow-如何选择" class="heading-element"><span>4.6 Agent 与 Workflow 如何选择</span>
+  <a href="#46-agent-%e4%b8%8e-workflow-%e5%a6%82%e4%bd%95%e9%80%89%e6%8b%a9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th>任务特征</th>
+          <th>更适合的方式</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>开放式问题，步骤难以预先确定</td>
+          <td>Agent</td>
+      </tr>
+      <tr>
+          <td>工具数量少，允许模型自主选择</td>
+          <td>Agent</td>
+      </tr>
+      <tr>
+          <td>固定审批、风控或数据处理流程</td>
+          <td>StateGraph</td>
+      </tr>
+      <tr>
+          <td>对执行顺序和终止条件要求严格</td>
+          <td>StateGraph</td>
+      </tr>
+      <tr>
+          <td>大部分流程固定，局部需要自主决策</td>
+          <td>StateGraph 中嵌入 Agent/模型节点</td>
+      </tr>
+  </tbody>
+</table>
+<p>工程中常用的是混合方案：大流程由图控制，在某个局部节点中允许模型进行有限度的自主工具调用。</p>
+<hr>
+<h2 id="5-middleware为-agent-注入横切能力" class="heading-element"><span>5. Middleware：为 Agent 注入横切能力</span>
+  <a href="#5-middleware%e4%b8%ba-agent-%e6%b3%a8%e5%85%a5%e6%a8%aa%e5%88%87%e8%83%bd%e5%8a%9b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="51-中间件的定位" class="heading-element"><span>5.1 中间件的定位</span>
+  <a href="#51-%e4%b8%ad%e9%97%b4%e4%bb%b6%e7%9a%84%e5%ae%9a%e4%bd%8d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>中间件是一组插入 Agent 生命周期的钩子。它适合实现多个节点或多个 Agent 都需要的通用能力，而不必把相同逻辑散落到每个业务节点中。</p>
+<p>典型横切能力包括：</p>
+<ul>
+<li>模型路由与成本控制；</li>
+<li>上下文截断、压缩和摘要；</li>
+<li>敏感内容与隐私检测；</li>
+<li>动态系统提示词；</li>
+<li>工具权限和参数治理；</li>
+<li>日志、指标、追踪与异常处理；</li>
+<li>人机交互和审批。</li>
+</ul>
+<h3 id="52-常见钩子及执行位置" class="heading-element"><span>5.2 常见钩子及执行位置</span>
+  <a href="#52-%e5%b8%b8%e8%a7%81%e9%92%a9%e5%ad%90%e5%8f%8a%e6%89%a7%e8%a1%8c%e4%bd%8d%e7%bd%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th>钩子</th>
+          <th>执行位置</th>
+          <th>适合处理</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>before_agent</code></td>
+          <td>Agent 整体运行前</td>
+          <td>输入检查、拦截、初始化</td>
+      </tr>
+      <tr>
+          <td><code>after_agent</code></td>
+          <td>Agent 整体运行后</td>
+          <td>最终审查、记录、后处理</td>
+      </tr>
+      <tr>
+          <td><code>before_model</code></td>
+          <td>每次模型调用前</td>
+          <td>消息裁剪、上下文注入</td>
+      </tr>
+      <tr>
+          <td><code>after_model</code></td>
+          <td>每次模型响应后</td>
+          <td>响应检查、指标统计</td>
+      </tr>
+      <tr>
+          <td><code>wrap_model_call</code></td>
+          <td>包裹整个模型调用</td>
+          <td>动态选模型、重试、降级、缓存</td>
+      </tr>
+      <tr>
+          <td><code>wrap_tool_call</code></td>
+          <td>包裹整个工具调用</td>
+          <td>鉴权、参数校验、超时、审计</td>
+      </tr>
+      <tr>
+          <td><code>dynamic_prompt</code></td>
+          <td>构造系统提示词时</td>
+          <td>按用户、环境或任务动态生成提示词</td>
+      </tr>
+  </tbody>
+</table>
+<p><code>before/after</code> 更像在某个时间点追加处理；<code>wrap</code> 则能控制调用前后、替换调用对象，甚至决定是否继续执行原调用。</p>
+<h3 id="53-预算控制动态模型路由" class="heading-element"><span>5.3 预算控制：动态模型路由</span>
+  <a href="#53-%e9%a2%84%e7%ae%97%e6%8e%a7%e5%88%b6%e5%8a%a8%e6%80%81%e6%a8%a1%e5%9e%8b%e8%b7%af%e7%94%b1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Notebook 根据历史消息数量选择高费率或低费率模型，展示了 <code>wrap_model_call</code> 对模型调用的控制能力。</p>
+<p>其核心思想不是“对话一长就一定换便宜模型”，而是根据请求特征进行路由。生产系统可以综合考虑：</p>
+<ul>
+<li>任务复杂度；</li>
+<li>上下文长度；</li>
+<li>用户服务等级；</li>
+<li>延迟要求；</li>
+<li>剩余预算；</li>
+<li>是否涉及高风险决策；</li>
+<li>主模型是否超时或不可用。</li>
+</ul>
+<p>需要注意，简单地按消息条数判断成本并不精确。消息长度、Token 数量和工具结果大小通常比“有几条消息”更重要。</p>
+<h3 id="54-消息截断治理上下文窗口" class="heading-element"><span>5.4 消息截断：治理上下文窗口</span>
+  <a href="#54-%e6%b6%88%e6%81%af%e6%88%aa%e6%96%ad%e6%b2%bb%e7%90%86%e4%b8%8a%e4%b8%8b%e6%96%87%e7%aa%97%e5%8f%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>对话不断增长会带来上下文溢出、费用增加和注意力分散。Notebook 展示了两种策略：</p>
+<ol>
+<li>保留第一条重要消息和最近若干消息；</li>
+<li>只保留最近消息。</li>
+</ol>
+<p>第二种策略会让 Agent 忘记早期的用户姓名，说明“状态被保存”不代表“每次模型都必须看到全部状态”。中间件可以在模型调用前重写模型可见的消息。</p>
+<p>常见上下文治理策略包括：</p>
+<ul>
+<li>滑动窗口：只保留最近若干轮；</li>
+<li>关键消息固定保留：例如用户目标、约束、系统决策；</li>
+<li>历史摘要：把旧消息压缩成摘要；</li>
+<li>语义检索：只召回与当前问题相关的历史；</li>
+<li>分层组合：近期原文 + 早期摘要 + 长期记忆检索结果。</li>
+</ul>
+<p>直接截断最简单，但也最容易丢失关键信息。业务约束、尚未完成的承诺和安全相关信息不应被无差别删除。</p>
+<h3 id="55-guardrails在模型外增加确定性约束" class="heading-element"><span>5.5 Guardrails：在模型外增加确定性约束</span>
+  <a href="#55-guardrails%e5%9c%a8%e6%a8%a1%e5%9e%8b%e5%a4%96%e5%a2%9e%e5%8a%a0%e7%a1%ae%e5%ae%9a%e6%80%a7%e7%ba%a6%e6%9d%9f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Notebook 通过 <code>before_agent</code> 检查最新用户输入，发现敏感关键词后直接跳转到结束节点。其关键意义是：</p>
+<blockquote>
+<p>安全控制不应完全依赖模型自觉遵守提示词；关键规则应由运行时在模型之外强制执行。</p>
+</blockquote>
+<p>简单关键词过滤适合作为教学示例，但生产环境还要考虑大小写、变体、上下文语义、误报、漏报和多语言表达。常见的多层防护方式是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">确定性规则 → 专用分类器/安全模型 → 主模型安全策略 → 输出复检</span></span></code></pre></td></tr></table>
+</div>
+</div><p>不同层的职责应明确。涉及权限、资金、数据删除等关键操作时，最终决策应由可靠的业务规则或授权系统控制，而不是只由 LLM 判断。</p>
+<h3 id="56-pii-检测阻断与脱敏" class="heading-element"><span>5.6 PII 检测：阻断与脱敏</span>
+  <a href="#56-pii-%e6%a3%80%e6%b5%8b%e9%98%bb%e6%96%ad%e4%b8%8e%e8%84%b1%e6%95%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>PII 是能够识别个人身份的信息，例如姓名、电话、邮箱、证件号、地址、银行卡号、账号以及文件路径中的用户名。</p>
+<p>Notebook 展示了两种处置方式：</p>
+<ul>
+<li><strong>阻断</strong>：检测到隐私信息后拒绝继续处理；</li>
+<li><strong>脱敏</strong>：将敏感片段替换后再展示或进入后续流程。</li>
+</ul>
+<p>处置策略取决于业务目的：</p>
+<table>
+  <thead>
+      <tr>
+          <th>场景</th>
+          <th>更适合的策略</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>内容没有继续处理的必要</td>
+          <td>阻断</td>
+      </tr>
+      <tr>
+          <td>需要保留报错结构进行调试</td>
+          <td>脱敏后继续</td>
+      </tr>
+      <tr>
+          <td>涉及高敏感数据且无法可靠脱敏</td>
+          <td>阻断并提示用户本地处理</td>
+      </tr>
+      <tr>
+          <td>合规允许且业务确实需要原文</td>
+          <td>获得授权后进入受控环境</td>
+      </tr>
+  </tbody>
+</table>
+<p>Notebook 使用 LLM 判断和遮盖 PII，适合表达流程思想，但 LLM 检测并非完全可靠。生产环境通常还要结合正则、实体识别、专用 DLP 服务、数据分级和人工复核。</p>
+<h3 id="57-设计中间件时的原则" class="heading-element"><span>5.7 设计中间件时的原则</span>
+  <a href="#57-%e8%ae%be%e8%ae%a1%e4%b8%ad%e9%97%b4%e4%bb%b6%e6%97%b6%e7%9a%84%e5%8e%9f%e5%88%99" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>每个中间件只负责一种清晰能力；</li>
+<li>明确它读取和修改哪些状态字段；</li>
+<li>关注多个中间件的执行顺序；</li>
+<li>避免在每次模型调用前重复执行昂贵操作；</li>
+<li>对拦截、跳转和状态重写保留审计记录；</li>
+<li>区分确定性规则与概率性模型判断；</li>
+<li>对中间件本身的异常设计降级或失败策略。</li>
+</ul>
+<hr>
+<h2 id="6-memory区分状态短期记忆与长期记忆" class="heading-element"><span>6. Memory：区分状态、短期记忆与长期记忆</span>
+  <a href="#6-memory%e5%8c%ba%e5%88%86%e7%8a%b6%e6%80%81%e7%9f%ad%e6%9c%9f%e8%ae%b0%e5%bf%86%e4%b8%8e%e9%95%bf%e6%9c%9f%e8%ae%b0%e5%bf%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="61-最容易混淆的三个概念" class="heading-element"><span>6.1 最容易混淆的三个概念</span>
+  <a href="#61-%e6%9c%80%e5%ae%b9%e6%98%93%e6%b7%b7%e6%b7%86%e7%9a%84%e4%b8%89%e4%b8%aa%e6%a6%82%e5%bf%b5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th>概念</th>
+          <th>作用范围</th>
+          <th>典型内容</th>
+          <th>核心组件</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>State</td>
+          <td>当前一次图执行</td>
+          <td>消息、步骤、工具结果、临时变量</td>
+          <td><code>StateGraph</code> / <code>MessagesState</code></td>
+      </tr>
+      <tr>
+          <td>短期记忆</td>
+          <td>同一个对话线程的多次调用</td>
+          <td>会话历史、流程检查点</td>
+          <td>Checkpointer</td>
+      </tr>
+      <tr>
+          <td>长期记忆</td>
+          <td>跨线程、跨会话甚至长期复用</td>
+          <td>用户偏好、画像、经验、业务事实</td>
+          <td>Store</td>
+      </tr>
+  </tbody>
+</table>
+<p>一个重要修正是：<code>MessagesState</code> 虽然保存消息，但如果没有 checkpointer，它通常只覆盖当前调用中的状态流转。要让下一次独立调用自动恢复此前状态，需要配置 checkpointer，并使用相同的 <code>thread_id</code>。</p>
+<h3 id="62-短期记忆围绕-thread-保存状态" class="heading-element"><span>6.2 短期记忆：围绕 Thread 保存状态</span>
+  <a href="#62-%e7%9f%ad%e6%9c%9f%e8%ae%b0%e5%bf%86%e5%9b%b4%e7%bb%95-thread-%e4%bf%9d%e5%ad%98%e7%8a%b6%e6%80%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>短期记忆也叫线程级记忆或工作记忆。Checkpointer 会在图执行过程中保存状态快照，使同一线程后续调用可以继续使用已有状态。</p>
+<p><code>thread_id</code> 是隔离短期记忆的关键：</p>
+<ul>
+<li>相同 <code>thread_id</code>：恢复同一条对话或任务线；</li>
+<li>不同 <code>thread_id</code>：形成彼此隔离的对话状态；</li>
+<li>忘记传入或错误复用：可能造成记忆丢失或不同会话串线。</li>
+</ul>
+<p>短期记忆不仅用于聊天历史，还支持：</p>
+<ul>
+<li>断点恢复；</li>
+<li>人工中断与继续执行；</li>
+<li>查看某一时刻的状态；</li>
+<li>长任务失败后的续跑；</li>
+<li>调试和回溯执行轨迹。</li>
+</ul>
+<h3 id="63-内存型与数据库型-checkpointer" class="heading-element"><span>6.3 内存型与数据库型 Checkpointer</span>
+  <a href="#63-%e5%86%85%e5%ad%98%e5%9e%8b%e4%b8%8e%e6%95%b0%e6%8d%ae%e5%ba%93%e5%9e%8b-checkpointer" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Notebook 对比了两种实现：</p>
+<table>
+  <thead>
+      <tr>
+          <th>实现</th>
+          <th>特点</th>
+          <th>适用场景</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>InMemorySaver</code></td>
+          <td>使用方便，进程退出后数据消失</td>
+          <td>本地实验、单元测试、演示</td>
+      </tr>
+      <tr>
+          <td><code>SqliteSaver</code></td>
+          <td>状态写入 SQLite，重启后仍可恢复</td>
+          <td>本地持久化、小型应用</td>
+      </tr>
+  </tbody>
+</table>
+<p>生产环境通常需要数据库支持的 checkpointer，并额外考虑并发、连接管理、数据清理、加密、备份和多实例部署。</p>
+<p>“短期”描述的是记忆的<strong>语义和作用域</strong>，不代表它一定只存在于内存。SQLite 中持久化的线程状态仍然属于短期记忆，因为它服务于特定会话或任务线程。</p>
+<h3 id="64-长期记忆围绕用户或业务实体存储信息" class="heading-element"><span>6.4 长期记忆：围绕用户或业务实体存储信息</span>
+  <a href="#64-%e9%95%bf%e6%9c%9f%e8%ae%b0%e5%bf%86%e5%9b%b4%e7%bb%95%e7%94%a8%e6%88%b7%e6%88%96%e4%b8%9a%e5%8a%a1%e5%ae%9e%e4%bd%93%e5%ad%98%e5%82%a8%e4%bf%a1%e6%81%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>长期记忆不依附某一个线程，可以被多个会话检索和复用。Notebook 使用 Store 保存用户信息，并通过命名空间和键组织数据：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">namespace：数据所属集合，例如 users
+</span></span><span class="line"><span class="cl">key：集合内的唯一标识，例如 user_123
+</span></span><span class="line"><span class="cl">value：实际保存的信息，例如姓名、职业、偏好</span></span></code></pre></td></tr></table>
+</div>
+</div><p>命名空间可以设计为多级结构，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">(tenant_id, &#34;users&#34;, user_id, &#34;preferences&#34;)</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样更容易实现租户隔离、用户隔离、数据分类和权限控制。</p>
+<h3 id="65-精确读取与语义检索" class="heading-element"><span>6.5 精确读取与语义检索</span>
+  <a href="#65-%e7%b2%be%e7%a1%ae%e8%af%bb%e5%8f%96%e4%b8%8e%e8%af%ad%e4%b9%89%e6%a3%80%e7%b4%a2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>长期记忆通常有两种访问方式：</p>
+<ul>
+<li><strong>按键读取</strong>：已知用户 ID 或记忆 ID，直接读取确定记录；</li>
+<li><strong>语义检索</strong>：将内容转换为向量，根据当前问题召回语义相近的记忆。</li>
+</ul>
+<p>例如，“我现在饿了”可能召回“我喜欢吃水煮肉片”。这不是字符串相等，而是基于向量相似度找到语义相关内容。</p>
+<p>语义检索适合偏好、经历和非结构化事实，但不适合替代严格的数据库查询。姓名、账户状态、权限等级等确定字段，更适合按键查询或结构化过滤。</p>
+<h3 id="66-让-agent-读取和写入长期记忆" class="heading-element"><span>6.6 让 Agent 读取和写入长期记忆</span>
+  <a href="#66-%e8%ae%a9-agent-%e8%af%bb%e5%8f%96%e5%92%8c%e5%86%99%e5%85%a5%e9%95%bf%e6%9c%9f%e8%ae%b0%e5%bf%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Notebook 将 Store 传给 Agent，再通过工具读写数据。运行时上下文提供当前 <code>user_id</code>，工具据此访问对应用户记录。</p>
+<p>这体现出一个重要边界：</p>
+<ul>
+<li>模型负责判断“现在是否值得读取或保存记忆”；</li>
+<li>工具负责按照可信上下文访问正确的数据空间；</li>
+<li>应用负责用户身份、授权、数据治理和持久化策略。</li>
+</ul>
+<p>长期记忆写入不应完全无条件开放给模型。更稳妥的做法是：</p>
+<ul>
+<li>只保存稳定且未来有用的信息；</li>
+<li>区分用户明确陈述与模型推断；</li>
+<li>保存来源、时间和置信度；</li>
+<li>合并重复或冲突记忆；</li>
+<li>敏感信息默认不写入；</li>
+<li>支持用户查看、更正和删除；</li>
+<li>重要字段写入前进行确认或校验。</li>
+</ul>
+<h3 id="67-短期记忆与长期记忆如何配合" class="heading-element"><span>6.7 短期记忆与长期记忆如何配合</span>
+  <a href="#67-%e7%9f%ad%e6%9c%9f%e8%ae%b0%e5%bf%86%e4%b8%8e%e9%95%bf%e6%9c%9f%e8%ae%b0%e5%bf%86%e5%a6%82%e4%bd%95%e9%85%8d%e5%90%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><pre class="mermaid">flowchart LR
+    U["当前用户请求"] --> C["短期记忆：恢复本线程状态"]
+    C --> R["长期记忆：检索用户相关信息"]
+    R --> M["模型生成决策或回答"]
+    M --> N["更新本线程状态"]
+    M -->|"发现稳定且有价值的信息"| W["写入长期记忆"]</pre>
+<template>flowchart LR
+    U["当前用户请求"] --> C["短期记忆：恢复本线程状态"]
+    C --> R["长期记忆：检索用户相关信息"]
+    R --> M["模型生成决策或回答"]
+    M --> N["更新本线程状态"]
+    M -->|"发现稳定且有价值的信息"| W["写入长期记忆"]</template><p>短期记忆回答“这次对话之前发生了什么”，长期记忆回答“关于这个用户或实体，我们长期知道什么”。</p>
+<hr>
+<h2 id="7-四个模块组合后的完整运行过程" class="heading-element"><span>7. 四个模块组合后的完整运行过程</span>
+  <a href="#7-%e5%9b%9b%e4%b8%aa%e6%a8%a1%e5%9d%97%e7%bb%84%e5%90%88%e5%90%8e%e7%9a%84%e5%ae%8c%e6%95%b4%e8%bf%90%e8%a1%8c%e8%bf%87%e7%a8%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>把四份 Notebook 放在一起，一次较完整的 Agent 调用可以理解为：</p>
+<pre class="mermaid">flowchart TD
+    I["应用提交消息、thread_id 和可信 context"] --> BA["before_agent：输入安全检查"]
+    BA -->|"不允许"| X["提前结束"]
+    BA -->|"允许"| CP["Checkpointer 恢复线程状态"]
+    CP --> BM["before_model：裁剪或补充上下文"]
+    BM --> WM["wrap_model_call：选择模型并调用"]
+    WM --> D{"模型是否请求工具"}
+    D -->|"否"| OUT["结构化或文本结果"]
+    D -->|"是"| WT["wrap_tool_call：鉴权、校验、审计"]
+    WT --> TOOL["执行工具，必要时访问 Store"]
+    TOOL --> STATE["工具结果更新 State"]
+    STATE --> BM
+    OUT --> SAVE["保存线程检查点，必要时更新长期记忆"]
+    SAVE --> AFT["after_agent：审查、日志和指标"]</pre>
+<template>flowchart TD
+    I["应用提交消息、thread_id 和可信 context"] --> BA["before_agent：输入安全检查"]
+    BA -->|"不允许"| X["提前结束"]
+    BA -->|"允许"| CP["Checkpointer 恢复线程状态"]
+    CP --> BM["before_model：裁剪或补充上下文"]
+    BM --> WM["wrap_model_call：选择模型并调用"]
+    WM --> D{"模型是否请求工具"}
+    D -->|"否"| OUT["结构化或文本结果"]
+    D -->|"是"| WT["wrap_tool_call：鉴权、校验、审计"]
+    WT --> TOOL["执行工具，必要时访问 Store"]
+    TOOL --> STATE["工具结果更新 State"]
+    STATE --> BM
+    OUT --> SAVE["保存线程检查点，必要时更新长期记忆"]
+    SAVE --> AFT["after_agent：审查、日志和指标"]</template><p>这张图也说明了各组件的职责边界：</p>
+<ul>
+<li>StateGraph 决定流程如何运行；</li>
+<li>Agent/模型负责需要语言理解和动态决策的部分；</li>
+<li>Middleware 管理调用生命周期中的通用策略；</li>
+<li>Checkpointer 保存线程状态；</li>
+<li>Store 保存跨线程的长期信息；</li>
+<li>Context 向运行时提供可信的身份和环境信息。</li>
+</ul>
+<hr>
+<h2 id="8-常见误区" class="heading-element"><span>8. 常见误区</span>
+  <a href="#8-%e5%b8%b8%e8%a7%81%e8%af%af%e5%8c%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="81-用了-messagesstate-就自动拥有多轮记忆" class="heading-element"><span>8.1 “用了 MessagesState 就自动拥有多轮记忆”</span>
+  <a href="#81-%e7%94%a8%e4%ba%86-messagesstate-%e5%b0%b1%e8%87%aa%e5%8a%a8%e6%8b%a5%e6%9c%89%e5%a4%9a%e8%bd%ae%e8%ae%b0%e5%bf%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不完全正确。消息状态能在当前图执行中流转；独立调用之间要自动延续状态，还需要 checkpointer 和稳定的 <code>thread_id</code>。</p>
+<h3 id="82-长期记忆就是把全部聊天记录放进向量库" class="heading-element"><span>8.2 “长期记忆就是把全部聊天记录放进向量库”</span>
+  <a href="#82-%e9%95%bf%e6%9c%9f%e8%ae%b0%e5%bf%86%e5%b0%b1%e6%98%af%e6%8a%8a%e5%85%a8%e9%83%a8%e8%81%8a%e5%a4%a9%e8%ae%b0%e5%bd%95%e6%94%be%e8%bf%9b%e5%90%91%e9%87%8f%e5%ba%93" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>长期记忆应该保存经过筛选、未来有用的信息。无差别保存会造成噪声、隐私风险、检索漂移和存储成本上升。</p>
+<h3 id="83-工具调用由模型决定所以权限也可以交给模型判断" class="heading-element"><span>8.3 “工具调用由模型决定，所以权限也可以交给模型判断”</span>
+  <a href="#83-%e5%b7%a5%e5%85%b7%e8%b0%83%e7%94%a8%e7%94%b1%e6%a8%a1%e5%9e%8b%e5%86%b3%e5%ae%9a%e6%89%80%e4%bb%a5%e6%9d%83%e9%99%90%e4%b9%9f%e5%8f%af%e4%bb%a5%e4%ba%a4%e7%bb%99%e6%a8%a1%e5%9e%8b%e5%88%a4%e6%96%ad" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>错误。模型可以建议调用工具，但真正的权限验证必须由受信任的运行时、工具实现或下游服务完成。</p>
+<h3 id="84-中间件越多系统能力越强" class="heading-element"><span>8.4 “中间件越多，系统能力越强”</span>
+  <a href="#84-%e4%b8%ad%e9%97%b4%e4%bb%b6%e8%b6%8a%e5%a4%9a%e7%b3%bb%e7%bb%9f%e8%83%bd%e5%8a%9b%e8%b6%8a%e5%bc%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>中间件会增加调用链复杂度、延迟和状态修改冲突。只应加入有明确职责、可测试、可观测的中间件，并设计好执行顺序。</p>
+<h3 id="85-stategraph-只能创建固定工作流" class="heading-element"><span>8.5 “StateGraph 只能创建固定工作流”</span>
+  <a href="#85-stategraph-%e5%8f%aa%e8%83%bd%e5%88%9b%e5%bb%ba%e5%9b%ba%e5%ae%9a%e5%b7%a5%e4%bd%9c%e6%b5%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>图的结构由开发者定义，但条件边、循环、模型节点和动态路由仍能提供很强的运行时灵活性。它是“受控的动态流程”，不只是线性流水线。</p>
+<h3 id="86-结构化输出等于答案可靠" class="heading-element"><span>8.6 “结构化输出等于答案可靠”</span>
+  <a href="#86-%e7%bb%93%e6%9e%84%e5%8c%96%e8%be%93%e5%87%ba%e7%ad%89%e4%ba%8e%e7%ad%94%e6%a1%88%e5%8f%af%e9%9d%a0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>结构化输出只保证结果更符合数据格式，不保证事实、计算或业务判断一定正确。可靠性仍需要工具、验证节点和业务规则共同保证。</p>
+<hr>
+<h2 id="9-工程选型速查" class="heading-element"><span>9. 工程选型速查</span>
+  <a href="#9-%e5%b7%a5%e7%a8%8b%e9%80%89%e5%9e%8b%e9%80%9f%e6%9f%a5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>需求</th>
+          <th>推荐组件</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>快速创建通用工具调用 Agent</td>
+          <td><code>create_agent</code></td>
+      </tr>
+      <tr>
+          <td>严格控制执行顺序、分支和循环</td>
+          <td><code>StateGraph</code></td>
+      </tr>
+      <tr>
+          <td>执行模型生成的工具调用</td>
+          <td><code>ToolNode</code> 或 Agent 工具运行时</td>
+      </tr>
+      <tr>
+          <td>动态切换模型、重试或降级</td>
+          <td><code>wrap_model_call</code> 中间件</td>
+      </tr>
+      <tr>
+          <td>在模型调用前裁剪上下文</td>
+          <td><code>before_model</code> 中间件</td>
+      </tr>
+      <tr>
+          <td>输入风控、敏感词或 PII 拦截</td>
+          <td><code>before_agent</code> 中间件</td>
+      </tr>
+      <tr>
+          <td>控制工具权限、超时和审计</td>
+          <td>Runtime Context + <code>wrap_tool_call</code>/工具校验</td>
+      </tr>
+      <tr>
+          <td>同一对话跨多次调用延续状态</td>
+          <td>Checkpointer + <code>thread_id</code></td>
+      </tr>
+      <tr>
+          <td>程序重启后恢复线程</td>
+          <td>数据库型 Checkpointer</td>
+      </tr>
+      <tr>
+          <td>跨会话保存用户偏好和画像</td>
+          <td>Store</td>
+      </tr>
+      <tr>
+          <td>根据当前语义召回相关记忆</td>
+          <td>带 Embedding 索引的 Store</td>
+      </tr>
+      <tr>
+          <td>让程序稳定读取 Agent 结果</td>
+          <td>结构化输出</td>
+      </tr>
+      <tr>
+          <td>展示节点级运行进度</td>
+          <td>流式输出</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="10-大厂-ai-agent-岗位面试要点" class="heading-element"><span>10. 大厂 AI Agent 岗位面试要点</span>
+  <a href="#10-%e5%a4%a7%e5%8e%82-ai-agent-%e5%b2%97%e4%bd%8d%e9%9d%a2%e8%af%95%e8%a6%81%e7%82%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="101-一分钟讲清-langgraph" class="heading-element"><span>10.1 一分钟讲清 LangGraph</span>
+  <a href="#101-%e4%b8%80%e5%88%86%e9%92%9f%e8%ae%b2%e6%b8%85-langgraph" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>面试中可以这样概括：</p>
+<blockquote>
+<p>LangGraph 是面向有状态 Agent 工作流的编排与运行框架。它用 State、Node 和 Edge 描述执行过程，支持条件分支、循环、流式输出、状态持久化和人工中断。与直接使用高层 Agent 相比，LangGraph 的优势是流程更可控，执行状态更容易持久化、观测和恢复，适合构建生产级多步骤 Agent 系统。</p>
+</blockquote>
+<p>回答时应突出五个关键词：<strong>有状态、可控循环、持久化、可恢复、可观测</strong>。</p>
+<h3 id="102-langchainlanggraph-与-agent-的关系" class="heading-element"><span>10.2 LangChain、LangGraph 与 Agent 的关系</span>
+  <a href="#102-langchainlanggraph-%e4%b8%8e-agent-%e7%9a%84%e5%85%b3%e7%b3%bb" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>这是常见的概念辨析题：</p>
+<ul>
+<li><strong>LangChain</strong> 提供模型、消息、工具、检索器、中间件和 Agent 等上层组件；</li>
+<li><strong>LangGraph</strong> 更关注有状态工作流的编排和运行；</li>
+<li><strong>Agent</strong> 是一种应用形态，模型能够根据当前状态动态决定下一步行动；</li>
+<li><code>create_agent</code> 是高层入口，其底层运行机制可以建立在 LangGraph 之上。</li>
+</ul>
+<p>不要简单回答“LangChain 是链，LangGraph 是图”。更准确的区别在于：LangGraph 重点解决循环、分支、持久状态、恢复和人机协同等运行时问题。</p>
+<h3 id="103-agent-与-workflow-的边界" class="heading-element"><span>10.3 Agent 与 Workflow 的边界</span>
+  <a href="#103-agent-%e4%b8%8e-workflow-%e7%9a%84%e8%be%b9%e7%95%8c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>高频问题：<strong>什么时候使用 Agent，什么时候使用确定性工作流？</strong></p>
+<p>推荐回答框架：</p>
+<ol>
+<li>能用确定性规则稳定完成的步骤，优先使用普通代码或固定工作流；</li>
+<li>只有在需要理解自然语言、处理开放环境或动态选择工具时，才引入模型决策；</li>
+<li>高风险操作必须经过规则校验或人工审批；</li>
+<li>生产系统通常采用“外层确定性图 + 局部 Agent 节点”的混合架构。</li>
+</ol>
+<p>核心原则是：</p>
+<blockquote>
+<p>把模型放在需要概率性判断的位置，而不是让模型控制所有流程。</p>
+</blockquote>
+<h3 id="104-state-为什么不能只是消息列表" class="heading-element"><span>10.4 State 为什么不能只是消息列表</span>
+  <a href="#104-state-%e4%b8%ba%e4%bb%80%e4%b9%88%e4%b8%8d%e8%83%bd%e5%8f%aa%e6%98%af%e6%b6%88%e6%81%af%e5%88%97%e8%a1%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><code>MessagesState</code> 适合聊天和简单工具调用，但复杂业务还应定义显式字段，例如意图、计划、检索结果、审批状态、重试次数和最终结果。</p>
+<p>面试官可能继续追问状态如何合并。LangGraph 中节点通常返回状态增量，每个字段按照对应的 <strong>Reducer</strong> 进行合并：</p>
+<ul>
+<li>覆盖型字段保存最新值；</li>
+<li>消息字段可以追加、删除或更新消息；</li>
+<li>列表、计数器等字段可定义自己的合并语义。</li>
+</ul>
+<p>如果状态更新语义不明确，并行分支或循环执行时就容易出现覆盖、重复和脏数据问题。</p>
+<h3 id="105-为什么图中允许循环如何防止死循环" class="heading-element"><span>10.5 为什么图中允许循环，如何防止死循环</span>
+  <a href="#105-%e4%b8%ba%e4%bb%80%e4%b9%88%e5%9b%be%e4%b8%ad%e5%85%81%e8%ae%b8%e5%be%aa%e7%8e%af%e5%a6%82%e4%bd%95%e9%98%b2%e6%ad%a2%e6%ad%bb%e5%be%aa%e7%8e%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Agent 需要根据工具结果继续决策，因此“模型节点—工具节点”天然是循环结构。</p>
+<p>生产环境至少应配置：</p>
+<ul>
+<li>最大递归或执行步数；</li>
+<li>单次任务总超时；</li>
+<li>单工具调用超时和重试上限；</li>
+<li>重复工具调用与重复参数检测；</li>
+<li>Token 或费用预算；</li>
+<li>明确的失败、降级和人工接管出口。</li>
+</ul>
+<p>仅依靠提示词要求模型“不要无限循环”是不可靠的。</p>
+<h3 id="106-checkpointer-与-store-的区别" class="heading-element"><span>10.6 Checkpointer 与 Store 的区别</span>
+  <a href="#106-checkpointer-%e4%b8%8e-store-%e7%9a%84%e5%8c%ba%e5%88%ab" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>这是记忆模块最常见的面试题：</p>
+<table>
+  <thead>
+      <tr>
+          <th>对比项</th>
+          <th>Checkpointer</th>
+          <th>Store</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>作用域</td>
+          <td>某个执行线程</td>
+          <td>跨线程的用户或业务实体</td>
+      </tr>
+      <tr>
+          <td>典型索引</td>
+          <td><code>thread_id</code></td>
+          <td>namespace + key</td>
+      </tr>
+      <tr>
+          <td>主要内容</td>
+          <td>图状态、消息、执行位置</td>
+          <td>偏好、画像、经验和长期事实</td>
+      </tr>
+      <tr>
+          <td>典型用途</td>
+          <td>多轮对话、断点恢复、人工中断</td>
+          <td>个性化、跨会话记忆、经验复用</td>
+      </tr>
+  </tbody>
+</table>
+<p>一句话回答：</p>
+<blockquote>
+<p>Checkpointer 保存“这条任务执行到了哪里”，Store 保存“系统长期知道什么”。</p>
+</blockquote>
+<h3 id="107-thread_iduser_id-与-tenant_id" class="heading-element"><span>10.7 <code>thread_id</code>、<code>user_id</code> 与 <code>tenant_id</code></span>
+  <a href="#107-thread_iduser_id-%e4%b8%8e-tenant_id" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>这三个 ID 不应混用：</p>
+<ul>
+<li><code>thread_id</code> 标识一次持续的对话或任务；</li>
+<li><code>user_id</code> 标识用户，用于读取用户级长期记忆；</li>
+<li><code>tenant_id</code> 标识组织或租户，用于权限和数据隔离。</li>
+</ul>
+<p>一个用户可以拥有多个线程，一个租户可以拥有多个用户。生产系统的记忆命名空间和数据库查询必须同时考虑用户与租户隔离，不能只相信模型生成的 ID。</p>
+<h3 id="108-middleware-与普通-node-有什么区别" class="heading-element"><span>10.8 Middleware 与普通 Node 有什么区别</span>
+  <a href="#108-middleware-%e4%b8%8e%e6%99%ae%e9%80%9a-node-%e6%9c%89%e4%bb%80%e4%b9%88%e5%8c%ba%e5%88%ab" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>Node 是业务流程中的显式步骤，会出现在图结构中；</li>
+<li>Middleware 是模型、工具或 Agent 生命周期中的横切逻辑；</li>
+<li>业务特有且需要清晰流转的逻辑适合做 Node；</li>
+<li>鉴权、日志、模型路由、重试和上下文裁剪等通用能力适合做 Middleware。</li>
+</ul>
+<p>如果某段中间件逻辑逐渐拥有复杂状态、多个分支或独立重试策略，就应考虑将其升级为显式节点或子图。</p>
+<h3 id="109-如何设计生产级工具" class="heading-element"><span>10.9 如何设计生产级工具</span>
+  <a href="#109-%e5%a6%82%e4%bd%95%e8%ae%be%e8%ae%a1%e7%94%9f%e4%ba%a7%e7%ba%a7%e5%b7%a5%e5%85%b7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>面试时不要只回答“写一个带类型注解的函数”。生产级工具还应具备：</p>
+<ul>
+<li>清晰的名称、职责和参数 Schema；</li>
+<li>服务端鉴权，而非让模型判断权限；</li>
+<li>参数白名单、范围校验和防注入处理；</li>
+<li>超时、有限重试、幂等和熔断；</li>
+<li>结构化成功结果与错误类型；</li>
+<li>调用日志、延迟、费用和结果审计；</li>
+<li>写操作预览、用户确认或人工审批；</li>
+<li>对工具返回内容中的 Prompt Injection 进行隔离和防护。</li>
+</ul>
+<p>对于转账、删除、发邮件等有副作用的工具，必须重点说明<strong>幂等性、确认机制和最小权限</strong>。</p>
+<h3 id="1010-长对话如何管理上下文" class="heading-element"><span>10.10 长对话如何管理上下文</span>
+  <a href="#1010-%e9%95%bf%e5%af%b9%e8%af%9d%e5%a6%82%e4%bd%95%e7%ae%a1%e7%90%86%e4%b8%8a%e4%b8%8b%e6%96%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>推荐回答不是简单的“超过长度就截断”，而是分层管理：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">系统规则与当前任务约束
+</span></span><span class="line"><span class="cl">        +
+</span></span><span class="line"><span class="cl">最近几轮原始对话
+</span></span><span class="line"><span class="cl">        +
+</span></span><span class="line"><span class="cl">早期对话摘要
+</span></span><span class="line"><span class="cl">        +
+</span></span><span class="line"><span class="cl">按当前问题召回的长期记忆</span></span></code></pre></td></tr></table>
+</div>
+</div><p>还应说明：摘要可能丢失事实，语义检索可能召回错误信息，因此关键约束应结构化保存，重要记忆应带来源、时间和置信度。</p>
+<h3 id="1011-human-in-the-loop-如何设计" class="heading-element"><span>10.11 Human-in-the-loop 如何设计</span>
+  <a href="#1011-human-in-the-loop-%e5%a6%82%e4%bd%95%e8%ae%be%e8%ae%a1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>LangGraph 的检查点与中断机制适合实现人工审批：流程运行到高风险节点时暂停并保存状态，人工提交审批结果后再从原状态继续。</p>
+<p>设计时需要回答：</p>
+<ul>
+<li>在哪些风险等级触发中断；</li>
+<li>审批页面展示哪些上下文和待执行动作；</li>
+<li>谁拥有审批权限；</li>
+<li>审批结果如何防篡改并写入审计日志；</li>
+<li>超时未审批时如何取消或降级；</li>
+<li>恢复执行时如何避免副作用工具被重复调用。</li>
+</ul>
+<h3 id="1012-如何评估一个-agent-系统" class="heading-element"><span>10.12 如何评估一个 Agent 系统</span>
+  <a href="#1012-%e5%a6%82%e4%bd%95%e8%af%84%e4%bc%b0%e4%b8%80%e4%b8%aa-agent-%e7%b3%bb%e7%bb%9f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不能只看最终答案“像不像正确”。应分层评估：</p>
+<table>
+  <thead>
+      <tr>
+          <th>层次</th>
+          <th>典型指标</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>任务结果</td>
+          <td>成功率、正确率、约束满足率</td>
+      </tr>
+      <tr>
+          <td>轨迹质量</td>
+          <td>工具选择准确率、参数正确率、无效步骤数</td>
+      </tr>
+      <tr>
+          <td>检索与记忆</td>
+          <td>Recall、Precision、错误记忆引用率</td>
+      </tr>
+      <tr>
+          <td>安全</td>
+          <td>越权调用率、敏感信息泄露率、误拦截率</td>
+      </tr>
+      <tr>
+          <td>工程性能</td>
+          <td>P50/P95 延迟、Token、费用、超时率</td>
+      </tr>
+      <tr>
+          <td>稳定性</td>
+          <td>重试率、死循环率、人工接管率</td>
+      </tr>
+  </tbody>
+</table>
+<p>评测集应包含正常样本、边界样本、对抗样本、工具异常和历史记忆冲突等情况。线上指标负责发现真实分布问题，离线回归集负责保证版本迭代不退化。</p>
+<h3 id="1013-项目经历的表达方式" class="heading-element"><span>10.13 项目经历的表达方式</span>
+  <a href="#1013-%e9%a1%b9%e7%9b%ae%e7%bb%8f%e5%8e%86%e7%9a%84%e8%a1%a8%e8%be%be%e6%96%b9%e5%bc%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>介绍 LangGraph 项目时，可以按以下顺序展开：</p>
+<ol>
+<li><strong>业务目标</strong>：解决了谁的什么问题；</li>
+<li><strong>为什么需要 Agent</strong>：哪些步骤无法完全规则化；</li>
+<li><strong>图结构</strong>：核心节点、条件分支、循环和终止条件；</li>
+<li><strong>工具与数据</strong>：工具如何鉴权、检索和处理异常；</li>
+<li><strong>状态与记忆</strong>：如何划分 State、Checkpointer 和 Store；</li>
+<li><strong>可靠性</strong>：如何控制幻觉、死循环、超时和副作用；</li>
+<li><strong>评测结果</strong>：成功率、延迟、成本或人工效率提升；</li>
+<li><strong>复盘优化</strong>：遇到过什么失败案例，后来如何改进。</li>
+</ol>
+<p>避免只说“使用 LangGraph 搭建了 Agent”。面试官更关心架构选择的原因、失败处理和可量化结果。</p>
+<h3 id="1014-系统设计题的答题顺序" class="heading-element"><span>10.14 系统设计题的答题顺序</span>
+  <a href="#1014-%e7%b3%bb%e7%bb%9f%e8%ae%be%e8%ae%a1%e9%a2%98%e7%9a%84%e7%ad%94%e9%a2%98%e9%a1%ba%e5%ba%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>遇到“设计一个客服 Agent、数据分析 Agent 或研发助手”时，可以使用下面的框架：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">需求和风险边界
+</span></span><span class="line"><span class="cl">  → Agent/Workflow 划分
+</span></span><span class="line"><span class="cl">  → State 与图结构
+</span></span><span class="line"><span class="cl">  → 工具和权限
+</span></span><span class="line"><span class="cl">  → 检索与记忆
+</span></span><span class="line"><span class="cl">  → 中间件与安全
+</span></span><span class="line"><span class="cl">  → 异常、重试和人工接管
+</span></span><span class="line"><span class="cl">  → 评测、监控与成本</span></span></code></pre></td></tr></table>
+</div>
+</div><p>先讲边界和可靠性，再讲模型与框架选型，通常比一上来介绍 Prompt 更能体现生产经验。</p>
+<h3 id="1015-面试中的加分观点" class="heading-element"><span>10.15 面试中的加分观点</span>
+  <a href="#1015-%e9%9d%a2%e8%af%95%e4%b8%ad%e7%9a%84%e5%8a%a0%e5%88%86%e8%a7%82%e7%82%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>Agent 的核心难点不是“能调用工具”，而是<strong>在不确定模型之上建立确定性的工程边界</strong>；</li>
+<li>Prompt 只是系统的一层，可靠性还来自状态建模、权限、验证、重试、记忆治理和评测；</li>
+<li>复杂 Agent 应尽量缩小单个模型节点的决策空间；</li>
+<li>长期记忆是一套数据治理能力，不只是向量数据库；</li>
+<li>能用普通程序解决的问题，不要为了 Agent 化而 Agent 化；</li>
+<li>生产效果的优化目标通常是质量、延迟、成本和安全之间的平衡，而不是单独追求模型能力。</li>
+</ul>
+<hr>
+<h2 id="11-生产化检查清单" class="heading-element"><span>11. 生产化检查清单</span>
+  <a href="#11-%e7%94%9f%e4%ba%a7%e5%8c%96%e6%a3%80%e6%9f%a5%e6%b8%85%e5%8d%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="流程控制" class="heading-element"><span>流程控制</span>
+  <a href="#%e6%b5%81%e7%a8%8b%e6%8e%a7%e5%88%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>是否为循环设置最大步数、超时和失败出口；</li>
+<li>模型决策与确定性业务规则是否分离；</li>
+<li>节点是否职责单一并可单独测试；</li>
+<li>工具失败、返回空结果或重复调用时是否有降级策略。</li>
+</ul>
+<h3 id="安全" class="heading-element"><span>安全</span>
+  <a href="#%e5%ae%89%e5%85%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>工具是否执行服务端鉴权和参数校验；</li>
+<li>用户输入、工具返回和模型输出是否分别进行安全处理；</li>
+<li>PII 是否遵循最小收集、脱敏、加密和删除策略；</li>
+<li>高风险写操作是否需要二次确认或人工审批。</li>
+</ul>
+<h3 id="记忆" class="heading-element"><span>记忆</span>
+  <a href="#%e8%ae%b0%e5%bf%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><code>thread_id</code>、<code>user_id</code> 和 <code>tenant_id</code> 是否正确隔离；</li>
+<li>哪些信息进入短期记忆，哪些信息允许进入长期记忆；</li>
+<li>是否记录记忆来源、时间、置信度和过期规则；</li>
+<li>用户是否能够查看、更正和删除长期记忆。</li>
+</ul>
+<h3 id="成本与性能" class="heading-element"><span>成本与性能</span>
+  <a href="#%e6%88%90%e6%9c%ac%e4%b8%8e%e6%80%a7%e8%83%bd" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>是否监控 Token、模型调用次数、工具耗时和总延迟；</li>
+<li>上下文是否有裁剪、摘要或检索策略；</li>
+<li>模型路由是否基于真实复杂度和服务等级；</li>
+<li>昂贵中间件是否被重复执行。</li>
+</ul>
+<h3 id="可观测性" class="heading-element"><span>可观测性</span>
+  <a href="#%e5%8f%af%e8%a7%82%e6%b5%8b%e6%80%a7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>是否记录每个节点的输入摘要、输出摘要、耗时和异常；</li>
+<li>是否能通过 thread/run 标识关联一条完整执行链；</li>
+<li>是否区分模型错误、工具错误、业务拒绝和系统错误；</li>
+<li>是否有离线评测集验证路由、安全、记忆和最终答案质量。</li>
+</ul>
+<hr>
+<h2 id="12-总结" class="heading-element"><span>12. 总结</span>
+  <a href="#12-%e6%80%bb%e7%bb%93" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>可以用下面几句话记住这四部分：</p>
+<ol>
+<li><strong>Agent</strong> 提供一个开箱即用的“模型—工具—观察”循环；</li>
+<li><strong>StateGraph</strong> 用状态、节点和边把这个循环变成可显式控制的工作流；</li>
+<li><strong>Middleware</strong> 在 Agent 生命周期中统一注入成本、上下文、安全和可观测性策略；</li>
+<li><strong>Checkpointer</strong> 保存同一线程的短期状态，<strong>Store</strong> 保存跨线程复用的长期信息；</li>
+<li>模型负责概率性的理解与决策，运行时和业务系统负责确定性的权限、规则与数据治理。</li>
+</ol>
+<p>LangGraph 的核心思路可以最终归纳为：</p>
+<blockquote>
+<p>用图控制流程，用状态承载上下文，用工具连接外部世界，用中间件治理运行过程，用记忆延续有价值的信息。</p>
+</blockquote>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-07-25 08:19:29">更新于 2026-07-25&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/mllanggraph/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/langgraph/" class="post-tag" title="标签 - LangGraph">LangGraph</a><a href="/tags/agent/" class="post-tag" title="标签 - Agent">Agent</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/mlai-agent-%E6%A1%86%E6%9E%B6%E4%B8%8E%E8%8C%83%E5%BC%8F/" class="post-nav-item" rel="prev" title="AI Agent 框架与范式"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>AI Agent 框架与范式</a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.3.0/dist/mermaid.esm.min.mjs';
+    
+    
+    
+    window.mermaid = mermaid;
+  </script><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":10},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"mermaid":{"themes":["default","dark"]},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>
