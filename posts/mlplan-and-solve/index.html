@@ -13,7 +13,7 @@
   <meta itemprop="description" content="1. 一句话理解 Plan-and-Solve Plan-and-Solve 是一种把复杂任务拆成两个阶段的 Agent 范式：
 规划阶段：把原始问题分解成有顺序、可执行的子任务； 执行阶段：逐步执行子任务，并把前序结果作为后续步骤的上下文； 可选的重规划阶段：当计划不可执行、外部环境变化或中间结果与预期不一致时，调整剩余计划。 1 2 3 4 5 直接问答： Question ───────────────→ Answer Plan-and-Solve：Question → Plan → Step 1 → Step 2 → ... → Final Answer ↑ │ └──── Replan ─────┘ 它解决的核心问题不是“让模型输出更长的思维过程”，而是：">
   <meta itemprop="datePublished" content="2026-07-22T15:53:00+00:00">
-  <meta itemprop="dateModified" content="2026-08-03T03:44:34+00:00">
+  <meta itemprop="dateModified" content="2026-08-10T06:13:37+00:00">
   <meta itemprop="wordCount" content="8575">
   <meta itemprop="keywords" content="Agent,Plan-and-Solve"><meta property="og:url" content="https://blog.messywind.top/posts/mlplan-and-solve/">
   <meta property="og:site_name" content="凌乱之风的博客">
@@ -24,7 +24,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2026-07-22T15:53:00+00:00">
-    <meta property="article:modified_time" content="2026-08-03T03:44:34+00:00">
+    <meta property="article:modified_time" content="2026-08-10T06:13:37+00:00">
     <meta property="article:tag" content="Agent">
     <meta property="article:tag" content="Plan-and-Solve">
 
@@ -45,7 +45,7 @@
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/mlplan-and-solve\/"
     },"genre": "posts","keywords": "Agent, Plan-And-Solve","wordcount":  8575 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/mlplan-and-solve\/","datePublished": "2026-07-22T15:53:00+00:00","dateModified": "2026-08-03T03:44:34+00:00","publisher": {
+    "url": "https:\/\/blog.messywind.top\/posts\/mlplan-and-solve\/","datePublished": "2026-07-22T15:53:00+00:00","dateModified": "2026-08-10T06:13:37+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -153,7 +153,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Plan-and-Solve</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-07-22 15:53:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-22">2026-07-22</time></span>&nbsp;<span title="更新于 2026-08-03 03:44:34"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-08-03">2026-08-03</time></span>&nbsp;<span title="8575 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 8600 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 18 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="Plan-and-Solve"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-07-22 15:53:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-07-22">2026-07-22</time></span>&nbsp;<span title="更新于 2026-08-10 06:13:37"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-08-10">2026-08-10</time></span>&nbsp;<span title="8575 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 8600 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 18 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="Plan-and-Solve"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -1556,7 +1556,7 @@
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-08-03 03:44:34">更新于 2026-08-03&nbsp;</span>
+        <span title="更新于 2026-08-10 06:13:37">更新于 2026-08-10&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/mlplan-and-solve/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">
