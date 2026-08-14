@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>RAG - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="1. 什么是 RAG RAG（Retrieval-Augmented Generation，检索增强生成）是在大模型回答问题前，先从外部知识库中检索相关资料，再把资料作为上下文交给大模型生成答案。
+"><meta name="keywords" content='Agent, RAG'>
+  <meta itemprop="name" content="RAG">
+  <meta itemprop="description" content="1. 什么是 RAG RAG（Retrieval-Augmented Generation，检索增强生成）是在大模型回答问题前，先从外部知识库中检索相关资料，再把资料作为上下文交给大模型生成答案。">
+  <meta itemprop="datePublished" content="2026-08-12T15:17:00+00:00">
+  <meta itemprop="dateModified" content="2026-08-14T09:32:21+00:00">
+  <meta itemprop="wordCount" content="7273">
+  <meta itemprop="keywords" content="Agent,RAG"><meta property="og:url" content="https://blog.messywind.top/posts/mlrag/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="RAG">
+  <meta property="og:description" content="1. 什么是 RAG RAG（Retrieval-Augmented Generation，检索增强生成）是在大模型回答问题前，先从外部知识库中检索相关资料，再把资料作为上下文交给大模型生成答案。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-08-12T15:17:00+00:00">
+    <meta property="article:modified_time" content="2026-08-14T09:32:21+00:00">
+    <meta property="article:tag" content="Agent">
+    <meta property="article:tag" content="RAG">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="RAG">
+  <meta name="twitter:description" content="1. 什么是 RAG RAG（Retrieval-Augmented Generation，检索增强生成）是在大模型回答问题前，先从外部知识库中检索相关资料，再把资料作为上下文交给大模型生成答案。">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mlrag/" title="RAG - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/misc%E8%9C%98%E8%9B%9B%E4%BE%A0%E5%B4%AD%E6%96%B0%E4%B9%8B%E6%97%A5%E5%BD%B1%E8%AF%84/" title="《蜘蛛侠：崭新之日》影评" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mlrag/index.md" title="RAG - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "RAG",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/mlrag\/"
+    },"genre": "posts","keywords": "Agent, RAG","wordcount":  7273 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlrag\/","datePublished": "2026-08-12T15:17:00+00:00","dateModified": "2026-08-14T09:32:21+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>RAG</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-08-12 15:17:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-08-12">2026-08-12</time></span>&nbsp;<span title="更新于 2026-08-14 09:32:21"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-08-14">2026-08-14</time></span>&nbsp;<span title="7273 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 7300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 15 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="RAG"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-什么是-rag">1. 什么是 RAG</a></li>
+    <li><a href="#2-rag-总体架构">2. RAG 总体架构</a></li>
+    <li><a href="#3-索引链路知识如何进入数据库">3. 索引链路：知识如何进入数据库</a>
+      <ul>
+        <li><a href="#31-数据解析与清洗">3.1 数据解析与清洗</a></li>
+        <li><a href="#32-文档切块-chunking">3.2 文档切块 Chunking</a>
+          <ul>
+            <li><a href="#notebook-中的实现">notebook 中的实现</a></li>
+          </ul>
+        </li>
+        <li><a href="#33-embedding-向量化">3.3 Embedding 向量化</a></li>
+        <li><a href="#34-向量数据库">3.4 向量数据库</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-查询链路从问题到答案">4. 查询链路：从问题到答案</a>
+      <ul>
+        <li><a href="#41-query-理解">4.1 Query 理解</a></li>
+        <li><a href="#42-召回-retrieval">4.2 召回 Retrieval</a>
+          <ul>
+            <li><a href="#双编码器-bi-encoder">双编码器 Bi-Encoder</a></li>
+            <li><a href="#工业系统中的多路召回">工业系统中的多路召回</a></li>
+          </ul>
+        </li>
+        <li><a href="#43-元数据过滤与权限控制">4.3 元数据过滤与权限控制</a></li>
+        <li><a href="#44-rerank-精排">4.4 Rerank 精排</a>
+          <ul>
+            <li><a href="#cross-encoder">Cross-Encoder</a></li>
+          </ul>
+        </li>
+        <li><a href="#45-prompt-组装与生成">4.5 Prompt 组装与生成</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-notebook-代码流程">5. notebook 代码流程</a>
+      <ul>
+        <li><a href="#51-初始化模型">5.1 初始化模型</a></li>
+        <li><a href="#52-构建向量库">5.2 构建向量库</a></li>
+        <li><a href="#53-创建检索工具">5.3 创建检索工具</a></li>
+        <li><a href="#54-创建-react-agent">5.4 创建 ReAct Agent</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-rag普通搜索与模型微调的区别">6. RAG、普通搜索与模型微调的区别</a></li>
+    <li><a href="#7-工业落地中的关键优化">7. 工业落地中的关键优化</a>
+      <ul>
+        <li><a href="#71-数据层优化">7.1 数据层优化</a></li>
+        <li><a href="#72-query-层优化">7.2 Query 层优化</a></li>
+        <li><a href="#73-动态复杂度处理">7.3 动态复杂度处理</a></li>
+        <li><a href="#74-检索与上下文优化">7.4 检索与上下文优化</a></li>
+        <li><a href="#75-性能优化">7.5 性能优化</a></li>
+        <li><a href="#76-版本管理和反馈闭环">7.6 版本管理和反馈闭环</a></li>
+      </ul>
+    </li>
+    <li><a href="#8-rag-评估体系">8. RAG 评估体系</a>
+      <ul>
+        <li><a href="#81-检索指标">8.1 检索指标</a></li>
+        <li><a href="#82-生成指标">8.2 生成指标</a></li>
+        <li><a href="#83-系统指标">8.3 系统指标</a></li>
+        <li><a href="#84-推荐评测集">8.4 推荐评测集</a></li>
+      </ul>
+    </li>
+    <li><a href="#9-notebook-当前实现的优点与局限">9. notebook 当前实现的优点与局限</a>
+      <ul>
+        <li><a href="#91-已经实现">9.1 已经实现</a></li>
+        <li><a href="#92-尚未实现或需要加强">9.2 尚未实现或需要加强</a></li>
+      </ul>
+    </li>
+    <li><a href="#10-当前示例需要注意的问题">10. 当前示例需要注意的问题</a>
+      <ul>
+        <li><a href="#101-权限信息没有真正参与过滤">10.1 权限信息没有真正参与过滤</a></li>
+        <li><a href="#102-示例数据存在冲突">10.2 示例数据存在冲突</a></li>
+        <li><a href="#103-示例文本疑似有笔误">10.3 示例文本疑似有笔误</a></li>
+        <li><a href="#104-每次构建都会清空集合">10.4 每次构建都会清空集合</a></li>
+        <li><a href="#105-路径依赖当前工作目录">10.5 路径依赖当前工作目录</a></li>
+        <li><a href="#106-缺少仅根据资料回答的硬约束">10.6 缺少“仅根据资料回答”的硬约束</a></li>
+      </ul>
+    </li>
+    <li><a href="#11-一个更完整的生产级流程">11. 一个更完整的生产级流程</a></li>
+    <li><a href="#12-实践检查清单">12. 实践检查清单</a>
+      <ul>
+        <li><a href="#数据入库前">数据入库前</a></li>
+        <li><a href="#检索阶段">检索阶段</a></li>
+        <li><a href="#生成阶段">生成阶段</a></li>
+        <li><a href="#上线后">上线后</a></li>
+      </ul>
+    </li>
+    <li><a href="#13-核心结论">13. 核心结论</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="1-什么是-rag" class="heading-element"><span>1. 什么是 RAG</span>
+  <a href="#1-%e4%bb%80%e4%b9%88%e6%98%af-rag" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>RAG（Retrieval-Augmented Generation，检索增强生成）是在大模型回答问题前，先从外部知识库中检索相关资料，再把资料作为上下文交给大模型生成答案。</p>
+<p>它主要解决大模型的三个问题：</p>
+<ol>
+<li><strong>知识过时</strong>：模型训练完成后无法自动知道最新信息。</li>
+<li><strong>私有知识缺失</strong>：公司制度、业务文档等数据没有包含在预训练语料中。</li>
+<li><strong>答案不可追溯</strong>：仅依靠模型参数生成时，难以说明答案来自哪里。</li>
+</ol>
+<p>RAG 的核心可以概括为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">用户问题 → 理解问题 → 检索候选资料 → 精排 → 拼接上下文 → LLM 生成答案</span></span></code></pre></td></tr></table>
+</div>
+</div><p>RAG 通常包含两条相对独立的链路：</p>
+<ul>
+<li><strong>索引链路（离线/准实时）</strong>：把原始资料处理后写入检索系统。</li>
+<li><strong>查询链路（在线）</strong>：处理用户问题、检索知识并生成答案。</li>
+</ul>
+<hr>
+<h2 id="2-rag-总体架构" class="heading-element"><span>2. RAG 总体架构</span>
+  <a href="#2-rag-%e6%80%bb%e4%bd%93%e6%9e%b6%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><pre class="mermaid">flowchart LR
+    subgraph Indexing["索引链路"]
+        A["PDF / Word / 网页 / TXT / 图片 / CAD"] --> B["解析与 OCR"]
+        B --> C["清洗、标准化、切块"]
+        C --> D["Embedding 向量化"]
+        D --> E["向量数据库"]
+        C --> F["关键词索引 BM25"]
+    end
+
+    subgraph Querying["查询链路"]
+        Q["用户 Query"] --> U["Query 理解与改写"]
+        U --> E
+        U --> F
+        E --> R["候选 Chunks"]
+        F --> R
+        R --> RR["Rerank 精排"]
+        RR --> P["上下文与 Prompt 组装"]
+        P --> L["LLM 生成"]
+        L --> O["答案与引用来源"]
+    end</pre>
+<template>flowchart LR
+    subgraph Indexing["索引链路"]
+        A["PDF / Word / 网页 / TXT / 图片 / CAD"] --> B["解析与 OCR"]
+        B --> C["清洗、标准化、切块"]
+        C --> D["Embedding 向量化"]
+        D --> E["向量数据库"]
+        C --> F["关键词索引 BM25"]
+    end
+
+    subgraph Querying["查询链路"]
+        Q["用户 Query"] --> U["Query 理解与改写"]
+        U --> E
+        U --> F
+        E --> R["候选 Chunks"]
+        F --> R
+        R --> RR["Rerank 精排"]
+        RR --> P["上下文与 Prompt 组装"]
+        P --> L["LLM 生成"]
+        L --> O["答案与引用来源"]
+    end</template><p>课程图中的颜色可理解为：</p>
+<ul>
+<li><strong>文档流</strong>：文档解析、切块、向量化、入库。</li>
+<li><strong>查询/Token 流</strong>：Query 理解、检索、精排、生成答案。</li>
+</ul>
+<hr>
+<h2 id="3-索引链路知识如何进入数据库" class="heading-element"><span>3. 索引链路：知识如何进入数据库</span>
+  <a href="#3-%e7%b4%a2%e5%bc%95%e9%93%be%e8%b7%af%e7%9f%a5%e8%af%86%e5%a6%82%e4%bd%95%e8%bf%9b%e5%85%a5%e6%95%b0%e6%8d%ae%e5%ba%93" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="31-数据解析与清洗" class="heading-element"><span>3.1 数据解析与清洗</span>
+  <a href="#31-%e6%95%b0%e6%8d%ae%e8%a7%a3%e6%9e%90%e4%b8%8e%e6%b8%85%e6%b4%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>原始资料可能来自：</p>
+<ul>
+<li>TXT、Markdown、HTML</li>
+<li>Word、PowerPoint、Excel</li>
+<li>PDF、扫描件、图片</li>
+<li>邮件、网页、知识库链接</li>
+<li>CAD 或其他行业文件</li>
+</ul>
+<p>生产系统通常需要完成：</p>
+<ol>
+<li><strong>内容解析</strong>：提取正文、标题、表格、图片、链接和页码。</li>
+<li><strong>OCR</strong>：识别扫描 PDF 或图片中的文字。</li>
+<li><strong>版面分析</strong>：恢复标题层级、段落、表格和多栏阅读顺序。</li>
+<li><strong>格式统一</strong>：可以统一转换为 Markdown，保留结构信息。</li>
+<li><strong>数据清洗</strong>：删除页眉页脚、乱码、重复段落和无意义空白。</li>
+<li><strong>元数据补充</strong>：记录来源、页码、部门、权限、时间、版本等。</li>
+</ol>
+<p>高质量 RAG 首先是数据工程问题。解析错误、表格错位或标题层级丢失，会直接污染后续检索结果。</p>
+<h3 id="32-文档切块-chunking" class="heading-element"><span>3.2 文档切块 Chunking</span>
+  <a href="#32-%e6%96%87%e6%a1%a3%e5%88%87%e5%9d%97-chunking" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>LLM 和 Embedding 模型都存在上下文长度限制，因此需要把长文档切成较小的 Chunk。</p>
+<p>常见方法：</p>
+<table>
+  <thead>
+      <tr>
+          <th>方法</th>
+          <th>特点</th>
+          <th>适用场景</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>固定字符或 Token 切分</td>
+          <td>简单、速度快，但可能截断语义</td>
+          <td>普通长文本</td>
+      </tr>
+      <tr>
+          <td>按空行或段落切分</td>
+          <td>能保留自然段结构</td>
+          <td>FAQ、规章制度</td>
+      </tr>
+      <tr>
+          <td>按标题层级切分</td>
+          <td>保留章节结构</td>
+          <td>Markdown、技术文档</td>
+      </tr>
+      <tr>
+          <td>语义切分</td>
+          <td>在语义变化处切块</td>
+          <td>内容结构不稳定的长文</td>
+      </tr>
+      <tr>
+          <td>滑动窗口切分</td>
+          <td>相邻块保留重叠内容</td>
+          <td>避免关键信息跨块丢失</td>
+      </tr>
+      <tr>
+          <td>父子块切分</td>
+          <td>小块用于检索，大块用于生成</td>
+          <td>需要同时兼顾召回精度和上下文完整性</td>
+      </tr>
+  </tbody>
+</table>
+<p>切块需要平衡：</p>
+<ul>
+<li>Chunk 太小：语义不完整，LLM 缺少上下文。</li>
+<li>Chunk 太大：内容噪声增多，向量语义被稀释，召回成本提高。</li>
+<li>Overlap 太小：跨段信息容易丢失。</li>
+<li>Overlap 太大：重复索引多、上下文浪费严重。</li>
+</ul>
+<h4 id="notebook-中的实现" class="heading-element"><span>notebook 中的实现</span>
+  <a href="#notebook-%e4%b8%ad%e7%9a%84%e5%ae%9e%e7%8e%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p><code>load_txt_documents()</code> 使用空行切分文本：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="sa">r</span><span class="s2">&#34;\n\s*\n&#34;</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">cleaned</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">cleaned</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">yield</span> <span class="n">cleaned</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>每一块被包装为 <code>Document</code>，并保存基础元数据：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">Document</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">page_content</span><span class="o">=</span><span class="n">part</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&#34;source&#34;</span><span class="p">:</span> <span class="n">path</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s2">&#34;chunk_id&#34;</span><span class="p">:</span> <span class="n">idx</span><span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这种方式非常适合 notebook 中的 FAQ 格式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">问题：公司的考勤方式是什么？
+</span></span><span class="line"><span class="cl">答案：公司实行弹性打卡。
+</span></span><span class="line"><span class="cl">权限：IT组、运维组
+</span></span><span class="line"><span class="cl">关键词：考勤方式
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">问题：考勤有问题找谁？
+</span></span><span class="line"><span class="cl">答案：找 LarryLi。
+</span></span><span class="line"><span class="cl">权限：
+</span></span><span class="line"><span class="cl">关键词：考勤问题</span></span></code></pre></td></tr></table>
+</div>
+</div><p>每组问答之间保留一个空行，就能形成一条独立知识。</p>
+<h3 id="33-embedding-向量化" class="heading-element"><span>3.3 Embedding 向量化</span>
+  <a href="#33-embedding-%e5%90%91%e9%87%8f%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Embedding 模型把文本映射为高维向量：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">文本 → [0.017, -0.284, 0.091, ...]</span></span></code></pre></td></tr></table>
+</div>
+</div><p>语义越接近的文本，其向量通常越接近。常见相似度包括：</p>
+<ul>
+<li>余弦相似度 Cosine Similarity</li>
+<li>点积 Dot Product</li>
+<li>欧氏距离 Euclidean Distance</li>
+</ul>
+<p>余弦相似度公式：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">cos(A, B) = (A · B) / (||A|| × ||B||)</span></span></code></pre></td></tr></table>
+</div>
+</div><p>notebook 自定义了 <code>TextEmbeddings</code>，适配 LangChain 的 <code>Embeddings</code> 接口：</p>
+<ul>
+<li><code>embed_documents()</code>：批量编码文档，每批最多 10 条。</li>
+<li><code>embed_query()</code>：编码单条用户问题。</li>
+<li>模型：<code>text-embedding-v4</code>。</li>
+<li>向量维度：1024。</li>
+</ul>
+<p>文档向量和 Query 向量必须由兼容的模型、维度和预处理方式生成，否则相似度没有意义。</p>
+<h3 id="34-向量数据库" class="heading-element"><span>3.4 向量数据库</span>
+  <a href="#34-%e5%90%91%e9%87%8f%e6%95%b0%e6%8d%ae%e5%ba%93" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>向量数据库保存：</p>
+<ul>
+<li>Chunk 原文</li>
+<li>Embedding 向量</li>
+<li>文档元数据</li>
+<li>可选的标量过滤字段</li>
+</ul>
+<p>常见选型包括：</p>
+<ul>
+<li>Chroma：轻量、适合学习和原型。</li>
+<li>FAISS：本地高性能向量索引库。</li>
+<li>Qdrant：支持丰富过滤条件。</li>
+<li>Milvus：适合大规模向量检索。</li>
+<li>Elasticsearch / OpenSearch：适合关键词、过滤与向量混合检索。</li>
+</ul>
+<p>notebook 使用 Chroma 持久化到：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">./db/chroma_data</span></span></code></pre></td></tr></table>
+</div>
+</div><p>集合名为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">test_collection</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当前代码每次运行都会先删除集合中的已有记录，再重新写入：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">existing_ids</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">get</span><span class="p">()[</span><span class="s2">&#34;ids&#34;</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="n">existing_ids</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vector_store</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">ids</span><span class="o">=</span><span class="n">existing_ids</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这适合教学演示，但不适合生产环境的增量更新。</p>
+<hr>
+<h2 id="4-查询链路从问题到答案" class="heading-element"><span>4. 查询链路：从问题到答案</span>
+  <a href="#4-%e6%9f%a5%e8%af%a2%e9%93%be%e8%b7%af%e4%bb%8e%e9%97%ae%e9%a2%98%e5%88%b0%e7%ad%94%e6%a1%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="41-query-理解" class="heading-element"><span>4.1 Query 理解</span>
+  <a href="#41-query-%e7%90%86%e8%a7%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>用户输入通常不能直接等同于检索语句。例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">用户输入：打卡咋整？
+</span></span><span class="line"><span class="cl">检索改写：公司的考勤打卡规则是什么？</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Query 理解可以包括：</p>
+<ol>
+<li><strong>意图识别</strong>：判断用户是在查询制度、办理流程还是负责人。</li>
+<li><strong>实体识别</strong>：提取部门、产品、时间、地区等实体。</li>
+<li><strong>Query Rewrite</strong>：消除口语、省略和指代。</li>
+<li><strong>同义词扩展</strong>：如“打卡”“考勤”“签到”。</li>
+<li><strong>纠错</strong>：修正拼写或语音识别错误。</li>
+<li><strong>问题拆解</strong>：把复杂问题拆成多个子问题。</li>
+<li><strong>多轮补全</strong>：结合历史对话还原完整问题。</li>
+</ol>
+<p>notebook 使用 ReAct Agent，由模型把：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">公司的考勤方式是什么？</span></span></code></pre></td></tr></table>
+</div>
+</div><p>改写为工具调用参数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">公司考勤方式</span></span></code></pre></td></tr></table>
+</div>
+</div><p>说明 Agent 本身已经承担了一部分 Query Rewrite 工作。</p>
+<h3 id="42-召回-retrieval" class="heading-element"><span>4.2 召回 Retrieval</span>
+  <a href="#42-%e5%8f%ac%e5%9b%9e-retrieval" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>召回阶段的目标不是立刻选出唯一答案，而是尽量从大量知识中找到一批可能相关的候选 Chunk。</p>
+<p>notebook 使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">retrieved</span> <span class="o">=</span> <span class="n">vector_store</span><span class="o">.</span><span class="n">similarity_search</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>即通过 Embedding 双编码器进行向量检索，召回 Top-5。</p>
+<h4 id="双编码器-bi-encoder" class="heading-element"><span>双编码器 Bi-Encoder</span>
+  <a href="#%e5%8f%8c%e7%bc%96%e7%a0%81%e5%99%a8-bi-encoder" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>双编码器分别计算 Query 和文档的向量，然后通过向量距离快速搜索：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Query ──Embedding──┐
+</span></span><span class="line"><span class="cl">                  ├── 相似度计算
+</span></span><span class="line"><span class="cl">Chunk ─Embedding──┘</span></span></code></pre></td></tr></table>
+</div>
+</div><p>优点是速度快、文档向量可以提前计算；缺点是 Query 和 Chunk 没有进行细粒度交互，排序精度通常不如 Cross-Encoder。</p>
+<h4 id="工业系统中的多路召回" class="heading-element"><span>工业系统中的多路召回</span>
+  <a href="#%e5%b7%a5%e4%b8%9a%e7%b3%bb%e7%bb%9f%e4%b8%ad%e7%9a%84%e5%a4%9a%e8%b7%af%e5%8f%ac%e5%9b%9e" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>仅使用向量检索容易漏掉编号、专有名词和精确关键词。常见方案是并行执行：</p>
+<ul>
+<li>向量语义召回</li>
+<li>BM25 关键词召回</li>
+<li>元数据过滤</li>
+<li>FAQ 精确匹配</li>
+<li>图谱或关联关系召回</li>
+<li>历史高频问答召回</li>
+</ul>
+<p>然后使用 RRF（Reciprocal Rank Fusion）或加权分数合并结果。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">final_score = α × vector_score + β × bm25_score + γ × business_score</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="43-元数据过滤与权限控制" class="heading-element"><span>4.3 元数据过滤与权限控制</span>
+  <a href="#43-%e5%85%83%e6%95%b0%e6%8d%ae%e8%bf%87%e6%bb%a4%e4%b8%8e%e6%9d%83%e9%99%90%e6%8e%a7%e5%88%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>候选 Chunk 不应只由语义相似度决定，还需要根据元数据过滤：</p>
+<ul>
+<li>用户所属部门</li>
+<li>文档访问权限</li>
+<li>生效时间和失效时间</li>
+<li>文档类型</li>
+<li>产品、地区或租户</li>
+<li>当前版本</li>
+</ul>
+<p>notebook 的示例数据同时存在两条“公司的考勤方式是什么”：</p>
+<ul>
+<li>IT 组、运维组：弹性打卡。</li>
+<li>运营组：固定时间打卡。</li>
+</ul>
+<p>但目前的 <code>权限</code> 只是写在 <code>page_content</code> 中，没有进入可过滤的 metadata，也没有把用户所属部门传给检索工具。因此检索会同时返回两个答案，最终只能由 LLM 自行解释。</p>
+<p>更合理的数据结构是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">Document</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">page_content</span><span class="o">=</span><span class="s2">&#34;公司的考勤方式是弹性打卡。&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">metadata</span><span class="o">=</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;question.txt&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;chunk_id&#34;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;departments&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;IT组&#34;</span><span class="p">,</span> <span class="s2">&#34;运维组&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;effective_date&#34;</span><span class="p">:</span> <span class="s2">&#34;2026-01-01&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="s2">&#34;version&#34;</span><span class="p">:</span> <span class="s2">&#34;v2&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="p">},</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>查询时根据当前用户身份过滤。权限检查应在检索层强制执行，不能只靠 Prompt 提醒 LLM。</p>
+<h3 id="44-rerank-精排" class="heading-element"><span>4.4 Rerank 精排</span>
+  <a href="#44-rerank-%e7%b2%be%e6%8e%92" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>向量召回擅长“快速找候选”，Reranker 擅长“准确重新排序”。</p>
+<p>notebook 使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">reranker</span> <span class="o">=</span> <span class="n">DashScopeRerank</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&#34;qwen3-rerank&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">reranked</span> <span class="o">=</span> <span class="n">reranker</span><span class="o">.</span><span class="n">rerank</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">documents</span><span class="o">=</span><span class="n">retrieved</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">query</span><span class="o">=</span><span class="n">query</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">top_n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>流程是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">向量召回 Top-5 → Reranker 逐对判断相关性 → 保留 Top-3</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="cross-encoder" class="heading-element"><span>Cross-Encoder</span>
+  <a href="#cross-encoder" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>Reranker 常使用 Cross-Encoder，把 Query 与 Chunk 放在一起编码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">[Query, Chunk] → Cross-Encoder → relevance score</span></span></code></pre></td></tr></table>
+</div>
+</div><p>它能够捕捉 Query 与文档之间更细粒度的词语交互，因此通常更准确，但无法像向量检索一样对海量文档直接计算，计算成本也更高。</p>
+<p>所以工业实践通常是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">大规模、低成本召回 → 小规模、高精度精排</span></span></code></pre></td></tr></table>
+</div>
+</div><p>经验上，Rerank 往往是提升 RAG 准确率非常有效的一步。Top-K 需要结合数据规模、延迟和评估结果调节，而不是固定照搬。</p>
+<h3 id="45-prompt-组装与生成" class="heading-element"><span>4.5 Prompt 组装与生成</span>
+  <a href="#45-prompt-%e7%bb%84%e8%a3%85%e4%b8%8e%e7%94%9f%e6%88%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>精排后的 Chunk 会被序列化：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">serialized</span> <span class="o">=</span> <span class="s2">&#34;</span><span class="se">\n\n</span><span class="s2">&#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="sa">f</span><span class="s2">&#34;[</span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;source&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">#</span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;chunk_id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">doc</span><span class="o">.</span><span class="n">page_content</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">rank_retrieved</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>格式示例：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">[question.txt#1] 问题：公司的考勤方式是什么？
+</span></span><span class="line"><span class="cl">答案：公司实行固定时间打卡。
+</span></span><span class="line"><span class="cl">权限：运营组</span></span></code></pre></td></tr></table>
+</div>
+</div><p>来源标识使模型可以在答案中进行简单引用。</p>
+<p>Agent 的系统提示词为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">你可以使用检索工具获得参考资料。回答时结合检索到的内容，
+</span></span><span class="line"><span class="cl">如有必要可以在答案中简单引用来源标识。</span></span></code></pre></td></tr></table>
+</div>
+</div><p>生产环境通常还需要补充：</p>
+<ul>
+<li>只能根据检索资料回答。</li>
+<li>资料不足时明确说“不知道”或要求补充信息。</li>
+<li>资料冲突时列出冲突项，不擅自选择。</li>
+<li>引用来源、页码和版本。</li>
+<li>忽略知识文档中的恶意指令，防止间接 Prompt Injection。</li>
+<li>按业务需要输出 JSON、表格或固定模板。</li>
+</ul>
+<hr>
+<h2 id="5-notebook-代码流程" class="heading-element"><span>5. notebook 代码流程</span>
+  <a href="#5-notebook-%e4%bb%a3%e7%a0%81%e6%b5%81%e7%a8%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>文件：<a href="./6.db_agent_rag.ipynb">6.db_agent_rag.ipynb</a></p>
+<h3 id="51-初始化模型" class="heading-element"><span>5.1 初始化模型</span>
+  <a href="#51-%e5%88%9d%e5%a7%8b%e5%8c%96%e6%a8%a1%e5%9e%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">llm</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">api_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;API_KEY&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">base_url</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;BASE_URL&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">=</span><span class="s2">&#34;qwen3-coder-plus&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li><code>temperature=0</code>：降低随机性，使知识问答结果更稳定。</li>
+<li><code>API_KEY</code> 和 <code>BASE_URL</code>：从 <code>.env</code> 加载。</li>
+<li>OpenAI 客户端单独用于调用 Embedding API。</li>
+</ul>
+<h3 id="52-构建向量库" class="heading-element"><span>5.2 构建向量库</span>
+  <a href="#52-%e6%9e%84%e5%bb%ba%e5%90%91%e9%87%8f%e5%ba%93" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">files/*.txt
+</span></span><span class="line"><span class="cl">    ↓ 按空行切分
+</span></span><span class="line"><span class="cl">LangChain Document
+</span></span><span class="line"><span class="cl">    ↓ text-embedding-v4
+</span></span><span class="line"><span class="cl">1024 维向量
+</span></span><span class="line"><span class="cl">    ↓
+</span></span><span class="line"><span class="cl">Chroma: ./db/chroma_data</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="53-创建检索工具" class="heading-element"><span>5.3 创建检索工具</span>
+  <a href="#53-%e5%88%9b%e5%bb%ba%e6%a3%80%e7%b4%a2%e5%b7%a5%e5%85%b7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>工具 <code>retrieve_context(query)</code> 内部执行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Query
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">Chroma similarity_search(k=5)
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">qwen3-rerank(top_n=3)
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">序列化正文和来源
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">返回给 Agent</span></span></code></pre></td></tr></table>
+</div>
+</div><p>工具使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nd">@tool</span><span class="p">(</span><span class="n">response_format</span><span class="o">=</span><span class="s2">&#34;content_and_artifact&#34;</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>它返回两个部分：</p>
+<ol>
+<li><code>content</code>：序列化后的文本，提供给模型阅读。</li>
+<li><code>artifact</code>：原始 <code>Document</code> 列表，便于程序继续处理、展示或追踪来源。</li>
+</ol>
+<h3 id="54-创建-react-agent" class="heading-element"><span>5.4 创建 ReAct Agent</span>
+  <a href="#54-%e5%88%9b%e5%bb%ba-react-agent" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">return</span> <span class="n">create_agent</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">llm</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tools</span><span class="o">=</span><span class="p">[</span><span class="n">retrieve_context</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">system_prompt</span><span class="o">=...</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Agent 不只是固定执行检索链，而是由 LLM 判断何时调用工具、使用什么检索词，并根据工具结果组织答案。</p>
+<p>这属于 Agentic RAG 的基础形态：</p>
+<pre class="mermaid">sequenceDiagram
+    participant U as 用户
+    participant A as Agent / LLM
+    participant T as retrieve_context
+    participant V as Chroma
+    participant R as Reranker
+
+    U->>A: 公司的考勤方式是什么？
+    A->>T: query="公司考勤方式"
+    T->>V: similarity_search(k=5)
+    V-->>T: 5 个候选 Chunk
+    T->>R: rerank(top_n=3)
+    R-->>T: 3 个精排结果
+    T-->>A: 上下文 + 原始文档
+    A-->>U: 分部门回答考勤方式</pre>
+<template>sequenceDiagram
+    participant U as 用户
+    participant A as Agent / LLM
+    participant T as retrieve_context
+    participant V as Chroma
+    participant R as Reranker
+
+    U->>A: 公司的考勤方式是什么？
+    A->>T: query="公司考勤方式"
+    T->>V: similarity_search(k=5)
+    V-->>T: 5 个候选 Chunk
+    T->>R: rerank(top_n=3)
+    R-->>T: 3 个精排结果
+    T-->>A: 上下文 + 原始文档
+    A-->>U: 分部门回答考勤方式</template><hr>
+<h2 id="6-rag普通搜索与模型微调的区别" class="heading-element"><span>6. RAG、普通搜索与模型微调的区别</span>
+  <a href="#6-rag%e6%99%ae%e9%80%9a%e6%90%9c%e7%b4%a2%e4%b8%8e%e6%a8%a1%e5%9e%8b%e5%be%ae%e8%b0%83%e7%9a%84%e5%8c%ba%e5%88%ab" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>方案</th>
+          <th>主要用途</th>
+          <th>优点</th>
+          <th>局限</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>关键词搜索</td>
+          <td>查找精确词语和文档</td>
+          <td>快、可解释</td>
+          <td>不擅长语义表达</td>
+      </tr>
+      <tr>
+          <td>RAG</td>
+          <td>基于外部动态知识回答</td>
+          <td>更新快、可引用、适合私有知识</td>
+          <td>强依赖数据和检索质量</td>
+      </tr>
+      <tr>
+          <td>模型微调</td>
+          <td>调整行为、风格或领域能力</td>
+          <td>推理时不一定需要检索</td>
+          <td>知识更新成本高，难以精确追溯</td>
+      </tr>
+  </tbody>
+</table>
+<p>简单判断：</p>
+<ul>
+<li>知识经常更新：优先 RAG。</li>
+<li>需要精确引用内部资料：优先 RAG。</li>
+<li>需要模型学会固定输出风格或专门任务：考虑微调。</li>
+<li>实际系统可以组合使用“领域微调模型 + RAG”。</li>
+</ul>
+<hr>
+<h2 id="7-工业落地中的关键优化" class="heading-element"><span>7. 工业落地中的关键优化</span>
+  <a href="#7-%e5%b7%a5%e4%b8%9a%e8%90%bd%e5%9c%b0%e4%b8%ad%e7%9a%84%e5%85%b3%e9%94%ae%e4%bc%98%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="71-数据层优化" class="heading-element"><span>7.1 数据层优化</span>
+  <a href="#71-%e6%95%b0%e6%8d%ae%e5%b1%82%e4%bc%98%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ol>
+<li>统一数据格式，尽可能保留标题、表格、页码和层级。</li>
+<li>使用语义切块、滑动窗口或父子 Chunk。</li>
+<li>建立层次化索引：文档 → 章节 → 段落。</li>
+<li>为 Chunk 添加部门、权限、版本、生效时间等元数据。</li>
+<li>通过内容 Hash 和稳定 ID 去重。</li>
+<li>支持新增、修改、删除的增量索引，而不是每次全量清空。</li>
+<li>建立新旧制度的关联，防止召回已经失效的版本。</li>
+<li>必要时对 Embedding、Reranker 或 LLM 做领域适配。</li>
+</ol>
+<h3 id="72-query-层优化" class="heading-element"><span>7.2 Query 层优化</span>
+  <a href="#72-query-%e5%b1%82%e4%bc%98%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ol>
+<li>Query Rewrite：把口语改成明确检索问题。</li>
+<li>同义词和缩写扩展。</li>
+<li>错别字纠正。</li>
+<li>多轮对话补全。</li>
+<li>Query 分解：复杂问题拆成多个子查询。</li>
+<li>Query 路由：根据问题类型选择数据库、Web、SQL 或其他工具。</li>
+</ol>
+<h3 id="73-动态复杂度处理" class="heading-element"><span>7.3 动态复杂度处理</span>
+  <a href="#73-%e5%8a%a8%e6%80%81%e5%a4%8d%e6%9d%82%e5%ba%a6%e5%a4%84%e7%90%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不同问题不应使用完全相同的检索策略：</p>
+<ul>
+<li>简单、高频、明确问题：FAQ 或缓存直接返回。</li>
+<li>一般知识问题：混合检索 + Rerank。</li>
+<li>模糊问题：先澄清或生成多个改写版本。</li>
+<li>复杂问题：拆分查询，多轮检索并综合。</li>
+<li>长尾、库内无答案问题：可使用 HyDE、知识图谱或受控 Web Search。</li>
+</ul>
+<p>HyDE 的基本思路是：先让模型生成一个“假设答案”，再用假设答案做 Embedding 检索，以提升一些抽象问题的召回效果。</p>
+<h3 id="74-检索与上下文优化" class="heading-element"><span>7.4 检索与上下文优化</span>
+  <a href="#74-%e6%a3%80%e7%b4%a2%e4%b8%8e%e4%b8%8a%e4%b8%8b%e6%96%87%e4%bc%98%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ol>
+<li>采用向量、BM25、元数据和图谱等多路召回。</li>
+<li>使用 Reranker 精排。</li>
+<li>根据 Query 难度动态调整召回数量和上下文窗口。</li>
+<li>去除重复或高度相似的 Chunk。</li>
+<li>保留必要的相邻段落或父级标题。</li>
+<li>检查上下文之间是否冲突、是否过期。</li>
+<li>控制上下文 Token，避免无关信息挤占 Prompt。</li>
+</ol>
+<h3 id="75-性能优化" class="heading-element"><span>7.5 性能优化</span>
+  <a href="#75-%e6%80%a7%e8%83%bd%e4%bc%98%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>对高频问题、Embedding 结果和检索结果进行缓存。</li>
+<li>多路召回异步并行。</li>
+<li>文档 Embedding 批量处理。</li>
+<li>只对有限候选执行 Rerank。</li>
+<li>对模型、索引和参数设置超时、重试和降级策略。</li>
+<li>记录各阶段延迟：改写、召回、精排、生成。</li>
+</ul>
+<h3 id="76-版本管理和反馈闭环" class="heading-element"><span>7.6 版本管理和反馈闭环</span>
+  <a href="#76-%e7%89%88%e6%9c%ac%e7%ae%a1%e7%90%86%e5%92%8c%e5%8f%8d%e9%a6%88%e9%97%ad%e7%8e%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>生产系统需要记录：</p>
+<ul>
+<li>文档版本和生效时间</li>
+<li>Embedding 模型版本</li>
+<li>Reranker 版本</li>
+<li>Prompt 版本</li>
+<li>Chunk 策略版本</li>
+<li>索引构建时间</li>
+</ul>
+<p>同时建立：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">线上监控 → 收集 Bad Case → 判断故障阶段 → 修复 → 回归评估 → 再上线</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Bad Case 可以按以下原因分类：</p>
+<ul>
+<li>Query 理解错误</li>
+<li>应召回内容没有召回</li>
+<li>召回了但排序靠后</li>
+<li>上下文不足或相互冲突</li>
+<li>LLM 没有忠实使用上下文</li>
+<li>数据本身错误、过期或权限配置错误</li>
+</ul>
+<p>不要看到最终答案错误就直接修改 Prompt；应先定位错误发生在哪个阶段。</p>
+<hr>
+<h2 id="8-rag-评估体系" class="heading-element"><span>8. RAG 评估体系</span>
+  <a href="#8-rag-%e8%af%84%e4%bc%b0%e4%bd%93%e7%b3%bb" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>RAG 不能只凭“感觉回答得不错”进行评估，需要拆分观察检索和生成两个阶段。</p>
+<h3 id="81-检索指标" class="heading-element"><span>8.1 检索指标</span>
+  <a href="#81-%e6%a3%80%e7%b4%a2%e6%8c%87%e6%a0%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th>指标</th>
+          <th>含义</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Recall@K</td>
+          <td>正确资料是否出现在前 K 个候选中</td>
+      </tr>
+      <tr>
+          <td>Precision@K</td>
+          <td>前 K 个候选中有多少真正相关</td>
+      </tr>
+      <tr>
+          <td>MRR</td>
+          <td>第一个正确结果排名是否足够靠前</td>
+      </tr>
+      <tr>
+          <td>NDCG</td>
+          <td>综合考虑多个相关结果和排序位置</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="82-生成指标" class="heading-element"><span>8.2 生成指标</span>
+  <a href="#82-%e7%94%9f%e6%88%90%e6%8c%87%e6%a0%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>Faithfulness</strong>：答案是否忠实于检索资料。</li>
+<li><strong>Answer Relevance</strong>：答案是否真正回应用户问题。</li>
+<li><strong>Context Relevance</strong>：提供给 LLM 的上下文是否相关。</li>
+<li><strong>Citation Correctness</strong>：引用是否准确对应来源。</li>
+<li><strong>Completeness</strong>：是否遗漏资料中的必要条件和例外。</li>
+<li><strong>拒答准确率</strong>：没有资料时是否能正确拒答。</li>
+</ul>
+<h3 id="83-系统指标" class="heading-element"><span>8.3 系统指标</span>
+  <a href="#83-%e7%b3%bb%e7%bb%9f%e6%8c%87%e6%a0%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>端到端延迟 P50 / P95 / P99</li>
+<li>Token 使用量与单次成本</li>
+<li>工具调用成功率</li>
+<li>空召回率</li>
+<li>缓存命中率</li>
+<li>用户满意度和人工转接率</li>
+<li>权限泄漏率</li>
+</ul>
+<h3 id="84-推荐评测集" class="heading-element"><span>8.4 推荐评测集</span>
+  <a href="#84-%e6%8e%a8%e8%8d%90%e8%af%84%e6%b5%8b%e9%9b%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>评测集不仅要包含正常问题，还应包含：</p>
+<ul>
+<li>同义改写、口语表达和错别字</li>
+<li>多轮指代问题</li>
+<li>相似但答案不同的问题</li>
+<li>跨文档问题</li>
+<li>有冲突或过期版本的问题</li>
+<li>不同部门、不同权限的问题</li>
+<li>知识库中不存在答案的问题</li>
+<li>文档中包含恶意指令的问题</li>
+</ul>
+<hr>
+<h2 id="9-notebook-当前实现的优点与局限" class="heading-element"><span>9. notebook 当前实现的优点与局限</span>
+  <a href="#9-notebook-%e5%bd%93%e5%89%8d%e5%ae%9e%e7%8e%b0%e7%9a%84%e4%bc%98%e7%82%b9%e4%b8%8e%e5%b1%80%e9%99%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="91-已经实现" class="heading-element"><span>9.1 已经实现</span>
+  <a href="#91-%e5%b7%b2%e7%bb%8f%e5%ae%9e%e7%8e%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>TXT 文档加载</li>
+<li>按空行切块</li>
+<li>文档来源和 Chunk ID 元数据</li>
+<li>自定义 Embedding 适配器</li>
+<li>Chroma 持久化向量库</li>
+<li>Top-5 向量召回</li>
+<li><code>qwen3-rerank</code> Top-3 精排</li>
+<li>LangChain 工具封装</li>
+<li>ReAct Agent 按需检索</li>
+<li>简单的来源标识</li>
+<li>流式输出 Agent 执行过程</li>
+</ul>
+<h3 id="92-尚未实现或需要加强" class="heading-element"><span>9.2 尚未实现或需要加强</span>
+  <a href="#92-%e5%b0%9a%e6%9c%aa%e5%ae%9e%e7%8e%b0%e6%88%96%e9%9c%80%e8%a6%81%e5%8a%a0%e5%bc%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>PDF、Word、表格、图片和 OCR 解析</li>
+<li>BM25 与向量混合检索</li>
+<li>Query Rewrite 的可控规则和可观测性</li>
+<li>元数据过滤和真实权限校验</li>
+<li>文档增量更新、删除和版本管理</li>
+<li>稳定文档 ID、去重和幂等写入</li>
+<li>Chunk 大小、Overlap 和父子索引策略</li>
+<li>上下文去重与冲突检测</li>
+<li>强制引用、资料不足时拒答</li>
+<li>Prompt Injection 防护</li>
+<li>离线评测集与自动化指标</li>
+<li>缓存、异步、超时、重试和监控</li>
+</ul>
+<hr>
+<h2 id="10-当前示例需要注意的问题" class="heading-element"><span>10. 当前示例需要注意的问题</span>
+  <a href="#10-%e5%bd%93%e5%89%8d%e7%a4%ba%e4%be%8b%e9%9c%80%e8%a6%81%e6%b3%a8%e6%84%8f%e7%9a%84%e9%97%ae%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="101-权限信息没有真正参与过滤" class="heading-element"><span>10.1 权限信息没有真正参与过滤</span>
+  <a href="#101-%e6%9d%83%e9%99%90%e4%bf%a1%e6%81%af%e6%b2%a1%e6%9c%89%e7%9c%9f%e6%ad%a3%e5%8f%82%e4%b8%8e%e8%bf%87%e6%bb%a4" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><code>权限</code> 当前只是普通文本。系统在回答前没有获取用户部门，也没有在数据库层过滤，因此存在越权检索风险。</p>
+<h3 id="102-示例数据存在冲突" class="heading-element"><span>10.2 示例数据存在冲突</span>
+  <a href="#102-%e7%a4%ba%e4%be%8b%e6%95%b0%e6%8d%ae%e5%ad%98%e5%9c%a8%e5%86%b2%e7%aa%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>同一个问题有两个部门答案，这是合理的业务差异，但如果没有用户身份，系统无法确定应该返回哪一个。正确做法是补充部门上下文，或先向用户澄清。</p>
+<h3 id="103-示例文本疑似有笔误" class="heading-element"><span>10.3 示例文本疑似有笔误</span>
+  <a href="#103-%e7%a4%ba%e4%be%8b%e6%96%87%e6%9c%ac%e7%96%91%e4%bc%bc%e6%9c%89%e7%ac%94%e8%af%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">公司实行固定世界打卡。</span></span></code></pre></td></tr></table>
+</div>
+</div><p>结合最终答案推断，应为“公司实行固定时间打卡”。数据质量问题会原样进入检索结果，并可能被模型照抄。</p>
+<h3 id="104-每次构建都会清空集合" class="heading-element"><span>10.4 每次构建都会清空集合</span>
+  <a href="#104-%e6%af%8f%e6%ac%a1%e6%9e%84%e5%bb%ba%e9%83%bd%e4%bc%9a%e6%b8%85%e7%a9%ba%e9%9b%86%e5%90%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>教学代码为了防止重复数据而全量删除，生产系统应使用稳定 ID、Upsert、删除标记和增量同步。</p>
+<h3 id="105-路径依赖当前工作目录" class="heading-element"><span>10.5 路径依赖当前工作目录</span>
+  <a href="#105-%e8%b7%af%e5%be%84%e4%be%9d%e8%b5%96%e5%bd%93%e5%89%8d%e5%b7%a5%e4%bd%9c%e7%9b%ae%e5%bd%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>代码使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span> <span class="o">/</span> <span class="s2">&#34;files&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>以及：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">./db/chroma_data</span></span></code></pre></td></tr></table>
+</div>
+</div><p>如果 notebook 不在 <code>LLM08/langgraph</code> 目录作为当前工作目录运行，可能找不到文件或把数据库写到其他位置。更稳妥的方式是显式配置数据目录。</p>
+<h3 id="106-缺少仅根据资料回答的硬约束" class="heading-element"><span>10.6 缺少“仅根据资料回答”的硬约束</span>
+  <a href="#106-%e7%bc%ba%e5%b0%91%e4%bb%85%e6%a0%b9%e6%8d%ae%e8%b5%84%e6%96%99%e5%9b%9e%e7%ad%94%e7%9a%84%e7%a1%ac%e7%ba%a6%e6%9d%9f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>当前 Prompt 只说“可以使用检索工具”，Agent 仍可能不检索或利用模型自身知识回答。高可靠知识库问答中，应对必须检索、证据不足拒答和引用格式做更严格约束。</p>
+<hr>
+<h2 id="11-一个更完整的生产级流程" class="heading-element"><span>11. 一个更完整的生产级流程</span>
+  <a href="#11-%e4%b8%80%e4%b8%aa%e6%9b%b4%e5%ae%8c%e6%95%b4%e7%9a%84%e7%94%9f%e4%ba%a7%e7%ba%a7%e6%b5%81%e7%a8%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><pre class="mermaid">flowchart TD
+    A["多源数据接入"] --> B["解析 / OCR / 清洗"]
+    B --> C["结构化与语义切块"]
+    C --> D["元数据、权限、版本"]
+    D --> E["向量索引"]
+    D --> F["BM25 索引"]
+
+    Q["用户问题 + 身份 + 对话历史"] --> R["意图识别 / 改写 / 路由"]
+    R --> E
+    R --> F
+    E --> M["多路结果融合"]
+    F --> M
+    M --> N["权限过滤 / 去重 / Rerank"]
+    N --> O["上下文压缩与冲突检测"]
+    O --> P["带引用 Prompt"]
+    P --> G["LLM 生成或拒答"]
+    G --> H["答案、引用、置信信息"]
+    H --> I["日志、反馈与 Bad Case 分析"]
+    I --> B
+    I --> R</pre>
+<template>flowchart TD
+    A["多源数据接入"] --> B["解析 / OCR / 清洗"]
+    B --> C["结构化与语义切块"]
+    C --> D["元数据、权限、版本"]
+    D --> E["向量索引"]
+    D --> F["BM25 索引"]
+
+    Q["用户问题 + 身份 + 对话历史"] --> R["意图识别 / 改写 / 路由"]
+    R --> E
+    R --> F
+    E --> M["多路结果融合"]
+    F --> M
+    M --> N["权限过滤 / 去重 / Rerank"]
+    N --> O["上下文压缩与冲突检测"]
+    O --> P["带引用 Prompt"]
+    P --> G["LLM 生成或拒答"]
+    G --> H["答案、引用、置信信息"]
+    H --> I["日志、反馈与 Bad Case 分析"]
+    I --> B
+    I --> R</template><hr>
+<h2 id="12-实践检查清单" class="heading-element"><span>12. 实践检查清单</span>
+  <a href="#12-%e5%ae%9e%e8%b7%b5%e6%a3%80%e6%9f%a5%e6%b8%85%e5%8d%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="数据入库前" class="heading-element"><span>数据入库前</span>
+  <a href="#%e6%95%b0%e6%8d%ae%e5%85%a5%e5%ba%93%e5%89%8d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>文档解析结果是否完整？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>标题、段落、表格、页码是否保留？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>Chunk 是否语义完整？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>是否存在重复、过期或互相冲突的数据？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>是否记录来源、版本、生效时间和权限？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>文档 ID 是否稳定，写入是否幂等？</li>
+</ul>
+<h3 id="检索阶段" class="heading-element"><span>检索阶段</span>
+  <a href="#%e6%a3%80%e7%b4%a2%e9%98%b6%e6%ae%b5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>Query 是否需要改写、纠错或拆解？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>是否需要向量 + BM25 混合检索？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>Metadata Filter 是否正确执行？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>Recall@K 是否达到要求？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>Rerank 是否提升了正确资料的排名？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>上下文是否去重并保留必要的父级信息？</li>
+</ul>
+<h3 id="生成阶段" class="heading-element"><span>生成阶段</span>
+  <a href="#%e7%94%9f%e6%88%90%e9%98%b6%e6%ae%b5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>Prompt 是否要求基于资料回答？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>没有答案时是否拒答？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>资料冲突时是否显式说明？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>是否输出准确引用？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>是否防范文档内的 Prompt Injection？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>输出格式是否稳定？</li>
+</ul>
+<h3 id="上线后" class="heading-element"><span>上线后</span>
+  <a href="#%e4%b8%8a%e7%ba%bf%e5%90%8e" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>是否记录 Query、召回结果、精排分数和最终引用？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>是否监控延迟、成本、空召回和错误率？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>是否持续收集用户反馈和 Bad Case？</li>
+<li data-task=" " title="未完成"><i class="checkbox-icon fa-fw fa-regular fa-square" aria-hidden="true"></i>修改模型、Prompt 或索引后是否进行回归评估？</li>
+</ul>
+<hr>
+<h2 id="13-核心结论" class="heading-element"><span>13. 核心结论</span>
+  <a href="#13-%e6%a0%b8%e5%bf%83%e7%bb%93%e8%ae%ba" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ol>
+<li>RAG 不是简单的“向量库 + LLM”，而是一套从数据治理到在线检索、生成、评估和反馈闭环的完整系统。</li>
+<li>Embedding 检索负责快速召回，Reranker 负责高精度排序，两者职责不同。</li>
+<li>文档解析、Chunk 质量和元数据设计，往往比单纯更换大模型更影响最终效果。</li>
+<li>向量检索并不能替代关键词检索，生产系统通常采用混合召回。</li>
+<li>权限必须在检索层强制过滤，不能依赖 LLM 自觉遵守。</li>
+<li>Agentic RAG 可以动态改写 Query、选择工具和多步检索，但也需要更强的可观测性、约束和评估。</li>
+<li>出现错误时，应分别检查 Query 理解、召回、精排、上下文和生成阶段，而不是只调整 Prompt。</li>
+<li>一个真正可用的 RAG 系统必须拥有版本管理、监控、Bad Case 分析和持续评测闭环。</li>
+</ol>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-08-14 09:32:21">更新于 2026-08-14&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/mlrag/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/agent/" class="post-tag" title="标签 - Agent">Agent</a><a href="/tags/rag/" class="post-tag" title="标签 - RAG">RAG</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/misc%E8%9C%98%E8%9B%9B%E4%BE%A0%E5%B4%AD%E6%96%B0%E4%B9%8B%E6%97%A5%E5%BD%B1%E8%AF%84/" class="post-nav-item" rel="prev" title="《蜘蛛侠：崭新之日》影评"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>《蜘蛛侠：崭新之日》影评</a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.3.0/dist/mermaid.esm.min.mjs';
+    
+    
+    
+    window.mermaid = mermaid;
+  </script><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"mermaid":{"themes":["default","dark"]},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>
