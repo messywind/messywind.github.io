@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>RAG 问题 - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="目录 一、如何优化 RAG 全链路耗时？ 二、RAG 中 PDF 解析与滑窗切分有什么问题？ 三、RAG 出现 bad case，如何快速定位并修复？ 四、如何评价 RAG 系统的好坏？ 五、面试中的通用回答框架 一、如何优化 RAG 全链路耗时？ 1. 面试回答主线 优化 RAG 延迟时，我不会一上来就替换模型，而是先对全链路做 tracing 和 profiling，将总耗时拆开：
+"><meta name="keywords" content='Agent, RAG'>
+  <meta itemprop="name" content="RAG 问题">
+  <meta itemprop="description" content="目录 一、如何优化 RAG 全链路耗时？ 二、RAG 中 PDF 解析与滑窗切分有什么问题？ 三、RAG 出现 bad case，如何快速定位并修复？ 四、如何评价 RAG 系统的好坏？ 五、面试中的通用回答框架 一、如何优化 RAG 全链路耗时？ 1. 面试回答主线 优化 RAG 延迟时，我不会一上来就替换模型，而是先对全链路做 tracing 和 profiling，将总耗时拆开：">
+  <meta itemprop="datePublished" content="2026-08-14T22:10:00+00:00">
+  <meta itemprop="dateModified" content="2026-08-17T01:47:31+00:00">
+  <meta itemprop="wordCount" content="6960">
+  <meta itemprop="keywords" content="Agent,RAG"><meta property="og:url" content="https://blog.messywind.top/posts/mlrag-%E9%97%AE%E9%A2%98/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="RAG 问题">
+  <meta property="og:description" content="目录 一、如何优化 RAG 全链路耗时？ 二、RAG 中 PDF 解析与滑窗切分有什么问题？ 三、RAG 出现 bad case，如何快速定位并修复？ 四、如何评价 RAG 系统的好坏？ 五、面试中的通用回答框架 一、如何优化 RAG 全链路耗时？ 1. 面试回答主线 优化 RAG 延迟时，我不会一上来就替换模型，而是先对全链路做 tracing 和 profiling，将总耗时拆开：">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-08-14T22:10:00+00:00">
+    <meta property="article:modified_time" content="2026-08-17T01:47:31+00:00">
+    <meta property="article:tag" content="Agent">
+    <meta property="article:tag" content="RAG">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="RAG 问题">
+  <meta name="twitter:description" content="目录 一、如何优化 RAG 全链路耗时？ 二、RAG 中 PDF 解析与滑窗切分有什么问题？ 三、RAG 出现 bad case，如何快速定位并修复？ 四、如何评价 RAG 系统的好坏？ 五、面试中的通用回答框架 一、如何优化 RAG 全链路耗时？ 1. 面试回答主线 优化 RAG 延迟时，我不会一上来就替换模型，而是先对全链路做 tracing 和 profiling，将总耗时拆开：">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mlrag-%E9%97%AE%E9%A2%98/" title="RAG 问题 - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/mlrag/" title="RAG" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mlrag-%E9%97%AE%E9%A2%98/index.md" title="RAG 问题 - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "RAG 问题",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/mlrag-%E9%97%AE%E9%A2%98\/"
+    },"genre": "posts","keywords": "Agent, RAG","wordcount":  6960 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mlrag-%E9%97%AE%E9%A2%98\/","datePublished": "2026-08-14T22:10:00+00:00","dateModified": "2026-08-17T01:47:31+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>RAG 问题</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-08-14 22:10:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-08-14">2026-08-14</time></span>&nbsp;<span title="更新于 2026-08-17 01:47:31"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-08-17">2026-08-17</time></span>&nbsp;<span title="6960 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 7000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 14 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="RAG 问题"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#目录">目录</a></li>
+    <li><a href="#一如何优化-rag-全链路耗时">一、如何优化 RAG 全链路耗时？</a>
+      <ul>
+        <li><a href="#1-面试回答主线">1. 面试回答主线</a></li>
+        <li><a href="#2-query-embedding-优化">2. Query Embedding 优化</a></li>
+        <li><a href="#3-召回阶段优化">3. 召回阶段优化</a>
+          <ul>
+            <li><a href="#向量索引">向量索引</a></li>
+            <li><a href="#缩小搜索空间">缩小搜索空间</a></li>
+            <li><a href="#检索策略">检索策略</a></li>
+          </ul>
+        </li>
+        <li><a href="#4-重排阶段优化">4. 重排阶段优化</a></li>
+        <li><a href="#5-llm-生成阶段优化">5. LLM 生成阶段优化</a></li>
+        <li><a href="#6-架构与工程优化">6. 架构与工程优化</a></li>
+        <li><a href="#7-一个较完整的口述答案">7. 一个较完整的口述答案</a></li>
+        <li><a href="#8-常见追问">8. 常见追问</a>
+          <ul>
+            <li><a href="#top-k-越小越好吗">top-k 越小越好吗？</a></li>
+            <li><a href="#缓存应该缓存什么">缓存应该缓存什么？</a></li>
+            <li><a href="#streaming-是否真的优化了耗时">Streaming 是否真的优化了耗时？</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#二rag-中-pdf-解析与滑窗切分有什么问题">二、RAG 中 PDF 解析与滑窗切分有什么问题？</a>
+      <ul>
+        <li><a href="#1-pdf-解析的根本难点">1. PDF 解析的根本难点</a></li>
+        <li><a href="#2-常见问题">2. 常见问题</a>
+          <ul>
+            <li><a href="#文本与版面问题">文本与版面问题</a></li>
+            <li><a href="#表格公式和图片问题">表格、公式和图片问题</a></li>
+            <li><a href="#固定滑窗问题">固定滑窗问题</a></li>
+          </ul>
+        </li>
+        <li><a href="#3-改进方案">3. 改进方案</a>
+          <ul>
+            <li><a href="#先判断-pdf-类型">先判断 PDF 类型</a></li>
+            <li><a href="#使用结构感知解析">使用结构感知解析</a></li>
+            <li><a href="#使用语义切分">使用语义切分</a></li>
+            <li><a href="#解析质量校验">解析质量校验</a></li>
+          </ul>
+        </li>
+        <li><a href="#4-一个较完整的口述答案">4. 一个较完整的口述答案</a></li>
+      </ul>
+    </li>
+    <li><a href="#三rag-出现-bad-case如何快速定位并修复">三、RAG 出现 bad case，如何快速定位并修复？</a>
+      <ul>
+        <li><a href="#1-先建立可观测性">1. 先建立可观测性</a></li>
+        <li><a href="#2-用黄金证据漏斗定位">2. 用“黄金证据漏斗”定位</a></li>
+        <li><a href="#3-各阶段典型问题与修复">3. 各阶段典型问题与修复</a></li>
+        <li><a href="#4-快速止血与长期修复">4. 快速止血与长期修复</a>
+          <ul>
+            <li><a href="#快速止血">快速止血</a></li>
+            <li><a href="#长期修复">长期修复</a></li>
+          </ul>
+        </li>
+        <li><a href="#5-一个较完整的口述答案">5. 一个较完整的口述答案</a></li>
+      </ul>
+    </li>
+    <li><a href="#四如何评价-rag-系统的好坏">四、如何评价 RAG 系统的好坏？</a>
+      <ul>
+        <li><a href="#1-总体框架">1. 总体框架</a></li>
+        <li><a href="#2-检索指标">2. 检索指标</a>
+          <ul>
+            <li><a href="#hit-ratek">Hit Rate@K</a></li>
+            <li><a href="#recallk">Recall@K</a></li>
+            <li><a href="#precisionk">Precision@K</a></li>
+            <li><a href="#mrr">MRR</a></li>
+            <li><a href="#ndcgk">nDCG@K</a></li>
+          </ul>
+        </li>
+        <li><a href="#3-生成指标">3. 生成指标</a>
+          <ul>
+            <li><a href="#llm-as-a-judge-的注意点">LLM-as-a-Judge 的注意点</a></li>
+          </ul>
+        </li>
+        <li><a href="#4-业务和端到端指标">4. 业务和端到端指标</a></li>
+        <li><a href="#5-工程指标">5. 工程指标</a></li>
+        <li><a href="#6-如何建设评测集">6. 如何建设评测集</a></li>
+        <li><a href="#7-一个较完整的口述答案-1">7. 一个较完整的口述答案</a></li>
+      </ul>
+    </li>
+    <li><a href="#五面试中的通用回答框架">五、面试中的通用回答框架</a>
+      <ul>
+        <li><a href="#1-回答系统优化题">1. 回答系统优化题</a></li>
+        <li><a href="#2-回答故障排查题">2. 回答故障排查题</a></li>
+        <li><a href="#3-回答评估题">3. 回答评估题</a></li>
+        <li><a href="#4-面试加分点">4. 面试加分点</a></li>
+      </ul>
+    </li>
+    <li><a href="#六30-秒总复习">六、30 秒总复习</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="目录" class="heading-element"><span>目录</span>
+  <a href="#%e7%9b%ae%e5%bd%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><ul>
+<li><a href="#%e4%b8%80%e5%a6%82%e4%bd%95%e4%bc%98%e5%8c%96-rag-%e5%85%a8%e9%93%be%e8%b7%af%e8%80%97%e6%97%b6">一、如何优化 RAG 全链路耗时？</a></li>
+<li><a href="#%e4%ba%8crag-%e4%b8%ad-pdf-%e8%a7%a3%e6%9e%90%e4%b8%8e%e6%bb%91%e7%aa%97%e5%88%87%e5%88%86%e6%9c%89%e4%bb%80%e4%b9%88%e9%97%ae%e9%a2%98">二、RAG 中 PDF 解析与滑窗切分有什么问题？</a></li>
+<li><a href="#%e4%b8%89rag-%e5%87%ba%e7%8e%b0-bad-case%e5%a6%82%e4%bd%95%e5%bf%ab%e9%80%9f%e5%ae%9a%e4%bd%8d%e5%b9%b6%e4%bf%ae%e5%a4%8d">三、RAG 出现 bad case，如何快速定位并修复？</a></li>
+<li><a href="#%e5%9b%9b%e5%a6%82%e4%bd%95%e8%af%84%e4%bb%b7-rag-%e7%b3%bb%e7%bb%9f%e7%9a%84%e5%a5%bd%e5%9d%8f">四、如何评价 RAG 系统的好坏？</a></li>
+<li><a href="#%e4%ba%94%e9%9d%a2%e8%af%95%e4%b8%ad%e7%9a%84%e9%80%9a%e7%94%a8%e5%9b%9e%e7%ad%94%e6%a1%86%e6%9e%b6">五、面试中的通用回答框架</a></li>
+</ul>
+<hr>
+<h2 id="一如何优化-rag-全链路耗时" class="heading-element"><span>一、如何优化 RAG 全链路耗时？</span>
+  <a href="#%e4%b8%80%e5%a6%82%e4%bd%95%e4%bc%98%e5%8c%96-rag-%e5%85%a8%e9%93%be%e8%b7%af%e8%80%97%e6%97%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="1-面试回答主线" class="heading-element"><span>1. 面试回答主线</span>
+  <a href="#1-%e9%9d%a2%e8%af%95%e5%9b%9e%e7%ad%94%e4%b8%bb%e7%ba%bf" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>优化 RAG 延迟时，我不会一上来就替换模型，而是先对全链路做 tracing 和 profiling，将总耗时拆开：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">总耗时 = 查询处理 + Query Embedding + 检索 + 重排
+</span></span><span class="line"><span class="cl">       + Prompt 构造 + LLM 首 Token + LLM 解码 + 网络与排队耗时</span></span></code></pre></td></tr></table>
+</div>
+</div><p>重点同时观察：</p>
+<ul>
+<li><strong>端到端延迟</strong>：P50、P95、P99，而不只是平均值。</li>
+<li><strong>TTFT</strong>：Time To First Token，首 Token 延迟。</li>
+<li><strong>TPOT</strong>：Time Per Output Token，后续每个 Token 的生成耗时。</li>
+<li><strong>吞吐量</strong>：QPS、并发数、Token/s。</li>
+<li><strong>效果与成本</strong>：优化不能明显损害召回率、答案质量，或造成不可接受的成本增长。</li>
+</ul>
+<p>然后针对耗时占比最大的阶段优化，并通过 A/B 测试验证效果。</p>
+<h3 id="2-query-embedding-优化" class="heading-element"><span>2. Query Embedding 优化</span>
+  <a href="#2-query-embedding-%e4%bc%98%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>选择效果满足要求的更小 Embedding 模型，避免盲目使用大模型。</li>
+<li>使用 GPU、ONNX Runtime、TensorRT 等进行推理加速；服务化时可使用动态批处理。</li>
+<li>对模型进行 FP16、BF16 或 INT8 量化，但要重新验证召回效果。</li>
+<li>缓存高频查询及归一化后查询的 Embedding。</li>
+<li>对批量离线任务进行 batch 推理，提高设备利用率。</li>
+<li>文档 Embedding 应在离线摄取阶段预计算，在线链路只计算 Query Embedding。</li>
+</ul>
+<blockquote>
+<p>注意：在线请求量较低时，强行等待 batch 可能增加单请求延迟，需要在吞吐量和延迟之间权衡。</p>
+</blockquote>
+<h3 id="3-召回阶段优化" class="heading-element"><span>3. 召回阶段优化</span>
+  <a href="#3-%e5%8f%ac%e5%9b%9e%e9%98%b6%e6%ae%b5%e4%bc%98%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="向量索引" class="heading-element"><span>向量索引</span>
+  <a href="#%e5%90%91%e9%87%8f%e7%b4%a2%e5%bc%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>根据数据规模和精度要求选择索引，例如 HNSW、IVF、IVF-PQ。</li>
+<li>调整 HNSW 的 <code>efSearch</code>、IVF 的 <code>nprobe</code> 等参数，在召回率和耗时之间取平衡。</li>
+<li>对超大规模知识库进行合理分片和并行检索。</li>
+<li>将高频索引或热点数据放在内存中，减少磁盘 I/O。</li>
+<li>避免频繁重建整个索引，采用增量更新或分层索引。</li>
+</ul>
+<h4 id="缩小搜索空间" class="heading-element"><span>缩小搜索空间</span>
+  <a href="#%e7%bc%a9%e5%b0%8f%e6%90%9c%e7%b4%a2%e7%a9%ba%e9%97%b4" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>利用租户、时间、文档类型、部门、权限等元数据进行过滤。</li>
+<li>在数据库支持的情况下优先采用高效的 pre-filter；如果是 post-filter，要警惕过滤后候选不足。</li>
+<li>按业务域路由到对应知识库，避免所有查询都搜索全库。</li>
+<li>控制召回数量 <code>top_k</code>，不要为了“保险”无限增大候选集。</li>
+</ul>
+<h4 id="检索策略" class="heading-element"><span>检索策略</span>
+  <a href="#%e6%a3%80%e7%b4%a2%e7%ad%96%e7%95%a5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>语义检索与 BM25 混合检索可以提高鲁棒性，但会增加链路开销，应按场景启用。</li>
+<li>多路召回尽量并行执行，再通过 RRF 等方式融合结果。</li>
+<li>查询改写、HyDE、多查询扩展等策略不一定每次都开启，可通过意图分类或难度判断按需触发。</li>
+</ul>
+<h3 id="4-重排阶段优化" class="heading-element"><span>4. 重排阶段优化</span>
+  <a href="#4-%e9%87%8d%e6%8e%92%e9%98%b6%e6%ae%b5%e4%bc%98%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>减少送入重排模型的候选数量，例如先召回 50 条，再轻量过滤到 20 条后重排。</li>
+<li>使用效果足够的轻量 Cross-Encoder 或蒸馏模型。</li>
+<li>对候选进行 batch 推理，并使用 GPU、ONNX 或 TensorRT 加速。</li>
+<li>使用级联重排：规则或轻量模型粗排，复杂模型只处理少量高质量候选。</li>
+<li>对高频问题的召回、重排结果进行缓存。</li>
+<li>设置相关性阈值，避免把明显无关的片段送入 LLM。</li>
+</ul>
+<p>还可以将与查询无关的静态特征提前离线计算，例如来源权威性、内容质量、时效性和业务优先级；在线阶段再与相关性分数融合：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">final_score = α × relevance + β × authority + γ × freshness</span></span></code></pre></td></tr></table>
+</div>
+</div><p>权重不应直接照搬固定比例，而应在标注集上调参，并关注不同分数的量纲归一化。对于高频或复杂问题，也可以预先计算候选集合或预排序结果，降低在线计算量。</p>
+<h3 id="5-llm-生成阶段优化" class="heading-element"><span>5. LLM 生成阶段优化</span>
+  <a href="#5-llm-%e7%94%9f%e6%88%90%e9%98%b6%e6%ae%b5%e4%bc%98%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>减少无效上下文，只保留相关、互补、去重后的片段。</li>
+<li>控制输入上下文长度和最大输出长度，因为上下文越长，Prefill 成本越高。</li>
+<li>使用更小或更快的生成模型；简单问题可以路由到小模型，复杂问题再使用大模型。</li>
+<li>使用量化、连续批处理、Paged Attention、推测解码等推理优化。</li>
+<li>对固定系统提示词或公共前缀使用 Prefix Cache/KV Cache。</li>
+<li>缓存高频且时效要求不高的答案，并设计知识版本号与过期策略。</li>
+<li>使用流式输出降低用户感知延迟。需要注意，Streaming 主要改善 TTFT 和交互体验，不一定降低总生成时间。</li>
+</ul>
+<h3 id="6-架构与工程优化" class="heading-element"><span>6. 架构与工程优化</span>
+  <a href="#6-%e6%9e%b6%e6%9e%84%e4%b8%8e%e5%b7%a5%e7%a8%8b%e4%bc%98%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>将可并行的环节并行执行，例如多路召回、权限检查、问题分类。</li>
+<li>避免不必要的串行调用和重复 RPC；使用连接池、长连接，并减少跨地域网络通信。</li>
+<li>将 Embedding、向量库、重排和 LLM 服务部署在网络距离较近的位置。</li>
+<li>使用异步 I/O，合理设置超时、重试、熔断和降级策略。</li>
+<li>对热点数据、检索结果、Prompt 前缀和最终答案进行分层缓存。</li>
+<li>处理排队问题：扩缩容、限流、负载均衡，并减少长尾请求。</li>
+<li>预计算高频问题、文档摘要、章节标题、实体与关键词等辅助索引。</li>
+</ul>
+<h3 id="7-一个较完整的口述答案" class="heading-element"><span>7. 一个较完整的口述答案</span>
+  <a href="#7-%e4%b8%80%e4%b8%aa%e8%be%83%e5%ae%8c%e6%95%b4%e7%9a%84%e5%8f%a3%e8%bf%b0%e7%ad%94%e6%a1%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>我会先用 tracing 将 RAG 延迟拆成 Embedding、召回、重排、Prompt 构造、LLM Prefill 和 Decode，并观察 P50、P95、P99，而不是凭感觉优化。Embedding 可以通过小模型、量化、GPU 推理和缓存优化；召回阶段可以调整 HNSW 或 IVF 参数、使用元数据过滤、控制 top-k 和缓存热点结果；重排阶段可以减少候选集、采用轻量模型与 batch 推理；生成阶段重点减少无效上下文、使用模型路由、Prefix Cache、推测解码和流式输出。架构上还可以并行多路召回、减少 RPC、缓存热点数据。最后必须用 A/B 测试同时验证延迟、召回率、答案质量和成本，防止为了快而牺牲效果。</p>
+</blockquote>
+<h3 id="8-常见追问" class="heading-element"><span>8. 常见追问</span>
+  <a href="#8-%e5%b8%b8%e8%a7%81%e8%bf%bd%e9%97%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="top-k-越小越好吗" class="heading-element"><span>top-k 越小越好吗？</span>
+  <a href="#top-k-%e8%b6%8a%e5%b0%8f%e8%b6%8a%e5%a5%bd%e5%90%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>不是。<code>top_k</code> 太大会增加重排、Prompt 和 LLM Prefill 耗时，还可能引入噪声；太小则可能漏掉正确证据。应通过验证集绘制 <code>top_k—Recall—延迟—成本</code> 曲线后选择。</p>
+<h4 id="缓存应该缓存什么" class="heading-element"><span>缓存应该缓存什么？</span>
+  <a href="#%e7%bc%93%e5%ad%98%e5%ba%94%e8%af%a5%e7%bc%93%e5%ad%98%e4%bb%80%e4%b9%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>Query Embedding。</li>
+<li>标准化查询对应的检索结果。</li>
+<li>重排结果。</li>
+<li>固定 Prompt 的前缀 KV。</li>
+<li>高频问答结果。</li>
+</ul>
+<p>缓存键中通常需要包含租户、用户权限、知识库版本、模型版本和检索参数，避免越权或旧数据污染。</p>
+<h4 id="streaming-是否真的优化了耗时" class="heading-element"><span>Streaming 是否真的优化了耗时？</span>
+  <a href="#streaming-%e6%98%af%e5%90%a6%e7%9c%9f%e7%9a%84%e4%bc%98%e5%8c%96%e4%ba%86%e8%80%97%e6%97%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>Streaming 主要降低用户感知到的首 Token 延迟，并不会必然减少完整答案的生成耗时。</p>
+<hr>
+<h2 id="二rag-中-pdf-解析与滑窗切分有什么问题" class="heading-element"><span>二、RAG 中 PDF 解析与滑窗切分有什么问题？</span>
+  <a href="#%e4%ba%8crag-%e4%b8%ad-pdf-%e8%a7%a3%e6%9e%90%e4%b8%8e%e6%bb%91%e7%aa%97%e5%88%87%e5%88%86%e6%9c%89%e4%bb%80%e4%b9%88%e9%97%ae%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="1-pdf-解析的根本难点" class="heading-element"><span>1. PDF 解析的根本难点</span>
+  <a href="#1-pdf-%e8%a7%a3%e6%9e%90%e7%9a%84%e6%a0%b9%e6%9c%ac%e9%9a%be%e7%82%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>PDF 更接近一种“页面绘制格式”，保存的是字符和元素在页面上的坐标，不一定保存自然的阅读顺序和语义结构。因此，直接抽取文字再按固定长度滑窗，容易丢失文档结构。</p>
+<h3 id="2-常见问题" class="heading-element"><span>2. 常见问题</span>
+  <a href="#2-%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="文本与版面问题" class="heading-element"><span>文本与版面问题</span>
+  <a href="#%e6%96%87%e6%9c%ac%e4%b8%8e%e7%89%88%e9%9d%a2%e9%97%ae%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>双栏、多栏文档的文字顺序错乱。</li>
+<li>页眉、页脚、页码被重复提取，形成大量噪声。</li>
+<li>标题、正文、列表、脚注之间的层级关系丢失。</li>
+<li>字符编码或字体映射异常，出现乱码、缺字。</li>
+<li>跨页段落被错误拆开。</li>
+</ul>
+<h4 id="表格公式和图片问题" class="heading-element"><span>表格、公式和图片问题</span>
+  <a href="#%e8%a1%a8%e6%a0%bc%e5%85%ac%e5%bc%8f%e5%92%8c%e5%9b%be%e7%89%87%e9%97%ae%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>表格按纯文本提取后，行列关系丢失。</li>
+<li>合并单元格、跨页表格和复杂边框难以还原。</li>
+<li>数学公式、上下标和特殊符号解析错误。</li>
+<li>扫描版 PDF 没有文本层，必须进行 OCR。</li>
+<li>图片、流程图中的关键信息无法由普通文本解析器获得。</li>
+</ul>
+<h4 id="固定滑窗问题" class="heading-element"><span>固定滑窗问题</span>
+  <a href="#%e5%9b%ba%e5%ae%9a%e6%bb%91%e7%aa%97%e9%97%ae%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>在句子、表格或语义单元中间切断，导致 Chunk 不完整。</li>
+<li>标题与正文分离，片段失去上下文。</li>
+<li>Chunk 太小导致语义不足，Chunk 太大又会降低检索精度并增加 Token 成本。</li>
+<li>Overlap 太小容易断语义，太大则产生重复召回、索引膨胀和上下文冗余。</li>
+<li>只按字符或 Token 切分，无法表达章节、段落、表格等结构。</li>
+</ul>
+<h3 id="3-改进方案" class="heading-element"><span>3. 改进方案</span>
+  <a href="#3-%e6%94%b9%e8%bf%9b%e6%96%b9%e6%a1%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="先判断-pdf-类型" class="heading-element"><span>先判断 PDF 类型</span>
+  <a href="#%e5%85%88%e5%88%a4%e6%96%ad-pdf-%e7%b1%bb%e5%9e%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li><strong>文本型 PDF</strong>：优先使用能保留布局坐标和字体信息的解析器。</li>
+<li><strong>扫描型 PDF</strong>：使用 PaddleOCR、其他 OCR 或视觉语言模型进行识别。</li>
+<li><strong>复杂表格 PDF</strong>：使用 Camelot、Tabula 等表格工具；无文本层时应先 OCR。</li>
+<li><strong>图文混排 PDF</strong>：结合布局分析、OCR、表格解析和图片理解。</li>
+</ul>
+<blockquote>
+<p>Camelot 主要用于文本型 PDF 的表格提取，本身不是通用 OCR 工具。</p>
+</blockquote>
+<h4 id="使用结构感知解析" class="heading-element"><span>使用结构感知解析</span>
+  <a href="#%e4%bd%bf%e7%94%a8%e7%bb%93%e6%9e%84%e6%84%9f%e7%9f%a5%e8%a7%a3%e6%9e%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>识别标题、段落、列表、表格、图片、页眉和页脚。</li>
+<li>根据字体大小、位置和编号恢复章节层级。</li>
+<li>删除重复的页眉、页脚、目录和水印等噪声。</li>
+<li>将中间结果统一为 Markdown 或带结构的 JSON，保留标题层级、页码、元素类型与坐标。</li>
+</ul>
+<h4 id="使用语义切分" class="heading-element"><span>使用语义切分</span>
+  <a href="#%e4%bd%bf%e7%94%a8%e8%af%ad%e4%b9%89%e5%88%87%e5%88%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>优先按“章节 → 小节 → 段落 → 句子”切分，固定 Token 滑窗只作为兜底。</li>
+<li>每个 Chunk 附带文档名、章节路径、页码、时间、权限等元数据。</li>
+<li>标题可以拼接到其下属 Chunk 中，避免正文失去主题。</li>
+<li>表格尽量保持整体，过大的表格按表头重复、行组切分。</li>
+<li>对长段落采用递归切分，并设置适量 Overlap。</li>
+<li>可采用 Parent-Child Retrieval：小块负责精确召回，大块负责给 LLM 提供完整上下文。</li>
+</ul>
+<h4 id="解析质量校验" class="heading-element"><span>解析质量校验</span>
+  <a href="#%e8%a7%a3%e6%9e%90%e8%b4%a8%e9%87%8f%e6%a0%a1%e9%aa%8c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>统计空页、乱码率、文本长度异常、表格数量和 OCR 置信度。</li>
+<li>抽样比较 PDF 原页与解析结果。</li>
+<li>为解析器和切分策略建立带标注的回归测试集。</li>
+<li>保存原页码和坐标，便于答案引用、问题回溯和可视化高亮。</li>
+</ul>
+<h3 id="4-一个较完整的口述答案" class="heading-element"><span>4. 一个较完整的口述答案</span>
+  <a href="#4-%e4%b8%80%e4%b8%aa%e8%be%83%e5%ae%8c%e6%95%b4%e7%9a%84%e5%8f%a3%e8%bf%b0%e7%ad%94%e6%a1%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>PDF 不是天然的语义文档，而是页面绘制格式，所以固定滑窗前最大的问题通常出在解析：多栏顺序错乱、页眉页脚污染、表格行列丢失、扫描件无文本层，以及标题和正文关系丢失。固定滑窗还可能从句子或表格中间切断，并造成 overlap 重复。我会先区分文本型、扫描型和复杂表格型 PDF，分别使用布局解析、OCR 和表格工具；中间结果转成保留标题层级、页码和元素类型的 Markdown 或 JSON；再按章节、段落和语义单元切分，固定长度作为兜底。同时保存元数据，并用抽样检查和解析回归集评估质量。</p>
+</blockquote>
+<hr>
+<h2 id="三rag-出现-bad-case如何快速定位并修复" class="heading-element"><span>三、RAG 出现 bad case，如何快速定位并修复？</span>
+  <a href="#%e4%b8%89rag-%e5%87%ba%e7%8e%b0-bad-case%e5%a6%82%e4%bd%95%e5%bf%ab%e9%80%9f%e5%ae%9a%e4%bd%8d%e5%b9%b6%e4%bf%ae%e5%a4%8d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="1-先建立可观测性" class="heading-element"><span>1. 先建立可观测性</span>
+  <a href="#1-%e5%85%88%e5%bb%ba%e7%ab%8b%e5%8f%af%e8%a7%82%e6%b5%8b%e6%80%a7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>每次请求都应记录统一 Trace ID，并保存或采样记录以下信息：</p>
+<ul>
+<li>原始问题、标准化问题、意图识别和 Query Rewrite 结果。</li>
+<li>实际检索的知识库、租户和权限过滤条件。</li>
+<li>召回文档 ID、Chunk 内容、召回分数与使用的检索参数。</li>
+<li>重排前后顺序、重排分数和阈值。</li>
+<li>最终送给 LLM 的上下文与 Prompt 模板版本。</li>
+<li>模型版本、生成参数、答案和引用。</li>
+<li>各阶段耗时、异常、超时、缓存命中情况。</li>
+</ul>
+<p>要注意日志脱敏、访问控制和数据保留周期，不能为了排障泄露敏感信息。</p>
+<h3 id="2-用黄金证据漏斗定位" class="heading-element"><span>2. 用“黄金证据漏斗”定位</span>
+  <a href="#2-%e7%94%a8%e9%bb%84%e9%87%91%e8%af%81%e6%8d%ae%e6%bc%8f%e6%96%97%e5%ae%9a%e4%bd%8d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>先由人工或标注数据确定：正确答案是什么，以及支持答案的 Gold Chunk/Gold Document 是什么。然后依次检查：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">知识源中有正确内容吗？
+</span></span><span class="line"><span class="cl">  └─ 否：数据源问题
+</span></span><span class="line"><span class="cl">  └─ 是：解析后的内容正确吗？
+</span></span><span class="line"><span class="cl">       └─ 否：解析/OCR/切分问题
+</span></span><span class="line"><span class="cl">       └─ 是：Gold Chunk 已进入索引吗？
+</span></span><span class="line"><span class="cl">            └─ 否：摄取/索引更新问题
+</span></span><span class="line"><span class="cl">            └─ 是：初次召回命中了吗？
+</span></span><span class="line"><span class="cl">                 └─ 否：查询理解/Embedding/检索/过滤问题
+</span></span><span class="line"><span class="cl">                 └─ 是：重排后还保留吗？
+</span></span><span class="line"><span class="cl">                      └─ 否：重排问题
+</span></span><span class="line"><span class="cl">                      └─ 是：最终 Prompt 中存在吗？
+</span></span><span class="line"><span class="cl">                           └─ 否：去重/截断/上下文组装问题
+</span></span><span class="line"><span class="cl">                           └─ 是：模型仍答错？
+</span></span><span class="line"><span class="cl">                                └─ Prompt/生成/模型能力问题</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="3-各阶段典型问题与修复" class="heading-element"><span>3. 各阶段典型问题与修复</span>
+  <a href="#3-%e5%90%84%e9%98%b6%e6%ae%b5%e5%85%b8%e5%9e%8b%e9%97%ae%e9%a2%98%e4%b8%8e%e4%bf%ae%e5%a4%8d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><table>
+  <thead>
+      <tr>
+          <th>阶段</th>
+          <th>常见现象</th>
+          <th>可能原因</th>
+          <th>常用修复</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>数据源</td>
+          <td>根本找不到答案</td>
+          <td>知识缺失、内容过期、版本错误</td>
+          <td>补充数据、版本管理、增量更新</td>
+      </tr>
+      <tr>
+          <td>解析</td>
+          <td>原文有答案，解析结果没有</td>
+          <td>OCR、表格、版面、乱码问题</td>
+          <td>更换解析器、结构化解析、人工规则</td>
+      </tr>
+      <tr>
+          <td>切分</td>
+          <td>答案被分散在多个 Chunk</td>
+          <td>Chunk 太小、标题分离、边界不合理</td>
+          <td>语义切分、增加适量 overlap、Parent-Child</td>
+      </tr>
+      <tr>
+          <td>索引</td>
+          <td>Chunk 已生成但检索不到</td>
+          <td>索引未更新、Embedding 版本不一致</td>
+          <td>重建或增量更新索引、版本校验</td>
+      </tr>
+      <tr>
+          <td>查询理解</td>
+          <td>用户表达与文档说法差异大</td>
+          <td>缩写、歧义、指代、多轮上下文缺失</td>
+          <td>Query Rewrite、同义词、实体识别、多查询</td>
+      </tr>
+      <tr>
+          <td>召回</td>
+          <td>Gold Chunk 未进入 top-k</td>
+          <td>向量模型不匹配、k 太小、过滤错误</td>
+          <td>混合检索、调参、增大候选、修复过滤</td>
+      </tr>
+      <tr>
+          <td>重排</td>
+          <td>Gold Chunk 被排到后面</td>
+          <td>Reranker 领域不匹配、候选被截断</td>
+          <td>更换/微调模型、调整候选数与阈值</td>
+      </tr>
+      <tr>
+          <td>上下文组装</td>
+          <td>检索正确但 Prompt 中没有</td>
+          <td>Token 截断、去重错误、排序错误</td>
+          <td>预算分配、上下文压缩、调整排序</td>
+      </tr>
+      <tr>
+          <td>生成</td>
+          <td>证据充分但模型答错</td>
+          <td>指令不清、幻觉、推理能力不足</td>
+          <td>强化引用约束、改 Prompt、模型路由</td>
+      </tr>
+      <tr>
+          <td>权限</td>
+          <td>结果异常少或发生越权</td>
+          <td>Metadata Filter 错误</td>
+          <td>校验 ACL、租户隔离和缓存键</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="4-快速止血与长期修复" class="heading-element"><span>4. 快速止血与长期修复</span>
+  <a href="#4-%e5%bf%ab%e9%80%9f%e6%ad%a2%e8%a1%80%e4%b8%8e%e9%95%bf%e6%9c%9f%e4%bf%ae%e5%a4%8d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="快速止血" class="heading-element"><span>快速止血</span>
+  <a href="#%e5%bf%ab%e9%80%9f%e6%ad%a2%e8%a1%80" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>补充或修正高频问题的知识内容。</li>
+<li>调整 <code>top_k</code>、过滤条件、重排阈值或上下文 Token 预算。</li>
+<li>对确定性高的高频问题增加缓存或结构化问答。</li>
+<li>要求模型“只根据证据作答，证据不足时明确拒答”。</li>
+<li>对高风险场景增加置信度门控、人工兜底或暂时降级。</li>
+</ul>
+<h4 id="长期修复" class="heading-element"><span>长期修复</span>
+  <a href="#%e9%95%bf%e6%9c%9f%e4%bf%ae%e5%a4%8d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>将 bad case 加入离线评测集和回归测试集。</li>
+<li>给失败原因打标签，统计各类型占比与趋势。</li>
+<li>分阶段建立指标，避免只能看到最终答案好坏。</li>
+<li>对解析器、Embedding、Reranker、Prompt 和模型进行版本化管理。</li>
+<li>上线前进行离线回放，上线后进行灰度、A/B 测试和持续监控。</li>
+</ul>
+<h3 id="5-一个较完整的口述答案" class="heading-element"><span>5. 一个较完整的口述答案</span>
+  <a href="#5-%e4%b8%80%e4%b8%aa%e8%be%83%e5%ae%8c%e6%95%b4%e7%9a%84%e5%8f%a3%e8%bf%b0%e7%ad%94%e6%a1%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>我会先确保链路可观测，每次请求记录 Query Rewrite、过滤条件、召回和重排结果、最终上下文、Prompt、模型版本与各阶段耗时。定位时使用 Gold Chunk 漏斗：先确认数据源是否有答案，再确认解析和切分是否正确、索引是否包含它、初次召回是否命中、重排是否保留、最终 Prompt 是否包含。如果证据已经进入 Prompt 但模型仍答错，才重点检查 Prompt 和生成模型。修复后不能只改线上参数，还要把这个 bad case 加入回归集，防止后续版本再次出现。</p>
+</blockquote>
+<hr>
+<h2 id="四如何评价-rag-系统的好坏" class="heading-element"><span>四、如何评价 RAG 系统的好坏？</span>
+  <a href="#%e5%9b%9b%e5%a6%82%e4%bd%95%e8%af%84%e4%bb%b7-rag-%e7%b3%bb%e7%bb%9f%e7%9a%84%e5%a5%bd%e5%9d%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="1-总体框架" class="heading-element"><span>1. 总体框架</span>
+  <a href="#1-%e6%80%bb%e4%bd%93%e6%a1%86%e6%9e%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>RAG 不能只看最终回答是否“像对的”，应分四层评估：</p>
+<ol>
+<li><strong>检索层</strong>：正确证据能不能被找到、排得是否足够靠前。</li>
+<li><strong>生成层</strong>：答案是否正确、忠实于证据、与问题相关。</li>
+<li><strong>业务层</strong>：是否真正帮助用户完成任务。</li>
+<li><strong>工程层</strong>：延迟、吞吐量、成本、稳定性和安全性是否达标。</li>
+</ol>
+<h3 id="2-检索指标" class="heading-element"><span>2. 检索指标</span>
+  <a href="#2-%e6%a3%80%e7%b4%a2%e6%8c%87%e6%a0%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>设某个问题的相关文档集合为 <code>G</code>，系统返回的前 <code>K</code> 个结果为 <code>R_K</code>。</p>
+<h4 id="hit-ratek" class="heading-element"><span>Hit Rate@K</span>
+  <a href="#hit-ratek" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>前 K 个结果中是否至少存在一个相关文档：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Hit@K = 1，若 R_K 中至少有一个相关文档；否则为 0</span></span></code></pre></td></tr></table>
+</div>
+</div><p>适合每个问题只需要命中一个关键证据的场景。</p>
+<h4 id="recallk" class="heading-element"><span>Recall@K</span>
+  <a href="#recallk" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Recall@K = |G ∩ R_K| / |G|</span></span></code></pre></td></tr></table>
+</div>
+</div><p>衡量所有相关文档中有多少被召回。若每个问题只有一个 Gold Chunk，Recall@K 与 Hit@K 在单样本上等价。</p>
+<h4 id="precisionk" class="heading-element"><span>Precision@K</span>
+  <a href="#precisionk" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Precision@K = |G ∩ R_K| / K</span></span></code></pre></td></tr></table>
+</div>
+</div><p>衡量召回结果中的相关内容占比，可以反映上下文噪声。</p>
+<h4 id="mrr" class="heading-element"><span>MRR</span>
+  <a href="#mrr" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">MRR = mean(1 / rank_of_first_relevant_result)</span></span></code></pre></td></tr></table>
+</div>
+</div><p>越早出现第一个正确结果，得分越高。</p>
+<h4 id="ndcgk" class="heading-element"><span>nDCG@K</span>
+  <a href="#ndcgk" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>适合相关性有等级、且关心排序质量的场景；高相关结果排在前面时得分更高。</p>
+<blockquote>
+<p>实际评估通常同时看 Recall@K 和 MRR/nDCG：前者看“找没找到”，后者看“排得好不好”。</p>
+</blockquote>
+<h3 id="3-生成指标" class="heading-element"><span>3. 生成指标</span>
+  <a href="#3-%e7%94%9f%e6%88%90%e6%8c%87%e6%a0%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><strong>Answer Correctness</strong>：答案与参考答案在事实和语义上是否一致。</li>
+<li><strong>Faithfulness/Groundedness</strong>：答案中的陈述能否由检索上下文支持，是否存在幻觉。</li>
+<li><strong>Answer Relevance</strong>：答案是否直接回应了用户问题。</li>
+<li><strong>Context Precision</strong>：送入模型的上下文中，有用信息的比例。</li>
+<li><strong>Context Recall</strong>：回答问题所需的证据是否被上下文覆盖。</li>
+<li><strong>Citation Correctness</strong>：引用是否真的支持对应陈述。</li>
+<li><strong>拒答准确性</strong>：知识不足时是否能正确拒答，而不是编造。</li>
+</ul>
+<p>可以使用 RAGAS、TruLens 或自建 LLM-as-a-Judge 流程进行自动化评估。</p>
+<h4 id="llm-as-a-judge-的注意点" class="heading-element"><span>LLM-as-a-Judge 的注意点</span>
+  <a href="#llm-as-a-judge-%e7%9a%84%e6%b3%a8%e6%84%8f%e7%82%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>Judge Prompt、评分标准和模型版本必须固定并版本化。</li>
+<li>对调换答案顺序、模型偏好、长度偏好等偏差进行测试。</li>
+<li>使用人工标注集校准自动评分，并持续检查相关性。</li>
+<li>高风险任务不能完全依赖单个 Judge 模型。</li>
+</ul>
+<h3 id="4-业务和端到端指标" class="heading-element"><span>4. 业务和端到端指标</span>
+  <a href="#4-%e4%b8%9a%e5%8a%a1%e5%92%8c%e7%ab%af%e5%88%b0%e7%ab%af%e6%8c%87%e6%a0%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>用户任务完成率、问题解决率。</li>
+<li>人工审核正确率、专家通过率。</li>
+<li>用户满意度 CSAT、点赞率、投诉率。</li>
+<li>转人工率、重复提问率、会话解决时长。</li>
+<li>不同业务场景下的转化率或效率提升。</li>
+<li>线上 A/B 测试结果。</li>
+</ul>
+<p>自动指标最终应和业务指标建立关联，否则可能出现“离线分数上涨，用户体验没有变好”。</p>
+<h3 id="5-工程指标" class="heading-element"><span>5. 工程指标</span>
+  <a href="#5-%e5%b7%a5%e7%a8%8b%e6%8c%87%e6%a0%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>端到端 P50、P95、P99 延迟，以及 TTFT、TPOT。</li>
+<li>QPS、并发能力和 Token 吞吐量。</li>
+<li>单次请求成本、Embedding/重排/生成 Token 成本。</li>
+<li>CPU、GPU、内存和向量库资源占用。</li>
+<li>可用性、超时率、错误率、降级率。</li>
+<li>缓存命中率、索引更新时延、知识新鲜度。</li>
+<li>权限泄露率、敏感信息暴露等安全指标。</li>
+</ul>
+<h3 id="6-如何建设评测集" class="heading-element"><span>6. 如何建设评测集</span>
+  <a href="#6-%e5%a6%82%e4%bd%95%e5%bb%ba%e8%ae%be%e8%af%84%e6%b5%8b%e9%9b%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>从真实用户日志中抽样，覆盖高频问题、长尾问题和历史 bad case。</li>
+<li>加入多跳问题、歧义问题、口语化问题、错别字、缩写和无答案问题。</li>
+<li>为每个问题标注参考答案、Gold Document/Chunk、问题类型和难度。</li>
+<li>按业务域、用户群、文档类型、语言等维度分层统计，避免平均分掩盖局部退化。</li>
+<li>严格区分开发集、验证集和测试集，防止针对测试集过拟合。</li>
+<li>评测集随线上问题持续更新，但要保留稳定基准集用于版本横向比较。</li>
+</ul>
+<h3 id="7-一个较完整的口述答案-1" class="heading-element"><span>7. 一个较完整的口述答案</span>
+  <a href="#7-%e4%b8%80%e4%b8%aa%e8%be%83%e5%ae%8c%e6%95%b4%e7%9a%84%e5%8f%a3%e8%bf%b0%e7%ad%94%e6%a1%88-1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><blockquote>
+<p>我会从检索、生成、业务和工程四层评估 RAG。检索层看 Recall@K、Hit Rate@K、MRR 和 nDCG，分别衡量正确证据是否被召回以及排序是否靠前；生成层看答案正确性、忠实度、相关性、上下文精确率和召回率，可以用 RAGAS、TruLens 或 LLM-as-a-Judge，但需要用人工标注校准；业务层看任务完成率、人工通过率、CSAT 和 A/B 测试；工程层看 P95/P99 延迟、QPS、成本、错误率和知识新鲜度。评测集要来自真实流量，并覆盖普通问题、长尾问题、无答案问题和历史 bad case。</p>
+</blockquote>
+<hr>
+<h2 id="五面试中的通用回答框架" class="heading-element"><span>五、面试中的通用回答框架</span>
+  <a href="#%e4%ba%94%e9%9d%a2%e8%af%95%e4%b8%ad%e7%9a%84%e9%80%9a%e7%94%a8%e5%9b%9e%e7%ad%94%e6%a1%86%e6%9e%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="1-回答系统优化题" class="heading-element"><span>1. 回答系统优化题</span>
+  <a href="#1-%e5%9b%9e%e7%ad%94%e7%b3%bb%e7%bb%9f%e4%bc%98%e5%8c%96%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>使用以下顺序：</p>
+<ol>
+<li>先给出全链路拆解。</li>
+<li>说明先测量、再优化，不凭感觉换模型。</li>
+<li>分阶段给出两到三个核心方案。</li>
+<li>主动说明效果、延迟、成本之间的权衡。</li>
+<li>最后用离线评测和线上 A/B 验证。</li>
+</ol>
+<h3 id="2-回答故障排查题" class="heading-element"><span>2. 回答故障排查题</span>
+  <a href="#2-%e5%9b%9e%e7%ad%94%e6%95%85%e9%9a%9c%e6%8e%92%e6%9f%a5%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>使用以下顺序：</p>
+<ol>
+<li>建立 Trace 和日志。</li>
+<li>准备正确答案和 Gold Chunk。</li>
+<li>沿链路逐层检查，寻找正确证据在哪一步丢失。</li>
+<li>先止血，再根治。</li>
+<li>将 bad case 加入回归集。</li>
+</ol>
+<h3 id="3-回答评估题" class="heading-element"><span>3. 回答评估题</span>
+  <a href="#3-%e5%9b%9e%e7%ad%94%e8%af%84%e4%bc%b0%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不要只回答“准确率”，而要覆盖：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">检索效果 + 生成质量 + 业务价值 + 工程质量</span></span></code></pre></td></tr></table>
+</div>
+</div><p>并主动补充评测集构建、人工校准、线上 A/B 和持续监控。</p>
+<h3 id="4-面试加分点" class="heading-element"><span>4. 面试加分点</span>
+  <a href="#4-%e9%9d%a2%e8%af%95%e5%8a%a0%e5%88%86%e7%82%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>能区分 Recall@K、Hit Rate@K、MRR 和 nDCG 的适用场景。</li>
+<li>能说明 Streaming 降低的是感知延迟，不一定降低总耗时。</li>
+<li>能说明 PDF 是页面布局格式，不能简单等同于结构化文本。</li>
+<li>能用 Gold Chunk 漏斗定位 bad case，而不是一律归因于大模型。</li>
+<li>能同时讨论效果、延迟、成本、安全和知识新鲜度。</li>
+<li>能说明任何线上修复都应进入评测集和回归流程。</li>
+</ul>
+<hr>
+<h2 id="六30-秒总复习" class="heading-element"><span>六、30 秒总复习</span>
+  <a href="#%e5%85%ad30-%e7%a7%92%e6%80%bb%e5%a4%8d%e4%b9%a0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">性能优化：先拆链路和测 P95，再优化 Embedding、召回、重排、LLM 与架构。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">PDF 处理：先做结构化解析，再按语义切分；OCR、表格和版面需要分别处理。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Bad Case：准备 Gold Chunk，沿“数据→解析→索引→召回→重排→Prompt→生成”逐层定位。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">系统评估：检索看 Recall/MRR，生成看正确性和忠实度，线上看业务指标，工程看延迟成本与稳定性。</span></span></code></pre></td></tr></table>
+</div>
+</div></div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-08-17 01:47:31">更新于 2026-08-17&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/mlrag-%E9%97%AE%E9%A2%98/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/agent/" class="post-tag" title="标签 - Agent">Agent</a><a href="/tags/rag/" class="post-tag" title="标签 - RAG">RAG</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/mlrag/" class="post-nav-item" rel="prev" title="RAG"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>RAG</a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>
