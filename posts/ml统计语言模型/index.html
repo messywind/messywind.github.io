@@ -13,7 +13,7 @@
   <meta itemprop="description" content="1. 句子的概率 语言模型的核心任务可以用一句话概括：计算一个句子的概率，或者预测下一个词出现的概率。
 假设一个句子由 $n$ 个词按顺序组成：$S = (w_1, w_2, \dots, w_n)$。为了体现词语之间的先后顺序和因果关系（例如区分“我吃苹果”和“苹果吃我”），我们不能简单地将概率相乘，而必须使用概率论的链式法则（Chain Rule）将联合概率展开：">
   <meta itemprop="datePublished" content="2026-06-02T09:47:00+00:00">
-  <meta itemprop="dateModified" content="2026-08-17T11:27:16+00:00">
+  <meta itemprop="dateModified" content="2026-08-23T05:16:04+00:00">
   <meta itemprop="wordCount" content="3206">
   <meta itemprop="keywords" content="统计语言模型"><meta property="og:url" content="https://blog.messywind.top/posts/ml%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/">
   <meta property="og:site_name" content="凌乱之风的博客">
@@ -24,7 +24,7 @@
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2026-06-02T09:47:00+00:00">
-    <meta property="article:modified_time" content="2026-08-17T11:27:16+00:00">
+    <meta property="article:modified_time" content="2026-08-23T05:16:04+00:00">
     <meta property="article:tag" content="统计语言模型">
 
   <meta name="twitter:card" content="summary">
@@ -44,7 +44,7 @@
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/ml%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B\/"
     },"genre": "posts","keywords": "统计语言模型","wordcount":  3206 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/ml%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B\/","datePublished": "2026-06-02T09:47:00+00:00","dateModified": "2026-08-17T11:27:16+00:00","publisher": {
+    "url": "https:\/\/blog.messywind.top\/posts\/ml%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B\/","datePublished": "2026-06-02T09:47:00+00:00","dateModified": "2026-08-23T05:16:04+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -152,7 +152,7 @@
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>统计语言模型</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-02 09:47:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-02">2026-06-02</time></span>&nbsp;<span title="更新于 2026-08-17 11:27:16"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-08-17">2026-08-17</time></span>&nbsp;<span title="3206 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 3300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 7 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="统计语言模型"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-06-02 09:47:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-06-02">2026-06-02</time></span>&nbsp;<span title="更新于 2026-08-23 05:16:04"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-08-23">2026-08-23</time></span>&nbsp;<span title="3206 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 3300 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 7 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="统计语言模型"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -343,7 +343,7 @@ $$PP(S) = P(w_1, w_2, \dots, w_n)^{-\frac{1}{n}} = \sqrt[n]{\frac{1}{P(w_1, w_2,
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-08-17 11:27:16">更新于 2026-08-17&nbsp;</span>
+        <span title="更新于 2026-08-23 05:16:04">更新于 2026-08-23&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/ml%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

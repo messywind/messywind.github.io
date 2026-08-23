@@ -1,0 +1,1639 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>Deep Research - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="0. 先用一句话理解 Deep Research Deep Research 不是“让模型多搜索几次”，而是把复杂调研组织成一个可控制的 Agent 工作流：
+1 2 理解目标 → 制定计划 → 拆分并委派任务 → 多轮检索与反思 → 汇总证据 → 统一引用 → 写入报告 → 回查需求 它的核心价值是让调研过程具备四种能力：
+"><meta name="keywords" content='Agent, Deep Research'>
+  <meta itemprop="name" content="Deep Research">
+  <meta itemprop="description" content="0. 先用一句话理解 Deep Research Deep Research 不是“让模型多搜索几次”，而是把复杂调研组织成一个可控制的 Agent 工作流：
+1 2 理解目标 → 制定计划 → 拆分并委派任务 → 多轮检索与反思 → 汇总证据 → 统一引用 → 写入报告 → 回查需求 它的核心价值是让调研过程具备四种能力：">
+  <meta itemprop="datePublished" content="2026-08-23T13:12:00+00:00">
+  <meta itemprop="dateModified" content="2026-08-23T05:16:04+00:00">
+  <meta itemprop="wordCount" content="9377">
+  <meta itemprop="keywords" content="Agent,Deep Research"><meta property="og:url" content="https://blog.messywind.top/posts/mldeep-research/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="Deep Research">
+  <meta property="og:description" content="0. 先用一句话理解 Deep Research Deep Research 不是“让模型多搜索几次”，而是把复杂调研组织成一个可控制的 Agent 工作流：
+1 2 理解目标 → 制定计划 → 拆分并委派任务 → 多轮检索与反思 → 汇总证据 → 统一引用 → 写入报告 → 回查需求 它的核心价值是让调研过程具备四种能力：">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-08-23T13:12:00+00:00">
+    <meta property="article:modified_time" content="2026-08-23T05:16:04+00:00">
+    <meta property="article:tag" content="Agent">
+    <meta property="article:tag" content="Deep Research">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Deep Research">
+  <meta name="twitter:description" content="0. 先用一句话理解 Deep Research Deep Research 不是“让模型多搜索几次”，而是把复杂调研组织成一个可控制的 Agent 工作流：
+1 2 理解目标 → 制定计划 → 拆分并委派任务 → 多轮检索与反思 → 汇总证据 → 统一引用 → 写入报告 → 回查需求 它的核心价值是让调研过程具备四种能力：">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/mldeep-research/" title="Deep Research - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/mlmcp/" title="MCP" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/mldeep-research/index.md" title="Deep Research - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Deep Research",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/mldeep-research\/"
+    },"genre": "posts","keywords": "Agent, Deep Research","wordcount":  9377 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/mldeep-research\/","datePublished": "2026-08-23T13:12:00+00:00","dateModified": "2026-08-23T05:16:04+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>Deep Research</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-08-23 13:12:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-08-23">2026-08-23</time></span>&nbsp;<span title="更新于 2026-08-23 05:16:04"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-08-23">2026-08-23</time></span>&nbsp;<span title="9377 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 9400 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 19 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="Deep Research"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#0-先用一句话理解-deep-research">0. 先用一句话理解 Deep Research</a></li>
+    <li><a href="#1-deep-research普通搜索和-rag-的区别">1. Deep Research、普通搜索和 RAG 的区别</a></li>
+    <li><a href="#2-当前项目结构">2. 当前项目结构</a></li>
+    <li><a href="#3-deep-agent-核心架构">3. Deep Agent 核心架构</a>
+      <ul>
+        <li><a href="#31-主-agent-的职责">3.1 主 Agent 的职责</a></li>
+        <li><a href="#32-子-agent-的职责">3.2 子 Agent 的职责</a></li>
+        <li><a href="#33-文件系统的职责">3.3 文件系统的职责</a></li>
+      </ul>
+    </li>
+    <li><a href="#4-完整执行流程">4. 完整执行流程</a>
+      <ul>
+        <li><a href="#第一步plan">第一步：Plan</a></li>
+        <li><a href="#第二步save-the-request">第二步：Save the request</a></li>
+        <li><a href="#第三步research">第三步：Research</a></li>
+        <li><a href="#第四步synthesize">第四步：Synthesize</a></li>
+        <li><a href="#第五步write-report">第五步：Write Report</a></li>
+        <li><a href="#第六步verify">第六步：Verify</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-搜索子-agent-的设计">5. 搜索子 Agent 的设计</a>
+      <ul>
+        <li><a href="#51-搜索策略">5.1 搜索策略</a></li>
+        <li><a href="#52-搜索预算">5.2 搜索预算</a></li>
+        <li><a href="#53-tavily_search">5.3 <code>tavily_search</code></a></li>
+        <li><a href="#54-think_tool">5.4 <code>think_tool</code></a></li>
+      </ul>
+    </li>
+    <li><a href="#6-为什么要使用子-agent">6. 为什么要使用子 Agent</a>
+      <ul>
+        <li><a href="#61-上下文隔离">6.1 上下文隔离</a></li>
+        <li><a href="#62-专业化">6.2 专业化</a></li>
+        <li><a href="#63-并行执行">6.3 并行执行</a></li>
+        <li><a href="#64-什么时候不应拆分">6.4 什么时候不应拆分</a></li>
+      </ul>
+    </li>
+    <li><a href="#7-agent-skills按需加载能力">7. Agent Skills：按需加载能力</a>
+      <ul>
+        <li><a href="#71-三层技能结构">7.1 三层技能结构</a></li>
+        <li><a href="#72-mcp-急切加载与-skill-惰性加载">7.2 MCP 急切加载与 Skill 惰性加载</a>
+          <ul>
+            <li><a href="#mcp-式急切加载eager-loading">MCP 式急切加载（Eager Loading）</a></li>
+            <li><a href="#skill-式惰性加载lazy-loading">Skill 式惰性加载（Lazy Loading）</a></li>
+          </ul>
+        </li>
+        <li><a href="#73-如何理解课件中的-token-数字">7.3 如何理解课件中的 Token 数字</a></li>
+        <li><a href="#74-skills-如何扩展当前项目">7.4 Skills 如何扩展当前项目</a></li>
+      </ul>
+    </li>
+    <li><a href="#8-从上下文工程理解本项目">8. 从上下文工程理解本项目</a></li>
+    <li><a href="#9-notebook-实际运行轨迹">9. Notebook 实际运行轨迹</a></li>
+    <li><a href="#10-当前实现值得注意的问题">10. 当前实现值得注意的问题</a>
+      <ul>
+        <li><a href="#101-所谓硬限制目前主要是-prompt-约束">10.1 所谓“硬限制”目前主要是 Prompt 约束</a></li>
+        <li><a href="#102-主-agent-仍然拥有搜索工具">10.2 主 Agent 仍然拥有搜索工具</a></li>
+        <li><a href="#103-网页全文直接进入上下文">10.3 网页全文直接进入上下文</a></li>
+        <li><a href="#104-搜索结果质量控制不足">10.4 搜索结果质量控制不足</a></li>
+        <li><a href="#105-引用合并只靠模型">10.5 引用合并只靠模型</a></li>
+        <li><a href="#106-错误被包装成普通文本">10.6 错误被包装成普通文本</a></li>
+        <li><a href="#107-日期在创建子-agent-时固化">10.7 日期在创建子 Agent 时固化</a></li>
+        <li><a href="#108-可复现性和测试不足">10.8 可复现性和测试不足</a></li>
+      </ul>
+    </li>
+    <li><a href="#11-更可靠的生产级设计">11. 更可靠的生产级设计</a>
+      <ul>
+        <li><a href="#111-结构化研究计划">11.1 结构化研究计划</a></li>
+        <li><a href="#112-结构化证据">11.2 结构化证据</a></li>
+        <li><a href="#113-独立验证器">11.3 独立验证器</a></li>
+        <li><a href="#114-可观测性">11.4 可观测性</a></li>
+      </ul>
+    </li>
+    <li><a href="#12-面试常见问题">12. 面试常见问题</a>
+      <ul>
+        <li><a href="#121-deep-research-为什么需要主-agent-和子-agent">12.1 Deep Research 为什么需要主 Agent 和子 Agent？</a></li>
+        <li><a href="#122-think_tool-的作用是什么">12.2 <code>think_tool</code> 的作用是什么？</a></li>
+        <li><a href="#123-为什么要把用户请求写入文件">12.3 为什么要把用户请求写入文件？</a></li>
+        <li><a href="#124-多子-agent-一定比单-agent-好吗">12.4 多子 Agent 一定比单 Agent 好吗？</a></li>
+        <li><a href="#125-skills-与普通工具有什么区别">12.5 Skills 与普通工具有什么区别？</a></li>
+        <li><a href="#126-skills-能替代-mcp-吗">12.6 Skills 能替代 MCP 吗？</a></li>
+        <li><a href="#127-如何保证报告引用可靠">12.7 如何保证报告引用可靠？</a></li>
+        <li><a href="#128-如何防止-deep-research-无限搜索">12.8 如何防止 Deep Research 无限搜索？</a></li>
+      </ul>
+    </li>
+    <li><a href="#13-核心总结">13. 核心总结</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="0-先用一句话理解-deep-research" class="heading-element"><span>0. 先用一句话理解 Deep Research</span>
+  <a href="#0-%e5%85%88%e7%94%a8%e4%b8%80%e5%8f%a5%e8%af%9d%e7%90%86%e8%a7%a3-deep-research" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Deep Research 不是“让模型多搜索几次”，而是把复杂调研组织成一个可控制的 Agent 工作流：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">理解目标 → 制定计划 → 拆分并委派任务 → 多轮检索与反思
+</span></span><span class="line"><span class="cl">        → 汇总证据 → 统一引用 → 写入报告 → 回查需求</span></span></code></pre></td></tr></table>
+</div>
+</div><p>它的核心价值是让调研过程具备四种能力：</p>
+<ul>
+<li><strong>规划能力</strong>：先形成 To-do，而不是直接搜索。</li>
+<li><strong>上下文管理能力</strong>：将请求、中间资料和最终报告写入文件，避免所有内容都堆在消息历史中。</li>
+<li><strong>任务委派能力</strong>：主 Agent 负责编排，子 Agent 负责具体资料研究。</li>
+<li><strong>过程控制能力</strong>：通过搜索预算、反思工具、并发限制和报告规范约束 Agent。</li>
+</ul>
+<p>可以将系统近似理解为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Deep Research = Agent Loop
+</span></span><span class="line"><span class="cl">              + Planning
+</span></span><span class="line"><span class="cl">              + Tool Use
+</span></span><span class="line"><span class="cl">              + Sub-Agent Delegation
+</span></span><span class="line"><span class="cl">              + Context Engineering
+</span></span><span class="line"><span class="cl">              + Evidence Synthesis</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="1-deep-research普通搜索和-rag-的区别" class="heading-element"><span>1. Deep Research、普通搜索和 RAG 的区别</span>
+  <a href="#1-deep-research%e6%99%ae%e9%80%9a%e6%90%9c%e7%b4%a2%e5%92%8c-rag-%e7%9a%84%e5%8c%ba%e5%88%ab" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>方案</th>
+          <th>核心动作</th>
+          <th style="text-align: right">是否主动规划</th>
+          <th style="text-align: right">是否多步执行</th>
+          <th>典型输出</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>普通搜索</td>
+          <td>根据关键词返回网页</td>
+          <td style="text-align: right">否</td>
+          <td style="text-align: right">否</td>
+          <td>搜索结果列表</td>
+      </tr>
+      <tr>
+          <td>RAG</td>
+          <td>检索相关片段后生成回答</td>
+          <td style="text-align: right">通常较弱</td>
+          <td style="text-align: right">通常较少</td>
+          <td>基于知识库的回答</td>
+      </tr>
+      <tr>
+          <td>Tool Calling Agent</td>
+          <td>模型自行选择和调用工具</td>
+          <td style="text-align: right">有限</td>
+          <td style="text-align: right">是</td>
+          <td>完成某项操作或回答</td>
+      </tr>
+      <tr>
+          <td>Deep Research</td>
+          <td>规划、委派、检索、反思、综合、验证</td>
+          <td style="text-align: right">是</td>
+          <td style="text-align: right">是，通常较长</td>
+          <td>带来源的结构化研究报告</td>
+      </tr>
+  </tbody>
+</table>
+<p>Deep Research 可以使用搜索、RAG、数据库或 MCP 工具，但它们只是研究过程中的能力来源。真正使其“Deep”的，是围绕目标进行持续规划、证据收集、状态管理和结果校验的闭环。</p>
+<hr>
+<h2 id="2-当前项目结构" class="heading-element"><span>2. 当前项目结构</span>
+  <a href="#2-%e5%bd%93%e5%89%8d%e9%a1%b9%e7%9b%ae%e7%bb%93%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">deep-research/
+</span></span><span class="line"><span class="cl">├── research_agent.ipynb       # 完整示例：创建模型、子 Agent、主 Agent 并执行调研
+</span></span><span class="line"><span class="cl">├── utils.py                    # Notebook 消息与 Prompt 的 Rich 格式化展示
+</span></span><span class="line"><span class="cl">└── research_agent/
+</span></span><span class="line"><span class="cl">    ├── __init__.py             # 对外导出 Prompt 和工具
+</span></span><span class="line"><span class="cl">    ├── prompts.py              # 主流程、研究子 Agent、委派策略三组 Prompt
+</span></span><span class="line"><span class="cl">    └── tools.py                # Tavily 搜索、网页抓取和反思工具</span></span></code></pre></td></tr></table>
+</div>
+</div><p>各文件的职责如下：</p>
+<table>
+  <thead>
+      <tr>
+          <th>文件</th>
+          <th>关键内容</th>
+          <th>在架构中的角色</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><a href="./research_agent.ipynb"><code>research_agent.ipynb</code></a></td>
+          <td><code>create_deep_agent</code>、模型、子 Agent、文件后端</td>
+          <td>系统装配与运行入口</td>
+      </tr>
+      <tr>
+          <td><a href="./research_agent/prompts.py"><code>research_agent/prompts.py</code></a></td>
+          <td>工作流、搜索启发式、委派限制、报告规范</td>
+          <td>Guiding Context，指导上下文</td>
+      </tr>
+      <tr>
+          <td><a href="./research_agent/tools.py"><code>research_agent/tools.py</code></a></td>
+          <td><code>tavily_search</code>、<code>think_tool</code></td>
+          <td>Actionable Context，可执行能力</td>
+      </tr>
+      <tr>
+          <td><a href="./utils.py"><code>utils.py</code></a></td>
+          <td>格式化消息、工具调用和 Prompt</td>
+          <td>调试与可观测性辅助</td>
+      </tr>
+  </tbody>
+</table>
+<p>当前 Notebook 使用的模型配置为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">ChatOpenAI</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">api_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;API_KEY&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">base_url</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;BASE_URL&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">=</span><span class="s2">&#34;qwen3-coder-plus&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">temperature</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>ChatOpenAI</code> 在这里是兼容 OpenAI 接口的客户端，实际模型由 <code>base_url</code> 和 <code>model</code> 决定，并不表示底层一定是 OpenAI 模型。</p>
+<hr>
+<h2 id="3-deep-agent-核心架构" class="heading-element"><span>3. Deep Agent 核心架构</span>
+  <a href="#3-deep-agent-%e6%a0%b8%e5%bf%83%e6%9e%b6%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>课件中的 Deep Agent 可以拆成四个核心模块：</p>
+<ol>
+<li><strong>详细系统提示</strong>：规定角色、工作流、停止条件和报告格式。</li>
+<li><strong>规划工具</strong>：通过 To-do 保存当前任务与进度。</li>
+<li><strong>子 Agent</strong>：把具体任务放进隔离上下文中执行。</li>
+<li><strong>文件系统</strong>：保存请求、笔记、中间结果和最终报告。</li>
+</ol>
+<p>对应到本项目：</p>
+<pre class="mermaid">flowchart TD
+    U[用户研究请求] --> M[主 Deep Agent]
+
+    P[主流程 Prompt<br/>RESEARCH_WORKFLOW_INSTRUCTIONS] --> M
+    D[委派 Prompt<br/>SUBAGENT_DELEGATION_INSTRUCTIONS] --> M
+
+    M --> TODO[write_todos<br/>规划与状态跟踪]
+    M --> REQ[write_file<br/>research_request.md]
+    M --> TASK[task<br/>委派研究任务]
+
+    TASK --> S[research-agent 子 Agent]
+    R[RESEARCHER_INSTRUCTIONS] --> S
+    S --> SEARCH[tavily_search]
+    S --> THINK[think_tool]
+    SEARCH --> THINK
+    THINK -.信息不足.-> SEARCH
+
+    S --> FINDINGS[带来源的研究结果]
+    FINDINGS --> M
+    M --> SYN[综合、去重引用、组织结构]
+    SYN --> REPORT[write_file<br/>final_report.md]
+    REPORT --> VERIFY[回查用户请求并验证]</pre>
+<template>flowchart TD
+    U[用户研究请求] --> M[主 Deep Agent]
+
+    P[主流程 Prompt<br/>RESEARCH_WORKFLOW_INSTRUCTIONS] --> M
+    D[委派 Prompt<br/>SUBAGENT_DELEGATION_INSTRUCTIONS] --> M
+
+    M --> TODO[write_todos<br/>规划与状态跟踪]
+    M --> REQ[write_file<br/>research_request.md]
+    M --> TASK[task<br/>委派研究任务]
+
+    TASK --> S[research-agent 子 Agent]
+    R[RESEARCHER_INSTRUCTIONS] --> S
+    S --> SEARCH[tavily_search]
+    S --> THINK[think_tool]
+    SEARCH --> THINK
+    THINK -.信息不足.-> SEARCH
+
+    S --> FINDINGS[带来源的研究结果]
+    FINDINGS --> M
+    M --> SYN[综合、去重引用、组织结构]
+    SYN --> REPORT[write_file<br/>final_report.md]
+    REPORT --> VERIFY[回查用户请求并验证]</template><h3 id="31-主-agent-的职责" class="heading-element"><span>3.1 主 Agent 的职责</span>
+  <a href="#31-%e4%b8%bb-agent-%e7%9a%84%e8%81%8c%e8%b4%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>主 Agent 是 Planner、Coordinator 和 Writer，负责：</p>
+<ul>
+<li>理解用户目标；</li>
+<li>创建并更新 To-do；</li>
+<li>保存原始研究请求；</li>
+<li>判断应该使用几个子 Agent；</li>
+<li>为子 Agent 编写清晰、独立的任务描述；</li>
+<li>接收并综合不同子 Agent 的结果；</li>
+<li>对引用进行统一编号和去重；</li>
+<li>将最终报告写入文件；</li>
+<li>回查原始需求，确认没有漏项。</li>
+</ul>
+<p>它不应陷入每一条资料的搜索细节，否则主上下文会被大量网页内容和工具日志污染。</p>
+<h3 id="32-子-agent-的职责" class="heading-element"><span>3.2 子 Agent 的职责</span>
+  <a href="#32-%e5%ad%90-agent-%e7%9a%84%e8%81%8c%e8%b4%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>研究子 Agent 是 Researcher，负责：</p>
+<ul>
+<li>只处理一个明确的研究主题；</li>
+<li>从宽泛查询逐步收窄；</li>
+<li>调用 <code>tavily_search</code> 获取资料；</li>
+<li>每次搜索后调用 <code>think_tool</code> 评估证据和缺口；</li>
+<li>达到停止条件后返回带来源的结构化结果。</li>
+</ul>
+<p>Notebook 中的定义为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">research_sub_agent</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="s2">&#34;research-agent&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;description&#34;</span><span class="p">:</span> <span class="s2">&#34;Delegate research to the sub-agent researcher. Only give this researcher one topic at a time.。&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;system_prompt&#34;</span><span class="p">:</span> <span class="n">RESEARCHER_INSTRUCTIONS</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="n">current_date</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;tools&#34;</span><span class="p">:</span> <span class="p">[</span><span class="n">tavily_search</span><span class="p">,</span> <span class="n">think_tool</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里的 <code>description</code> 主要供主 Agent 选择子 Agent，<code>system_prompt</code> 决定子 Agent 如何执行任务，<code>tools</code> 决定它能够采取哪些动作。</p>
+<h3 id="33-文件系统的职责" class="heading-element"><span>3.3 文件系统的职责</span>
+  <a href="#33-%e6%96%87%e4%bb%b6%e7%b3%bb%e7%bb%9f%e7%9a%84%e8%81%8c%e8%b4%a3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Notebook 使用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">backend</span> <span class="o">=</span> <span class="n">FilesystemBackend</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">root_dir</span><span class="o">=</span><span class="s2">&#34;/tmp/deepagents/&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">virtual_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>主 Prompt 要求至少维护两个文件：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">/research_request.md   # 用户的原始研究问题
+</span></span><span class="line"><span class="cl">/final_report.md       # 最终调研报告</span></span></code></pre></td></tr></table>
+</div>
+</div><p>文件系统在这里不仅是输入输出设备，还是一种外部化工作记忆：</p>
+<ul>
+<li>消息上下文适合保存近期对话和当前决策；</li>
+<li>To-do 适合保存结构化任务状态；</li>
+<li>文件适合保存较长、可反复读取的资料和报告；</li>
+<li>子 Agent 上下文适合保存某个局部任务的临时推理与工具结果。</li>
+</ul>
+<p>这正是上下文工程中的“写入”和“隔离”。</p>
+<hr>
+<h2 id="4-完整执行流程" class="heading-element"><span>4. 完整执行流程</span>
+  <a href="#4-%e5%ae%8c%e6%95%b4%e6%89%a7%e8%a1%8c%e6%b5%81%e7%a8%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p><code>RESEARCH_WORKFLOW_INSTRUCTIONS</code> 定义了六步研究流程。</p>
+<h3 id="第一步plan" class="heading-element"><span>第一步：Plan</span>
+  <a href="#%e7%ac%ac%e4%b8%80%e6%ad%a5plan" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>主 Agent 使用 <code>write_todos</code> 创建计划，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">1. 规划调研任务
+</span></span><span class="line"><span class="cl">2. 保存用户请求
+</span></span><span class="line"><span class="cl">3. 委托子 Agent 研究
+</span></span><span class="line"><span class="cl">4. 整合结果并撰写报告</span></span></code></pre></td></tr></table>
+</div>
+</div><p>To-do 的价值不是展示一张清单，而是为长任务提供显式状态，使 Agent 知道：</p>
+<ul>
+<li>当前在执行哪一步；</li>
+<li>哪些步骤已完成；</li>
+<li>失败后应该从哪里继续；</li>
+<li>是否已经满足结束条件。</li>
+</ul>
+<h3 id="第二步save-the-request" class="heading-element"><span>第二步：Save the request</span>
+  <a href="#%e7%ac%ac%e4%ba%8c%e6%ad%a5save-the-request" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>将用户的原始问题写入 <code>/research_request.md</code>。</p>
+<p>这样做可以防止长流程中的“目标漂移”：经过多轮搜索、委派和摘要后，Agent 仍能重新读取用户最初到底要求了什么。</p>
+<h3 id="第三步research" class="heading-element"><span>第三步：Research</span>
+  <a href="#%e7%ac%ac%e4%b8%89%e6%ad%a5research" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>主 Agent 通过 <code>task()</code> 将具体研究任务交给 <code>research-agent</code>。</p>
+<p>当前 Prompt 的默认策略是：</p>
+<ul>
+<li>一般问题优先使用 <strong>1 个综合型子 Agent</strong>；</li>
+<li>明确比较不同对象时，可以每个对象使用 1 个子 Agent；</li>
+<li>只有主题确实相互独立时才并行拆分；</li>
+<li>每轮最多并行 <code>3</code> 个研究单元；</li>
+<li>最多进行 <code>3</code> 轮委派。</li>
+</ul>
+<p>Notebook 中的参数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">max_concurrent_research_units</span> <span class="o">=</span> <span class="mi">3</span>
+</span></span><span class="line"><span class="cl"><span class="n">max_researcher_iterations</span> <span class="o">=</span> <span class="mi">3</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="第四步synthesize" class="heading-element"><span>第四步：Synthesize</span>
+  <a href="#%e7%ac%ac%e5%9b%9b%e6%ad%a5synthesize" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>主 Agent 汇总子 Agent 返回的发现：</p>
+<ul>
+<li>删除重复事实；</li>
+<li>解决不同来源之间的冲突；</li>
+<li>按用户问题重新组织内容；</li>
+<li>给每个唯一 URL 分配唯一编号；</li>
+<li>避免不同子 Agent 各自使用的 <code>[1]</code>、<code>[2]</code> 直接发生冲突。</li>
+</ul>
+<p>这一步不能简单拼接子 Agent 的回答。Deep Research 的最终质量很大程度上取决于综合与证据治理，而不是搜索次数。</p>
+<h3 id="第五步write-report" class="heading-element"><span>第五步：Write Report</span>
+  <a href="#%e7%ac%ac%e4%ba%94%e6%ad%a5write-report" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>将正式报告写入 <code>/final_report.md</code>。Prompt 为三类问题提供了结构模板：</p>
+<ul>
+<li>比较类：介绍 A、介绍 B、详细对比、结论；</li>
+<li>列表/排名类：直接列举条目及细节；</li>
+<li>概览类：主题概览、关键概念、结论。</li>
+</ul>
+<p>报告还要求：</p>
+<ul>
+<li>使用清晰标题；</li>
+<li>默认以完整段落写作；</li>
+<li>避免“我搜索了”“我发现了”等元叙述；</li>
+<li>使用 <code>[1]</code>、<code>[2]</code> 形式的行内引用；</li>
+<li>末尾集中列出 Sources。</li>
+</ul>
+<h3 id="第六步verify" class="heading-element"><span>第六步：Verify</span>
+  <a href="#%e7%ac%ac%e5%85%ad%e6%ad%a5verify" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>重新读取 <code>/research_request.md</code>，检查：</p>
+<ul>
+<li>是否回答了用户要求的每一个方面；</li>
+<li>报告结构是否适合问题类型；</li>
+<li>关键事实是否有来源；</li>
+<li>引用编号是否连续、唯一；</li>
+<li>最终文件是否成功生成。</li>
+</ul>
+<pre class="mermaid">sequenceDiagram
+    participant U as 用户
+    participant M as 主 Agent
+    participant F as 文件系统
+    participant S as 研究子 Agent
+    participant W as Web/Tavily
+
+    U->>M: 提交研究问题
+    M->>M: write_todos 制定计划
+    M->>F: 写入 research_request.md
+    M->>S: task 委派单一主题
+    loop 搜索预算内迭代
+        S->>W: tavily_search
+        W-->>S: 网页及正文
+        S->>S: think_tool 评估证据与缺口
+    end
+    S-->>M: 返回研究发现与 Sources
+    M->>M: 合并、去重、统一引用
+    M->>F: 写入 final_report.md
+    M->>F: 回读原始请求/最终报告
+    M-->>U: 返回完成状态或报告摘要</pre>
+<template>sequenceDiagram
+    participant U as 用户
+    participant M as 主 Agent
+    participant F as 文件系统
+    participant S as 研究子 Agent
+    participant W as Web/Tavily
+
+    U->>M: 提交研究问题
+    M->>M: write_todos 制定计划
+    M->>F: 写入 research_request.md
+    M->>S: task 委派单一主题
+    loop 搜索预算内迭代
+        S->>W: tavily_search
+        W-->>S: 网页及正文
+        S->>S: think_tool 评估证据与缺口
+    end
+    S-->>M: 返回研究发现与 Sources
+    M->>M: 合并、去重、统一引用
+    M->>F: 写入 final_report.md
+    M->>F: 回读原始请求/最终报告
+    M-->>U: 返回完成状态或报告摘要</template><hr>
+<h2 id="5-搜索子-agent-的设计" class="heading-element"><span>5. 搜索子 Agent 的设计</span>
+  <a href="#5-%e6%90%9c%e7%b4%a2%e5%ad%90-agent-%e7%9a%84%e8%ae%be%e8%ae%a1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="51-搜索策略" class="heading-element"><span>5.1 搜索策略</span>
+  <a href="#51-%e6%90%9c%e7%b4%a2%e7%ad%96%e7%95%a5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><code>RESEARCHER_INSTRUCTIONS</code> 要求子 Agent 像人类研究员一样工作：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">读懂问题
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">先做宽泛搜索
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">评估已有信息和证据缺口
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">执行更具体的搜索
+</span></span><span class="line"><span class="cl">  ↓
+</span></span><span class="line"><span class="cl">信息充分后立即停止</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这种策略解决了两个常见问题：</p>
+<ul>
+<li>一上来使用过窄关键词，错过关键概念或正确术语；</li>
+<li>已经有足够信息后仍不断搜索，导致成本上升和上下文污染。</li>
+</ul>
+<h3 id="52-搜索预算" class="heading-element"><span>5.2 搜索预算</span>
+  <a href="#52-%e6%90%9c%e7%b4%a2%e9%a2%84%e7%ae%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Prompt 中规定：</p>
+<ul>
+<li>简单问题最多搜索 2～3 次；</li>
+<li>复杂问题最多搜索 5 次；</li>
+<li>找到 3 个以上相关示例/来源时可以停止；</li>
+<li>最近两次搜索内容高度相似时停止；</li>
+<li>5 次搜索后仍无合适来源也必须停止。</li>
+</ul>
+<p>预算控制的本质是让 Agent 优化“单位 Token 的信息增益”：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">下一次搜索价值 ≈ 新增有效证据 - Token 成本 - 时间成本 - 噪声风险</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="53-tavily_search" class="heading-element"><span>5.3 <code>tavily_search</code></span>
+  <a href="#53-tavily_search" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>当前工具的调用链为：</p>
+<pre class="mermaid">flowchart LR
+    Q[query] --> T[Tavily 搜索 URL]
+    T --> R[遍历搜索结果]
+    R --> H[httpx 获取网页 HTML]
+    H --> M[markdownify 转 Markdown]
+    M --> O[拼接标题、URL、正文]</pre>
+<template>flowchart LR
+    Q[query] --> T[Tavily 搜索 URL]
+    T --> R[遍历搜索结果]
+    R --> H[httpx 获取网页 HTML]
+    H --> M[markdownify 转 Markdown]
+    M --> O[拼接标题、URL、正文]</template><p>关键实现：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">search_results</span> <span class="o">=</span> <span class="n">tavily_client</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">query</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">max_results</span><span class="o">=</span><span class="n">max_results</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">topic</span><span class="o">=</span><span class="n">topic</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">search_results</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;results&#34;</span><span class="p">,</span> <span class="p">[]):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">content</span> <span class="o">=</span> <span class="n">fetch_webpage_content</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&#34;url&#34;</span><span class="p">])</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个工具不是只返回搜索摘要，而是先用 Tavily 发现 URL，再自行抓取网页全文并转成 Markdown。优点是信息更完整，代价是网页正文可能非常长、噪声较多，也更容易受到网页中的提示注入内容影响。</p>
+<h3 id="54-think_tool" class="heading-element"><span>5.4 <code>think_tool</code></span>
+  <a href="#54-think_tool" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><code>think_tool</code> 要求子 Agent 在每次搜索后回答四个问题：</p>
+<ol>
+<li>已经获得了哪些具体信息？</li>
+<li>还缺少哪些关键内容？</li>
+<li>当前证据是否足以形成可靠答案？</li>
+<li>下一步应该继续搜索还是结束？</li>
+</ol>
+<p>工具本身非常轻量：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">return</span> <span class="sa">f</span><span class="s2">&#34;Reflection recorded: </span><span class="si">{</span><span class="n">reflection</span><span class="si">}</span><span class="s2">&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>它不会真正调用额外的推理服务，也没有把反思写入独立数据库。它的主要作用是通过一次显式工具调用打断“搜索—搜索—搜索”的惯性，让模型在循环中产生一个可见的决策检查点。</p>
+<hr>
+<h2 id="6-为什么要使用子-agent" class="heading-element"><span>6. 为什么要使用子 Agent</span>
+  <a href="#6-%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e4%bd%bf%e7%94%a8%e5%ad%90-agent" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>课件中的协作模式是：主 Agent 负责规划和协调，不同子 Agent 分别负责研究、编码、审查等任务，并通过共享文件系统交换成果。</p>
+<h3 id="61-上下文隔离" class="heading-element"><span>6.1 上下文隔离</span>
+  <a href="#61-%e4%b8%8a%e4%b8%8b%e6%96%87%e9%9a%94%e7%a6%bb" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>假设一次调研需要分析三个相互独立的主题。如果全部放进主 Agent：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">主上下文 = 用户请求
+</span></span><span class="line"><span class="cl">         + 主题 A 的网页和工具记录
+</span></span><span class="line"><span class="cl">         + 主题 B 的网页和工具记录
+</span></span><span class="line"><span class="cl">         + 主题 C 的网页和工具记录
+</span></span><span class="line"><span class="cl">         + 综合报告</span></span></code></pre></td></tr></table>
+</div>
+</div><p>使用子 Agent 后：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">主上下文 = 用户请求 + 任务计划 + A/B/C 的压缩结论 + 最终报告
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">子上下文 A = 主题 A + A 的搜索过程
+</span></span><span class="line"><span class="cl">子上下文 B = 主题 B + B 的搜索过程
+</span></span><span class="line"><span class="cl">子上下文 C = 主题 C + C 的搜索过程</span></span></code></pre></td></tr></table>
+</div>
+</div><p>主 Agent 只接收每个子任务的高密度结果，而不必承载所有检索过程。</p>
+<h3 id="62-专业化" class="heading-element"><span>6.2 专业化</span>
+  <a href="#62-%e4%b8%93%e4%b8%9a%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不同子 Agent 可以拥有不同的：</p>
+<ul>
+<li>系统提示；</li>
+<li>工具集合；</li>
+<li>Token 与搜索预算；</li>
+<li>权限；</li>
+<li>输出格式；</li>
+<li>评估标准。</li>
+</ul>
+<p>例如，研究 Agent 只需要搜索和反思工具；代码 Agent 需要读写代码和运行测试；审查 Agent 最好只读，避免既实现又自行批准。</p>
+<h3 id="63-并行执行" class="heading-element"><span>6.3 并行执行</span>
+  <a href="#63-%e5%b9%b6%e8%a1%8c%e6%89%a7%e8%a1%8c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>当问题明确包含独立维度时，可以并行：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">主 Agent
+</span></span><span class="line"><span class="cl">├── 子 Agent A：研究产品能力
+</span></span><span class="line"><span class="cl">├── 子 Agent B：研究价格与市场
+</span></span><span class="line"><span class="cl">└── 子 Agent C：研究风险与竞品</span></span></code></pre></td></tr></table>
+</div>
+</div><p>并行可以降低墙上时钟时间，但不一定降低总 Token 成本。拆分过细还会增加任务描述、结果重复、引用合并和通信开销。</p>
+<h3 id="64-什么时候不应拆分" class="heading-element"><span>6.4 什么时候不应拆分</span>
+  <a href="#64-%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e4%b8%8d%e5%ba%94%e6%8b%86%e5%88%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>以下情况通常使用一个子 Agent 更合适：</p>
+<ul>
+<li>问题简单且信息强相关；</li>
+<li>各子主题需要共享大量背景；</li>
+<li>搜索范围很小；</li>
+<li>子任务之间存在强顺序依赖；</li>
+<li>多 Agent 的协调成本高于研究本身。</li>
+</ul>
+<p>当前 Prompt 采用“默认一个子 Agent，明确比较时才并行”的策略，本质上是在平衡上下文隔离与通信成本。</p>
+<hr>
+<h2 id="7-agent-skills按需加载能力" class="heading-element"><span>7. Agent Skills：按需加载能力</span>
+  <a href="#7-agent-skills%e6%8c%89%e9%9c%80%e5%8a%a0%e8%bd%bd%e8%83%bd%e5%8a%9b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><blockquote>
+<p>本节来自课件架构图，是对当前 Deep Research 项目的扩展理解；当前目录中没有 <code>SKILL.md</code>、技能匹配器或按需资源加载代码。</p>
+</blockquote>
+<h3 id="71-三层技能结构" class="heading-element"><span>7.1 三层技能结构</span>
+  <a href="#71-%e4%b8%89%e5%b1%82%e6%8a%80%e8%83%bd%e7%bb%93%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>课件将 Skill 分为三层：</p>
+<table>
+  <thead>
+      <tr>
+          <th>层级</th>
+          <th>内容</th>
+          <th>加载时机</th>
+          <th>作用</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Layer 1：Metadata</td>
+          <td>名称、描述、标签、适用场景</td>
+          <td>Agent 启动时</td>
+          <td>让模型知道“有什么技能”</td>
+      </tr>
+      <tr>
+          <td>Layer 2：Instructions</td>
+          <td><code>SKILL.md</code> 中的详细步骤与约束</td>
+          <td>任务匹配后</td>
+          <td>告诉模型“具体怎样做”</td>
+      </tr>
+      <tr>
+          <td>Layer 3：Scripts &amp; References</td>
+          <td><code>.py</code>、<code>.md</code>、<code>.json</code> 等资源</td>
+          <td>执行到需要时</td>
+          <td>提供脚本、模板、知识与数据</td>
+      </tr>
+  </tbody>
+</table>
+<pre class="mermaid">flowchart TD
+    A[Agent 启动] --> M[只加载所有 Skill 元数据]
+    M --> U[接收用户请求]
+    U --> MATCH[匹配相关 Skill]
+    MATCH --> I[加载相关 SKILL.md 指令]
+    I --> NEED{执行时需要资源吗}
+    NEED -- 是 --> R[加载特定脚本/参考文件]
+    NEED -- 否 --> E[直接执行]
+    R --> E</pre>
+<template>flowchart TD
+    A[Agent 启动] --> M[只加载所有 Skill 元数据]
+    M --> U[接收用户请求]
+    U --> MATCH[匹配相关 Skill]
+    MATCH --> I[加载相关 SKILL.md 指令]
+    I --> NEED{执行时需要资源吗}
+    NEED -- 是 --> R[加载特定脚本/参考文件]
+    NEED -- 否 --> E[直接执行]
+    R --> E</template><p>这种设计也叫 Progressive Disclosure 或 Lazy Loading：先暴露低成本概览，匹配后再逐层展开细节。</p>
+<h3 id="72-mcp-急切加载与-skill-惰性加载" class="heading-element"><span>7.2 MCP 急切加载与 Skill 惰性加载</span>
+  <a href="#72-mcp-%e6%80%a5%e5%88%87%e5%8a%a0%e8%bd%bd%e4%b8%8e-skill-%e6%83%b0%e6%80%a7%e5%8a%a0%e8%bd%bd" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>课件对比了两种能力加载方式：</p>
+<h4 id="mcp-式急切加载eager-loading" class="heading-element"><span>MCP 式急切加载（Eager Loading）</span>
+  <a href="#mcp-%e5%bc%8f%e6%80%a5%e5%88%87%e5%8a%a0%e8%bd%bdeager-loading" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">建立连接
+</span></span><span class="line"><span class="cl">  → tools/list
+</span></span><span class="line"><span class="cl">  → 返回全部工具定义和 JSON Schema
+</span></span><span class="line"><span class="cl">  → 立即放入模型上下文</span></span></code></pre></td></tr></table>
+</div>
+</div><p>优点：</p>
+<ul>
+<li>机制直接；</li>
+<li>工具立即可用；</li>
+<li>不需要额外的技能匹配过程。</li>
+</ul>
+<p>问题：</p>
+<ul>
+<li>工具很多时，工具定义占用大量 Token；</li>
+<li>无关工具会干扰模型选择；</li>
+<li>上下文中同时存在相似 Schema，可能降低参数生成准确率；</li>
+<li>工具列表越大，安全审查和权限选择越复杂。</li>
+</ul>
+<h4 id="skill-式惰性加载lazy-loading" class="heading-element"><span>Skill 式惰性加载（Lazy Loading）</span>
+  <a href="#skill-%e5%bc%8f%e6%83%b0%e6%80%a7%e5%8a%a0%e8%bd%bdlazy-loading" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">启动时只加载技能元数据
+</span></span><span class="line"><span class="cl">  → 根据用户请求匹配少数技能
+</span></span><span class="line"><span class="cl">  → 加载详细说明
+</span></span><span class="line"><span class="cl">  → 执行时再读取脚本和参考资源</span></span></code></pre></td></tr></table>
+</div>
+</div><p>优点：</p>
+<ul>
+<li>减少无关上下文；</li>
+<li>能力说明可以比单个工具 Schema 更丰富；</li>
+<li>便于沉淀完整工作流、脚本和模板；</li>
+<li>提升工具选择的聚焦程度。</li>
+</ul>
+<p>代价：</p>
+<ul>
+<li>需要可靠的技能匹配；</li>
+<li>可能发生漏召回；</li>
+<li>加载链路更复杂；</li>
+<li>需要管理 Skill 版本、依赖和权限。</li>
+</ul>
+<h3 id="73-如何理解课件中的-token-数字" class="heading-element"><span>7.3 如何理解课件中的 Token 数字</span>
+  <a href="#73-%e5%a6%82%e4%bd%95%e7%90%86%e8%a7%a3%e8%af%be%e4%bb%b6%e4%b8%ad%e7%9a%84-token-%e6%95%b0%e5%ad%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>课件使用“100 个工具约 30,000 tokens”和“Skill 加载后降低约 70%”作为示意。这个方向是合理的，但数字不是通用定律：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">实际节省比例 = 工具数量
+</span></span><span class="line"><span class="cl">             × 每个 Schema 的平均长度
+</span></span><span class="line"><span class="cl">             × 当前任务所需工具比例
+</span></span><span class="line"><span class="cl">             × Host 的工具注入策略
+</span></span><span class="line"><span class="cl">             × 模型 Tokenizer 差异</span></span></code></pre></td></tr></table>
+</div>
+</div><p>生产系统应该直接测量：</p>
+<ul>
+<li>启动时工具定义 Token；</li>
+<li>每轮模型输入 Token；</li>
+<li>被选中工具数；</li>
+<li>技能召回率；</li>
+<li>工具误选率；</li>
+<li>最终任务成功率和总成本。</li>
+</ul>
+<h3 id="74-skills-如何扩展当前项目" class="heading-element"><span>7.4 Skills 如何扩展当前项目</span>
+  <a href="#74-skills-%e5%a6%82%e4%bd%95%e6%89%a9%e5%b1%95%e5%bd%93%e5%89%8d%e9%a1%b9%e7%9b%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>如果为本项目增加 Skills，可以设计为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">skills/
+</span></span><span class="line"><span class="cl">├── company-research/
+</span></span><span class="line"><span class="cl">│   ├── SKILL.md
+</span></span><span class="line"><span class="cl">│   ├── source-quality.md
+</span></span><span class="line"><span class="cl">│   └── scripts/
+</span></span><span class="line"><span class="cl">│       └── normalize_citations.py
+</span></span><span class="line"><span class="cl">├── product-comparison/
+</span></span><span class="line"><span class="cl">│   ├── SKILL.md
+</span></span><span class="line"><span class="cl">│   └── comparison-template.md
+</span></span><span class="line"><span class="cl">└── paper-review/
+</span></span><span class="line"><span class="cl">    ├── SKILL.md
+</span></span><span class="line"><span class="cl">    └── evidence-levels.json</span></span></code></pre></td></tr></table>
+</div>
+</div><p>主 Agent 启动时只看技能名称和描述；收到“比较三家公司的 AI 战略”后，再加载 <code>company-research</code> 和 <code>product-comparison</code> 的详细指令及模板。</p>
+<hr>
+<h2 id="8-从上下文工程理解本项目" class="heading-element"><span>8. 从上下文工程理解本项目</span>
+  <a href="#8-%e4%bb%8e%e4%b8%8a%e4%b8%8b%e6%96%87%e5%b7%a5%e7%a8%8b%e7%90%86%e8%a7%a3%e6%9c%ac%e9%a1%b9%e7%9b%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Deep Research 的关键不是单个 Prompt，而是对上下文进行写入、选择、压缩和隔离。</p>
+<table>
+  <thead>
+      <tr>
+          <th>上下文策略</th>
+          <th>当前项目实现</th>
+          <th>解决的问题</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>写入 Write</td>
+          <td><code>write_todos</code>、<code>write_file</code></td>
+          <td>保存计划、请求和报告，减少目标漂移</td>
+      </tr>
+      <tr>
+          <td>选择 Select</td>
+          <td>主 Agent 选择子 Agent；子 Agent 选择搜索词</td>
+          <td>只获取当前阶段需要的信息</td>
+      </tr>
+      <tr>
+          <td>压缩 Compress</td>
+          <td>子 Agent 向主 Agent 返回总结而非完整搜索轨迹</td>
+          <td>降低主上下文长度</td>
+      </tr>
+      <tr>
+          <td>隔离 Isolate</td>
+          <td><code>research-agent</code> 独立上下文</td>
+          <td>避免网页正文和研究细节污染主 Agent</td>
+      </tr>
+  </tbody>
+</table>
+<p>三类上下文也能一一对应：</p>
+<table>
+  <thead>
+      <tr>
+          <th>类型</th>
+          <th>项目中的例子</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Guiding Context</td>
+          <td>三组 Prompt、报告结构、搜索停止条件</td>
+      </tr>
+      <tr>
+          <td>Information Context</td>
+          <td>用户请求、To-do、网页正文、研究结果、报告文件</td>
+      </tr>
+      <tr>
+          <td>Actionable Context</td>
+          <td><code>task</code>、<code>write_todos</code>、<code>write_file</code>、<code>tavily_search</code>、<code>think_tool</code></td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="9-notebook-实际运行轨迹" class="heading-element"><span>9. Notebook 实际运行轨迹</span>
+  <a href="#9-notebook-%e5%ae%9e%e9%99%85%e8%bf%90%e8%a1%8c%e8%bd%a8%e8%bf%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>Notebook 使用的示例问题是：</p>
+<blockquote>
+<p>给我做一个英伟达最新 GPU 型号的调研报告。</p>
+</blockquote>
+<p>已保存的输出显示主 Agent 实际执行了：</p>
+<ol>
+<li>调用 <code>write_todos</code>，创建四项计划；</li>
+<li>调用 <code>write_file</code>，将问题保存到 <code>/research_request.md</code>；</li>
+<li>更新 To-do，将“委托子代理研究”标记为进行中；</li>
+<li>调用 <code>task</code>，选择 <code>research-agent</code> 并传入具体研究范围；</li>
+<li>接收子 Agent 返回的英文研究报告和三个来源；</li>
+<li>将研究任务标记为完成；</li>
+<li>主 Agent 整合并翻译内容，写入 <code>/final_report.md</code>；</li>
+<li>将所有 To-do 标记为完成；</li>
+<li>向用户返回简短完成说明。</li>
+</ol>
+<p>这个运行记录证明了 To-do、文件写入和子 Agent 委派链路已经工作。</p>
+<p>同时也暴露了一个重要现象：示例输出中没有看到主 Agent 在结束前显式调用 <code>read_file</code> 回读 <code>/research_request.md</code>。也就是说，Prompt 虽然规定了 Verify，但本次轨迹并未完整执行该步骤。<strong>Prompt 中写了流程，不等于运行时一定严格遵守。</strong></p>
+<p>另外，Notebook 中的 GPU 报告只是当时的一次 Agent 输出，不能当作长期有效的“最新 GPU”资料；涉及“最新”时必须基于执行当天重新搜索并优先核对官方来源。</p>
+<hr>
+<h2 id="10-当前实现值得注意的问题" class="heading-element"><span>10. 当前实现值得注意的问题</span>
+  <a href="#10-%e5%bd%93%e5%89%8d%e5%ae%9e%e7%8e%b0%e5%80%bc%e5%be%97%e6%b3%a8%e6%84%8f%e7%9a%84%e9%97%ae%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="101-所谓硬限制目前主要是-prompt-约束" class="heading-element"><span>10.1 所谓“硬限制”目前主要是 Prompt 约束</span>
+  <a href="#101-%e6%89%80%e8%b0%93%e7%a1%ac%e9%99%90%e5%88%b6%e7%9b%ae%e5%89%8d%e4%b8%bb%e8%a6%81%e6%98%af-prompt-%e7%ba%a6%e6%9d%9f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>搜索 2～5 次、最多 3 轮委派、最多并发 3 个研究单元，都被写进了 Prompt，但当前目录没有看到独立的运行时计数器或强制中断逻辑。</p>
+<p>模型可能遵守，也可能遗漏。真正的硬限制应该由代码保证，例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">if</span> <span class="n">state</span><span class="o">.</span><span class="n">search_count</span> <span class="o">&gt;=</span> <span class="n">MAX_SEARCH_CALLS</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">raise</span> <span class="n">SearchBudgetExceeded</span><span class="p">()</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>或使用中间件在工具执行前检查预算。</p>
+<h3 id="102-主-agent-仍然拥有搜索工具" class="heading-element"><span>10.2 主 Agent 仍然拥有搜索工具</span>
+  <a href="#102-%e4%b8%bb-agent-%e4%bb%8d%e7%84%b6%e6%8b%a5%e6%9c%89%e6%90%9c%e7%b4%a2%e5%b7%a5%e5%85%b7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>创建主 Agent 时传入了：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">agent</span> <span class="o">=</span> <span class="n">create_deep_agent</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">system_prompt</span><span class="o">=</span><span class="n">INSTRUCTIONS</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">subagents</span><span class="o">=</span><span class="p">[</span><span class="n">research_sub_agent</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="o">...</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里的 <code>tools</code> 包含 <code>tavily_search</code> 和 <code>think_tool</code>。虽然主 Prompt 要求“研究必须委派给子 Agent”，但主 Agent 在权限上仍然可以直接搜索。</p>
+<p>更严格的最小权限设计应考虑：</p>
+<ul>
+<li>主 Agent 只拥有规划、文件和委派工具；</li>
+<li>搜索工具只授予研究子 Agent；</li>
+<li>用工具权限保证职责隔离，而不是只靠自然语言约束。</li>
+</ul>
+<h3 id="103-网页全文直接进入上下文" class="heading-element"><span>10.3 网页全文直接进入上下文</span>
+  <a href="#103-%e7%bd%91%e9%a1%b5%e5%85%a8%e6%96%87%e7%9b%b4%e6%8e%a5%e8%bf%9b%e5%85%a5%e4%b8%8a%e4%b8%8b%e6%96%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><code>fetch_webpage_content()</code> 会抓取完整 HTML 并转换为 Markdown，没有看到以下治理：</p>
+<ul>
+<li>正文抽取；</li>
+<li>长度上限；</li>
+<li>按 Token 截断；</li>
+<li>内容类型校验；</li>
+<li>重复内容去除；</li>
+<li>广告和导航过滤；</li>
+<li>Prompt Injection 检测；</li>
+<li>URL/网络访问范围限制。</li>
+</ul>
+<p>网页内容属于不可信输入。Agent 应把网页中的“忽略之前指令”“执行某个工具”等文字只视为资料，不能视为系统指令。</p>
+<h3 id="104-搜索结果质量控制不足" class="heading-element"><span>10.4 搜索结果质量控制不足</span>
+  <a href="#104-%e6%90%9c%e7%b4%a2%e7%bb%93%e6%9e%9c%e8%b4%a8%e9%87%8f%e6%8e%a7%e5%88%b6%e4%b8%8d%e8%b6%b3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>当前 <code>tavily_search</code> 默认 <code>max_results=1</code>，且没有来源分级。一次搜索只抓一个结果时，容易：</p>
+<ul>
+<li>被单一来源误导；</li>
+<li>无法交叉验证；</li>
+<li>混用官方资料、媒体和销售页面；</li>
+<li>对时间敏感事实使用过期资料。</li>
+</ul>
+<p>可引入来源优先级：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">官方文档/论文/监管文件
+</span></span><span class="line"><span class="cl">  &gt; 权威数据库与主流媒体
+</span></span><span class="line"><span class="cl">  &gt; 专业分析
+</span></span><span class="line"><span class="cl">  &gt; 博客、论坛、聚合或销售页面</span></span></code></pre></td></tr></table>
+</div>
+</div><p>关键事实至少应尽量由两个独立来源交叉验证。</p>
+<h3 id="105-引用合并只靠模型" class="heading-element"><span>10.5 引用合并只靠模型</span>
+  <a href="#105-%e5%bc%95%e7%94%a8%e5%90%88%e5%b9%b6%e5%8f%aa%e9%9d%a0%e6%a8%a1%e5%9e%8b" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>“每个唯一 URL 只使用一个编号”的规则写在 Prompt 中，但没有确定性的 URL 规范化和去重程序。</p>
+<p>以下地址可能实际指向同一来源：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">https://example.com/report
+</span></span><span class="line"><span class="cl">https://example.com/report/
+</span></span><span class="line"><span class="cl">https://example.com/report?utm_source=xxx</span></span></code></pre></td></tr></table>
+</div>
+</div><p>更可靠的方式是用代码完成：</p>
+<ul>
+<li>URL 规范化；</li>
+<li>去除追踪参数；</li>
+<li>按 canonical URL 去重；</li>
+<li>生成连续编号；</li>
+<li>校验正文引用与 Sources 是否一致。</li>
+</ul>
+<h3 id="106-错误被包装成普通文本" class="heading-element"><span>10.6 错误被包装成普通文本</span>
+  <a href="#106-%e9%94%99%e8%af%af%e8%a2%ab%e5%8c%85%e8%a3%85%e6%88%90%e6%99%ae%e9%80%9a%e6%96%87%e6%9c%ac" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>网页抓取失败时返回：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">return</span> <span class="sa">f</span><span class="s2">&#34;Error fetching content from </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这会让工具整体表现为“成功返回了一段文本”，模型需要自行判断它其实是错误。生产实现更适合返回结构化状态：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;ok&#34;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;url&#34;</span><span class="p">:</span> <span class="s2">&#34;...&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;error_type&#34;</span><span class="p">:</span> <span class="s2">&#34;timeout&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;retryable&#34;</span><span class="p">:</span> <span class="kc">true</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="107-日期在创建子-agent-时固化" class="heading-element"><span>10.7 日期在创建子 Agent 时固化</span>
+  <a href="#107-%e6%97%a5%e6%9c%9f%e5%9c%a8%e5%88%9b%e5%bb%ba%e5%ad%90-agent-%e6%97%b6%e5%9b%ba%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p><code>current_date</code> 在 Notebook 创建 <code>research_sub_agent</code> 时计算。如果 Agent 服务长期运行，日期会停留在启动日，而不是每次请求的当天。</p>
+<p>时间敏感研究应在每次运行时注入当前日期，并记录资料发布时间、检索时间和事实截止时间。</p>
+<h3 id="108-可复现性和测试不足" class="heading-element"><span>10.8 可复现性和测试不足</span>
+  <a href="#108-%e5%8f%af%e5%a4%8d%e7%8e%b0%e6%80%a7%e5%92%8c%e6%b5%8b%e8%af%95%e4%b8%8d%e8%b6%b3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>当前目录没有依赖锁定文件和自动化测试，复现实验需要自行确定：</p>
+<ul>
+<li><code>deepagents</code> 版本；</li>
+<li>LangChain/LangGraph 版本；</li>
+<li><code>tavily-python</code>、<code>httpx</code>、<code>markdownify</code> 版本；</li>
+<li>模型服务兼容性；</li>
+<li>环境变量名称和含义。</li>
+</ul>
+<p>至少应补充：</p>
+<ul>
+<li><code>requirements.txt</code> 或 <code>pyproject.toml</code>；</li>
+<li><code>.env.example</code>，只写变量名，不写密钥；</li>
+<li>工具单元测试；</li>
+<li>模拟搜索结果的端到端测试；</li>
+<li>报告引用完整性测试；</li>
+<li>搜索预算与委派预算测试。</li>
+</ul>
+<hr>
+<h2 id="11-更可靠的生产级设计" class="heading-element"><span>11. 更可靠的生产级设计</span>
+  <a href="#11-%e6%9b%b4%e5%8f%af%e9%9d%a0%e7%9a%84%e7%94%9f%e4%ba%a7%e7%ba%a7%e8%ae%be%e8%ae%a1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><pre class="mermaid">flowchart TD
+    U[用户请求] --> C[请求分类与风险判断]
+    C --> P[结构化研究计划]
+    P --> B[预算管理器<br/>时间/Token/搜索/并发]
+    B --> D[任务调度器]
+
+    D --> S1[研究子 Agent 1]
+    D --> S2[研究子 Agent 2]
+    D --> SN[研究子 Agent N]
+
+    S1 --> G[受控搜索网关]
+    S2 --> G
+    SN --> G
+
+    G --> Q[来源质量与安全过滤]
+    Q --> E[结构化证据库]
+    E --> Y[事实冲突检测与综合]
+    Y --> R[报告生成]
+    R --> V[自动验证器]
+    V -->|通过| O[最终报告]
+    V -->|缺少证据/漏项| D</pre>
+<template>flowchart TD
+    U[用户请求] --> C[请求分类与风险判断]
+    C --> P[结构化研究计划]
+    P --> B[预算管理器<br/>时间/Token/搜索/并发]
+    B --> D[任务调度器]
+
+    D --> S1[研究子 Agent 1]
+    D --> S2[研究子 Agent 2]
+    D --> SN[研究子 Agent N]
+
+    S1 --> G[受控搜索网关]
+    S2 --> G
+    SN --> G
+
+    G --> Q[来源质量与安全过滤]
+    Q --> E[结构化证据库]
+    E --> Y[事实冲突检测与综合]
+    Y --> R[报告生成]
+    R --> V[自动验证器]
+    V -->|通过| O[最终报告]
+    V -->|缺少证据/漏项| D</template><p>建议补充以下组件：</p>
+<h3 id="111-结构化研究计划" class="heading-element"><span>11.1 结构化研究计划</span>
+  <a href="#111-%e7%bb%93%e6%9e%84%e5%8c%96%e7%a0%94%e7%a9%b6%e8%ae%a1%e5%88%92" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>每个研究单元至少包含：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;question&#34;</span><span class="p">:</span> <span class="s2">&#34;需要回答的具体问题&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;scope&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;包含内容&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;exclusions&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;不包含内容&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;preferred_sources&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;官方文档&#34;</span><span class="p">,</span> <span class="s2">&#34;论文&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;freshness_requirement&#34;</span><span class="p">:</span> <span class="s2">&#34;2026-08-23 前最新&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;output_schema&#34;</span><span class="p">:</span> <span class="s2">&#34;findings + evidence + sources&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="112-结构化证据" class="heading-element"><span>11.2 结构化证据</span>
+  <a href="#112-%e7%bb%93%e6%9e%84%e5%8c%96%e8%af%81%e6%8d%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不要只让子 Agent 返回长文章，可返回：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-json" data-lang="json"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;claim&#34;</span><span class="p">:</span> <span class="s2">&#34;待写入报告的事实&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;evidence&#34;</span><span class="p">:</span> <span class="s2">&#34;来源中的关键内容&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;source_url&#34;</span><span class="p">:</span> <span class="s2">&#34;https://...&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;source_title&#34;</span><span class="p">:</span> <span class="s2">&#34;...&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;published_at&#34;</span><span class="p">:</span> <span class="s2">&#34;...&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;retrieved_at&#34;</span><span class="p">:</span> <span class="s2">&#34;...&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;source_type&#34;</span><span class="p">:</span> <span class="s2">&#34;official&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="nt">&#34;confidence&#34;</span><span class="p">:</span> <span class="mf">0.9</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>主 Agent 再基于证据对象生成报告，引用会更稳定，也更容易自动审计。</p>
+<h3 id="113-独立验证器" class="heading-element"><span>11.3 独立验证器</span>
+  <a href="#113-%e7%8b%ac%e7%ab%8b%e9%aa%8c%e8%af%81%e5%99%a8" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>最终报告生成后，使用确定性程序或只读审查 Agent 检查：</p>
+<ul>
+<li>用户问题中的每个子问题是否有对应章节；</li>
+<li>每个重要事实是否带引用；</li>
+<li>所有引用编号是否存在；</li>
+<li>Sources 中是否存在未被引用的来源；</li>
+<li>是否出现相互矛盾的数字；</li>
+<li>是否把旧资料写成“最新”；</li>
+<li>是否包含网页提示注入造成的异常指令或内容。</li>
+</ul>
+<h3 id="114-可观测性" class="heading-element"><span>11.4 可观测性</span>
+  <a href="#114-%e5%8f%af%e8%a7%82%e6%b5%8b%e6%80%a7" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>至少记录：</p>
+<ul>
+<li>每次模型和工具调用耗时；</li>
+<li>输入/输出 Token；</li>
+<li>搜索次数和命中来源；</li>
+<li>子 Agent 数量和重试次数；</li>
+<li>报告验证失败原因；</li>
+<li>最终成本；</li>
+<li>用户或评审对报告质量的评分。</li>
+</ul>
+<hr>
+<h2 id="12-面试常见问题" class="heading-element"><span>12. 面试常见问题</span>
+  <a href="#12-%e9%9d%a2%e8%af%95%e5%b8%b8%e8%a7%81%e9%97%ae%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="121-deep-research-为什么需要主-agent-和子-agent" class="heading-element"><span>12.1 Deep Research 为什么需要主 Agent 和子 Agent？</span>
+  <a href="#121-deep-research-%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81%e4%b8%bb-agent-%e5%92%8c%e5%ad%90-agent" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>主 Agent 负责全局目标、规划、任务调度和证据综合；子 Agent 负责局部研究。这样既能隔离网页和工具产生的大量上下文，又能为不同任务配置不同 Prompt、工具、预算与权限。代价是增加通信、去重、同步和调试成本，因此简单任务通常只使用一个研究子 Agent。</p>
+<h3 id="122-think_tool-的作用是什么" class="heading-element"><span>12.2 <code>think_tool</code> 的作用是什么？</span>
+  <a href="#122-think_tool-%e7%9a%84%e4%bd%9c%e7%94%a8%e6%98%af%e4%bb%80%e4%b9%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>它是研究循环中的显式反思检查点。每次搜索后，Agent 必须评估已有证据、信息缺口和继续搜索的价值，从而减少无目的工具调用。当前实现只是回显反思文本，不是真正的独立验证器或持久化记忆。</p>
+<h3 id="123-为什么要把用户请求写入文件" class="heading-element"><span>12.3 为什么要把用户请求写入文件？</span>
+  <a href="#123-%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e6%8a%8a%e7%94%a8%e6%88%b7%e8%af%b7%e6%b1%82%e5%86%99%e5%85%a5%e6%96%87%e4%bb%b6" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>长任务经过多轮委派和摘要后容易目标漂移。将原始请求外部化保存，可以在最终验证阶段重新读取并逐项核对；同时，文件比持续堆积在消息上下文中更适合保存长文本和稳定状态。</p>
+<h3 id="124-多子-agent-一定比单-agent-好吗" class="heading-element"><span>12.4 多子 Agent 一定比单 Agent 好吗？</span>
+  <a href="#124-%e5%a4%9a%e5%ad%90-agent-%e4%b8%80%e5%ae%9a%e6%af%94%e5%8d%95-agent-%e5%a5%bd%e5%90%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不一定。多 Agent 的优势是上下文隔离、专业化和并行；缺点是额外 Token、重复研究、引用冲突和协调复杂度。只有问题存在明确独立维度或比较对象时才值得拆分。</p>
+<h3 id="125-skills-与普通工具有什么区别" class="heading-element"><span>12.5 Skills 与普通工具有什么区别？</span>
+  <a href="#125-skills-%e4%b8%8e%e6%99%ae%e9%80%9a%e5%b7%a5%e5%85%b7%e6%9c%89%e4%bb%80%e4%b9%88%e5%8c%ba%e5%88%ab" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>普通工具主要描述一个可调用动作及参数 Schema；Skill 通常封装更完整的任务知识，包括适用场景、详细流程、约束、脚本、模板和参考资料。Skill 可以先加载元数据，任务匹配后再加载详细指令和资源，从而减少无关上下文。</p>
+<h3 id="126-skills-能替代-mcp-吗" class="heading-element"><span>12.6 Skills 能替代 MCP 吗？</span>
+  <a href="#126-skills-%e8%83%bd%e6%9b%bf%e4%bb%a3-mcp-%e5%90%97" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不能简单替代。MCP 解决外部能力的标准连接、发现和调用；Skills 解决任务知识、操作流程和资源的组织与按需披露。两者可以组合：Skill 描述“何时以及怎样完成某类任务”，底层动作由 MCP 工具提供。</p>
+<h3 id="127-如何保证报告引用可靠" class="heading-element"><span>12.7 如何保证报告引用可靠？</span>
+  <a href="#127-%e5%a6%82%e4%bd%95%e4%bf%9d%e8%af%81%e6%8a%a5%e5%91%8a%e5%bc%95%e7%94%a8%e5%8f%af%e9%9d%a0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不能只要求模型“带引用”。还要做来源分级、时间校验、交叉验证、URL 规范化、引用去重、正文与 Sources 一致性检查，并将关键 claim 与具体证据绑定。</p>
+<h3 id="128-如何防止-deep-research-无限搜索" class="heading-element"><span>12.8 如何防止 Deep Research 无限搜索？</span>
+  <a href="#128-%e5%a6%82%e4%bd%95%e9%98%b2%e6%ad%a2-deep-research-%e6%97%a0%e9%99%90%e6%90%9c%e7%b4%a2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>同时使用两层控制：Prompt 中给出停止启发式，运行时用代码强制限制搜索次数、总 Token、总耗时、子 Agent 数量和委派轮数。只有 Prompt 约束不能算真正的硬限制。</p>
+<hr>
+<h2 id="13-核心总结" class="heading-element"><span>13. 核心总结</span>
+  <a href="#13-%e6%a0%b8%e5%bf%83%e6%80%bb%e7%bb%93" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>当前项目展示了一个最小但完整的 Deep Research 原型：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">主 Agent
+</span></span><span class="line"><span class="cl">  ├── 详细工作流 Prompt
+</span></span><span class="line"><span class="cl">  ├── To-do 规划与状态跟踪
+</span></span><span class="line"><span class="cl">  ├── 文件系统工作记忆
+</span></span><span class="line"><span class="cl">  ├── task 子 Agent 委派
+</span></span><span class="line"><span class="cl">  └── 研究结果综合与报告生成
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">研究子 Agent
+</span></span><span class="line"><span class="cl">  ├── 独立系统 Prompt
+</span></span><span class="line"><span class="cl">  ├── Tavily 搜索与网页抓取
+</span></span><span class="line"><span class="cl">  ├── 搜索后的显式反思
+</span></span><span class="line"><span class="cl">  └── 带来源的研究结果</span></span></code></pre></td></tr></table>
+</div>
+</div><p>三张课件图可以统一成一个上下文工程观点：</p>
+<ol>
+<li><strong>用 To-do 和文件把长任务状态写到模型上下文之外。</strong></li>
+<li><strong>用子 Agent 隔离不同任务的搜索过程，只向主 Agent 返回高密度结论。</strong></li>
+<li><strong>用 Skills 的分层加载避免一次性把所有能力和资源塞进上下文。</strong></li>
+<li><strong>让主 Agent 专注规划与协调，让专业子 Agent 执行研究、编码或审查。</strong></li>
+<li><strong>Prompt 负责指导行为，运行时代码负责真正执行预算、权限和安全边界。</strong></li>
+</ol>
+<p>最终要记住：Deep Research 的效果不只由模型决定，而由<strong>任务分解、上下文管理、工具质量、来源治理、运行时约束和结果验证</strong>共同决定。</p>
+<hr>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-08-23 05:16:04">更新于 2026-08-23&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/mldeep-research/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/agent/" class="post-tag" title="标签 - Agent">Agent</a><a href="/tags/deep-research/" class="post-tag" title="标签 - Deep Research">Deep Research</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/mlmcp/" class="post-nav-item" rel="prev" title="MCP"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>MCP</a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.3.0/dist/mermaid.esm.min.mjs';
+    
+    
+    
+    window.mermaid = mermaid;
+  </script><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"mermaid":{"themes":["default","dark"]},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>
