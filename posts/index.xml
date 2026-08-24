@@ -6,7 +6,7 @@
     <description>凌乱之风的博客</description>
     <generator>Hugo 0.139.0 &amp; FixIt v0.3.15</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 23 Aug 2026 05:16:04 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 24 Aug 2026 08:25:34 +0000</lastBuildDate>
     <atom:link href="https://blog.messywind.top/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Deep Research</title>
@@ -31,6 +31,22 @@
       <guid>https://blog.messywind.top/posts/ml%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B/</guid>
       <category domain="https://blog.messywind.top/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</category>
       <description>&lt;h2 id=&#34;一一句话理解上下文工程&#34; class=&#34;heading-element&#34;&gt;&lt;span&gt;一、一句话理解上下文工程&lt;/span&gt;&#xA;  &lt;a href=&#34;#%e4%b8%80%e4%b8%80%e5%8f%a5%e8%af%9d%e7%90%86%e8%a7%a3%e4%b8%8a%e4%b8%8b%e6%96%87%e5%b7%a5%e7%a8%8b&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;p&gt;上下文工程是一门系统工程：在 Agent 执行任务的每一步，动态地&lt;strong&gt;写入、选择、压缩和隔离&lt;/strong&gt;信息，为模型组装当前决策所需的最小充分上下文，使任务完成得更可靠、更高效、更安全。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>GraphRAG</title>
+      <link>https://blog.messywind.top/posts/mlgraphrag/</link>
+      <pubDate>Thu, 20 Aug 2026 15:52:00 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/mlgraphrag/</guid>
+      <category domain="https://blog.messywind.top/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</category>
+      <description>&lt;h2 id=&#34;1-一分钟面试回答&#34; class=&#34;heading-element&#34;&gt;&lt;span&gt;1. 一分钟面试回答&lt;/span&gt;&#xA;  &lt;a href=&#34;#1-%e4%b8%80%e5%88%86%e9%92%9f%e9%9d%a2%e8%af%95%e5%9b%9e%e7%ad%94&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;p&gt;Graph RAG 是在传统 RAG 的向量检索之外，引入图结构来表示和检索知识。&lt;/p&gt;&#xA;&lt;p&gt;传统 RAG 通常把文档切成相互独立的 Chunk，根据 Query 与 Chunk 的向量相似度召回 Top-K。它适合查找局部事实，但面对跨文档、多跳关系、全局总结和复杂关系推理时，容易漏掉“单个 Chunk 不够相似、但通过关系连接后很重要”的信息。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>多模态 RAG</title>
+      <link>https://blog.messywind.top/posts/ml%E5%A4%9A%E6%A8%A1%E6%80%81-rag/</link>
+      <pubDate>Thu, 20 Aug 2026 15:32:00 +0000</pubDate>
+      <guid>https://blog.messywind.top/posts/ml%E5%A4%9A%E6%A8%A1%E6%80%81-rag/</guid>
+      <category domain="https://blog.messywind.top/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/">机器学习</category>
+      <description>&lt;h2 id=&#34;1-什么是多模态-rag&#34; class=&#34;heading-element&#34;&gt;&lt;span&gt;1. 什么是多模态 RAG&lt;/span&gt;&#xA;  &lt;a href=&#34;#1-%e4%bb%80%e4%b9%88%e6%98%af%e5%a4%9a%e6%a8%a1%e6%80%81-rag&#34; class=&#34;heading-mark&#34;&gt;&#xA;    &lt;svg class=&#34;octicon octicon-link&#34; viewBox=&#34;0 0 16 16&#34; version=&#34;1.1&#34; width=&#34;16&#34; height=&#34;16&#34; aria-hidden=&#34;true&#34;&gt;&lt;path d=&#34;m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;&#xA;  &lt;/a&gt;&#xA;&lt;/h2&gt;&lt;p&gt;传统 RAG 的知识通常是纯文本。多模态 RAG（Multimodal RAG）把知识范围扩展到：&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;文本：正文、标题、OCR 结果、字幕、ASR 转写。&lt;/li&gt;&#xA;&lt;li&gt;图片：照片、示意图、流程图、截图。&lt;/li&gt;&#xA;&lt;li&gt;表格：财务报表、实验结果、参数对比。&lt;/li&gt;&#xA;&lt;li&gt;音频：语音、会议录音、音乐和环境声音。&lt;/li&gt;&#xA;&lt;li&gt;视频：画面、关键帧、字幕和音轨。&lt;/li&gt;&#xA;&lt;li&gt;版面：PDF 页面中元素的位置、字体、颜色和阅读顺序。&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;核心流程仍然是 RAG：&lt;/p&gt;</description>
     </item>
     <item>
       <title>《奥德赛》影评</title>

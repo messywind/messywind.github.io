@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+    <meta name="robots" content="noodp" />
+    <title>多模态 RAG - 凌乱之风的博客</title><meta name="author" content="凌乱之风">
+<meta name="description" content="1. 什么是多模态 RAG 传统 RAG 的知识通常是纯文本。多模态 RAG（Multimodal RAG）把知识范围扩展到：
+文本：正文、标题、OCR 结果、字幕、ASR 转写。 图片：照片、示意图、流程图、截图。 表格：财务报表、实验结果、参数对比。 音频：语音、会议录音、音乐和环境声音。 视频：画面、关键帧、字幕和音轨。 版面：PDF 页面中元素的位置、字体、颜色和阅读顺序。 核心流程仍然是 RAG：
+"><meta name="keywords" content='Agent, RAG'>
+  <meta itemprop="name" content="多模态 RAG">
+  <meta itemprop="description" content="1. 什么是多模态 RAG 传统 RAG 的知识通常是纯文本。多模态 RAG（Multimodal RAG）把知识范围扩展到：
+文本：正文、标题、OCR 结果、字幕、ASR 转写。 图片：照片、示意图、流程图、截图。 表格：财务报表、实验结果、参数对比。 音频：语音、会议录音、音乐和环境声音。 视频：画面、关键帧、字幕和音轨。 版面：PDF 页面中元素的位置、字体、颜色和阅读顺序。 核心流程仍然是 RAG：">
+  <meta itemprop="datePublished" content="2026-08-20T15:32:00+00:00">
+  <meta itemprop="dateModified" content="2026-08-24T08:25:34+00:00">
+  <meta itemprop="wordCount" content="8985">
+  <meta itemprop="keywords" content="Agent,RAG"><meta property="og:url" content="https://blog.messywind.top/posts/ml%E5%A4%9A%E6%A8%A1%E6%80%81-rag/">
+  <meta property="og:site_name" content="凌乱之风的博客">
+  <meta property="og:title" content="多模态 RAG">
+  <meta property="og:description" content="1. 什么是多模态 RAG 传统 RAG 的知识通常是纯文本。多模态 RAG（Multimodal RAG）把知识范围扩展到：
+文本：正文、标题、OCR 结果、字幕、ASR 转写。 图片：照片、示意图、流程图、截图。 表格：财务报表、实验结果、参数对比。 音频：语音、会议录音、音乐和环境声音。 视频：画面、关键帧、字幕和音轨。 版面：PDF 页面中元素的位置、字体、颜色和阅读顺序。 核心流程仍然是 RAG：">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2026-08-20T15:32:00+00:00">
+    <meta property="article:modified_time" content="2026-08-24T08:25:34+00:00">
+    <meta property="article:tag" content="Agent">
+    <meta property="article:tag" content="RAG">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="多模态 RAG">
+  <meta name="twitter:description" content="1. 什么是多模态 RAG 传统 RAG 的知识通常是纯文本。多模态 RAG（Multimodal RAG）把知识范围扩展到：
+文本：正文、标题、OCR 结果、字幕、ASR 转写。 图片：照片、示意图、流程图、截图。 表格：财务报表、实验结果、参数对比。 音频：语音、会议录音、音乐和环境声音。 视频：画面、关键帧、字幕和音轨。 版面：PDF 页面中元素的位置、字体、颜色和阅读顺序。 核心流程仍然是 RAG：">
+<meta name="application-name" content="凌乱之风的博客">
+<meta name="apple-mobile-web-app-title" content="凌乱之风的博客"><meta name="theme-color" data-light="#f8f8f8" data-dark="#252627" content="#f8f8f8"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="images/favicon.ico"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="canonical" type="text/html" href="https://blog.messywind.top/posts/ml%E5%A4%9A%E6%A8%A1%E6%80%81-rag/" title="多模态 RAG - 凌乱之风的博客" /><link rel="prev" type="text/html" href="https://blog.messywind.top/posts/misc%E5%A5%A5%E5%BE%B7%E8%B5%9B%E5%BD%B1%E8%AF%84/" title="《奥德赛》影评" /><link rel="next" type="text/html" href="https://blog.messywind.top/posts/mlgraphrag/" title="GraphRAG" /><link rel="alternate" type="text/markdown" href="https://blog.messywind.top/posts/ml%E5%A4%9A%E6%A8%A1%E6%80%81-rag/index.md" title="多模态 RAG - 凌乱之风的博客"><link rel="stylesheet" href="/css/style.min.css"><link rel="preload" href="/lib/fontawesome-free/all.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"></noscript><link rel="preload" href="/lib/animate/animate.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/animate/animate.min.css"></noscript><script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "多模态 RAG",
+    "inLanguage": "zh-cn",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https:\/\/blog.messywind.top\/posts\/ml%E5%A4%9A%E6%A8%A1%E6%80%81-rag\/"
+    },"genre": "posts","keywords": "Agent, RAG","wordcount":  8985 ,
+    "url": "https:\/\/blog.messywind.top\/posts\/ml%E5%A4%9A%E6%A8%A1%E6%80%81-rag\/","datePublished": "2026-08-20T15:32:00+00:00","dateModified": "2026-08-24T08:25:34+00:00","publisher": {
+      "@type": "Organization",
+      "name": ""},"author": {
+        "@type": "Person",
+        "name": "凌乱之风"
+      },"description": ""
+  }
+  </script><script src="/js/head/color-scheme.min.js"></script></head>
+  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <div class="header-wrapper">
+    <div class="header-title">
+      <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+    <nav>
+      <ul class="menu"><li class="menu-item">
+              <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
+              <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item">
+              <a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item">
+              <a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item">
+              <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
+              <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
+              <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
+            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
+              <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+            </a>
+            <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="清空">
+              <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+            </a>
+            <span class="search-button search-loading" id="search-loading-desktop">
+              <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+            </span>
+          </li><li class="menu-item theme-switch" title="切换主题">
+          <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
+        </li></ul>
+    </nav>
+  </div>
+</header><header class="mobile animate__faster" id="header-mobile">
+  <div class="header-container">
+    <div class="header-wrapper">
+      <div class="header-title">
+        <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
+      <div class="menu-toggle" id="menu-toggle-mobile">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <nav>
+      <ul class="menu" id="menu-mobile"><li class="search-wrapper">
+            <div class="search mobile" id="search-mobile">
+              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
+                <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
+              </a>
+              <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="清空">
+                <i class="fa-solid fa-times-circle fa-fw" aria-hidden="true"></i>
+              </a>
+              <span class="search-button search-loading" id="search-loading-mobile">
+                <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
+              </span>
+            </div>
+            <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+              取消
+            </a>
+          </li><li class="menu-item"><a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item"><span class="nested-item">
+                  <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a>
+                  <i class="dropdown-icon fa-solid fa-chevron-right" aria-hidden="true"></i>
+                </span>
+                <ul class="sub-menu"><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/"><i class="fa-solid fa-trophy fa-fw fa-sm" aria-hidden="true"></i> 算法竞赛</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"><i class="fa-solid fa-gears fa-fw fa-sm" aria-hidden="true"></i> 机器学习</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/"><i class="fa-solid fa-shield fa-fw fa-sm" aria-hidden="true"></i> 网络安全</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%BC%80%E5%8F%91/"><i class="fa-solid fa-code fa-fw fa-sm" aria-hidden="true"></i> 开发</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E6%95%B0%E5%AD%A6/"><i class="fa-solid fa-square-root-variable fa-fw fa-sm" aria-hidden="true"></i> 数学</a>
+                      </li><li class="menu-item">
+                        <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
+                      </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
+          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+      </ul>
+    </nav>
+  </div>
+</header><div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+  </div>
+  <div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+  </div><main class="container"><aside class="aside-collection animate__animated animate__fadeIn animate__faster" aria-label="合集"></aside>
+
+  <article class="page single">
+    <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>多模态 RAG</span>
+      </h1></div><div class="post-meta">
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" class="post-category" title="分类 - 机器学习"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 机器学习</a></span></div><div class="post-meta-line"><span title="发布于 2026-08-20 15:32:00"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2026-08-20">2026-08-20</time></span>&nbsp;<span title="更新于 2026-08-24 08:25:34"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-08-24">2026-08-24</time></span>&nbsp;<span title="8985 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 9000 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 18 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="多模态 RAG"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+          </span>&nbsp;</div>
+    </div><div class="details toc" id="toc-static" data-kept="false">
+        <div class="details-summary toc-title">
+          <span>目录</span>
+          <span><i class="details-icon fa-solid fa-angle-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-什么是多模态-rag">1. 什么是多模态 RAG</a></li>
+    <li><a href="#2-跨模态语义对齐clip-的基本原理">2. 跨模态语义对齐：CLIP 的基本原理</a>
+      <ul>
+        <li><a href="#21-为什么不同模态可以互相检索">2.1 为什么不同模态可以互相检索</a></li>
+        <li><a href="#22-clip-能做什么">2.2 CLIP 能做什么</a></li>
+        <li><a href="#23-音频怎样进入统一语义空间">2.3 音频怎样进入统一语义空间</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-多模态-rag-的三种主要范式">3. 多模态 RAG 的三种主要范式</a>
+      <ul>
+        <li><a href="#31-范式一统一或对齐向量空间检索">3.1 范式一：统一或对齐向量空间检索</a>
+          <ul>
+            <li><a href="#核心思路">核心思路</a></li>
+            <li><a href="#优点">优点</a></li>
+            <li><a href="#局限">局限</a></li>
+          </ul>
+        </li>
+        <li><a href="#32-范式二模态文本化再使用文本-rag">3.2 范式二：模态文本化，再使用文本 RAG</a>
+          <ul>
+            <li><a href="#核心思路-1">核心思路</a></li>
+            <li><a href="#multi-vector-retriever-思想">Multi-Vector Retriever 思想</a></li>
+            <li><a href="#优点-1">优点</a></li>
+            <li><a href="#局限-1">局限</a></li>
+          </ul>
+        </li>
+        <li><a href="#33-范式三原生视觉文档检索">3.3 范式三：原生视觉文档检索</a>
+          <ul>
+            <li><a href="#核心思路-2">核心思路</a></li>
+            <li><a href="#优点-2">优点</a></li>
+            <li><a href="#局限-2">局限</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#4-项目方案一clip-跨模态相关性与模态路由">4. 项目方案一：CLIP 跨模态相关性与模态路由</a>
+      <ul>
+        <li><a href="#41-数据准备">4.1 数据准备</a></li>
+        <li><a href="#42-clip-编码">4.2 CLIP 编码</a></li>
+        <li><a href="#43-相似度和路由">4.3 相似度和路由</a></li>
+        <li><a href="#44-这份-notebook-的准确定位">4.4 这份 Notebook 的准确定位</a></li>
+      </ul>
+    </li>
+    <li><a href="#5-项目方案二image-caption--文本向量库">5. 项目方案二：Image Caption + 文本向量库</a>
+      <ul>
+        <li><a href="#51-pdf-内容抽取">5.1 PDF 内容抽取</a></li>
+        <li><a href="#52-生成图片描述">5.2 生成图片描述</a></li>
+        <li><a href="#53-文本切块与向量化">5.3 文本切块与向量化</a></li>
+        <li><a href="#54-检索与生成">5.4 检索与生成</a></li>
+        <li><a href="#55-当前实现与完整-multi-vector-rag-的差异">5.5 当前实现与完整 Multi-Vector RAG 的差异</a></li>
+      </ul>
+    </li>
+    <li><a href="#6-项目方案三colpali-原生视觉-pdf-rag">6. 项目方案三：ColPali 原生视觉 PDF RAG</a>
+      <ul>
+        <li><a href="#61-建立页面级视觉索引">6.1 建立页面级视觉索引</a></li>
+        <li><a href="#62-文本-query-检索页面">6.2 文本 Query 检索页面</a></li>
+        <li><a href="#63-多模态生成">6.3 多模态生成</a></li>
+        <li><a href="#64-适用场景">6.4 适用场景</a></li>
+      </ul>
+    </li>
+    <li><a href="#7-分模态检索结果融合与多模态-rerank">7. 分模态检索、结果融合与多模态 Rerank</a>
+      <ul>
+        <li><a href="#71-为什么要分模态建索引">7.1 为什么要分模态建索引</a></li>
+        <li><a href="#72-为什么不能直接混合原始分数">7.2 为什么不能直接混合原始分数</a></li>
+        <li><a href="#73-多模态-reranker">7.3 多模态 Reranker</a></li>
+      </ul>
+    </li>
+    <li><a href="#8-三种方案对比">8. 三种方案对比</a></li>
+    <li><a href="#9-一套更完整的生产架构">9. 一套更完整的生产架构</a>
+      <ul>
+        <li><a href="#91-索引阶段">9.1 索引阶段</a></li>
+        <li><a href="#92-查询阶段">9.2 查询阶段</a></li>
+        <li><a href="#93-生成-prompt-的基本要求">9.3 生成 Prompt 的基本要求</a></li>
+      </ul>
+    </li>
+    <li><a href="#10-评估多模态-rag">10. 评估多模态 RAG</a>
+      <ul>
+        <li><a href="#101-解析与索引质量">10.1 解析与索引质量</a></li>
+        <li><a href="#102-检索质量">10.2 检索质量</a></li>
+        <li><a href="#103-生成质量">10.3 生成质量</a></li>
+        <li><a href="#104-端到端测试集">10.4 端到端测试集</a></li>
+      </ul>
+    </li>
+    <li><a href="#11-当前-notebook-的注意事项与改进建议">11. 当前 Notebook 的注意事项与改进建议</a>
+      <ul>
+        <li><a href="#111-clip-方案">11.1 CLIP 方案</a></li>
+        <li><a href="#112-caption-方案">11.2 Caption 方案</a></li>
+        <li><a href="#113-colpali-方案">11.3 ColPali 方案</a></li>
+        <li><a href="#114-通用安全与工程问题">11.4 通用安全与工程问题</a></li>
+      </ul>
+    </li>
+    <li><a href="#12-方案选择速查">12. 方案选择速查</a>
+      <ul>
+        <li><a href="#选择-caption--文本-rag如果">选择 Caption + 文本 RAG，如果：</a></li>
+        <li><a href="#选择-clip--clap-跨模态检索如果">选择 CLIP / CLAP 跨模态检索，如果：</a></li>
+        <li><a href="#选择-colpali如果">选择 ColPali，如果：</a></li>
+        <li><a href="#选择分模态检索--rerank如果">选择分模态检索 + Rerank，如果：</a></li>
+      </ul>
+    </li>
+    <li><a href="#13-项目文件与知识点对应关系">13. 项目文件与知识点对应关系</a></li>
+    <li><a href="#14-总结">14. 总结</a></li>
+  </ul>
+</nav></div>
+      </div><div class="content" id="content"><h2 id="1-什么是多模态-rag" class="heading-element"><span>1. 什么是多模态 RAG</span>
+  <a href="#1-%e4%bb%80%e4%b9%88%e6%98%af%e5%a4%9a%e6%a8%a1%e6%80%81-rag" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>传统 RAG 的知识通常是纯文本。多模态 RAG（Multimodal RAG）把知识范围扩展到：</p>
+<ul>
+<li>文本：正文、标题、OCR 结果、字幕、ASR 转写。</li>
+<li>图片：照片、示意图、流程图、截图。</li>
+<li>表格：财务报表、实验结果、参数对比。</li>
+<li>音频：语音、会议录音、音乐和环境声音。</li>
+<li>视频：画面、关键帧、字幕和音轨。</li>
+<li>版面：PDF 页面中元素的位置、字体、颜色和阅读顺序。</li>
+</ul>
+<p>核心流程仍然是 RAG：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">用户问题 → 检索相关知识 → 组织多模态上下文 → 模型生成答案</span></span></code></pre></td></tr></table>
+</div>
+</div><p>区别在于，多模态 RAG 需要同时解决三个问题：</p>
+<ol>
+<li><strong>如何表示</strong>：不同模态怎样转换成可检索的表示。</li>
+<li><strong>如何对齐和检索</strong>：文本问题怎样找到相关图片、音频、表格或页面。</li>
+<li><strong>如何生成</strong>：命中后把摘要交给文本 LLM，还是把原始模态交给多模态 LLM。</li>
+</ol>
+<p>多模态 RAG 通常包含两条链路：</p>
+<pre class="mermaid">flowchart LR
+    subgraph Indexing["索引链路"]
+        A["PDF / 文本 / 图片 / 音频 / 视频"] --> B["解析、OCR、ASR、抽帧"]
+        B --> C["切块、分页、区域裁剪"]
+        C --> D["文本 Embedding / 跨模态 Embedding / 多向量表示"]
+        D --> E["一个或多个检索索引"]
+        C --> F["原始内容存储"]
+    end
+
+    subgraph Querying["查询链路"]
+        Q["用户 Query"] --> QE["Query 编码与改写"]
+        QE --> E
+        E --> R["候选内容"]
+        R --> RR["融合与 Rerank"]
+        RR --> RAW["回取原始文本、图片、页面、音频片段"]
+        F --> RAW
+        RAW --> M["LLM / Multimodal LLM"]
+        M --> O["答案与引用"]
+    end</pre>
+<template>flowchart LR
+    subgraph Indexing["索引链路"]
+        A["PDF / 文本 / 图片 / 音频 / 视频"] --> B["解析、OCR、ASR、抽帧"]
+        B --> C["切块、分页、区域裁剪"]
+        C --> D["文本 Embedding / 跨模态 Embedding / 多向量表示"]
+        D --> E["一个或多个检索索引"]
+        C --> F["原始内容存储"]
+    end
+
+    subgraph Querying["查询链路"]
+        Q["用户 Query"] --> QE["Query 编码与改写"]
+        QE --> E
+        E --> R["候选内容"]
+        R --> RR["融合与 Rerank"]
+        RR --> RAW["回取原始文本、图片、页面、音频片段"]
+        F --> RAW
+        RAW --> M["LLM / Multimodal LLM"]
+        M --> O["答案与引用"]
+    end</template><p>一个重要原则是：</p>
+<blockquote>
+<p><strong>用于检索的表示，不一定等于最终交给生成模型的内容。</strong></p>
+</blockquote>
+<p>例如，可以用图片描述进行向量检索，但检索命中后回取原始图片，交给多模态 LLM 阅读。这样既利用了成熟的文本检索能力，又避免 caption 丢失图片细节。</p>
+<hr>
+<h2 id="2-跨模态语义对齐clip-的基本原理" class="heading-element"><span>2. 跨模态语义对齐：CLIP 的基本原理</span>
+  <a href="#2-%e8%b7%a8%e6%a8%a1%e6%80%81%e8%af%ad%e4%b9%89%e5%af%b9%e9%bd%90clip-%e7%9a%84%e5%9f%ba%e6%9c%ac%e5%8e%9f%e7%90%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="21-为什么不同模态可以互相检索" class="heading-element"><span>2.1 为什么不同模态可以互相检索</span>
+  <a href="#21-%e4%b8%ba%e4%bb%80%e4%b9%88%e4%b8%8d%e5%90%8c%e6%a8%a1%e6%80%81%e5%8f%af%e4%bb%a5%e4%ba%92%e7%9b%b8%e6%a3%80%e7%b4%a2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>普通文本 Embedding 只能把文本映射为向量，不能直接理解图片。CLIP 一类模型包含两个编码器：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">文本 → Text Encoder  → 文本向量 T
+</span></span><span class="line"><span class="cl">图片 → Image Encoder → 图片向量 I</span></span></code></pre></td></tr></table>
+</div>
+</div><p>训练时使用大量“图片—文本描述”配对数据，让匹配的图片和文本在同一向量空间中接近，让不匹配的样本远离。</p>
+<p>假设一个 Batch 中有 N 对图片和文本，可以计算相似度矩阵：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">              T1      T2      T3      ...     TN
+</span></span><span class="line"><span class="cl">I1           I1·T1   I1·T2   I1·T3    ...    I1·TN
+</span></span><span class="line"><span class="cl">I2           I2·T1   I2·T2   I2·T3    ...    I2·TN
+</span></span><span class="line"><span class="cl">...           ...     ...     ...      ...     ...
+</span></span><span class="line"><span class="cl">IN           IN·T1   IN·T2   IN·T3    ...    IN·TN</span></span></code></pre></td></tr></table>
+</div>
+</div><p>训练目标是让对角线上的正确配对分数较高，其他错误配对分数较低。这属于对比学习（Contrastive Learning）。</p>
+<p>向量归一化后，图片 <code>I</code> 和文本 <code>T</code> 的相似度可以写成：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">similarity(I, T) = I · T = cosine(I, T)</span></span></code></pre></td></tr></table>
+</div>
+</div><p>实际模型还会使用可学习的温度系数调整分数分布。</p>
+<h3 id="22-clip-能做什么" class="heading-element"><span>2.2 CLIP 能做什么</span>
+  <a href="#22-clip-%e8%83%bd%e5%81%9a%e4%bb%80%e4%b9%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>因为图片和文本处于对齐后的共享空间，所以可以实现：</p>
+<ul>
+<li>文本搜索图片：输入“草地上的小狗”，召回相关图片。</li>
+<li>图片搜索文本：输入图片，找到匹配的描述或文档。</li>
+<li>图片分类：计算图片与多个类别文本的相似度。</li>
+<li>多模态路由：比较 Query 与不同候选模态的相关程度。</li>
+</ul>
+<h3 id="23-音频怎样进入统一语义空间" class="heading-element"><span>2.3 音频怎样进入统一语义空间</span>
+  <a href="#23-%e9%9f%b3%e9%a2%91%e6%80%8e%e6%a0%b7%e8%bf%9b%e5%85%a5%e7%bb%9f%e4%b8%80%e8%af%ad%e4%b9%89%e7%a9%ba%e9%97%b4" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>本项目的 CLIP Notebook 没有直接编码音频，而是采用：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">音频 → Whisper ASR → 转写文本 → CLIP Text Encoder</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这种方式适合“语音内容”检索，但会丢失音色、旋律、环境声等非语言信息。</p>
+<p>如果要直接检索音频，可以使用 CLAP 一类 Audio-Text 模型：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">音频 → Audio Encoder ┐
+</span></span><span class="line"><span class="cl">                     ├→ 共享 Audio-Text 语义空间
+</span></span><span class="line"><span class="cl">文本 → Text Encoder  ┘</span></span></code></pre></td></tr></table>
+</div>
+</div><p>项目代码中已经留下了 <code>ClapModel</code> 和 <code>ClapProcessor</code> 的注释示例，但当前运行链路仍然是 ASR 文本化。</p>
+<hr>
+<h2 id="3-多模态-rag-的三种主要范式" class="heading-element"><span>3. 多模态 RAG 的三种主要范式</span>
+  <a href="#3-%e5%a4%9a%e6%a8%a1%e6%80%81-rag-%e7%9a%84%e4%b8%89%e7%a7%8d%e4%b8%bb%e8%a6%81%e8%8c%83%e5%bc%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>课程图和项目代码可以归纳为三条主要路线。</p>
+<h3 id="31-范式一统一或对齐向量空间检索" class="heading-element"><span>3.1 范式一：统一或对齐向量空间检索</span>
+  <a href="#31-%e8%8c%83%e5%bc%8f%e4%b8%80%e7%bb%9f%e4%b8%80%e6%88%96%e5%af%b9%e9%bd%90%e5%90%91%e9%87%8f%e7%a9%ba%e9%97%b4%e6%a3%80%e7%b4%a2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="核心思路" class="heading-element"><span>核心思路</span>
+  <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>使用 CLIP、CLAP 等模型，把不同模态映射到可比较的语义空间，再使用 Query 向量检索相关内容。</p>
+<pre class="mermaid">flowchart LR
+    T["文本"] --> TE["Text Encoder"]
+    I["图片"] --> IE["Image Encoder"]
+    A["音频"] --> AE["Audio Encoder 或 ASR"]
+    TE --> V["向量索引"]
+    IE --> V
+    AE --> V
+    Q["Query"] --> QE["Query Encoder"]
+    QE --> V
+    V --> K["Top-K 原始模态"]
+    K --> M["多模态 LLM"]
+    M --> O["Answer"]</pre>
+<template>flowchart LR
+    T["文本"] --> TE["Text Encoder"]
+    I["图片"] --> IE["Image Encoder"]
+    A["音频"] --> AE["Audio Encoder 或 ASR"]
+    TE --> V["向量索引"]
+    IE --> V
+    AE --> V
+    Q["Query"] --> QE["Query Encoder"]
+    QE --> V
+    V --> K["Top-K 原始模态"]
+    K --> M["多模态 LLM"]
+    M --> O["Answer"]</template><h4 id="优点" class="heading-element"><span>优点</span>
+  <a href="#%e4%bc%98%e7%82%b9" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>可以直接完成文本到图片、文本到音频等跨模态检索。</li>
+<li>不必先为每一张图片生成完整描述。</li>
+<li>检索阶段保留视觉或听觉语义。</li>
+<li>适合图库、商品、媒体资产和音视频内容库。</li>
+</ul>
+<h4 id="局限" class="heading-element"><span>局限</span>
+  <a href="#%e5%b1%80%e9%99%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>不同跨模态模型的能力边界不同，CLIP 不负责音频，CLAP 不负责图片。</li>
+<li>通用视觉向量对密集文字、复杂表格和精确数字的理解有限。</li>
+<li>即使模型声称处于共享空间，不同模态的分数分布也可能不完全可比。</li>
+<li>OpenAI <code>clip-vit-base-patch32</code> 主要使用英文图文数据训练，中文 Query 的效果可能不稳定。</li>
+</ul>
+<h3 id="32-范式二模态文本化再使用文本-rag" class="heading-element"><span>3.2 范式二：模态文本化，再使用文本 RAG</span>
+  <a href="#32-%e8%8c%83%e5%bc%8f%e4%ba%8c%e6%a8%a1%e6%80%81%e6%96%87%e6%9c%ac%e5%8c%96%e5%86%8d%e4%bd%bf%e7%94%a8%e6%96%87%e6%9c%ac-rag" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="核心思路-1" class="heading-element"><span>核心思路</span>
+  <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>先把图片、表格、音频和视频转换为文本，再复用成熟的文本切块、Embedding、向量库和 LLM 链路。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">图片 → Image Caption / OCR ┐
+</span></span><span class="line"><span class="cl">表格 → Markdown / 摘要      │
+</span></span><span class="line"><span class="cl">音频 → ASR 转写             ├→ 文本切块 → Text Embedding → Vector DB
+</span></span><span class="line"><span class="cl">视频 → 字幕 + 关键帧描述     │
+</span></span><span class="line"><span class="cl">正文 → 原始文本             ┘</span></span></code></pre></td></tr></table>
+</div>
+</div><p>检索后有两种生成方式：</p>
+<ol>
+<li><strong>只发送文本描述给 LLM</strong>：实现简单、成本较低，但受描述信息损失影响。</li>
+<li><strong>通过描述定位原始模态，再发送给多模态 LLM</strong>：信息更完整，是更推荐的生产实现。</li>
+</ol>
+<h4 id="multi-vector-retriever-思想" class="heading-element"><span>Multi-Vector Retriever 思想</span>
+  <a href="#multi-vector-retriever-%e6%80%9d%e6%83%b3" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>一份原始内容可以对应多个用于召回的“小表示”：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">原始图片 image_3_1.png
+</span></span><span class="line"><span class="cl">├── 全局 caption
+</span></span><span class="line"><span class="cl">├── OCR 文本
+</span></span><span class="line"><span class="cl">├── 物体标签
+</span></span><span class="line"><span class="cl">└── 问题式摘要</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这些摘要分别生成向量，提高召回覆盖率；命中任意一个子向量后，通过统一的 <code>doc_id</code> 回取同一个原始对象。</p>
+<p>因此，工程上经常使用两个存储：</p>
+<ul>
+<li><strong>Vector Store</strong>：保存 caption、摘要、OCR、子块及其向量。</li>
+<li><strong>Document/Object Store</strong>：保存原始文本、表格、图片、页码、文件路径或对象存储 URI。</li>
+</ul>
+<h4 id="优点-1" class="heading-element"><span>优点</span>
+  <a href="#%e4%bc%98%e7%82%b9-1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>可以直接复用文本 RAG 技术栈。</li>
+<li>易于调试，检索到的 caption 和 OCR 文本可读。</li>
+<li>容易使用 BM25、混合检索和文本 Reranker。</li>
+<li>对 API、模型和向量数据库的要求相对低。</li>
+</ul>
+<h4 id="局限-1" class="heading-element"><span>局限</span>
+  <a href="#%e5%b1%80%e9%99%90-1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>Caption 是有损压缩，可能漏掉小字、颜色、数量、位置关系和图表趋势。</li>
+<li>Caption 模型的幻觉会污染索引。</li>
+<li>OCR 和表格解析错误会被继续传播。</li>
+<li>预处理每张图片会增加离线成本。</li>
+</ul>
+<h3 id="33-范式三原生视觉文档检索" class="heading-element"><span>3.3 范式三：原生视觉文档检索</span>
+  <a href="#33-%e8%8c%83%e5%bc%8f%e4%b8%89%e5%8e%9f%e7%94%9f%e8%a7%86%e8%a7%89%e6%96%87%e6%a1%a3%e6%a3%80%e7%b4%a2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><h4 id="核心思路-2" class="heading-element"><span>核心思路</span>
+  <a href="#%e6%a0%b8%e5%bf%83%e6%80%9d%e8%b7%af-2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><p>把 PDF 页面直接渲染为图片，使用视觉文档检索模型编码整个页面，不依赖先提取文本或生成 caption。</p>
+<p>ColPali 的典型流程是：</p>
+<pre class="mermaid">flowchart LR
+    P["PDF 页面图片"] --> VE["VLM 视觉编码"]
+    VE --> PV["多个图像 Patch 向量"]
+    Q["文本 Query"] --> QE["Query Token 编码"]
+    QE --> QV["多个 Query Token 向量"]
+    QV --> S["Late Interaction / MaxSim"]
+    PV --> S
+    S --> K["Top-K 页面"]
+    K --> M["多模态 LLM 阅读页面"]
+    M --> O["Answer"]</pre>
+<template>flowchart LR
+    P["PDF 页面图片"] --> VE["VLM 视觉编码"]
+    VE --> PV["多个图像 Patch 向量"]
+    Q["文本 Query"] --> QE["Query Token 编码"]
+    QE --> QV["多个 Query Token 向量"]
+    QV --> S["Late Interaction / MaxSim"]
+    PV --> S
+    S --> K["Top-K 页面"]
+    K --> M["多模态 LLM 阅读页面"]
+    M --> O["Answer"]</template><p>ColPali 不是把整页压缩成单个向量，而是为 Query Token 和图片 Patch 保留多个向量。其 ColBERT 风格的迟交互评分可以简化表示为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">score(Q, P) = Σᵢ maxⱼ(qᵢ · pⱼ)</span></span></code></pre></td></tr></table>
+</div>
+</div><p>含义是：对每个 Query Token，寻找与它最相关的页面区域，再把各 Token 的最佳匹配累加起来。</p>
+<h4 id="优点-2" class="heading-element"><span>优点</span>
+  <a href="#%e4%bc%98%e7%82%b9-2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>保留版面、字体、图表、表格和空间关系。</li>
+<li>避免复杂且容易出错的 PDF 解析、OCR、表格重建链路。</li>
+<li>对视觉丰富的 PDF、扫描件和复杂报表很有优势。</li>
+<li>检索命中的页面可以直接交给多模态 LLM。</li>
+</ul>
+<h4 id="局限-2" class="heading-element"><span>局限</span>
+  <a href="#%e5%b1%80%e9%99%90-2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h4><ul>
+<li>多向量索引比单向量索引占用更多存储和计算资源。</li>
+<li>页面级召回可能包含较多无关区域。</li>
+<li>模型和框架对 GPU、MPS、显存及版本兼容性要求较高。</li>
+<li>当前项目使用的 <code>colpali-v1.3</code> 主要面向 PDF 和高资源语言，中文 Query 需要实际评测。</li>
+<li>许多通用向量数据库没有原生支持 ColBERT 风格的多向量迟交互。</li>
+</ul>
+<hr>
+<h2 id="4-项目方案一clip-跨模态相关性与模态路由" class="heading-element"><span>4. 项目方案一：CLIP 跨模态相关性与模态路由</span>
+  <a href="#4-%e9%a1%b9%e7%9b%ae%e6%96%b9%e6%a1%88%e4%b8%80clip-%e8%b7%a8%e6%a8%a1%e6%80%81%e7%9b%b8%e5%85%b3%e6%80%a7%e4%b8%8e%e6%a8%a1%e6%80%81%e8%b7%af%e7%94%b1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>对应 Notebook：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">multi_modal_rag_with_clip.ipynb</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="41-数据准备" class="heading-element"><span>4.1 数据准备</span>
+  <a href="#41-%e6%95%b0%e6%8d%ae%e5%87%86%e5%a4%87" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Notebook 加载了三类数据：</p>
+<ul>
+<li>图片：<code>clip_resource/Lorenz_Ro28-200px.png</code></li>
+<li>音频：<code>clip_resource/audio.mp3</code></li>
+<li>文本：<code>clip_resource/Wiki.txt</code></li>
+</ul>
+<p>音频由 <code>librosa</code> 读取为 16 kHz 波形，之后使用 Whisper 转写：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">processor</span> <span class="o">=</span> <span class="n">WhisperProcessor</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&#34;openai/whisper-base&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">WhisperForConditionalGeneration</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&#34;openai/whisper-base&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">input_features</span> <span class="o">=</span> <span class="n">processor</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">audio_array</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">sampling_rate</span><span class="o">=</span><span class="n">sample_rate</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&#34;pt&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span><span class="o">.</span><span class="n">input_features</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">predicted_ids</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="n">input_features</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">audio_transcription</span> <span class="o">=</span> <span class="n">processor</span><span class="o">.</span><span class="n">batch_decode</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">predicted_ids</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">skip_special_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="42-clip-编码" class="heading-element"><span>4.2 CLIP 编码</span>
+  <a href="#42-clip-%e7%bc%96%e7%a0%81" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>图片经过 Image Encoder，Query、音频转写和普通文本经过 Text Encoder：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">CLIPModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&#34;openai/clip-vit-base-patch32&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">processor</span> <span class="o">=</span> <span class="n">CLIPProcessor</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&#34;openai/clip-vit-base-patch32&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">image_inputs</span> <span class="o">=</span> <span class="n">processor</span><span class="p">(</span><span class="n">images</span><span class="o">=</span><span class="n">image</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&#34;pt&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">image_embeddings</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_image_features</span><span class="p">(</span><span class="o">**</span><span class="n">image_inputs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">text_inputs</span> <span class="o">=</span> <span class="n">processor</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">text</span><span class="o">=</span><span class="p">[</span><span class="n">query</span><span class="p">,</span> <span class="n">audio_transcription</span><span class="p">,</span> <span class="n">text_data</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&#34;pt&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">padding</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">text_embeddings</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">get_text_features</span><span class="p">(</span><span class="o">**</span><span class="n">text_inputs</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Notebook 输出的向量形状为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">image_embeddings: [1, 512]
+</span></span><span class="line"><span class="cl">text_embeddings:  [3, 512]</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="43-相似度和路由" class="heading-element"><span>4.3 相似度和路由</span>
+  <a href="#43-%e7%9b%b8%e4%bc%bc%e5%ba%a6%e5%92%8c%e8%b7%af%e7%94%b1" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>代码计算 Query 与三类候选的余弦相似度：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">cos_sim_query_image</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">query_embedding</span><span class="p">,</span> <span class="n">image_embedding</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">cos_sim_query_audio</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">query_embedding</span><span class="p">,</span> <span class="n">audio_embedding</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">cos_sim_query_text</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">query_embedding</span><span class="p">,</span> <span class="n">text_embedding</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>本次运行结果：</p>
+<table>
+  <thead>
+      <tr>
+          <th>候选模态</th>
+          <th style="text-align: right">余弦相似度</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>图片</td>
+          <td style="text-align: right">0.1928</td>
+      </tr>
+      <tr>
+          <td>音频转写</td>
+          <td style="text-align: right">0.7653</td>
+      </tr>
+      <tr>
+          <td>普通文本</td>
+          <td style="text-align: right">0.6411</td>
+      </tr>
+  </tbody>
+</table>
+<p>音频转写得分最高，因此系统把 Query 和 ASR 文本交给 <code>gemini-2.5-flash</code>。最终识别出用户喜欢的竖琴演奏家是 <strong>Turlough O&rsquo;Carolan</strong>。</p>
+<h3 id="44-这份-notebook-的准确定位" class="heading-element"><span>4.4 这份 Notebook 的准确定位</span>
+  <a href="#44-%e8%bf%99%e4%bb%bd-notebook-%e7%9a%84%e5%87%86%e7%a1%ae%e5%ae%9a%e4%bd%8d" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>它演示了：</p>
+<ul>
+<li>跨模态共享向量空间。</li>
+<li>Query 与不同模态候选的相似度比较。</li>
+<li>根据最高分候选选择生成上下文。</li>
+</ul>
+<p>但它还不是完整的大规模 RAG：</p>
+<ul>
+<li>每种模态只有一个候选，没有真正建立向量索引。</li>
+<li>只选择得分最高的一个模态，没有 Top-K、融合和 Rerank。</li>
+<li>音频经过 ASR 后本质上仍按文本检索。</li>
+<li>原始图片、音频、文本的分数分布可能存在偏差，直接比较原始余弦值不一定可靠。</li>
+</ul>
+<p>要扩展成完整系统，应把每个资源切成可定位单元，写入向量数据库，并保存：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">id、modality、embedding、source、page、timestamp、raw_uri、metadata</span></span></code></pre></td></tr></table>
+</div>
+</div><p>检索后再回取 Top-K 原始内容，而不是只做三选一。</p>
+<hr>
+<h2 id="5-项目方案二image-caption--文本向量库" class="heading-element"><span>5. 项目方案二：Image Caption + 文本向量库</span>
+  <a href="#5-%e9%a1%b9%e7%9b%ae%e6%96%b9%e6%a1%88%e4%ba%8cimage-caption--%e6%96%87%e6%9c%ac%e5%90%91%e9%87%8f%e5%ba%93" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>对应 Notebook：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">multi_model_rag_with_captioning.ipynb</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="51-pdf-内容抽取" class="heading-element"><span>5.1 PDF 内容抽取</span>
+  <a href="#51-pdf-%e5%86%85%e5%ae%b9%e6%8a%bd%e5%8f%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Notebook 使用 PyMuPDF 打开 <code>transformer.pdf</code>，逐页提取文本和内嵌图片：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">with</span> <span class="n">fitz</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&#34;transformer.pdf&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pdf_file</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">page_number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pdf_file</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">page</span> <span class="o">=</span> <span class="n">pdf_file</span><span class="p">[</span><span class="n">page_number</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">text</span> <span class="o">=</span> <span class="n">page</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">text_data</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&#34;response&#34;</span><span class="p">:</span> <span class="n">text</span><span class="p">,</span> <span class="s2">&#34;name&#34;</span><span class="p">:</span> <span class="n">page_number</span> <span class="o">+</span> <span class="mi">1</span><span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">image_index</span><span class="p">,</span> <span class="n">img</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">get_images</span><span class="p">(</span><span class="n">full</span><span class="o">=</span><span class="kc">True</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">            <span class="c1"># 提取并保存图片</span>
+</span></span><span class="line"><span class="cl">            <span class="o">...</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>示例 PDF 共提取出：</p>
+<ul>
+<li>15 页文本。</li>
+<li>3 张图片。</li>
+</ul>
+<p>需要注意，<code>page.get_images()</code> 只能提取 PDF 中作为图片对象嵌入的内容。矢量图、绘制命令、复杂表格和整页版面不一定能被完整提取。若视觉结构很重要，可以直接把整页渲染成图片。</p>
+<h3 id="52-生成图片描述" class="heading-element"><span>5.2 生成图片描述</span>
+  <a href="#52-%e7%94%9f%e6%88%90%e5%9b%be%e7%89%87%e6%8f%8f%e8%bf%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>每张图片交给 <code>gemini-2.5-flash</code>，提示模型生成“简洁、便于检索”的摘要：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">response</span> <span class="o">=</span> <span class="n">google_client</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">generate_content</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">=</span><span class="s2">&#34;gemini-2.5-flash&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">contents</span><span class="o">=</span><span class="p">[</span><span class="n">retrieval_summary_prompt</span><span class="p">,</span> <span class="n">image</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>示例中生成了以下类型的描述：</p>
+<ul>
+<li>Transformer 整体 Encoder-Decoder 架构。</li>
+<li>Scaled Dot-Product Attention 流程。</li>
+<li>Multi-Head Attention 流程。</li>
+</ul>
+<p>这里的目标不是写一段漂亮的图片说明，而是尽量覆盖用户可能用于检索的术语、实体、数字和关系。</p>
+<h3 id="53-文本切块与向量化" class="heading-element"><span>5.3 文本切块与向量化</span>
+  <a href="#53-%e6%96%87%e6%9c%ac%e5%88%87%e5%9d%97%e4%b8%8e%e5%90%91%e9%87%8f%e5%8c%96" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>原始正文和图片描述都被包装为 <code>Document</code>，使用同一个文本 Embedding 模型编码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">text_splitter</span> <span class="o">=</span> <span class="n">RecursiveCharacterTextSplitter</span><span class="o">.</span><span class="n">from_tiktoken_encoder</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">chunk_size</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">chunk_overlap</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">doc_splits</span> <span class="o">=</span> <span class="n">text_splitter</span><span class="o">.</span><span class="n">split_documents</span><span class="p">(</span><span class="n">docs_list</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">img_splits</span> <span class="o">=</span> <span class="n">text_splitter</span><span class="o">.</span><span class="n">split_documents</span><span class="p">(</span><span class="n">img_list</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">vectorstore</span> <span class="o">=</span> <span class="n">Chroma</span><span class="o">.</span><span class="n">from_documents</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">documents</span><span class="o">=</span><span class="n">doc_splits</span> <span class="o">+</span> <span class="n">img_splits</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">collection_name</span><span class="o">=</span><span class="s2">&#34;multi_model_rag&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">embedding</span><span class="o">=</span><span class="n">embedding_model</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>Notebook 使用：</p>
+<ul>
+<li>Embedding：<code>text-embedding-v4</code>，1024 维。</li>
+<li>Vector Store：Chroma。</li>
+<li>文本块：36 个。</li>
+<li>图片描述块：4 个。</li>
+<li>召回数量：<code>k=1</code>。</li>
+</ul>
+<h3 id="54-检索与生成" class="heading-element"><span>5.4 检索与生成</span>
+  <a href="#54-%e6%a3%80%e7%b4%a2%e4%b8%8e%e7%94%9f%e6%88%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>示例问题：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Transformer（base model）的 BLEU 得分是多少？</span></span></code></pre></td></tr></table>
+</div>
+</div><p>系统召回论文第 8 页的 Table 2，然后使用 <code>qwen3-max</code> 根据召回文本作答：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">EN-DE：27.3
+</span></span><span class="line"><span class="cl">EN-FR：38.1</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="55-当前实现与完整-multi-vector-rag-的差异" class="heading-element"><span>5.5 当前实现与完整 Multi-Vector RAG 的差异</span>
+  <a href="#55-%e5%bd%93%e5%89%8d%e5%ae%9e%e7%8e%b0%e4%b8%8e%e5%ae%8c%e6%95%b4-multi-vector-rag-%e7%9a%84%e5%b7%ae%e5%bc%82" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>当前 Notebook 把图片 caption 直接作为普通文本块加入 Chroma，检索命中后也只把 <code>page_content</code> 交给文本 LLM。</p>
+<p>因此它实际实现的是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">图片 → Caption → Text Embedding → 检索 Caption → 文本 LLM</span></span></code></pre></td></tr></table>
+</div>
+</div><p>更完整的实现应该是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">图片 → Caption / OCR / 摘要 → Text Embedding → 检索代理文本
+</span></span><span class="line"><span class="cl">                                      ↓
+</span></span><span class="line"><span class="cl">                                通过 doc_id 回取原图
+</span></span><span class="line"><span class="cl">                                      ↓
+</span></span><span class="line"><span class="cl">                              原图 + Query → 多模态 LLM</span></span></code></pre></td></tr></table>
+</div>
+</div><p>建议元数据至少包含：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;doc_id&#34;</span><span class="p">:</span> <span class="s2">&#34;transformer-pdf&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;element_id&#34;</span><span class="p">:</span> <span class="s2">&#34;image-4-2&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;modality&#34;</span><span class="p">:</span> <span class="s2">&#34;image&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;page&#34;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;raw_path&#34;</span><span class="p">:</span> <span class="s2">&#34;extracted_images/image_4_2.png&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这样才能做到“用文本表示检索，用原始模态生成”。</p>
+<hr>
+<h2 id="6-项目方案三colpali-原生视觉-pdf-rag" class="heading-element"><span>6. 项目方案三：ColPali 原生视觉 PDF RAG</span>
+  <a href="#6-%e9%a1%b9%e7%9b%ae%e6%96%b9%e6%a1%88%e4%b8%89colpali-%e5%8e%9f%e7%94%9f%e8%a7%86%e8%a7%89-pdf-rag" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>对应 Notebook：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">multi_model_rag_with_colpali.ipynb</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="61-建立页面级视觉索引" class="heading-element"><span>6.1 建立页面级视觉索引</span>
+  <a href="#61-%e5%bb%ba%e7%ab%8b%e9%a1%b5%e9%9d%a2%e7%ba%a7%e8%a7%86%e8%a7%89%e7%b4%a2%e5%bc%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Notebook 通过 Byaldi 加载 <code>vidore/colpali-v1.3</code>：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">byaldi</span> <span class="kn">import</span> <span class="n">RAGMultiModalModel</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">RAG</span> <span class="o">=</span> <span class="n">RAGMultiModalModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;vidore/colpali-v1.3&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">verbose</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>然后直接对 PDF 建索引：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">RAG</span><span class="o">.</span><span class="n">index</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">input_path</span><span class="o">=</span><span class="s2">&#34;transformer.pdf&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">index_name</span><span class="o">=</span><span class="s2">&#34;attention_is_all_you_need&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">store_collection_with_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>这一步会把 PDF 的 15 页作为视觉页面加入索引。<code>store_collection_with_index=True</code> 会同时保存页面的 Base64 表示，方便检索后直接取回页面图片。</p>
+<h3 id="62-文本-query-检索页面" class="heading-element"><span>6.2 文本 Query 检索页面</span>
+  <a href="#62-%e6%96%87%e6%9c%ac-query-%e6%a3%80%e7%b4%a2%e9%a1%b5%e9%9d%a2" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">query</span> <span class="o">=</span> <span class="s2">&#34;Transformer（base model）的BLEU得分是多少？&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">results</span> <span class="o">=</span> <span class="n">RAG</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>检索返回的不是某个 OCR 文本块，而是最相关的 PDF 页面及其分数、文档 ID、页码和 Base64 图片。</p>
+<h3 id="63-多模态生成" class="heading-element"><span>6.3 多模态生成</span>
+  <a href="#63-%e5%a4%9a%e6%a8%a1%e6%80%81%e7%94%9f%e6%88%90" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Notebook 把命中页面解码为 <code>image.jpg</code>，再将问题和页面图片一起交给 Gemini：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">response</span> <span class="o">=</span> <span class="n">google_client</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">generate_content</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">    <span class="n">model</span><span class="o">=</span><span class="s2">&#34;gemini-2.5-flash&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="n">contents</span><span class="o">=</span><span class="p">[</span><span class="n">query</span><span class="p">,</span> <span class="n">image</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>最终答案同样是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">EN-DE：27.3
+</span></span><span class="line"><span class="cl">EN-FR：38.1</span></span></code></pre></td></tr></table>
+</div>
+</div><p>与方案二相比，这条链路没有依赖 PDF 文本抽取或表格转 Markdown，而是由检索模型定位包含表格的页面，再由多模态 LLM 直接阅读页面。</p>
+<h3 id="64-适用场景" class="heading-element"><span>6.4 适用场景</span>
+  <a href="#64-%e9%80%82%e7%94%a8%e5%9c%ba%e6%99%af" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>ColPali 更适合：</p>
+<ul>
+<li>扫描 PDF。</li>
+<li>复杂表格和财务报表。</li>
+<li>图文混排论文、说明书和宣传册。</li>
+<li>信息依赖版面、颜色、位置关系的文档。</li>
+</ul>
+<p>如果知识主要是结构清晰的纯文本，传统文本 RAG 往往成本更低、切块更细、引用更精确，不必强行使用视觉检索。</p>
+<hr>
+<h2 id="7-分模态检索结果融合与多模态-rerank" class="heading-element"><span>7. 分模态检索、结果融合与多模态 Rerank</span>
+  <a href="#7-%e5%88%86%e6%a8%a1%e6%80%81%e6%a3%80%e7%b4%a2%e7%bb%93%e6%9e%9c%e8%9e%8d%e5%90%88%e4%b8%8e%e5%a4%9a%e6%a8%a1%e6%80%81-rerank" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>课程第三张图给出了另一种更灵活的工程架构：不同模态使用各自擅长的编码器和索引。</p>
+<pre class="mermaid">flowchart LR
+    Q["文本 Query"] --> AT["Audio-Text Query Encoder"]
+    Q --> IT["Image-Text Query Encoder"]
+    Q --> TT["Text Query Encoder"]
+
+    A["音频库"] --> AI["音频向量索引"]
+    I["图片库"] --> II["图片向量索引"]
+    T["文本库"] --> TI["文本向量索引"]
+
+    AT --> AI
+    IT --> II
+    TT --> TI
+
+    AI --> C["候选集合"]
+    II --> C
+    TI --> C
+    C --> R["多模态 Reranker"]
+    R --> M["LLM / 多模态 LLM"]
+    M --> O["生成回复"]</pre>
+<template>flowchart LR
+    Q["文本 Query"] --> AT["Audio-Text Query Encoder"]
+    Q --> IT["Image-Text Query Encoder"]
+    Q --> TT["Text Query Encoder"]
+
+    A["音频库"] --> AI["音频向量索引"]
+    I["图片库"] --> II["图片向量索引"]
+    T["文本库"] --> TI["文本向量索引"]
+
+    AT --> AI
+    IT --> II
+    TT --> TI
+
+    AI --> C["候选集合"]
+    II --> C
+    TI --> C
+    C --> R["多模态 Reranker"]
+    R --> M["LLM / 多模态 LLM"]
+    M --> O["生成回复"]</template><h3 id="71-为什么要分模态建索引" class="heading-element"><span>7.1 为什么要分模态建索引</span>
+  <a href="#71-%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e5%88%86%e6%a8%a1%e6%80%81%e5%bb%ba%e7%b4%a2%e5%bc%95" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>一个模型很难同时在所有模态上达到最佳效果：</p>
+<ul>
+<li>图片使用 Image-Text 模型。</li>
+<li>音频使用 Audio-Text 模型或 ASR + Text Embedding。</li>
+<li>文本使用专门的 Text Embedding。</li>
+<li>PDF 页面使用 ColPali 一类视觉文档检索模型。</li>
+</ul>
+<p>这种方式能利用各领域最强的模型，并允许按模态单独扩缩容。</p>
+<h3 id="72-为什么不能直接混合原始分数" class="heading-element"><span>7.2 为什么不能直接混合原始分数</span>
+  <a href="#72-%e4%b8%ba%e4%bb%80%e4%b9%88%e4%b8%8d%e8%83%bd%e7%9b%b4%e6%8e%a5%e6%b7%b7%e5%90%88%e5%8e%9f%e5%a7%8b%e5%88%86%e6%95%b0" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>不同模型的余弦分数通常不在同一个分布中：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">CLIP 的 0.30、CLAP 的 0.30、文本 Embedding 的 0.30
+</span></span><span class="line"><span class="cl">并不一定表示相同相关程度。</span></span></code></pre></td></tr></table>
+</div>
+</div><p>更稳妥的候选融合方式包括：</p>
+<ol>
+<li><strong>每个模态分别取 Top-K</strong>，先保证召回覆盖率。</li>
+<li><strong>分数归一化</strong>，例如 Min-Max、Z-Score 或按历史分位数校准。</li>
+<li><strong>RRF（Reciprocal Rank Fusion）</strong>，按名次而不是原始分数融合：</li>
+</ol>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">RRF(d) = Σ 1 / (k + rankᵢ(d))</span></span></code></pre></td></tr></table>
+</div>
+</div><ol start="4">
+<li><strong>学习式融合</strong>，根据 Query 类型动态设置图片、文本、音频权重。</li>
+<li><strong>统一 Reranker</strong>，对合并后的候选进行跨模态精排。</li>
+</ol>
+<h3 id="73-多模态-reranker" class="heading-element"><span>7.3 多模态 Reranker</span>
+  <a href="#73-%e5%a4%9a%e6%a8%a1%e6%80%81-reranker" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>Reranker 接收 Query 和候选原始内容，输出统一相关性分数。它可以解决：</p>
+<ul>
+<li>各索引分数不可比。</li>
+<li>初始 Embedding 只捕获粗粒度语义。</li>
+<li>问题要求精确数字、颜色、位置或跨元素关系。</li>
+</ul>
+<p>可以使用多模态大模型作为 Listwise 或 Pointwise Reranker。例如：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Query：埃菲尔铁塔是什么颜色？
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">候选：
+</span></span><span class="line"><span class="cl">1. 一张埃菲尔铁塔夜景图片
+</span></span><span class="line"><span class="cl">2. 一段介绍埃菲尔铁塔历史的文字
+</span></span><span class="line"><span class="cl">3. 一段提到铁塔涂装颜色的音频
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">任务：按“能否直接、准确回答 Query”排序，并给出相关性分数。</span></span></code></pre></td></tr></table>
+</div>
+</div><p>生产中可以先用轻量向量模型召回几十条，再用 Qwen-VL、Gemini 等多模态模型精排少量候选，控制成本。</p>
+<hr>
+<h2 id="8-三种方案对比" class="heading-element"><span>8. 三种方案对比</span>
+  <a href="#8-%e4%b8%89%e7%a7%8d%e6%96%b9%e6%a1%88%e5%af%b9%e6%af%94" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>维度</th>
+          <th>跨模态向量检索</th>
+          <th>Caption + 文本 RAG</th>
+          <th>ColPali 视觉文档检索</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>典型模型</td>
+          <td>CLIP、SigLIP、CLAP</td>
+          <td>VLM Caption + Text Embedding</td>
+          <td>ColPali / ColQwen</td>
+      </tr>
+      <tr>
+          <td>检索对象</td>
+          <td>图片、文本、音频等资源</td>
+          <td>Caption、OCR、摘要、正文</td>
+          <td>PDF 页面图片</td>
+      </tr>
+      <tr>
+          <td>索引表示</td>
+          <td>单向量为主</td>
+          <td>文本单向量</td>
+          <td>Query Token / Image Patch 多向量</td>
+      </tr>
+      <tr>
+          <td>是否需要 OCR</td>
+          <td>可选</td>
+          <td>通常需要</td>
+          <td>不一定需要</td>
+      </tr>
+      <tr>
+          <td>是否保留版面</td>
+          <td>较弱</td>
+          <td>取决于解析结果</td>
+          <td>强</td>
+      </tr>
+      <tr>
+          <td>数字与表格能力</td>
+          <td>通常较弱</td>
+          <td>取决于 OCR/表格解析</td>
+          <td>通常更适合视觉表格页面</td>
+      </tr>
+      <tr>
+          <td>检索可解释性</td>
+          <td>中等</td>
+          <td>高，可查看文本代理</td>
+          <td>中等，可查看命中页面</td>
+      </tr>
+      <tr>
+          <td>计算与存储成本</td>
+          <td>中等</td>
+          <td>离线 Caption 成本较高，在线较低</td>
+          <td>较高</td>
+      </tr>
+      <tr>
+          <td>适合场景</td>
+          <td>图库、商品、音视频资产</td>
+          <td>通用企业知识库</td>
+          <td>复杂 PDF、扫描件、图文混排文档</td>
+      </tr>
+      <tr>
+          <td>项目 Notebook</td>
+          <td><code>with_clip</code></td>
+          <td><code>with_captioning</code></td>
+          <td><code>with_colpali</code></td>
+      </tr>
+  </tbody>
+</table>
+<p>实际系统不必三选一，常见做法是混合：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">正文 → 文本 RAG
+</span></span><span class="line"><span class="cl">PDF 页面 → ColPali
+</span></span><span class="line"><span class="cl">独立图片 → CLIP / Caption
+</span></span><span class="line"><span class="cl">音频 → ASR + CLAP
+</span></span><span class="line"><span class="cl">所有候选 → 融合 + 多模态 Rerank → 多模态 LLM</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="9-一套更完整的生产架构" class="heading-element"><span>9. 一套更完整的生产架构</span>
+  <a href="#9-%e4%b8%80%e5%a5%97%e6%9b%b4%e5%ae%8c%e6%95%b4%e7%9a%84%e7%94%9f%e4%ba%a7%e6%9e%b6%e6%9e%84" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="91-索引阶段" class="heading-element"><span>9.1 索引阶段</span>
+  <a href="#91-%e7%b4%a2%e5%bc%95%e9%98%b6%e6%ae%b5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ol>
+<li>为每个原始资源生成稳定的 <code>doc_id</code> 和 <code>element_id</code>。</li>
+<li>文档解析时保留页码、坐标、章节、时间戳、权限和来源。</li>
+<li>根据模态选择预处理：
+<ul>
+<li>文本：结构化切块。</li>
+<li>图片：caption、OCR、标签、视觉向量。</li>
+<li>表格：Markdown/HTML、摘要、原始截图。</li>
+<li>音频：ASR、说话人、时间段、音频向量。</li>
+<li>视频：字幕、镜头切分、关键帧和音轨。</li>
+</ul>
+</li>
+<li>将检索代理写入向量索引，把原始对象写入对象存储或文档存储。</li>
+<li>建立 <code>vector_id → element_id → raw_uri</code> 映射。</li>
+</ol>
+<p>推荐的数据结构：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;vector_id&#34;</span><span class="p">:</span> <span class="s2">&#34;vec-001&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;doc_id&#34;</span><span class="p">:</span> <span class="s2">&#34;transformer-paper&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;element_id&#34;</span><span class="p">:</span> <span class="s2">&#34;page-8-table-2&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;modality&#34;</span><span class="p">:</span> <span class="s2">&#34;table&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;retrieval_text&#34;</span><span class="p">:</span> <span class="s2">&#34;Table 2 compares BLEU scores...&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;source&#34;</span><span class="p">:</span> <span class="s2">&#34;transformer.pdf&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;page&#34;</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;bbox&#34;</span><span class="p">:</span> <span class="p">[</span><span class="mi">72</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">520</span><span class="p">,</span> <span class="mi">420</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;raw_uri&#34;</span><span class="p">:</span> <span class="s2">&#34;s3://bucket/transformer/page-8-table-2.png&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="s2">&#34;permissions&#34;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&#34;research-team&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="92-查询阶段" class="heading-element"><span>9.2 查询阶段</span>
+  <a href="#92-%e6%9f%a5%e8%af%a2%e9%98%b6%e6%ae%b5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ol>
+<li>判断问题涉及的模态和答案类型。</li>
+<li>对 Query 做改写、翻译或补充检索关键词。</li>
+<li>并行查询文本、图片、音频和页面索引。</li>
+<li>每路分别取 Top-K。</li>
+<li>使用 RRF、分数校准或 Reranker 合并候选。</li>
+<li>回取原始对象，并控制总 Token、图片数和音频长度。</li>
+<li>把 Query、上下文和来源信息交给生成模型。</li>
+<li>输出答案、引用页码、时间戳或图片来源。</li>
+</ol>
+<h3 id="93-生成-prompt-的基本要求" class="heading-element"><span>9.3 生成 Prompt 的基本要求</span>
+  <a href="#93-%e7%94%9f%e6%88%90-prompt-%e7%9a%84%e5%9f%ba%e6%9c%ac%e8%a6%81%e6%b1%82" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">你是一个基于检索资料回答问题的助手。
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">要求：
+</span></span><span class="line"><span class="cl">1. 只根据提供的文本、图片、表格或音频转写回答。
+</span></span><span class="line"><span class="cl">2. 如果资料不足，明确说明无法确定。
+</span></span><span class="line"><span class="cl">3. 数字、单位、颜色和专有名词必须与来源一致。
+</span></span><span class="line"><span class="cl">4. 给出引用来源，包括文件名、页码或时间戳。
+</span></span><span class="line"><span class="cl">5. 多个来源冲突时，指出冲突，不要自行拼凑结论。</span></span></code></pre></td></tr></table>
+</div>
+</div><hr>
+<h2 id="10-评估多模态-rag" class="heading-element"><span>10. 评估多模态 RAG</span>
+  <a href="#10-%e8%af%84%e4%bc%b0%e5%a4%9a%e6%a8%a1%e6%80%81-rag" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>不要只看最终回答是否“听起来合理”，需要分阶段评估。</p>
+<h3 id="101-解析与索引质量" class="heading-element"><span>10.1 解析与索引质量</span>
+  <a href="#101-%e8%a7%a3%e6%9e%90%e4%b8%8e%e7%b4%a2%e5%bc%95%e8%b4%a8%e9%87%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>OCR 字符准确率。</li>
+<li>表格单元格和行列结构准确率。</li>
+<li>图片与 caption 的事实一致性。</li>
+<li>音频转写的 WER（Word Error Rate）。</li>
+<li>页码、坐标和时间戳是否正确。</li>
+</ul>
+<h3 id="102-检索质量" class="heading-element"><span>10.2 检索质量</span>
+  <a href="#102-%e6%a3%80%e7%b4%a2%e8%b4%a8%e9%87%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>Recall@K：正确内容是否出现在前 K 条。</li>
+<li>Precision@K：前 K 条中有多少真正相关。</li>
+<li>MRR：第一个正确结果的排名。</li>
+<li>nDCG：整体排序质量。</li>
+<li>按模态分别统计召回率，避免文本效果掩盖图片或音频问题。</li>
+</ul>
+<h3 id="103-生成质量" class="heading-element"><span>10.3 生成质量</span>
+  <a href="#103-%e7%94%9f%e6%88%90%e8%b4%a8%e9%87%8f" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>Faithfulness：答案是否严格来自检索上下文。</li>
+<li>Answer Relevance：是否直接回答问题。</li>
+<li>数字、单位、实体和颜色是否准确。</li>
+<li>引用是否指向真正支持答案的页面或资源。</li>
+<li>模型是否真的使用了图片，而不是只依赖旁边的文字。</li>
+</ul>
+<h3 id="104-端到端测试集" class="heading-element"><span>10.4 端到端测试集</span>
+  <a href="#104-%e7%ab%af%e5%88%b0%e7%ab%af%e6%b5%8b%e8%af%95%e9%9b%86" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><p>测试问题应覆盖：</p>
+<ul>
+<li>纯文本问题。</li>
+<li>只能从图片回答的问题。</li>
+<li>只能从表格精确读取数字的问题。</li>
+<li>需要结合正文和图片的问题。</li>
+<li>需要定位音频时间段的问题。</li>
+<li>无答案问题和冲突来源问题。</li>
+</ul>
+<hr>
+<h2 id="11-当前-notebook-的注意事项与改进建议" class="heading-element"><span>11. 当前 Notebook 的注意事项与改进建议</span>
+  <a href="#11-%e5%bd%93%e5%89%8d-notebook-%e7%9a%84%e6%b3%a8%e6%84%8f%e4%ba%8b%e9%a1%b9%e4%b8%8e%e6%94%b9%e8%bf%9b%e5%bb%ba%e8%ae%ae" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="111-clip-方案" class="heading-element"><span>11.1 CLIP 方案</span>
+  <a href="#111-clip-%e6%96%b9%e6%a1%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li><code>openai/clip-vit-base-patch32</code> 对中文支持有限，可使用多语言 CLIP、中文图文模型，或先把 Query 翻译成英文。</li>
+<li>CLIP 文本长度较短，不适合直接编码长文档，应先切块或生成检索摘要。</li>
+<li>Whisper 输入最好统一为单声道 16 kHz；<code>mono=False</code> 遇到立体声音频可能产生二维数组。</li>
+<li>Notebook 输出了 Whisper 的 <code>attention_mask</code> 警告，正式代码应向生成阶段传递有效的 attention mask。</li>
+<li>使用 <code>argmax</code> 选择最佳候选比逐个比较浮点数更清晰。</li>
+<li>不建议直接比较来自不同模型的原始余弦分数，应做校准或统一 Rerank。</li>
+</ul>
+<h3 id="112-caption-方案" class="heading-element"><span>11.2 Caption 方案</span>
+  <a href="#112-caption-%e6%96%b9%e6%a1%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>Caption Prompt 应强调实体、数字、坐标关系、图例、趋势和单位，而不仅是概括主题。</li>
+<li>图片描述和原始图片必须通过 <code>element_id</code> 绑定。</li>
+<li><code>k=1</code> 容易漏召回，通常先取 5～20 条，再精排。</li>
+<li>应把召回结果的 metadata 和来源一起传入生成链路。</li>
+<li>对图片 caption 再使用通用文本切分器未必必要，短 caption 可以直接作为一个检索单元。</li>
+<li><code>page.get_images()</code> 无法完整还原所有 PDF 视觉元素，必要时应渲染整页或使用版面解析器。</li>
+</ul>
+<h3 id="113-colpali-方案" class="heading-element"><span>11.3 ColPali 方案</span>
+  <a href="#113-colpali-%e6%96%b9%e6%a1%88" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>页面 Base64 全量存入索引会增加磁盘占用，大规模系统更适合只存对象存储 URI。</li>
+<li>页面级召回后可以增加区域检测或裁剪，减少多模态 LLM 输入中的无关内容。</li>
+<li>对中文、行业文档和特殊版式，需要构建自己的评测集，而不能只依赖公开 Benchmark。</li>
+<li><code>overwrite=True</code> 会重建并覆盖同名索引，生产环境应谨慎使用。</li>
+<li>Byaldi、Transformers、Torch 和 ColPali 模型之间可能存在版本约束，部署前应锁定依赖版本。</li>
+</ul>
+<h3 id="114-通用安全与工程问题" class="heading-element"><span>11.4 通用安全与工程问题</span>
+  <a href="#114-%e9%80%9a%e7%94%a8%e5%ae%89%e5%85%a8%e4%b8%8e%e5%b7%a5%e7%a8%8b%e9%97%ae%e9%a2%98" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>多模态文件同样可能包含 Prompt Injection，图片和 PDF 中的指令不能被当成系统指令执行。</li>
+<li>检索前后都要执行权限过滤，不能在生成后才隐藏敏感内容。</li>
+<li>对象存储链接应使用短期签名或服务端读取，避免暴露私有资源。</li>
+<li>记录检索候选、分数、Rerank 结果和模型版本，方便排查线上问题。</li>
+<li>对重复图片、重复页面和近似音频进行去重，减少索引污染。</li>
+</ul>
+<hr>
+<h2 id="12-方案选择速查" class="heading-element"><span>12. 方案选择速查</span>
+  <a href="#12-%e6%96%b9%e6%a1%88%e9%80%89%e6%8b%a9%e9%80%9f%e6%9f%a5" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><h3 id="选择-caption--文本-rag如果" class="heading-element"><span>选择 Caption + 文本 RAG，如果：</span>
+  <a href="#%e9%80%89%e6%8b%a9-caption--%e6%96%87%e6%9c%ac-rag%e5%a6%82%e6%9e%9c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>已经有成熟的文本 RAG 基础设施。</li>
+<li>数据量不大，离线生成描述的成本可接受。</li>
+<li>希望检索结果可读、易调试。</li>
+<li>图片内容较简单，caption 能覆盖主要信息。</li>
+</ul>
+<h3 id="选择-clip--clap-跨模态检索如果" class="heading-element"><span>选择 CLIP / CLAP 跨模态检索，如果：</span>
+  <a href="#%e9%80%89%e6%8b%a9-clip--clap-%e8%b7%a8%e6%a8%a1%e6%80%81%e6%a3%80%e7%b4%a2%e5%a6%82%e6%9e%9c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>需要在大量独立图片或音频资产中搜索。</li>
+<li>用户通常使用自然语言描述视觉或听觉内容。</li>
+<li>任务更关心整体语义，而不是从表格读取精确数字。</li>
+</ul>
+<h3 id="选择-colpali如果" class="heading-element"><span>选择 ColPali，如果：</span>
+  <a href="#%e9%80%89%e6%8b%a9-colpali%e5%a6%82%e6%9e%9c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>主要数据是 PDF、扫描件、图文混排页面。</li>
+<li>OCR、表格解析和阅读顺序经常出错。</li>
+<li>答案依赖页面视觉结构。</li>
+<li>可以接受更高的索引、推理和存储成本。</li>
+</ul>
+<h3 id="选择分模态检索--rerank如果" class="heading-element"><span>选择分模态检索 + Rerank，如果：</span>
+  <a href="#%e9%80%89%e6%8b%a9%e5%88%86%e6%a8%a1%e6%80%81%e6%a3%80%e7%b4%a2--rerank%e5%a6%82%e6%9e%9c" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h3><ul>
+<li>知识库同时包含文本、图片、音频和复杂 PDF。</li>
+<li>不同模态的数据量和更新频率差异较大。</li>
+<li>对召回率要求高，并且能承担候选融合与精排成本。</li>
+</ul>
+<hr>
+<h2 id="13-项目文件与知识点对应关系" class="heading-element"><span>13. 项目文件与知识点对应关系</span>
+  <a href="#13-%e9%a1%b9%e7%9b%ae%e6%96%87%e4%bb%b6%e4%b8%8e%e7%9f%a5%e8%af%86%e7%82%b9%e5%af%b9%e5%ba%94%e5%85%b3%e7%b3%bb" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><table>
+  <thead>
+      <tr>
+          <th>文件或目录</th>
+          <th>作用</th>
+          <th>对应知识点</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>multi_modal_rag_with_clip.ipynb</code></td>
+          <td>图片、ASR 文本和普通文本统一比较</td>
+          <td>CLIP、Whisper、余弦相似度、模态路由</td>
+      </tr>
+      <tr>
+          <td><code>multi_model_rag_with_captioning.ipynb</code></td>
+          <td>PDF 抽取、图片描述、Chroma 检索</td>
+          <td>模态文本化、Text Embedding、Caption RAG</td>
+      </tr>
+      <tr>
+          <td><code>multi_model_rag_with_colpali.ipynb</code></td>
+          <td>PDF 页面视觉索引和检索</td>
+          <td>ColPali、Multi-Vector、Late Interaction</td>
+      </tr>
+      <tr>
+          <td><code>transformer.pdf</code></td>
+          <td>示例知识文档</td>
+          <td>复杂 PDF、文本、表格和图片混合内容</td>
+      </tr>
+      <tr>
+          <td><code>extracted_images/</code></td>
+          <td>从 PDF 提取的图片</td>
+          <td>Image Caption 的原始输入</td>
+      </tr>
+      <tr>
+          <td><code>clip_resource/</code></td>
+          <td>图片、音频和文本示例</td>
+          <td>多模态输入与跨模态相似度</td>
+      </tr>
+      <tr>
+          <td><code>vidore/colpali-v1.3/</code></td>
+          <td>本地 ColPali 模型文件</td>
+          <td>视觉文档检索模型</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="14-总结" class="heading-element"><span>14. 总结</span>
+  <a href="#14-%e6%80%bb%e7%bb%93" class="heading-mark">
+    <svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path d="m7.775 3.275 1.25-1.25a3.5 3.5 0 1 1 4.95 4.95l-2.5 2.5a3.5 3.5 0 0 1-4.95 0 .751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018 1.998 1.998 0 0 0 2.83 0l2.5-2.5a2.002 2.002 0 0 0-2.83-2.83l-1.25 1.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042Zm-4.69 9.64a1.998 1.998 0 0 0 2.83 0l1.25-1.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042l-1.25 1.25a3.5 3.5 0 1 1-4.95-4.95l2.5-2.5a3.5 3.5 0 0 1 4.95 0 .751.751 0 0 1-.018 1.042.751.751 0 0 1-1.042.018 1.998 1.998 0 0 0-2.83 0l-2.5 2.5a1.998 1.998 0 0 0 0 2.83Z"></path></svg>
+  </a>
+</h2><p>多模态 RAG 的关键不是简单地“让 LLM 看图片”，而是建立完整的信息链路：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">原始多模态知识
+</span></span><span class="line"><span class="cl">→ 合理解析和切分
+</span></span><span class="line"><span class="cl">→ 为每种模态选择合适的检索表示
+</span></span><span class="line"><span class="cl">→ 跨模态召回或分模态召回
+</span></span><span class="line"><span class="cl">→ 候选融合与 Rerank
+</span></span><span class="line"><span class="cl">→ 回取高保真的原始内容
+</span></span><span class="line"><span class="cl">→ 多模态 LLM 基于证据生成答案</span></span></code></pre></td></tr></table>
+</div>
+</div><p>三种方案可以用一句话概括：</p>
+<ul>
+<li><strong>CLIP/CLAP</strong>：把不同模态对齐后直接检索。</li>
+<li><strong>Caption RAG</strong>：先把多模态内容转换成文本，再复用文本 RAG。</li>
+<li><strong>ColPali</strong>：直接理解和检索整张文档页面的视觉结构。</li>
+</ul>
+<p>工程上最重要的取舍是：</p>
+<blockquote>
+<p>用低成本、易检索的表示完成召回，用信息最完整的原始内容完成生成。</p>
+</blockquote>
+</div><div class="post-footer" id="post-footer">
+  <div class="post-info">
+    <div class="post-info-line">
+      <div class="post-info-mod">
+        <span title="更新于 2026-08-24 08:25:34">更新于 2026-08-24&nbsp;</span>
+      </div></div><div class="post-info-line">
+        <div class="post-info-md"><span><a href="/posts/ml%E5%A4%9A%E6%A8%A1%E6%80%81-rag/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
+        <div class="post-info-share">
+          <span></span>
+        </div>
+      </div></div>
+
+  <div class="post-info-more">
+    <section class="post-tags"><i class="fa-solid fa-tags fa-fw me-1" aria-hidden="true"></i><a href="/tags/agent/" class="post-tag" title="标签 - Agent">Agent</a><a href="/tags/rag/" class="post-tag" title="标签 - RAG">RAG</a></section>
+    <section>
+      <span><a href="javascript:void(0);" onclick="window.history.back();">返回</a></span>&nbsp;|&nbsp;<span><a href="/">主页</a></span>
+    </section>
+  </div><div class="post-nav"><a href="/posts/misc%E5%A5%A5%E5%BE%B7%E8%B5%9B%E5%BD%B1%E8%AF%84/" class="post-nav-item" rel="prev" title="《奥德赛》影评"><i class="fa-solid fa-angle-left fa-fw" aria-hidden="true"></i>《奥德赛》影评</a><a href="/posts/mlgraphrag/" class="post-nav-item" rel="next" title="GraphRAG">GraphRAG<i class="fa-solid fa-angle-right fa-fw" aria-hidden="true"></i></a></div>
+</div>
+<div id="comments"><div id="giscus" class="comment">
+          <script
+            src="https://giscus.app/client.js"
+            data-repo="messywind/messywind.github.io"
+            data-repo-id="R_kgDONSodsA"
+            data-category="Announcements"
+            data-category-id="DIC_kwDONSodsM4C2FJq"
+            data-mapping="pathname"
+            data-strict="0"
+            
+            data-theme="preferred_color_scheme"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
+            data-lang="zh-CN"
+            data-loading="lazy"
+            crossorigin="anonymous"
+            async
+            defer
+          ></script>
+        </div>
+        <noscript>
+          Please enable JavaScript to view the comments powered by <a href="https://giscus.app/" rel="external nofollow noopener noreferrer">giscus</a>.
+        </noscript></div></article>
+
+  <aside class="toc" id="toc-auto" aria-label="目录"><h2 class="toc-title">目录&nbsp;<i class="toc-icon fa-solid fa-angle-down fa-fw" aria-hidden="true"></i></h2>
+      <div class="toc-content" id="toc-content-auto"></div></aside></main><footer class="footer">
+    <div class="footer-container"><div class="footer-line powered">由 <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreferrer" title="Hugo 0.139.0">Hugo</a> 强力驱动 | 主题 - <a href="https://github.com/hugo-fixit/FixIt" target="_blank" rel="external" title="FixIt v0.3.15">FixIt</a>
+        </div><div class="footer-line copyright" itemscope itemtype="http://schema.org/CreativeWork"><i class="fa-regular fa-copyright fa-fw" aria-hidden="true"></i>
+            <span itemprop="copyrightYear">2020 - 2026</span><span class="author" itemprop="copyrightHolder">
+              <a href="https://github.com/messywind"target="_blank" rel="external nofollow noopener noreferrer">凌乱之风</a></span></div><div class="footer-line visitor">
+          <span id="busuanzi_container_site_uv" title='总访客数'><i class="fa-regular fa-user fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span><span id="busuanzi_container_site_pv" class="footer-divider" title='总访问量'><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span></span>
+        </div></div>
+  </footer></div><div class="widgets"><div class="fixed-buttons animate__faster d-none"><div class="fixed-button back-to-top" role="button" aria-label="回到顶部"><i class="fa-solid fa-arrow-up fa-fw" aria-hidden="true"></i><span class="variant-numeric d-none">0%</span>
+        </div><div class="fixed-button view-comments d-none" role="button" aria-label="查看评论"><i class="fa-solid fa-comment fa-fw" aria-hidden="true"></i></div></div><div id="mask"></div><noscript>
+    <div class="noscript-warning">该网站在启用 JavaScript 的情况下效果最佳。</div>
+  </noscript>
+</div><script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.3.0/dist/mermaid.esm.min.mjs';
+    
+    
+    
+    window.mermaid = mermaid;
+  </script><link rel="preload" href="/lib/katex/katex.min.css" as="style" onload="this.removeAttribute('onload');this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/lib/katex/katex.min.css"></noscript><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script src="/lib/autocomplete/autocomplete.min.js" defer></script><script src="/lib/fuse/fuse.min.js" defer></script><script src="/lib/katex/katex.min.js" defer></script><script src="/lib/katex/auto-render.min.js" defer></script><script src="/lib/katex/copy-tex.min.js" defer></script><script src="/lib/katex/mhchem.min.js" defer></script><script src="/lib/cookieconsent/cookieconsent.min.js" defer></script><script src="https://vercount.one/js" async defer></script><script>window.config={"code":{"copyTitle":"复制到剪贴板","editLockTitle":"锁定可编辑代码块","editUnLockTitle":"解锁可编辑代码块","editable":true,"maxShownLines":11},"comment":{"enable":true,"expired":false,"giscus":{"darkTheme":"dark","lightTheme":"light","origin":"https://giscus.app"}},"cookieconsent":{"content":{"dismiss":"同意","link":"了解更多","message":"本网站使用 Cookies 来改善您的浏览体验。"},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":true,"left":"\\begin{equation}","right":"\\end{equation}"},{"display":true,"left":"\\begin{equation*}","right":"\\end{equation*}"},{"display":true,"left":"\\begin{align}","right":"\\end{align}"},{"display":true,"left":"\\begin{align*}","right":"\\end{align*}"},{"display":true,"left":"\\begin{alignat}","right":"\\end{alignat}"},{"display":true,"left":"\\begin{alignat*}","right":"\\end{alignat*}"},{"display":true,"left":"\\begin{gather}","right":"\\end{gather}"},{"display":true,"left":"\\begin{CD}","right":"\\end{CD}"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"mermaid":{"themes":["default","dark"]},"search":{"distance":100,"findAllMatches":false,"fuseIndexURL":"/search.json","highlightTag":"em","ignoreFieldNorm":false,"ignoreLocation":false,"isCaseSensitive":false,"location":0,"maxResultLength":10,"minMatchCharLength":2,"noResultsFound":"没有找到结果","snippetLength":30,"threshold":0.3,"type":"fuse","useExtendedSearch":false},"version":"v0.3.15"};</script><script src="/js/theme.min.js" defer></script><script src="/js/custom.min.js" defer></script></body>
+</html>
