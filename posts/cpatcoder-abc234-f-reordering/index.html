@@ -25,7 +25,7 @@ $$ 1 &#43; \frac{1}{1!}x &#43; \frac{1}{2!}x^2 &#43; \cdots &#43; \frac{1}{cnt_{
 $$ \prod_{u = 1} ^{26}(1 &#43; \frac{1}{1!}x &#43; \frac{1}{2!}x^2 &#43; \cdots &#43; \frac{1}{cnt_{u}!}x^{cnt_{u}}) $$$$ \sum_{i = 1}^{n}i! \times [x^i]F(x) $$ 因为最多只有 $26$ 个字母，所以直接每次暴力 $\text{NTT}$ 即可，当然也可以分治 $\text{NTT}$
 官方标程是 $\text{DP}$，可以发现多项式比标程快一些。">
   <meta itemprop="datePublished" content="2022-01-09T14:10:44+00:00">
-  <meta itemprop="dateModified" content="2026-09-01T16:13:58+00:00">
+  <meta itemprop="dateModified" content="2026-09-08T06:31:11+00:00">
   <meta itemprop="wordCount" content="1777">
   <meta itemprop="keywords" content="NTT,EGF"><meta property="og:url" content="https://blog.messywind.top/posts/cpatcoder-abc234-f-reordering/">
   <meta property="og:site_name" content="凌乱之风的博客">
@@ -42,7 +42,7 @@ $$ \prod_{u = 1} ^{26}(1 &#43; \frac{1}{1!}x &#43; \frac{1}{2!}x^2 &#43; \cdots 
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
     <meta property="article:published_time" content="2022-01-09T14:10:44+00:00">
-    <meta property="article:modified_time" content="2026-09-01T16:13:58+00:00">
+    <meta property="article:modified_time" content="2026-09-08T06:31:11+00:00">
     <meta property="article:tag" content="NTT">
     <meta property="article:tag" content="EGF">
 
@@ -69,7 +69,7 @@ $$ \prod_{u = 1} ^{26}(1 &#43; \frac{1}{1!}x &#43; \frac{1}{2!}x^2 &#43; \cdots 
       "@type": "WebPage",
       "@id": "https:\/\/blog.messywind.top\/posts\/cpatcoder-abc234-f-reordering\/"
     },"genre": "posts","keywords": "NTT, EGF","wordcount":  1777 ,
-    "url": "https:\/\/blog.messywind.top\/posts\/cpatcoder-abc234-f-reordering\/","datePublished": "2022-01-09T14:10:44+00:00","dateModified": "2026-09-01T16:13:58+00:00","publisher": {
+    "url": "https:\/\/blog.messywind.top\/posts\/cpatcoder-abc234-f-reordering\/","datePublished": "2022-01-09T14:10:44+00:00","dateModified": "2026-09-08T06:31:11+00:00","publisher": {
       "@type": "Organization",
       "name": ""},"author": {
         "@type": "Person",
@@ -77,11 +77,11 @@ $$ \prod_{u = 1} ^{26}(1 &#43; \frac{1}{1!}x &#43; \frac{1}{2!}x^2 &#43; \cdots 
       },"description": ""
   }
   </script><script src="/js/head/color-scheme.min.js"></script></head>
-  <body data-header-desktop="sticky" data-header-mobile="auto"><div class="wrapper" data-page-style="normal"><header class="desktop animate__faster" id="header-desktop">
+  <body data-header-desktop="sticky" data-header-mobile="sticky"><div class="wrapper" data-page-style="normal"><a class="site-skip" href="#main-content">跳到主要内容</a><header class="desktop site-header" id="header-desktop">
   <div class="header-wrapper">
     <div class="header-title">
       <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
-    <nav>
+    <nav aria-label="主导航">
       <ul class="menu"><li class="menu-item">
               <a class="menu-link" href="/archives/"><i class="fa-solid fa-archive fa-fw fa-sm" aria-hidden="true"></i> 归档</a></li><li class="menu-item has-children">
               <a class="menu-link" href="javascript:void(0);"><i class="fa-solid fa-newspaper fa-fw fa-sm" aria-hidden="true"></i> 学习</a><i class="dropdown-icon fa-solid fa-chevron-down" aria-hidden="true"></i>
@@ -105,7 +105,7 @@ $$ \prod_{u = 1} ^{26}(1 &#43; \frac{1}{1!}x &#43; \frac{1}{2!}x^2 &#43; \cdots 
               <a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item">
               <a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item">
               <a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item delimiter"></li><li class="menu-item search" id="search-desktop">
-            <input type="text" placeholder="搜索文章标题或内容……" id="search-input-desktop">
+            <input type="text" aria-label="搜索文章" placeholder="搜索文章标题或内容……" id="search-input-desktop">
             <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="搜索">
               <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
             </a>
@@ -115,24 +115,24 @@ $$ \prod_{u = 1} ^{26}(1 &#43; \frac{1}{1!}x &#43; \frac{1}{2!}x^2 &#43; \cdots 
             <span class="search-button search-loading" id="search-loading-desktop">
               <i class="fa-solid fa-spinner fa-fw fa-spin" aria-hidden="true"></i>
             </span>
-          </li><li class="menu-item theme-switch" title="切换主题">
+          </li><li class="menu-item theme-switch" role="button" tabindex="0" aria-label="切换深浅色主题" title="切换主题">
           <i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i>
         </li></ul>
     </nav>
   </div>
-</header><header class="mobile animate__faster" id="header-mobile">
+</header><header class="mobile site-header" id="header-mobile">
   <div class="header-container">
     <div class="header-wrapper">
       <div class="header-title">
         <a href="/" title="凌乱之风的博客"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风的博客" data-title="凌乱之风的博客" width="26" height="26" class="logo" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/><span class="header-title-text">凌乱之风的博客</span></a><span class="header-subtitle"></span></div>
-      <div class="menu-toggle" id="menu-toggle-mobile">
+      <button type="button" class="menu-toggle" id="menu-toggle-mobile" aria-label="打开导航菜单" aria-expanded="false" aria-controls="menu-mobile">
         <span></span><span></span><span></span>
-      </div>
+      </button>
     </div>
-    <nav>
+    <nav aria-label="主导航">
       <ul class="menu" id="menu-mobile"><li class="search-wrapper">
             <div class="search mobile" id="search-mobile">
-              <input type="text" placeholder="搜索文章标题或内容……" id="search-input-mobile">
+              <input type="text" aria-label="搜索文章" placeholder="搜索文章标题或内容……" id="search-input-mobile">
               <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="搜索">
                 <i class="fa-solid fa-search fa-fw" aria-hidden="true"></i>
               </a>
@@ -163,7 +163,7 @@ $$ \prod_{u = 1} ^{26}(1 &#43; \frac{1}{1!}x &#43; \frac{1}{2!}x^2 &#43; \cdots 
                       </li><li class="menu-item">
                         <a class="menu-link" href="/categories/%E5%8D%9A%E5%AE%A2/"><i class="fa-solid fa-file fa-fw fa-sm" aria-hidden="true"></i> 博客</a>
                       </li></ul></li><li class="menu-item"><a class="menu-link" href="/categories/%E8%AE%B0%E5%BD%95/"><i class="fa-solid fa-pencil fa-fw fa-sm" aria-hidden="true"></i> 记录</a></li><li class="menu-item"><a class="menu-link" href="/photos-wall/"><i class="fa-solid fa-camera fa-fw fa-sm" aria-hidden="true"></i> 照片墙</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E6%B8%B8%E6%88%8F/"><i class="fa-solid fa-gamepad fa-fw fa-sm" aria-hidden="true"></i> 游戏</a></li><li class="menu-item"><a class="menu-link" href="/categories/%E7%94%B5%E5%AD%90%E4%B9%A6/"><i class="fa-solid fa-book fa-fw fa-sm" aria-hidden="true"></i> 电子书</a></li><li class="menu-item"><a class="menu-link" href="/tags/"><i class="fa-solid fa-tags fa-fw fa-sm" aria-hidden="true"></i> 标签</a></li><li class="menu-item"><a class="menu-link" href="/friends/"><i class="fa-solid fa-link fa-fw fa-sm" aria-hidden="true"></i> 友链</a></li><li class="menu-item"><a class="menu-link" href="/about/"><i class="fa-solid fa-info-circle fa-fw fa-sm" aria-hidden="true"></i> 关于我</a></li><li class="menu-item menu-system">
-          <span class="menu-system-item theme-switch" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
+          <span class="menu-system-item theme-switch" role="button" tabindex="0" aria-label="切换深浅色主题" title="切换主题"><i class="fa-solid fa-adjust fa-fw" aria-hidden="true"></i></span></li>
       </ul>
     </nav>
   </div>
@@ -177,7 +177,7 @@ $$ \prod_{u = 1} ^{26}(1 &#43; \frac{1}{1!}x &#43; \frac{1}{2!}x^2 &#43; \cdots 
   <article class="page single">
     <div class="header"><h1 class="single-title animate__animated animate__flipInX"><span>[AtCoder Abc234 F] Reordering</span>
       </h1></div><div class="post-meta">
-      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-01-09 14:10:44"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-01-09">2022-01-09</time></span>&nbsp;<span title="更新于 2026-09-01 16:13:58"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-09-01">2026-09-01</time></span>&nbsp;<span title="1777 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="[AtCoder Abc234 F] Reordering"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
+      <div class="post-meta-line"><span class="post-author"><a href="https://github.com/messywind" title="作者"target="_blank" rel="external nofollow noopener noreferrer author" class="author"><img loading="lazy" src="/images/avatar.png" alt="凌乱之风" data-title="凌乱之风" width="20" height="20" class="avatar" style="background: url(/images/loading.min.svg) no-repeat center;" onload="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}this.dataset.lazyloaded='';" onerror="this.title=this.dataset.title;for(const i of ['style', 'data-title','onerror','onload']){this.removeAttribute(i);}"/>&nbsp;凌乱之风</a></span><span class="post-included-in">&nbsp;收录于 <a href="/categories/%E7%AE%97%E6%B3%95%E7%AB%9E%E8%B5%9B/" class="post-category" title="分类 - 算法竞赛"><i class="fa-regular fa-folder fa-fw" aria-hidden="true"></i> 算法竞赛</a></span></div><div class="post-meta-line"><span title="发布于 2022-01-09 14:10:44"><i class="fa-solid fa-calendar-days fa-fw me-1" aria-hidden="true"></i><time datetime="2022-01-09">2022-01-09</time></span>&nbsp;<span title="更新于 2026-09-08 06:31:11"><i class="fa-regular fa-calendar-check fa-fw me-1" aria-hidden="true"></i><time datetime="2026-09-08">2026-09-08</time></span>&nbsp;<span title="1777 字"><i class="fa-solid fa-pencil-alt fa-fw me-1" aria-hidden="true"></i>约 1800 字</span>&nbsp;<span><i class="fa-regular fa-clock fa-fw me-1" aria-hidden="true"></i>预计阅读 4 分钟</span>&nbsp;<span id="busuanzi_container_page_pv" class="busuanzi_visitors comment-visitors" data-flag-title="[AtCoder Abc234 F] Reordering"><i class="fa-regular fa-eye fa-fw me-1" aria-hidden="true"></i><span id="busuanzi_value_page_pv">-</span>&nbsp;次阅读
           </span>&nbsp;</div>
     </div><div class="details toc" id="toc-static" data-kept="false">
         <div class="details-summary toc-title">
@@ -863,7 +863,7 @@ $$<p>
   <div class="post-info">
     <div class="post-info-line">
       <div class="post-info-mod">
-        <span title="更新于 2026-09-01 16:13:58">更新于 2026-09-01&nbsp;</span>
+        <span title="更新于 2026-09-08 06:31:11">更新于 2026-09-08&nbsp;</span>
       </div></div><div class="post-info-line">
         <div class="post-info-md"><span><a href="/posts/cpatcoder-abc234-f-reordering/index.md" title="阅读原始文档" class="link-to-markdown">阅读原始文档</a></span></div>
         <div class="post-info-share">

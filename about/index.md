@@ -84,7 +84,7 @@
         &lt;span&gt;GitHub&lt;/span&gt;
         &lt;strong&gt;messywind&lt;/strong&gt;
       &lt;/a&gt;
-      &lt;a class=&#34;about-account&#34; href=&#34;https://www.zhihu.com/search?type=people&amp;amp;q=%E5%87%8C%E4%B9%B1%E4%B9%8B%E9%A3%8E&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
+      &lt;a class=&#34;about-account&#34; href=&#34;https://www.zhihu.com/people/ling-luan-zhi-feng&#34; target=&#34;_blank&#34; rel=&#34;noopener noreferrer&#34;&gt;
         &lt;img src=&#34;/images/about-icons/zhihu.svg&#34; alt=&#34;&#34; aria-hidden=&#34;true&#34;&gt;
         &lt;span&gt;知乎&lt;/span&gt;
         &lt;strong&gt;凌乱之风&lt;/strong&gt;
